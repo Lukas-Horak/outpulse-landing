@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #f2f1ee; --green: #7cc5a2; --blue: #7BAFD4; --dark: #1a1a1a;
+    --grey: #9B9590; --greyLight: #d5d2ce; --font: 'DM Sans', sans-serif;
+  }
+  body { font-family: var(--font); background: var(--bg); color: var(--dark); overflow: hidden; height: 100vh; padding: 16px 20px; }
+
+  /* Search */
+  .search-bar {
+    display: flex; align-items: center; gap: 10px; background: #fff; border-radius: 12px;
+    padding: 10px 14px; margin-bottom: 10px; border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  }
+  .search-bar svg { width: 15px; height: 15px; color: var(--grey); flex-shrink: 0; }
+  .search-text { font-size: 12px; color: var(--dark); }
+  .search-text .cursor { animation: blink 0.7s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* Chips */
+  .chips { display: flex; gap: 5px; margin-bottom: 10px; flex-wrap: wrap; }
+  .chip {
+    padding: 4px 10px; border-radius: 14px; font-size: 10px; font-weight: 600;
+    background: var(--dark); color: #fff; cursor: pointer; user-select: none;
+    opacity: 0; transform: scale(0.85); transition: all 0.3s ease;
+  }
+  .chip.show { opacity: 1; transform: scale(1); }
+  .chip.off { background: #fff; color: var(--grey); border: 1px solid rgba(0,0,0,0.1); }
+
+  /* Results header */
+  .results-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 8px; opacity: 0; transition: opacity 0.4s;
+  }
+  .results-head.show { opacity: 1; }
+  .results-count { font-size: 11px; color: var(--grey); }
+  .results-count strong { color: var(--dark); font-weight: 700; }
+  .add-btn {
+    padding: 5px 12px; border-radius: 8px; background: var(--green); color: #fff;
+    font-size: 10px; font-weight: 600; border: none; cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .add-btn:hover { transform: scale(1.04); box-shadow: 0 2px 10px rgba(124,197,162,0.3); }
+  .add-btn:active { transform: scale(0.97); }
+
+  /* List — scrollable */
+  #list {
+    overflow-y: auto; overflow-x: hidden;
+    max-height: calc(100vh - 140px);
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  #list::-webkit-scrollbar { width: 4px; }
+  #list::-webkit-scrollbar-track { background: transparent; }
+  #list::-webkit-scrollbar-thumb { background: var(--greyLight); border-radius: 4px; }
+
+  /* Prospect rows */
+  .row {
+    display: grid; grid-template-columns: 28px 1fr 80px 64px;
+    align-items: center; gap: 8px; padding: 8px 10px;
+    background: #fff; border-radius: 10px; margin-bottom: 5px;
+    border: 1px solid rgba(0,0,0,0.04);
+    opacity: 0; transform: translateY(10px);
+    transition: opacity 0.35s ease, transform 0.35s ease, border-color 0.2s, box-shadow 0.2s;
+    cursor: pointer; user-select: none;
+  }
+  .row.show { opacity: 1; transform: translateY(0); }
+  .row:hover { border-color: rgba(124,197,162,0.3); box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+  .row.selected { border-color: var(--green); box-shadow: 0 2px 16px rgba(124,197,162,0.15); }
+  .av { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 10px; font-weight: 700; }
+  .info .name { font-size: 12px; font-weight: 600; }
+  .info .role { font-size: 10px; color: var(--grey); }
+  .company { font-size: 10px; color: var(--grey); font-weight: 500; }
+  .badge { padding: 3px 7px; border-radius: 6px; font-size: 9px; font-weight: 600; text-align: center; white-space: nowrap; }
+  .badge.ok { background: #e8f5ee; color: #3a9a5c; }
+  .badge.load { background: #e8f0f8; color: #4a7fb5; }
+
+  /* Expanded detail panel */
+  .detail {
+    max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease;
+    padding: 0 10px; grid-column: 1 / -1;
+  }
+  .row.selected .detail { max-height: 200px; padding: 8px 10px 4px; }
+  .detail-inner {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+    border-top: 1px solid rgba(0,0,0,0.06); padding-top: 8px; margin-top: 4px;
+  }
+  .d-item { font-size: 10px; }
+  .d-label { color: var(--grey); font-weight: 500; margin-bottom: 1px; }
+  .d-val { font-weight: 600; color: var(--dark); }
+  .d-val.email { color: var(--blue); }
+  .d-val.green { color: var(--green); }
+  .d-actions { grid-column: 1 / -1; display: flex; gap: 6px; margin-top: 6px; }
+  .d-btn {
+    padding: 4px 10px; border-radius: 6px; font-size: 9px; font-weight: 600;
+    border: 1px solid rgba(0,0,0,0.08); background: #fff; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .d-btn:hover { background: var(--bg); }
+  .d-btn.primary { background: var(--green); color: #fff; border-color: var(--green); }
+  .d-btn.primary:hover { filter: brightness(0.95); }
+
+  /* Scan pulse */
+  @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(124,197,162,0.3)} 70%{box-shadow:0 0 0 5px rgba(124,197,162,0)} 100%{box-shadow:0 0 0 0 rgba(124,197,162,0)} }
+  .row.scan .av { animation: pulse 1s ease-out infinite; }
+
+  /* Fade at bottom */
+  .list-wrap { position: relative; }
+  .list-wrap::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40px;
+    background: linear-gradient(transparent, var(--bg)); pointer-events: none; z-index: 2;
+  }
+</style>
+</head>
+<body>
+
+<div class="search-bar">
+  <svg viewBox="0 0 256 256" fill="currentColor"><path d="M192,112a80,80,0,1,1-80-80A80,80,0,0,1,192,112Z" opacity="0.2"/><path d="M229.66,218.34,179.6,168.28a88.21,88.21,0,1,0-11.32,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg>
+  <span class="search-text" id="search"></span>
+</div>
+
+<div class="chips" id="chips"></div>
+<div class="results-head" id="resHead">
+  <span class="results-count"><strong id="count">0</strong> verified prospects</span>
+  <button class="add-btn" id="addBtn">+ Add all to campaign</button>
+</div>
+<div class="list-wrap">
+  <div id="list"></div>
+</div>
+
+<script>
+const query = 'VP Sales, SaaS, 50-500 emp, US';
+const chipLabels = ['SaaS','B2B','50-500 emp.','US','VP / Director'];
+const TOTAL = 1247;
+
+const firstNames = ['Michael','Anna','James','Sarah','David','Elena','Ryan','Lisa','Robert','Maria','Chris','Julia','Kevin','Nina','Alex','Priya','Thomas','Fatima','Jordan','Maya','Erik','Aisha','Samuel','Clara','Wei','Olivia','Marcus','Sophie','Daniel','Yuki'];
+const lastNames = ['Torres','Lindberg','Whitfield','Kim','Okafor','Rousseau','Park','Chen','Müller','Patel','Santos','Johansson','Nakamura','Weber','Costa','Ali','Novak','Singh','Williams','Lee','Berg','Andersen','Fischer','Martin','Reyes','Tanaka','Brown','Dubois','Sharma','Lopez'];
+const roles = ['VP of Sales','Head of Growth','CRO','Dir. of Sales','VP Biz Dev','Head of Revenue','Sales Director','GTM Lead','VP Partnerships','Chief Revenue Officer'];
+const companies = ['Velociti','Nordicly','Stackline','CloudMetrics','AfriTech','Lumière AI','Pivot Labs','Zenflow','DataPulse','Modular','Skyline','Optera','Enviso','TrueScale','GreenStack','NovaTech','SyncWave','Apexion','Bridgeway','Quantis'];
+const domains = ['velociti.io','nordicly.com','stackline.co','cloudmetrics.io','afritech.ng','lumiere.ai','pivotlabs.dev','zenflow.io','datapulse.co','modular.dev','skyline.so','optera.ai','enviso.io','truescale.com','greenstack.dev','novatech.io','syncwave.co','apexion.io','bridgeway.com','quantis.ai'];
+const colors = ['#7cc5a2','#7BAFD4','#e8a87c','#9B9590','#c5a27c','#6b8fa3','#a3886b','#8ca37c'];
+const sizes = ['12','28','55','120','85','200','35','65','150','42','18','90','72','110','38','160','25','48','95','68'];
+const industries = ['SaaS','FinTech','HealthTech','E-commerce','MarTech','DevTools','EdTech','AI/ML','Cybersecurity','CloudOps'];
+const linkedins = ['linkedin.com/in/'];
+
+function genProspect(idx) {
+  const fn = firstNames[idx % firstNames.length];
+  const ln = lastNames[(idx * 7 + 3) % lastNames.length];
+  const role = roles[idx % roles.length];
+  const compIdx = (idx * 3 + 1) % companies.length;
+  const comp = companies[compIdx];
+  const domain = domains[compIdx];
+  const color = colors[idx % colors.length];
+  const v = (idx * 13 + 7) % 10 > 1; // deterministic
+  const email = fn.toLowerCase().charAt(0) + '.' + ln.toLowerCase() + '@' + domain;
+  const size = sizes[idx % sizes.length];
+  const industry = industries[idx % industries.length];
+  return { name: fn+' '+ln, fn, ln, role, company: comp, color, i: fn[0]+ln[0], v, email, size, industry };
+}
+
+const searchEl = document.getElementById('search');
+const chipsEl = document.getElementById('chips');
+const listEl = document.getElementById('list');
+const resHead = document.getElementById('resHead');
+const countEl = document.getElementById('count');
+const addBtn = document.getElementById('addBtn');
+
+// Add-all button interaction
+let added = false;
+addBtn.addEventListener('click', () => {
+  if (!added) {
+    added = true;
+    addBtn.textContent = '✓ Added to campaign';
+    addBtn.style.background = 'var(--dark)';
+    setTimeout(() => { addBtn.textContent = '+ Add all to campaign'; addBtn.style.background = ''; added = false; }, 2000);
+  }
+});
+
+// Chip toggle
+function makeChipClickable(chipEl) {
+  chipEl.addEventListener('click', () => {
+    chipEl.classList.toggle('off');
+  });
+}
+
+let ci = 0;
+function typeSearch() {
+  if (ci <= query.length) {
+    searchEl.innerHTML = query.slice(0, ci) + '<span class="cursor">|</span>';
+    ci++;
+    setTimeout(typeSearch, 40 + Math.random() * 20);
+  } else {
+    searchEl.textContent = query;
+    setTimeout(showChips, 300);
+  }
+}
+
+let chi = 0;
+function showChips() {
+  if (chi < chipLabels.length) {
+    const c = document.createElement('span');
+    c.className = 'chip';
+    c.textContent = chipLabels[chi];
+    chipsEl.appendChild(c);
+    makeChipClickable(c);
+    requestAnimationFrame(() => c.classList.add('show'));
+    chi++;
+    setTimeout(showChips, 120);
+  } else setTimeout(showRows, 400);
+}
+
+let ri = 0;
+let selectedRow = null;
+
+function createRow(p) {
+  const d = document.createElement('div');
+  d.className = 'row scan';
+  d.innerHTML = `
+    <div class="av" style="background:${p.color}">${p.i}</div>
+    <div class="info"><div class="name">${p.name}</div><div class="role">${p.role}</div></div>
+    <div class="company">${p.company}</div>
+    <div class="badge ${p.v?'ok':'load'}">${p.v?'✓ Verified':'Enriching…'}</div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="d-item"><div class="d-label">Email</div><div class="d-val email">${p.email}</div></div>
+        <div class="d-item"><div class="d-label">Company size</div><div class="d-val">${p.size} employees</div></div>
+        <div class="d-item"><div class="d-label">Industry</div><div class="d-val">${p.industry}</div></div>
+        <div class="d-item"><div class="d-label">Status</div><div class="d-val green">${p.v ? 'Verified & enriched' : 'Enriching data…'}</div></div>
+        <div class="d-actions">
+          <button class="d-btn primary">+ Add to campaign</button>
+          <button class="d-btn">View profile</button>
+          <button class="d-btn">Export</button>
+        </div>
+      </div>
+    </div>`;
+
+  // Click to expand/collapse
+  d.addEventListener('click', (e) => {
+    if (e.target.closest('.d-btn')) return; // don't toggle on button clicks
+    if (selectedRow && selectedRow !== d) selectedRow.classList.remove('selected');
+    d.classList.toggle('selected');
+    selectedRow = d.classList.contains('selected') ? d : null;
+  });
+
+  // Button interactions
+  d.querySelectorAll('.d-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const orig = btn.textContent;
+      if (orig.includes('Add')) {
+        btn.textContent = '✓ Added';
+        btn.style.background = 'var(--dark)'; btn.style.color = '#fff'; btn.style.borderColor = 'var(--dark)';
+      } else if (orig === 'View profile') {
+        btn.textContent = '↗ Opening…';
+      } else {
+        btn.textContent = '✓ Exported';
+      }
+      setTimeout(() => { btn.textContent = orig; btn.style.background = ''; btn.style.color = ''; btn.style.borderColor = ''; }, 1500);
+    });
+  });
+
+  return d;
+}
+
+function showRows() {
+  resHead.classList.add('show');
+  let displayed = 0;
+  const counterInterval = setInterval(() => {
+    displayed += Math.ceil((TOTAL - displayed) * 0.08);
+    if (displayed >= TOTAL) { displayed = TOTAL; clearInterval(counterInterval); }
+    countEl.textContent = displayed.toLocaleString();
+  }, 30);
+  revealRow();
+}
+
+function revealRow() {
+  const p = genProspect(ri);
+  const d = createRow(p);
+  listEl.appendChild(d);
+  requestAnimationFrame(() => { d.classList.add('show'); setTimeout(() => d.classList.remove('scan'), 600); });
+  ri++;
+  let delay;
+  if (ri <= 5) delay = 300;
+  else if (ri <= 15) delay = 180;
+  else if (ri <= 30) delay = 120;
+  else delay = 400;
+  if (ri < 50) setTimeout(revealRow, delay);
+}
+
+setTimeout(typeSearch, 600);
+</script>
+</body>
+</html>

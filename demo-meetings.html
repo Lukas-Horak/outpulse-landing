@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #f2f1ee; --green: #7cc5a2; --blue: #7BAFD4; --dark: #1a1a1a;
+    --grey: #9B9590; --greyLight: #d5d2ce; --font: 'DM Sans', sans-serif;
+    --serif: 'DM Serif Display', serif;
+  }
+  body { font-family: var(--font); background: var(--bg); color: var(--dark); overflow: hidden; height: 100vh; padding: 14px 18px; }
+
+  /* Stats */
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+  .stat {
+    background: #fff; border-radius: 12px; padding: 12px; border: 1px solid rgba(0,0,0,0.04);
+    opacity: 0; transform: translateY(8px); transition: all 0.4s ease;
+    cursor: default;
+  }
+  .stat.show { opacity: 1; transform: translateY(0); }
+  .stat:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+  .stat-label { font-size: 9px; color: var(--grey); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 4px; }
+  .stat-val { font-family: var(--serif); font-size: 24px; }
+  .stat-chg { font-size: 9px; color: var(--green); font-weight: 600; margin-top: 2px; }
+
+  /* Layout */
+  .grid { display: grid; grid-template-columns: 1fr 190px; gap: 12px; }
+
+  /* Calendar */
+  .cal-card { background: #fff; border-radius: 12px; padding: 12px; border: 1px solid rgba(0,0,0,0.04); }
+  .cal-title { font-size: 12px; font-weight: 600; margin-bottom: 10px; display: flex; justify-content: space-between; }
+  .cal-month { font-size: 10px; color: var(--grey); font-weight: 500; }
+  .wk-hdr { display: grid; grid-template-columns: 32px repeat(5, 1fr); gap: 3px; margin-bottom: 4px; }
+  .wk-hdr span { text-align: center; font-size: 8px; color: var(--grey); font-weight: 600; text-transform: uppercase; }
+  .wk { display: grid; grid-template-columns: 32px repeat(5, 1fr); gap: 3px; }
+  .t-lbl { font-size: 8px; color: var(--greyLight); text-align: right; padding: 2px 3px 0 0; }
+  .slot { height: 36px; border-radius: 5px; background: rgba(0,0,0,0.015); border: 1px solid rgba(0,0,0,0.02); position: relative; }
+  .ev {
+    position: absolute; inset: 2px; border-radius: 4px; padding: 3px 5px;
+    font-size: 8px; font-weight: 600; line-height: 1.2;
+    opacity: 0; transform: scale(0.85);
+    transition: opacity 0.35s, transform 0.35s, box-shadow 0.15s;
+    cursor: pointer; overflow: hidden;
+  }
+  .ev.show { opacity: 1; transform: scale(1); }
+  .ev:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.12); z-index: 5; }
+  .ev.g { background: rgba(124,197,162,0.2); color: #3a7a5c; border-left: 2px solid var(--green); }
+  .ev.b { background: rgba(123,175,212,0.2); color: #3a6a8c; border-left: 2px solid var(--blue); }
+  .ev-sub { font-size: 7px; font-weight: 500; opacity: 0.7; }
+
+  /* Event tooltip */
+  .ev-tooltip {
+    position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%) translateY(-4px);
+    background: var(--dark); color: #fff; padding: 8px 12px; border-radius: 8px;
+    font-size: 10px; white-space: nowrap; pointer-events: none;
+    opacity: 0; transition: opacity 0.2s; z-index: 20;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  }
+  .ev-tooltip::after {
+    content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+    border: 5px solid transparent; border-top-color: var(--dark);
+  }
+  .ev:hover .ev-tooltip { opacity: 1; }
+  .ev-tooltip .tt-name { font-weight: 600; margin-bottom: 2px; }
+  .ev-tooltip .tt-time { color: rgba(255,255,255,0.6); font-size: 9px; }
+  .ev-tooltip .tt-btn {
+    display: inline-block; margin-top: 4px; padding: 2px 8px; border-radius: 4px;
+    background: var(--green); color: #fff; font-size: 8px; font-weight: 600;
+  }
+
+  /* Notifications */
+  .notifs { background: #fff; border-radius: 12px; padding: 12px; border: 1px solid rgba(0,0,0,0.04); overflow-y: auto; max-height: calc(100vh - 120px); }
+  .notifs::-webkit-scrollbar { width: 3px; }
+  .notifs::-webkit-scrollbar-thumb { background: var(--greyLight); border-radius: 3px; }
+  .notif-title { font-size: 12px; font-weight: 600; margin-bottom: 8px; }
+  .notif {
+    display: flex; gap: 8px; padding: 7px; border-radius: 8px; background: var(--bg); margin-bottom: 5px;
+    align-items: flex-start; cursor: pointer;
+    opacity: 0; transform: translateX(10px);
+    transition: opacity 0.35s, transform 0.35s, background 0.15s, box-shadow 0.15s;
+  }
+  .notif.show { opacity: 1; transform: translateX(0); }
+  .notif:hover { background: rgba(124,197,162,0.08); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .notif.clicked { background: rgba(124,197,162,0.15); }
+  .n-icon { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; }
+  .n-icon.g { background: rgba(124,197,162,0.2); }
+  .n-text { font-size: 10px; line-height: 1.3; }
+  .n-text strong { font-weight: 600; }
+  .n-time { font-size: 8px; color: var(--grey); margin-top: 2px; }
+  .n-action { font-size: 8px; color: var(--green); font-weight: 600; margin-top: 3px; cursor: pointer; }
+  .n-action:hover { text-decoration: underline; }
+
+  /* Confetti */
+  @keyframes fall { 0%{transform:translateY(-10px) rotate(0);opacity:1} 100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
+  .conf { position: fixed; width: 6px; height: 6px; border-radius: 1px; animation: fall 2s ease-out forwards; pointer-events: none; z-index: 100; }
+</style>
+</head>
+<body>
+
+<div class="stats" id="stats">
+  <div class="stat"><div class="stat-label">Booked</div><div class="stat-val" id="sBooked">0</div><div class="stat-chg" id="sBookedC"></div></div>
+  <div class="stat"><div class="stat-label">Response rate</div><div class="stat-val" id="sRate">0%</div><div class="stat-chg">+8.2pp</div></div>
+  <div class="stat"><div class="stat-label">Pipeline</div><div class="stat-val" id="sPipe">$0</div><div class="stat-chg">+$24K</div></div>
+</div>
+
+<div class="grid">
+  <div class="cal-card">
+    <div class="cal-title"><span>This week</span><span class="cal-month">Mar 10–14</span></div>
+    <div class="wk-hdr"><span></span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span></div>
+    <div class="wk" id="wk"></div>
+  </div>
+  <div class="notifs">
+    <div class="notif-title">Recent bookings</div>
+    <div id="nList"></div>
+  </div>
+</div>
+
+<script>
+const meetings = [
+  {d:0,s:0,t:'M. Torres',full:'Michael Torres',sub:'Velociti SaaS',time:'Mon 9:00 AM',c:'g'},
+  {d:2,s:0,t:'A. Lindberg',full:'Anna Lindberg',sub:'Nordicly',time:'Wed 9:00 AM',c:'g'},
+  {d:1,s:1,t:'Team sync',full:'Weekly standup',sub:'Internal',time:'Tue 10:00 AM',c:'b'},
+  {d:3,s:0,t:'J. Whitfield',full:'James Whitfield',sub:'Stackline',time:'Thu 9:00 AM',c:'g'},
+  {d:4,s:0,t:'E. Rousseau',full:'Elena Rousseau',sub:'Lumière AI',time:'Fri 9:00 AM',c:'g'},
+  {d:2,s:1,t:'D. Okafor',full:'David Okafor',sub:'AfriTech',time:'Wed 10:00 AM',c:'g'},
+  {d:4,s:2,t:'Pipeline rev.',full:'Pipeline review',sub:'Internal',time:'Fri 11:00 AM',c:'b'},
+  {d:1,s:0,t:'S. Kim',full:'Sarah Kim',sub:'CloudMetrics',time:'Tue 9:00 AM',c:'g'},
+];
+
+const notifications = [
+  {icon:'📅',c:'g',t:'<strong>M. Torres</strong> accepted meeting',time:'2 min ago',action:'View details'},
+  {icon:'🎯',c:'g',t:'<strong>A. Lindberg</strong> booked via auto-reply',time:'15 min ago',action:'Open thread'},
+  {icon:'📅',c:'g',t:'<strong>J. Whitfield</strong> confirmed Thu 9AM',time:'1h ago',action:'Add notes'},
+  {icon:'💬',c:'g',t:'<strong>E. Rousseau</strong> replied "Let\'s do it!"',time:'2h ago',action:'View reply'},
+  {icon:'📅',c:'g',t:'<strong>D. Okafor</strong> booked Wed 10AM',time:'3h ago',action:'View details'},
+  {icon:'🎉',c:'g',t:'<strong>S. Kim</strong> accepted — Tue 9AM',time:'4h ago',action:'Prepare deck'},
+  {icon:'📊',c:'g',t:'Weekly goal reached: <strong>12 meetings</strong>',time:'5h ago',action:'View report'},
+];
+
+const times = ['9 AM','10 AM','11 AM'];
+const wk = document.getElementById('wk');
+const evEls = [];
+
+times.forEach((t, row) => {
+  const lbl = document.createElement('div');
+  lbl.className = 't-lbl'; lbl.textContent = t;
+  wk.appendChild(lbl);
+  for (let col = 0; col < 5; col++) {
+    const sl = document.createElement('div');
+    sl.className = 'slot';
+    const m = meetings.find(x => x.d === col && x.s === row);
+    if (m) {
+      const ev = document.createElement('div');
+      ev.className = 'ev ' + m.c;
+      ev.innerHTML = `
+        <div>${m.t}</div><div class="ev-sub">${m.sub}</div>
+        <div class="ev-tooltip">
+          <div class="tt-name">${m.full}</div>
+          <div class="tt-time">${m.time} · ${m.sub}</div>
+          <div class="tt-btn">Join meeting</div>
+        </div>`;
+      ev.addEventListener('click', () => {
+        ev.style.background = m.c === 'g' ? 'rgba(124,197,162,0.4)' : 'rgba(123,175,212,0.4)';
+        setTimeout(() => ev.style.background = '', 800);
+      });
+      sl.appendChild(ev);
+      evEls.push(ev);
+    }
+    wk.appendChild(sl);
+  }
+});
+
+// Animate stats with counting
+function animStats() {
+  document.querySelectorAll('.stat').forEach((s, i) => setTimeout(() => s.classList.add('show'), i * 150));
+  let b = 0;
+  const bi = setInterval(() => { b++; document.getElementById('sBooked').textContent = b; if(b>=12){clearInterval(bi); document.getElementById('sBookedC').textContent='+5 this week';} }, 60);
+  let r = 0;
+  const ri = setInterval(() => { r+=3; document.getElementById('sRate').textContent=r+'%'; if(r>=47){clearInterval(ri); document.getElementById('sRate').textContent='47.2%';} }, 40);
+  let p = 0;
+  const pi = setInterval(() => { p+=8000; document.getElementById('sPipe').textContent='$'+(p/1000).toFixed(0)+'K'; if(p>=142000){clearInterval(pi); document.getElementById('sPipe').textContent='$142K';} }, 30);
+}
+
+// Animate calendar events appearing
+function animCal() {
+  evEls.forEach((ev, i) => {
+    setTimeout(() => {
+      ev.classList.add('show');
+      if (i === evEls.length - 1) setTimeout(confetti, 200);
+    }, i * 280);
+  });
+}
+
+// Animate notifications with click interaction
+function animNotifs() {
+  const nList = document.getElementById('nList');
+  notifications.forEach((n, i) => {
+    const d = document.createElement('div');
+    d.className = 'notif';
+    d.innerHTML = `
+      <div class="n-icon ${n.c}">${n.icon}</div>
+      <div>
+        <div class="n-text">${n.t}</div>
+        <div class="n-time">${n.time}</div>
+        <div class="n-action">${n.action} →</div>
+      </div>`;
+    d.addEventListener('click', () => {
+      d.classList.toggle('clicked');
+      const action = d.querySelector('.n-action');
+      if (d.classList.contains('clicked')) {
+        action.textContent = '✓ Opened';
+        action.style.color = 'var(--dark)';
+      } else {
+        action.textContent = n.action + ' →';
+        action.style.color = '';
+      }
+    });
+    nList.appendChild(d);
+    setTimeout(() => d.classList.add('show'), i * 220 + 100);
+  });
+}
+
+function confetti() {
+  const colors = ['#7cc5a2','#7BAFD4','#e8a87c','#1a1a1a'];
+  for (let i = 0; i < 16; i++) {
+    const c = document.createElement('div');
+    c.className = 'conf';
+    c.style.left = (20+Math.random()*60)+'%';
+    c.style.top = '-8px';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDelay = (Math.random()*0.4)+'s';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 2500);
+  }
+}
+
+setTimeout(animStats, 400);
+setTimeout(animCal, 900);
+setTimeout(animNotifs, 600);
+</script>
+</body>
+</html>
