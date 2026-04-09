@@ -368,6 +368,7 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
 
 .mobile-bottom-logo{display:none}
 .comp-rotate-hint{display:none}
+.m1-detail-mobile{display:none}
 
 /* ── RESPONSIVE ── */
 @media(max-width:1000px){
@@ -420,15 +421,21 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
   .app-main{padding:16px 14px}
   .app-chrome{padding:8px 12px}
   .app-url{font-size:10px}
-  /* Mockup 1: prospects table — compact on mobile */
+  /* Mockup 1: prospects table — compact, show signal detail inline under name */
   .m1-thr span:nth-child(3),.m1-thr span:nth-child(5),
-  .m1-row div:nth-child(3),.m1-row span:nth-child(5){display:none}
-  .m1-thr,.m1-row{grid-template-columns:26px 1fr .6fr;font-size:11px;gap:5px;padding:10px 12px}
+  .m1-row div:nth-child(3),.m1-row span:nth-child(4),.m1-row span:nth-child(5){display:none}
+  .m1-thr,.m1-row{grid-template-columns:26px 1fr;font-size:11px;gap:5px;padding:10px 12px}
   .m1-row .m1-av{width:26px;height:26px;font-size:9px}
   .m1-row .m1-name{font-size:11px}
   .m1-row .m1-sub{font-size:9px}
+  .m1-row .m1-detail-mobile{display:inline-block !important}
   .m1-filters{gap:4px !important;flex-wrap:wrap}
   .m1-filters > div{padding:4px 8px !important;font-size:10px !important}
+  /* Dark hero mockup — 2-column grid on mobile, hide email+signal */
+  #heroMockup .pr-row,#heroMockup .skel-row{grid-template-columns:1fr .8fr !important}
+  #heroMockup .pr-row > span:nth-child(n+2),#heroMockup .skel-row > div:nth-child(n+3){display:none !important}
+  #heroMockup #prospectRows ~ div,#heroMockup [style*="grid-template-columns:2.2fr 1.2fr 2fr"]{grid-template-columns:1fr .8fr !important}
+  #heroMockup [style*="grid-template-columns:2.2fr 1.2fr 2fr"] > span:nth-child(n+3){display:none !important}
   /* Pricing */
   .pricing-grid{grid-template-columns:1fr !important}
   .pricing-card{margin:0}
@@ -1621,7 +1628,7 @@ document.querySelectorAll('.app-frame').forEach(el => mockupObs.observe(el));
       row.style.cssText = 'opacity:0;transform:translateY(8px)';
       row.innerHTML =
         '<div class="m1-av" style="background:rgba(' + c + ',.18);color:rgba(' + c + ',1)">' + p.init + '</div>' +
-        '<div><div class="m1-name">' + p.name + '</div><div class="m1-sub">' + p.role + '</div></div>' +
+        '<div><div class="m1-name">' + p.name + '</div><div class="m1-sub">' + p.role + ' · ' + p.company + ' <span class="m1-detail-mobile m1-badge" style="font-size:9px;padding:2px 6px;margin-left:2px;background:rgba(' + c + ',.08);color:rgba(' + c + ',.9)">' + p.detail + '</span></div></div>' +
         '<div><span class="m1-badge" style="background:rgba(' + c + ',.08);color:rgba(' + c + ',.9)">' + p.detail + '</span></div>' +
         '<span>' + p.company + '</span>' +
         '<span style="font-weight:600;color:var(--app-green)">' + p.match + '%</span>';
