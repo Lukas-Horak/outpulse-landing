@@ -368,7 +368,6 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
 
 .mobile-bottom-logo{display:none}
 .comp-rotate-hint{display:none}
-.m1-signal-inline{display:none}
 
 /* ── RESPONSIVE ── */
 @media(max-width:1000px){
@@ -383,10 +382,8 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
 @media(max-width:768px){
   .app-sb{display:none}
   .brand-grid{grid-template-columns:repeat(2,1fr)}
-  .m1-table{position:relative;overflow:hidden}
-  .m1-table::after{content:'';position:absolute;top:0;right:0;bottom:0;width:50px;background:linear-gradient(to right,transparent,#fff);pointer-events:none;z-index:2}
-  .m1-table-inner{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .m1-thr,.m1-row{grid-template-columns:32px 1.2fr .8fr .7fr .5fr;font-size:11px;min-width:440px}
+  .m1-thr,.m1-row{grid-template-columns:32px 1fr .6fr;font-size:11px}
+  .m1-thr span:nth-child(4),.m1-thr span:nth-child(5),.m1-row span:nth-child(4),.m1-row div:nth-child(4),.m1-row div:nth-child(5){display:none}
   .m3-kpis{grid-template-columns:repeat(2,1fr)}
   .stats-grid{grid-template-columns:1fr}
   .comp-table th,.comp-table td{padding:10px 12px;font-size:12px}
@@ -422,16 +419,18 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
   .app-main{padding:16px 14px}
   .app-chrome{padding:8px 12px}
   .app-url{font-size:10px}
-  /* Mockup 1: prospects table — all columns visible, horizontal scroll with fade */
-  .m1-table{position:relative;overflow:hidden}
-  .m1-table::after{content:'';position:absolute;top:0;right:0;bottom:0;width:60px;background:linear-gradient(to right,transparent,#fff);pointer-events:none;z-index:2}
-  .m1-table-inner{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .m1-thr,.m1-row{grid-template-columns:28px 1fr .8fr .7fr .5fr;font-size:11px;gap:6px;padding:10px 12px;min-width:420px}
-  .m1-row .m1-av{width:28px;height:28px;font-size:9px}
+  /* Mockup 1: prospects table — compact on mobile */
+  .m1-thr span:nth-child(3),.m1-thr span:nth-child(5),
+  .m1-row div:nth-child(3),.m1-row span:nth-child(5){display:none}
+  .m1-thr,.m1-row{grid-template-columns:26px 1fr .6fr;font-size:11px;gap:5px;padding:10px 12px}
+  .m1-row .m1-av{width:26px;height:26px;font-size:9px}
   .m1-row .m1-name{font-size:11px}
   .m1-row .m1-sub{font-size:9px}
   .m1-filters{gap:4px !important;flex-wrap:wrap}
   .m1-filters > div{padding:4px 8px !important;font-size:10px !important}
+  /* Dark mockup frame — fade out right edge on mobile */
+  #mockup1{position:relative}
+  #mockup1::after{content:'';position:absolute;top:0;right:0;bottom:0;width:80px;background:linear-gradient(to right,transparent,var(--bg));border-radius:0 12px 12px 0;pointer-events:none;z-index:3}
   /* Pricing */
   .pricing-grid{grid-template-columns:1fr !important}
   .pricing-card{margin:0}
@@ -863,12 +862,10 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
         </div>
         <!-- Prospect table -->
         <div class="m1-table">
-          <div class="m1-table-inner">
-            <div class="m1-thr">
-              <span></span><span>Name</span><span>Signal</span><span>Company</span><span>Match</span>
-            </div>
-            <div id="m1Rows"></div>
+          <div class="m1-thr">
+            <span></span><span>Name</span><span>Company</span><span>Signal</span><span>Match</span>
           </div>
+          <div id="m1Rows"></div>
         </div>
       </div>
     </div>
