@@ -23,7 +23,7 @@
   --app-blue:#6b9dbf;--app-blue-light:#f1f5f9;
   --app-orange:#d9934a;
 }
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;overflow-x:hidden}
 body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 .c{max-width:1100px;margin:0 auto;padding:0 24px}
@@ -328,7 +328,7 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
 .f-links a:hover{color:var(--text-s)}
 
 /* ── BUILT BY (credibility strip) ── */
-.built-by{padding:80px 0 60px;text-align:center;border-top:1px solid var(--border)}
+.built-by{padding:80px 0 60px;text-align:center;border-top:1px solid var(--border);overflow:hidden}
 .built-by-text{font-size:14px;color:var(--text-s);margin-bottom:48px;font-weight:400;line-height:1.6;max-width:500px;margin-left:auto;margin-right:auto}
 .built-by-text a{color:var(--text);font-weight:600;text-decoration:none;border-bottom:1px solid var(--border-h);padding-bottom:1px;transition:border-color .2s}
 .built-by-text a:hover{border-color:var(--text)}
@@ -391,20 +391,30 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
   .hero h1{text-align:left;font-size:clamp(28px,8vw,42px);line-height:1.08}
   .hero .h-sub{text-align:left;margin:0 0 24px}
   .h-ctas{flex-direction:column;align-items:stretch;justify-content:flex-start}
-  .btn{width:100%;justify-content:center}
+  .btn{width:100%;justify-content:center;white-space:nowrap}
   .cta-note{text-align:left}
   .sec{padding:64px 0}
   .showcase-item{padding:48px 0}
   .f-i{flex-direction:column;gap:12px;text-align:center}
   .nav-r .nl{display:none}
+  .nav-r .btn{width:auto;padding:8px 12px !important;font-size:12px !important;white-space:nowrap}
   .integ-logos{gap:16px}
-  /* Hero mockup — stack card on top, dashboard below */
-  #heroMockup{height:auto !important;display:flex;flex-direction:column;gap:16px}
+  /* Hero mockup — card (onboarding) first, then dashboard */
+  #heroMockup{height:auto !important;display:flex;flex-direction:column-reverse;gap:16px}
   #heroMockup > div:first-child{position:relative !important;inset:auto !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;border-radius:12px !important;min-height:320px}
   #heroCard{position:relative !important;inset:auto !important;width:100% !important;border-radius:12px !important;max-height:none !important;overflow:visible !important}
   .s-title{font-size:clamp(24px,6vw,36px)}
   .pricing-grid{grid-template-columns:1fr !important}
   .stats-grid{grid-template-columns:1fr}
+  /* Comparison cards — stack vertically */
+  .comp-cards-grid{grid-template-columns:1fr !important;gap:16px !important}
+  .comp-cards-grid .comp-vs{display:none}
+  /* Comparison table — horizontal scroll hint */
+  .comp-table{font-size:12px}
+  .comp-table th,.comp-table td{padding:10px 10px;font-size:11px;white-space:nowrap}
+  /* Built-by logos — single row, parallax scroll */
+  .built-by-logos{flex-wrap:nowrap !important;gap:40px !important;justify-content:flex-start !important;max-width:none !important;will-change:transform}
+  .built-by-logos svg{flex-shrink:0 !important;min-width:max-content}
 }
 </style>
 </head>
@@ -1068,7 +1078,7 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
   </div>
 
   <!-- Price comparison cards -->
-  <div class="reveal" style="display:grid;grid-template-columns:1fr auto 1fr;gap:32px;align-items:center;max-width:780px;margin:0 auto 64px">
+  <div class="reveal comp-cards-grid" style="display:grid;grid-template-columns:1fr auto 1fr;gap:32px;align-items:center;max-width:780px;margin:0 auto 64px">
     <!-- Sales rep card -->
     <div style="background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:20px;padding:36px 32px;text-align:center">
       <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text-t);margin-bottom:16px">Hire a sales rep</div>
@@ -1095,7 +1105,7 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
     </div>
 
     <!-- VS divider -->
-    <div style="font-family:var(--serif);font-style:italic;font-size:20px;color:var(--text-t)">vs</div>
+    <div class="comp-vs" style="font-family:var(--serif);font-style:italic;font-size:20px;color:var(--text-t)">vs</div>
 
     <!-- Outpulse card -->
     <div style="background:var(--g-a04);border:1px solid rgba(95,168,131,.2);border-radius:20px;padding:36px 32px;text-align:center;position:relative">
@@ -1857,6 +1867,20 @@ if (structBtn) {
     this.style.borderColor = showingStructure ? 'rgba(95,168,131,.2)' : '';
   });
 }
+
+// ── Logo parallax on scroll ──
+;(function(){
+  const logos = document.querySelector('.built-by-logos');
+  if(!logos || window.innerWidth > 600) return;
+  window.addEventListener('scroll', function(){
+    const rect = logos.getBoundingClientRect();
+    const vh = window.innerHeight;
+    if(rect.top < vh && rect.bottom > 0){
+      const progress = (vh - rect.top) / (vh + rect.height);
+      logos.style.transform = 'translateX(' + (-progress * 200) + 'px)';
+    }
+  }, {passive:true});
+})();
 </script>
 </body>
 </html>
