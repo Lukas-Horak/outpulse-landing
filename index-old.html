@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Google Analytics — replace G-XXXXXXXXXX with your Measurement ID -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Outpulse — Your AI Outreach Agent</title>
+<meta name="description" content="Outpulse finds your ideal prospects, writes personalized emails, and books meetings on autopilot. Start your free trial today.">
+<meta name="keywords" content="AI sales agent, cold email automation, AI outreach, meeting booking, lead generation, sales automation, email personalization">
+<meta name="author" content="Outpulse">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://outpulse.ai/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://outpulse.ai/">
+<meta property="og:title" content="Outpulse — AI-Powered Outbound on Autopilot">
+<meta property="og:description" content="Find prospects, send personalized emails, and book meetings — all on autopilot. Start your free trial today.">
+<meta property="og:image" content="https://outpulse.ai/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Outpulse">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Outpulse — AI-Powered Outbound on Autopilot">
+<meta name="twitter:description" content="Find prospects, send personalized emails, and book meetings — all on autopilot. Start your free trial today.">
+<meta name="twitter:image" content="https://outpulse.ai/og-image.png">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='20' fill='%237cc5a2'/><g stroke='%237cc5a2' stroke-width='3'><line x1='50' y1='5' x2='50' y2='25'/><line x1='50' y1='75' x2='50' y2='95'/><line x1='5' y1='50' x2='25' y2='50'/><line x1='75' y1='50' x2='95' y2='50'/><line x1='18' y1='18' x2='32' y2='32'/><line x1='68' y1='68' x2='82' y2='82'/><line x1='82' y1='18' x2='68' y2='32'/><line x1='32' y1='68' x2='18' y2='82'/></g></svg>">
+<meta name="theme-color" content="#f2f1ee">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #f2f1ee;
+    --text: #1a1a1a;
+    --text-muted: #6b6b6b;
+    --green: #7cc5a2;
+    --green-light: #e8f5ee;
+    --white: #ffffff;
+    --dark: #1a1a1a;
+    --card-border: rgba(0,0,0,0.08);
+    --font-sans: 'DM Sans', sans-serif;
+    --font-serif: 'DM Serif Display', serif;
+  }
+
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: var(--font-sans); background: var(--bg); color: var(--text);
+    line-height: 1.6; -webkit-font-smoothing: antialiased;
+    padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right);
+    overscroll-behavior-y: none;
+  }
+
+  /* Phosphor duotone icon base */
+  .ph { width: 24px; height: 24px; fill: currentColor; }
+
+  /* Touch-friendly: remove tap delay on interactive elements */
+  a, button { touch-action: manipulation; }
+
+  /* ===== NAV ===== */
+  .nav-wrap { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 16px 24px; }
+  nav {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(26,26,26,0.85); backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.08); border-radius: 16px;
+    padding: 10px 12px 10px 20px;
+  }
+  .nav-left { display: flex; align-items: center; gap: 10px; }
+  .nav-logo { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 18px; text-decoration: none; color: #ffffff; }
+  .nav-logo-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .nav-logo-icon svg { width: 22px; height: 22px; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { text-decoration: none; color: rgba(255,255,255,0.65); font-size: 14px; font-weight: 400; transition: color 0.2s; }
+  .nav-links a:hover { color: #ffffff; }
+  .nav-cta {
+    background: var(--green); color: var(--dark); border: none; border-radius: 9999px;
+    padding: 8px 20px; font-size: 14px; font-weight: 500; cursor: pointer;
+    text-decoration: none; display: flex; align-items: center; gap: 6px; transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(124,197,162,0.35); }
+  .nav-cta .ph { width: 16px; height: 16px; }
+
+  /* ===== HERO ===== */
+  .hero-wrap { position: relative; overflow: hidden; }
+  .hero-wrap canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .hero { padding: 150px 24px 80px; text-align: center; max-width: 780px; margin: 0 auto; position: relative; z-index: 1; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--white); border: 1px solid var(--card-border);
+    border-radius: 9999px; padding: 8px 20px; font-size: 13px; font-weight: 400; margin-bottom: 32px;
+  }
+  .hero-badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+  .hero h1 {
+    font-family: var(--font-serif); font-size: clamp(38px, 5vw, 60px); font-weight: 400;
+    line-height: 1.12; letter-spacing: -1.5px; margin-bottom: 20px;
+  }
+  .hero h1 .highlight {
+    position: relative; display: inline-block; color: var(--text);
+  }
+  .hero h1 .highlight .underline {
+    position: absolute; bottom: 4px; left: 0; right: 0; height: 12px;
+    background: rgba(124, 197, 162, 0.4); border-radius: 6px; z-index: -1;
+  }
+  .hero-sub { font-size: 17px; color: var(--text-muted); max-width: 520px; margin: 0 auto 28px; line-height: 1.65; font-weight: 400; }
+
+  .hero-form { max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+  .hero-cta-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; max-width: 400px; padding: 16px 32px;
+    background: var(--dark); color: var(--white); border: none; border-radius: 14px;
+    font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none;
+    font-family: var(--font-sans); transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .hero-cta-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+  .hero-cta-btn .ph { width: 16px; height: 16px; }
+  .hero-trial-note { font-size: 13px; color: var(--text-muted); margin-top: 12px; }
+
+  /* ===== UI PREVIEW ===== */
+  .ui-preview { padding: 0 40px 80px; max-width: 1400px; margin: 0 auto; }
+  .ui-preview-frame {
+    width: 100%; border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.1); background: #1a1a1a;
+    overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.04);
+  }
+  .browser-bar {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px; background: #2a2a2a; border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .browser-dots { display: flex; gap: 6px; flex-shrink: 0; }
+  .browser-dots span {
+    width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.12);
+  }
+  .browser-dots span:nth-child(1) { background: #ff5f57; }
+  .browser-dots span:nth-child(2) { background: #febc2e; }
+  .browser-dots span:nth-child(3) { background: #28c840; }
+  .browser-url {
+    flex: 1; display: flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.08); border-radius: 8px;
+    padding: 6px 12px; font-size: 12px; color: rgba(255,255,255,0.45);
+    font-family: var(--font-sans); letter-spacing: 0.2px;
+  }
+  .browser-url .lock-icon { display: flex; align-items: center; color: rgba(255,255,255,0.3); }
+  .browser-url .lock-icon svg { width: 12px; height: 12px; }
+  .browser-url span { color: rgba(255,255,255,0.55); }
+  .browser-url span strong { color: rgba(255,255,255,0.75); font-weight: 500; }
+  .browser-content { position: relative; }
+  .browser-content img, .browser-content video { width: 100%; height: auto; display: block; }
+  .browser-content iframe {
+    width: 100%; border: none; display: block;
+    height: 680px;
+    transform-origin: top left;
+  }
+
+  /* ===== INTEGRATIONS BAR ===== */
+  .integrations { padding: 24px 24px 48px; max-width: 900px; margin: 0 auto; text-align: center; }
+  .integrations-label { font-size: 12px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 20px; }
+  .integrations-row { display: flex; align-items: center; justify-content: center; gap: 32px; flex-wrap: wrap; }
+  .integration-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); font-weight: 400; }
+  .integration-item svg { opacity: 0.6; flex-shrink: 0; }
+
+  /* ===== HOW IT WORKS ===== */
+  .how-it-works { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    text-align: center; font-size: 13px; font-weight: 500; letter-spacing: 1.3px;
+    text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px;
+  }
+  .section-heading {
+    font-family: var(--font-serif); font-size: 40px; font-weight: 400;
+    text-align: center; letter-spacing: -1px; line-height: 44px; margin-bottom: 16px;
+  }
+  .section-sub { text-align: center; font-size: 15px; color: var(--text-muted); max-width: 520px; margin: 0 auto 48px; line-height: 1.6; font-weight: 400; }
+
+  /* Sticky scroll layout */
+  .steps-scroll {
+    display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px;
+    align-items: start; max-width: 1200px; margin: 0 auto;
+  }
+
+  /* Left column — text steps scroll normally */
+  .steps-text-col { padding: 40px 0; }
+
+  .scroll-step {
+    min-height: 70vh; display: flex; flex-direction: column; justify-content: center;
+    padding: 40px 0;
+    opacity: 0.25; transform: translateY(12px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .scroll-step.active { opacity: 1; transform: translateY(0); }
+
+  .step-number-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--green); color: white;
+    font-size: 15px; font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .step-label { font-size: 13px; color: var(--text-muted); font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 8px; }
+  .step-title { font-size: 26px; font-weight: 600; margin-bottom: 12px; line-height: 1.3; }
+  .step-desc { font-size: 15px; color: var(--text-muted); line-height: 1.7; font-weight: 400; max-width: 380px; }
+
+  /* Right column — browser mockup stays sticky */
+  .steps-video-col {
+    position: sticky; top: 120px;
+    height: fit-content;
+    padding: 40px 0;
+  }
+
+  .step-browser {
+    width: 100%; border-radius: 16px;
+    background: #1a1a1a;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.06);
+  }
+  .step-browser .browser-bar {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px; background: #2a2a2a; border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .step-browser .browser-dots { display: flex; gap: 6px; flex-shrink: 0; }
+  .step-browser .browser-dots span {
+    width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,0.12);
+  }
+  .step-browser .browser-dots span:nth-child(1) { background: #ff5f57; }
+  .step-browser .browser-dots span:nth-child(2) { background: #febc2e; }
+  .step-browser .browser-dots span:nth-child(3) { background: #28c840; }
+  .step-browser .step-url {
+    flex: 1; display: flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.08); border-radius: 6px;
+    padding: 5px 12px; font-size: 12px; color: rgba(255,255,255,0.45);
+    font-family: var(--font-sans);
+    transition: opacity 0.3s ease;
+  }
+  .step-browser .step-url .lock-icon { display: flex; color: rgba(255,255,255,0.3); }
+  .step-browser .step-url .lock-icon svg { width: 11px; height: 11px; }
+  .step-browser .step-url span { color: rgba(255,255,255,0.55); }
+  .step-browser .step-url span strong { color: rgba(255,255,255,0.75); font-weight: 500; }
+
+  .step-browser-content { position: relative; background: var(--bg); aspect-ratio: 16/10; overflow: hidden; }
+
+  /* Demo panels — stacked, crossfade */
+  .step-video-panel {
+    position: absolute; inset: 0;
+    opacity: 0; transition: opacity 0.5s ease;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+  }
+  .step-video-panel.active { opacity: 1; pointer-events: auto; }
+  .step-video-panel iframe {
+    width: 100%; height: 100%; border: none; display: block;
+  }
+
+  /* URL text switching */
+  .step-url-text { transition: opacity 0.3s ease; }
+
+  /* Progress dots for active step */
+  .step-dots {
+    display: flex; gap: 8px; justify-content: center;
+    margin-top: 20px;
+  }
+  .step-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(0,0,0,0.1);
+    transition: background 0.4s ease, transform 0.4s ease;
+  }
+  .step-dot.active { background: var(--green); transform: scale(1.25); }
+
+  /* ===== COMPARE (dark section) ===== */
+  .compare-wrap { background: var(--dark); }
+  .compare { padding: 80px 24px; max-width: 900px; margin: 0 auto; }
+  .compare .section-label { color: rgba(255,255,255,0.45); }
+  .compare .section-heading { color: white; }
+  .compare .section-sub { color: rgba(255,255,255,0.5); }
+  .compare-audience { text-align: center; font-size: 13px; color: rgba(255,255,255,0.35); margin-top: 24px; }
+  .compare-table-wrap { margin-top: 48px; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.04); }
+  .compare-table { width: 100%; border-collapse: collapse; }
+  .compare-table thead { background: rgba(255,255,255,0.06); }
+  .compare-table thead th {
+    padding: 18px 24px; font-size: 14px; font-weight: 500; text-align: center; color: rgba(255,255,255,0.6);
+  }
+  .compare-table thead th:first-child { text-align: left; color: transparent; }
+  .compare-table thead th.outpulse-col { background: var(--green); color: var(--dark); font-weight: 600; }
+  .compare-table tbody td {
+    padding: 16px 24px; font-size: 16px; text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.45);
+  }
+  .compare-table tbody td:first-child { text-align: left; font-weight: 500; color: rgba(255,255,255,0.85); }
+  .compare-table tbody td:last-child { color: var(--green); font-weight: 600; background: rgba(124,197,162,0.06); }
+  .compare-table tbody tr:last-child td { border-bottom: none; }
+
+  /* ===== PRICING ===== */
+  .pricing { padding: 80px 24px; max-width: 1200px; margin: 0 auto; }
+  .pricing-single { display: flex; flex-direction: column; align-items: center; margin-top: 48px; }
+  .pricing-single .pricing-card { max-width: 420px; width: 100%; }
+  .pricing-enterprise {
+    margin-top: 24px; font-size: 14px; color: var(--text-muted); text-align: center;
+  }
+  .pricing-enterprise a { color: var(--green); font-weight: 500; text-decoration: none; }
+  .pricing-enterprise a:hover { text-decoration: underline; }
+  .pricing-card {
+    background: var(--white); border: 1px solid var(--card-border); border-radius: 24px;
+    padding: 44px 40px; display: flex; flex-direction: column;
+  }
+  .pricing-card.featured { background: var(--dark); color: white; border-color: transparent; }
+  .pricing-card.featured .plan-name { color: var(--green); }
+  .pricing-card.featured .plan-feature { color: rgba(255,255,255,0.75); }
+  .pricing-card.featured .check-icon { color: var(--green); }
+  .pricing-card.featured .pricing-btn { background: var(--green); color: var(--dark); }
+  .plan-name { font-size: 12px; font-weight: 500; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; text-align: center; }
+  .plan-price { font-family: var(--font-serif); font-size: 48px; font-weight: 400; letter-spacing: -1px; margin-bottom: 4px; text-align: center; }
+  .plan-price span { font-family: var(--font-sans); font-size: 15px; font-weight: 400; color: var(--text-muted); }
+  .pricing-card.featured .plan-price span { color: rgba(255,255,255,0.45); }
+  .plan-features { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px; flex: 1; padding-left: 16px; }
+  .plan-feature { font-size: 13px; display: flex; align-items: center; gap: 10px; font-weight: 400; }
+  .check-icon { flex-shrink: 0; }
+  .check-icon .ph { width: 16px; height: 16px; color: var(--green); }
+  .pricing-btn {
+    width: 100%; padding: 14px; border-radius: 14px; font-size: 16px; font-weight: 400;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-family: var(--font-sans); transition: transform 0.2s; text-decoration: none; border: none;
+  }
+  .pricing-btn .ph { width: 16px; height: 16px; }
+  .pricing-btn:hover { transform: translateY(-1px); }
+
+  /* ===== FAQ ===== */
+  .faq { padding: 80px 24px; max-width: 700px; margin: 0 auto; }
+  .faq-list { margin-top: 48px; display: flex; flex-direction: column; }
+  .faq-item { border-bottom: 1px solid var(--card-border); }
+  .faq-item:first-child { border-top: 1px solid var(--card-border); }
+  .faq-q {
+    width: 100%; background: none; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 0; font-size: 16px; font-weight: 500; color: var(--text);
+    font-family: var(--font-sans); text-align: left; line-height: 1.4;
+  }
+  .faq-q:hover { color: var(--green); }
+  .faq-chevron {
+    width: 20px; height: 20px; flex-shrink: 0; margin-left: 16px;
+    transition: transform 0.3s ease; color: var(--text-muted);
+  }
+  .faq-item.open .faq-chevron { transform: rotate(180deg); }
+  .faq-a {
+    max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease;
+    font-size: 14px; color: var(--text-muted); line-height: 1.7;
+  }
+  .faq-item.open .faq-a { max-height: 200px; padding-bottom: 20px; }
+
+  .price-amount { font-family: var(--font-serif); }
+  .price-period { font-family: var(--font-sans); font-size: 15px; color: var(--text-muted); }
+  .plan-trial {
+    font-size: 13px; color: rgba(255,255,255,0.45); margin-bottom: 28px;
+    text-align: center; line-height: 1.5;
+  }
+  .plan-trial strong { color: rgba(255,255,255,0.85); }
+
+  /* ===== CTA ===== */
+  .cta-section {
+    margin: 60px 24px 80px; max-width: 1100px; margin-left: auto; margin-right: auto;
+    background: var(--dark); border-radius: 28px; padding: 80px 40px; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle at 50% 120%, rgba(124,197,162,0.1) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .cta-section h2 {
+    font-family: var(--font-serif); font-size: 40px; font-weight: 400;
+    color: white; letter-spacing: -1px; line-height: 44px; margin-bottom: 16px; position: relative;
+  }
+  .cta-section h2 em { font-style: italic; color: var(--green); }
+  .cta-section p { color: rgba(255,255,255,0.55); font-size: 15px; margin-bottom: 32px; position: relative; font-weight: 400; }
+  .cta-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    max-width: 400px; padding: 14px 24px; background: var(--green); color: var(--dark);
+    border: none; border-radius: 14px; font-size: 16px; font-weight: 400;
+    cursor: pointer; text-decoration: none; font-family: var(--font-sans);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .cta-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(124,197,162,0.3); }
+  .cta-btn .ph { width: 16px; height: 16px; }
+
+  /* ===== THE NETWORK ===== */
+  .orb-section {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+    background: var(--bg);
+    cursor: default;
+  }
+  #orb-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    padding: 40px 24px; text-align: center; border-top: 1px solid var(--card-border);
+    max-width: 1100px; margin: 0 auto;
+  }
+  .footer-logo { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 16px; }
+  .footer-logo-icon {
+    width: 30px; height: 30px; border-radius: 8px; background: var(--dark);
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .footer-logo-icon svg { width: 18px; height: 18px; }
+  .footer-logo span { font-weight: 600; font-size: 16px; }
+  .footer-links { display: flex; gap: 24px; justify-content: center; margin-bottom: 12px; }
+  .footer-links a { text-decoration: none; color: var(--text-muted); font-size: 14px; font-weight: 400; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--text); }
+  footer p { font-size: 13px; color: var(--text-muted); }
+
+  /* ===== ANIMATIONS ===== */
+  .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ===== TABLET (≤1024px) ===== */
+  @media (max-width: 1024px) {
+    .hero { padding: 140px 24px 60px; }
+    .section-heading { font-size: 34px; line-height: 40px; }
+    .steps-scroll { grid-template-columns: 1fr 1.2fr; gap: 32px; }
+    .scroll-step { min-height: 50vh; }
+    .ui-preview { padding: 0 24px 60px; }
+    .browser-content iframe { height: 540px; }
+    .compare { padding: 60px 24px; }
+    .compare-table tbody td { font-size: 14px; padding: 14px 16px; }
+    .compare-table thead th { padding: 14px 16px; font-size: 13px; }
+    .pricing { padding: 60px 24px; }
+    .faq { padding: 60px 24px; }
+    .cta-section { margin: 40px 24px 60px; padding: 60px 32px; }
+    .cta-section h2 { font-size: 34px; line-height: 40px; }
+    .orb-section { height: 360px; }
+  }
+
+  /* ===== SMALL TABLET / LANDSCAPE PHONE (≤768px) ===== */
+  @media (max-width: 768px) {
+    /* Nav */
+    .nav-wrap { padding: 12px 16px; }
+    nav { padding: 8px 12px 8px 16px; border-radius: 12px; }
+    .nav-links { display: none; }
+    .nav-logo { font-size: 16px; }
+    .nav-logo-icon { width: 32px; height: 32px; border-radius: 8px; }
+    .nav-logo-icon svg { width: 18px; height: 18px; }
+    .nav-cta { padding: 7px 16px; font-size: 13px; }
+    .nav-cta .ph { width: 14px; height: 14px; }
+
+    /* Hero */
+    .hero { padding: 110px 20px 48px; }
+    .hero h1 { font-size: 32px; letter-spacing: -0.8px; line-height: 1.15; margin-bottom: 16px; }
+    .hero-sub { font-size: 15px; margin-bottom: 24px; }
+    .hero-cta-btn { padding: 14px 24px; font-size: 15px; }
+    .hero-trial-note { font-size: 12px; }
+
+    /* UI Preview */
+    .ui-preview { padding: 0 16px 40px; }
+    .ui-preview-frame { border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.14); }
+    .browser-bar { padding: 8px 12px; gap: 6px; }
+    .browser-dots span { width: 8px; height: 8px; }
+    .browser-url { font-size: 11px; padding: 5px 10px; gap: 6px; }
+    .browser-content iframe { height: 420px; }
+
+    /* Integrations */
+    .integrations { padding: 16px 20px 32px; }
+    .integrations-label { font-size: 11px; margin-bottom: 16px; }
+    .integrations-row { gap: 16px 24px; }
+    .integration-item { gap: 6px; font-size: 12px; }
+    .integration-item svg { width: 20px; height: 20px; }
+
+    /* Section headings global */
+    .section-label { font-size: 11px; letter-spacing: 1px; margin-bottom: 12px; }
+    .section-heading { font-size: 28px; line-height: 34px; margin-bottom: 12px; }
+    .section-sub { font-size: 14px; margin-bottom: 36px; }
+
+    /* How it Works */
+    .how-it-works { padding: 48px 20px; }
+    .steps-scroll { grid-template-columns: 1fr; gap: 0; }
+    .steps-text-col { padding: 0; }
+    .steps-video-col { position: relative; top: 0; order: -1; padding: 0 0 24px; }
+    .scroll-step { min-height: auto; padding: 24px 0; opacity: 1; transform: none; }
+    .step-number-badge { width: 32px; height: 32px; font-size: 13px; margin-bottom: 14px; }
+    .step-label { font-size: 11px; margin-bottom: 6px; }
+    .step-title { font-size: 20px; margin-bottom: 8px; }
+    .step-desc { font-size: 14px; max-width: none; line-height: 1.6; }
+    .step-browser { border-radius: 10px; }
+    .step-browser .browser-bar { padding: 8px 10px; gap: 6px; }
+    .step-browser .browser-dots span { width: 7px; height: 7px; }
+    .step-browser .step-url { font-size: 10px; padding: 3px 8px; }
+    .step-dots { display: none; }
+
+    /* Compare (dark) */
+    .compare { padding: 48px 16px; }
+    .compare-table-wrap { border-radius: 14px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .compare-table { font-size: 12px; min-width: 520px; }
+    .compare-table thead th { padding: 12px 12px; font-size: 11px; white-space: nowrap; }
+    .compare-table tbody td { padding: 11px 12px; font-size: 13px; }
+    .compare-table tbody td:first-child {
+      white-space: nowrap; position: sticky; left: 0;
+      background: var(--dark); z-index: 1;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.3); font-size: 12px;
+    }
+    .compare-table thead th:first-child { position: sticky; left: 0; z-index: 2; background: rgba(255,255,255,0.06); }
+    .compare-audience { font-size: 12px; margin-top: 20px; }
+
+    /* Pricing */
+    .pricing { padding: 48px 20px; }
+    .pricing-single { margin-top: 32px; }
+    .pricing-card { padding: 36px 28px; border-radius: 20px; }
+    .plan-price { font-size: 42px; }
+    .plan-features { padding-left: 8px; gap: 12px; }
+    .plan-feature { font-size: 13px; }
+    .pricing-btn { padding: 13px; font-size: 15px; border-radius: 12px; }
+    .pricing-enterprise { font-size: 13px; }
+
+    /* FAQ */
+    .faq { padding: 48px 20px; }
+    .faq-list { margin-top: 32px; }
+    .faq-q { padding: 16px 0; font-size: 15px; }
+    .faq-a { font-size: 13px; }
+    .faq-chevron { width: 18px; height: 18px; }
+
+    /* CTA */
+    .cta-section { margin: 32px 16px 48px; padding: 48px 20px; border-radius: 20px; }
+    .cta-section h2 { font-size: 28px; line-height: 34px; margin-bottom: 12px; }
+    .cta-section p { font-size: 14px; margin-bottom: 24px; }
+    .cta-btn { padding: 13px 24px; font-size: 15px; border-radius: 12px; }
+
+    /* Network */
+    .orb-section { height: 280px; }
+
+    /* Footer */
+    footer { padding: 32px 20px; }
+    .footer-links { gap: 20px; }
+    .footer-links a { font-size: 13px; }
+    footer p { font-size: 12px; }
+  }
+
+  /* ===== PHONE (≤480px) ===== */
+  @media (max-width: 480px) {
+    /* Nav */
+    .nav-wrap { padding: 10px 12px; }
+    nav { padding: 6px 10px 6px 14px; }
+    .nav-logo { font-size: 15px; gap: 6px; }
+    .nav-logo-icon { width: 28px; height: 28px; border-radius: 7px; }
+    .nav-logo-icon svg { width: 16px; height: 16px; }
+    .nav-cta { padding: 6px 14px; font-size: 12px; }
+
+    /* Hero */
+    .hero { padding: 100px 16px 40px; }
+    .hero h1 { font-size: 26px; letter-spacing: -0.5px; line-height: 1.18; }
+    .hero-sub { font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
+    .hero-form { gap: 10px; }
+    .hero-cta-btn { padding: 13px 20px; font-size: 14px; border-radius: 12px; }
+
+    /* UI Preview */
+    .ui-preview { padding: 0 12px 28px; }
+    .ui-preview-frame { border-radius: 10px; box-shadow: 0 16px 48px rgba(0,0,0,0.12); }
+    .browser-bar { padding: 6px 10px; gap: 5px; }
+    .browser-dots span { width: 6px; height: 6px; }
+    .browser-url { font-size: 9px; padding: 3px 8px; border-radius: 5px; }
+    .browser-content iframe { height: 320px; }
+
+    /* Integrations */
+    .integrations { padding: 12px 16px 24px; }
+    .integrations-label { font-size: 10px; letter-spacing: 0.8px; }
+    .integrations-row { gap: 12px 20px; }
+    .integration-item svg { width: 18px; height: 18px; }
+    .integration-item span { font-size: 11px; }
+
+    /* Section headings */
+    .section-heading { font-size: 24px; line-height: 30px; }
+    .section-sub { font-size: 13px; margin-bottom: 28px; }
+
+    /* How it Works */
+    .how-it-works { padding: 36px 16px; }
+    .step-title { font-size: 18px; }
+    .step-desc { font-size: 13px; }
+    .step-browser { border-radius: 8px; }
+
+    /* Compare */
+    .compare { padding: 36px 12px; }
+    .compare-table { min-width: 480px; }
+    .compare-table thead th { padding: 10px 8px; font-size: 10px; }
+    .compare-table tbody td { padding: 9px 8px; font-size: 12px; }
+    .compare-audience { font-size: 11px; }
+
+    /* Pricing */
+    .pricing { padding: 36px 16px; }
+    .pricing-card { padding: 32px 24px; border-radius: 18px; }
+    .plan-name { font-size: 11px; }
+    .plan-price { font-size: 38px; }
+    .plan-features { gap: 10px; padding-left: 4px; }
+    .plan-feature { font-size: 12px; gap: 8px; }
+    .check-icon .ph { width: 14px; height: 14px; }
+    .pricing-btn { font-size: 14px; padding: 12px; }
+    .pricing-enterprise { font-size: 12px; }
+
+    /* FAQ */
+    .faq { padding: 36px 16px; }
+    .faq-q { font-size: 14px; padding: 14px 0; }
+    .faq-a { font-size: 12px; line-height: 1.65; }
+    .faq-chevron { width: 16px; height: 16px; margin-left: 12px; }
+
+    /* CTA */
+    .cta-section { margin: 24px 12px 36px; padding: 40px 16px; border-radius: 16px; }
+    .cta-section h2 { font-size: 24px; line-height: 30px; }
+    .cta-section p { font-size: 13px; margin-bottom: 20px; }
+    .cta-btn { padding: 12px 20px; font-size: 14px; border-radius: 12px; }
+
+    /* Network */
+    .orb-section { height: 200px; }
+
+    /* Footer */
+    footer { padding: 24px 16px; }
+    .footer-logo-icon { width: 26px; height: 26px; }
+    .footer-logo-icon svg { width: 15px; height: 15px; }
+    .footer-logo span { font-size: 14px; }
+    .footer-links { gap: 16px; flex-wrap: wrap; }
+    .footer-links a { font-size: 12px; }
+    footer p { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Reusable SVG icon templates -->
+<!-- Phosphor Duotone Icons -->
+<svg style="display:none">
+  <!-- Arrow Up Right -->
+  <symbol id="icon-arrow-up-right" viewBox="0 0 256 256" fill="currentColor"><path d="M192,64V168L88,64Z" opacity="0.2"/><path d="M192,56H88a8,8,0,0,0-5.66,13.66L128.69,116,58.34,186.34a8,8,0,0,0,11.32,11.32L140,127.31l46.34,46.35A8,8,0,0,0,200,168V64A8,8,0,0,0,192,56Zm-8,92.69-38.34-38.34h0L107.31,72H184Z"/></symbol>
+  <!-- Check -->
+  <symbol id="icon-check" viewBox="0 0 256 256" fill="currentColor"><path d="M232,56V200a16,16,0,0,1-16,16H40a16,16,0,0,1-16-16V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56Z" opacity="0.2"/><path d="M205.66,85.66l-96,96a8,8,0,0,1-11.32,0l-40-40a8,8,0,0,1,11.32-11.32L104,164.69l90.34-90.35a8,8,0,0,1,11.32,11.32Z"/></symbol>
+  <!-- Outpulse Abstract O logo — geometric broken circle -->
+  <symbol id="icon-starburst" viewBox="0 0 100 100">
+    <!-- Main arc — 270° of circle with gap at top-right -->
+    <path d="M 68,15 A 35,35 0 1,0 85,40" fill="none" stroke="white" stroke-width="8" stroke-linecap="round"/>
+    <!-- Short accent arc — the "pulse" break -->
+    <path d="M 78,22 L 88,12" fill="none" stroke="#7cc5a2" stroke-width="6" stroke-linecap="round"/>
+    <!-- Inner dot — center -->
+    <circle cx="50" cy="50" r="6" fill="#7cc5a2"/>
+  </symbol>
+</svg>
+
+<!-- NAV -->
+<div class="nav-wrap">
+  <nav>
+    <div class="nav-left">
+      <a href="#" class="nav-logo">
+        <div class="nav-logo-icon"><svg viewBox="0 0 100 100"><use href="#icon-starburst"/></svg></div>
+        Outpulse
+      </a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="#compare">Compare</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+    </ul>
+    <a href="https://app.outpulse.ai/signup" class="nav-cta">Get Started <svg class="ph"><use href="#icon-arrow-up-right"/></svg></a>
+  </nav>
+</div>
+
+<!-- HERO -->
+<div class="hero-wrap" id="hero-wrap">
+<canvas id="hero-canvas"></canvas>
+<section class="hero fade-up">
+  <h1>Find prospects. Send emails.<br><span class="highlight">Book meetings.<span class="underline"></span></span> All on autopilot.</h1>
+  <p class="hero-sub">Outpulse handles your entire outbound pipeline — from prospect research to personalized emails to meeting scheduling. You focus on closing.</p>
+
+  <div class="hero-form">
+    <a href="https://app.outpulse.ai/signup" class="hero-cta-btn">Start Free Trial <svg class="ph"><use href="#icon-arrow-up-right"/></svg></a>
+    <p class="hero-trial-note">7-day free trial · Cancel anytime</p>
+  </div>
+</section>
+</div>
+
+<!-- UI PREVIEW -->
+<section class="ui-preview fade-up">
+  <div class="ui-preview-frame">
+    <div class="browser-bar">
+      <div class="browser-dots"><span></span><span></span><span></span></div>
+      <div class="browser-url">
+        <span class="lock-icon"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M11.5 6V4.5a3.5 3.5 0 1 0-7 0V6H3v7a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V6h-1.5Zm-5.5-.5V4.5a2 2 0 1 1 4 0V6H6Z"/></svg></span>
+        <span>app.<strong>outpulse.ai</strong>/dashboard</span>
+      </div>
+    </div>
+    <div class="browser-content">
+      <iframe src="dashboard.html" title="Outpulse AI Dashboard — interactive demo" loading="lazy" scrolling="yes"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- INTEGRATIONS -->
+<section class="integrations fade-up">
+  <p class="integrations-label">Connects with your existing stack</p>
+  <div class="integrations-row">
+    <div class="integration-item">
+      <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z" fill="#EA4335"/></svg>
+      <span>Gmail</span>
+    </div>
+    <div class="integration-item">
+      <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="#0078D4"/></svg>
+      <span>Outlook</span>
+    </div>
+    <div class="integration-item">
+      <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 002 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM9 14H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z" fill="#4285F4"/></svg>
+      <span>Google Calendar</span>
+    </div>
+    <div class="integration-item">
+      <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M17.5 3H6.5C4.57 3 3 4.57 3 6.5v11C3 19.43 4.57 21 6.5 21h11c1.93 0 3.5-1.57 3.5-3.5v-11C21 4.57 19.43 3 17.5 3zM9.13 16.2c0 .65-.35 1.12-1.03 1.12-.56 0-.96-.37-1.15-.72l.64-.39c.12.24.23.42.5.42.24 0 .4-.17.4-.57v-3.12h.83v3.26h-.19zm2.78 1.12c-.65 0-1.1-.32-1.38-.74l.64-.39c.19.33.44.55.76.55.32 0 .53-.16.53-.39 0-.27-.21-.37-.57-.53l-.2-.08c-.56-.24-.93-.54-.93-1.17 0-.58.44-1.03 1.14-1.03.5 0 .85.17 1.1.62l-.61.39c-.13-.24-.28-.33-.49-.33-.22 0-.37.14-.37.33 0 .23.14.33.47.47l.2.08c.66.28 1.04.57 1.04 1.22-.02.7-.55 1.08-1.33 1.08zm4.7-.7c.22.33.42.57.84.57.36 0 .59-.18.59-.43 0-.3-.24-.4-.63-.58l-.22-.09c-.62-.27-1.03-.6-1.03-1.3 0-.65.5-1.14 1.27-1.14.55 0 .95.19 1.23.69l-.67.43c-.15-.27-.31-.37-.55-.37-.25 0-.41.16-.41.37 0 .26.16.36.52.52l.22.09c.73.31 1.14.63 1.14 1.34 0 .77-.6 1.19-1.41 1.19-.72 0-1.22-.35-1.45-.8l.7-.38-.14-.11z" fill="#0DB176"/></svg>
+      <span>Salesforce</span>
+    </div>
+    <div class="integration-item">
+      <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M14.23 12.004a2.236 2.236 0 01-2.235 2.236 2.236 2.236 0 01-2.236-2.236 2.236 2.236 0 012.235-2.236 2.236 2.236 0 012.236 2.236zm2.648-10.69c-1.346 0-2.516.756-3.249 1.875a4.006 4.006 0 00-3.249-1.875C8.2 1.314 6.298 3.213 6.298 5.58c0 .74.153 1.445.429 2.088C4.424 8.746 3 11.005 3 13.641c0 3.891 3.146 7.045 7.027 7.045a6.96 6.96 0 003.973-1.24 6.96 6.96 0 003.973 1.24c3.882 0 7.027-3.154 7.027-7.045 0-2.636-1.424-4.895-3.727-5.973.276-.643.429-1.348.429-2.088 0-2.367-1.902-4.266-4.249-4.266z" fill="#7C3AED"/></svg>
+      <span>HubSpot</span>
+    </div>
+    <div class="integration-item">
+      <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M14.94 5.19A4.38 4.38 0 0016 2a4.44 4.44 0 00-3 1.52 4.17 4.17 0 00-1 3.09 3.69 3.69 0 002.94-1.42zm2.52 7.44a4.51 4.51 0 012.16-3.81 4.66 4.66 0 00-3.66-2c-1.56-.16-3.07.92-3.86.92s-2.02-.9-3.33-.87a4.92 4.92 0 00-4.14 2.53c-1.77 3.07-.46 7.63 1.26 10.13.84 1.22 1.84 2.59 3.15 2.54 1.27-.05 1.74-.82 3.28-.82 1.53 0 1.96.82 3.29.79 1.36-.02 2.22-1.24 3.05-2.47a10.9 10.9 0 001.38-2.83 4.35 4.35 0 01-2.58-3.97z" fill="#555"/></svg>
+      <span>Zapier</span>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works fade-up" id="how-it-works">
+  <p class="section-label">How it works</p>
+  <h2 class="section-heading">Three steps. Zero manual work.</h2>
+  <p class="section-sub">Outpulse handles the entire outreach pipeline — from finding prospects to booking the meetings in your calendar.</p>
+
+  <div class="steps-scroll">
+    <!-- Left: scrollable text steps -->
+    <div class="steps-text-col">
+      <div class="scroll-step active" data-step="0">
+        <div class="step-number-badge">1</div>
+        <p class="step-label">Find prospects</p>
+        <h3 class="step-title">Define your dream customer</h3>
+        <p class="step-desc">Tell Outpulse your ICP — industry, company size, job titles. It scans multiple databases and finds verified prospects with rich, actionable data.</p>
+      </div>
+      <div class="scroll-step" data-step="1">
+        <div class="step-number-badge">2</div>
+        <p class="step-label">Personalize outreach</p>
+        <h3 class="step-title">AI crafts personal emails</h3>
+        <p class="step-desc">Each prospect gets a uniquely crafted message based on their profile, company news, and pain points. No templates — every email feels hand-written.</p>
+      </div>
+      <div class="scroll-step" data-step="2">
+        <div class="step-number-badge">3</div>
+        <p class="step-label">Book meetings</p>
+        <h3 class="step-title">Meetings appear in your calendar</h3>
+        <p class="step-desc">Prospects reply, Outpulse handles the back-and-forth scheduling. You just show up and close deals. No manual follow-ups, ever.</p>
+      </div>
+    </div>
+
+    <!-- Right: sticky browser mockup -->
+    <div class="steps-video-col">
+      <div class="step-browser" id="step-browser">
+        <div class="browser-bar">
+          <div class="browser-dots"><span></span><span></span><span></span></div>
+          <div class="step-url">
+            <span class="lock-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+            <span class="step-url-text"><strong>app.outpulse.ai</strong>/prospects</span>
+          </div>
+        </div>
+        <div class="step-browser-content">
+          <!-- Panel 1: Prospects — interactive demo -->
+          <div class="step-video-panel active" data-panel="0">
+            <iframe src="demo-prospects.html" title="Prospect finder demo" loading="lazy"></iframe>
+          </div>
+          <!-- Panel 2: Emails — interactive demo -->
+          <div class="step-video-panel" data-panel="1">
+            <iframe src="demo-emails.html" title="AI email composer demo" loading="lazy"></iframe>
+          </div>
+          <!-- Panel 3: Meetings — interactive demo -->
+          <div class="step-video-panel" data-panel="2">
+            <iframe src="demo-meetings.html" title="Meeting booking demo" loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
+      <div class="step-dots">
+        <div class="step-dot active" data-dot="0"></div>
+        <div class="step-dot" data-dot="1"></div>
+        <div class="step-dot" data-dot="2"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARE -->
+<div class="compare-wrap">
+<section class="compare fade-up" id="compare">
+  <p class="section-label">Why Outpulse</p>
+  <h2 class="section-heading">Compared to alternatives</h2>
+  <p class="section-sub">Outpulse replaces your SDR at a fraction of the cost — and works around the clock.</p>
+  <div class="compare-table-wrap">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Do it yourself</th>
+          <th>Hire an SDR</th>
+          <th class="outpulse-col">Outpulse</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Monthly cost</td><td>Your time</td><td>$5,000+</td><td>$149/mo</td></tr>
+        <tr><td>Prospect capacity</td><td>50 – 100</td><td>200 – 500</td><td>500+ / mo</td></tr>
+        <tr><td>Personalization</td><td>High (but slow)</td><td>Medium</td><td>High (AI-powered)</td></tr>
+        <tr><td>Operates 24/7</td><td>No</td><td>No</td><td>Yes, always on</td></tr>
+        <tr><td>Time to launch</td><td>Ongoing effort</td><td>2–4 weeks hiring</td><td>5 minutes</td></tr>
+        <tr><td>Scales instantly</td><td>No</td><td>Hire more</td><td>Yes, unlimited</td></tr>
+        <tr><td>A/B testing</td><td>Manual</td><td>Manual</td><td>Automatic</td></tr>
+        <tr><td>Follow-up sequences</td><td>You manage</td><td>They manage</td><td>AI handles it</td></tr>
+        <tr><td>Prospect enrichment</td><td>Separate tools</td><td>Separate tools</td><td>Built-in</td></tr>
+        <tr><td>Meeting booking</td><td>Manual back &amp; forth</td><td>Manual</td><td>Fully automated</td></tr>
+        <tr><td>Sick days / turnover</td><td>N/A</td><td>Inevitable</td><td>Never</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="compare-audience">Built for founders, sales teams, and agencies running B2B outreach.</p>
+</section>
+</div>
+
+<!-- PRICING -->
+<section class="pricing fade-up" id="pricing">
+  <p class="section-label">Pricing</p>
+  <h2 class="section-heading">One plan. Everything included.</h2>
+  <p class="section-sub">No hidden fees, no feature gates. Start with a free trial and cancel anytime.</p>
+
+  <div class="pricing-single">
+    <div class="pricing-card featured">
+      <p class="plan-name">Growth</p>
+      <p class="plan-price"><span class="price-amount">$149</span><span class="price-period">/mo</span></p>
+      <p class="plan-trial"><strong>7-day free trial</strong> · Cancel anytime</p>
+      <ul class="plan-features">
+        <li class="plan-feature"><span class="check-icon"><svg class="ph"><use href="#icon-check"/></svg></span> 500 prospect credits / month</li>
+        <li class="plan-feature"><span class="check-icon"><svg class="ph"><use href="#icon-check"/></svg></span> AI-written, hyper-personalized emails</li>
+        <li class="plan-feature"><span class="check-icon"><svg class="ph"><use href="#icon-check"/></svg></span> 3 connected mailboxes</li>
+        <li class="plan-feature"><span class="check-icon"><svg class="ph"><use href="#icon-check"/></svg></span> Multi-step follow-up sequences</li>
+        <li class="plan-feature"><span class="check-icon"><svg class="ph"><use href="#icon-check"/></svg></span> A/B testing</li>
+        <li class="plan-feature"><span class="check-icon"><svg class="ph"><use href="#icon-check"/></svg></span> Advanced analytics</li>
+        <li class="plan-feature"><span class="check-icon"><svg class="ph"><use href="#icon-check"/></svg></span> Priority support</li>
+      </ul>
+      <a href="https://app.outpulse.ai/signup" class="pricing-btn" style="text-decoration:none;">Start Free Trial <svg class="ph"><use href="#icon-arrow-up-right"/></svg></a>
+    </div>
+    <p class="pricing-enterprise">Need higher volume or custom integrations? <a href="mailto:lukas@plat4m.com">Get in touch</a></p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq fade-up" id="faq">
+  <p class="section-label">Questions</p>
+  <h2 class="section-heading">Frequently asked</h2>
+  <p class="section-sub">Everything you need to know before getting started.</p>
+
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        How does the free trial work?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a">You get full access to all features for 7 days. Add a card to start your trial — you won't be charged until it ends. Cancel anytime before that and you pay nothing.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        Can I connect my own email address?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a">Yes. Outpulse supports Gmail and Outlook via OAuth. Emails are sent from your own address, so prospects see a real person — not a tool. You can connect up to 3 mailboxes on the Growth plan.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        Is my data secure?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a">Absolutely. All data is encrypted at rest and in transit. We never share your prospect lists or email content with third parties. Your campaigns and contacts belong to you.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        What happens after the trial ends?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a">Your account stays active but campaigns are paused. All your data, prospects, and email history are preserved. You can upgrade anytime to resume where you left off.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        Where do prospect contacts come from?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a">Outpulse searches verified B2B databases to find contacts matching your ideal customer profile. Every prospect is enriched with job title, company, and intent signals before outreach begins.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        Can I cancel anytime?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a">Yes, one click in your account settings. No contracts, no cancellation fees, no questions asked.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section fade-up">
+  <h2>Ready to automate<br>your outbound?</h2>
+  <p>Start your 7-day free trial. Set up in 5 minutes. Cancel anytime.</p>
+  <a href="https://app.outpulse.ai/signup" class="cta-btn">Start Free Trial <svg class="ph"><use href="#icon-arrow-up-right"/></svg></a>
+</section>
+
+<!-- THE NETWORK -->
+<section class="orb-section" id="orb-section">
+  <canvas id="orb-canvas"></canvas>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <div class="footer-logo-icon"><svg viewBox="0 0 100 100"><use href="#icon-starburst"/></svg></div>
+    <span>Outpulse</span>
+  </div>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Contact</a>
+  </div>
+  <p>&copy; 2026 Outpulse. All rights reserved.</p>
+</footer>
+
+<script>
+  /* Fade-up observer */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  /* Sticky scroll: step detection */
+  const scrollSteps = document.querySelectorAll('.scroll-step');
+  const videoPanels = document.querySelectorAll('.step-video-panel');
+  const stepDots = document.querySelectorAll('.step-dot');
+  const urlText = document.querySelector('.step-url-text');
+  const stepUrls = ['/prospects', '/emails', '/dashboard'];
+  let currentStep = 0;
+
+  function setActiveStep(idx) {
+    if (idx === currentStep) return;
+    currentStep = idx;
+    scrollSteps.forEach((s, i) => s.classList.toggle('active', i === idx));
+    videoPanels.forEach((p, i) => p.classList.toggle('active', i === idx));
+    stepDots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    if (urlText) urlText.innerHTML = '<strong>app.outpulse.ai</strong>' + stepUrls[idx];
+  }
+
+  const stepObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const idx = parseInt(entry.target.dataset.step);
+        setActiveStep(idx);
+      }
+    });
+  }, { threshold: 0.4, rootMargin: '-20% 0px -40% 0px' });
+
+  scrollSteps.forEach(step => stepObserver.observe(step));
+
+  /* Nav shadow on scroll */
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    nav.style.boxShadow = window.scrollY > 60 ? '0 4px 24px rgba(0,0,0,0.25)' : 'none';
+  });
+
+</script>
+
+<!-- THE NETWORK — AI outreach visualization -->
+<script>
+(function(){
+  const COLORS = {
+    green: '#7cc5a2', blue: '#7BAFD4', dark: '#1a1a1a',
+    grey: '#9B9590', greyLight: '#d5d2ce',
+  };
+  const dpr = Math.min(window.devicePixelRatio, 2);
+
+  const nodeTypes = [
+    { type: 'prospect', color: COLORS.dark, radius: 3, weight: 5 },
+    { type: 'email', color: COLORS.green, radius: 4.5, weight: 3 },
+    { type: 'meeting', color: COLORS.blue, radius: 6, weight: 1 },
+    { type: 'hub', color: COLORS.dark, radius: 8, weight: 1 },
+  ];
+
+  function pickType() {
+    const total = nodeTypes.reduce((s, t) => s + t.weight, 0);
+    let r = Math.random() * total;
+    for (const t of nodeTypes) { r -= t.weight; if (r <= 0) return t; }
+    return nodeTypes[0];
+  }
+
+  /* ── Factory: create a network instance ── */
+  function createNetwork(canvasId, containerId, opts) {
+    const canvas = document.getElementById(canvasId);
+    const container = document.getElementById(containerId);
+    if (!canvas || !container) return;
+    const ctx = canvas.getContext('2d');
+
+    const nodeCount = opts.nodeCount || 55;
+    const maxDist = opts.maxDist || 160;
+    const pulseInterval = opts.pulseInterval || 800;
+    const opacity = opts.opacity || 1;
+    const interactive = opts.interactive !== false;
+
+    const gW = () => container.clientWidth;
+    const gH = () => container.clientHeight;
+
+    function resize() {
+      canvas.width = gW() * dpr;
+      canvas.height = gH() * dpr;
+      canvas.style.width = gW() + 'px';
+      canvas.style.height = gH() + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    /* Nodes */
+    const nodes = [];
+    for (let i = 0; i < nodeCount; i++) {
+      const type = pickType();
+      nodes.push({
+        x: Math.random() * gW(), y: Math.random() * gH(),
+        bx: 0, by: 0,
+        vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+        radius: type.radius + Math.random() * 2,
+        color: type.color, type: type.type,
+        phase: Math.random() * Math.PI * 2,
+        floatSpeed: 0.3 + Math.random() * 0.4,
+        floatRadius: 8 + Math.random() * 15,
+      });
+    }
+
+    /* Pulses */
+    const pulses = [];
+    let lastPulse = 0;
+    function spawnPulse() {
+      if (nodes.length < 2) return;
+      const a = nodes[Math.floor(Math.random() * nodes.length)];
+      let best = null, bestDist = Infinity;
+      for (const b of nodes) {
+        if (b === a) continue;
+        const d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < maxDist && d < bestDist) { best = b; bestDist = d; }
+      }
+      if (!best) return;
+      pulses.push({
+        from: a, to: best, progress: 0,
+        speed: 0.008 + Math.random() * 0.006,
+        color: Math.random() > 0.3 ? COLORS.green : COLORS.blue,
+        size: 3 + Math.random() * 2,
+      });
+    }
+
+    /* Mouse */
+    const mouse = { x: -1000, y: -1000, active: false };
+    if (interactive) {
+      container.addEventListener('mousemove', (e) => {
+        const rect = container.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+        mouse.active = true;
+      });
+      container.addEventListener('mouseleave', () => { mouse.active = false; });
+    }
+
+    /* Visibility */
+    let isVisible = false;
+    const visObs = new IntersectionObserver((entries) => {
+      isVisible = entries[0].isIntersecting;
+    }, { threshold: 0.05 });
+    visObs.observe(container);
+
+    /* Draw */
+    function draw(time) {
+      requestAnimationFrame(draw);
+      if (!isVisible) return;
+      const w = gW(), h = gH();
+      ctx.clearRect(0, 0, w, h);
+      ctx.globalAlpha = opacity;
+
+      /* Update nodes */
+      for (const n of nodes) {
+        n.bx = Math.sin(time * 0.001 * n.floatSpeed + n.phase) * n.floatRadius;
+        n.by = Math.cos(time * 0.001 * n.floatSpeed * 0.7 + n.phase) * n.floatRadius * 0.6;
+        n.x += n.vx; n.y += n.vy;
+
+        if (mouse.active) {
+          const dx = mouse.x - n.x, dy = mouse.y - n.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < 200 && dist > 1) {
+            const force = (200 - dist) / 200 * 0.15;
+            n.vx += (dx / dist) * force;
+            n.vy += (dy / dist) * force;
+          }
+        }
+        n.vx *= 0.97; n.vy *= 0.97;
+        if (n.x < -30) n.x = w + 30;
+        if (n.x > w + 30) n.x = -30;
+        if (n.y < -30) n.y = h + 30;
+        if (n.y > h + 30) n.y = -30;
+      }
+
+      /* Connections */
+      for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i];
+        const ax = a.x + a.bx, ay = a.y + a.by;
+        for (let j = i + 1; j < nodes.length; j++) {
+          const b = nodes[j];
+          const bx = b.x + b.bx, by = b.y + b.by;
+          const dist = Math.hypot(ax - bx, ay - by);
+          if (dist > maxDist) continue;
+          const alpha = (1 - dist / maxDist) * 0.12 * opacity;
+          ctx.beginPath();
+          ctx.moveTo(ax, ay); ctx.lineTo(bx, by);
+          ctx.strokeStyle = COLORS.greyLight;
+          ctx.globalAlpha = alpha;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+      ctx.globalAlpha = opacity;
+
+      /* Mouse lines */
+      if (mouse.active) {
+        for (const n of nodes) {
+          const nx = n.x + n.bx, ny = n.y + n.by;
+          const dist = Math.hypot(mouse.x - nx, mouse.y - ny);
+          if (dist < 180) {
+            ctx.beginPath();
+            ctx.moveTo(mouse.x, mouse.y); ctx.lineTo(nx, ny);
+            ctx.strokeStyle = COLORS.green;
+            ctx.globalAlpha = (1 - dist / 180) * 0.2 * opacity;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+        ctx.globalAlpha = opacity;
+        const grad = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 80);
+        grad.addColorStop(0, 'rgba(124,197,162,0.08)');
+        grad.addColorStop(1, 'rgba(124,197,162,0)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(mouse.x - 80, mouse.y - 80, 160, 160);
+      }
+
+      /* Nodes */
+      for (const n of nodes) {
+        const nx = n.x + n.bx, ny = n.y + n.by, r = n.radius;
+        const glowR = r * 4;
+        const grad = ctx.createRadialGradient(nx, ny, 0, nx, ny, glowR);
+        if (n.type === 'email') {
+          grad.addColorStop(0, 'rgba(124,197,162,0.12)');
+          grad.addColorStop(1, 'rgba(124,197,162,0)');
+        } else if (n.type === 'meeting') {
+          grad.addColorStop(0, 'rgba(123,175,212,0.1)');
+          grad.addColorStop(1, 'rgba(123,175,212,0)');
+        } else {
+          grad.addColorStop(0, 'rgba(26,26,26,0.06)');
+          grad.addColorStop(1, 'rgba(26,26,26,0)');
+        }
+        ctx.globalAlpha = opacity;
+        ctx.beginPath(); ctx.arc(nx, ny, glowR, 0, Math.PI * 2);
+        ctx.fillStyle = grad; ctx.fill();
+
+        ctx.beginPath(); ctx.arc(nx, ny, r, 0, Math.PI * 2);
+        ctx.fillStyle = n.color;
+        ctx.globalAlpha = (n.type === 'hub' ? 0.9 : 0.7) * opacity;
+        ctx.fill();
+
+        if (n.type === 'hub') {
+          ctx.beginPath(); ctx.arc(nx, ny, r + 4, 0, Math.PI * 2);
+          ctx.strokeStyle = COLORS.green;
+          ctx.globalAlpha = (0.2 + Math.sin(time * 0.003 + n.phase) * 0.1) * opacity;
+          ctx.lineWidth = 1.5; ctx.stroke();
+        }
+      }
+      ctx.globalAlpha = opacity;
+
+      /* Pulses */
+      if (time - lastPulse > pulseInterval) { spawnPulse(); lastPulse = time; }
+      for (let i = pulses.length - 1; i >= 0; i--) {
+        const p = pulses[i];
+        p.progress += p.speed;
+        if (p.progress >= 1) { pulses.splice(i, 1); continue; }
+        const fx = p.from.x + p.from.bx, fy = p.from.y + p.from.by;
+        const tx = p.to.x + p.to.bx, ty = p.to.y + p.to.by;
+        const px = fx + (tx - fx) * p.progress;
+        const py = fy + (ty - fy) * p.progress;
+        const trailStart = Math.max(0, p.progress - 0.12);
+        const sx = fx + (tx - fx) * trailStart;
+        const sy = fy + (ty - fy) * trailStart;
+        const isGreen = p.color === COLORS.green;
+        const tg = ctx.createLinearGradient(sx, sy, px, py);
+        tg.addColorStop(0, isGreen ? 'rgba(124,197,162,0)' : 'rgba(123,175,212,0)');
+        tg.addColorStop(1, isGreen ? 'rgba(124,197,162,0.5)' : 'rgba(123,175,212,0.5)');
+        ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(px, py);
+        ctx.strokeStyle = tg; ctx.lineWidth = 2; ctx.globalAlpha = opacity; ctx.stroke();
+
+        ctx.beginPath(); ctx.arc(px, py, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.color; ctx.globalAlpha = 0.8 * opacity; ctx.fill();
+
+        const hg = ctx.createRadialGradient(px, py, 0, px, py, p.size * 4);
+        hg.addColorStop(0, isGreen ? 'rgba(124,197,162,0.25)' : 'rgba(123,175,212,0.25)');
+        hg.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.beginPath(); ctx.arc(px, py, p.size * 4, 0, Math.PI * 2);
+        ctx.fillStyle = hg; ctx.globalAlpha = opacity; ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    }
+    requestAnimationFrame(draw);
+  }
+
+  /* ── Hero instance: subtle background, interactive ── */
+  createNetwork('hero-canvas', 'hero-wrap', {
+    nodeCount: 35,
+    maxDist: 140,
+    pulseInterval: 1200,
+    opacity: 0.45,
+    interactive: true,
+  });
+
+  /* ── Footer instance: full interactive ── */
+  createNetwork('orb-canvas', 'orb-section', {
+    nodeCount: 55,
+    maxDist: 160,
+    pulseInterval: 800,
+    opacity: 1,
+    interactive: true,
+  });
+
+})();
+</script>
+</body>
+</html>
