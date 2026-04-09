@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <path d="M376.9,258.5 A125,78,-1,0,1,255.5,339.9" fill="none" stroke="#000000" stroke-width="19.5" stroke-linecap="butt" opacity="0.14"/>
+  <path d="M255.5,339.9 A125,78,-1,0,1,127.1,265.5" fill="none" stroke="#000000" stroke-width="19.5" stroke-linecap="butt" opacity="0.11"/>
+  <path d="M127.1,265.5 A125,78,-1,0,1,248.5,184.1" fill="none" stroke="#000000" stroke-width="19.5" stroke-linecap="butt" opacity="1.00"/>
+  <path d="M248.5,184.1 A125,78,-1,0,1,376.9,258.5" fill="none" stroke="#000000" stroke-width="19.5" stroke-linecap="butt" opacity="1.00"/>
+  <circle cx="127.1" cy="265.5" r="9.8" fill="#000000" opacity="1.00"/>
+  <path d="M321.9,158.4 A125,125,-58,0,1,355.6,331.9" fill="none" stroke="#000000" stroke-width="24" stroke-linecap="butt" opacity="0.27"/>
+  <path d="M355.6,331.9 A125,125,-58,0,1,182.1,365.6" fill="none" stroke="#000000" stroke-width="24" stroke-linecap="butt" opacity="0.18"/>
+  <path d="M182.1,365.6 A125,125,-58,0,1,148.4,192.1" fill="none" stroke="#000000" stroke-width="24" stroke-linecap="butt" opacity="1.00"/>
+  <path d="M148.4,192.1 A125,125,-58,0,1,321.9,158.4" fill="none" stroke="#000000" stroke-width="24" stroke-linecap="butt" opacity="0.94"/>
+  <circle cx="182.1" cy="365.6" r="12.0" fill="#000000" opacity="1.00"/>
+  <rect x="159.8" y="81.8" width="20.5" height="72.0" rx="10.0" fill="#000000" opacity="1" transform="rotate(-30.0,170.0,117.8)"/>
+  <rect x="200.4" y="78.2" width="20.5" height="72.0" rx="10.0" fill="#000000" opacity="1" transform="rotate(-15.0,210.7,114.2)"/>
+  <rect x="241.8" y="77.0" width="20.5" height="72.0" rx="10.0" fill="#000000" opacity="1" transform="rotate(0.0,252.0,113.0)"/>
+  <rect x="283.1" y="78.2" width="20.5" height="72.0" rx="10.0" fill="#000000" opacity="1" transform="rotate(15.0,293.3,114.2)"/>
+  <rect x="323.8" y="81.8" width="20.5" height="72.0" rx="10.0" fill="#000000" opacity="1" transform="rotate(30.0,334.0,117.8)"/>
+</svg>

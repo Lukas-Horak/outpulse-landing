@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Outpulse — AI Email Composer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f2f1ee;--text:#1a1a1a;--muted:#6b6b6b;--muted-light:#b5b5b5;
+  --green:#7cc5a2;--green-dark:#5ba882;--green-light:#e8f5ee;--green-bg:#d4f0e1;
+  --blue:#7BAFD4;--blue-dark:#5a91b8;--blue-light:#e5f0f8;
+  --grey:#9B9590;--grey-dark:#6e6862;--grey-light:#d5d2ce;
+  --white:#fff;--dark:#1a1a1a;--orange:#e8a84c;--red:#e25c5c;
+  --border:rgba(0,0,0,0.08);
+  --font:'DM Sans',sans-serif;--serif:'DM Serif Display',serif;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow:hidden}
+
+/* ===== LAYOUT ===== */
+.layout{display:flex;width:100%;height:100vh}
+
+/* ===== UNIFIED SIDEBAR ===== */
+.sidebar{
+  width:240px;background:var(--dark);color:white;
+  display:flex;flex-direction:column;padding:24px 0;flex-shrink:0;
+  position:fixed;height:100vh;overflow-y:auto;z-index:50;
+}
+.s-logo{display:flex;align-items:center;gap:10px;padding:0 24px;margin-bottom:32px;font-size:17px;font-weight:600;text-decoration:none;color:white}
+.s-logo img{width:32px;height:32px}
+.s-nav{flex:1}
+.s-nav-item{
+  display:flex;align-items:center;gap:12px;padding:10px 24px;
+  font-size:14px;font-weight:400;color:rgba(255,255,255,0.5);
+  cursor:pointer;transition:all 0.2s;text-decoration:none;position:relative;
+}
+.s-nav-item:hover{color:rgba(255,255,255,0.8)}
+.s-nav-item.active{color:white;font-weight:500}
+.s-nav-item.active::before{content:'';position:absolute;left:0;top:6px;bottom:6px;width:3px;background:var(--green);border-radius:0 3px 3px 0}
+.s-nav-item .nav-icon{width:20px;height:20px;flex-shrink:0}
+.s-nav-item .badge{
+  margin-left:auto;padding:2px 8px;border-radius:6px;
+  background:var(--green);color:white;font-size:11px;font-weight:700;
+}
+.s-upgrade{
+  margin:0 16px;padding:20px;background:var(--green);
+  border-radius:16px;margin-bottom:16px;
+}
+.s-upgrade-title{font-size:14px;font-weight:600;margin-bottom:4px}
+.s-upgrade-desc{font-size:12px;color:rgba(255,255,255,0.8);margin-bottom:12px;line-height:1.4}
+.s-upgrade-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;background:rgba(0,0,0,0.2);color:white;font-size:12px;font-weight:600;border:none;cursor:pointer;font-family:var(--font)}
+.s-link{display:flex;align-items:center;gap:8px;padding:10px 24px;font-size:13px;color:rgba(255,255,255,0.4);cursor:pointer;text-decoration:none}
+.s-link:hover{color:rgba(255,255,255,0.6)}
+.s-link svg{width:16px;height:16px}
+.s-user{display:flex;align-items:center;gap:10px;padding:12px 24px;border-top:1px solid rgba(255,255,255,0.08)}
+.s-user-avatar{width:32px;height:32px;border-radius:50%;background:#c4a265;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:white}
+.s-user-name{font-size:13px;font-weight:600}
+.s-user-plan{font-size:11px;color:rgba(255,255,255,0.4)}
+
+/* ===== MAIN ===== */
+.main{flex:1;padding:32px 40px;overflow-y:auto;margin-left:240px}
+
+/* Topbar */
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px}
+.topbar-greeting{font-size:14px;color:var(--muted);margin-bottom:4px}
+.topbar-headline{font-family:var(--serif);font-style:italic;font-size:28px;font-weight:400}
+
+/* ===== BREADCRUMB & HEADER ===== */
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin-bottom:20px}
+.breadcrumb-item{color:var(--muted)}
+.breadcrumb-item.active{color:var(--text);font-weight:600}
+.breadcrumb-sep{color:var(--muted-light)}
+
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.page-title{font-size:24px;font-weight:600;display:flex;align-items:center;gap:12px}
+.confidence-badge{
+  display:inline-flex;align-items:center;gap:6px;padding:6px 14px;
+  border-radius:8px;background:var(--green-light);color:var(--green-dark);
+  font-size:12px;font-weight:600;
+}
+.confidence-badge svg{width:14px;height:14px}
+
+/* ===== CARDS ===== */
+.card{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:28px;margin-bottom:20px}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.card-title{font-size:16px;font-weight:600}
+.card-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600;background:var(--green-light);color:var(--green)}
+.card-link{font-size:13px;color:var(--green);font-weight:500;text-decoration:none;cursor:pointer}
+.card-link:hover{text-decoration:underline}
+
+/* ===== EMAIL COMPOSER LAYOUT ===== */
+.composer-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+
+/* Left side: Email Editor */
+.editor-column{grid-column:1}
+
+/* Email form inputs */
+.email-field{margin-bottom:20px}
+.email-label{display:block;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:8px}
+
+.email-input{
+  width:100%;padding:12px;
+  border:1px solid var(--border);border-radius:12px;
+  font-family:var(--font);font-size:14px;
+  color:var(--text);background:var(--white);
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.email-input:focus{
+  outline:none;border-color:var(--green);
+  box-shadow:0 0 0 3px rgba(124,197,162,0.1);
+}
+
+/* To field with avatar chip */
+.email-to{display:flex;align-items:center;gap:12px}
+.email-chip{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 12px;border-radius:8px;background:var(--grey-light);
+  font-size:13px;color:var(--text);
+}
+.email-chip-avatar{
+  width:24px;height:24px;border-radius:50%;
+  background:linear-gradient(135deg, #7BAFD4, #7cc5a2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:600;color:white;
+}
+.email-chip-close{margin-left:4px;cursor:pointer;color:var(--muted);font-weight:600;font-size:16px}
+.email-chip-close:hover{color:var(--text)}
+
+/* Rich text area */
+.email-body{
+  width:100%;min-height:300px;padding:16px;
+  border:1px solid var(--border);border-radius:12px;
+  font-family:var(--font);font-size:14px;line-height:1.6;
+  color:var(--text);background:var(--white);
+  resize:vertical;
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.email-body:focus{
+  outline:none;border-color:var(--green);
+  box-shadow:0 0 0 3px rgba(124,197,162,0.1);
+}
+
+/* Formatting toolbar */
+.format-toolbar{
+  display:flex;align-items:center;gap:8px;padding:12px;
+  border:1px solid var(--border);border-top:none;border-radius:0 0 12px 12px;
+  background:var(--bg);
+}
+.format-btn{
+  width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--border);border-radius:8px;background:var(--white);
+  cursor:pointer;color:var(--text);transition:all 0.2s;font-size:14px;
+  font-family:var(--font);font-weight:600;
+}
+.format-btn:hover{background:var(--green-light);border-color:var(--green);color:var(--green)}
+.format-divider{width:1px;height:24px;background:var(--border);margin:0 4px}
+
+/* Action bar */
+.action-bar{
+  display:flex;align-items:center;gap:12px;margin-top:20px;
+  padding-top:20px;border-top:1px solid var(--border);
+}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;padding:10px 20px;
+  border-radius:12px;border:none;font-family:var(--font);font-size:14px;
+  font-weight:600;cursor:pointer;transition:all 0.2s;
+}
+.btn-primary{background:var(--green);color:white}
+.btn-primary:hover{background:var(--green-dark);transform:translateY(-1px);box-shadow:0 4px 12px rgba(124,197,162,0.3)}
+.btn-secondary{background:var(--white);color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{border-color:var(--text);background:var(--bg)}
+.btn-text{background:none;color:var(--red);padding:10px 0;border:none}
+.btn-text:hover{text-decoration:underline}
+
+.btn svg{width:16px;height:16px}
+
+/* Right side: Insights Panel */
+.insights-column{grid-column:2;display:flex;flex-direction:column;gap:20px}
+
+/* AI Analysis Card */
+.analysis-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.analysis-item:last-child{border-bottom:none}
+.analysis-check{
+  width:20px;height:20px;min-flex:0;
+  border-radius:50%;background:var(--green-light);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--green);font-size:12px;font-weight:600;
+}
+.analysis-content{flex:1}
+.analysis-label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.analysis-value{font-size:14px;color:var(--text)}
+.analysis-signals{margin-top:8px}
+.signal-item{font-size:13px;color:var(--text);margin-bottom:6px;padding-left:0}
+.signal-item::before{content:'✓ ';color:var(--green);font-weight:600}
+
+/* Prospect context card */
+.prospect-mini{display:flex;align-items:center;gap:16px;padding:16px;background:var(--bg);border-radius:12px;margin-bottom:16px}
+.prospect-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg, #7BAFD4, #7cc5a2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:600;color:white;flex-shrink:0;
+}
+.prospect-info{flex:1}
+.prospect-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px}
+.prospect-title{font-size:12px;color:var(--muted)}
+
+.context-stat{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.context-stat:last-child{border-bottom:none}
+.context-stat-label{color:var(--muted);font-weight:500}
+.context-stat-value{color:var(--text);font-weight:600}
+
+/* Subject line suggestions */
+.subject-suggestion{padding:12px;border:1px solid var(--border);border-radius:12px;margin-bottom:12px;background:var(--white);transition:all 0.2s}
+.subject-suggestion:hover{border-color:var(--green);background:var(--green-light)}
+.suggestion-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px}
+.suggestion-rate{font-size:12px;color:var(--muted);margin-bottom:8px}
+.use-btn{
+  display:inline-flex;align-items:center;gap:6px;padding:4px 10px;
+  border-radius:6px;background:var(--green);color:white;
+  font-size:11px;font-weight:600;border:none;cursor:pointer;
+  transition:all 0.2s;
+}
+.use-btn:hover{background:var(--green-dark);transform:scale(1.05)}
+
+/* Responsive */
+@media(max-width:1400px){
+  .composer-wrapper{grid-template-columns:1fr;gap:20px}
+  .insights-column{grid-column:1}
+}
+@media(max-width:900px){
+  .layout{flex-direction:column}
+  .sidebar{width:100%;height:auto;flex-direction:row;padding:12px;overflow-x:auto;position:relative}
+  .main{padding:20px;margin-left:0}
+  .composer-wrapper{grid-template-columns:1fr}
+  .page-header{flex-direction:column;align-items:flex-start;gap:12px}
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+    <a class="s-logo" href="dashboard.html">
+      <img src="outpulse-logo-white.svg" alt="Outpulse" onerror="this.style.display='none'">
+      <span>Outpulse</span>
+    </a>
+    <nav class="s-nav">
+      <a class="s-nav-item" href="dashboard.html"><svg class="nav-icon" viewBox="0 0 256 256" fill="currentColor"><path d="M216,120v96H152V152H104v64H40V120l88-72Z" opacity="0.2"/><path d="M219.31,108.68l-80-80a16,16,0,0,0-22.62,0l-80,80A15.87,15.87,0,0,0,32,120v96a8,8,0,0,0,8,8h64a8,8,0,0,0,8-8V160h32v56a8,8,0,0,0,8,8h64a8,8,0,0,0,8-8V120A15.87,15.87,0,0,0,219.31,108.68ZM208,208H160V152a8,8,0,0,0-8-8H104a8,8,0,0,0-8,8v56H48V120l80-80,80,80Z"/></svg>Dashboard</a>
+      <a class="s-nav-item" href="campaigns.html"><svg class="nav-icon" viewBox="0 0 256 256" fill="currentColor"><path d="M224,64V192a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V64A16,16,0,0,1,48,48H208A16,16,0,0,1,224,64Z" opacity="0.2"/><path d="M208,40H48A24,24,0,0,0,24,64V192a24,24,0,0,0,24,24H208a24,24,0,0,0,24-24V64A24,24,0,0,0,208,40Zm8,152a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V64a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8Zm-48-96a8,8,0,0,1,0,16H156.94l-27,45a8,8,0,0,1-6.94,4h-.33a8,8,0,0,1-6.8-4.42L95.07,116.18,69.66,140.8A8,8,0,0,1,58.34,129.2l32-31.2a8,8,0,0,1,12.46,1.42l19.07,38.44L147.06,96Z"/></svg>Campaigns<span class="badge">3</span></a>
+      <a class="s-nav-item" href="prospects.html"><svg class="nav-icon" viewBox="0 0 256 256" fill="currentColor"><path d="M160,112a32,32,0,1,1-32-32A32,32,0,0,1,160,112Z" opacity="0.2"/><path d="M224,40V76a8,8,0,0,1-16,0V48H180a8,8,0,0,1,0-16h36A8,8,0,0,1,224,40Zm-8,132a8,8,0,0,0-8,8v28H180a8,8,0,0,0,0,16h36a8,8,0,0,0,8-8V180A8,8,0,0,0,216,172ZM76,208H48V180a8,8,0,0,0-16,0v36a8,8,0,0,0,8,8H76a8,8,0,0,0,0-16ZM40,84a8,8,0,0,0,8-8V48H76a8,8,0,0,0,0-16H40a8,8,0,0,0-8,8V76A8,8,0,0,0,40,84Zm136,92a8,8,0,0,1-6.41-3.19,52,52,0,0,0-83.2,0,8,8,0,1,1-12.8-9.62A67.94,67.94,0,0,1,101,141.51a40,40,0,1,1,53.94,0,67.94,67.94,0,0,1,27.43,21.68A8,8,0,0,1,176,176Zm-48-40a24,24,0,1,0-24-24A24,24,0,0,0,128,136Z"/></svg>Prospects</a>
+      <a class="s-nav-item active" href="emails.html"><svg class="nav-icon" viewBox="0 0 256 256" fill="currentColor"><path d="M224,56l-96,88L32,56Z" opacity="0.2"/><path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"/></svg>AI Emails</a>
+      <a class="s-nav-item" href="settings.html"><svg class="nav-icon" viewBox="0 0 256 256" fill="currentColor"><path d="M216,128a88,88,0,1,1-88-88A88,88,0,0,1,216,128Z" opacity="0.2"/><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm109.94-52.79a8,8,0,0,0-3.89-5.4l-29.83-17-.12-33.62a8,8,0,0,0-2.83-6.08,111.91,111.91,0,0,0-36.72-20.67,8,8,0,0,0-6.46.59L128,42.89,97.88,25a8,8,0,0,0-6.47-.6A112.1,112.1,0,0,0,54.73,45.13a8,8,0,0,0-2.83,6.07l-.15,33.65-29.83,17a8,8,0,0,0-3.89,5.4,106.47,106.47,0,0,0,0,41.56,8,8,0,0,0,3.89,5.4l29.83,17,.12,33.62a8,8,0,0,0,2.83,6.08,111.91,111.91,0,0,0,36.72,20.67,8,8,0,0,0,6.46-.59L128,213.11,158.12,231a7.94,7.94,0,0,0,3.9,1,8.3,8.3,0,0,0,2.57-.42,112.1,112.1,0,0,0,36.68-20.73,8,8,0,0,0,2.83-6.07l.15-33.65,29.83-17a8,8,0,0,0,3.89-5.4A106.47,106.47,0,0,0,237.94,107.21Zm-15,34.91-28.57,16.25a8,8,0,0,0-3,3l-.14,32.42a96.26,96.26,0,0,1-25.71,14.45L136.48,191.6a8,8,0,0,0-4.13-1.14h-.35a8,8,0,0,0-4.13,1.14L98.45,208.27A96.26,96.26,0,0,1,72.74,193.8l-.14-32.42a8,8,0,0,0-3-3L41.06,142.12a90.91,90.91,0,0,1,0-28.24L69.63,97.63a8,8,0,0,0,3-3l.14-32.42A96.26,96.26,0,0,1,98.45,47.73l29.07,16.67a8,8,0,0,0,4.48,1.14h0a8,8,0,0,0,4.13-1.14l29.42-16.67a96.26,96.26,0,0,1,25.71,14.45l.14,32.42a8,8,0,0,0,3,3l28.57,16.25A90.91,90.91,0,0,1,222.94,142.12Z"/></svg>Settings</a>
+    </nav>
+
+    <div class="s-upgrade">
+      <div class="s-upgrade-title">Upgrade to Agency</div>
+      <div class="s-upgrade-desc">Unlock 10 mailboxes and custom integrations.</div>
+      <button class="s-upgrade-btn">Upgrade</button>
+    </div>
+
+    <a class="s-link" href="index.html"><svg viewBox="0 0 256 256" fill="currentColor"><path d="M160,216V40L80,128Z" opacity="0.2"/><path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"/></svg>Back to site</a>
+    <div class="s-user">
+      <div class="s-user-avatar">L</div>
+      <div>
+        <div class="s-user-name">Lukas</div>
+        <div class="s-user-plan">Growth Plan</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <span class="breadcrumb-item">AI Emails</span>
+      <span class="breadcrumb-sep">/</span>
+      <span class="breadcrumb-item active">Edit Draft</span>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">Edit AI-Generated Email</h1>
+      <div class="confidence-badge">
+        <svg viewBox="0 0 256 256" fill="currentColor"><path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.68l50.34-50.34A8,8,0,0,1,173.66,98.34Z" opacity="0.2"/><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,0,128,216Zm45.66-117.66a8,8,0,0,1-11.32,11.32L112,108.69,89.66,131A8,8,0,0,1,78.34,119.66l24-24a8,8,0,0,1,11.32,0Z"/></svg>
+        94% match score
+      </div>
+    </div>
+
+    <!-- Two-column composer -->
+    <div class="composer-wrapper">
+
+      <!-- LEFT COLUMN: Email Editor -->
+      <div class="editor-column">
+        <div class="card">
+
+          <!-- To Field -->
+          <div class="email-field">
+            <label class="email-label">To</label>
+            <div class="email-to">
+              <div class="email-chip">
+                <div class="email-chip-avatar">SC</div>
+                <span>sarah.chen@stripe.com</span>
+                <span class="email-chip-close">&times;</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Subject Field -->
+          <div class="email-field">
+            <label class="email-label">Subject</label>
+            <input type="text" class="email-input" value="Quick question about your outbound strategy">
+          </div>
+
+          <!-- Email Body -->
+          <div class="email-field">
+            <label class="email-label">Body</label>
+            <textarea class="email-body">Hi Sarah,
+
+I noticed Stripe recently expanded its sales team by 40% — congrats on the growth!
+
+I'm curious: as you scale outbound, how are you handling email personalization at volume? Most VP Sales I talk to are spending 3+ hours/day on manual outreach.
+
+We built Outpulse specifically for this — our AI writes hyper-personalized emails based on each prospect's LinkedIn, company news, and tech stack. Early users are seeing 4x reply rates.
+
+Would you be open to a 15-min chat next week?
+
+Best,
+Lukas</textarea>
+
+            <!-- Format Toolbar -->
+            <div class="format-toolbar">
+              <button class="format-btn" title="Bold"><strong>B</strong></button>
+              <button class="format-btn" title="Italic"><em>I</em></button>
+              <button class="format-btn" title="Link">🔗</button>
+              <div class="format-divider"></div>
+              <button class="format-btn" title="Insert variable">{var}</button>
+            </div>
+          </div>
+
+          <!-- Action Bar -->
+          <div class="action-bar">
+            <button class="btn btn-primary">
+              <svg viewBox="0 0 256 256" fill="currentColor"><path d="M224,56l-96,88L32,56Z" opacity="0.2"/><path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"/></svg>
+              Approve & Send
+            </button>
+            <button class="btn btn-secondary">Save Draft</button>
+            <button class="btn btn-secondary">
+              <svg viewBox="0 0 256 256" fill="currentColor"><path d="M216,40H152V24a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8V40H40A16,16,0,0,0,24,56V208a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm-8,160H48V80H208ZM112,32h32V40H112Z" opacity="0.2"/><path d="M216,40h-8V24a8,8,0,0,0-16,0V40H144V24a8,8,0,0,0-16,0V40H40A16,16,0,0,0,24,56V208a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM40,56H216v24H40Zm0,152V104H216v104Z"/></svg>
+              Regenerate
+            </button>
+            <button class="btn btn-text">Discard</button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: AI Insights -->
+      <div class="insights-column">
+
+        <!-- Card 1: AI Analysis -->
+        <div class="card">
+          <div class="card-title" style="margin-bottom:16px">AI Analysis</div>
+
+          <div class="analysis-item">
+            <div class="analysis-check">✓</div>
+            <div class="analysis-content">
+              <div class="analysis-label">Tone</div>
+              <div class="analysis-value">Professional, conversational</div>
+            </div>
+          </div>
+
+          <div class="analysis-item">
+            <div class="analysis-check">✓</div>
+            <div class="analysis-content">
+              <div class="analysis-label">Reading Level</div>
+              <div class="analysis-value">Grade 8</div>
+            </div>
+          </div>
+
+          <div class="analysis-item">
+            <div class="analysis-content">
+              <div class="analysis-label">Personalization Signals</div>
+              <div class="analysis-signals">
+                <div class="signal-item">Company growth (+40% team)</div>
+                <div class="signal-item">Role-specific pain point</div>
+                <div class="signal-item">Industry relevance</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="analysis-item">
+            <div class="analysis-check">✓</div>
+            <div class="analysis-content">
+              <div class="analysis-label">Spam Risk</div>
+              <div class="analysis-value">Low</div>
+            </div>
+          </div>
+
+          <div class="analysis-item">
+            <div class="analysis-content">
+              <div class="analysis-label">Estimated Open Rate</div>
+              <div class="analysis-value" style="color:var(--green);font-weight:600">52%</div>
+            </div>
+          </div>
+
+          <div class="analysis-item">
+            <div class="analysis-content">
+              <div class="analysis-label">Estimated Reply Rate</div>
+              <div class="analysis-value" style="color:var(--green);font-weight:600">12%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Prospect Context -->
+        <div class="card">
+          <div class="card-title" style="margin-bottom:16px">Prospect Context</div>
+
+          <div class="prospect-mini">
+            <div class="prospect-avatar">SC</div>
+            <div>
+              <div class="prospect-name">Sarah Chen</div>
+              <div class="prospect-title">VP Sales, Stripe</div>
+            </div>
+          </div>
+
+          <div class="context-stat">
+            <span class="context-stat-label">Recent Activity</span>
+            <span class="context-stat-value">Opened 3x</span>
+          </div>
+          <div class="context-stat">
+            <span class="context-stat-label">Best Send Time</span>
+            <span class="context-stat-value">Tue 9:00 AM PST</span>
+          </div>
+          <div class="context-stat">
+            <span class="context-stat-label">Previous Emails</span>
+            <span class="context-stat-value">2 sent, 1 opened</span>
+          </div>
+        </div>
+
+        <!-- Card 3: Alternative Subjects -->
+        <div class="card">
+          <div class="card-title" style="margin-bottom:16px">Alternative Subjects</div>
+
+          <div class="subject-suggestion">
+            <div class="suggestion-title">"Stripe's growth + a question"</div>
+            <div class="suggestion-rate">Est. open rate: 48%</div>
+            <button class="use-btn">Use this</button>
+          </div>
+
+          <div class="subject-suggestion">
+            <div class="suggestion-title">"How VPs at $14B companies handle outreach"</div>
+            <div class="suggestion-rate">Est. open rate: 55%</div>
+            <button class="use-btn">Use this</button>
+          </div>
+
+          <div class="subject-suggestion">
+            <div class="suggestion-title">"Quick thought on scaling Stripe's outbound"</div>
+            <div class="suggestion-rate">Est. open rate: 51%</div>
+            <button class="use-btn">Use this</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+</div>
+
+<script>
+// Optional: Add interactivity for buttons
+document.querySelectorAll('.use-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const suggestion = this.closest('.subject-suggestion');
+    const title = suggestion.querySelector('.suggestion-title').textContent;
+    const subjectInput = document.querySelector('.email-input');
+    subjectInput.value = title;
+    subjectInput.focus();
+  });
+});
+</script>
+</body>
+</html>
