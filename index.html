@@ -383,8 +383,10 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
 @media(max-width:768px){
   .app-sb{display:none}
   .brand-grid{grid-template-columns:repeat(2,1fr)}
-  .m1-thr,.m1-row{grid-template-columns:32px 1fr .6fr;font-size:11px}
-  .m1-thr span:nth-child(4),.m1-thr span:nth-child(5),.m1-row span:nth-child(4),.m1-row div:nth-child(4),.m1-row div:nth-child(5){display:none}
+  .m1-table{position:relative;overflow:hidden}
+  .m1-table::after{content:'';position:absolute;top:0;right:0;bottom:0;width:50px;background:linear-gradient(to right,transparent,#fff);pointer-events:none;z-index:2}
+  .m1-table-inner{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .m1-thr,.m1-row{grid-template-columns:32px 1.2fr .8fr .7fr .5fr;font-size:11px;min-width:440px}
   .m3-kpis{grid-template-columns:repeat(2,1fr)}
   .stats-grid{grid-template-columns:1fr}
   .comp-table th,.comp-table td{padding:10px 12px;font-size:12px}
@@ -420,13 +422,12 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
   .app-main{padding:16px 14px}
   .app-chrome{padding:8px 12px}
   .app-url{font-size:10px}
-  /* Mockup 1: prospects table — show avatar, name+signal detail, company; hide match */
-  .m1-thr span:nth-child(3),.m1-thr span:nth-child(5),
-  .m1-row span:nth-child(5){display:none}
-  .m1-row div:nth-child(3){display:none}
-  .m1-row .m1-signal-inline{display:block !important}
-  .m1-thr,.m1-row{grid-template-columns:26px 1fr .6fr;font-size:11px;gap:5px;padding:10px 12px}
-  .m1-row .m1-av{width:26px;height:26px;font-size:9px}
+  /* Mockup 1: prospects table — all columns visible, horizontal scroll with fade */
+  .m1-table{position:relative;overflow:hidden}
+  .m1-table::after{content:'';position:absolute;top:0;right:0;bottom:0;width:60px;background:linear-gradient(to right,transparent,#fff);pointer-events:none;z-index:2}
+  .m1-table-inner{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .m1-thr,.m1-row{grid-template-columns:28px 1fr .8fr .7fr .5fr;font-size:11px;gap:6px;padding:10px 12px;min-width:420px}
+  .m1-row .m1-av{width:28px;height:28px;font-size:9px}
   .m1-row .m1-name{font-size:11px}
   .m1-row .m1-sub{font-size:9px}
   .m1-filters{gap:4px !important;flex-wrap:wrap}
@@ -862,10 +863,12 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
         </div>
         <!-- Prospect table -->
         <div class="m1-table">
-          <div class="m1-thr">
-            <span></span><span>Name</span><span>Signal</span><span>Company</span><span>Match</span>
+          <div class="m1-table-inner">
+            <div class="m1-thr">
+              <span></span><span>Name</span><span>Signal</span><span>Company</span><span>Match</span>
+            </div>
+            <div id="m1Rows"></div>
           </div>
-          <div id="m1Rows"></div>
         </div>
       </div>
     </div>
@@ -1622,7 +1625,7 @@ document.querySelectorAll('.app-frame').forEach(el => mockupObs.observe(el));
       row.style.cssText = 'opacity:0;transform:translateY(8px)';
       row.innerHTML =
         '<div class="m1-av" style="background:rgba(' + c + ',.18);color:rgba(' + c + ',1)">' + p.init + '</div>' +
-        '<div><div class="m1-name">' + p.name + '</div><div class="m1-sub">' + p.role + '</div><div class="m1-signal-inline" style="margin-top:2px"><span class="m1-badge" style="font-size:9px;padding:2px 6px;background:rgba(' + c + ',.08);color:rgba(' + c + ',.9)">' + p.detail + '</span></div></div>' +
+        '<div><div class="m1-name">' + p.name + '</div><div class="m1-sub">' + p.role + '</div></div>' +
         '<div><span class="m1-badge" style="background:rgba(' + c + ',.08);color:rgba(' + c + ',.9)">' + p.detail + '</span></div>' +
         '<span>' + p.company + '</span>' +
         '<span style="font-weight:600;color:var(--app-green)">' + p.match + '%</span>';
