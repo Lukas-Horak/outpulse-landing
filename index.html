@@ -367,6 +367,8 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
 .mobile-bottom-logo{display:none}
+.comp-rotate-hint{display:none}
+.m1-signal-inline{display:none}
 
 /* ── RESPONSIVE ── */
 @media(max-width:1000px){
@@ -418,10 +420,12 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
   .app-main{padding:16px 14px}
   .app-chrome{padding:8px 12px}
   .app-url{font-size:10px}
-  /* Mockup 1: prospects table — show avatar, name, company; hide signal+match */
+  /* Mockup 1: prospects table — show avatar, name+signal detail, company; hide match */
   .m1-thr span:nth-child(3),.m1-thr span:nth-child(5),
-  .m1-row div:nth-child(3),.m1-row span:nth-child(5){display:none}
-  .m1-thr,.m1-row{grid-template-columns:26px 1fr .7fr;font-size:11px;gap:5px;padding:10px 12px}
+  .m1-row span:nth-child(5){display:none}
+  .m1-row div:nth-child(3){display:none}
+  .m1-row .m1-signal-inline{display:block !important}
+  .m1-thr,.m1-row{grid-template-columns:26px 1fr .6fr;font-size:11px;gap:5px;padding:10px 12px}
   .m1-row .m1-av{width:26px;height:26px;font-size:9px}
   .m1-row .m1-name{font-size:11px}
   .m1-row .m1-sub{font-size:9px}
@@ -434,12 +438,15 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
   /* Comparison cards — stack vertically */
   .comp-cards-grid{grid-template-columns:1fr !important;gap:16px !important}
   .comp-cards-grid .comp-vs{display:none}
-  /* Comparison table — scrollable on mobile, all columns visible */
-  .comp-table{min-width:520px}
+  /* Comparison table — blurred in portrait, revealed in landscape */
+  .comp-table-wrap{position:relative;overflow:hidden}
+  .comp-table-wrap .comp-table{filter:blur(4px);pointer-events:none;user-select:none}
+  .comp-table-wrap .comp-more{filter:blur(3px);pointer-events:none}
   .comp-table th,.comp-table td{padding:10px 12px;font-size:12px;white-space:nowrap}
-  .comp-table th:first-child,.comp-table td:first-child{position:sticky;left:0;background:#0d0d0d;z-index:2;white-space:normal;min-width:110px}
-  .comp-table th:first-child{background:rgba(13,13,13,1)}
-  .comp-table thead th:first-child{background:rgba(20,20,20,1)}
+  .comp-rotate-hint{display:flex !important;flex-direction:column;align-items:center;gap:14px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:5;text-align:center}
+  .comp-rotate-hint .rotate-icon{width:48px;height:48px;animation:rotatePhone 2.5s ease-in-out infinite}
+  .comp-rotate-hint p{font-size:13px;color:var(--text-s);line-height:1.4;max-width:220px}
+  @keyframes rotatePhone{0%,100%{transform:rotate(0deg)}30%,70%{transform:rotate(90deg)}}
   /* Built-by logos — single row with parallax */
   .built-by{overflow:hidden}
   .built-by-logos{flex-wrap:nowrap !important;gap:32px !important;justify-content:flex-start !important;max-width:none !important;padding:0 16px !important;will-change:transform}
@@ -457,6 +464,15 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
   /* Mobile bottom logo */
   .mobile-bottom-logo{display:flex;justify-content:center;padding:40px 0 24px}
   .mobile-bottom-logo svg{width:120px;height:120px;opacity:.8}
+}
+/* Landscape on mobile — unblur comparison table */
+@media(max-width:900px) and (orientation:landscape){
+  .comp-table-wrap .comp-table{filter:none;pointer-events:auto;user-select:auto}
+  .comp-table-wrap .comp-more{filter:none;pointer-events:auto}
+  .comp-rotate-hint{display:none !important}
+  .comp-table{min-width:520px}
+  .comp-table th:first-child,.comp-table td:first-child{position:sticky;left:0;background:#0d0d0d;z-index:2;white-space:normal;min-width:100px}
+  .comp-table thead th:first-child{background:rgba(20,20,20,1)}
 }
 </style>
 </head>
@@ -1181,7 +1197,15 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
     <h3 style="font-family:var(--serif);font-style:italic;font-size:24px;color:var(--text);margin-bottom:10px">See the full comparison</h3>
     <p style="font-size:14px;color:var(--text-t)">Feature by feature, side by side.</p>
   </div>
-  <div class="reveal" style="overflow-x:auto">
+  <div class="reveal comp-table-wrap" style="overflow-x:auto">
+    <div class="comp-rotate-hint">
+      <svg class="rotate-icon" viewBox="0 0 64 64" fill="none">
+        <rect x="14" y="6" width="36" height="52" rx="6" stroke="#5fa883" stroke-width="2.5" fill="none"/>
+        <circle cx="32" cy="50" r="2.5" fill="#5fa883"/>
+        <path d="M48 38l6-4m0 0l-6-4m6 4H42" stroke="#5fa883" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <p>Rotate your phone to landscape to see the full comparison</p>
+    </div>
     <table class="comp-table" id="compTable">
       <thead><tr><th style="width:30%"></th><th>Do it yourself</th><th>Hire an SDR</th><th>Outpulse</th></tr></thead>
       <tbody>
@@ -1598,7 +1622,7 @@ document.querySelectorAll('.app-frame').forEach(el => mockupObs.observe(el));
       row.style.cssText = 'opacity:0;transform:translateY(8px)';
       row.innerHTML =
         '<div class="m1-av" style="background:rgba(' + c + ',.18);color:rgba(' + c + ',1)">' + p.init + '</div>' +
-        '<div><div class="m1-name">' + p.name + '</div><div class="m1-sub">' + p.role + '</div></div>' +
+        '<div><div class="m1-name">' + p.name + '</div><div class="m1-sub">' + p.role + '</div><div class="m1-signal-inline" style="margin-top:2px"><span class="m1-badge" style="font-size:9px;padding:2px 6px;background:rgba(' + c + ',.08);color:rgba(' + c + ',.9)">' + p.detail + '</span></div></div>' +
         '<div><span class="m1-badge" style="background:rgba(' + c + ',.08);color:rgba(' + c + ',.9)">' + p.detail + '</span></div>' +
         '<span>' + p.company + '</span>' +
         '<span style="font-weight:600;color:var(--app-green)">' + p.match + '%</span>';
