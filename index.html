@@ -39,7 +39,7 @@ a{color:inherit;text-decoration:none}
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:12px 0;background:rgba(10,10,12,0.8);backdrop-filter:blur(20px) saturate(1.8);border-bottom:1px solid var(--border)}
 .nav-i{display:flex;align-items:center;justify-content:space-between;max-width:1100px;margin:0 auto;padding:0 24px}
 .nav-l{display:flex;align-items:center;gap:10px;font-weight:600;font-size:17px;letter-spacing:-0.3px}
-.nav-l svg{width:26px;height:26px}
+.nav-l svg{width:34px;height:34px}
 .nav-r{display:flex;align-items:center;gap:6px}
 .nl{padding:8px 14px;font-size:13px;font-weight:500;color:var(--text-s);border-radius:8px;transition:color .2s}
 .nl:hover{color:var(--text)}
@@ -366,6 +366,8 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
+.mobile-bottom-logo{display:none}
+
 /* ── RESPONSIVE ── */
 @media(max-width:1000px){
   .app-sb{width:52px;padding:14px 0}
@@ -416,10 +418,15 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
   .app-main{padding:16px 14px}
   .app-chrome{padding:8px 12px}
   .app-url{font-size:10px}
-  /* Mockup 1: prospects table — hide email+signal cols on narrow */
-  .m1-thr span:nth-child(3),.m1-thr span:nth-child(4),.m1-thr span:nth-child(5),
-  .m1-row span:nth-child(3),.m1-row div:nth-child(3),.m1-row span:nth-child(4),.m1-row div:nth-child(4),.m1-row div:nth-child(5){display:none}
-  .m1-thr,.m1-row{grid-template-columns:28px 1fr .6fr;font-size:11px;gap:6px}
+  /* Mockup 1: prospects table — show avatar, name, company; hide signal+match */
+  .m1-thr span:nth-child(3),.m1-thr span:nth-child(5),
+  .m1-row div:nth-child(3),.m1-row span:nth-child(5){display:none}
+  .m1-thr,.m1-row{grid-template-columns:26px 1fr .7fr;font-size:11px;gap:5px;padding:10px 12px}
+  .m1-row .m1-av{width:26px;height:26px;font-size:9px}
+  .m1-row .m1-name{font-size:11px}
+  .m1-row .m1-sub{font-size:9px}
+  .m1-filters{gap:4px !important;flex-wrap:wrap}
+  .m1-filters > div{padding:4px 8px !important;font-size:10px !important}
   /* Pricing */
   .pricing-grid{grid-template-columns:1fr !important}
   .pricing-card{margin:0}
@@ -427,12 +434,12 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
   /* Comparison cards — stack vertically */
   .comp-cards-grid{grid-template-columns:1fr !important;gap:16px !important}
   .comp-cards-grid .comp-vs{display:none}
-  /* Comparison table — reorder: feature + Outpulse only, others hidden */
-  .comp-table th:nth-child(2),.comp-table td:nth-child(2),
-  .comp-table th:nth-child(3),.comp-table td:nth-child(3){display:none}
-  .comp-table th,.comp-table td{padding:12px 14px;font-size:13px}
-  .comp-table th:first-child{width:50%}
-  .comp-table td:first-child{font-size:13px}
+  /* Comparison table — scrollable on mobile, all columns visible */
+  .comp-table{min-width:520px}
+  .comp-table th,.comp-table td{padding:10px 12px;font-size:12px;white-space:nowrap}
+  .comp-table th:first-child,.comp-table td:first-child{position:sticky;left:0;background:#0d0d0d;z-index:2;white-space:normal;min-width:110px}
+  .comp-table th:first-child{background:rgba(13,13,13,1)}
+  .comp-table thead th:first-child{background:rgba(20,20,20,1)}
   /* Built-by logos — single row with parallax */
   .built-by{overflow:hidden}
   .built-by-logos{flex-wrap:nowrap !important;gap:32px !important;justify-content:flex-start !important;max-width:none !important;padding:0 16px !important;will-change:transform}
@@ -447,6 +454,9 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
   /* Built-by text */
   .built-by{padding:48px 0 40px}
   .built-by-text{font-size:13px;margin-bottom:32px}
+  /* Mobile bottom logo */
+  .mobile-bottom-logo{display:flex;justify-content:center;padding:40px 0 24px}
+  .mobile-bottom-logo svg{width:120px;height:120px;opacity:.8}
 }
 </style>
 </head>
@@ -1345,6 +1355,11 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
       <path fill-rule="evenodd" clip-rule="evenodd" d="M0.00125871 83.0145H7.79419V84.7185H4.91662V92.6346H2.89295V84.7185H0.00125871V83.0145ZM10.6864 83.0145H12.9605L16.3645 92.6346H14.1842L13.5498 90.6585H10.0071L9.35354 92.6346H7.25154L10.6864 83.0145ZM11.8022 85.2154L10.5528 88.9995H13.0157L11.8022 85.2154ZM15.799 83.0145H23.5906V84.7185H20.7131V92.6346H18.6894V84.7185H15.799V83.0145ZM30.9176 83.2626C31.272 83.4167 31.5724 83.6401 31.819 83.9354C32.0219 84.1794 32.1824 84.4491 32.3018 84.7444C32.4199 85.041 32.479 85.3774 32.479 85.7562C32.479 86.2133 32.3647 86.6628 32.1349 87.1032C31.9037 87.5449 31.5224 87.8582 30.992 88.0393C31.4363 88.2178 31.7496 88.4733 31.9345 88.8007C32.1207 89.1294 32.2132 89.6302 32.2132 90.3043V90.9515C32.2132 91.3907 32.2299 91.6886 32.2645 91.8452C32.3185 92.093 32.4417 92.2766 32.6369 92.3948V92.6349H30.4181C30.3577 92.4217 30.3141 92.251 30.2871 92.1187C30.2357 91.8491 30.2075 91.573 30.2011 91.2905L30.1895 90.3968C30.1805 89.783 30.0752 89.3734 29.8711 89.1692C29.6669 88.9651 29.2855 88.8623 28.727 88.8623H26.7637V92.6349H24.7991V83.0148H29.4011C30.0573 83.0276 30.5632 83.1111 30.9176 83.2626ZM26.7637 84.6866V87.2701H28.926C29.3562 87.2701 29.6785 87.2175 29.8929 87.1135C30.2743 86.9311 30.4643 86.5703 30.4643 86.0297C30.4643 85.448 30.2794 85.0564 29.9122 84.8561C29.7054 84.7431 29.396 84.6866 28.9825 84.6866H26.7637ZM37.2087 83.0149H39.4827L42.8868 92.635H40.7077L40.0708 90.6576H36.5294L35.8771 92.635H33.7738L37.2087 83.0149ZM37.0751 88.9999H39.5392L38.3245 85.2145L37.0751 88.9999ZM54.9986 84.0394C55.2927 84.449 55.4403 84.9383 55.4403 85.5084C55.4403 86.0952 55.2914 86.5677 54.9948 86.9247C54.8291 87.125 54.5839 87.3061 54.2616 87.473C54.7521 87.6502 55.1232 87.934 55.3723 88.3205C55.6214 88.7083 55.7472 89.1782 55.7472 89.7317C55.7472 90.3005 55.6047 90.8115 55.3183 91.2635C55.1373 91.564 54.9087 91.817 54.6365 92.0211C54.3296 92.2561 53.9675 92.4166 53.5502 92.5039C53.1329 92.5925 52.6796 92.6349 52.1917 92.6349H47.8567V83.016H52.505C53.6773 83.0327 54.5094 83.373 54.9986 84.0394ZM49.7751 84.6866V86.8066H52.1133C52.5319 86.8066 52.8696 86.727 53.129 86.569C53.391 86.4098 53.5219 86.1273 53.5219 85.7241C53.5219 85.2747 53.3486 84.9781 53.0045 84.8368C52.7066 84.7354 52.3278 84.6866 51.8681 84.6866H49.7751ZM49.7751 88.3988V90.9643H52.1108C52.5281 90.9643 52.853 90.9078 53.0841 90.7948C53.5065 90.5855 53.7171 90.1862 53.7171 89.5943C53.7171 89.0935 53.513 88.7494 53.1046 88.5619C52.8761 88.4579 52.5563 88.4027 52.1429 88.3988H49.7751ZM59.9273 83.0149H62.2014L65.6054 92.635H63.4264L62.7895 90.6576H59.2468L58.5958 92.635H56.4925L59.9273 83.0149ZM59.7938 88.9999H62.2579L61.0432 85.2145L59.7938 88.9999ZM66.7965 83.0149H68.9036L72.7224 89.7228V83.0149H74.5946V92.635H72.585L68.6687 85.8103V92.635H66.7965V83.0149ZM76.2751 83.0149H78.2526V86.9788L81.9699 83.0149H84.5676L80.6191 86.9723L84.7692 92.635H82.1844L79.2208 88.4362L78.2526 89.4172V92.635H76.2751V83.0149ZM88.7264 83.0149H91.0004L94.4032 92.635H92.2241L91.5885 90.6576H88.0471L87.3935 92.635H85.2915L88.7264 83.0149ZM88.5928 88.9999H91.0569L89.8422 85.2145L88.5928 88.9999ZM75.0087 54.8755L74.3641 57.8814H69.2844L66.3246 71.852H62.7549L65.7147 57.8814H60.6119L61.2577 54.8755H75.0087ZM88.7301 56.6837C89.0986 57.4053 89.1795 58.2695 88.9728 59.2749C88.7493 60.3124 88.3076 61.1445 87.6476 61.775C87.2855 62.1268 86.7912 62.4504 86.162 62.7419C86.9594 63.0564 87.5077 63.5559 87.803 64.2391C88.0983 64.9222 88.1433 65.7517 87.9353 66.7263C87.7208 67.733 87.2752 68.6344 86.5986 69.4331C86.162 69.9621 85.6625 70.4077 85.1026 70.7685C84.4722 71.1832 83.7723 71.467 83.0006 71.6211C82.2289 71.7752 81.4097 71.8509 80.5417 71.8509H72.8476L76.452 54.8757H84.6994C86.7719 54.9065 88.1163 55.5088 88.7301 56.6837ZM77.8118 64.3765L76.8564 68.904H81.0258C81.7705 68.904 82.3689 68.8026 82.8209 68.6036C83.6594 68.2363 84.1884 67.5288 84.4118 66.4836C84.5954 65.6014 84.3579 64.9954 83.6979 64.6641C83.3293 64.4805 82.7759 64.3854 82.0389 64.3765H77.8118ZM79.2062 57.8239L78.4114 61.5669H82.5795C83.3242 61.5669 83.9598 61.427 84.4863 61.1471C85.0115 60.8671 85.3517 60.3702 85.5058 59.655C85.6676 58.864 85.4711 58.3427 84.9177 58.0897C84.4195 57.9125 83.7582 57.8239 82.9364 57.8239H79.2062ZM81.7036 18.9044H93.8122V78.1519H0.000488281V18.9044H45.8823V19.6761H0.774773V77.3789H93.0354V19.6761H81.7036V18.9044ZM15.8845 71.8503H3.12357L29.9244 25.2109H42.684L15.8845 71.8503ZM32.0248 71.8503H19.2382L58.7473 3.11099H71.5044L32.0248 71.8503ZM48.1369 71.849H35.3747L68.6265 13.9959H81.3836L48.1369 71.849Z" fill="white"/>
     </svg>
   </div>
+</div>
+
+<!-- Mobile bottom logo -->
+<div class="mobile-bottom-logo">
+  <svg viewBox="0 0 512 512" fill="none"><path d="M376.9,258.5 A125,78,-1,0,1,255.5,339.9" fill="none" stroke="#5fa883" stroke-width="19.5" stroke-linecap="butt" opacity="0.14"/><path d="M255.5,339.9 A125,78,-1,0,1,127.1,265.5" fill="none" stroke="#5fa883" stroke-width="19.5" stroke-linecap="butt" opacity="0.11"/><path d="M127.1,265.5 A125,78,-1,0,1,248.5,184.1" fill="none" stroke="#5fa883" stroke-width="19.5" stroke-linecap="butt" opacity="1.00"/><path d="M248.5,184.1 A125,78,-1,0,1,376.9,258.5" fill="none" stroke="#5fa883" stroke-width="19.5" stroke-linecap="butt" opacity="1.00"/><circle cx="127.1" cy="265.5" r="9.8" fill="#5fa883" opacity="1.00"/><path d="M321.9,158.4 A125,125,-58,0,1,355.6,331.9" fill="none" stroke="#5fa883" stroke-width="24" stroke-linecap="butt" opacity="0.27"/><path d="M355.6,331.9 A125,125,-58,0,1,182.1,365.6" fill="none" stroke="#5fa883" stroke-width="24" stroke-linecap="butt" opacity="0.18"/><path d="M182.1,365.6 A125,125,-58,0,1,148.4,192.1" fill="none" stroke="#5fa883" stroke-width="24" stroke-linecap="butt" opacity="1.00"/><path d="M148.4,192.1 A125,125,-58,0,1,321.9,158.4" fill="none" stroke="#5fa883" stroke-width="24" stroke-linecap="butt" opacity="0.94"/><circle cx="182.1" cy="365.6" r="12.0" fill="#5fa883" opacity="1.00"/><rect x="159.8" y="81.8" width="20.5" height="72.0" rx="10.0" fill="#5fa883" opacity="1" transform="rotate(-30.0,170.0,117.8)"/><rect x="200.4" y="78.2" width="20.5" height="72.0" rx="10.0" fill="#5fa883" opacity="1" transform="rotate(-15.0,210.7,114.2)"/><rect x="241.8" y="77.0" width="20.5" height="72.0" rx="10.0" fill="#5fa883" opacity="1" transform="rotate(0.0,252.0,113.0)"/><rect x="283.1" y="78.2" width="20.5" height="72.0" rx="10.0" fill="#5fa883" opacity="1" transform="rotate(15.0,293.3,114.2)"/><rect x="323.8" y="81.8" width="20.5" height="72.0" rx="10.0" fill="#5fa883" opacity="1" transform="rotate(30.0,334.0,117.8)"/></svg>
 </div>
 
 <!-- ══ FOOTER ══ -->
