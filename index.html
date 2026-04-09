@@ -139,8 +139,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:12px 0;background:rg
 .m1-pill.active{background:var(--app-green);border-color:var(--app-green);color:#fff}
 
 .m1-table{background:#fff;border:1px solid var(--app-border);border-radius:16px;overflow:hidden}
-.m1-thr{display:grid;grid-template-columns:36px 1.3fr 1fr .8fr .6fr;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid var(--app-border);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--app-muted)}
-.m1-row{display:grid;grid-template-columns:36px 1.3fr 1fr .8fr .6fr;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--app-border);font-size:12px;color:var(--app-text);cursor:pointer;transition:background .15s}
+.m1-thr{display:grid;grid-template-columns:36px 1.3fr 1fr .7fr .5fr;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid var(--app-border);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--app-muted)}
+.m1-row{display:grid;grid-template-columns:36px 1.3fr 1fr .7fr .5fr;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--app-border);font-size:12px;color:var(--app-text);cursor:pointer;transition:background .15s}
 .m1-row:last-child{border-bottom:none}
 .m1-row:hover{background:rgba(95,168,131,.04)}
 .m1-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff}
@@ -525,122 +525,122 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
           <div id="prospectRows" style="display:flex;flex-direction:column;gap:0;position:relative">
             <!-- Real prospect rows — hidden with display:none, JS swaps them in -->
             <div class="pr-row" style="display:none;grid-template-columns:2.2fr 1.2fr 2fr .8fr;gap:10px;padding:11px 12px;align-items:center;border-bottom:1px solid var(--dm-border)">
-              <div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:7px;background:rgba(95,168,131,.12);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(95,168,131,.8)">SC</div><span style="font-size:13px;font-weight:500;color:var(--dm-text)">Sarah Chen</span></div>
+              <div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:50%;background:rgba(95,168,131,.12);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(95,168,131,.8)">SC</div><span style="font-size:13px;font-weight:500;color:var(--dm-text)">Sarah Chen</span></div>
               <span style="font-size:12px;color:var(--dm-muted)">Notion</span>
               <span style="font-size:11px;color:var(--dm-dim)">s.chen@notion.so</span>
               <span style="font-size:10px;padding:3px 8px;border-radius:5px;background:rgba(95,168,131,.08);color:rgba(95,168,131,.7)">Hiring</span>
             </div>
             <div class="pr-row" style="display:none;grid-template-columns:2.2fr 1.2fr 2fr .8fr;gap:10px;padding:11px 12px;align-items:center;border-bottom:1px solid var(--dm-border)">
-              <div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:7px;background:rgba(217,147,74,.12);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(217,147,74,.8)">JM</div><span style="font-size:13px;font-weight:500;color:var(--dm-text)">James Miller</span></div>
+              <div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:50%;background:rgba(217,147,74,.12);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(217,147,74,.8)">JM</div><span style="font-size:13px;font-weight:500;color:var(--dm-text)">James Miller</span></div>
               <span style="font-size:12px;color:var(--dm-muted)">Ramp</span>
               <span style="font-size:11px;color:var(--dm-dim)">j.miller@ramp.com</span>
               <span style="font-size:10px;padding:3px 8px;border-radius:5px;background:rgba(217,147,74,.08);color:rgba(217,147,74,.7)">Funded</span>
             </div>
             <div class="pr-row" style="display:none;grid-template-columns:2.2fr 1.2fr 2fr .8fr;gap:10px;padding:11px 12px;align-items:center;border-bottom:1px solid var(--dm-border)">
-              <div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:7px;background:rgba(140,100,190,.12);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(140,100,190,.8)">ER</div><span style="font-size:13px;font-weight:500;color:var(--dm-text)">Emily Rodriguez</span></div>
+              <div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:50%;background:rgba(140,100,190,.12);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(140,100,190,.8)">ER</div><span style="font-size:13px;font-weight:500;color:var(--dm-text)">Emily Rodriguez</span></div>
               <span style="font-size:12px;color:var(--dm-muted)">Figma</span>
               <span style="font-size:11px;color:var(--dm-dim)">e.rodriguez@figma.com</span>
               <span style="font-size:10px;padding:3px 8px;border-radius:5px;background:rgba(140,100,190,.08);color:rgba(140,100,190,.7)">Expanding</span>
             </div>
             <div class="pr-row" style="display:none;grid-template-columns:2.2fr 1.2fr 2fr .8fr;gap:10px;padding:11px 12px;align-items:center;border-bottom:1px solid var(--dm-border)">
-              <div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:7px;background:rgba(95,168,131,.12);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(95,168,131,.8)">DK</div><span style="font-size:13px;font-weight:500;color:var(--dm-text)">David Kim</span></div>
+              <div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:50%;background:rgba(95,168,131,.12);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(95,168,131,.8)">DK</div><span style="font-size:13px;font-weight:500;color:var(--dm-text)">David Kim</span></div>
               <span style="font-size:12px;color:var(--dm-muted)">Vercel</span>
               <span style="font-size:11px;color:var(--dm-dim)">d.kim@vercel.com</span>
               <span style="font-size:10px;padding:3px 8px;border-radius:5px;background:rgba(95,168,131,.08);color:rgba(95,168,131,.7)">Hiring</span>
             </div>
             <div class="pr-row" style="display:none;grid-template-columns:2.2fr 1.2fr 2fr .8fr;gap:10px;padding:11px 12px;align-items:center;border-bottom:1px solid var(--dm-border)">
-              <div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:7px;background:rgba(107,157,191,.12);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(107,157,191,.8)">LP</div><span style="font-size:13px;font-weight:500;color:var(--dm-text)">Lisa Park</span></div>
+              <div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:50%;background:rgba(107,157,191,.12);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(107,157,191,.8)">LP</div><span style="font-size:13px;font-weight:500;color:var(--dm-text)">Lisa Park</span></div>
               <span style="font-size:12px;color:var(--dm-muted)">Stripe</span>
               <span style="font-size:11px;color:var(--dm-dim)">l.park@stripe.com</span>
               <span style="font-size:10px;padding:3px 8px;border-radius:5px;background:rgba(107,157,191,.08);color:rgba(107,157,191,.7)">New Role</span>
             </div>
             <div class="pr-row" style="display:none;grid-template-columns:2.2fr 1.2fr 2fr .8fr;gap:10px;padding:11px 12px;align-items:center;border-bottom:1px solid var(--dm-border)">
-              <div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:7px;background:rgba(217,147,74,.12);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(217,147,74,.8)">MT</div><span style="font-size:13px;font-weight:500;color:var(--dm-text)">Marcus Taylor</span></div>
+              <div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:50%;background:rgba(217,147,74,.12);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(217,147,74,.8)">MT</div><span style="font-size:13px;font-weight:500;color:var(--dm-text)">Marcus Taylor</span></div>
               <span style="font-size:12px;color:var(--dm-muted)">Linear</span>
               <span style="font-size:11px;color:var(--dm-dim)">m.taylor@linear.app</span>
               <span style="font-size:10px;padding:3px 8px;border-radius:5px;background:rgba(217,147,74,.08);color:rgba(217,147,74,.7)">Funded</span>
             </div>
             <div class="pr-row" style="display:none;grid-template-columns:2.2fr 1.2fr 2fr .8fr;gap:10px;padding:11px 12px;align-items:center;border-bottom:1px solid var(--dm-border)">
-              <div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:7px;background:rgba(190,100,130,.12);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(190,100,130,.8)">AW</div><span style="font-size:13px;font-weight:500;color:var(--dm-text)">Amanda Walsh</span></div>
+              <div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:50%;background:rgba(190,100,130,.12);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(190,100,130,.8)">AW</div><span style="font-size:13px;font-weight:500;color:var(--dm-text)">Amanda Walsh</span></div>
               <span style="font-size:12px;color:var(--dm-muted)">Datadog</span>
               <span style="font-size:11px;color:var(--dm-dim)">a.walsh@datadoghq.com</span>
               <span style="font-size:10px;padding:3px 8px;border-radius:5px;background:rgba(190,100,130,.08);color:rgba(190,100,130,.7)">Tech Change</span>
             </div>
             <div class="pr-row" style="display:none;grid-template-columns:2.2fr 1.2fr 2fr .8fr;gap:10px;padding:11px 12px;align-items:center;border-bottom:1px solid var(--dm-border)">
-              <div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:7px;background:rgba(140,100,190,.12);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(140,100,190,.8)">RJ</div><span style="font-size:13px;font-weight:500;color:var(--dm-text)">Ryan Johnson</span></div>
+              <div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:50%;background:rgba(140,100,190,.12);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(140,100,190,.8)">RJ</div><span style="font-size:13px;font-weight:500;color:var(--dm-text)">Ryan Johnson</span></div>
               <span style="font-size:12px;color:var(--dm-muted)">Plaid</span>
               <span style="font-size:11px;color:var(--dm-dim)">r.johnson@plaid.com</span>
               <span style="font-size:10px;padding:3px 8px;border-radius:5px;background:rgba(140,100,190,.08);color:rgba(140,100,190,.7)">Expanding</span>
             </div>
             <div class="pr-row" style="display:none;grid-template-columns:2.2fr 1.2fr 2fr .8fr;gap:10px;padding:11px 12px;align-items:center;border-bottom:1px solid var(--dm-border)">
-              <div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:7px;background:rgba(95,168,131,.12);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(95,168,131,.8)">NP</div><span style="font-size:13px;font-weight:500;color:var(--dm-text)">Nina Patel</span></div>
+              <div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:50%;background:rgba(95,168,131,.12);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(95,168,131,.8)">NP</div><span style="font-size:13px;font-weight:500;color:var(--dm-text)">Nina Patel</span></div>
               <span style="font-size:12px;color:var(--dm-muted)">Webflow</span>
               <span style="font-size:11px;color:var(--dm-dim)">n.patel@webflow.com</span>
               <span style="font-size:10px;padding:3px 8px;border-radius:5px;background:rgba(95,168,131,.08);color:rgba(95,168,131,.7)">Hiring</span>
             </div>
             <div class="pr-row" style="display:none;grid-template-columns:2.2fr 1.2fr 2fr .8fr;gap:10px;padding:11px 12px;align-items:center;border-bottom:1px solid var(--dm-border)">
-              <div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:7px;background:rgba(107,157,191,.12);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(107,157,191,.8)">BL</div><span style="font-size:13px;font-weight:500;color:var(--dm-text)">Brian Lee</span></div>
+              <div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:50%;background:rgba(107,157,191,.12);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(107,157,191,.8)">BL</div><span style="font-size:13px;font-weight:500;color:var(--dm-text)">Brian Lee</span></div>
               <span style="font-size:12px;color:var(--dm-muted)">Loom</span>
               <span style="font-size:11px;color:var(--dm-dim)">b.lee@loom.com</span>
               <span style="font-size:10px;padding:3px 8px;border-radius:5px;background:rgba(107,157,191,.08);color:rgba(107,157,191,.7)">New Role</span>
             </div>
             <!-- Skeleton rows — ALL visible from start, shimmer animation -->
             <div class="skel-row" style="display:grid;grid-template-columns:2.2fr 1.2fr 2fr .8fr;gap:10px;padding:11px 12px;align-items:center;border-bottom:1px solid var(--dm-border)">
-              <div style="display:flex;align-items:center;gap:8px"><div class="skel-bar" style="width:28px;height:28px;border-radius:7px"></div><div class="skel-bar" style="width:88px;height:11px"></div></div>
+              <div style="display:flex;align-items:center;gap:8px"><div class="skel-bar" style="width:28px;height:28px;border-radius:50%"></div><div class="skel-bar" style="width:88px;height:11px"></div></div>
               <div class="skel-bar" style="width:70px;height:11px"></div>
               <div class="skel-bar" style="width:105px;height:11px"></div>
               <div class="skel-bar" style="width:48px;height:11px"></div>
             </div>
             <div class="skel-row" style="display:grid;grid-template-columns:2.2fr 1.2fr 2fr .8fr;gap:10px;padding:11px 12px;align-items:center;border-bottom:1px solid var(--dm-border)">
-              <div style="display:flex;align-items:center;gap:8px"><div class="skel-bar" style="width:28px;height:28px;border-radius:7px"></div><div class="skel-bar" style="width:72px;height:11px"></div></div>
+              <div style="display:flex;align-items:center;gap:8px"><div class="skel-bar" style="width:28px;height:28px;border-radius:50%"></div><div class="skel-bar" style="width:72px;height:11px"></div></div>
               <div class="skel-bar" style="width:60px;height:11px"></div>
               <div class="skel-bar" style="width:90px;height:11px"></div>
               <div class="skel-bar" style="width:44px;height:11px"></div>
             </div>
             <div class="skel-row" style="display:grid;grid-template-columns:2.2fr 1.2fr 2fr .8fr;gap:10px;padding:11px 12px;align-items:center;border-bottom:1px solid var(--dm-border)">
-              <div style="display:flex;align-items:center;gap:8px"><div class="skel-bar" style="width:28px;height:28px;border-radius:7px"></div><div class="skel-bar" style="width:96px;height:11px"></div></div>
+              <div style="display:flex;align-items:center;gap:8px"><div class="skel-bar" style="width:28px;height:28px;border-radius:50%"></div><div class="skel-bar" style="width:96px;height:11px"></div></div>
               <div class="skel-bar" style="width:80px;height:11px"></div>
               <div class="skel-bar" style="width:95px;height:11px"></div>
               <div class="skel-bar" style="width:52px;height:11px"></div>
             </div>
             <div class="skel-row" style="display:grid;grid-template-columns:2.2fr 1.2fr 2fr .8fr;gap:10px;padding:11px 12px;align-items:center;border-bottom:1px solid var(--dm-border)">
-              <div style="display:flex;align-items:center;gap:8px"><div class="skel-bar" style="width:28px;height:28px;border-radius:7px"></div><div class="skel-bar" style="width:68px;height:11px"></div></div>
+              <div style="display:flex;align-items:center;gap:8px"><div class="skel-bar" style="width:28px;height:28px;border-radius:50%"></div><div class="skel-bar" style="width:68px;height:11px"></div></div>
               <div class="skel-bar" style="width:55px;height:11px"></div>
               <div class="skel-bar" style="width:100px;height:11px"></div>
               <div class="skel-bar" style="width:40px;height:11px"></div>
             </div>
             <div class="skel-row" style="display:grid;grid-template-columns:2.2fr 1.2fr 2fr .8fr;gap:10px;padding:11px 12px;align-items:center;border-bottom:1px solid var(--dm-border)">
-              <div style="display:flex;align-items:center;gap:8px"><div class="skel-bar" style="width:28px;height:28px;border-radius:7px"></div><div class="skel-bar" style="width:82px;height:11px"></div></div>
+              <div style="display:flex;align-items:center;gap:8px"><div class="skel-bar" style="width:28px;height:28px;border-radius:50%"></div><div class="skel-bar" style="width:82px;height:11px"></div></div>
               <div class="skel-bar" style="width:65px;height:11px"></div>
               <div class="skel-bar" style="width:85px;height:11px"></div>
               <div class="skel-bar" style="width:46px;height:11px"></div>
             </div>
             <div class="skel-row" style="display:grid;grid-template-columns:2.2fr 1.2fr 2fr .8fr;gap:10px;padding:11px 12px;align-items:center;border-bottom:1px solid var(--dm-border)">
-              <div style="display:flex;align-items:center;gap:8px"><div class="skel-bar" style="width:28px;height:28px;border-radius:7px"></div><div class="skel-bar" style="width:75px;height:11px"></div></div>
+              <div style="display:flex;align-items:center;gap:8px"><div class="skel-bar" style="width:28px;height:28px;border-radius:50%"></div><div class="skel-bar" style="width:75px;height:11px"></div></div>
               <div class="skel-bar" style="width:72px;height:11px"></div>
               <div class="skel-bar" style="width:92px;height:11px"></div>
               <div class="skel-bar" style="width:50px;height:11px"></div>
             </div>
             <div class="skel-row" style="display:grid;grid-template-columns:2.2fr 1.2fr 2fr .8fr;gap:10px;padding:11px 12px;align-items:center;border-bottom:1px solid var(--dm-border)">
-              <div style="display:flex;align-items:center;gap:8px"><div class="skel-bar" style="width:28px;height:28px;border-radius:7px"></div><div class="skel-bar" style="width:90px;height:11px"></div></div>
+              <div style="display:flex;align-items:center;gap:8px"><div class="skel-bar" style="width:28px;height:28px;border-radius:50%"></div><div class="skel-bar" style="width:90px;height:11px"></div></div>
               <div class="skel-bar" style="width:58px;height:11px"></div>
               <div class="skel-bar" style="width:88px;height:11px"></div>
               <div class="skel-bar" style="width:55px;height:11px"></div>
             </div>
             <div class="skel-row" style="display:grid;grid-template-columns:2.2fr 1.2fr 2fr .8fr;gap:10px;padding:11px 12px;align-items:center;border-bottom:1px solid var(--dm-border)">
-              <div style="display:flex;align-items:center;gap:8px"><div class="skel-bar" style="width:28px;height:28px;border-radius:7px"></div><div class="skel-bar" style="width:78px;height:11px"></div></div>
+              <div style="display:flex;align-items:center;gap:8px"><div class="skel-bar" style="width:28px;height:28px;border-radius:50%"></div><div class="skel-bar" style="width:78px;height:11px"></div></div>
               <div class="skel-bar" style="width:68px;height:11px"></div>
               <div class="skel-bar" style="width:80px;height:11px"></div>
               <div class="skel-bar" style="width:42px;height:11px"></div>
             </div>
             <div class="skel-row" style="display:grid;grid-template-columns:2.2fr 1.2fr 2fr .8fr;gap:10px;padding:11px 12px;align-items:center;border-bottom:1px solid var(--dm-border)">
-              <div style="display:flex;align-items:center;gap:8px"><div class="skel-bar" style="width:28px;height:28px;border-radius:7px"></div><div class="skel-bar" style="width:84px;height:11px"></div></div>
+              <div style="display:flex;align-items:center;gap:8px"><div class="skel-bar" style="width:28px;height:28px;border-radius:50%"></div><div class="skel-bar" style="width:84px;height:11px"></div></div>
               <div class="skel-bar" style="width:62px;height:11px"></div>
               <div class="skel-bar" style="width:96px;height:11px"></div>
               <div class="skel-bar" style="width:48px;height:11px"></div>
             </div>
             <div class="skel-row" style="display:grid;grid-template-columns:2.2fr 1.2fr 2fr .8fr;gap:10px;padding:11px 12px;align-items:center">
-              <div style="display:flex;align-items:center;gap:8px"><div class="skel-bar" style="width:28px;height:28px;border-radius:7px"></div><div class="skel-bar" style="width:70px;height:11px"></div></div>
+              <div style="display:flex;align-items:center;gap:8px"><div class="skel-bar" style="width:28px;height:28px;border-radius:50%"></div><div class="skel-bar" style="width:70px;height:11px"></div></div>
               <div class="skel-bar" style="width:74px;height:11px"></div>
               <div class="skel-bar" style="width:84px;height:11px"></div>
               <div class="skel-bar" style="width:44px;height:11px"></div>
@@ -1508,7 +1508,7 @@ const mockupObs = new IntersectionObserver(entries => {
 }, { threshold: 0.2 });
 document.querySelectorAll('.app-frame').forEach(el => mockupObs.observe(el));
 
-// ── Interactive Mockup 1: Intent Signal Filtering ──
+// ── Interactive Mockup 1: Intent Signal Filtering (auto-cycle) ──
 (function() {
   const signals = [
     { name: 'Hiring', color: '95,168,131' },
@@ -1522,64 +1522,65 @@ document.querySelectorAll('.app-frame').forEach(el => mockupObs.observe(el));
     { init: 'SC', name: 'Sarah Chen', role: 'VP Engineering', company: 'Vercel', signal: 'Hiring', detail: 'Hiring 12 roles', match: 97 },
     { init: 'JL', name: 'James Liu', role: 'Founder', company: 'Notion', signal: 'Hiring', detail: 'Hiring 5 roles', match: 89 },
     { init: 'DK', name: 'David Kim', role: 'CTO', company: 'Webflow', signal: 'Hiring', detail: 'Hiring 8 roles', match: 85 },
-    { init: 'MW', name: 'Marcus Webb', role: 'CTO', company: 'Linear', signal: 'Just Raised', detail: 'Just Raised $35M', match: 94 },
-    { init: 'RP', name: 'Rachel Park', role: 'VP Sales', company: 'Ramp', signal: 'Just Raised', detail: 'Just Raised $100M', match: 86 },
-    { init: 'TN', name: 'Tom Nguyen', role: 'Head of Growth', company: 'Mercury', signal: 'Just Raised', detail: 'Just Raised $60M', match: 82 },
+    { init: 'MW', name: 'Marcus Webb', role: 'CTO', company: 'Linear', signal: 'Just Raised', detail: 'Raised $35M', match: 94 },
+    { init: 'RP', name: 'Rachel Park', role: 'VP Sales', company: 'Ramp', signal: 'Just Raised', detail: 'Raised $100M', match: 86 },
+    { init: 'TN', name: 'Tom Nguyen', role: 'Head of Growth', company: 'Mercury', signal: 'Just Raised', detail: 'Raised $60M', match: 82 },
     { init: 'AK', name: 'Anna Kovacs', role: 'Head of Product', company: 'Stripe', signal: 'Expanding', detail: 'Expanding to EU', match: 91 },
     { init: 'RJ', name: 'Ryan Johnson', role: 'COO', company: 'Plaid', signal: 'Expanding', detail: 'Expanding to APAC', match: 88 },
+    { init: 'EL', name: 'Eva Lang', role: 'CFO', company: 'Deel', signal: 'Expanding', detail: 'Opened 3 offices', match: 85 },
     { init: 'LP', name: 'Lisa Park', role: 'VP Ops', company: 'Figma', signal: 'New Role', detail: 'Started 2 weeks ago', match: 90 },
     { init: 'KW', name: 'Kevin Wright', role: 'Head of Sales', company: 'Amplitude', signal: 'New Role', detail: 'Promoted last month', match: 84 },
     { init: 'NP', name: 'Nina Patel', role: 'CIO', company: 'Datadog', signal: 'New Role', detail: 'Joined 3 weeks ago', match: 81 },
-    { init: 'AW', name: 'Amanda Walsh', role: 'VP Engineering', company: 'Loom', signal: 'Tech Change', detail: 'Migrating to AWS', match: 87 },
-    { init: 'BL', name: 'Brian Lee', role: 'CTO', company: 'Retool', signal: 'Tech Change', detail: 'Adopted Kubernetes', match: 83 },
+    { init: 'AW', name: 'Amanda Walsh', role: 'VP Eng', company: 'Loom', signal: 'Tech Change', detail: 'Migrating to AWS', match: 87 },
+    { init: 'BL', name: 'Brian Lee', role: 'CTO', company: 'Retool', signal: 'Tech Change', detail: 'Adopted K8s', match: 83 },
+    { init: 'SW', name: 'Sam Wilson', role: 'DevOps Lead', company: 'Vercel', signal: 'Tech Change', detail: 'New CI/CD stack', match: 79 },
     { init: 'MT', name: 'Marcus Taylor', role: 'Director Eng', company: 'Airtable', signal: 'Leadership Change', detail: 'New CTO appointed', match: 80 },
-    { init: 'JW', name: 'Jessica Wu', role: 'VP Strategy', company: 'Calendly', signal: 'Leadership Change', detail: 'New CEO since Jan', match: 78 }
+    { init: 'JW', name: 'Jessica Wu', role: 'VP Strategy', company: 'Calendly', signal: 'Leadership Change', detail: 'New CEO since Jan', match: 78 },
+    { init: 'PG', name: 'Paul Grant', role: 'Head of Ops', company: 'Brex', signal: 'Leadership Change', detail: 'New board member', match: 76 }
   ];
 
-  const activeSignals = new Set(['Hiring', 'Just Raised', 'Expanding']);
-  const filtersEl = document.getElementById('m1Filters');
-  const rowsEl = document.getElementById('m1Rows');
-  const countEl = document.getElementById('m1Count');
-  const counts = { 'Hiring': 2847, 'Just Raised': 1203, 'Expanding': 894, 'New Role': 1567, 'Tech Change': 731, 'Leadership Change': 412 };
+  var activeSignal = 'Hiring';
+  var currentIdx = 0;
+  var autoTimer = null;
+  var userPaused = false;
+  var filtersEl = document.getElementById('m1Filters');
+  var rowsEl = document.getElementById('m1Rows');
+  var countEl = document.getElementById('m1Count');
+  var counts = { 'Hiring': 2847, 'Just Raised': 1203, 'Expanding': 894, 'New Role': 1567, 'Tech Change': 731, 'Leadership Change': 412 };
 
-  function getColor(signalName) { return signals.find(s => s.name === signalName)?.color || '150,150,150'; }
+  function getColor(name) { var s = signals.find(function(x){return x.name===name}); return s ? s.color : '150,150,150'; }
 
-  function renderFilters() {
+  function render() {
+    // Filters
     filtersEl.innerHTML = '';
-    signals.forEach(s => {
-      const active = activeSignals.has(s.name);
-      const pill = document.createElement('div');
-      pill.style.cssText = 'padding:5px 12px;border-radius:8px;font-size:11px;font-weight:500;display:flex;align-items:center;gap:5px;cursor:pointer;transition:all .25s;user-select:none;' +
+    signals.forEach(function(s) {
+      var active = activeSignal === s.name;
+      var pill = document.createElement('div');
+      pill.style.cssText = 'padding:5px 12px;border-radius:8px;font-size:11px;font-weight:500;display:flex;align-items:center;gap:5px;cursor:pointer;transition:all .3s;user-select:none;' +
         (active
           ? 'background:rgba(' + s.color + ',.15);color:rgba(' + s.color + ',1);border:1px solid rgba(' + s.color + ',.3)'
           : 'background:#fff;color:var(--app-muted);border:1px solid var(--app-border)');
       pill.innerHTML = '<span style="width:6px;height:6px;border-radius:50%;background:rgba(' + s.color + ',' + (active ? '1' : '.3') + ')"></span>' + s.name;
       pill.addEventListener('click', function() {
-        if (activeSignals.has(s.name)) activeSignals.delete(s.name);
-        else activeSignals.add(s.name);
-        renderFilters();
-        renderRows();
+        activeSignal = s.name;
+        currentIdx = signals.findIndex(function(x){return x.name===s.name});
+        render();
+        // Pause auto-cycle for 8s after manual click, then resume
+        userPaused = true;
+        clearInterval(autoTimer);
+        setTimeout(function(){ userPaused = false; startAuto(); }, 8000);
       });
       filtersEl.appendChild(pill);
     });
-  }
-
-  function renderRows() {
-    const filtered = activeSignals.size === 0
-      ? prospects
-      : prospects.filter(p => activeSignals.has(p.signal));
-    // Animate count
-    const total = activeSignals.size === 0
-      ? Object.values(counts).reduce((a, b) => a + b, 0)
-      : Array.from(activeSignals).reduce((a, s) => a + (counts[s] || 0), 0);
-    countEl.textContent = total.toLocaleString();
-
+    // Rows
+    var filtered = prospects.filter(function(p){return p.signal===activeSignal});
+    countEl.textContent = (counts[activeSignal] || 0).toLocaleString();
     rowsEl.innerHTML = '';
-    filtered.slice(0, 5).forEach((p, i) => {
-      const c = getColor(p.signal);
-      const row = document.createElement('div');
+    filtered.forEach(function(p, i) {
+      var c = getColor(p.signal);
+      var row = document.createElement('div');
       row.className = 'm1-row';
-      row.style.cssText = 'opacity:0;transform:translateY(8px);animation:none';
+      row.style.cssText = 'opacity:0;transform:translateY(8px)';
       row.innerHTML =
         '<div class="m1-av" style="background:rgba(' + c + ',.18);color:rgba(' + c + ',1)">' + p.init + '</div>' +
         '<div><div class="m1-name">' + p.name + '</div><div class="m1-sub">' + p.role + '</div></div>' +
@@ -1587,7 +1588,6 @@ document.querySelectorAll('.app-frame').forEach(el => mockupObs.observe(el));
         '<span>' + p.company + '</span>' +
         '<span style="font-weight:600;color:var(--app-green)">' + p.match + '%</span>';
       rowsEl.appendChild(row);
-      // Stagger fade-in
       setTimeout(function() {
         row.style.transition = 'opacity .3s ease, transform .3s ease';
         row.style.opacity = '1';
@@ -1596,8 +1596,18 @@ document.querySelectorAll('.app-frame').forEach(el => mockupObs.observe(el));
     });
   }
 
-  renderFilters();
-  renderRows();
+  function startAuto() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(function() {
+      if (userPaused) return;
+      currentIdx = (currentIdx + 1) % signals.length;
+      activeSignal = signals[currentIdx].name;
+      render();
+    }, 3500);
+  }
+
+  render();
+  startAuto();
 })();
 
 // ── Animated strikethrough trigger on scroll ──
