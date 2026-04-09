@@ -387,6 +387,8 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
   .trust-row{gap:20px;flex-wrap:wrap}
 }
 @media(max-width:600px){
+  /* Base */
+  .c{padding:0 16px}
   .hero{padding:100px 0 24px}
   .hero h1{text-align:left;font-size:clamp(28px,8vw,42px);line-height:1.08}
   .hero .h-sub{text-align:left;margin:0 0 24px}
@@ -396,6 +398,7 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
   .sec{padding:64px 0}
   .showcase-item{padding:48px 0}
   .f-i{flex-direction:column;gap:12px;text-align:center}
+  /* Nav */
   .nav-r .nl{display:none}
   .nav-r .btn{width:auto;padding:8px 12px !important;font-size:12px !important;white-space:nowrap}
   .integ-logos{gap:16px}
@@ -403,18 +406,44 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
   #heroMockup{height:auto !important;display:flex;flex-direction:column-reverse;gap:16px}
   #heroMockup > div:first-child{position:relative !important;inset:auto !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;border-radius:12px !important;min-height:320px}
   #heroCard{position:relative !important;inset:auto !important;width:100% !important;border-radius:12px !important;max-height:none !important;overflow:visible !important}
-  .s-title{font-size:clamp(24px,6vw,36px)}
+  /* Section titles */
+  .s-title{font-size:clamp(22px,5.5vw,32px)}
+  .s-desc{font-size:14px}
+  /* App mockup frames — tighter on mobile */
+  .app-frame{border-radius:12px}
+  .app-body{min-height:280px}
+  .app-sb{display:none}
+  .app-main{padding:16px 14px}
+  .app-chrome{padding:8px 12px}
+  .app-url{font-size:10px}
+  /* Mockup 1: prospects table — hide email+signal cols on narrow */
+  .m1-thr span:nth-child(3),.m1-thr span:nth-child(4),.m1-thr span:nth-child(5),
+  .m1-row span:nth-child(3),.m1-row div:nth-child(3),.m1-row span:nth-child(4),.m1-row div:nth-child(4),.m1-row div:nth-child(5){display:none}
+  .m1-thr,.m1-row{grid-template-columns:28px 1fr .6fr;font-size:11px;gap:6px}
+  /* Pricing */
   .pricing-grid{grid-template-columns:1fr !important}
+  .pricing-card{margin:0}
   .stats-grid{grid-template-columns:1fr}
   /* Comparison cards — stack vertically */
   .comp-cards-grid{grid-template-columns:1fr !important;gap:16px !important}
   .comp-cards-grid .comp-vs{display:none}
-  /* Comparison table — horizontal scroll hint */
+  /* Comparison table — horizontal scroll */
   .comp-table{font-size:12px}
   .comp-table th,.comp-table td{padding:10px 10px;font-size:11px;white-space:nowrap}
-  /* Built-by logos — single row, parallax scroll */
-  .built-by-logos{flex-wrap:nowrap !important;gap:40px !important;justify-content:flex-start !important;max-width:none !important;will-change:transform}
-  .built-by-logos svg{flex-shrink:0 !important;min-width:max-content}
+  /* Built-by logos — single row with parallax */
+  .built-by{overflow:hidden}
+  .built-by-logos{flex-wrap:nowrap !important;gap:32px !important;justify-content:flex-start !important;max-width:none !important;padding:0 16px !important;will-change:transform}
+  .built-by-logos svg{flex-shrink:0 !important;opacity:.25 !important}
+  /* FAQ */
+  .faq-q{font-size:14px;padding:16px 18px}
+  .faq-a p{font-size:13px}
+  /* CTA */
+  .cta-sec{padding:64px 0}
+  .cta-sec h2{font-size:clamp(24px,6vw,36px)}
+  .cta-sec p{font-size:14px}
+  /* Built-by text */
+  .built-by{padding:48px 0 40px}
+  .built-by-text{font-size:13px;margin-bottom:32px}
 }
 </style>
 </head>
@@ -1872,12 +1901,14 @@ if (structBtn) {
 ;(function(){
   const logos = document.querySelector('.built-by-logos');
   if(!logos || window.innerWidth > 600) return;
+  // Scale down logos on mobile for single-row fit
+  logos.querySelectorAll('svg').forEach(function(s){ s.style.height = Math.min(parseFloat(s.style.height)||20, 20) + 'px'; });
   window.addEventListener('scroll', function(){
-    const rect = logos.getBoundingClientRect();
+    const rect = logos.parentElement.getBoundingClientRect();
     const vh = window.innerHeight;
     if(rect.top < vh && rect.bottom > 0){
       const progress = (vh - rect.top) / (vh + rect.height);
-      logos.style.transform = 'translateX(' + (-progress * 200) + 'px)';
+      logos.style.transform = 'translateX(' + (-progress * 400) + 'px)';
     }
   }, {passive:true});
 })();
