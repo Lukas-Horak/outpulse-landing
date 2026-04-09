@@ -407,7 +407,8 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
   .integ-logos{gap:16px}
   /* Hero mockup — card (onboarding) first, then dashboard */
   #heroMockup{height:auto !important;display:flex;flex-direction:column-reverse;gap:16px}
-  #heroMockup > div:first-child{position:relative !important;inset:auto !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;border-radius:12px !important;min-height:320px}
+  #heroMockup > div:first-child{position:relative !important;inset:auto !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;border-radius:12px !important;min-height:320px;overflow:hidden !important}
+  #heroMockup > div:first-child::after{content:'';position:absolute;top:0;right:0;bottom:0;width:80px;background:linear-gradient(to right,transparent,var(--bg));pointer-events:none;z-index:5}
   #heroCard{position:relative !important;inset:auto !important;width:100% !important;border-radius:12px !important;max-height:none !important;overflow:visible !important}
   /* Section titles */
   .s-title{font-size:clamp(22px,5.5vw,32px)}
@@ -428,9 +429,6 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
   .m1-row .m1-sub{font-size:9px}
   .m1-filters{gap:4px !important;flex-wrap:wrap}
   .m1-filters > div{padding:4px 8px !important;font-size:10px !important}
-  /* Dark mockup frame — fade out right edge on mobile */
-  #mockup1{position:relative}
-  #mockup1::after{content:'';position:absolute;top:0;right:0;bottom:0;width:80px;background:linear-gradient(to right,transparent,var(--bg));border-radius:0 12px 12px 0;pointer-events:none;z-index:3}
   /* Pricing */
   .pricing-grid{grid-template-columns:1fr !important}
   .pricing-card{margin:0}
