@@ -1,0 +1,7 @@
+# Never commit GCP service account keys or env var paste files
+*.json
+outpulse-analytics-*.json
+GA_SERVICE_ACCOUNT_JSON*.txt
+.env
+.env.*
+.DS_Store
