@@ -8,7 +8,7 @@
 <link rel="alternate icon" type="image/png" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/favicon.svg">
 <link rel="canonical" href="https://outpulse.ai/">
-<meta name="theme-color" content="#d4a843">
+<meta name="theme-color" content="#5fa883">
 <meta name="description" content="Outpulse is your AI sales agent. It finds your ideal prospects, writes personalized emails, sends them, follows up — and books meetings while you sleep.">
 <meta property="og:title" content="Outpulse — AI sales agent. Meetings on autopilot.">
 <meta property="og:description" content="Your pipeline runs while you sleep. Outpulse finds prospects, writes personalized emails, and books meetings — on autopilot.">
@@ -37,13 +37,13 @@
   --card:rgba(255,255,255,0.022);--card-h:rgba(255,255,255,0.035);
   --border:rgba(255,255,255,0.055);--border-h:rgba(255,255,255,0.1);
   --text:#f0f0f2;--text-s:rgba(255,255,255,0.52);--text-t:rgba(255,255,255,0.28);
-  --g:#d4a843;--g2:#b8892e;--g-a15:rgba(212,168,67,0.15);--g-a08:rgba(212,168,67,0.08);--g-a04:rgba(212,168,67,0.04);--btn-g:#5fa883;--btn-g2:#4e9271;
+  --g:#5fa883;--g2:#4e9271;--g-a15:rgba(95,168,131,0.15);--g-a08:rgba(95,168,131,0.08);--g-a04:rgba(95,168,131,0.04);--btn-g:#5fa883;--btn-g2:#4e9271;
   --sans:'DM Sans',system-ui,-apple-system,sans-serif;
   --serif:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
   /* Real app colors for mockups */
-  --app-bg:#faf7f2;--app-card:#ffffff;--app-text:#2a2a2a;--app-muted:#7a7a7a;
+  --app-bg:#f5f7f6;--app-card:#ffffff;--app-text:#2a2a2a;--app-muted:#7a7a7a;
   --app-border:rgba(0,0,0,0.06);--app-sidebar:#ffffff;
-  --app-green:#d4a843;--app-green-light:#fdf6e8;--app-green-dark:#b8892e;
+  --app-green:#5fa883;--app-green-light:rgba(95,168,131,0.08);--app-green-dark:#4e9271;
   --app-blue:#6b9dbf;--app-blue-light:#f1f5f9;
   --app-orange:#d9934a;
 }
@@ -89,7 +89,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:12px 0;background:rg
 .hero-preview.revealed{transform:translateY(0) scale(1);opacity:1}
 .hero-preview::after{display:none}
 /* Dark mockup variables */
-.dm{--dm-bg:#111114;--dm-sidebar:#0c0c0e;--dm-card:#18181b;--dm-card2:#1e1e22;--dm-border:rgba(255,255,255,0.06);--dm-text:#d8d8da;--dm-muted:rgba(255,255,255,0.4);--dm-dim:rgba(255,255,255,0.22);--dm-g:rgba(212,168,67,0.8);--dm-g-bg:rgba(212,168,67,0.08);font-family:var(--sans)}
+.dm{--dm-bg:#111114;--dm-sidebar:#0c0c0e;--dm-card:#18181b;--dm-card2:#1e1e22;--dm-border:rgba(255,255,255,0.06);--dm-text:#d8d8da;--dm-muted:rgba(255,255,255,0.4);--dm-dim:rgba(255,255,255,0.22);--dm-g:rgba(95,168,131,0.8);--dm-g-bg:rgba(95,168,131,0.08);font-family:var(--sans)}
 /* Floating detail panel */
 .dm-detail{position:absolute;right:24px;top:24px;bottom:24px;width:340px;background:var(--dm-card);border:1px solid var(--dm-border);border-radius:14px;box-shadow:-8px 0 40px rgba(0,0,0,0.4);z-index:1;padding:24px;display:flex;flex-direction:column;gap:16px;overflow:hidden}
 
@@ -138,7 +138,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:12px 0;background:rg
 .app-sb-group-title{padding:0 18px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--app-muted);margin-bottom:6px;margin-top:16px}
 .app-sb-item{display:flex;align-items:center;gap:10px;padding:8px 14px;margin:0 8px;border-radius:8px;font-size:13px;color:var(--app-muted);cursor:default;transition:all .2s}
 .app-sb-item svg{width:17px;height:17px;opacity:.5}
-.app-sb-item.active{color:var(--app-text);font-weight:600;background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.15)}
+.app-sb-item.active{color:var(--app-text);font-weight:600;background:rgba(95,168,131,.08);border:1px solid rgba(95,168,131,.15)}
 .app-sb-item.active svg{opacity:1;color:var(--app-green)}
 .app-sb-spacer{flex:1}
 .app-sb-user{display:flex;align-items:center;gap:9px;padding:0 18px;margin-top:12px}
@@ -168,7 +168,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:12px 0;background:rg
 .m1-thr{display:grid;grid-template-columns:36px 1.3fr 1fr .7fr .5fr;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid var(--app-border);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--app-muted)}
 .m1-row{display:grid;grid-template-columns:36px 1.3fr 1fr .7fr .5fr;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--app-border);font-size:12px;color:var(--app-text);cursor:pointer;transition:background .15s}
 .m1-row:last-child{border-bottom:none}
-.m1-row:hover{background:rgba(212,168,67,.04)}
+.m1-row:hover{background:rgba(95,168,131,.04)}
 .m1-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff}
 .m1-name{font-weight:600;color:var(--app-text);font-size:13px}
 .m1-sub{font-size:11px;color:var(--app-muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -260,7 +260,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:12px 0;background:rg
 .m3-feed{background:#fff;border:1px solid var(--app-border);border-radius:16px;overflow:hidden}
 .m3-feed-title{padding:14px 20px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--app-muted);border-bottom:1px solid var(--app-border)}
 .m3-fi{display:grid;grid-template-columns:32px 1fr auto;align-items:center;gap:10px;padding:11px 20px;border-bottom:1px solid var(--app-border);font-size:12px;opacity:0;cursor:pointer;transition:background .15s}
-.m3-fi:hover{background:rgba(212,168,67,.03)}
+.m3-fi:hover{background:rgba(95,168,131,.03)}
 .playing .m3-fi{animation:fiIn .3s ease forwards}
 .m3-fi:last-child{border-bottom:none}
 .m3-fi:nth-child(2){animation-delay:1.9s}
@@ -289,7 +289,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:12px 0;background:rg
 .comp-table th:last-child{color:var(--g);background:var(--g-a04)}
 .comp-table td{color:var(--text-s)}
 .comp-table td:first-child{font-weight:500;color:var(--text)}
-.comp-table td:last-child{background:rgba(212,168,67,.02);font-weight:500}
+.comp-table td:last-child{background:rgba(95,168,131,.02);font-weight:500}
 .comp-table .check{color:var(--g);font-weight:600}
 .comp-table .cross{color:rgba(255,255,255,.18)}
 .comp-table .hl{font-weight:600;color:var(--g)}
@@ -307,7 +307,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:12px 0;background:rg
 .comp-more.open svg{transform:rotate(180deg)}
 
 /* ── PRICING ── */
-.pricing-card{max-width:420px;margin:0 auto;border-radius:16px;border:1px solid rgba(212,168,67,.15);background:var(--bg2);overflow:hidden}
+.pricing-card{max-width:420px;margin:0 auto;border-radius:16px;border:1px solid rgba(95,168,131,.15);background:var(--bg2);overflow:hidden}
 .pricing-header{padding:36px 32px 28px;text-align:center;border-bottom:1px solid var(--border)}
 .pricing-plan{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--g);margin-bottom:8px}
 .pricing-amount{font-family:'Instrument Serif',Georgia,serif;font-size:56px;font-weight:500;letter-spacing:-.02em}
