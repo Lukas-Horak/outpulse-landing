@@ -435,13 +435,15 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
   .integ-logos{gap:16px}
   /* Hero mockup — stack card on top, dashboard below */
   #heroMockup{height:auto !important;display:flex;flex-direction:column-reverse;gap:16px}
-  #heroMockup > div:first-child{position:relative !important;inset:auto !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;border-radius:12px !important;overflow:hidden !important;max-height:340px}
+  #heroMockup > div:first-child{position:relative !important;inset:auto !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;border-radius:12px !important;overflow:hidden !important}
   #heroCard{position:relative !important;inset:auto !important;width:100% !important;border-radius:12px !important;max-height:none !important;overflow:visible !important;transform:none !important}
   /* Hide extra columns on mobile prospect rows — keep name + company */
   #heroMockup .pr-row,#heroMockup .skel-row{grid-template-columns:1fr .8fr !important}
   #heroMockup .pr-row > span:nth-child(n+3),#heroMockup .skel-row > div:nth-child(n+3){display:none !important}
   #heroMockup [style*="grid-template-columns:2.2fr 1.2fr 2fr"]{grid-template-columns:1fr .8fr !important}
   #heroMockup [style*="grid-template-columns:2.2fr 1.2fr 2fr"] > span:nth-child(n+3){display:none !important}
+  /* Limit skeleton/prospect rows to 5 on mobile */
+  #heroMockup .skel-row:nth-child(n+9),#heroMockup .pr-row:nth-child(n+6){display:none !important}
   /* Section titles */
   .s-title{font-size:clamp(22px,5.5vw,32px)}
   .s-desc{font-size:14px}
@@ -2190,17 +2192,19 @@ if (m3Frame) counterObs.observe(m3Frame);
     });
   }
 
+  const isMobile = window.innerWidth <= 600;
   const heroObs = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting && !hasPlayed) {
         hasPlayed = true;
         runSequence();
       }
-      if (!entry.isIntersecting && hasPlayed) {
+      // Only reset on desktop — mobile resets cause jitter and layout shifts
+      if (!isMobile && !entry.isIntersecting && hasPlayed) {
         resetState();
       }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: isMobile ? 0.05 : 0.15 });
   heroObs.observe(mockup);
 })();
 
