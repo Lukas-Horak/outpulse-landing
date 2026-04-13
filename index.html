@@ -1228,7 +1228,7 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
           <span>Outpulse</span>
         </div>
         <div class="app-sb-group">
-          <div class="app-sb-item active">
+          <div class="app-sb-item">
             <svg viewBox="0 0 256 256" fill="currentColor" width="17" height="17"><path d="M104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Z" opacity=".2"/><path d="M104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H56V56h48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,64H152V56h48Zm-96,32H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H56V152h48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,200,136Zm0,64H152V152h48Z"/></svg>
             <span>Dashboard</span>
           </div>
@@ -1257,8 +1257,8 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
         </div>
         <div class="app-sb-group">
           <div class="app-sb-group-title">Growth</div>
-          <div class="app-sb-item" style="color:var(--app-green);font-weight:600;background:rgba(95,168,131,.08);border:1px solid rgba(95,168,131,.15)">
-            <svg viewBox="0 0 256 256" fill="currentColor" width="17" height="17" style="opacity:1;color:var(--app-green)"><path d="M232,208a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V48a8,8,0,0,1,16,0V156.69l50.34-50.35a8,8,0,0,1,11.32,0L128,132.69,180.69,80H160a8,8,0,0,1,0-16h40a8,8,0,0,1,8,8v40a8,8,0,0,1-16,0V91.31l-58.34,58.35a8,8,0,0,1-11.32,0L96,123.31,40,179.31V200H224A8,8,0,0,1,232,208Z"/></svg>
+          <div class="app-sb-item active">
+            <svg viewBox="0 0 256 256" fill="currentColor" width="17" height="17"><path d="M232,208a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V48a8,8,0,0,1,16,0V156.69l50.34-50.35a8,8,0,0,1,11.32,0L128,132.69,180.69,80H160a8,8,0,0,1,0-16h40a8,8,0,0,1,8,8v40a8,8,0,0,1-16,0V91.31l-58.34,58.35a8,8,0,0,1-11.32,0L96,123.31,40,179.31V200H224A8,8,0,0,1,232,208Z"/></svg>
             <span>Pulse</span>
           </div>
         </div>
@@ -1273,7 +1273,7 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
         <div style="display:flex;justify-content:space-between;align-items:flex-start">
           <div>
             <div style="font-size:13px;color:var(--app-muted)">Good afternoon, Lukas</div>
-            <div style="font-size:22px;font-weight:600;color:var(--app-text);letter-spacing:-.5px;margin-top:2px">Almost there — keep going</div>
+            <div style="font-size:22px;font-weight:600;color:var(--app-text);letter-spacing:-.5px;margin-top:2px;white-space:nowrap">Almost there — keep going</div>
           </div>
         </div>
         <!-- Your Pulse card with stacked effect -->
@@ -1287,12 +1287,12 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
             </div>
             <div class="pm-hero">
               <div class="pm-hero-block">
-                <div class="pm-big">42<span class="pm-big-fade">/68</span></div>
+                <div class="pm-big"><span class="pm-count" data-target="42" data-format="int">0</span><span class="pm-big-fade">/<span class="pm-count" data-target="68" data-format="int">0</span></span></div>
                 <div class="pm-goal-label">paying customers</div>
               </div>
               <div class="pm-divider"></div>
               <div class="pm-hero-block">
-                <div class="pm-big">$6,258</div>
+                <div class="pm-big">$<span class="pm-count" data-target="6258" data-format="comma">0</span></div>
                 <div class="pm-goal-label">of $10,132 revenue target</div>
               </div>
             </div>
@@ -1305,44 +1305,44 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
             </div>
             <div class="pm-metrics">
               <div class="pm-metric">
-                <div class="pm-metric-val">6,840</div>
+                <div class="pm-metric-val"><span class="pm-count" data-target="6840" data-format="comma">0</span></div>
                 <div class="pm-metric-label">Visits</div>
               </div>
               <div class="pm-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
               <div class="pm-metric">
-                <div class="pm-metric-val">342</div>
+                <div class="pm-metric-val"><span class="pm-count" data-target="342" data-format="int">0</span></div>
                 <div class="pm-metric-label">Signups</div>
               </div>
               <div class="pm-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
               <div class="pm-metric">
-                <div class="pm-metric-val">171</div>
+                <div class="pm-metric-val"><span class="pm-count" data-target="171" data-format="int">0</span></div>
                 <div class="pm-metric-label">Activated</div>
               </div>
               <div class="pm-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
               <div class="pm-metric">
-                <div class="pm-metric-val">42</div>
+                <div class="pm-metric-val"><span class="pm-count" data-target="42" data-format="int">0</span></div>
                 <div class="pm-metric-label">Paying</div>
               </div>
             </div>
             <div class="pm-footer">
               <div class="pm-footer-stat">
                 <div class="pm-footer-label">Today's visits</div>
-                <div class="pm-footer-val">412<span>/389</span></div>
+                <div class="pm-footer-val"><span class="pm-count" data-target="412" data-format="int">0</span><span>/<span class="pm-count" data-target="389" data-format="int">0</span></span></div>
               </div>
               <div class="pm-footer-div"></div>
               <div class="pm-footer-stat">
                 <div class="pm-footer-label">Signups today</div>
-                <div class="pm-footer-val">156<span>/174</span></div>
+                <div class="pm-footer-val"><span class="pm-count" data-target="156" data-format="int">0</span><span>/<span class="pm-count" data-target="174" data-format="int">0</span></span></div>
               </div>
               <div class="pm-footer-div"></div>
               <div class="pm-footer-stat">
                 <div class="pm-footer-label">Activations</div>
-                <div class="pm-footer-val">47</div>
+                <div class="pm-footer-val"><span class="pm-count" data-target="47" data-format="int">0</span></div>
               </div>
               <div class="pm-footer-div"></div>
               <div class="pm-footer-stat">
                 <div class="pm-footer-label">New paying</div>
-                <div class="pm-footer-val">6</div>
+                <div class="pm-footer-val"><span class="pm-count" data-target="6" data-format="int">0</span></div>
               </div>
             </div>
             </div>
@@ -2254,22 +2254,60 @@ if (structBtn) {
   onScroll();
 })();
 
-// ── Pulse mockup progress bar animation ──
+// ── Pulse mockup: count-up numbers + progress bar on scroll ──
 ;(function(){
   var pmBar = document.getElementById('pmBar');
   var pmPct = document.getElementById('pmPct');
   var pmCard = document.getElementById('pulseMockup');
   if (!pmBar || !pmCard) return;
   var pmPlayed = false;
+
+  function formatNum(n, fmt) {
+    if (fmt === 'comma') return n.toLocaleString('en-US');
+    return String(n);
+  }
+
+  function animateCount(el, target, fmt, duration, delay) {
+    setTimeout(function(){
+      var start = performance.now();
+      function tick(now) {
+        var t = Math.min((now - start) / duration, 1);
+        // ease-out cubic
+        var ease = 1 - Math.pow(1 - t, 3);
+        var val = Math.round(ease * target);
+        el.textContent = formatNum(val, fmt);
+        if (t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }, delay);
+  }
+
   var pmObs = new IntersectionObserver(function(entries){
     entries.forEach(function(entry){
       if (entry.isIntersecting && !pmPlayed) {
         pmPlayed = true;
+        // Animate progress bar
         pmBar.style.width = '62%';
-        pmPct.textContent = '62% complete';
+        // Animate percentage text
+        var pctStart = performance.now();
+        function pctTick(now) {
+          var t = Math.min((now - pctStart) / 1200, 1);
+          var ease = 1 - Math.pow(1 - t, 3);
+          pmPct.textContent = Math.round(ease * 62) + '% complete';
+          if (t < 1) requestAnimationFrame(pctTick);
+        }
+        requestAnimationFrame(pctTick);
+        // Animate all count-up numbers
+        var counters = pmCard.querySelectorAll('.pm-count');
+        for (var i = 0; i < counters.length; i++) {
+          var el = counters[i];
+          var target = parseInt(el.getAttribute('data-target'), 10);
+          var fmt = el.getAttribute('data-format') || 'int';
+          animateCount(el, target, fmt, 1400, i * 60);
+        }
       }
     });
-  }, { threshold: 0.3 });
+  }, { threshold: 0.25 });
   pmObs.observe(pmCard);
 })();
 
