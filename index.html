@@ -616,9 +616,9 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
   </div>
   <div class="cta-note" style="margin-top:14px">7-day free trial · Cancel anytime</div>
   <div class="hero-preview">
-    <div class="dm" style="height:720px;position:relative;overflow:visible;display:flex;align-items:center" id="heroMockup">
-      <!-- Back layer: Prospects dashboard (offset right, vertically centered) -->
-      <div style="position:absolute;top:50%;transform:translateY(-50%);left:300px;right:-40px;height:670px;display:flex;background:var(--dm-bg);border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);box-shadow:0 24px 80px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.04)">
+    <div class="dm" style="height:720px;position:relative;overflow:visible" id="heroMockup">
+      <!-- Back layer: Prospects dashboard (offset right, clipped) -->
+      <div style="position:absolute;top:24px;bottom:24px;left:300px;right:-40px;display:flex;background:var(--dm-bg);border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);box-shadow:0 24px 80px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.04)">
         <!-- Prospect table (no sidebar — card covers left side) -->
         <div style="flex:1;padding:20px 24px;display:flex;flex-direction:column;gap:14px;overflow:hidden">
           <div style="display:flex;justify-content:space-between;align-items:center">
@@ -771,7 +771,7 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
       </div>
 
       <!-- Floating onboarding card (front layer) — left edge, taller than dashboard -->
-      <div id="heroCard" style="position:absolute;left:-45px;top:50%;transform:translateY(-50%);width:380px;max-height:660px;overflow:hidden;background:var(--dm-card);border:1px solid var(--dm-border);border-radius:16px;box-shadow:8px 0 64px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.04);z-index:5;padding:28px 24px;display:flex;flex-direction:column;gap:11px">
+      <div id="heroCard" style="position:absolute;left:-45px;top:50%;transform:translateY(-50%);width:380px;background:var(--dm-card);border:1px solid var(--dm-border);border-radius:16px;box-shadow:8px 0 64px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.04);z-index:5;padding:28px 24px;display:flex;flex-direction:column;gap:11px">
         <div class="card-label"><div class="skel-bar" style="width:190px;height:15px;border-radius:4px"></div><span style="display:none;font-size:17px;font-weight:600;color:var(--dm-text);letter-spacing:-.3px">Tell us about your company</span></div>
         <!-- Company name field -->
         <div>
