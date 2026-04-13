@@ -115,7 +115,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:12px 0;background:rg
 /* ── SECTION ── */
 .sec{padding:120px 0}
 .s-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--g);margin-bottom:12px}
-.s-title{font-family:var(--serif);font-style:normal;font-size:clamp(28px,3.8vw,44px);font-weight:500;letter-spacing:-0.02em;line-height:1.12;max-width:700px;margin-bottom:14px}
+.s-title{font-family:var(--serif);font-style:normal;font-size:clamp(28px,3.8vw,44px);font-weight:500;letter-spacing:-0.02em;line-height:1.12;max-width:800px;margin-bottom:14px}
 .s-title em{font-style:italic;font-family:var(--serif);color:var(--g);font-weight:400}
 .s-desc{font-size:16px;color:var(--text-s);max-width:500px;line-height:1.7;margin-bottom:56px}
 .divider{width:100%;height:1px;background:var(--border)}
@@ -433,10 +433,15 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
   .nav-r .nl{display:none}
   .nav-r .btn{width:auto;padding:8px 12px !important;font-size:12px !important;white-space:nowrap}
   .integ-logos{gap:16px}
-  /* Hero mockup — show only onboarding card on mobile, hide dashboard behind */
-  #heroMockup{height:auto !important;display:flex;flex-direction:column;gap:0}
-  #heroMockup > div:first-child{display:none !important}
+  /* Hero mockup — stack card on top, dashboard below */
+  #heroMockup{height:auto !important;display:flex;flex-direction:column-reverse;gap:16px}
+  #heroMockup > div:first-child{position:relative !important;inset:auto !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;border-radius:12px !important;overflow:hidden !important;max-height:340px}
   #heroCard{position:relative !important;inset:auto !important;width:100% !important;border-radius:12px !important;max-height:none !important;overflow:visible !important;transform:none !important}
+  /* Hide extra columns on mobile prospect rows — keep name + company */
+  #heroMockup .pr-row,#heroMockup .skel-row{grid-template-columns:1fr .8fr !important}
+  #heroMockup .pr-row > span:nth-child(n+3),#heroMockup .skel-row > div:nth-child(n+3){display:none !important}
+  #heroMockup [style*="grid-template-columns:2.2fr 1.2fr 2fr"]{grid-template-columns:1fr .8fr !important}
+  #heroMockup [style*="grid-template-columns:2.2fr 1.2fr 2fr"] > span:nth-child(n+3){display:none !important}
   /* Section titles */
   .s-title{font-size:clamp(22px,5.5vw,32px)}
   .s-desc{font-size:14px}
@@ -541,17 +546,24 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
 .pm-footer-div{width:1px;height:32px;background:rgba(95,168,131,.12);flex-shrink:0}
 @media(max-width:768px){
   .pm-card{padding:0}
-  .pm-card-inner{padding:20px 16px 16px}
-  .pm-hero{flex-direction:column;gap:12px;align-items:flex-start}
+  .pm-card-inner{padding:24px 20px 20px}
+  .pm-hero{flex-direction:column;gap:16px;align-items:flex-start}
   .pm-divider{width:100%;height:1px}
-  .pm-big{font-size:28px}
-  .pm-metrics{flex-wrap:wrap;gap:12px}
+  .pm-big{font-size:32px;letter-spacing:-0.5px}
+  .pm-big-fade{letter-spacing:0}
+  .pm-goal-label{font-size:14px;margin-top:6px}
+  .pm-metrics{flex-wrap:wrap;gap:20px 0;padding:20px 0}
   .pm-arrow{display:none}
-  .pm-metric{flex:0 0 calc(50% - 6px)}
-  .pm-footer{flex-wrap:wrap;gap:12px}
+  .pm-metric{flex:0 0 50%}
+  .pm-metric-val{font-size:24px;letter-spacing:0.5px}
+  .pm-metric-label{font-size:10px;letter-spacing:1px;margin-top:6px}
+  .pm-footer{flex-wrap:wrap;gap:16px 0;padding-top:8px}
   .pm-footer-div{display:none}
-  .pm-footer-stat{flex:0 0 calc(50% - 6px)}
+  .pm-footer-stat{flex:0 0 50%}
+  .pm-footer-val{font-size:18px;letter-spacing:0.3px}
+  .pm-footer-label{font-size:12px;margin-bottom:6px}
   .pm-wrap::before{left:24px;right:24px;height:40px}
+  .pm-progress-meta{font-size:13px;margin-bottom:24px}
 }
 @media(max-width:480px){
   .pm-big{font-size:24px}
@@ -1377,7 +1389,7 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
 <!-- ══ STATS ══ -->
 <div class="stats-bar">
 <div class="stats-grid">
-  <div class="stat-cell reveal"><div class="stat-num">10,000+</div><div class="stat-label">Prospects discovered</div></div>
+  <div class="stat-cell reveal"><div class="stat-num">1M+</div><div class="stat-label">Prospects discovered</div></div>
   <div class="stat-cell reveal"><div class="stat-num">95%</div><div class="stat-label">Email personalization rate</div></div>
   <div class="stat-cell reveal"><div class="stat-num">3–5x</div><div class="stat-label">Higher reply rate vs templates</div></div>
 </div>
