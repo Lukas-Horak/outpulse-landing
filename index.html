@@ -515,33 +515,35 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
 .pm-wrap{position:relative;padding-bottom:10px}
 /* Stacked card behind */
 .pm-wrap::before{content:'';position:absolute;left:40px;right:40px;bottom:0;height:60px;border-radius:0 0 20px 20px;background:linear-gradient(160deg,#c5ddd0 0%,#b0cfbf 40%,#c5ddd0 100%);border:1px solid rgba(95,168,131,.12);border-top:none;opacity:.2;z-index:0}
-/* Main card — light theme like actual dashboard */
-.pm-card{position:relative;z-index:1;background:linear-gradient(160deg,rgba(95,168,131,.03) 0%,#fff 30%,#fff 100%);border:1px solid rgba(95,168,131,.12);border-radius:20px;padding:28px 32px 20px;box-shadow:0 1px 3px rgba(0,0,0,.04),0 8px 32px rgba(95,168,131,.06),0 20px 60px rgba(0,0,0,.03)}
+/* Main card — green liquid glass matching actual dashboard */
+.pm-card{position:relative;z-index:1;border-radius:24px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.04),0 12px 32px rgba(0,0,0,.06),0 8px 40px rgba(95,168,131,.15)}
+.pm-card-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 80% 60% at 20% 30%,rgba(95,168,131,.50) 0%,transparent 60%),radial-gradient(ellipse 60% 80% at 80% 70%,rgba(78,146,113,.30) 0%,transparent 50%),radial-gradient(ellipse 50% 50% at 50% 50%,rgba(95,168,131,.15) 0%,transparent 70%),linear-gradient(160deg,#e8f5ee 0%,#d4ece0 40%,#e8f5ee 100%)}
+.pm-card-inner{position:relative;z-index:1;padding:28px 32px 20px;border:1px solid rgba(95,168,131,.20);border-radius:24px;background:rgba(255,255,255,.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 .pm-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-.pm-label{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--app-green);text-transform:uppercase;letter-spacing:.5px}
-.pm-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#3d8b5e;background:rgba(95,168,131,.08);padding:4px 12px;border-radius:100px}
+.pm-label{font-family:var(--sans);font-size:11px;font-weight:600;color:var(--app-green-dark);text-transform:uppercase;letter-spacing:1.2px;opacity:.7}
+.pm-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#3d8b5e;background:rgba(255,255,255,.4);padding:4px 12px;border-radius:100px}
 .pm-dot{width:6px;height:6px;border-radius:50%;background:#5fa883;animation:pulse 2s ease-in-out infinite}
 .pm-hero{display:flex;align-items:center;gap:24px;margin-bottom:20px}
 .pm-hero-block{flex:1}
-.pm-big{font-family:'Instrument Serif',Georgia,serif;font-size:38px;font-weight:500;color:var(--app-text);line-height:1.1}
-.pm-big-fade{color:#b0b0b0;font-weight:400}
-.pm-goal-label{font-size:13px;color:var(--app-muted);margin-top:4px}
-.pm-divider{width:1px;height:48px;background:rgba(0,0,0,.08);flex-shrink:0}
+.pm-big{font-family:'Instrument Serif',Georgia,serif;font-size:42px;font-weight:500;color:var(--app-text);line-height:1;letter-spacing:-1.5px}
+.pm-big-fade{color:rgba(0,0,0,.3);font-weight:400}
+.pm-goal-label{font-size:13px;color:rgba(0,0,0,.45);margin-top:4px}
+.pm-divider{width:1px;height:56px;background:rgba(95,168,131,.20);flex-shrink:0}
 .pm-progress-wrap{height:8px;background:rgba(95,168,131,.1);border-radius:100px;overflow:hidden;margin-bottom:8px}
 .pm-progress-bar{height:100%;background:linear-gradient(90deg,#5fa883,#7cc4a0);border-radius:100px;width:0;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
-.pm-progress-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--app-muted);margin-bottom:20px}
-.pm-metrics{display:flex;align-items:center;padding:16px 0;border-top:1px solid rgba(0,0,0,.05);border-bottom:1px solid rgba(0,0,0,.05);margin-bottom:20px}
+.pm-progress-meta{display:flex;justify-content:space-between;font-size:12px;color:rgba(0,0,0,.4);margin-bottom:20px}
+.pm-metrics{display:flex;align-items:center;padding:16px 0;border-top:1px solid rgba(95,168,131,.12);border-bottom:1px solid rgba(95,168,131,.12);margin-bottom:20px}
 .pm-metric{flex:1;text-align:center}
-.pm-metric-val{font-family:'Instrument Serif',Georgia,serif;font-size:24px;font-weight:500;color:var(--app-text);line-height:1.2}
-.pm-metric-tgt{font-size:13px;color:#b0b0b0;font-weight:400}
-.pm-metric-label{font-size:11px;color:var(--app-muted);text-transform:uppercase;letter-spacing:.3px;margin-top:4px;font-weight:600}
+.pm-metric-val{font-family:'Instrument Serif',Georgia,serif;font-size:26px;font-weight:500;color:var(--app-text);line-height:1.2;letter-spacing:-0.5px}
+.pm-metric-tgt{font-size:13px;color:rgba(0,0,0,.3);font-weight:400}
+.pm-metric-label{font-size:11px;color:rgba(0,0,0,.45);text-transform:uppercase;letter-spacing:.3px;margin-top:4px;font-weight:600}
 .pm-arrow{color:rgba(95,168,131,.35);flex-shrink:0;display:flex;align-items:center}
 .pm-footer{display:flex;align-items:center}
 .pm-footer-stat{flex:1;text-align:center}
-.pm-footer-label{font-size:11px;color:#9a9a9a;margin-bottom:4px}
+.pm-footer-label{font-size:11px;color:rgba(0,0,0,.35);margin-bottom:4px}
 .pm-footer-val{font-size:16px;font-weight:700;color:var(--app-text)}
-.pm-footer-val span{color:#b0b0b0;font-weight:400;font-size:13px}
-.pm-footer-div{width:1px;height:32px;background:rgba(0,0,0,.06);flex-shrink:0}
+.pm-footer-val span{color:rgba(0,0,0,.3);font-weight:400;font-size:13px}
+.pm-footer-div{width:1px;height:32px;background:rgba(95,168,131,.12);flex-shrink:0}
 @media(max-width:768px){
   .pm-card{padding:20px 16px 16px}
   .pm-hero{flex-direction:column;gap:12px;align-items:flex-start}
@@ -808,7 +810,7 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
           <div class="skel-bar" style="width:96px;height:22px;border-radius:8px"></div>
         </div>
         <!-- Real tags (hidden, shown after typing) -->
-        <div id="twTags" style="display:none;flex-wrap:wrap;gap:5px">
+        <div id="twTags" style="display:none;flex-wrap:wrap;gap:5px;max-height:54px;overflow:hidden">
           <div style="padding:4px 10px;border-radius:8px;font-size:10px;background:rgba(95,168,131,.06);border:1px solid rgba(95,168,131,.1);color:rgba(95,168,131,.7)">Digital Transformation</div>
           <div style="padding:4px 10px;border-radius:8px;font-size:10px;background:rgba(107,157,191,.06);border:1px solid rgba(107,157,191,.1);color:rgba(107,157,191,.7)">UX/UI Design</div>
           <div style="padding:4px 10px;border-radius:8px;font-size:10px;background:rgba(217,147,74,.06);border:1px solid rgba(217,147,74,.1);color:rgba(217,147,74,.7)">Mobile Development</div>
@@ -1277,19 +1279,21 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
         <!-- Your Pulse card with stacked effect -->
         <div class="pm-wrap">
           <div class="pm-card" id="pmCardInner">
+            <div class="pm-card-bg"></div>
+            <div class="pm-card-inner">
             <div class="pm-head">
               <span class="pm-label">Your Pulse</span>
               <span class="pm-badge"><span class="pm-dot"></span>On track</span>
             </div>
             <div class="pm-hero">
               <div class="pm-hero-block">
-                <div class="pm-big">11<span class="pm-big-fade">/18</span></div>
-                <div class="pm-goal-label">closed deals</div>
+                <div class="pm-big">42<span class="pm-big-fade">/68</span></div>
+                <div class="pm-goal-label">paying customers</div>
               </div>
               <div class="pm-divider"></div>
               <div class="pm-hero-block">
-                <div class="pm-big">$220,000</div>
-                <div class="pm-goal-label">of $360,000 revenue target</div>
+                <div class="pm-big">$6,258</div>
+                <div class="pm-goal-label">of $10,132 revenue target</div>
               </div>
             </div>
             <div class="pm-progress-wrap">
@@ -1301,47 +1305,46 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
             </div>
             <div class="pm-metrics">
               <div class="pm-metric">
-                <div class="pm-metric-val">1,247</div>
-                <div class="pm-metric-tgt">/ 2,084</div>
+                <div class="pm-metric-val">6,840</div>
                 <div class="pm-metric-label">Visits</div>
               </div>
               <div class="pm-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
               <div class="pm-metric">
-                <div class="pm-metric-val">30</div>
-                <div class="pm-metric-label">Inquiries</div>
+                <div class="pm-metric-val">342</div>
+                <div class="pm-metric-label">Signups</div>
               </div>
               <div class="pm-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
               <div class="pm-metric">
-                <div class="pm-metric-val">12</div>
-                <div class="pm-metric-label">Calls</div>
+                <div class="pm-metric-val">171</div>
+                <div class="pm-metric-label">Activated</div>
               </div>
               <div class="pm-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
               <div class="pm-metric">
-                <div class="pm-metric-val">11</div>
-                <div class="pm-metric-tgt">/ 18</div>
-                <div class="pm-metric-label">Closed</div>
+                <div class="pm-metric-val">42</div>
+                <div class="pm-metric-label">Paying</div>
               </div>
             </div>
             <div class="pm-footer">
               <div class="pm-footer-stat">
                 <div class="pm-footer-label">Today's visits</div>
-                <div class="pm-footer-val">74<span>/70</span></div>
+                <div class="pm-footer-val">412<span>/389</span></div>
               </div>
               <div class="pm-footer-div"></div>
               <div class="pm-footer-stat">
-                <div class="pm-footer-label">Emails sent</div>
-                <div class="pm-footer-val">82<span>/96</span></div>
+                <div class="pm-footer-label">Signups today</div>
+                <div class="pm-footer-val">156<span>/174</span></div>
               </div>
               <div class="pm-footer-div"></div>
               <div class="pm-footer-stat">
-                <div class="pm-footer-label">Opens today</div>
-                <div class="pm-footer-val">24</div>
+                <div class="pm-footer-label">Activations</div>
+                <div class="pm-footer-val">47</div>
               </div>
               <div class="pm-footer-div"></div>
               <div class="pm-footer-stat">
-                <div class="pm-footer-label">Replies today</div>
-                <div class="pm-footer-val">3</div>
+                <div class="pm-footer-label">New paying</div>
+                <div class="pm-footer-val">6</div>
               </div>
+            </div>
             </div>
           </div>
         </div>
@@ -2270,7 +2273,7 @@ if (structBtn) {
   pmObs.observe(pmCard);
 })();
 
-// ── CTA particle animation (multi-color, stronger effect) ──
+// ── CTA particle animation (matches hero section) ──
 ;(function(){
   var canvas = document.getElementById('ctaParticles');
   if (!canvas) return;
@@ -2285,16 +2288,18 @@ if (structBtn) {
     var h = canvas.offsetHeight;
     canvas.width = w * 2;
     canvas.height = h * 2;
-    var count = Math.min(100, Math.floor((w * h) / 6000));
+    var count = 60;
     particles = [];
     for (var i = 0; i < count; i++) {
+      var alpha = Math.random() * 0.25 + 0.08;
       particles.push({
         x: Math.random() * w * 2,
         y: Math.random() * h * 2,
-        vx: (Math.random() - 0.5) * 0.6,
-        vy: (Math.random() - 0.5) * 0.6,
-        r: Math.random() * 3.5 + 1.5,
-        o: Math.random() * 0.5 + 0.2,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 2.5 + 1,
+        o: alpha,
+        baseO: alpha,
         c: COLORS[Math.floor(Math.random() * COLORS.length)]
       });
     }
@@ -2315,11 +2320,18 @@ if (structBtn) {
       var p = particles[i];
       var dx = mx - p.x, dy = my - p.y;
       var dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 350) { p.vx += dx * 0.0002; p.vy += dy * 0.0002; }
+      if (dist < 200 && dist > 1) {
+        var force = 0.015 * (1 - dist / 200);
+        p.vx += dx / dist * force;
+        p.vy += dy / dist * force;
+        p.o = p.baseO + 0.15 * (1 - dist / 200);
+      } else {
+        p.o += (p.baseO - p.o) * 0.05;
+      }
       p.x += p.vx; p.y += p.vy;
-      p.vx *= 0.997; p.vy *= 0.997;
-      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
-      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+      p.vx *= 0.995; p.vy *= 0.995;
+      if (p.x < -10) p.x = W + 10; if (p.x > W + 10) p.x = -10;
+      if (p.y < -10) p.y = H + 10; if (p.y > H + 10) p.y = -10;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(' + p.c + ',' + p.o + ')';
@@ -2330,12 +2342,12 @@ if (structBtn) {
         var ddx = particles[i].x - particles[j].x;
         var ddy = particles[i].y - particles[j].y;
         var d = Math.sqrt(ddx * ddx + ddy * ddy);
-        if (d < 200) {
+        if (d < 150) {
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = 'rgba(' + particles[i].c + ',' + (0.15 * (1 - d / 200)) + ')';
-          ctx.lineWidth = 1;
+          ctx.strokeStyle = 'rgba(' + particles[i].c + ',' + (0.1 * (1 - d / 150)) + ')';
+          ctx.lineWidth = 0.8;
           ctx.stroke();
         }
       }
