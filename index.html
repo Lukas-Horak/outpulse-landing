@@ -308,11 +308,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:12px 0;background:rg
 
 /* ── PRICING ── */
 .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:960px;margin:0 auto}
-.pricing-card{border-radius:18px;border:1.5px solid rgba(255,255,255,.06);background:var(--bg2);overflow:hidden;display:flex;flex-direction:column;position:relative;transition:border-color .2s,box-shadow .2s}
+.pricing-card{border-radius:18px;border:1.5px solid rgba(255,255,255,.06);background:var(--bg2);overflow:visible;display:flex;flex-direction:column;position:relative;transition:border-color .2s,box-shadow .2s}
 .pricing-card:hover{border-color:rgba(95,168,131,.2);box-shadow:0 4px 20px rgba(95,168,131,.08)}
 .pricing-card.popular{border-color:rgba(95,168,131,.3);box-shadow:0 4px 24px rgba(95,168,131,.12)}
-.pricing-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--g);color:#fff;font-size:11px;font-weight:600;padding:3px 14px;border-radius:100px;letter-spacing:.3px;white-space:nowrap}
-.pricing-header{padding:28px 24px 20px;text-align:center;border-bottom:1px solid var(--border)}
+.pricing-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--g);color:#fff;font-size:11px;font-weight:600;padding:4px 16px;border-radius:100px;letter-spacing:.3px;white-space:nowrap;z-index:2;box-shadow:0 2px 8px rgba(95,168,131,.3)}
+.pricing-header{padding:28px 24px 20px;text-align:center;border-bottom:1px solid var(--border);border-radius:18px 18px 0 0}
 .pricing-plan{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--g);margin-bottom:8px}
 .pricing-amount{font-family:'Instrument Serif',Georgia,serif;font-size:42px;font-weight:500;letter-spacing:-.02em}
 .pricing-amount span{font-family:var(--sans);font-size:15px;color:var(--text-t);font-weight:400}
