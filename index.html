@@ -512,38 +512,36 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
 .pulse-sec-title{font-family:var(--serif);font-style:normal;font-size:clamp(28px,3.8vw,44px);font-weight:500;letter-spacing:-0.02em;line-height:1.12;text-align:center;margin-bottom:14px}
 .pulse-sec-title em{font-style:italic;font-family:var(--serif);color:var(--g);font-weight:400}
 .pulse-sec-desc{font-size:16px;color:var(--text-s);text-align:center;max-width:520px;margin:0 auto 56px;line-height:1.7}
-.pm-wrap{position:relative;max-width:720px;margin:0 auto;padding-bottom:12px}
+.pm-wrap{position:relative;padding-bottom:10px}
 /* Stacked card behind */
-.pm-wrap::before{content:'';position:absolute;left:40px;right:40px;bottom:0;height:60px;border-radius:0 0 20px 20px;background:linear-gradient(160deg,rgba(95,168,131,.12) 0%,rgba(95,168,131,.06) 100%);border:1px solid rgba(95,168,131,.08);border-top:none;opacity:.55;z-index:0}
-/* Green glow behind card */
-.pm-glow{position:absolute;inset:-80px;background:radial-gradient(ellipse at center,rgba(95,168,131,.08) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
-/* Main card — dark theme matching landing page */
-.pm-card{position:relative;z-index:1;background:linear-gradient(160deg,rgba(95,168,131,.04) 0%,rgba(20,20,24,.95) 30%,rgba(20,20,24,.98) 100%);border:1px solid rgba(95,168,131,.12);border-radius:20px;padding:28px 32px 20px;box-shadow:0 2px 8px rgba(0,0,0,.2),0 12px 48px rgba(95,168,131,.08),0 24px 80px rgba(0,0,0,.3)}
+.pm-wrap::before{content:'';position:absolute;left:40px;right:40px;bottom:0;height:60px;border-radius:0 0 20px 20px;background:linear-gradient(160deg,#c5ddd0 0%,#b0cfbf 40%,#c5ddd0 100%);border:1px solid rgba(95,168,131,.12);border-top:none;opacity:.2;z-index:0}
+/* Main card — light theme like actual dashboard */
+.pm-card{position:relative;z-index:1;background:linear-gradient(160deg,rgba(95,168,131,.03) 0%,#fff 30%,#fff 100%);border:1px solid rgba(95,168,131,.12);border-radius:20px;padding:28px 32px 20px;box-shadow:0 1px 3px rgba(0,0,0,.04),0 8px 32px rgba(95,168,131,.06),0 20px 60px rgba(0,0,0,.03)}
 .pm-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-.pm-label{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--g);text-transform:uppercase;letter-spacing:.5px}
-.pm-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:rgba(95,168,131,.85);background:rgba(95,168,131,.08);padding:4px 12px;border-radius:100px;border:1px solid rgba(95,168,131,.12)}
+.pm-label{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--app-green);text-transform:uppercase;letter-spacing:.5px}
+.pm-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#3d8b5e;background:rgba(95,168,131,.08);padding:4px 12px;border-radius:100px}
 .pm-dot{width:6px;height:6px;border-radius:50%;background:#5fa883;animation:pulse 2s ease-in-out infinite}
 .pm-hero{display:flex;align-items:center;gap:24px;margin-bottom:20px}
 .pm-hero-block{flex:1}
-.pm-big{font-family:'Instrument Serif',Georgia,serif;font-size:38px;font-weight:500;color:var(--text);line-height:1.1}
-.pm-big-fade{color:var(--text-t);font-weight:400}
-.pm-goal-label{font-size:13px;color:var(--text-s);margin-top:4px}
-.pm-divider{width:1px;height:48px;background:var(--border);flex-shrink:0}
+.pm-big{font-family:'Instrument Serif',Georgia,serif;font-size:38px;font-weight:500;color:var(--app-text);line-height:1.1}
+.pm-big-fade{color:#b0b0b0;font-weight:400}
+.pm-goal-label{font-size:13px;color:var(--app-muted);margin-top:4px}
+.pm-divider{width:1px;height:48px;background:rgba(0,0,0,.08);flex-shrink:0}
 .pm-progress-wrap{height:8px;background:rgba(95,168,131,.1);border-radius:100px;overflow:hidden;margin-bottom:8px}
 .pm-progress-bar{height:100%;background:linear-gradient(90deg,#5fa883,#7cc4a0);border-radius:100px;width:0;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
-.pm-progress-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--text-t);margin-bottom:20px}
-.pm-metrics{display:flex;align-items:center;padding:16px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:20px}
+.pm-progress-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--app-muted);margin-bottom:20px}
+.pm-metrics{display:flex;align-items:center;padding:16px 0;border-top:1px solid rgba(0,0,0,.05);border-bottom:1px solid rgba(0,0,0,.05);margin-bottom:20px}
 .pm-metric{flex:1;text-align:center}
-.pm-metric-val{font-family:'Instrument Serif',Georgia,serif;font-size:24px;font-weight:500;color:var(--text);line-height:1.2}
-.pm-metric-tgt{font-size:13px;color:var(--text-t);font-weight:400}
-.pm-metric-label{font-size:11px;color:var(--text-s);text-transform:uppercase;letter-spacing:.3px;margin-top:4px;font-weight:600}
+.pm-metric-val{font-family:'Instrument Serif',Georgia,serif;font-size:24px;font-weight:500;color:var(--app-text);line-height:1.2}
+.pm-metric-tgt{font-size:13px;color:#b0b0b0;font-weight:400}
+.pm-metric-label{font-size:11px;color:var(--app-muted);text-transform:uppercase;letter-spacing:.3px;margin-top:4px;font-weight:600}
 .pm-arrow{color:rgba(95,168,131,.35);flex-shrink:0;display:flex;align-items:center}
 .pm-footer{display:flex;align-items:center}
 .pm-footer-stat{flex:1;text-align:center}
-.pm-footer-label{font-size:11px;color:var(--text-t);margin-bottom:4px}
-.pm-footer-val{font-size:16px;font-weight:700;color:var(--text)}
-.pm-footer-val span{color:var(--text-t);font-weight:400;font-size:13px}
-.pm-footer-div{width:1px;height:32px;background:var(--border);flex-shrink:0}
+.pm-footer-label{font-size:11px;color:#9a9a9a;margin-bottom:4px}
+.pm-footer-val{font-size:16px;font-weight:700;color:var(--app-text)}
+.pm-footer-val span{color:#b0b0b0;font-weight:400;font-size:13px}
+.pm-footer-div{width:1px;height:32px;background:rgba(0,0,0,.06);flex-shrink:0}
 @media(max-width:768px){
   .pm-card{padding:20px 16px 16px}
   .pm-hero{flex-direction:column;gap:12px;align-items:flex-start}
@@ -1216,73 +1214,160 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
     <h2 class="pulse-sec-title">See your <em>growth</em> at a glance</h2>
     <p class="pulse-sec-desc">Your Pulse tracks every step from first visit to closed deal. Set a revenue target and watch the numbers come alive.</p>
   </div>
-  <div class="pm-wrap reveal">
-    <div class="pm-glow"></div>
-    <div class="pm-card" id="pulseMockup">
-      <div class="pm-head">
-        <span class="pm-label">Your Pulse</span>
-        <span class="pm-badge"><span class="pm-dot"></span>On track</span>
+  <div class="app-frame reveal" id="pulseMockup">
+    <div class="app-chrome">
+      <span class="app-dot r"></span><span class="app-dot y"></span><span class="app-dot g"></span>
+      <span class="app-url">app.outpulse.ai/dashboard</span>
+    </div>
+    <div class="app-body">
+      <div class="app-sb">
+        <div class="app-sb-logo">
+          <svg viewBox="0 0 512 512" width="22" height="22"><path d="M376.9,258.5 A125,78,-1,0,1,255.5,339.9" fill="none" stroke="#5fa883" stroke-width="19.5" stroke-linecap="butt" opacity="0.14"/><path d="M255.5,339.9 A125,78,-1,0,1,127.1,265.5" fill="none" stroke="#5fa883" stroke-width="19.5" stroke-linecap="butt" opacity="0.11"/><path d="M127.1,265.5 A125,78,-1,0,1,248.5,184.1" fill="none" stroke="#5fa883" stroke-width="19.5" stroke-linecap="butt" opacity="1.00"/><path d="M248.5,184.1 A125,78,-1,0,1,376.9,258.5" fill="none" stroke="#5fa883" stroke-width="19.5" stroke-linecap="butt" opacity="1.00"/><circle cx="127.1" cy="265.5" r="9.8" fill="#5fa883" opacity="1.00"/><path d="M321.9,158.4 A125,125,-58,0,1,355.6,331.9" fill="none" stroke="#5fa883" stroke-width="24" stroke-linecap="butt" opacity="0.27"/><path d="M355.6,331.9 A125,125,-58,0,1,182.1,365.6" fill="none" stroke="#5fa883" stroke-width="24" stroke-linecap="butt" opacity="0.18"/><path d="M182.1,365.6 A125,125,-58,0,1,148.4,192.1" fill="none" stroke="#5fa883" stroke-width="24" stroke-linecap="butt" opacity="1.00"/><path d="M148.4,192.1 A125,125,-58,0,1,321.9,158.4" fill="none" stroke="#5fa883" stroke-width="24" stroke-linecap="butt" opacity="0.94"/><circle cx="182.1" cy="365.6" r="12.0" fill="#5fa883" opacity="1.00"/><rect x="159.8" y="81.8" width="20.5" height="72.0" rx="10.0" fill="#5fa883" opacity="1" transform="rotate(-30.0,170.0,117.8)"/><rect x="200.4" y="78.2" width="20.5" height="72.0" rx="10.0" fill="#5fa883" opacity="1" transform="rotate(-15.0,210.7,114.2)"/><rect x="241.8" y="77.0" width="20.5" height="72.0" rx="10.0" fill="#5fa883" opacity="1" transform="rotate(0.0,252.0,113.0)"/><rect x="283.1" y="78.2" width="20.5" height="72.0" rx="10.0" fill="#5fa883" opacity="1" transform="rotate(15.0,293.3,114.2)"/><rect x="323.8" y="81.8" width="20.5" height="72.0" rx="10.0" fill="#5fa883" opacity="1" transform="rotate(30.0,334.0,117.8)"/></svg>
+          <span>Outpulse</span>
+        </div>
+        <div class="app-sb-group">
+          <div class="app-sb-item active">
+            <svg viewBox="0 0 256 256" fill="currentColor" width="17" height="17"><path d="M104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Z" opacity=".2"/><path d="M104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H56V56h48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,64H152V56h48Zm-96,32H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H56V152h48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,200,136Zm0,64H152V152h48Z"/></svg>
+            <span>Dashboard</span>
+          </div>
+        </div>
+        <div class="app-sb-group">
+          <div class="app-sb-group-title">Find Clients</div>
+          <div class="app-sb-item">
+            <svg viewBox="0 0 256 256" fill="currentColor" width="17" height="17"><path d="M64,112a40,40,0,1,1,40,40A40,40,0,0,1,64,112Z" opacity=".2"/><path d="M244.8,150.4a8,8,0,0,1-11.2-1.6A51.6,51.6,0,0,0,192,128a8,8,0,0,1,0-16,24,24,0,1,0-23.6-28.5,8,8,0,1,1-15.7-3A40,40,0,1,1,212,128h0a67.5,67.5,0,0,1,34.4,21.2A8,8,0,0,1,244.8,150.4Z"/></svg>
+            <span>Buyer Personas</span>
+          </div>
+          <div class="app-sb-item">
+            <svg viewBox="0 0 256 256" fill="currentColor" width="17" height="17"><path d="M160,112a32,32,0,1,1-32-32A32,32,0,0,1,160,112Z" opacity=".2"/><path d="M224,40V76a8,8,0,0,1-16,0V48H180a8,8,0,0,1,0-16h36A8,8,0,0,1,224,40Z"/></svg>
+            <span>Prospects</span>
+          </div>
+        </div>
+        <div class="app-sb-group">
+          <div class="app-sb-group-title">Engage</div>
+          <div class="app-sb-item">
+            <svg viewBox="0 0 256 256" fill="currentColor" width="17" height="17"><path d="M208,40H48A16,16,0,0,0,32,56V200a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V56A16,16,0,0,0,208,40Z" opacity=".2"/><path d="M208,40H48A16,16,0,0,0,32,56V200a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V56A16,16,0,0,0,208,40Zm0,160H48V56H208Z"/></svg>
+            <span>Campaigns</span>
+          </div>
+          <div class="app-sb-item">
+            <svg viewBox="0 0 256 256" fill="currentColor" width="17" height="17"><path d="M224,56l-96,88L32,56Z" opacity=".2"/><path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Z"/></svg>
+            <span>Messages</span>
+          </div>
+        </div>
+        <div class="app-sb-group">
+          <div class="app-sb-group-title">Growth</div>
+          <div class="app-sb-item" style="color:var(--app-green);font-weight:600;background:rgba(95,168,131,.08);border:1px solid rgba(95,168,131,.15)">
+            <svg viewBox="0 0 256 256" fill="currentColor" width="17" height="17" style="opacity:1;color:var(--app-green)"><path d="M232,208a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V48a8,8,0,0,1,16,0V156.69l50.34-50.35a8,8,0,0,1,11.32,0L128,132.69,180.69,80H160a8,8,0,0,1,0-16h40a8,8,0,0,1,8,8v40a8,8,0,0,1-16,0V91.31l-58.34,58.35a8,8,0,0,1-11.32,0L96,123.31,40,179.31V200H224A8,8,0,0,1,232,208Z"/></svg>
+            <span>Pulse</span>
+          </div>
+        </div>
+        <div class="app-sb-spacer"></div>
+        <div class="app-sb-user">
+          <div class="app-sb-avatar">L</div>
+          <div class="app-sb-uname">Lukas Horak</div>
+        </div>
       </div>
-      <div class="pm-hero">
-        <div class="pm-hero-block">
-          <div class="pm-big">7<span class="pm-big-fade"> / 18</span></div>
-          <div class="pm-goal-label">closed deals</div>
+      <div class="app-main" style="padding:24px 28px;gap:16px">
+        <!-- Header -->
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div style="font-size:13px;color:var(--app-muted)">Good afternoon, Lukas</div>
+            <div style="font-size:22px;font-weight:600;color:var(--app-text);letter-spacing:-.5px;margin-top:2px">Almost there — keep going</div>
+          </div>
         </div>
-        <div class="pm-divider"></div>
-        <div class="pm-hero-block">
-          <div class="pm-big">$140K</div>
-          <div class="pm-goal-label">of $360K revenue target</div>
+        <!-- Your Pulse card with stacked effect -->
+        <div class="pm-wrap">
+          <div class="pm-card" id="pmCardInner">
+            <div class="pm-head">
+              <span class="pm-label">Your Pulse</span>
+              <span class="pm-badge"><span class="pm-dot"></span>On track</span>
+            </div>
+            <div class="pm-hero">
+              <div class="pm-hero-block">
+                <div class="pm-big">11<span class="pm-big-fade">/18</span></div>
+                <div class="pm-goal-label">closed deals</div>
+              </div>
+              <div class="pm-divider"></div>
+              <div class="pm-hero-block">
+                <div class="pm-big">$220,000</div>
+                <div class="pm-goal-label">of $360,000 revenue target</div>
+              </div>
+            </div>
+            <div class="pm-progress-wrap">
+              <div class="pm-progress-bar" id="pmBar"></div>
+            </div>
+            <div class="pm-progress-meta">
+              <span id="pmPct">0% complete</span>
+              <span>12 days left</span>
+            </div>
+            <div class="pm-metrics">
+              <div class="pm-metric">
+                <div class="pm-metric-val">1,247</div>
+                <div class="pm-metric-tgt">/ 2,084</div>
+                <div class="pm-metric-label">Visits</div>
+              </div>
+              <div class="pm-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="pm-metric">
+                <div class="pm-metric-val">30</div>
+                <div class="pm-metric-label">Inquiries</div>
+              </div>
+              <div class="pm-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="pm-metric">
+                <div class="pm-metric-val">12</div>
+                <div class="pm-metric-label">Calls</div>
+              </div>
+              <div class="pm-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="pm-metric">
+                <div class="pm-metric-val">11</div>
+                <div class="pm-metric-tgt">/ 18</div>
+                <div class="pm-metric-label">Closed</div>
+              </div>
+            </div>
+            <div class="pm-footer">
+              <div class="pm-footer-stat">
+                <div class="pm-footer-label">Today's visits</div>
+                <div class="pm-footer-val">74<span>/70</span></div>
+              </div>
+              <div class="pm-footer-div"></div>
+              <div class="pm-footer-stat">
+                <div class="pm-footer-label">Emails sent</div>
+                <div class="pm-footer-val">82<span>/96</span></div>
+              </div>
+              <div class="pm-footer-div"></div>
+              <div class="pm-footer-stat">
+                <div class="pm-footer-label">Opens today</div>
+                <div class="pm-footer-val">24</div>
+              </div>
+              <div class="pm-footer-div"></div>
+              <div class="pm-footer-stat">
+                <div class="pm-footer-label">Replies today</div>
+                <div class="pm-footer-val">3</div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="pm-progress-wrap">
-        <div class="pm-progress-bar" id="pmBar"></div>
-      </div>
-      <div class="pm-progress-meta">
-        <span id="pmPct">0% complete</span>
-        <span>54 days left</span>
-      </div>
-      <div class="pm-metrics">
-        <div class="pm-metric">
-          <div class="pm-metric-val">2,847</div>
-          <div class="pm-metric-tgt">/ 4,200</div>
-          <div class="pm-metric-label">Visits</div>
-        </div>
-        <div class="pm-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="pm-metric">
-          <div class="pm-metric-val">30</div>
-          <div class="pm-metric-label">Inquiries</div>
-        </div>
-        <div class="pm-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="pm-metric">
-          <div class="pm-metric-val">12</div>
-          <div class="pm-metric-label">Calls</div>
-        </div>
-        <div class="pm-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="pm-metric">
-          <div class="pm-metric-val">7</div>
-          <div class="pm-metric-tgt">/ 18</div>
-          <div class="pm-metric-label">Closed</div>
-        </div>
-      </div>
-      <div class="pm-footer">
-        <div class="pm-footer-stat">
-          <div class="pm-footer-label">Today's visits</div>
-          <div class="pm-footer-val">87<span>/120</span></div>
-        </div>
-        <div class="pm-footer-div"></div>
-        <div class="pm-footer-stat">
-          <div class="pm-footer-label">Emails sent</div>
-          <div class="pm-footer-val">24<span>/30</span></div>
-        </div>
-        <div class="pm-footer-div"></div>
-        <div class="pm-footer-stat">
-          <div class="pm-footer-label">Opens today</div>
-          <div class="pm-footer-val">18</div>
-        </div>
-        <div class="pm-footer-div"></div>
-        <div class="pm-footer-stat">
-          <div class="pm-footer-label">Replies today</div>
-          <div class="pm-footer-val">3</div>
+        <!-- Outreach KPIs below -->
+        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--app-muted)">Outreach</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+          <div style="background:#fff;border:1px solid var(--app-border);border-radius:16px;padding:18px">
+            <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--app-green-dark);margin-bottom:8px">Prospects Found</div>
+            <div style="font-family:'Instrument Serif',Georgia,serif;font-size:32px;font-weight:500;color:var(--app-text);letter-spacing:-1px">860</div>
+            <div style="margin-top:6px;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:500;background:var(--app-green-light);color:var(--app-green-dark);display:inline-block">720 enriched</div>
+          </div>
+          <div style="background:#fff;border:1px solid var(--app-border);border-radius:16px;padding:18px">
+            <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--app-green-dark);margin-bottom:8px">Emails Sent</div>
+            <div style="font-family:'Instrument Serif',Georgia,serif;font-size:32px;font-weight:500;color:var(--app-text);letter-spacing:-1px">1548</div>
+            <div style="margin-top:6px;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:500;background:var(--app-green-light);color:var(--app-green-dark);display:inline-block">485 opened</div>
+          </div>
+          <div style="background:#fff;border:1px solid var(--app-border);border-radius:16px;padding:18px">
+            <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--app-green-dark);margin-bottom:8px">Open Rate</div>
+            <div style="font-family:'Instrument Serif',Georgia,serif;font-size:32px;font-weight:500;color:var(--app-text);letter-spacing:-1px">31%</div>
+            <div style="margin-top:6px;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:500;background:var(--app-green-light);color:var(--app-green-dark);display:inline-block">Tracked automatically</div>
+          </div>
+          <div style="background:#fff;border:1px solid var(--app-border);border-radius:16px;padding:18px">
+            <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--app-green-dark);margin-bottom:8px">Meetings Booked</div>
+            <div style="font-family:'Instrument Serif',Georgia,serif;font-size:32px;font-weight:500;color:var(--app-text);letter-spacing:-1px">0</div>
+            <div style="margin-top:6px;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:500;background:var(--app-green-light);color:var(--app-green-dark);display:inline-block">62 replies received</div>
+          </div>
         </div>
       </div>
     </div>
@@ -2185,7 +2270,7 @@ if (structBtn) {
   pmObs.observe(pmCard);
 })();
 
-// ── CTA particle animation ──
+// ── CTA particle animation (multi-color, stronger effect) ──
 ;(function(){
   var canvas = document.getElementById('ctaParticles');
   if (!canvas) return;
@@ -2193,13 +2278,14 @@ if (structBtn) {
   var mx = -1000, my = -1000;
   var particles = [];
   var raf = 0;
+  var COLORS = ['95,168,131','107,157,191','155,107,194','217,147,74'];
 
   function init() {
     var w = canvas.offsetWidth;
     var h = canvas.offsetHeight;
     canvas.width = w * 2;
     canvas.height = h * 2;
-    var count = Math.min(80, Math.floor((w * h) / 8000));
+    var count = Math.min(100, Math.floor((w * h) / 6000));
     particles = [];
     for (var i = 0; i < count; i++) {
       particles.push({
@@ -2207,8 +2293,9 @@ if (structBtn) {
         y: Math.random() * h * 2,
         vx: (Math.random() - 0.5) * 0.6,
         vy: (Math.random() - 0.5) * 0.6,
-        r: Math.random() * 3 + 1.5,
-        o: Math.random() * 0.4 + 0.15
+        r: Math.random() * 3.5 + 1.5,
+        o: Math.random() * 0.5 + 0.2,
+        c: COLORS[Math.floor(Math.random() * COLORS.length)]
       });
     }
   }
@@ -2228,14 +2315,14 @@ if (structBtn) {
       var p = particles[i];
       var dx = mx - p.x, dy = my - p.y;
       var dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 300) { p.vx += dx * 0.00015; p.vy += dy * 0.00015; }
+      if (dist < 350) { p.vx += dx * 0.0002; p.vy += dy * 0.0002; }
       p.x += p.vx; p.y += p.vy;
-      p.vx *= 0.998; p.vy *= 0.998;
+      p.vx *= 0.997; p.vy *= 0.997;
       if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
       if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(95,168,131,' + p.o + ')';
+      ctx.fillStyle = 'rgba(' + p.c + ',' + p.o + ')';
       ctx.fill();
     }
     for (var i = 0; i < particles.length; i++) {
@@ -2243,11 +2330,11 @@ if (structBtn) {
         var ddx = particles[i].x - particles[j].x;
         var ddy = particles[i].y - particles[j].y;
         var d = Math.sqrt(ddx * ddx + ddy * ddy);
-        if (d < 180) {
+        if (d < 200) {
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = 'rgba(95,168,131,' + (0.12 * (1 - d / 180)) + ')';
+          ctx.strokeStyle = 'rgba(' + particles[i].c + ',' + (0.15 * (1 - d / 200)) + ')';
           ctx.lineWidth = 1;
           ctx.stroke();
         }
