@@ -506,6 +506,61 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
   .comp-table th:first-child,.comp-table td:first-child{position:sticky;left:0;background:#0d0d0d;z-index:2;white-space:normal;min-width:100px}
   .comp-table thead th:first-child{background:rgba(20,20,20,1)}
 }
+
+/* ── YOUR PULSE MOCKUP SECTION ── */
+.pulse-sec{padding:120px 0;border-top:1px solid var(--border)}
+.pulse-sec-title{font-family:var(--serif);font-style:normal;font-size:clamp(28px,3.8vw,44px);font-weight:500;letter-spacing:-0.02em;line-height:1.12;text-align:center;margin-bottom:14px}
+.pulse-sec-title em{font-style:italic;font-family:var(--serif);color:var(--g);font-weight:400}
+.pulse-sec-desc{font-size:16px;color:var(--text-s);text-align:center;max-width:520px;margin:0 auto 56px;line-height:1.7}
+.pm-wrap{position:relative;max-width:680px;margin:0 auto}
+.pm-glow{position:absolute;inset:-60px;background:radial-gradient(ellipse at center,rgba(95,168,131,.06) 0%,transparent 70%);border-radius:50%;pointer-events:none}
+.pm-card{position:relative;background:var(--app-card);border:1px solid var(--app-border);border-radius:20px;padding:28px 32px 20px;box-shadow:0 1px 3px rgba(0,0,0,.04),0 8px 32px rgba(95,168,131,.06),0 20px 60px rgba(0,0,0,.03)}
+.pm-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.pm-label{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--app-muted);text-transform:uppercase;letter-spacing:.5px}
+.pm-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#3d8b5e;background:rgba(95,168,131,.08);padding:4px 12px;border-radius:100px}
+.pm-dot{width:6px;height:6px;border-radius:50%;background:#5fa883;animation:pulse 2s ease-in-out infinite}
+.pm-hero{display:flex;align-items:center;gap:24px;margin-bottom:20px}
+.pm-hero-block{flex:1}
+.pm-big{font-family:'Instrument Serif',Georgia,serif;font-size:36px;font-weight:500;color:var(--app-text);line-height:1.1}
+.pm-big-fade{color:#b0b0b0;font-weight:400}
+.pm-goal-label{font-size:13px;color:var(--app-muted);margin-top:4px}
+.pm-divider{width:1px;height:48px;background:rgba(0,0,0,.08);flex-shrink:0}
+.pm-progress-wrap{height:8px;background:rgba(95,168,131,.1);border-radius:100px;overflow:hidden;margin-bottom:8px}
+.pm-progress-bar{height:100%;background:linear-gradient(90deg,#5fa883,#7cc4a0);border-radius:100px;width:0;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+.pm-progress-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--app-muted);margin-bottom:20px}
+.pm-metrics{display:flex;align-items:center;padding:16px 0;border-top:1px solid rgba(0,0,0,.05);border-bottom:1px solid rgba(0,0,0,.05);margin-bottom:20px}
+.pm-metric{flex:1;text-align:center}
+.pm-metric-val{font-family:'Instrument Serif',Georgia,serif;font-size:22px;font-weight:500;color:var(--app-text);line-height:1.2}
+.pm-metric-tgt{font-size:13px;color:#b0b0b0;font-weight:400}
+.pm-metric-label{font-size:11px;color:var(--app-muted);text-transform:uppercase;letter-spacing:.3px;margin-top:4px;font-weight:600}
+.pm-arrow{color:rgba(95,168,131,.35);flex-shrink:0;display:flex;align-items:center}
+.pm-footer{display:flex;align-items:center}
+.pm-footer-stat{flex:1;text-align:center}
+.pm-footer-label{font-size:11px;color:#9a9a9a;margin-bottom:4px}
+.pm-footer-val{font-size:16px;font-weight:700;color:var(--app-text)}
+.pm-footer-val span{color:#b0b0b0;font-weight:400;font-size:13px}
+.pm-footer-div{width:1px;height:32px;background:rgba(0,0,0,.06);flex-shrink:0}
+@media(max-width:768px){
+  .pm-card{padding:20px 16px 16px}
+  .pm-hero{flex-direction:column;gap:12px;align-items:flex-start}
+  .pm-divider{width:100%;height:1px}
+  .pm-big{font-size:28px}
+  .pm-metrics{flex-wrap:wrap;gap:12px}
+  .pm-arrow{display:none}
+  .pm-metric{flex:0 0 calc(50% - 6px)}
+  .pm-footer{flex-wrap:wrap;gap:12px}
+  .pm-footer-div{display:none}
+  .pm-footer-stat{flex:0 0 calc(50% - 6px)}
+}
+@media(max-width:480px){
+  .pm-big{font-size:24px}
+  .pm-metric-val{font-size:18px}
+}
+
+/* ── PARTICLE CANVAS (CTA) ── */
+.cta-sec{position:relative;overflow:hidden}
+.cta-particles{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:auto}
+.cta-sec .c{position:relative;z-index:1}
 </style>
 </head>
 <body>
@@ -1148,6 +1203,87 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
 </div>
 </div>
 
+<!-- ══ YOUR PULSE MOCKUP ══ -->
+<section class="pulse-sec">
+<div class="c">
+  <div class="reveal" style="text-align:center">
+    <h2 class="pulse-sec-title">See your <em>growth</em> at a glance</h2>
+    <p class="pulse-sec-desc">Your Pulse tracks every step from first visit to closed deal. Set a revenue target and watch the numbers come alive.</p>
+  </div>
+  <div class="pm-wrap reveal">
+    <div class="pm-glow"></div>
+    <div class="pm-card" id="pulseMockup">
+      <div class="pm-head">
+        <span class="pm-label">Your Pulse</span>
+        <span class="pm-badge"><span class="pm-dot"></span>On track</span>
+      </div>
+      <div class="pm-hero">
+        <div class="pm-hero-block">
+          <div class="pm-big">7<span class="pm-big-fade"> / 18</span></div>
+          <div class="pm-goal-label">closed deals</div>
+        </div>
+        <div class="pm-divider"></div>
+        <div class="pm-hero-block">
+          <div class="pm-big">$140K</div>
+          <div class="pm-goal-label">of $360K revenue target</div>
+        </div>
+      </div>
+      <div class="pm-progress-wrap">
+        <div class="pm-progress-bar" id="pmBar"></div>
+      </div>
+      <div class="pm-progress-meta">
+        <span id="pmPct">0% complete</span>
+        <span>54 days left</span>
+      </div>
+      <div class="pm-metrics">
+        <div class="pm-metric">
+          <div class="pm-metric-val">2,847</div>
+          <div class="pm-metric-tgt">/ 4,200</div>
+          <div class="pm-metric-label">Visits</div>
+        </div>
+        <div class="pm-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="pm-metric">
+          <div class="pm-metric-val">30</div>
+          <div class="pm-metric-label">Inquiries</div>
+        </div>
+        <div class="pm-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="pm-metric">
+          <div class="pm-metric-val">12</div>
+          <div class="pm-metric-label">Calls</div>
+        </div>
+        <div class="pm-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="pm-metric">
+          <div class="pm-metric-val">7</div>
+          <div class="pm-metric-tgt">/ 18</div>
+          <div class="pm-metric-label">Closed</div>
+        </div>
+      </div>
+      <div class="pm-footer">
+        <div class="pm-footer-stat">
+          <div class="pm-footer-label">Today's visits</div>
+          <div class="pm-footer-val">87<span>/120</span></div>
+        </div>
+        <div class="pm-footer-div"></div>
+        <div class="pm-footer-stat">
+          <div class="pm-footer-label">Emails sent</div>
+          <div class="pm-footer-val">24<span>/30</span></div>
+        </div>
+        <div class="pm-footer-div"></div>
+        <div class="pm-footer-stat">
+          <div class="pm-footer-label">Opens today</div>
+          <div class="pm-footer-val">18</div>
+        </div>
+        <div class="pm-footer-div"></div>
+        <div class="pm-footer-stat">
+          <div class="pm-footer-label">Replies today</div>
+          <div class="pm-footer-val">3</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
 <!-- ══ STATS ══ -->
 <div class="stats-bar">
 <div class="stats-grid">
@@ -1349,9 +1485,10 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
 
 <!-- ══ CTA ══ -->
 <section class="cta-sec">
+<canvas id="ctaParticles" class="cta-particles"></canvas>
 <div class="c">
-  <h2>Ready to <em>automate</em><br>your outreach?</h2>
-  <p>Set up in 2 minutes. AI finds your prospects, writes personalized emails, and gets replies. Try it free for 7 days.</p>
+  <h2>Ready to hit your <em>growth targets</em>?</h2>
+  <p>Set your revenue goal, connect your channels, and let Outpulse run your growth engine. Try it free for 7 days.</p>
   <a href="https://app.outpulse.ai/signup" class="btn btn-p" style="padding:14px 32px;font-size:16px;border-radius:12px">Start 7-day free trial <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33 8h9.34M8.67 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
   <div class="cta-note">7-day free trial · Cancel anytime</div>
 </div>
@@ -2021,6 +2158,99 @@ if (structBtn) {
   window.addEventListener('scroll', onScroll, {passive:true});
   // Run once on load in case page is already scrolled
   onScroll();
+})();
+
+// ── Pulse mockup progress bar animation ──
+;(function(){
+  var pmBar = document.getElementById('pmBar');
+  var pmPct = document.getElementById('pmPct');
+  var pmCard = document.getElementById('pulseMockup');
+  if (!pmBar || !pmCard) return;
+  var pmPlayed = false;
+  var pmObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting && !pmPlayed) {
+        pmPlayed = true;
+        pmBar.style.width = '62%';
+        pmPct.textContent = '62% complete';
+      }
+    });
+  }, { threshold: 0.3 });
+  pmObs.observe(pmCard);
+})();
+
+// ── CTA particle animation ──
+;(function(){
+  var canvas = document.getElementById('ctaParticles');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var mx = -1000, my = -1000;
+  var particles = [];
+  var raf = 0;
+
+  function init() {
+    var w = canvas.offsetWidth;
+    var h = canvas.offsetHeight;
+    canvas.width = w * 2;
+    canvas.height = h * 2;
+    var count = Math.min(80, Math.floor((w * h) / 8000));
+    particles = [];
+    for (var i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * w * 2,
+        y: Math.random() * h * 2,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: (Math.random() - 0.5) * 0.6,
+        r: Math.random() * 3 + 1.5,
+        o: Math.random() * 0.4 + 0.15
+      });
+    }
+  }
+
+  init();
+  canvas.addEventListener('mousemove', function(e){
+    var rect = canvas.getBoundingClientRect();
+    mx = (e.clientX - rect.left) * 2;
+    my = (e.clientY - rect.top) * 2;
+  });
+  canvas.addEventListener('mouseleave', function(){ mx = -1000; my = -1000; });
+
+  function draw() {
+    var W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      var dx = mx - p.x, dy = my - p.y;
+      var dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 300) { p.vx += dx * 0.00015; p.vy += dy * 0.00015; }
+      p.x += p.vx; p.y += p.vy;
+      p.vx *= 0.998; p.vy *= 0.998;
+      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(95,168,131,' + p.o + ')';
+      ctx.fill();
+    }
+    for (var i = 0; i < particles.length; i++) {
+      for (var j = i + 1; j < particles.length; j++) {
+        var ddx = particles[i].x - particles[j].x;
+        var ddy = particles[i].y - particles[j].y;
+        var d = Math.sqrt(ddx * ddx + ddy * ddy);
+        if (d < 180) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = 'rgba(95,168,131,' + (0.12 * (1 - d / 180)) + ')';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+    }
+    raf = requestAnimationFrame(draw);
+  }
+  raf = requestAnimationFrame(draw);
+  window.addEventListener('resize', init);
 })();
 </script>
 </body>
