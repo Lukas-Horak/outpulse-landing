@@ -307,17 +307,24 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:12px 0;background:rg
 .comp-more.open svg{transform:rotate(180deg)}
 
 /* ── PRICING ── */
-.pricing-card{max-width:420px;margin:0 auto;border-radius:16px;border:1px solid rgba(95,168,131,.15);background:var(--bg2);overflow:hidden}
-.pricing-header{padding:36px 32px 28px;text-align:center;border-bottom:1px solid var(--border)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:960px;margin:0 auto}
+.pricing-card{border-radius:18px;border:1.5px solid rgba(255,255,255,.06);background:var(--bg2);overflow:hidden;display:flex;flex-direction:column;position:relative;transition:border-color .2s,box-shadow .2s}
+.pricing-card:hover{border-color:rgba(95,168,131,.2);box-shadow:0 4px 20px rgba(95,168,131,.08)}
+.pricing-card.popular{border-color:rgba(95,168,131,.3);box-shadow:0 4px 24px rgba(95,168,131,.12)}
+.pricing-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--g);color:#fff;font-size:11px;font-weight:600;padding:3px 14px;border-radius:100px;letter-spacing:.3px;white-space:nowrap}
+.pricing-header{padding:28px 24px 20px;text-align:center;border-bottom:1px solid var(--border)}
 .pricing-plan{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--g);margin-bottom:8px}
-.pricing-amount{font-family:'Instrument Serif',Georgia,serif;font-size:56px;font-weight:500;letter-spacing:-.02em}
-.pricing-amount span{font-family:var(--sans);font-size:16px;color:var(--text-t);font-weight:400}
-.pricing-body{padding:28px 32px 32px}
-.pricing-features{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
-.pricing-features li{font-size:14px;color:var(--text-s);display:flex;align-items:flex-start;gap:10px}
-.pricing-features li::before{content:'✓';color:var(--g);font-weight:700;font-size:13px;flex-shrink:0;margin-top:2px}
-.pricing-cta{width:100%;padding:14px;text-align:center;border-radius:10px;background:var(--btn-g);color:#fff;font-weight:600;font-size:15px;border:none;cursor:pointer;font-family:var(--sans);transition:background .2s}
-.pricing-cta:hover{background:var(--btn-g2)}
+.pricing-amount{font-family:'Instrument Serif',Georgia,serif;font-size:42px;font-weight:500;letter-spacing:-.02em}
+.pricing-amount span{font-family:var(--sans);font-size:15px;color:var(--text-t);font-weight:400}
+.pricing-desc{font-size:13px;color:var(--text-t);margin-top:6px;line-height:1.4}
+.pricing-body{padding:24px 24px 28px;display:flex;flex-direction:column;flex:1}
+.pricing-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:24px;flex:1}
+.pricing-features li{font-size:13px;color:var(--text-s);display:flex;align-items:flex-start;gap:10px;line-height:1.4}
+.pricing-features li::before{content:'✓';color:var(--g);font-weight:700;font-size:13px;flex-shrink:0;margin-top:1px}
+.pricing-cta{width:100%;padding:14px;text-align:center;border-radius:12px;background:var(--btn-g);color:#fff;font-weight:600;font-size:15px;border:none;cursor:pointer;font-family:var(--sans);transition:background .2s,transform .1s;display:block;text-decoration:none}
+.pricing-cta:hover{background:var(--btn-g2);transform:translateY(-1px)}
+.pricing-cta.outline{background:transparent;color:var(--g);border:1.5px solid rgba(95,168,131,.3)}
+.pricing-cta.outline:hover{background:rgba(95,168,131,.06);border-color:rgba(95,168,131,.5)}
 .pricing-note{text-align:center;font-size:12px;color:var(--text-t);margin-top:12px}
 
 /* ── FAQ ── */
@@ -1403,7 +1410,7 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
 <div class="c">
   <div class="showcase-header reveal" style="text-align:center">
 
-    <h2 class="s-title" style="margin:0 auto 14px;text-align:center;max-width:800px">A full-time sales rep costs <span class="strike-anim strike-anim-big" id="strikePrice" style="color:var(--text-t)">$7,500/mo</span>. <span style="color:var(--g);font-style:italic;font-weight:400">Outpulse does the same for $149.</span></h2>
+    <h2 class="s-title" style="margin:0 auto 14px;text-align:center;max-width:800px">A full-time sales rep costs <span class="strike-anim strike-anim-big" id="strikePrice" style="color:var(--text-t)">$7,500/mo</span>. <span style="color:var(--g);font-style:italic;font-weight:400">Outpulse starts at $49/mo.</span></h2>
     <p class="s-desc" style="margin:0 auto 20px;text-align:center">Same job. Fraction of the cost. Runs 24/7 without sick days, onboarding, or management overhead.</p>
   </div>
 
@@ -1441,8 +1448,8 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
     <div style="background:var(--g-a04);border:1px solid rgba(95,168,131,.2);border-radius:20px;padding:36px 32px;text-align:center;position:relative">
       <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);padding:4px 14px;border-radius:20px;background:var(--g);color:#fff;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase">Save 97%</div>
       <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--g);margin-bottom:16px">Outpulse</div>
-      <div style="font-family:var(--serif);font-size:42px;font-weight:600;letter-spacing:-.02em;color:var(--g)">$149</div>
-      <div style="font-size:13px;color:var(--text-s);margin-top:6px">/month · 7-day free trial</div>
+      <div style="font-family:var(--serif);font-size:42px;font-weight:600;letter-spacing:-.02em;color:var(--g)">$49</div>
+      <div style="font-size:13px;color:var(--text-s);margin-top:6px">/month · plans from $49–$499</div>
       <div style="margin-top:24px;display:flex;flex-direction:column;gap:14px;text-align:left;font-size:13px;color:var(--g)">
         <div style="display:flex;align-items:center;gap:10px">
           <svg viewBox="0 0 256 256" width="18" height="18" fill="currentColor" style="flex-shrink:0"><circle cx="128" cy="128" r="96" opacity=".2"/><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm45.66-125.66a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34Z"/></svg>
@@ -1481,7 +1488,7 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
     <table class="comp-table" id="compTable">
       <thead><tr><th style="width:30%"></th><th>Do it yourself</th><th>Hire an SDR</th><th>Outpulse</th></tr></thead>
       <tbody>
-        <tr><td>Monthly cost</td><td>Your time</td><td>$5,000+</td><td class="hl">$149/mo</td></tr>
+        <tr><td>Monthly cost</td><td>Your time</td><td>$5,000+</td><td class="hl">From $49/mo</td></tr>
         <tr><td>Prospect capacity</td><td>50 – 100</td><td>200 – 500</td><td class="hl">2,000+</td></tr>
         <tr><td>Personalization</td><td>High (but slow)</td><td>Medium</td><td class="check">High (AI-powered)</td></tr>
         <tr><td>Operates 24/7</td><td class="cross">No</td><td class="cross">No</td><td class="check">Yes, always on</td></tr>
@@ -1522,29 +1529,73 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
   <div class="showcase-header reveal" style="text-align:center">
 
     <h2 class="s-title" style="margin:0 auto 14px;text-align:center">Simple, transparent pricing</h2>
-    <p class="s-desc" style="margin:0 auto 56px;text-align:center">One plan. Everything included. No hidden fees.</p>
+    <p class="s-desc" style="margin:0 auto 56px;text-align:center">Every plan starts with a <span style="color:var(--g);font-weight:600">7-day free trial</span>. Cancel anytime — no charge until the trial ends.</p>
   </div>
-  <div class="reveal">
+  <div class="reveal pricing-grid">
+    <!-- Starter -->
     <div class="pricing-card">
       <div class="pricing-header">
-        <div class="pricing-plan">Growth</div>
-        <div class="pricing-amount">$149 <span>/month</span></div>
-        <div style="font-size:13px;color:var(--text-s);margin-top:4px">after your 7-day free trial</div>
+        <div class="pricing-plan">Starter</div>
+        <div class="pricing-amount">$49 <span>/mo</span></div>
+        <div class="pricing-desc">For founders testing cold outreach</div>
       </div>
       <div class="pricing-body">
         <ul class="pricing-features">
-          <li>AI-powered prospect discovery & enrichment</li>
-          <li>Hyper-personalized email outreach</li>
-          <li>Automated multi-step sequences</li>
-          <li>Real-time open & reply tracking</li>
-          <li>Up to 3 sending mailboxes</li>
-          <li>500 prospects per month</li>
-          <li>Website intelligence & ICP generation</li>
-          <li>Email warmup & deliverability tools</li>
-          <li>Gmail & Outlook integration</li>
+          <li>100 prospects per month</li>
+          <li>2 active campaigns</li>
+          <li>AI-personalized emails</li>
+          <li>Basic open tracking</li>
+          <li>1 sending mailbox</li>
+          <li>Email warmup included</li>
+          <li>Community support</li>
         </ul>
-        <a href="https://app.outpulse.ai/signup"><button class="pricing-cta">Start my free trial</button></a>
-        <div class="pricing-note">No charge for 7 days. Cancel in one click.</div>
+        <a href="https://app.outpulse.ai/signup" class="pricing-cta outline">Start free trial</a>
+        <div class="pricing-note">No charge for 7 days.</div>
+      </div>
+    </div>
+    <!-- Growth (Popular) -->
+    <div class="pricing-card popular">
+      <div class="pricing-badge">Most Popular</div>
+      <div class="pricing-header">
+        <div class="pricing-plan">Growth</div>
+        <div class="pricing-amount">$149 <span>/mo</span></div>
+        <div class="pricing-desc">For teams scaling outbound pipeline</div>
+      </div>
+      <div class="pricing-body">
+        <ul class="pricing-features">
+          <li>500 prospects per month</li>
+          <li>Unlimited campaigns</li>
+          <li>AI-personalized emails</li>
+          <li>Open, click &amp; reply tracking</li>
+          <li>3 sending mailboxes</li>
+          <li>AI copy optimization</li>
+          <li>Email warmup &amp; deliverability</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="https://app.outpulse.ai/signup" class="pricing-cta">Start free trial</a>
+        <div class="pricing-note">No charge for 7 days.</div>
+      </div>
+    </div>
+    <!-- Agency -->
+    <div class="pricing-card">
+      <div class="pricing-header">
+        <div class="pricing-plan">Agency</div>
+        <div class="pricing-amount">$499 <span>/mo</span></div>
+        <div class="pricing-desc">For agencies managing multiple clients</div>
+      </div>
+      <div class="pricing-body">
+        <ul class="pricing-features">
+          <li>2,500 prospects per month</li>
+          <li>Unlimited campaigns</li>
+          <li>AI-personalized emails</li>
+          <li>Full analytics + A/B testing</li>
+          <li>10 sending mailboxes</li>
+          <li>AI copy optimization</li>
+          <li>Dedicated account manager</li>
+          <li>Custom integrations</li>
+        </ul>
+        <a href="https://app.outpulse.ai/signup" class="pricing-cta outline">Start free trial</a>
+        <div class="pricing-note">No charge for 7 days.</div>
       </div>
     </div>
   </div>
@@ -1561,7 +1612,7 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
   <div class="faq-list reveal" style="margin:0 auto">
     <div class="faq-item">
       <button class="faq-q" onclick="toggleFaq(this)">Is there a free trial?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
-      <div class="faq-a"><p>Yes, you get a 7-day free trial with 25 prospect credits. You can test the full platform including AI prospect discovery, email generation, and campaign launching. No charge until the trial ends, and you can cancel in one click.</p></div>
+      <div class="faq-a"><p>Yes, every plan starts with a 7-day free trial. You can test the full platform including AI prospect discovery, email generation, and campaign launching. No charge until the trial ends, and you can cancel in one click.</p></div>
     </div>
     <div class="faq-item">
       <button class="faq-q" onclick="toggleFaq(this)">How does the AI write personalized emails?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
