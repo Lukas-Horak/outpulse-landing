@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 280" width="256" height="280">
+  <defs>
+    <clipPath id="circle-sarah">
+      <circle cx="128" cy="140" r="120"/>
+    </clipPath>
+    <linearGradient id="skin-sarah" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f0d0b0"/>
+      <stop offset="100%" stop-color="#e0c0a0"/>
+    </linearGradient>
+    <linearGradient id="shirt-sarah" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7cc5a2"/>
+      <stop offset="100%" stop-color="#5ba882"/>
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#circle-sarah)">
+    <!-- Background -->
+    <rect width="256" height="280" fill="#f2f1ee"/>
+    
+    <!-- Body / Shoulders -->
+    <ellipse cx="128" cy="260" rx="90" ry="60" fill="url(#shirt-sarah)"/>
+    
+    <!-- Neck -->
+    <rect x="114" y="160" width="28" height="30" rx="8" fill="url(#skin-sarah)"/>
+    
+    <!-- Collar -->
+    <path d="M108,185 L128,205 L148,185" fill="none" stroke="#ffffff" stroke-width="2.5" opacity="0.6"/>
+    
+    <!-- Head -->
+    <ellipse cx="128" cy="115" rx="50" ry="55" fill="url(#skin-sarah)"/>
+    
+    <!-- Ears -->
+    <ellipse cx="79" cy="118" rx="8" ry="12" fill="#e0c0a0"/>
+    <ellipse cx="177" cy="118" rx="8" ry="12" fill="#e0c0a0"/>
+    
+    <!-- Hair -->
+    
+            <path d="M75,95 Q73,65 92,48 Q112,35 128,33 Q148,35 165,48 Q183,65 181,95" fill="#1a1209"/>
+            <path d="M75,95 Q72,120 74,150 Q76,165 82,170 L78,95Z" fill="#1a1209"/>
+            <path d="M181,95 Q184,120 182,150 Q180,165 174,170 L178,95Z" fill="#1a1209"/>
+        
+    
+    <!-- Eyes -->
+    <ellipse cx="110" cy="115" rx="7" ry="5" fill="#ffffff"/>
+    <ellipse cx="146" cy="115" rx="7" ry="5" fill="#ffffff"/>
+    <circle cx="111" cy="115" r="3.5" fill="#3d2b1f"/>
+    <circle cx="147" cy="115" r="3.5" fill="#3d2b1f"/>
+    <circle cx="111.5" cy="114.5" r="1.8" fill="#1a1a1a"/>
+    <circle cx="147.5" cy="114.5" r="1.8" fill="#1a1a1a"/>
+    <!-- Eye highlights -->
+    <circle cx="112.5" cy="113.5" r="0.8" fill="#ffffff" opacity="0.8"/>
+    <circle cx="148.5" cy="113.5" r="0.8" fill="#ffffff" opacity="0.8"/>
+    
+    <!-- Eyebrows -->
+    <path d="M100,106 Q110,102 120,105" fill="none" stroke="#1a1209" stroke-width="2.2" stroke-linecap="round" opacity="0.7"/>
+    <path d="M136,105 Q146,102 156,106" fill="none" stroke="#1a1209" stroke-width="2.2" stroke-linecap="round" opacity="0.7"/>
+    
+    <!-- Nose -->
+    <path d="M128,118 Q125,130 122,133 Q126,136 128,136 Q130,136 134,133 Q131,130 128,118" fill="#e0c0a0" opacity="0.4"/>
+    
+    <!-- Mouth (slight smile) -->
+    <path d="M116,145 Q122,152 128,152 Q134,152 140,145" fill="none" stroke="#e0c0a0" stroke-width="2" stroke-linecap="round"/>
+    
+    <!-- Beard -->
+    
+  </g>
+</svg>

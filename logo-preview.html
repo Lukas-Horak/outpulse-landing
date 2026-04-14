@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Outpulse Logo — Preview</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: system-ui, sans-serif; background: #111; color: #fff; }
+h1 { text-align: center; padding: 40px 0 10px; font-size: 16px; font-weight: 400; opacity: 0.5; letter-spacing: 2px; text-transform: uppercase; }
+.hero { display: flex; align-items: center; justify-content: center; padding: 40px; background: #1e1e1e; }
+.hero object, .hero img { width: 280px; height: 280px; }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+.card { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px 30px; }
+.card object, .card img { width: 140px; height: 140px; }
+.card h3 { margin-top: 20px; font-size: 11px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; opacity: 0.6; }
+.bg-dark { background: #2a2a2a; color: #fff; }
+.bg-cream { background: #f2f1ee; color: #1a1a1a; }
+.bg-white { background: #fff; color: #1a1a1a; }
+.bg-green { background: #7cc5a2; color: #fff; }
+.sizes { display: flex; gap: 32px; align-items: flex-end; justify-content: center; padding: 40px; background: #1e1e1e; }
+.size-label { font-size: 11px; color: #666; text-align: center; margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<h1>Gradient (Original)</h1>
+<div class="hero">
+  <img src="outpulse-logo.svg" alt="Outpulse Logo">
+</div>
+
+<h1>Color Variants</h1>
+<div class="grid">
+  <div class="card bg-dark">
+    <img src="outpulse-logo.svg" alt="Gradient on Dark">
+    <h3>Gradient on Dark</h3>
+  </div>
+  <div class="card bg-cream">
+    <img src="outpulse-logo-dark.svg" alt="Dark on Cream">
+    <h3>Dark on Cream</h3>
+  </div>
+  <div class="card bg-dark">
+    <img src="outpulse-logo-white.svg" alt="White on Dark">
+    <h3>White on Dark</h3>
+  </div>
+  <div class="card bg-cream">
+    <img src="outpulse-logo-green.svg" alt="Green on Cream">
+    <h3>Green on Cream</h3>
+  </div>
+  <div class="card bg-green">
+    <img src="outpulse-logo-white.svg" alt="White on Green">
+    <h3>White on Green</h3>
+  </div>
+  <div class="card bg-white">
+    <img src="outpulse-logo-green.svg" alt="Green on White">
+    <h3>Green on White</h3>
+  </div>
+</div>
+
+<h1>Sizes</h1>
+<div class="sizes">
+  <div><img src="outpulse-logo.svg" style="width:128px;height:128px"><div class="size-label">128px</div></div>
+  <div><img src="outpulse-logo.svg" style="width:64px;height:64px"><div class="size-label">64px</div></div>
+  <div><img src="outpulse-logo.svg" style="width:32px;height:32px"><div class="size-label">32px</div></div>
+  <div><img src="outpulse-logo.svg" style="width:16px;height:16px"><div class="size-label">16px</div></div>
+</div>
+
+</body>
+</html>

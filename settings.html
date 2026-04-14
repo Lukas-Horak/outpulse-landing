@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Outpulse</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --font: 'DM Sans', sans-serif;
+            --serif: 'DM Serif Display', serif;
+            --bg: #f2f1ee;
+            --text: #1a1a1a;
+            --muted: #6b6b6b;
+            --muted-light: #b5b5b5;
+            --green: #7cc5a2;
+            --green-dark: #5ba882;
+            --green-light: #e8f5ee;
+            --green-bg: #d4f0e1;
+            --blue: #7BAFD4; --blue-dark: #5a91b8; --blue-light: #e5f0f8;
+            --grey: #9B9590; --grey-dark: #6e6862; --grey-light: #d5d2ce;
+            --white: #fff;
+            --dark: #1a1a1a;
+            --orange: #e8a84c;
+            --red: #e25c5c;
+            --border: rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: var(--font);
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        
+/* ===== UNIFIED SIDEBAR ===== */
+.sidebar{
+  width:240px;background:var(--dark);color:white;
+  display:flex;flex-direction:column;padding:24px 0;flex-shrink:0;
+  position:fixed;height:100vh;overflow-y:auto;z-index:50;
+}
+.s-logo{display:flex;align-items:center;gap:10px;padding:0 24px;margin-bottom:32px;font-size:17px;font-weight:600;text-decoration:none;color:white}
+.s-logo img{width:32px;height:32px}
+.s-nav{flex:1}
+.s-nav-item{
+  display:flex;align-items:center;gap:12px;padding:10px 24px;
+  font-size:14px;font-weight:400;color:rgba(255,255,255,0.5);
+  cursor:pointer;transition:all 0.2s;text-decoration:none;position:relative;
+}
+.s-nav-item:hover{color:rgba(255,255,255,0.8)}
+.s-nav-item.active{color:white;font-weight:500}
+.s-nav-item.active::before{content:'';position:absolute;left:0;top:6px;bottom:6px;width:3px;background:var(--green);border-radius:0 3px 3px 0}
+.s-nav-item .nav-icon{width:20px;height:20px;flex-shrink:0}
+.s-nav-item .badge{
+  margin-left:auto;padding:2px 8px;border-radius:6px;
+  background:var(--green);color:white;font-size:11px;font-weight:700;
+}
+.s-upgrade{
+  margin:0 16px;padding:20px;background:var(--green);
+  border-radius:16px;margin-bottom:16px;
+}
+.s-upgrade-title{font-size:14px;font-weight:600;margin-bottom:4px}
+.s-upgrade-desc{font-size:12px;color:rgba(255,255,255,0.8);margin-bottom:12px;line-height:1.4}
+.s-upgrade-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;background:rgba(0,0,0,0.2);color:white;font-size:12px;font-weight:600;border:none;cursor:pointer;font-family:var(--font)}
+.s-link{display:flex;align-items:center;gap:8px;padding:10px 24px;font-size:13px;color:rgba(255,255,255,0.4);cursor:pointer;text-decoration:none}
+.s-link:hover{color:rgba(255,255,255,0.6)}
+.s-link svg{width:16px;height:16px}
+.s-user{display:flex;align-items:center;gap:10px;padding:12px 24px;border-top:1px solid rgba(255,255,255,0.08)}
+.s-user-avatar{width:32px;height:32px;border-radius:50%;background:#c4a265;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:white}
+.s-user-name{font-size:13px;font-weight:600}
+.s-user-plan{font-size:11px;color:rgba(255,255,255,0.4)}
+
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .user-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .user-name {
+            font-size: 13px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-plan {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            white-space: nowrap;
+        }
+
+        /* MAIN CONTENT */
+        .main-container {
+            flex: 1;
+            margin-left: 240px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            padding: 32px 40px;
+            border-bottom: 1px solid var(--border);
+            background-color: var(--white);
+        }
+
+        .topbar-title {
+            font-family: var(--serif);
+            font-size: 28px;
+            font-style: italic;
+            color: var(--text);
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex: 1;
+            padding: 32px 40px;
+            gap: 40px;
+        }
+
+        /* TABS */
+        .tabs-left {
+            width: 200px;
+            flex-shrink: 0;
+        }
+
+        .tab-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .tab-button {
+            padding: 12px 16px;
+            background: none;
+            border: none;
+            text-align: left;
+            font-family: var(--font);
+            font-size: 14px;
+            color: var(--muted);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+            border-radius: 8px;
+        }
+
+        .tab-button:hover {
+            color: var(--text);
+        }
+
+        .tab-button.active {
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .tab-button.active::before {
+            content: '';
+            position: absolute;
+            left: -16px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: var(--green);
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* TAB CONTENT */
+        .content-right {
+            flex: 1;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* COMPANY PROFILE */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-family: var(--font);
+            font-size: 14px;
+            color: var(--text);
+            background-color: var(--white);
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px var(--green-light);
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-family: var(--font);
+            font-size: 14px;
+            color: var(--text);
+            background-color: var(--white);
+            resize: vertical;
+            min-height: 100px;
+            transition: all 0.2s ease;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px var(--green-light);
+        }
+
+        .logo-upload {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .logo-upload:hover {
+            border-color: var(--green);
+            background-color: var(--green-light);
+        }
+
+        .logo-upload-input {
+            display: none;
+        }
+
+        .logo-preview {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 12px;
+            background-color: var(--green-bg);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .logo-upload-text {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+
+        .logo-upload-hint {
+            font-size: 12px;
+            color: var(--muted-light);
+        }
+
+        .btn {
+            padding: 12px 32px;
+            border: none;
+            border-radius: 12px;
+            font-family: var(--font);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: var(--green);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--green-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--white);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--bg);
+        }
+
+        /* ICP & TARGETING */
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background-color: var(--green-light);
+            color: var(--green-dark);
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .tag-exclusion {
+            background-color: rgba(226, 92, 92, 0.1);
+            color: var(--red);
+            border: 1px solid rgba(226, 92, 92, 0.3);
+        }
+
+        .exclusion-section {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* AI VOICE & TONE */
+        .tone-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .tone-card {
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: var(--white);
+        }
+
+        .tone-card:hover {
+            border-color: var(--green);
+        }
+
+        .tone-card.active {
+            border-color: var(--green);
+            background-color: var(--green-light);
+        }
+
+        .tone-card input {
+            display: none;
+        }
+
+        .tone-label {
+            display: block;
+            font-weight: 600;
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .personality-traits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .trait-tag {
+            padding: 6px 12px;
+            background-color: var(--green-light);
+            color: var(--green-dark);
+            border-radius: 20px;
+            font-size: 13px;
+            border: 1px solid transparent;
+        }
+
+        .email-length {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .radio-label input {
+            cursor: pointer;
+        }
+
+        /* CONNECTED ACCOUNTS */
+        .account-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            background-color: var(--white);
+        }
+
+        .account-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .account-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background-color: var(--green-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .account-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .account-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .account-email {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .account-status {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--green);
+        }
+
+        .btn-connect {
+            background-color: var(--white);
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 10px 20px;
+            font-size: 13px;
+        }
+
+        .btn-connect:hover {
+            background-color: var(--bg);
+        }
+
+        .account-section {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .account-section-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        /* BILLING */
+        .billing-card {
+            padding: 28px;
+            background-color: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            margin-bottom: 24px;
+        }
+
+        .billing-plan {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+
+        .plan-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .plan-price {
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .usage-section {
+            margin-bottom: 24px;
+        }
+
+        .usage-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .usage-label-left {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .usage-label-right {
+            color: var(--muted);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: var(--green-bg);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--green);
+            width: 83.2%;
+            border-radius: 4px;
+        }
+
+        .billing-date {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-upgrade {
+            width: 100%;
+            padding: 14px;
+            margin-top: 16px;
+        }
+
+        /* INACTIVE TAB STYLING */
+        .tab-content:not(.active) {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .main-container {
+                margin-left: 200px;
+            }
+
+            .content-wrapper {
+                flex-direction: column;
+                gap: 24px;
+                padding: 24px;
+            }
+
+            .tabs-left {
+                width: 100%;
+            }
+
+            .tone-options {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+    <a class="s-logo" href="dashboard.html">
+      <img src="outpulse-logo-white.svg" alt="Outpulse" onerror="this.style.display='none'">
+      <span>Outpulse</span>
+    </a>
+    <nav class="s-nav">
+      <a class="s-nav-item " href="dashboard.html"><svg class="nav-icon" viewBox="0 0 256 256" fill="currentColor"><path d="M216,120v96H152V152H104v64H40V120l88-72Z" opacity="0.2"/><path d="M219.31,108.68l-80-80a16,16,0,0,0-22.62,0l-80,80A15.87,15.87,0,0,0,32,120v96a8,8,0,0,0,8,8h64a8,8,0,0,0,8-8V160h32v56a8,8,0,0,0,8,8h64a8,8,0,0,0,8-8V120A15.87,15.87,0,0,0,219.31,108.68ZM208,208H160V152a8,8,0,0,0-8-8H104a8,8,0,0,0-8,8v56H48V120l80-80,80,80Z"/></svg>Dashboard</a>
+      <a class="s-nav-item " href="campaigns.html"><svg class="nav-icon" viewBox="0 0 256 256" fill="currentColor"><path d="M224,64V192a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V64A16,16,0,0,1,48,48H208A16,16,0,0,1,224,64Z" opacity="0.2"/><path d="M208,40H48A24,24,0,0,0,24,64V192a24,24,0,0,0,24,24H208a24,24,0,0,0,24-24V64A24,24,0,0,0,208,40Zm8,152a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V64a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8Zm-48-96a8,8,0,0,1,0,16H156.94l-27,45a8,8,0,0,1-6.94,4h-.33a8,8,0,0,1-6.8-4.42L95.07,116.18,69.66,140.8A8,8,0,0,1,58.34,129.2l32-31.2a8,8,0,0,1,12.46,1.42l19.07,38.44L147.06,96Z"/></svg>Campaigns<span class="badge">3</span></a>
+      <a class="s-nav-item " href="prospects.html"><svg class="nav-icon" viewBox="0 0 256 256" fill="currentColor"><path d="M160,112a32,32,0,1,1-32-32A32,32,0,0,1,160,112Z" opacity="0.2"/><path d="M224,40V76a8,8,0,0,1-16,0V48H180a8,8,0,0,1,0-16h36A8,8,0,0,1,224,40Zm-8,132a8,8,0,0,0-8,8v28H180a8,8,0,0,0,0,16h36a8,8,0,0,0,8-8V180A8,8,0,0,0,216,172ZM76,208H48V180a8,8,0,0,0-16,0v36a8,8,0,0,0,8,8H76a8,8,0,0,0,0-16ZM40,84a8,8,0,0,0,8-8V48H76a8,8,0,0,0,0-16H40a8,8,0,0,0-8,8V76A8,8,0,0,0,40,84Zm136,92a8,8,0,0,1-6.41-3.19,52,52,0,0,0-83.2,0,8,8,0,1,1-12.8-9.62A67.94,67.94,0,0,1,101,141.51a40,40,0,1,1,53.94,0,67.94,67.94,0,0,1,27.43,21.68A8,8,0,0,1,176,176Zm-48-40a24,24,0,1,0-24-24A24,24,0,0,0,128,136Z"/></svg>Prospects</a>
+      <a class="s-nav-item " href="emails.html"><svg class="nav-icon" viewBox="0 0 256 256" fill="currentColor"><path d="M224,56l-96,88L32,56Z" opacity="0.2"/><path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"/></svg>AI Emails</a>
+      <a class="s-nav-item active" href="settings.html"><svg class="nav-icon" viewBox="0 0 256 256" fill="currentColor"><path d="M216,128a88,88,0,1,1-88-88A88,88,0,0,1,216,128Z" opacity="0.2"/><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm109.94-52.79a8,8,0,0,0-3.89-5.4l-29.83-17-.12-33.62a8,8,0,0,0-2.83-6.08,111.91,111.91,0,0,0-36.72-20.67,8,8,0,0,0-6.46.59L128,42.89,97.88,25a8,8,0,0,0-6.47-.6A112.1,112.1,0,0,0,54.73,45.13a8,8,0,0,0-2.83,6.07l-.15,33.65-29.83,17a8,8,0,0,0-3.89,5.4,106.47,106.47,0,0,0,0,41.56,8,8,0,0,0,3.89,5.4l29.83,17,.12,33.62a8,8,0,0,0,2.83,6.08,111.91,111.91,0,0,0,36.72,20.67,8,8,0,0,0,6.46-.59L128,213.11,158.12,231a7.94,7.94,0,0,0,3.9,1,8.3,8.3,0,0,0,2.57-.42,112.1,112.1,0,0,0,36.68-20.73,8,8,0,0,0,2.83-6.07l.15-33.65,29.83-17a8,8,0,0,0,3.89-5.4A106.47,106.47,0,0,0,237.94,107.21Zm-15,34.91-28.57,16.25a8,8,0,0,0-3,3l-.14,32.42a96.26,96.26,0,0,1-25.71,14.45L136.48,191.6a8,8,0,0,0-4.13-1.14h-.35a8,8,0,0,0-4.13,1.14L98.45,208.27A96.26,96.26,0,0,1,72.74,193.8l-.14-32.42a8,8,0,0,0-3-3L41.06,142.12a90.91,90.91,0,0,1,0-28.24L69.63,97.63a8,8,0,0,0,3-3l.14-32.42A96.26,96.26,0,0,1,98.45,47.73l29.07,16.67a8,8,0,0,0,4.48,1.14h0a8,8,0,0,0,4.13-1.14l29.42-16.67a96.26,96.26,0,0,1,25.71,14.45l.14,32.42a8,8,0,0,0,3,3l28.57,16.25A90.91,90.91,0,0,1,222.94,142.12Z"/></svg>Settings</a>
+    </nav>
+
+    <div class="s-upgrade">
+      <div class="s-upgrade-title">Upgrade to Agency</div>
+      <div class="s-upgrade-desc">Unlock 10 mailboxes and custom integrations.</div>
+      <button class="s-upgrade-btn">Upgrade</button>
+    </div>
+
+    <a class="s-link" href="index.html"><svg viewBox="0 0 256 256" fill="currentColor"><path d="M160,216V40L80,128Z" opacity="0.2"/><path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"/></svg>Back to site</a>
+    <div class="s-user">
+      <div class="s-user-avatar">L</div>
+      <div>
+        <div class="s-user-name">Lukas</div>
+        <div class="s-user-plan">Growth Plan</div>
+      </div>
+    </div>
+  </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-container">
+        <!-- TOPBAR -->
+        <div class="topbar">
+            <h1 class="topbar-title">Settings</h1>
+        </div>
+
+        <!-- CONTENT WRAPPER -->
+        <div class="content-wrapper">
+            <!-- LEFT TABS -->
+            <div class="tabs-left">
+                <div class="tab-list">
+                    <button class="tab-button active" data-tab="company-profile">Company Profile</button>
+                    <button class="tab-button" data-tab="icp-targeting">ICP & Targeting</button>
+                    <button class="tab-button" data-tab="ai-voice">AI Voice & Tone</button>
+                    <button class="tab-button" data-tab="connected-accounts">Connected Accounts</button>
+                    <button class="tab-button" data-tab="billing">Billing</button>
+                </div>
+            </div>
+
+            <!-- RIGHT CONTENT -->
+            <div class="content-right">
+                <!-- COMPANY PROFILE TAB -->
+                <div id="company-profile" class="tab-content active">
+                    <div class="form-group">
+                        <label class="form-label">Company Name</label>
+                        <input type="text" class="form-input" value="PLATFORM" placeholder="Enter company name">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Website</label>
+                        <input type="text" class="form-input" value="plat4m.com" placeholder="https://example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Industry</label>
+                        <input type="text" class="form-input" value="Technology / SaaS" placeholder="Select or enter industry">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Company Size</label>
+                        <select class="form-input">
+                            <option>1-10</option>
+                            <option selected>11-50</option>
+                            <option>51-200</option>
+                            <option>201-500</option>
+                            <option>500+</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-textarea" placeholder="Tell us about your company">We build AI-powered tools for modern sales teams. Our flagship product Outpulse automates personalized outreach.</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Company Logo</label>
+                        <div class="logo-upload">
+                            <input type="file" class="logo-upload-input" accept="image/*">
+                            <div class="logo-preview">🚀</div>
+                            <div class="logo-upload-text">Drag and drop your logo here</div>
+                            <div class="logo-upload-hint">or click to browse (PNG, JPG up to 5MB)</div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary">Save Changes</button>
+                </div>
+
+                <!-- ICP & TARGETING TAB -->
+                <div id="icp-targeting" class="tab-content">
+                    <div class="form-group">
+                        <label class="form-label">Job Titles</label>
+                        <div class="tag-container">
+                            <div class="tag">VP Sales</div>
+                            <div class="tag">CTO</div>
+                            <div class="tag">Head of Growth</div>
+                            <div class="tag">Director of Sales</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Industries</label>
+                        <div class="tag-container">
+                            <div class="tag">SaaS</div>
+                            <div class="tag">Fintech</div>
+                            <div class="tag">eCommerce</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Company Size</label>
+                        <div class="tag-container">
+                            <div class="tag">51-1000 employees</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Regions</label>
+                        <div class="tag-container">
+                            <div class="tag">US</div>
+                            <div class="tag">EU</div>
+                        </div>
+                    </div>
+
+                    <div class="exclusion-section">
+                        <label class="form-label">Exclusions</label>
+                        <div class="tag-container">
+                            <div class="tag tag-exclusion">Competitors</div>
+                            <div class="tag tag-exclusion">Internal</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI VOICE & TONE TAB -->
+                <div id="ai-voice" class="tab-content">
+                    <div class="form-group">
+                        <label class="form-label">Tone Preference</label>
+                        <div class="tone-options">
+                            <label class="tone-card">
+                                <input type="radio" name="tone" value="casual">
+                                <div class="tone-label">Casual</div>
+                            </label>
+                            <label class="tone-card active">
+                                <input type="radio" name="tone" value="professional" checked>
+                                <div class="tone-label">Professional</div>
+                            </label>
+                            <label class="tone-card">
+                                <input type="radio" name="tone" value="bold">
+                                <div class="tone-label">Bold</div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Custom Instructions</label>
+                        <textarea class="form-textarea" placeholder="Add any custom instructions for your AI emails..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Personality Traits</label>
+                        <div class="personality-traits">
+                            <div class="trait-tag">Confident</div>
+                            <div class="trait-tag">Helpful</div>
+                            <div class="trait-tag">Direct</div>
+                            <div class="trait-tag">Data-driven</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Email Length Preference</label>
+                        <div class="email-length">
+                            <label class="radio-label">
+                                <input type="radio" name="length" value="short">
+                                Short
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="length" value="medium" checked>
+                                Medium
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="length" value="long">
+                                Long
+                            </label>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary">Save Changes</button>
+                </div>
+
+                <!-- CONNECTED ACCOUNTS TAB -->
+                <div id="connected-accounts" class="tab-content">
+                    <div class="form-group">
+                        <div class="account-item">
+                            <div class="account-info">
+                                <div class="account-icon">📧</div>
+                                <div class="account-details">
+                                    <div class="account-name">Google</div>
+                                    <div class="account-email">lukas@plat4m.com</div>
+                                </div>
+                            </div>
+                            <div class="account-status">
+                                <span class="status-dot"></span>
+                                Connected
+                            </div>
+                        </div>
+
+                        <div class="account-item">
+                            <div class="account-info">
+                                <div class="account-icon">📧</div>
+                                <div class="account-details">
+                                    <div class="account-name">Outlook</div>
+                                    <div class="account-email">Not connected</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-connect">Connect</button>
+                        </div>
+
+                        <div class="account-item">
+                            <div class="account-info">
+                                <div class="account-icon">💼</div>
+                                <div class="account-details">
+                                    <div class="account-name">LinkedIn</div>
+                                    <div class="account-email">Not connected</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-connect">Connect</button>
+                        </div>
+                    </div>
+
+                    <div class="account-section">
+                        <div class="account-section-title">CRM Integrations</div>
+                        <div class="account-item">
+                            <div class="account-info">
+                                <div class="account-icon">🔗</div>
+                                <div class="account-details">
+                                    <div class="account-name">HubSpot</div>
+                                    <div class="account-email">Not connected</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-connect">Connect</button>
+                        </div>
+
+                        <div class="account-item">
+                            <div class="account-info">
+                                <div class="account-icon">🔗</div>
+                                <div class="account-details">
+                                    <div class="account-name">Salesforce</div>
+                                    <div class="account-email">Not connected</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-connect">Connect</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BILLING TAB -->
+                <div id="billing" class="tab-content">
+                    <div class="billing-card">
+                        <div class="billing-plan">
+                            <div class="plan-info">
+                                <h3>Current Plan</h3>
+                                <div class="plan-price">Growth • $79/month</div>
+                            </div>
+                        </div>
+
+                        <div class="usage-section">
+                            <div class="usage-label">
+                                <span class="usage-label-left">Email Usage</span>
+                                <span class="usage-label-right">832 / 1000</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                        </div>
+
+                        <div class="billing-date">
+                            <strong>Next billing date:</strong> April 1, 2026
+                        </div>
+
+                        <button class="btn btn-primary btn-upgrade">Upgrade to Agency</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Tab functionality
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.getAttribute('data-tab');
+
+                // Remove active class from all buttons and content
+                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+                // Add active class to clicked button and corresponding content
+                button.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Logo upload
+        document.querySelector('.logo-upload').addEventListener('click', () => {
+            document.querySelector('.logo-upload-input').click();
+        });
+
+        document.querySelector('.logo-upload-input').addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    document.querySelector('.logo-preview').style.backgroundImage = `url('${event.target.result}')`;
+                    document.querySelector('.logo-preview').style.backgroundSize = 'cover';
+                    document.querySelector('.logo-preview').textContent = '';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Tone selection
+        document.querySelectorAll('.tone-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.tone-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                card.querySelector('input').checked = true;
+            });
+        });
+    </script>
+</body>
+</html>

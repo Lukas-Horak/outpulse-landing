@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Outpulse — Get Started</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #f2f1ee;
+  --text: #1a1a1a;
+  --muted: #6b6b6b;
+  --muted-light: #b5b5b5;
+  --green: #7cc5a2;
+  --green-light: #e8f5ee;
+  --green-bg: #d4f0e1;
+  --white: #ffffff;
+  --dark: #1a1a1a;
+  --orange: #e8a84c;
+  --border: rgba(0,0,0,0.08);
+  --font: 'DM Sans', sans-serif;
+  --serif: 'DM Serif Display', serif;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow: hidden; height: 100vh; }
+
+/* ===== TIMER (fixed top-right) ===== */
+.timer-badge {
+  position: fixed; top: 24px; right: 32px; z-index: 950;
+  display: flex; align-items: center; gap: 8px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 8px 16px;
+  font-size: 13px; font-weight: 500;
+  color: var(--muted);
+  opacity: 0; transition: opacity 0.4s ease;
+}
+.timer-badge.visible { opacity: 1; }
+.timer-badge .timer-icon { font-size: 14px; opacity: 0.5; }
+.timer-badge .timer-value { font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
+.timer-badge.low .timer-value { color: #d35400; }
+
+/* ===== SECTIONS (wizard — one visible at a time) ===== */
+.onb-section {
+  position: absolute; inset: 0;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 105px 24px 60px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform: translateX(40px);
+  overflow-y: auto; overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+.onb-section.active {
+  opacity: 1; pointer-events: auto;
+  transform: translateX(0);
+}
+.onb-section.exit-left {
+  transform: translateX(-40px);
+}
+/* Welcome: center vertically */
+#sec-welcome { align-items: center; padding-top: 40px; }
+#sec-welcome.active { align-items: center; }
+
+/* ===== WELCOME ===== */
+.welcome-wrap { text-align: center; max-width: 520px; }
+.welcome-starburst {
+  width: 56px; height: 56px; margin: 0 auto 32px;
+  opacity: 0; transform: translateY(-16px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.welcome-starburst.anim { opacity: 1; transform: translateY(0); }
+.welcome-starburst svg { width: 100%; height: 100%; }
+.welcome-title {
+  font-family: var(--serif); font-size: 48px; font-weight: 400;
+  line-height: 1.15; margin-bottom: 16px;
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+}
+.welcome-title.anim { opacity: 1; transform: translateY(0); }
+.welcome-sub {
+  font-size: 17px; color: var(--muted); margin-bottom: 40px;
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.8s ease 0.35s, transform 0.8s ease 0.35s;
+}
+.welcome-sub.anim { opacity: 1; transform: translateY(0); }
+.welcome-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--dark); color: white;
+  border: none; border-radius: 16px;
+  padding: 18px 64px; font-size: 17px; font-weight: 500;
+  font-family: var(--font); cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.8s ease 0.5s, transform 0.8s ease 0.5s;
+}
+.welcome-btn.anim { opacity: 1; transform: translateY(0); }
+.welcome-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+.welcome-hint {
+  font-size: 13px; color: var(--muted-light); margin-top: 20px;
+  opacity: 0; transition: opacity 0.8s ease 0.65s;
+}
+.welcome-hint.anim { opacity: 1; }
+
+/* ===== STEPPER (fixed bar) ===== */
+.stepper-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+  background: rgba(242,241,238,0.92); backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 24px;
+  display: flex; align-items: center; justify-content: center;
+  transform: translateY(-100%);
+  transition: transform 0.4s ease;
+}
+.stepper-bar.visible { transform: translateY(0); }
+.stepper-wrap {
+  display: flex; align-items: flex-start; justify-content: center;
+  gap: 0; position: relative; max-width: 480px;
+}
+.stepper-step {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 6px; flex: 0 0 auto; min-width: 110px;
+}
+.stepper-circle {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600;
+  transition: all 0.4s ease; flex-shrink: 0;
+}
+.stepper-circle.completed { background: var(--green); color: white; }
+.stepper-circle.active { background: var(--dark); color: white; }
+.stepper-circle.upcoming { background: transparent; border: 1.5px solid var(--border); color: var(--muted-light); }
+.stepper-circle svg { width: 14px; height: 14px; }
+.stepper-line {
+  flex: 1; height: 2px; min-width: 48px;
+  margin-top: 15px; transition: background 0.4s ease;
+}
+.stepper-line.done { background: var(--green); }
+.stepper-line.pending { background: var(--border); }
+.stepper-label { font-size: 12px; font-weight: 500; text-align: center; white-space: nowrap; transition: color 0.3s; }
+.stepper-label.completed { color: var(--green); }
+.stepper-label.active { color: var(--text); font-weight: 600; }
+.stepper-label.upcoming { color: var(--muted-light); }
+.stepper-time { font-size: 11px; font-weight: 400; color: var(--muted-light); margin-top: -2px; }
+
+/* ===== CARD ===== */
+.card {
+  background: var(--white);
+  border-radius: 24px;
+  padding: 48px;
+  max-width: 560px; width: 100%;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.04);
+  position: relative;
+}
+.form-wrap {
+  display: flex; flex-direction: column; align-items: center;
+  max-width: 620px; width: 100%;
+}
+.card-title { font-family: var(--serif); font-style: italic; font-size: 32px; font-weight: 400; margin-bottom: 8px; color: var(--text); }
+.card-title-bold { font-family: var(--serif); font-size: 32px; font-weight: 400; margin-bottom: 8px; color: var(--text); }
+.card-sub { font-size: 15px; color: var(--muted); margin-bottom: 32px; }
+
+/* ===== FORM FIELDS ===== */
+.field { margin-bottom: 20px; }
+.field-label {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 8px;
+}
+.field-label .auto-tag { font-size: 11px; font-weight: 500; color: var(--green); letter-spacing: 0; text-transform: none; }
+.field-label .auto-tag::before { content: "✨ "; }
+.field-input {
+  width: 100%; padding: 14px 16px;
+  border: 1px solid var(--border); border-radius: 12px;
+  font-family: var(--font); font-size: 15px;
+  background: var(--white); color: var(--text);
+  transition: border-color 0.2s;
+}
+.field-input:focus { outline: none; border-color: var(--green); }
+.field-input.has-icon { padding-left: 40px; }
+.field-input-wrap { position: relative; }
+.field-input-wrap .field-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted-light); font-size: 16px; }
+.field-hint { font-size: 13px; color: var(--muted-light); margin-top: 6px; }
+textarea.field-input { resize: none; min-height: 100px; line-height: 1.5; }
+.field-input.autofilled { color: var(--green); }
+.field-input.ai-typing { color: var(--green); transition: color 1.5s ease; }
+.field-input.ai-typed { color: var(--text); transition: color 1.5s ease; }
+
+/* ===== ANALYZED BADGE ===== */
+.analyzed-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 13px; color: var(--green); font-weight: 500;
+  margin-top: 6px; opacity: 0; transition: opacity 0.5s;
+}
+.analyzed-badge.show { opacity: 1; }
+
+/* ===== AI SCAN BOX ===== */
+.ai-scan-box {
+  background: var(--green-light); border: 1px solid rgba(124,197,162,0.2);
+  border-radius: 12px; padding: 16px 20px; margin-bottom: 24px;
+  opacity: 0; transform: translateY(8px);
+  transition: opacity 0.5s, transform 0.5s;
+}
+.ai-scan-box.show { opacity: 1; transform: translateY(0); }
+.ai-scan-header { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; margin-bottom: 12px; }
+.ai-scan-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.ai-scan-tag { background: var(--white); border-radius: 8px; padding: 6px 14px; font-size: 13px; font-weight: 500; }
+.ai-scan-note { font-size: 13px; color: var(--muted); }
+
+/* ===== TONE CHIPS ===== */
+.tone-section { margin-top: 4px; }
+.tone-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+.tone-chip {
+  padding: 10px 20px; border-radius: 12px;
+  border: 1px solid var(--border); background: var(--white);
+  font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s; font-family: var(--font);
+}
+.tone-chip:hover { border-color: var(--muted-light); }
+.tone-chip.selected { background: var(--dark); color: white; border-color: var(--dark); }
+.tone-hint { font-size: 13px; color: var(--muted-light); margin-top: 4px; }
+
+/* ===== ICP ===== */
+.icp-textarea-wrap { position: relative; margin-bottom: 8px; }
+.icp-textarea {
+  width: 100%; min-height: 140px; padding: 16px 48px 16px 16px;
+  border: 1px solid var(--border); border-radius: 14px;
+  font-family: var(--font); font-size: 15px;
+  resize: none; background: var(--white);
+  color: var(--text); line-height: 1.5;
+  transition: color 0.3s;
+}
+.icp-textarea.demo-text { color: var(--muted-light); font-style: italic; }
+.icp-textarea:focus { outline: none; border-color: var(--green); color: var(--text); font-style: normal; }
+.icp-mic-btn {
+  position: absolute; bottom: 14px; right: 14px;
+  width: 36px; height: 36px; border-radius: 50%;
+  border: none; background: transparent;
+  color: var(--muted-light); display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.25s ease; gap: 6px;
+}
+.icp-mic-btn svg { width: 20px; height: 20px; transition: all 0.25s; }
+.icp-mic-btn:hover { color: var(--muted); }
+
+/* Listening state — textarea green border */
+.icp-textarea.listening {
+  border-color: var(--green) !important;
+  box-shadow: 0 0 0 3px rgba(124,197,162,0.15);
+  color: var(--text) !important;
+  font-style: normal !important;
+}
+/* Mic button label visibility — icon always stays visible */
+.icp-mic-btn .listening-label { display: none; }
+.icp-mic-btn .done-label { display: none; }
+.icp-mic-btn.listening .listening-label { display: flex; align-items: center; gap: 5px; }
+.icp-mic-btn.done-state .done-label { display: flex; align-items: center; gap: 5px; }
+
+/* Listening & Done: expand button to pill shape, label LEFT of icon */
+.icp-mic-btn.listening,
+.icp-mic-btn.done-state {
+  width: auto; height: auto; border-radius: 20px;
+  right: 10px; bottom: 10px;
+  padding: 6px 8px 6px 14px;
+  font-family: var(--font); font-size: 13px; font-weight: 600;
+  color: var(--green);
+  flex-direction: row-reverse;
+}
+.icp-mic-btn.listening svg,
+.icp-mic-btn.done-state svg { width: 16px; height: 16px; }
+
+.listening-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #e74c3c; animation: pulse 1s ease infinite;
+  flex-shrink: 0;
+}
+.done-check-circle {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--green); display: inline-flex; align-items: center; justify-content: center;
+}
+.done-check-circle svg { width: 10px; height: 10px; color: white; stroke-width: 3; }
+
+/* Structured fields panel */
+.icp-structured-fields {
+  display: none; margin-top: 16px;
+}
+.icp-structured-fields.visible { display: block; }
+.sf-row { display: flex; gap: 12px; margin-bottom: 12px; }
+.sf-row .sf-field { flex: 1; }
+.sf-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: 6px;
+}
+.sf-input {
+  width: 100%; padding: 14px 16px;
+  border: 1px solid var(--border); border-radius: 14px;
+  font-family: var(--font); font-size: 15px;
+  background: var(--white); color: var(--text);
+}
+.sf-input:focus { outline: none; border-color: var(--green); }
+.sf-input::placeholder { color: var(--muted-light); }
+
+/* Prospect pool */
+.prospect-pool {
+  display: none; margin-top: 24px;
+  padding: 20px 24px; border-radius: 16px;
+  background: var(--white); border: 1px solid var(--border);
+  opacity: 0; transform: translateY(8px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.prospect-pool.visible { display: block; }
+.prospect-pool.animate-in { opacity: 1; transform: translateY(0); }
+.pp-header {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 8px;
+}
+.pp-title { font-size: 15px; font-weight: 600; white-space: nowrap; }
+.pp-bar {
+  flex: 1; height: 8px; background: #e8e8e5;
+  border-radius: 100px; overflow: hidden;
+}
+.pp-bar-fill {
+  width: 0%; height: 100%;
+  background: var(--green);
+  border-radius: 100px;
+  transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pp-count {
+  font-size: 22px; font-weight: 700; color: var(--green);
+  font-variant-numeric: tabular-nums;
+  min-width: 70px; text-align: right;
+}
+.pp-hint {
+  font-size: 13px; color: var(--muted); margin-bottom: 14px;
+}
+.pp-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.pp-tag {
+  padding: 6px 14px; border-radius: 10px;
+  background: var(--green-light); border: 1px solid rgba(124,197,162,0.2);
+  font-size: 13px; font-weight: 500; color: var(--text);
+  opacity: 0; transform: scale(0.9);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.pp-tag.show { opacity: 1; transform: scale(1); }
+
+.icp-bottom { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; transition: opacity 0.3s; }
+.icp-bottom.hidden { opacity: 0; pointer-events: none; }
+.icp-hint { font-size: 13px; color: var(--muted-light); flex: 1; }
+.icp-structured { font-size: 13px; color: var(--green); font-weight: 500; white-space: nowrap; cursor: pointer; text-decoration: none; }
+.icp-structured:hover { text-decoration: underline; }
+
+/* ===== EMAIL PROVIDERS ===== */
+.email-cards { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+.email-card {
+  display: flex; align-items: center;
+  padding: 20px 24px; border: 1px solid var(--border); border-radius: 16px;
+  transition: all 0.4s ease;
+  opacity: 0; transform: translateY(12px);
+}
+.email-card.show { opacity: 1; transform: translateY(0); }
+.email-card.connected { border-color: var(--green); background: var(--green-light); }
+.email-card-icon { width: 36px; height: 36px; margin-right: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.email-card-icon img { width: 28px; height: 28px; }
+.email-card-icon svg { width: 24px; height: 24px; }
+.email-card-info { flex: 1; }
+.email-card-title { font-size: 15px; font-weight: 600; }
+.email-card-desc { font-size: 13px; color: var(--muted); }
+.email-card-btn {
+  padding: 8px 20px; border-radius: 10px;
+  border: 1px solid var(--border); background: var(--white);
+  font-family: var(--font); font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all 0.3s;
+}
+.email-card-btn:hover { background: #f5f5f5; }
+.email-card-btn.connected {
+  background: var(--green); border-color: var(--green);
+  color: white; font-weight: 600;
+}
+.skip-link {
+  display: block; text-align: center;
+  font-size: 13px; color: var(--muted-light);
+  margin-top: 8px; cursor: pointer; text-decoration: none;
+}
+.skip-link:hover { color: var(--muted); }
+
+/* ===== DONE SCREEN ===== */
+.done-check {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--green-light);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 24px;
+  opacity: 0; transform: scale(0.5);
+  transition: opacity 0.5s, transform 0.5s;
+}
+.done-check.anim { opacity: 1; transform: scale(1); }
+.done-check svg { width: 28px; height: 28px; color: var(--green); }
+.done-list { margin: 24px 0 32px; }
+.done-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 0; font-size: 15px;
+  opacity: 0; transform: translateX(-12px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.done-item.anim { opacity: 1; transform: translateX(0); }
+.done-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--green-light);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.done-icon svg { width: 18px; height: 18px; color: var(--green); }
+
+/* ===== BUTTONS ===== */
+.btn-row { display: flex; align-items: center; gap: 16px; margin-top: 32px; }
+.btn-continue {
+  flex: 1; padding: 16px 32px;
+  background: var(--dark); color: white;
+  border: none; border-radius: 14px;
+  font-family: var(--font); font-size: 16px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-continue:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+.btn-continue.btn-green { background: var(--green); }
+.btn-continue.btn-green:hover { box-shadow: 0 4px 16px rgba(124,197,162,0.4); }
+.btn-continue.disabled { opacity: 0.35; pointer-events: none; }
+.btn-back {
+  padding: 16px 24px;
+  background: transparent; color: var(--muted);
+  border: 1px solid var(--border); border-radius: 14px;
+  font-family: var(--font); font-size: 15px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-back:hover { border-color: var(--muted); color: var(--text); }
+.done-time-hint { text-align: center; font-size: 13px; color: var(--muted-light); margin-top: 12px; }
+
+/* ===== DASHBOARD ===== */
+.dash-section {
+  padding: 0;
+  position: absolute; inset: 0;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.45s ease;
+  overflow-y: auto;
+}
+.dash-section.active {
+  opacity: 1; pointer-events: auto;
+}
+.dash-layout { display: flex; width: 100%; min-height: 100vh; }
+.dash-sidebar {
+  width: 240px; background: var(--dark); color: white;
+  display: flex; flex-direction: column; padding: 24px 0; flex-shrink: 0;
+  position: sticky; top: 0; height: 100vh;
+}
+.dash-logo { display: flex; align-items: center; gap: 10px; padding: 0 24px; margin-bottom: 32px; font-size: 17px; font-weight: 600; }
+.dash-logo img { width: 32px; height: 32px; }
+.dash-nav { flex: 1; }
+.dash-nav-item {
+  display: flex; align-items: center; gap: 12px; padding: 10px 24px;
+  font-size: 14px; font-weight: 400; color: rgba(255,255,255,0.5);
+  cursor: pointer; transition: all 0.2s; text-decoration: none;
+}
+.dash-nav-item:hover { color: rgba(255,255,255,0.8); }
+.dash-nav-item.active { color: white; font-weight: 500; }
+.dash-nav-item svg { width: 20px; height: 20px; opacity: 0.7; }
+.dash-upgrade {
+  margin: 0 16px; padding: 20px; background: var(--green);
+  border-radius: 16px; margin-bottom: 16px;
+}
+.dash-upgrade-icon { width: 32px; height: 32px; border-radius: 8px; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+.dash-upgrade-icon svg { width: 16px; height: 16px; color: white; }
+.dash-upgrade-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.dash-upgrade-desc { font-size: 12px; color: rgba(255,255,255,0.8); margin-bottom: 12px; line-height: 1.4; }
+.dash-upgrade-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 8px; background: rgba(0,0,0,0.2); color: white; font-size: 12px; font-weight: 600; border: none; cursor: pointer; font-family: var(--font); }
+.dash-sidebar-link { display: flex; align-items: center; gap: 8px; padding: 10px 24px; font-size: 13px; color: rgba(255,255,255,0.4); cursor: pointer; text-decoration: none; }
+.dash-sidebar-link:hover { color: rgba(255,255,255,0.6); }
+.dash-sidebar-link svg { width: 16px; height: 16px; }
+.dash-user { display: flex; align-items: center; gap: 10px; padding: 12px 24px; border-top: 1px solid rgba(255,255,255,0.08); }
+.dash-user-avatar { width: 32px; height: 32px; border-radius: 50%; background: #c4a265; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; color: white; }
+.dash-user-info { flex: 1; }
+.dash-user-name { font-size: 13px; font-weight: 600; }
+.dash-user-plan { font-size: 11px; color: rgba(255,255,255,0.4); }
+
+/* Dashboard main */
+.dash-main { flex: 1; padding: 32px 40px; overflow-y: auto; background: var(--bg); }
+.dash-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+.dash-greeting { font-size: 14px; color: var(--muted); margin-bottom: 4px; }
+.dash-headline { font-family: var(--serif); font-style: italic; font-size: 28px; font-weight: 400; }
+.dash-topbar-actions { display: flex; gap: 8px; }
+.dash-topbar-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border); background: var(--white); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--muted); }
+.dash-topbar-btn svg { width: 20px; height: 20px; }
+.dash-card { background: var(--white); border: 1px solid var(--border); border-radius: 20px; padding: 28px; margin-bottom: 20px; }
+.dash-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.dash-card-title { font-size: 16px; font-weight: 600; }
+.dash-card-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; }
+.dash-badge-active { background: var(--green-light); color: var(--green); }
+.dash-badge-count { background: var(--green-light); color: var(--green); font-size: 14px; font-weight: 700; padding: 4px 16px; border-radius: 10px; }
+
+/* Table */
+.dash-table { width: 100%; border-collapse: collapse; }
+.dash-table thead th { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted-light); text-align: left; padding: 0 12px 12px; border-bottom: 1px solid var(--border); }
+.dash-table tbody td { padding: 14px 12px; font-size: 14px; border-bottom: 1px solid var(--border); }
+.dash-table tbody tr:last-child td { border-bottom: none; }
+.status-preparing {
+  display: inline-block; padding: 4px 12px; border-radius: 8px;
+  background: #fef5e7; color: var(--orange); font-weight: 600; font-size: 13px;
+}
+
+/* Coach mark */
+/* Welcome tip banner */
+.dash-tip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 24px;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.dash-tip.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.dash-tip-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--green-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.dash-tip-icon svg { width: 18px; height: 18px; color: var(--green); }
+.dash-tip-text {
+  flex: 1;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.dash-tip-text strong { color: var(--text); font-weight: 600; }
+.dash-tip-close {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: var(--muted-light);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 16px;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+.dash-tip-close:hover {
+  color: var(--muted);
+  background: rgba(0,0,0,0.04);
+}
+
+.dash-empty { text-align: center; padding: 40px; color: var(--muted-light); }
+.dash-empty svg { width: 48px; height: 48px; margin-bottom: 12px; opacity: 0.3; }
+.dash-empty p { font-size: 14px; }
+
+.dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.activity-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.activity-item:last-child { border-bottom: none; }
+.activity-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); margin-top: 6px; flex-shrink: 0; }
+.activity-text { font-size: 13px; color: var(--muted); }
+.activity-text strong { color: var(--text); font-weight: 500; }
+.activity-time { font-size: 11px; color: var(--muted-light); margin-top: 2px; }
+
+/* (reveal class removed — wizard handles visibility) */
+
+/* ===== ANIMATIONS ===== */
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.cursor-blink::after { content: "|"; animation: blink 0.8s ease infinite; margin-left: 1px; color: var(--green); }
+</style>
+</head>
+<body>
+
+<!-- STEPPER BAR (fixed top) -->
+<div class="stepper-bar" id="stepper-bar">
+  <div class="stepper-wrap" id="stepper-main"></div>
+</div>
+
+<!-- TIMER (fixed top-right) -->
+<div class="timer-badge" id="timer">
+  <span class="timer-icon">⏱</span>
+  <span class="timer-value" id="timer-value">3:00</span>
+</div>
+
+<!-- ========== SECTION 1: WELCOME ========== -->
+<section class="onb-section active" id="sec-welcome">
+  <div class="welcome-wrap">
+    <div class="welcome-starburst" id="wb-star">
+      <svg viewBox="0 0 512 512" fill="none">
+        <path d="M 117,253 A 140,80.3 5 0,0 249,345" stroke="#7cc5a2" stroke-width="20" opacity="0.18"/>
+        <path d="M 249,345 A 140,80.3 5 0,0 395,277" stroke="#7cc5a2" stroke-width="20" opacity="0.12"/>
+        <path d="M 178,376 A 136,111.4 -55 0,0 347,329" stroke="#7cc5a2" stroke-width="18" opacity="0.18"/>
+        <path d="M 347,329 A 136,111.4 -55 0,0 334,154" stroke="#7cc5a2" stroke-width="18" opacity="0.12"/>
+        <path d="M 190,151 A 132,129.1 60 0,0 144,330" stroke="#7cc5a2" stroke-width="17" opacity="0.18"/>
+        <path d="M 144,330 A 132,129.1 60 0,0 322,379" stroke="#7cc5a2" stroke-width="17" opacity="0.12"/>
+        <path d="M 395,277 A 140,80.3 5 0,0 263,185" stroke="#7cc5a2" stroke-width="20" opacity="0.95"/>
+        <path d="M 263,185 A 140,80.3 5 0,0 117,253" stroke="#7cc5a2" stroke-width="20" opacity="0.85"/>
+        <path d="M 334,154 A 136,111.4 -55 0,0 165,201" stroke="#7cc5a2" stroke-width="18" opacity="0.95"/>
+        <path d="M 165,201 A 136,111.4 -55 0,0 178,376" stroke="#7cc5a2" stroke-width="18" opacity="0.85"/>
+        <path d="M 322,379 A 132,129.1 60 0,0 368,200" stroke="#7cc5a2" stroke-width="17" opacity="0.95"/>
+        <path d="M 368,200 A 132,129.1 60 0,0 190,151" stroke="#7cc5a2" stroke-width="17" opacity="0.85"/>
+        <g stroke="#7cc5a2" stroke-width="13" stroke-linecap="round">
+          <line x1="188" y1="130" x2="177" y2="88"/><line x1="220" y1="107" x2="213" y2="62"/>
+          <line x1="256" y1="95" x2="256" y2="48"/><line x1="292" y1="107" x2="299" y2="62"/>
+          <line x1="324" y1="130" x2="335" y2="88"/>
+        </g>
+      </svg>
+    </div>
+    <h1 class="welcome-title" id="wb-title">Good morning, Lukas.</h1>
+    <p class="welcome-sub" id="wb-sub">Let's set up your first outreach in about 2 minutes.</p>
+    <button class="welcome-btn" id="wb-btn" onclick="goToSection(1)">Let's go →</button>
+    <p class="welcome-hint" id="wb-hint">4 quick steps · about 3 minutes</p>
+  </div>
+</section>
+
+<!-- ========== SECTION 2: COMPANY PROFILE ========== -->
+<section class="onb-section" id="sec-company">
+  <div class="form-wrap">
+    <div class="card">
+      <h2 class="card-title">First, tell us about you.</h2>
+      <p class="card-sub">This helps our AI write emails that actually sound like they're from you.</p>
+
+      <div class="field">
+        <label class="field-label">Your Company</label>
+        <input class="field-input" type="text" value="" id="company-name">
+      </div>
+
+      <div class="field">
+        <label class="field-label">Website</label>
+        <div class="field-input-wrap">
+          <span class="field-icon">🌐</span>
+          <input class="field-input has-icon" type="text" id="company-website" value="">
+        </div>
+        <div class="analyzed-badge" id="analyzed-badge">Analyzed ✓</div>
+        <p class="field-hint">We'll scan your site to understand what you offer</p>
+      </div>
+
+      <div class="ai-scan-box" id="ai-scan-box">
+        <div class="ai-scan-header">✨ Here's what we found on plat4m.com:</div>
+        <div class="ai-scan-tags">
+          <span class="ai-scan-tag">Product Design</span>
+          <span class="ai-scan-tag">AI & Automation</span>
+          <span class="ai-scan-tag">Digital Transformation</span>
+          <span class="ai-scan-tag">Mobile Apps</span>
+          <span class="ai-scan-tag">Web Platforms</span>
+          <span class="ai-scan-tag">Enterprise</span>
+        </div>
+        <p class="ai-scan-note">Fields below were auto-filled. Feel free to edit.</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label">What do you sell / offer? <span class="auto-tag">Auto-filled from your website</span></label>
+        <textarea class="field-input autofilled" id="company-offer" rows="3"></textarea>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Who is your ideal buyer? <span class="auto-tag">Auto-filled from your website</span></label>
+        <input class="field-input autofilled" type="text" id="company-buyer" value="">
+      </div>
+
+      <div class="field tone-section">
+        <label class="field-label">Tone of voice</label>
+        <div class="tone-chips" id="tone-chips">
+          <button class="tone-chip" data-tone="Friendly">Friendly</button>
+          <button class="tone-chip selected" data-tone="Professional">Professional</button>
+          <button class="tone-chip" data-tone="Provocative">Provocative</button>
+          <button class="tone-chip" data-tone="Visionary">Visionary</button>
+          <button class="tone-chip" data-tone="Witty">Witty</button>
+          <button class="tone-chip" data-tone="Warm">Warm</button>
+          <button class="tone-chip" data-tone="Direct">Direct</button>
+          <button class="tone-chip" data-tone="Playful">Playful</button>
+        </div>
+        <p class="tone-hint">This shapes how your AI writes — you can always adjust later</p>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-continue disabled" id="company-continue">Continue →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SECTION 3: DREAM CUSTOMER (ICP) ========== -->
+<section class="onb-section" id="sec-icp">
+  <div class="form-wrap">
+    <div class="card">
+      <h2 class="card-title-bold">Who's your dream customer?</h2>
+      <p class="card-sub">Describe them like you'd tell a colleague. Our AI handles the rest.</p>
+
+      <div class="icp-textarea-wrap">
+        <textarea class="icp-textarea" id="icp-text" placeholder=""></textarea>
+        <button class="icp-mic-btn" id="icp-mic-btn" title="Voice input">
+          <span class="mic-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              <line x1="12" y1="19" x2="12" y2="23"/>
+              <line x1="8" y1="23" x2="16" y2="23"/>
+            </svg>
+          </span>
+          <span class="listening-label">
+            <span class="listening-dot"></span> Listening
+          </span>
+          <span class="done-label">
+            Done
+            <span class="done-check-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+          </span>
+        </button>
+      </div>
+
+      <div class="icp-bottom">
+        <p class="icp-hint">Be as specific as you want — industry, role, company size, location, tech stack</p>
+        <a class="icp-structured" id="icp-toggle-structured">Prefer structured fields? →</a>
+      </div>
+
+      <!-- Structured fields (hidden by default, toggled by link) -->
+      <div class="icp-structured-fields" id="icp-sf">
+        <div class="sf-row">
+          <div class="sf-field">
+            <div class="sf-label">Job Titles</div>
+            <input class="sf-input" id="sf-titles" type="text" placeholder="e.g. VP Sales, Head of Growth">
+          </div>
+        </div>
+        <div class="sf-row">
+          <div class="sf-field">
+            <div class="sf-label">Industry</div>
+            <input class="sf-input" id="sf-industry" type="text" placeholder="e.g. SaaS, Fintech, E-commerce">
+          </div>
+        </div>
+        <div class="sf-row">
+          <div class="sf-field">
+            <div class="sf-label">Company Size</div>
+            <input class="sf-input" id="sf-size" type="text" placeholder="e.g. 50-200">
+          </div>
+          <div class="sf-field">
+            <div class="sf-label">Location</div>
+            <input class="sf-input" id="sf-location" type="text" placeholder="e.g. US, Europe">
+          </div>
+        </div>
+      </div>
+
+      <!-- Estimated prospect pool (appears after ICP is filled) -->
+      <div class="prospect-pool" id="prospect-pool">
+        <div class="pp-header">
+          <span class="pp-title">Estimated prospect pool</span>
+          <div class="pp-bar"><div class="pp-bar-fill" id="pp-bar-fill"></div></div>
+          <span class="pp-count" id="pp-count">~0</span>
+        </div>
+        <p class="pp-hint">Based on your criteria. We recommend 500–2,000 for optimal results.</p>
+        <div class="pp-tags" id="pp-tags"></div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" data-back>← Back</button>
+        <button class="btn-continue" id="icp-continue">Continue →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SECTION 4: CONNECT EMAIL ========== -->
+<section class="onb-section" id="sec-email">
+  <div class="form-wrap">
+    <div class="card">
+      <h2 class="card-title-bold">Where should emails come from?</h2>
+      <p class="card-sub">Connect your work email. Outpulse sends as you — no weird aliases.</p>
+
+      <div class="email-cards">
+        <div class="email-card" id="email-google">
+          <div class="email-card-icon">
+            <svg viewBox="0 0 24 24" width="28" height="28"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          </div>
+          <div class="email-card-info">
+            <div class="email-card-title">Gmail / Google Workspace</div>
+            <div class="email-card-desc">Connect your Google account</div>
+          </div>
+          <button class="email-card-btn" id="google-connect-btn">Connect</button>
+        </div>
+
+        <div class="email-card" id="email-microsoft">
+          <div class="email-card-icon">
+            <svg viewBox="0 0 24 24" width="28" height="28"><rect x="1" y="1" width="10" height="10" fill="#F25022"/><rect x="13" y="1" width="10" height="10" fill="#7FBA00"/><rect x="1" y="13" width="10" height="10" fill="#00A4EF"/><rect x="13" y="13" width="10" height="10" fill="#FFB900"/></svg>
+          </div>
+          <div class="email-card-info">
+            <div class="email-card-title">Outlook / Microsoft 365</div>
+            <div class="email-card-desc">Connect your Microsoft account</div>
+          </div>
+          <button class="email-card-btn">Connect</button>
+        </div>
+
+        <div class="email-card" id="email-smtp">
+          <div class="email-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,4 12,13 2,4"/></svg>
+          </div>
+          <div class="email-card-info">
+            <div class="email-card-title">Custom SMTP server</div>
+            <div class="email-card-desc">Use any email provider</div>
+          </div>
+          <button class="email-card-btn">Connect</button>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" data-back>← Back</button>
+        <button class="btn-continue disabled" id="email-continue">Continue →</button>
+      </div>
+      <a class="skip-link" onclick="goToSection(allSections.indexOf('sec-done'))">I'll do this later →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SECTION 5: DONE ========== -->
+<section class="onb-section" id="sec-done">
+  <div class="form-wrap">
+    <div class="card" style="text-align:center;">
+      <div class="done-check" id="done-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+
+      <h2 class="card-title-bold" style="font-size:36px;">You're ready to go.</h2>
+      <p class="card-sub">Your first campaign is being prepared. Here's what happens next:</p>
+
+      <div class="done-list">
+        <div class="done-item" id="done-item-1">
+          <div class="done-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+          <span>AI is finding prospects matching your criteria</span>
+        </div>
+        <div class="done-item" id="done-item-2">
+          <div class="done-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,4 12,13 2,4"/></svg></div>
+          <span>Personalized emails are being drafted for review</span>
+        </div>
+        <div class="done-item" id="done-item-3">
+          <div class="done-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+          <span>You'll be notified when the first batch is ready</span>
+        </div>
+      </div>
+
+      <div class="btn-row" style="justify-content:center;">
+        <button class="btn-back" data-back>← Back</button>
+        <button class="btn-continue btn-green">Open Dashboard →</button>
+      </div>
+      <p class="done-time-hint">Takes about 5 minutes to prepare your first prospects</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SECTION 6: DASHBOARD ========== -->
+<section class="dash-section" id="sec-dashboard">
+  <div class="dash-layout">
+    <aside class="dash-sidebar">
+      <div class="dash-logo">
+        <img src="outpulse-logo-white.svg" alt="Outpulse" onerror="this.style.display='none'">
+        <span>Outpulse</span>
+      </div>
+      <nav class="dash-nav">
+        <a class="dash-nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Dashboard</a>
+        <a class="dash-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Campaigns</a>
+        <a class="dash-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>Prospects</a>
+        <a class="dash-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,4 12,13 2,4"/></svg>AI Emails</a>
+        <a class="dash-nav-item" id="nav-settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings
+        </a>
+      </nav>
+      <div class="dash-upgrade">
+        <div class="dash-upgrade-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+        <div class="dash-upgrade-title">Upgrade to Agency</div>
+        <div class="dash-upgrade-desc">Unlock 10 mailboxes and custom integrations.</div>
+        <button class="dash-upgrade-btn">Upgrade ✨</button>
+      </div>
+      <a class="dash-sidebar-link" href="index.html"><svg viewBox="0 0 256 256" fill="currentColor"><path d="M160,216V40L80,128Z" opacity="0.2"/><path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"/></svg>Back to site</a>
+      <div class="dash-user">
+        <div class="dash-user-avatar">L</div>
+        <div class="dash-user-info">
+          <div class="dash-user-name">Lukas</div>
+          <div class="dash-user-plan">Growth Plan</div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="dash-main">
+      <div class="dash-topbar">
+        <div>
+          <div class="dash-greeting">Good morning, Lukas</div>
+          <h1 class="dash-headline">Your first campaign is being prepared</h1>
+        </div>
+        <div class="dash-topbar-actions">
+          <button class="dash-topbar-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></button>
+          <button class="dash-topbar-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></button>
+        </div>
+      </div>
+
+      <!-- Welcome tip -->
+      <div class="dash-tip" id="dash-tip">
+        <div class="dash-tip-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </div>
+        <div class="dash-tip-text">You can update your company info, ICP, and tone of voice anytime in <strong>Settings</strong>.</div>
+        <button class="dash-tip-close" id="dash-tip-close" aria-label="Dismiss">&times;</button>
+      </div>
+
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-card-title">Active Campaigns</div>
+          <span class="dash-card-badge dash-badge-active">● First Campaign</span>
+        </div>
+        <table class="dash-table">
+          <thead><tr><th>Campaign</th><th>Status</th><th>Prospects</th><th>Sent</th><th>Progress</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>
+                <strong>VP Sales — SaaS — US</strong>
+                <div style="font-size:12px;color:var(--muted);margin-top:2px;">Created just now</div>
+              </td>
+              <td><span class="status-preparing">● Preparing</span></td>
+              <td><strong><span id="prospect-counter">0</span></strong></td>
+              <td>0</td>
+              <td style="color:var(--muted);font-size:13px;">Finding prospects…</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="dash-grid">
+        <div class="dash-card">
+          <div class="dash-card-title" style="margin-bottom:16px;">Outreach Activity</div>
+          <div class="dash-empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            <p>No data yet — your first batch is being prepared</p>
+          </div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-title" style="margin-bottom:16px;">Recent Activity</div>
+          <div class="activity-item"><div class="activity-dot"></div><div><div class="activity-text"><strong>Campaign created</strong> — "First Campaign"</div><div class="activity-time">Just now</div></div></div>
+          <div class="activity-item"><div class="activity-dot"></div><div><div class="activity-text"><strong>Email connected</strong> — lukas@plat4m.com</div><div class="activity-time">Just now</div></div></div>
+          <div class="activity-item"><div class="activity-dot"></div><div><div class="activity-text"><strong>ICP defined</strong> — scanning databases</div><div class="activity-time">Just now</div></div></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</section>
+
+<script>
+// ===== GREETING =====
+(function() {
+  const h = new Date().getHours();
+  let g = 'Good morning';
+  if (h >= 12 && h < 18) g = 'Good afternoon';
+  if (h >= 18) g = 'Good evening';
+  document.getElementById('wb-title').textContent = g + ', Lukas.';
+})();
+
+// ===== TIMER =====
+let timerSeconds = 180;
+const timerEl = document.getElementById('timer-value');
+const timerBadge = document.getElementById('timer');
+let timerStarted = false;
+
+function startTimer() {
+  if (timerStarted) return;
+  timerStarted = true;
+  setInterval(() => {
+    timerSeconds--;
+    if (timerSeconds < 0) timerSeconds = 0;
+    const min = Math.floor(timerSeconds / 60);
+    const sec = timerSeconds % 60;
+    timerEl.textContent = min + ':' + sec.toString().padStart(2, '0');
+    if (timerSeconds <= 60) timerBadge.classList.add('low');
+  }, 1000);
+}
+
+// ===== WIZARD NAVIGATION =====
+const stepDefs = [
+  { key: 'company', label: 'Your Company', sectionId: 'sec-company' },
+  { key: 'icp', label: 'Dream Customer', sectionId: 'sec-icp' },
+  { key: 'email', label: 'Connect Email', sectionId: 'sec-email' },
+  { key: 'done', label: 'Ready', sectionId: 'sec-done' }
+];
+
+const allSections = ['sec-welcome', 'sec-company', 'sec-icp', 'sec-email', 'sec-done', 'sec-dashboard'];
+let currentSectionIdx = 0; // starts at welcome
+let highestReached = 0;    // can't go beyond this
+const stepCompleted = {};  // track which steps finished their demos
+
+const stepperBar = document.getElementById('stepper-bar');
+
+function renderStepper(activeKey) {
+  const wrap = document.getElementById('stepper-main');
+  if (!wrap) return;
+  const activeIdx = stepDefs.findIndex(s => s.key === activeKey);
+  wrap.innerHTML = '';
+  stepDefs.forEach((step, i) => {
+    if (i > 0) {
+      const line = document.createElement('div');
+      line.className = 'stepper-line ' + (i <= activeIdx ? 'done' : 'pending');
+      wrap.appendChild(line);
+    }
+    const el = document.createElement('div');
+    el.className = 'stepper-step';
+    // Can only click to go back to completed steps
+    if (i < activeIdx) {
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', () => goToSection(allSections.indexOf(step.sectionId)));
+    }
+    let state = i < activeIdx ? 'completed' : i === activeIdx ? 'active' : 'upcoming';
+    let circleHTML = '';
+    if (state === 'completed') circleHTML = '<div class="stepper-circle completed"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>';
+    else if (state === 'active') circleHTML = '<div class="stepper-circle active">' + (i + 1) + '</div>';
+    else circleHTML = '<div class="stepper-circle upcoming">' + (i + 1) + '</div>';
+
+    let timeHTML = '';
+
+    el.innerHTML = circleHTML + '<div class="stepper-label ' + state + '">' + step.label + '</div>' + timeHTML;
+    wrap.appendChild(el);
+  });
+}
+
+function goToSection(newIdx) {
+  if (newIdx === currentSectionIdx) return;
+  if (newIdx < 0 || newIdx >= allSections.length) return;
+
+  const oldEl = document.getElementById(allSections[currentSectionIdx]);
+  const newEl = document.getElementById(allSections[newIdx]);
+  const goingForward = newIdx > currentSectionIdx;
+
+  // Animate out
+  oldEl.classList.remove('active');
+  if (goingForward) oldEl.classList.add('exit-left');
+  oldEl.style.transform = goingForward ? 'translateX(-40px)' : 'translateX(40px)';
+
+  // Prep new section — clear stale classes/styles
+  newEl.style.transform = goingForward ? 'translateX(40px)' : 'translateX(-40px)';
+  newEl.classList.remove('exit-left');
+  newEl.style.opacity = '';
+
+  // Scroll new section to top
+  newEl.scrollTop = 0;
+
+  // Animate in after tiny delay
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      newEl.style.transform = '';
+      newEl.classList.add('active');
+    });
+  });
+
+  currentSectionIdx = newIdx;
+  if (newIdx > highestReached) highestReached = newIdx;
+
+  // Show/hide stepper bar
+  const secId = allSections[newIdx];
+  if (secId === 'sec-welcome' || secId === 'sec-dashboard') {
+    stepperBar.classList.remove('visible');
+  } else {
+    stepperBar.classList.add('visible');
+    const stepKey = { 'sec-company': 'company', 'sec-icp': 'icp', 'sec-email': 'email', 'sec-done': 'done' }[secId];
+    if (stepKey) renderStepper(stepKey);
+  }
+
+  // Show/hide timer
+  if (secId !== 'sec-welcome') {
+    timerBadge.classList.add('visible');
+  }
+
+  // Trigger section demos
+  triggerSectionDemo(secId);
+}
+
+// Enable continue button for a step
+function enableContinue(sectionId) {
+  stepCompleted[sectionId] = true;
+  const section = document.getElementById(sectionId);
+  if (!section) return;
+  const btn = section.querySelector('.btn-continue');
+  if (btn) btn.classList.remove('disabled');
+}
+
+// ===== CONTINUE & BACK BUTTONS =====
+document.querySelectorAll('.btn-continue').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.classList.contains('disabled')) return;
+    const section = btn.closest('.onb-section') || btn.closest('.dash-section');
+    if (!section) return;
+    // When "Open Dashboard" is clicked on the Done step, redirect to empty-states
+    if (section.id === 'sec-done') {
+      window.location.href = 'empty-states.html';
+      return;
+    }
+    const idx = allSections.indexOf(section.id);
+    if (idx >= 0 && idx < allSections.length - 1) {
+      goToSection(idx + 1);
+    }
+  });
+});
+
+document.querySelectorAll('[data-back]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const section = btn.closest('.onb-section') || btn.closest('.dash-section');
+    if (!section) return;
+    const idx = allSections.indexOf(section.id);
+    if (idx > 0) goToSection(idx - 1);
+  });
+});
+
+// Initial render
+renderStepper('company');
+
+// ===== TYPEWRITER =====
+function typeText(elementId, text, speed, callback) {
+  const el = document.getElementById(elementId);
+  let i = 0;
+  el.value = '';
+  el.classList.add('ai-typing');
+  el.classList.remove('ai-typed');
+  const interval = setInterval(() => {
+    el.value = text.substring(0, i + 1);
+    i++;
+    if (i >= text.length) {
+      clearInterval(interval);
+      // Flash green then fade to normal after a moment
+      setTimeout(() => {
+        el.classList.remove('ai-typing');
+        el.classList.add('ai-typed');
+      }, 800);
+      if (callback) callback();
+    }
+  }, speed);
+}
+
+// Typewriter for regular inputs (not autofilled, no green flash)
+function typeInput(elementId, text, speed, callback) {
+  const el = document.getElementById(elementId);
+  let i = 0;
+  el.value = '';
+  const interval = setInterval(() => {
+    el.value = text.substring(0, i + 1);
+    i++;
+    if (i >= text.length) {
+      clearInterval(interval);
+      if (callback) callback();
+    }
+  }, speed);
+}
+
+// ===== SECTION DEMOS (triggered by wizard navigation) =====
+const demoTriggered = {};
+
+function triggerSectionDemo(sectionId) {
+  if (demoTriggered[sectionId]) return;
+  demoTriggered[sectionId] = true;
+
+  switch (sectionId) {
+    case 'sec-company': demoCompany(); break;
+    case 'sec-icp': demoICP(); break;
+    case 'sec-email': demoEmail(); break;
+    case 'sec-done': demoDone(); break;
+    case 'sec-dashboard': demoDashboard(); break;
+  }
+}
+
+// Welcome — animate on load
+setTimeout(() => {
+  ['wb-star','wb-title','wb-sub','wb-btn','wb-hint'].forEach(id => {
+    document.getElementById(id).classList.add('anim');
+  });
+}, 100);
+
+// --- COMPANY DEMO ---
+function demoCompany() {
+  startTimer();
+
+  setTimeout(() => {
+    typeInput('company-name', 'PLATFORM', 80, () => {
+      setTimeout(() => {
+        typeInput('company-website', 'www.plat4m.com', 65, () => {
+          const badge = document.getElementById('analyzed-badge');
+          badge.textContent = 'Scanning website…';
+          badge.classList.add('show');
+
+          setTimeout(() => {
+            badge.textContent = 'Analyzed ✓';
+            setTimeout(() => {
+              document.getElementById('ai-scan-box').classList.add('show');
+              setTimeout(() => {
+                typeText('company-offer', 'Award-winning digital product design & AI-powered business automation for ambitious companies.', 22, () => {
+                  setTimeout(() => {
+                    typeText('company-buyer', 'CEOs and founders of mid-to-large companies looking to build world-class digital products', 22, () => {
+                      setTimeout(() => {
+                        document.querySelectorAll('.tone-chip').forEach(c => c.classList.remove('selected'));
+                        document.querySelector('[data-tone="Visionary"]').classList.add('selected');
+                        // Enable Continue after demo finishes
+                        enableContinue('sec-company');
+                      }, 600);
+                    });
+                  }, 300);
+                });
+              }, 400);
+            }, 500);
+          }, 1800);
+        });
+      }, 400);
+    });
+  }, 600);
+}
+
+// Tone chips — make clickable
+document.querySelectorAll('.tone-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.tone-chip').forEach(c => c.classList.remove('selected'));
+    chip.classList.add('selected');
+  });
+});
+
+// --- ICP DEMO ---
+const icpExamples = [
+  'VPs of Sales at Series A SaaS companies in the US, 50-200 employees',
+  'CTOs at fintech startups in Europe using React and Node.js',
+  'Marketing Directors at e-commerce brands doing $5M+ revenue',
+  'Founders of AI startups who recently raised seed funding'
+];
+
+let icpDemoTyper = null;
+let icpRecording = false;
+let icpRecordTyper = null;
+let icpDemoPlayed = false; // after first demo, use real Speech API
+let icpMicState = 'idle'; // idle | listening | done
+let speechRecognition = null;
+
+function demoICP() {
+  const textarea = document.getElementById('icp-text');
+  const micBtn = document.getElementById('icp-mic-btn');
+  const icpBottom = document.querySelector('.icp-bottom');
+  textarea.classList.add('demo-text');
+  let exIdx = 0;
+
+  enableContinue('sec-icp');
+
+  function typeExample() {
+    if (icpRecording) return;
+    const text = icpExamples[exIdx % icpExamples.length];
+    textarea.value = '';
+    let i = 0;
+    icpDemoTyper = setInterval(() => {
+      if (icpRecording) { clearInterval(icpDemoTyper); icpDemoTyper = null; return; }
+      textarea.value = text.substring(0, i + 1);
+      i++;
+      if (i >= text.length) {
+        clearInterval(icpDemoTyper);
+        icpDemoTyper = null;
+        setTimeout(() => { if (!icpRecording) { exIdx++; typeExample(); } }, 2500);
+      }
+    }, 35);
+  }
+  typeExample();
+
+  textarea.addEventListener('focus', () => {
+    if (icpDemoTyper) { clearInterval(icpDemoTyper); icpDemoTyper = null; }
+    if (!icpRecording) {
+      textarea.classList.remove('demo-text');
+      textarea.value = '';
+    }
+  });
+
+  // Mic button click handler — state machine
+  micBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (icpMicState === 'idle') {
+      // Start listening
+      startListening(textarea, micBtn, icpBottom);
+    } else if (icpMicState === 'listening') {
+      // User wants to stop early → go to Done
+      finishListening(textarea, micBtn, icpBottom);
+    } else if (icpMicState === 'done') {
+      // Confirm done → back to idle
+      confirmDone(textarea, micBtn, icpBottom);
+    }
+  });
+}
+
+// Demo voice text for first-time animation
+const voiceText = "I want to reach VPs of Sales and Marketing Directors at B2B SaaS companies, Series A to C, 50 to 500 employees, based in the US and Western Europe. They should be using CRM tools like Salesforce or HubSpot.";
+
+function setMicState(micBtn, state) {
+  icpMicState = state;
+  micBtn.classList.remove('listening', 'done-state');
+  if (state === 'listening') micBtn.classList.add('listening');
+  else if (state === 'done') micBtn.classList.add('done-state');
+}
+
+function startListening(textarea, micBtn, icpBottom) {
+  icpRecording = true;
+  if (icpDemoTyper) { clearInterval(icpDemoTyper); icpDemoTyper = null; }
+
+  textarea.classList.remove('demo-text');
+  textarea.classList.add('listening');
+  textarea.value = '';
+  setMicState(micBtn, 'listening');
+  if (icpBottom) icpBottom.classList.add('hidden');
+
+  if (!icpDemoPlayed) {
+    // First time: play demo typewriter, then auto-transition to Done
+    let i = 0;
+    icpRecordTyper = setInterval(() => {
+      textarea.value = voiceText.substring(0, i + 1);
+      i++;
+      textarea.scrollTop = textarea.scrollHeight;
+      if (i >= voiceText.length) {
+        clearInterval(icpRecordTyper);
+        icpRecordTyper = null;
+        icpDemoPlayed = true;
+        // Auto-transition to Done after typing finishes
+        setTimeout(() => {
+          if (icpMicState === 'listening') {
+            finishListening(textarea, micBtn, icpBottom);
+          }
+        }, 600);
+      }
+    }, 40);
+  } else {
+    // Subsequent clicks: use real Web Speech API
+    startRealSpeechRecognition(textarea, micBtn, icpBottom);
+  }
+}
+
+function finishListening(textarea, micBtn, icpBottom) {
+  // Stop any active typing/recording
+  if (icpRecordTyper) { clearInterval(icpRecordTyper); icpRecordTyper = null; }
+  if (speechRecognition) {
+    try { speechRecognition.stop(); } catch(e) {}
+    speechRecognition = null;
+  }
+
+  // Transition to Done state
+  textarea.classList.remove('listening');
+  setMicState(micBtn, 'done');
+}
+
+function confirmDone(textarea, micBtn, icpBottom) {
+  icpRecording = false;
+
+  // Back to idle
+  textarea.classList.remove('listening');
+  setMicState(micBtn, 'idle');
+  if (icpBottom) icpBottom.classList.remove('hidden');
+
+  // Keep text, ensure normal styling
+  textarea.style.fontStyle = 'normal';
+  textarea.style.color = 'var(--text)';
+}
+
+// Web Speech API integration
+function startRealSpeechRecognition(textarea, micBtn, icpBottom) {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    // Browser doesn't support Speech API — show message and revert
+    textarea.value = 'Voice input is not supported in this browser. Please type your ICP description instead.';
+    setTimeout(() => finishListening(textarea, micBtn, icpBottom), 1500);
+    return;
+  }
+
+  speechRecognition = new SpeechRecognition();
+  speechRecognition.continuous = true;
+  speechRecognition.interimResults = true;
+  speechRecognition.lang = 'en-US';
+
+  let finalTranscript = '';
+
+  speechRecognition.onresult = (event) => {
+    let interimTranscript = '';
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      const transcript = event.results[i][0].transcript;
+      if (event.results[i].isFinal) {
+        finalTranscript += transcript + ' ';
+      } else {
+        interimTranscript += transcript;
+      }
+    }
+    textarea.value = finalTranscript + interimTranscript;
+    textarea.scrollTop = textarea.scrollHeight;
+  };
+
+  speechRecognition.onerror = (event) => {
+    console.warn('Speech recognition error:', event.error);
+    if (event.error === 'not-allowed') {
+      textarea.value = 'Microphone access was denied. Please allow microphone access and try again.';
+    }
+    setTimeout(() => finishListening(textarea, micBtn, icpBottom), 1500);
+  };
+
+  speechRecognition.onend = () => {
+    // If still in listening state, auto-transition to Done
+    if (icpMicState === 'listening') {
+      finishListening(textarea, micBtn, icpBottom);
+    }
+  };
+
+  speechRecognition.start();
+}
+
+// --- STRUCTURED FIELDS TOGGLE ---
+(function() {
+  const toggleLink = document.getElementById('icp-toggle-structured');
+  const sfPanel = document.getElementById('icp-sf');
+  const hintEl = document.querySelector('.icp-hint');
+  let sfVisible = false;
+
+  if (toggleLink && sfPanel) {
+    toggleLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      sfVisible = !sfVisible;
+      if (sfVisible) {
+        sfPanel.classList.add('visible');
+        toggleLink.textContent = 'Back to simple →';
+        hintEl.textContent = 'Be as specific as you want — industry, role, company size, location, tech stack';
+      } else {
+        sfPanel.classList.remove('visible');
+        toggleLink.textContent = 'Prefer structured fields? →';
+      }
+    });
+  }
+})();
+
+// --- ESTIMATED PROSPECT POOL ---
+function showProspectPool(tags) {
+  const poolEl = document.getElementById('prospect-pool');
+  const barFill = document.getElementById('pp-bar-fill');
+  const countEl = document.getElementById('pp-count');
+  const tagsEl = document.getElementById('pp-tags');
+  if (!poolEl) return;
+
+  // Make visible
+  poolEl.classList.add('visible');
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      poolEl.classList.add('animate-in');
+    });
+  });
+
+  // Animate bar fill (target ~65%)
+  setTimeout(() => {
+    barFill.style.width = '62%';
+  }, 300);
+
+  // Animate count from 0 to ~2,340
+  const targetCount = 2340;
+  const duration = 1400;
+  const startTime = performance.now();
+  function animateCount(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    // Ease out cubic
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = Math.round(eased * targetCount);
+    countEl.textContent = '~' + current.toLocaleString();
+    if (progress < 1) requestAnimationFrame(animateCount);
+  }
+  setTimeout(() => requestAnimationFrame(animateCount), 400);
+
+  // Show tags one by one
+  tagsEl.innerHTML = '';
+  const defaultTags = tags || ['VP of Sales', 'SaaS', 'Startups', 'United States', '50–200 employees'];
+  defaultTags.forEach((tag, i) => {
+    const el = document.createElement('span');
+    el.className = 'pp-tag';
+    el.textContent = tag;
+    tagsEl.appendChild(el);
+    setTimeout(() => el.classList.add('show'), 800 + i * 120);
+  });
+}
+
+// Hook: show prospect pool when Done is confirmed on mic
+const origConfirmDone = confirmDone;
+confirmDone = function(textarea, micBtn, icpBottom) {
+  origConfirmDone(textarea, micBtn, icpBottom);
+  // Show prospect pool after voice input is confirmed
+  setTimeout(() => showProspectPool(), 400);
+};
+
+// --- EMAIL DEMO ---
+function demoEmail() {
+  const cards = document.querySelectorAll('.email-card');
+  cards.forEach((card, i) => {
+    setTimeout(() => card.classList.add('show'), 200 + i * 150);
+  });
+
+  // Google connect — only on click
+  const googleBtn = document.getElementById('google-connect-btn');
+  googleBtn.addEventListener('click', function handleGoogleConnect() {
+    googleBtn.removeEventListener('click', handleGoogleConnect);
+    const googleCard = document.getElementById('email-google');
+    googleBtn.textContent = 'Connecting...';
+    googleBtn.style.pointerEvents = 'none';
+    setTimeout(() => {
+      googleBtn.textContent = '✓ Connected';
+      googleBtn.classList.add('connected');
+      googleCard.classList.add('connected');
+      const desc = googleCard.querySelector('.email-card-desc');
+      desc.textContent = 'lukas@plat4m.com';
+      desc.style.color = 'var(--green)';
+      desc.style.fontWeight = '500';
+      enableContinue('sec-email');
+    }, 1200);
+  });
+}
+
+// --- DONE DEMO ---
+function demoDone() {
+  setTimeout(() => document.getElementById('done-check').classList.add('anim'), 200);
+  setTimeout(() => document.getElementById('done-item-1').classList.add('anim'), 500);
+  setTimeout(() => document.getElementById('done-item-2').classList.add('anim'), 700);
+  setTimeout(() => document.getElementById('done-item-3').classList.add('anim'), 900);
+  enableContinue('sec-done');
+}
+
+// --- DASHBOARD DEMO ---
+function demoDashboard() {
+  timerBadge.classList.remove('visible');
+  stepperBar.classList.remove('visible');
+
+  let count = 0;
+  const target = 487;
+  const counter = document.getElementById('prospect-counter');
+  const ci = setInterval(() => {
+    count += Math.ceil((target - count) * 0.08);
+    if (count >= target) { count = target; clearInterval(ci); }
+    counter.textContent = count;
+  }, 80);
+
+  // Tip banner: show after 2s
+  setTimeout(() => {
+    const tip = document.getElementById('dash-tip');
+    if (tip) tip.classList.add('visible');
+  }, 2000);
+}
+
+// ===== TIP BANNER DISMISS =====
+(function() {
+  const closeBtn = document.getElementById('dash-tip-close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function() {
+      const tip = document.getElementById('dash-tip');
+      if (tip) {
+        tip.style.opacity = '0';
+        tip.style.transform = 'translateY(-8px)';
+        setTimeout(() => tip.remove(), 400);
+      }
+    });
+  }
+})()
+
+// ===== DEV: skip to dashboard via ?dashboard=1 =====
+if (new URLSearchParams(window.location.search).get('dashboard') === '1') {
+  document.getElementById('sec-welcome').classList.remove('active');
+  document.getElementById('sec-dashboard').classList.add('active');
+  currentSectionIdx = allSections.indexOf('sec-dashboard');
+  highestReached = currentSectionIdx;
+  stepperBar.classList.remove('visible');
+  demoDashboard();
+}
+</script>
+</body>
+</html>

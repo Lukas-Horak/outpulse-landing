@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Line Logo Playground — Orbital Arcs + Rays</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background:#1a1a1a; color:#ccc;
+    font-family: system-ui, -apple-system, sans-serif;
+    display:flex; min-height:100vh;
+  }
+
+  .sidebar {
+    width:370px; min-width:370px; background:#111;
+    border-right:1px solid #222; overflow-y:auto;
+    padding:16px 14px; display:flex; flex-direction:column; gap:14px;
+    font-size:11px;
+  }
+  .sidebar h1 { font-size:14px; font-weight:600; color:#fff; letter-spacing:-0.02em; }
+  .sidebar .sub { font-size:10px; color:#444; margin:2px 0 4px; }
+
+  .group {
+    background:#1a1a1a; border:1px solid #222; border-radius:8px;
+    padding:10px 12px; display:flex; flex-direction:column; gap:6px;
+  }
+  .group-title {
+    font-size:10px; font-weight:700; text-transform:uppercase;
+    letter-spacing:.12em; color:#555; margin-bottom:2px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .group-title button {
+    font-size:9px; background:#222; border:1px solid #333; color:#888;
+    border-radius:3px; padding:1px 6px; cursor:pointer;
+  }
+  .group-title button:hover { background:#333; color:#fff; }
+
+  .ctrl {
+    display:flex; align-items:center; gap:6px;
+  }
+  .ctrl label {
+    font-size:10px; color:#777; min-width:88px; flex-shrink:0;
+  }
+  .ctrl input[type=range] {
+    flex:1; height:3px; -webkit-appearance:none; appearance:none;
+    background:#333; border-radius:2px; outline:none;
+  }
+  .ctrl input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance:none; width:12px; height:12px;
+    background:#fff; border-radius:50%; cursor:pointer;
+  }
+  .ctrl .val {
+    font-size:9px; color:#555; min-width:28px; text-align:right;
+    font-variant-numeric:tabular-nums;
+  }
+  .ctrl select {
+    flex:1; background:#222; color:#ccc; border:1px solid #333;
+    border-radius:4px; padding:2px 5px; font-size:10px; outline:none;
+  }
+  .ctrl input[type=color] {
+    width:24px; height:18px; border:1px solid #333; border-radius:3px;
+    background:none; cursor:pointer; padding:0;
+  }
+
+  .sep { height:1px; background:#222; margin:3px 0; }
+
+  .ring-header {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:4px 0; cursor:pointer;
+  }
+  .ring-header span { font-size:10px; font-weight:600; color:#888; }
+  .ring-body { display:flex; flex-direction:column; gap:5px; padding-left:4px; }
+  .ring-body.collapsed { display:none; }
+
+  .btn-row { display:flex; gap:6px; margin-top:2px; }
+  .btn {
+    flex:1; padding:6px; border:1px solid #333; border-radius:5px;
+    background:#222; color:#ccc; font-size:10px; font-weight:500;
+    cursor:pointer; text-align:center; transition: all .15s;
+  }
+  .btn:hover { background:#333; color:#fff; }
+  .btn.primary { background:#fff; color:#000; border-color:#fff; }
+  .btn.primary:hover { background:#ddd; }
+
+  .presets { display:flex; gap:5px; flex-wrap:wrap; }
+  .preset-btn {
+    padding:3px 8px; border:1px solid #333; border-radius:3px;
+    background:#222; color:#888; font-size:9px; cursor:pointer;
+  }
+  .preset-btn:hover { background:#333; color:#fff; }
+  .preset-btn.active { background:#fff; color:#000; border-color:#fff; }
+
+  .main {
+    flex:1; display:flex; flex-direction:column; align-items:center;
+    justify-content:center; gap:24px; padding:32px;
+    background:#f0eeea;
+  }
+  .main.dark { background:#0a0a0a; }
+  .main.white { background:#fff; }
+
+  .canvas-wrap { display:flex; align-items:center; justify-content:center; }
+
+  .size-row { display:flex; gap:24px; align-items:flex-end; }
+  .size-sample { display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .size-sample span { font-size:9px; color:#999; }
+
+  .code-area { width:100%; max-width:700px; }
+  .code-area pre {
+    background:#111; border:1px solid #222; border-radius:8px;
+    padding:10px; font-size:8px; color:#555; max-height:180px;
+    overflow:auto; white-space:pre-wrap; line-height:1.4;
+  }
+  .code-area h3 {
+    font-size:9px; color:#444; text-transform:uppercase;
+    letter-spacing:.1em; margin-bottom:4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="sidebar" id="sidebar">
+  <div>
+    <h1>Line Logo Playground</h1>
+    <div class="sub">Orbital arcs + vertical rays. Adjust everything to create your symbol.</div>
+  </div>
+
+  <div class="group">
+    <div class="group-title">Presets</div>
+    <div class="presets" id="presets"></div>
+  </div>
+
+  <!-- Global -->
+  <div class="group">
+    <div class="group-title">Global</div>
+    <div class="ctrl"><label>Center X</label><input type="range" data-g="cx" min="180" max="340" step="1"><span class="val"></span></div>
+    <div class="ctrl"><label>Center Y</label><input type="range" data-g="cy" min="180" max="340" step="1"><span class="val"></span></div>
+    <div class="ctrl"><label>Stroke color</label><input type="color" data-g="color" value="#000000"><span class="val" style="min-width:55px"></span></div>
+    <div class="ctrl"><label>Background</label>
+      <select data-g="bg">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="white">White</option>
+      </select>
+    </div>
+    <div class="ctrl"><label>Canvas px</label><input type="range" data-g="canvasSize" min="300" max="700" step="10"><span class="val"></span></div>
+  </div>
+
+  <!-- Rings -->
+  <div class="group" id="ringsGroup">
+    <div class="group-title">
+      Orbital Rings
+      <button onclick="addRing()">+ Add ring</button>
+    </div>
+    <div id="ringsContainer"></div>
+  </div>
+
+  <!-- Rays -->
+  <div class="group" id="raysGroup">
+    <div class="group-title">Rays (Hair)</div>
+    <div class="ctrl"><label>Count</label><input type="range" data-r="count" min="0" max="15" step="1"><span class="val"></span></div>
+    <div class="ctrl"><label>Spread</label><input type="range" data-r="spread" min="30" max="250" step="2"><span class="val"></span></div>
+    <div class="ctrl"><label>Base Y</label><input type="range" data-r="baseY" min="60" max="250" step="1"><span class="val"></span></div>
+    <div class="ctrl"><label>Length</label><input type="range" data-r="length" min="10" max="150" step="1"><span class="val"></span></div>
+    <div class="ctrl"><label>Stroke W</label><input type="range" data-r="strokeW" min="3" max="35" step="0.5"><span class="val"></span></div>
+    <div class="ctrl"><label>Cap</label>
+      <select data-r="cap"><option value="round">Round</option><option value="butt">Butt</option><option value="square">Square</option></select>
+    </div>
+    <div class="sep"></div>
+    <div class="ctrl"><label>Wave amp</label><input type="range" data-r="waveAmp" min="0" max="30" step="0.5"><span class="val"></span></div>
+    <div class="ctrl"><label>Wave freq</label><input type="range" data-r="waveFreq" min="0.5" max="6" step="0.1"><span class="val"></span></div>
+    <div class="ctrl"><label>Wave phase</label><input type="range" data-r="wavePhase" min="0" max="6.28" step="0.05"><span class="val"></span></div>
+    <div class="sep"></div>
+    <div class="ctrl"><label>Fan angle</label><input type="range" data-r="fanAngle" min="0" max="60" step="1"><span class="val"></span></div>
+    <div class="ctrl"><label>Tip taper</label><input type="range" data-r="taper" min="0" max="1" step="0.05"><span class="val"></span></div>
+    <div class="ctrl"><label>Opacity</label><input type="range" data-r="opacity" min="0.1" max="1" step="0.02"><span class="val"></span></div>
+    <div class="ctrl"><label>Corner radius</label><input type="range" data-r="cornerR" min="0" max="20" step="0.5"><span class="val"></span></div>
+  </div>
+
+  <!-- Export -->
+  <div class="group">
+    <div class="group-title">Export</div>
+    <div class="btn-row">
+      <button class="btn primary" onclick="copySVG()">Copy SVG</button>
+      <button class="btn" onclick="downloadSVG()">Download SVG</button>
+    </div>
+  </div>
+</div>
+
+<div class="main" id="mainArea">
+  <div class="canvas-wrap" id="canvasWrap"></div>
+  <div class="size-row" id="sizeRow"></div>
+  <div class="code-area">
+    <h3>SVG Code</h3>
+    <pre id="svgCode"></pre>
+  </div>
+</div>
+
+<script>
+// ─── State ───
+let G = {
+  cx: 252, cy: 262,
+  color: '#000000',
+  bg: 'light',
+  canvasSize: 500,
+};
+
+let rings = [
+  { rx:122, ry:86, rot:-1, sw:19.5, frontOp:0.68, backOp:0.14, frontOp2:0.64, backOp2:0.11, linecap:'round', splitAngle:0, visible:true },
+  { rx:125, ry:125, rot:-58, sw:24, frontOp:1.00, backOp:0.27, frontOp2:0.94, backOp2:0.18, linecap:'round', splitAngle:0, visible:true },
+];
+
+let rays = {
+  count: 5,
+  spread: 128,
+  baseY: 139,
+  length: 60,
+  strokeW: 20.5,
+  cap: 'round',
+  waveAmp: 0,
+  waveFreq: 2,
+  wavePhase: 0,
+  fanAngle: 8,
+  taper: 0,
+  opacity: 1.0,
+  cornerR: 10,
+};
+
+// ─── Ellipse math ───
+function ellipsePoint(cx, cy, rx, ry, rotDeg, angleDeg) {
+  const rR = rotDeg * Math.PI / 180;
+  const aR = angleDeg * Math.PI / 180;
+  const px = rx * Math.cos(aR);
+  const py = ry * Math.sin(aR);
+  return [
+    cx + px * Math.cos(rR) - py * Math.sin(rR),
+    cy + px * Math.sin(rR) + py * Math.cos(rR)
+  ];
+}
+
+function ellipseArc(cx, cy, rx, ry, rotDeg, startDeg, endDeg) {
+  const [x1, y1] = ellipsePoint(cx, cy, rx, ry, rotDeg, startDeg);
+  const [x2, y2] = ellipsePoint(cx, cy, rx, ry, rotDeg, endDeg);
+  const sweep = endDeg - startDeg;
+  const largeArc = Math.abs(sweep) > 180 ? 1 : 0;
+  const sweepFlag = sweep > 0 ? 1 : 0;
+  return `M${x1.toFixed(1)},${y1.toFixed(1)} A${rx},${ry},${rotDeg},${largeArc},${sweepFlag},${x2.toFixed(1)},${y2.toFixed(1)}`;
+}
+
+// ─── Rounded-end ray path ───
+// Creates a thick line with actual rounded rectangle corners
+function rayRoundedPath(x1, y1, x2, y2, w, cornerR) {
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+  const len = Math.sqrt(dx * dx + dy * dy);
+  if (len < 0.1) return '';
+
+  // Unit vectors along and perpendicular to the ray
+  const ux = dx / len;
+  const uy = dy / len;
+  const px = -uy;
+  const py = ux;
+
+  const hw = w / 2;
+  const r = Math.min(cornerR, hw, len / 2);
+
+  // Four corners of the thick line (before rounding)
+  // A─────B   (start end)
+  // │     │
+  // D─────C   (tip end)
+  const ax = x1 + px * hw;
+  const ay = y1 + py * hw;
+  const bx = x1 - px * hw;
+  const by = y1 - py * hw;
+  const cx_ = x2 - px * hw;
+  const cy_ = y2 - py * hw;
+  const dxx = x2 + px * hw;
+  const dyy = y2 + py * hw;
+
+  // Build path with rounded corners
+  // Move to A + inset along ray direction by r
+  if (r < 0.1) {
+    return `M${ax.toFixed(1)},${ay.toFixed(1)} L${bx.toFixed(1)},${by.toFixed(1)} L${cx_.toFixed(1)},${cy_.toFixed(1)} L${dxx.toFixed(1)},${dyy.toFixed(1)}Z`;
+  }
+
+  // Corner A (top-left of start): arc from (ax + ux*r) to (ax - px*r)...
+  // Easier approach: use the path with arc commands at each corner
+  const a1x = ax + ux * r, a1y = ay + uy * r;
+  const a2x = ax - px * r + ux * 0, a2y = ay - py * r + uy * 0;
+
+  // Actually, let me use a simpler approach: offset each edge inward by r, then connect with arcs
+  // Start side (A to B), move inward: A+along*r, B+along*r
+  // Tip side (D to C), move back: D-along*r, C-along*r
+  // Left side (A to D), move inward: A+perp... actually this gets complex.
+
+  // Simplest correct approach: treat it as a rect rotated to match the line, with rx/ry = r
+  // Use a single <rect> with rx/ry and transform
+
+  // Center of the rectangle
+  const mx = (x1 + x2) / 2;
+  const my = (y1 + y2) / 2;
+  const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+
+  return { type: 'rect', mx, my, w, h: len, rx: r, angle: angle + 90 };
+}
+
+// ─── Build SVG ───
+function buildSVG(size) {
+  const { cx, cy, color } = G;
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="${size}" height="${size}">\n`;
+
+  // Arcs: 4 quadrants per ring, split point rotatable via splitAngle
+  // Back arcs drawn first (behind), then front arcs (in front)
+  // splitAngle shifts where the front/back boundary is
+  // Quadrants use butt cap at interior joins, round cap only at the 2 open endpoints
+
+  rings.forEach(r => {
+    if (!r.visible) return;
+    const s = r.splitAngle || 0;
+    // 4 arc segments, each 90°
+    // Back half: s → s+90, s+90 → s+180
+    // Front half: s+180 → s+270, s+270 → s+360
+    const arcs = [
+      { start: s,       end: s + 90,  op: r.backOp,   pos: 'back-1' },
+      { start: s + 90,  end: s + 180, op: r.backOp2,  pos: 'back-2' },
+      { start: s + 180, end: s + 270, op: r.frontOp,  pos: 'front-1' },
+      { start: s + 270, end: s + 360, op: r.frontOp2, pos: 'front-2' },
+    ];
+
+    // Draw back arcs first
+    arcs.filter(a => a.pos.startsWith('back')).forEach(a => {
+      const d = ellipseArc(cx, cy, r.rx, r.ry, r.rot, a.start, a.end);
+      svg += `  <path d="${d}" fill="none" stroke="${color}" stroke-width="${r.sw}" stroke-linecap="butt" opacity="${a.op.toFixed(2)}"/>\n`;
+    });
+
+    // Draw front arcs on top
+    arcs.filter(a => a.pos.startsWith('front')).forEach(a => {
+      const d = ellipseArc(cx, cy, r.rx, r.ry, r.rot, a.start, a.end);
+      svg += `  <path d="${d}" fill="none" stroke="${color}" stroke-width="${r.sw}" stroke-linecap="butt" opacity="${a.op.toFixed(2)}"/>\n`;
+    });
+
+    // Round cap endpoints: draw tiny circles at the 2 open ends (start of back, end of front)
+    if ((r.linecap || 'round') === 'round') {
+      const [ex1, ey1] = ellipsePoint(cx, cy, r.rx, r.ry, r.rot, s);
+      const [ex2, ey2] = ellipsePoint(cx, cy, r.rx, r.ry, r.rot, s + 360);
+      // These are the same point (full circle) — but the visual endpoints are at s and s+180
+      // Actually the open ends where round caps should show are at the front/back boundary
+      // For a continuous ring, there are no open ends. The visible breaks are at s and s+180.
+      // Add round dots at those transition points with the higher opacity to mask the junction
+      const [p1x, p1y] = ellipsePoint(cx, cy, r.rx, r.ry, r.rot, s + 180);
+      const [p2x, p2y] = ellipsePoint(cx, cy, r.rx, r.ry, r.rot, s);
+      // Dot at front start (covers the front/back junction)
+      svg += `  <circle cx="${p1x.toFixed(1)}" cy="${p1y.toFixed(1)}" r="${(r.sw/2).toFixed(1)}" fill="${color}" opacity="${r.frontOp.toFixed(2)}"/>\n`;
+      // Dot at back start — only if we want to cap that end too
+      // Usually the back junction should be hidden (low opacity area), so skip or use back opacity
+    }
+  });
+
+  // Rays
+  if (rays.count > 0) {
+    const { count, spread, baseY, length, strokeW, cap, waveAmp, waveFreq, wavePhase, fanAngle, taper, opacity, cornerR } = rays;
+    const useRoundedRect = cornerR > 0 && waveAmp === 0;
+
+    if (!useRoundedRect) {
+      svg += `  <g stroke="${color}" stroke-linecap="${cap}">\n`;
+    }
+
+    for (let i = 0; i < count; i++) {
+      const t = count > 1 ? i / (count - 1) : 0.5;
+      const xOff = (t - 0.5) * spread;
+      const bx = cx + xOff;
+      const by = baseY;
+
+      const fanRad = (t - 0.5) * fanAngle * Math.PI / 180;
+      const tipX = bx + Math.sin(fanRad) * length;
+      const tipY = by - Math.cos(fanRad) * length;
+
+      const sw = strokeW * (1 - taper * 0.6 * Math.abs(t - 0.5) * 2);
+
+      if (useRoundedRect) {
+        // Draw as rounded rectangle for proper rounded corners
+        const info = rayRoundedPath(bx, by, tipX, tipY, sw, cornerR);
+        if (info && info.type === 'rect') {
+          svg += `  <rect x="${(info.mx - info.w/2).toFixed(1)}" y="${(info.my - info.h/2).toFixed(1)}" width="${info.w.toFixed(1)}" height="${info.h.toFixed(1)}" rx="${info.rx.toFixed(1)}" fill="${color}" opacity="${opacity}" transform="rotate(${info.angle.toFixed(1)},${info.mx.toFixed(1)},${info.my.toFixed(1)})"/>\n`;
+        }
+      } else if (waveAmp > 0) {
+        const steps = 16;
+        let d = `M${bx.toFixed(1)},${by.toFixed(1)}`;
+        for (let s = 1; s <= steps; s++) {
+          const st = s / steps;
+          const px = bx + (tipX - bx) * st;
+          const py = by + (tipY - by) * st;
+          const wave = Math.sin(st * waveFreq * Math.PI * 2 + wavePhase + i * 0.7) * waveAmp * st;
+          d += ` L${(px + wave).toFixed(1)},${py.toFixed(1)}`;
+        }
+        svg += `    <path d="${d}" fill="none" stroke-width="${sw.toFixed(1)}" opacity="${opacity}"/>\n`;
+      } else {
+        svg += `    <line x1="${bx.toFixed(1)}" y1="${by}" x2="${tipX.toFixed(1)}" y2="${tipY.toFixed(1)}" stroke-width="${sw.toFixed(1)}" opacity="${opacity}"/>\n`;
+      }
+    }
+
+    if (!useRoundedRect) {
+      svg += `  </g>\n`;
+    }
+  }
+
+  svg += `</svg>`;
+  return svg;
+}
+
+// ─── Render ───
+function render() {
+  const { bg, canvasSize } = G;
+  const main = document.getElementById('mainArea');
+  main.className = 'main' + (bg === 'dark' ? ' dark' : bg === 'white' ? ' white' : '');
+
+  document.getElementById('canvasWrap').innerHTML = buildSVG(canvasSize);
+  document.getElementById('sizeRow').innerHTML = [120, 64, 32].map(s =>
+    `<div class="size-sample">${buildSVG(s)}<span>${s}px</span></div>`
+  ).join('');
+  document.getElementById('svgCode').textContent = buildSVG(512);
+}
+
+// ─── Controls: Global ───
+function initGlobalCtrls() {
+  document.querySelectorAll('[data-g]').forEach(el => {
+    const k = el.dataset.g;
+    if (el.type === 'range') {
+      el.value = G[k]; el.nextElementSibling.textContent = G[k];
+      el.addEventListener('input', () => { G[k] = +el.value; el.nextElementSibling.textContent = G[k]; render(); });
+    } else if (el.tagName === 'SELECT') {
+      el.value = G[k];
+      el.addEventListener('change', () => { G[k] = el.value; render(); });
+    } else if (el.type === 'color') {
+      el.value = G[k]; el.nextElementSibling.textContent = G[k];
+      el.addEventListener('input', () => { G[k] = el.value; el.nextElementSibling.textContent = G[k]; render(); });
+    }
+  });
+}
+
+function syncGlobalCtrls() {
+  document.querySelectorAll('[data-g]').forEach(el => {
+    const k = el.dataset.g;
+    if (el.type === 'range') { el.value = G[k]; el.nextElementSibling.textContent = G[k]; }
+    else if (el.tagName === 'SELECT') { el.value = G[k]; }
+    else if (el.type === 'color') { el.value = G[k]; el.nextElementSibling.textContent = G[k]; }
+  });
+}
+
+// ─── Controls: Rays ───
+function initRayCtrls() {
+  document.querySelectorAll('[data-r]').forEach(el => {
+    const k = el.dataset.r;
+    if (el.type === 'range') {
+      el.value = rays[k]; el.nextElementSibling.textContent = rays[k];
+      el.addEventListener('input', () => { rays[k] = +el.value; el.nextElementSibling.textContent = rays[k]; render(); });
+    } else if (el.tagName === 'SELECT') {
+      el.value = rays[k];
+      el.addEventListener('change', () => { rays[k] = el.value; render(); });
+    }
+  });
+}
+
+function syncRayCtrls() {
+  document.querySelectorAll('[data-r]').forEach(el => {
+    const k = el.dataset.r;
+    if (el.type === 'range') { el.value = rays[k]; el.nextElementSibling.textContent = rays[k]; }
+    else if (el.tagName === 'SELECT') { el.value = rays[k]; }
+  });
+}
+
+// ─── Controls: Rings ───
+function buildRingControls() {
+  const container = document.getElementById('ringsContainer');
+  container.innerHTML = '';
+
+  rings.forEach((ring, idx) => {
+    const div = document.createElement('div');
+    div.style.marginBottom = '6px';
+
+    const header = document.createElement('div');
+    header.className = 'ring-header';
+    header.innerHTML = `
+      <span>Ring ${idx + 1} ${ring.visible ? '' : '(hidden)'}</span>
+      <span style="display:flex;gap:4px">
+        <button class="preset-btn" data-action="toggle" data-idx="${idx}" style="font-size:8px">${ring.visible ? 'Hide' : 'Show'}</button>
+        <button class="preset-btn" data-action="remove" data-idx="${idx}" style="font-size:8px;color:#a55">✕</button>
+      </span>
+    `;
+
+    const body = document.createElement('div');
+    body.className = 'ring-body';
+
+    const fields = [
+      { key:'rx', label:'Radius X', min:20, max:200, step:1 },
+      { key:'ry', label:'Radius Y', min:20, max:200, step:1 },
+      { key:'rot', label:'Rotation °', min:-180, max:180, step:1 },
+      { key:'sw', label:'Stroke W', min:2, max:40, step:0.5 },
+      { key:'splitAngle', label:'Split angle °', min:-180, max:180, step:1 },
+      { key:'frontOp', label:'Front op 1', min:0, max:1, step:0.02 },
+      { key:'frontOp2', label:'Front op 2', min:0, max:1, step:0.02 },
+      { key:'backOp', label:'Back op 1', min:0, max:0.5, step:0.01 },
+      { key:'backOp2', label:'Back op 2', min:0, max:0.5, step:0.01 },
+    ];
+
+    fields.forEach(f => {
+      const ctrl = document.createElement('div');
+      ctrl.className = 'ctrl';
+      ctrl.innerHTML = `<label>${f.label}</label><input type="range" min="${f.min}" max="${f.max}" step="${f.step}" value="${ring[f.key]}"><span class="val">${ring[f.key]}</span>`;
+      const inp = ctrl.querySelector('input');
+      inp.addEventListener('input', () => {
+        ring[f.key] = +inp.value;
+        ctrl.querySelector('.val').textContent = inp.value;
+        render();
+      });
+      body.appendChild(ctrl);
+    });
+
+    // Linecap select
+    const capCtrl = document.createElement('div');
+    capCtrl.className = 'ctrl';
+    capCtrl.innerHTML = `<label>Line cap</label><select><option value="round">Round</option><option value="butt">Butt</option><option value="square">Square</option></select>`;
+    const sel = capCtrl.querySelector('select');
+    sel.value = ring.linecap || 'round';
+    sel.addEventListener('change', () => { ring.linecap = sel.value; render(); });
+    body.appendChild(capCtrl);
+
+    header.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        if (btn.dataset.action === 'toggle') {
+          rings[+btn.dataset.idx].visible = !rings[+btn.dataset.idx].visible;
+        } else {
+          rings.splice(+btn.dataset.idx, 1);
+        }
+        buildRingControls();
+        render();
+      });
+    });
+
+    header.addEventListener('click', () => body.classList.toggle('collapsed'));
+
+    div.appendChild(header);
+    div.appendChild(body);
+    container.appendChild(div);
+  });
+}
+
+function addRing() {
+  rings.push({
+    rx: 120 + Math.round(Math.random() * 30),
+    ry: 80 + Math.round(Math.random() * 50),
+    rot: Math.round((Math.random() - 0.5) * 120),
+    sw: 18, frontOp: 0.9, frontOp2: 0.85, backOp: 0.15, backOp2: 0.10,
+    linecap: 'round', splitAngle: 0, visible: true,
+  });
+  buildRingControls();
+  render();
+}
+
+// ─── Presets ───
+const presetDefs = {
+  'Your logo': {
+    G: { cx:252, cy:262, color:'#000000', bg:'light', canvasSize:500 },
+    rings: [
+      { rx:122, ry:86, rot:-1, sw:19.5, frontOp:0.68, backOp:0.17, frontOp2:0.64, backOp2:0.11, linecap:'round', splitAngle:0, visible:true },
+      { rx:125, ry:125, rot:-58, sw:24, frontOp:1.00, backOp:0.27, frontOp2:0.94, backOp2:0.18, linecap:'round', splitAngle:0, visible:true },
+    ],
+    rays: { count:5, spread:128, baseY:139, length:60, strokeW:20.5, cap:'round', waveAmp:0, waveFreq:2, wavePhase:0, fanAngle:8, taper:0, opacity:1.0, cornerR:10 },
+  },
+  'Wavy hair': {
+    G: { cx:252, cy:262, color:'#000000', bg:'light', canvasSize:500 },
+    rings: [
+      { rx:122, ry:86, rot:-1, sw:19.5, frontOp:0.68, backOp:0.17, frontOp2:0.64, backOp2:0.11, linecap:'round', splitAngle:0, visible:true },
+      { rx:125, ry:125, rot:-58, sw:24, frontOp:1.00, backOp:0.27, frontOp2:0.94, backOp2:0.18, linecap:'round', splitAngle:0, visible:true },
+    ],
+    rays: { count:7, spread:160, baseY:125, length:65, strokeW:16, cap:'round', waveAmp:10, waveFreq:2.5, wavePhase:0, fanAngle:18, taper:0.3, opacity:1.0, cornerR:0 },
+  },
+  'Bold': {
+    G: { cx:252, cy:260, color:'#000000', bg:'light', canvasSize:500 },
+    rings: [
+      { rx:120, ry:90, rot:0, sw:28, frontOp:0.85, backOp:0.10, frontOp2:0.80, backOp2:0.07, linecap:'round', splitAngle:0, visible:true },
+      { rx:118, ry:118, rot:-50, sw:30, frontOp:1.00, backOp:0.20, frontOp2:0.95, backOp2:0.14, linecap:'round', splitAngle:0, visible:true },
+    ],
+    rays: { count:5, spread:120, baseY:135, length:65, strokeW:24, cap:'round', waveAmp:0, waveFreq:2, wavePhase:0, fanAngle:8, taper:0, opacity:1.0, cornerR:12 },
+  },
+  'Light on dark': {
+    G: { cx:252, cy:262, color:'#ffffff', bg:'dark', canvasSize:500 },
+    rings: [
+      { rx:122, ry:86, rot:-1, sw:16, frontOp:0.65, backOp:0.12, frontOp2:0.60, backOp2:0.08, linecap:'round', splitAngle:0, visible:true },
+      { rx:125, ry:125, rot:-58, sw:20, frontOp:0.95, backOp:0.20, frontOp2:0.90, backOp2:0.14, linecap:'round', splitAngle:0, visible:true },
+    ],
+    rays: { count:5, spread:128, baseY:139, length:55, strokeW:16, cap:'round', waveAmp:0, waveFreq:2, wavePhase:0, fanAngle:8, taper:0, opacity:1.0, cornerR:8 },
+  },
+  '3 rings': {
+    G: { cx:252, cy:265, color:'#000000', bg:'light', canvasSize:500 },
+    rings: [
+      { rx:135, ry:78, rot:5, sw:18, frontOp:0.65, backOp:0.14, frontOp2:0.60, backOp2:0.10, linecap:'round', splitAngle:0, visible:true },
+      { rx:130, ry:105, rot:-55, sw:20, frontOp:0.85, backOp:0.18, frontOp2:0.80, backOp2:0.12, linecap:'round', splitAngle:0, visible:true },
+      { rx:125, ry:125, rot:60, sw:18, frontOp:0.95, backOp:0.16, frontOp2:0.90, backOp2:0.11, linecap:'round', splitAngle:0, visible:true },
+    ],
+    rays: { count:5, spread:136, baseY:130, length:50, strokeW:18, cap:'round', waveAmp:0, waveFreq:2, wavePhase:0, fanAngle:6, taper:0, opacity:1.0, cornerR:9 },
+  },
+  'Minimal': {
+    G: { cx:256, cy:260, color:'#000000', bg:'white', canvasSize:500 },
+    rings: [
+      { rx:115, ry:110, rot:0, sw:16, frontOp:0.80, backOp:0.08, frontOp2:0.75, backOp2:0.05, linecap:'round', splitAngle:0, visible:true },
+    ],
+    rays: { count:3, spread:70, baseY:145, length:45, strokeW:14, cap:'round', waveAmp:0, waveFreq:2, wavePhase:0, fanAngle:0, taper:0, opacity:1.0, cornerR:7 },
+  },
+  'Wild': {
+    G: { cx:252, cy:270, color:'#000000', bg:'light', canvasSize:500 },
+    rings: [
+      { rx:122, ry:86, rot:-1, sw:19.5, frontOp:0.68, backOp:0.17, frontOp2:0.64, backOp2:0.11, linecap:'round', splitAngle:0, visible:true },
+      { rx:125, ry:125, rot:-58, sw:24, frontOp:1.00, backOp:0.27, frontOp2:0.94, backOp2:0.18, linecap:'round', splitAngle:0, visible:true },
+    ],
+    rays: { count:9, spread:190, baseY:110, length:80, strokeW:12, cap:'round', waveAmp:14, waveFreq:3, wavePhase:0.5, fanAngle:28, taper:0.5, opacity:1.0, cornerR:0 },
+  },
+};
+
+let activePreset = 'Your logo';
+
+function initPresets() {
+  const c = document.getElementById('presets');
+  Object.keys(presetDefs).forEach(name => {
+    const btn = document.createElement('button');
+    btn.className = 'preset-btn' + (name === activePreset ? ' active' : '');
+    btn.textContent = name;
+    btn.dataset.preset = name;
+    btn.addEventListener('click', () => {
+      const p = presetDefs[name];
+      G = { ...p.G };
+      rings = p.rings.map(r => ({ ...r }));
+      rays = { ...p.rays };
+      activePreset = name;
+      syncGlobalCtrls();
+      syncRayCtrls();
+      buildRingControls();
+      document.querySelectorAll('.preset-btn').forEach(b =>
+        b.classList.toggle('active', b.dataset.preset === activePreset)
+      );
+      render();
+    });
+    c.appendChild(btn);
+  });
+}
+
+// ─── Export ───
+function copySVG() {
+  navigator.clipboard.writeText(buildSVG(512)).then(() => alert('SVG copied!'));
+}
+function downloadSVG() {
+  const blob = new Blob([buildSVG(512)], { type:'image/svg+xml' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'outpulse-logo.svg'; a.click();
+}
+
+// ─── Init ───
+initPresets();
+initGlobalCtrls();
+initRayCtrls();
+buildRingControls();
+render();
+</script>
+
+</body>
+</html>

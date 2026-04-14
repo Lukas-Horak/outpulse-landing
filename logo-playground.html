@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Halftone Logo Playground</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background:#1a1a1a; color:#ccc;
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    display:flex; min-height:100vh;
+  }
+
+  /* ─── Sidebar ─── */
+  .sidebar {
+    width:340px; min-width:340px; background:#111;
+    border-right:1px solid #222; overflow-y:auto;
+    padding:20px 16px; display:flex; flex-direction:column; gap:20px;
+  }
+  .sidebar h1 {
+    font-size:15px; font-weight:600; color:#fff;
+    letter-spacing:-0.02em; margin-bottom:4px;
+  }
+  .sidebar .sub { font-size:10px; color:#444; margin-bottom:8px; }
+
+  .group {
+    background:#1a1a1a; border:1px solid #222; border-radius:8px;
+    padding:12px; display:flex; flex-direction:column; gap:8px;
+  }
+  .group-title {
+    font-size:10px; font-weight:600; text-transform:uppercase;
+    letter-spacing:.1em; color:#555; margin-bottom:2px;
+  }
+
+  .ctrl {
+    display:flex; align-items:center; gap:8px;
+  }
+  .ctrl label {
+    font-size:11px; color:#888; min-width:100px; flex-shrink:0;
+  }
+  .ctrl input[type=range] {
+    flex:1; height:4px; -webkit-appearance:none; appearance:none;
+    background:#333; border-radius:2px; outline:none;
+  }
+  .ctrl input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance:none; width:14px; height:14px;
+    background:#fff; border-radius:50%; cursor:pointer;
+  }
+  .ctrl .val {
+    font-size:10px; color:#666; min-width:32px; text-align:right;
+    font-variant-numeric:tabular-nums;
+  }
+  .ctrl select {
+    flex:1; background:#222; color:#ccc; border:1px solid #333;
+    border-radius:4px; padding:3px 6px; font-size:11px; outline:none;
+  }
+  .ctrl input[type=color] {
+    width:28px; height:22px; border:1px solid #333; border-radius:4px;
+    background:none; cursor:pointer; padding:0;
+  }
+
+  .btn-row { display:flex; gap:8px; margin-top:4px; }
+  .btn {
+    flex:1; padding:8px; border:1px solid #333; border-radius:6px;
+    background:#222; color:#ccc; font-size:11px; font-weight:500;
+    cursor:pointer; text-align:center; transition: all .15s;
+  }
+  .btn:hover { background:#333; color:#fff; }
+  .btn.primary { background:#fff; color:#000; border-color:#fff; }
+  .btn.primary:hover { background:#ddd; }
+
+  .presets { display:flex; gap:6px; flex-wrap:wrap; }
+  .preset-btn {
+    padding:4px 10px; border:1px solid #333; border-radius:4px;
+    background:#222; color:#888; font-size:10px; cursor:pointer;
+    transition: all .15s;
+  }
+  .preset-btn:hover { background:#333; color:#fff; }
+  .preset-btn.active { background:#fff; color:#000; border-color:#fff; }
+
+  .sep { height:1px; background:#222; margin:4px 0; }
+
+  /* ─── Main canvas area ─── */
+  .main {
+    flex:1; display:flex; flex-direction:column; align-items:center;
+    justify-content:center; gap:24px; padding:32px;
+    background:#e8e8e8;
+  }
+  .main.dark-bg { background:#0a0a0a; }
+
+  .canvas-wrap {
+    position:relative; display:flex; align-items:center; justify-content:center;
+  }
+
+  .size-row {
+    display:flex; gap:32px; align-items:flex-end;
+  }
+  .size-sample {
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+  }
+  .size-sample span { font-size:10px; color:#666; }
+
+  .code-area {
+    width:100%; max-width:600px;
+  }
+  .code-area pre {
+    background:#111; border:1px solid #222; border-radius:8px;
+    padding:12px; font-size:9px; color:#555; max-height:200px;
+    overflow:auto; white-space:pre-wrap; line-height:1.4;
+  }
+  .code-area h3 {
+    font-size:10px; color:#444; text-transform:uppercase;
+    letter-spacing:.1em; margin-bottom:6px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── SIDEBAR ─── -->
+<div class="sidebar">
+  <div>
+    <h1>Halftone Logo Playground</h1>
+    <div class="sub">One shape — infinite possibilities. Adjust and export as SVG.</div>
+  </div>
+
+  <!-- Presets -->
+  <div class="group">
+    <div class="group-title">Presets</div>
+    <div class="presets" id="presets"></div>
+  </div>
+
+  <!-- Grid -->
+  <div class="group">
+    <div class="group-title">Dot Grid</div>
+    <div class="ctrl">
+      <label>Grid density</label>
+      <input type="range" data-p="gridSize" min="12" max="80" step="1">
+      <span class="val"></span>
+    </div>
+    <div class="ctrl">
+      <label>Spacing</label>
+      <input type="range" data-p="spacing" min="2" max="14" step="0.25">
+      <span class="val"></span>
+    </div>
+    <div class="ctrl">
+      <label>Dot shape</label>
+      <select data-p="dotShape">
+        <option value="circle">Circle</option>
+        <option value="square">Square</option>
+        <option value="diamond">Diamond</option>
+        <option value="rounded-sq">Rounded Square</option>
+      </select>
+    </div>
+    <div class="ctrl">
+      <label>Grid offset Y</label>
+      <input type="range" data-p="gridOffY" min="-10" max="10" step="0.25">
+      <span class="val"></span>
+    </div>
+    <div class="ctrl">
+      <label>Hex grid</label>
+      <select data-p="hexGrid">
+        <option value="0">Off (square grid)</option>
+        <option value="1">On (honeycomb)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Shape (single O) -->
+  <div class="group">
+    <div class="group-title">Shape — Circle "O"</div>
+    <div class="ctrl">
+      <label>Center X</label>
+      <input type="range" data-p="cx" min="20" max="80" step="0.5">
+      <span class="val"></span>
+    </div>
+    <div class="ctrl">
+      <label>Center Y</label>
+      <input type="range" data-p="cy" min="20" max="80" step="0.5">
+      <span class="val"></span>
+    </div>
+    <div class="ctrl">
+      <label>Outer radius</label>
+      <input type="range" data-p="outerR" min="8" max="48" step="0.5">
+      <span class="val"></span>
+    </div>
+    <div class="sep"></div>
+    <div class="ctrl">
+      <label>Inner hole R</label>
+      <input type="range" data-p="innerR" min="0" max="40" step="0.5">
+      <span class="val"></span>
+    </div>
+    <div class="ctrl">
+      <label>Hole offset X</label>
+      <input type="range" data-p="holeDx" min="-20" max="20" step="0.5">
+      <span class="val"></span>
+    </div>
+    <div class="ctrl">
+      <label>Hole offset Y</label>
+      <input type="range" data-p="holeDy" min="-20" max="20" step="0.5">
+      <span class="val"></span>
+    </div>
+  </div>
+
+  <!-- Dot Sizing & Falloff -->
+  <div class="group">
+    <div class="group-title">Dot Sizing & Falloff</div>
+    <div class="ctrl">
+      <label>Max dot size</label>
+      <input type="range" data-p="dotMax" min="0.5" max="8" step="0.1">
+      <span class="val"></span>
+    </div>
+    <div class="ctrl">
+      <label>Min dot size</label>
+      <input type="range" data-p="dotMin" min="0" max="3" step="0.05">
+      <span class="val"></span>
+    </div>
+    <div class="ctrl">
+      <label>Falloff (outer)</label>
+      <input type="range" data-p="falloffOuter" min="0.2" max="5" step="0.1">
+      <span class="val"></span>
+    </div>
+    <div class="ctrl">
+      <label>Falloff (inner)</label>
+      <input type="range" data-p="falloffInner" min="0.2" max="5" step="0.1">
+      <span class="val"></span>
+    </div>
+    <div class="ctrl">
+      <label>Edge softness</label>
+      <input type="range" data-p="edgeSoft" min="0" max="20" step="0.5">
+      <span class="val"></span>
+    </div>
+    <div class="ctrl">
+      <label>Intensity</label>
+      <input type="range" data-p="intensity" min="0.2" max="3" step="0.05">
+      <span class="val"></span>
+    </div>
+  </div>
+
+  <!-- Distortion / Effects -->
+  <div class="group">
+    <div class="group-title">Effects</div>
+    <div class="ctrl">
+      <label>Rotation</label>
+      <input type="range" data-p="rotation" min="0" max="360" step="1">
+      <span class="val"></span>
+    </div>
+    <div class="ctrl">
+      <label>Scale X</label>
+      <input type="range" data-p="scaleX" min="0.5" max="2" step="0.05">
+      <span class="val"></span>
+    </div>
+    <div class="ctrl">
+      <label>Scale Y</label>
+      <input type="range" data-p="scaleY" min="0.5" max="2" step="0.05">
+      <span class="val"></span>
+    </div>
+    <div class="ctrl">
+      <label>Noise</label>
+      <input type="range" data-p="noise" min="0" max="2" step="0.05">
+      <span class="val"></span>
+    </div>
+    <div class="ctrl">
+      <label>Dot opacity var</label>
+      <input type="range" data-p="opacityVar" min="0" max="0.5" step="0.02">
+      <span class="val"></span>
+    </div>
+    <div class="ctrl">
+      <label>Size randomness</label>
+      <input type="range" data-p="sizeRandom" min="0" max="1" step="0.02">
+      <span class="val"></span>
+    </div>
+  </div>
+
+  <!-- Appearance -->
+  <div class="group">
+    <div class="group-title">Appearance</div>
+    <div class="ctrl">
+      <label>Dot color</label>
+      <input type="color" data-p="dotColor" value="#000000">
+      <span class="val" style="min-width:60px"></span>
+    </div>
+    <div class="ctrl">
+      <label>Background</label>
+      <select data-p="bgMode">
+        <option value="light">Light (#e8e8e8)</option>
+        <option value="dark">Dark (#0a0a0a)</option>
+        <option value="white">White</option>
+        <option value="transparent">Transparent</option>
+      </select>
+    </div>
+    <div class="ctrl">
+      <label>Canvas size</label>
+      <input type="range" data-p="canvasSize" min="200" max="800" step="10">
+      <span class="val"></span>
+    </div>
+  </div>
+
+  <!-- Export -->
+  <div class="group">
+    <div class="group-title">Export</div>
+    <div class="btn-row">
+      <button class="btn primary" onclick="copySVG()">Copy SVG</button>
+      <button class="btn" onclick="downloadSVG()">Download SVG</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn" onclick="downloadPNG()">Download PNG</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── MAIN AREA ─── -->
+<div class="main" id="mainArea">
+  <div class="canvas-wrap" id="canvasWrap"></div>
+  <div class="size-row" id="sizeRow"></div>
+  <div class="code-area">
+    <h3>SVG Code</h3>
+    <pre id="svgCode"></pre>
+  </div>
+</div>
+
+<script>
+// ─── Deterministic pseudo-random ───
+function seededRandom(x, y) {
+  const n = Math.sin(x * 127.1 + y * 311.7) * 43758.5453;
+  return n - Math.floor(n);
+}
+
+// ─── Default parameters ───
+const defaults = {
+  // Grid
+  gridSize: 35,
+  spacing: 6.5,
+  dotShape: 'circle',
+  gridOffY: 0,
+  hexGrid: '0',
+
+  // Shape
+  cx: 50,
+  cy: 50,
+  outerR: 34,
+  innerR: 0,
+  holeDx: 0,
+  holeDy: 0,
+
+  // Dot sizing
+  dotMax: 3.5,
+  dotMin: 0.2,
+  falloffOuter: 1.4,
+  falloffInner: 1.4,
+  edgeSoft: 3,
+  intensity: 1.0,
+
+  // Effects
+  rotation: 0,
+  scaleX: 1.0,
+  scaleY: 1.0,
+  noise: 0,
+  opacityVar: 0,
+  sizeRandom: 0,
+
+  // Appearance
+  dotColor: '#000000',
+  bgMode: 'light',
+  canvasSize: 450,
+};
+
+// ─── Presets ───
+const presets = {
+  'Reference': { ...defaults },
+  'O Ring': {
+    ...defaults, innerR: 16, falloffOuter: 1.2, falloffInner: 1.2,
+  },
+  'Pulse': {
+    ...defaults, innerR: 12, holeDx: 5, falloffOuter: 2.0, edgeSoft: 6,
+  },
+  'Dense': {
+    ...defaults, gridSize: 55, spacing: 4.2, dotMax: 2.2, dotMin: 0.1,
+  },
+  'Sparse': {
+    ...defaults, gridSize: 20, spacing: 11, dotMax: 6, dotMin: 0.8, falloffOuter: 0.8,
+  },
+  'Hex': {
+    ...defaults, hexGrid: '1', gridSize: 32, spacing: 7,
+  },
+  'Squares': { ...defaults, dotShape: 'square' },
+  'Diamonds': { ...defaults, dotShape: 'diamond' },
+  'Dark': {
+    ...defaults, dotColor: '#ffffff', bgMode: 'dark',
+  },
+  'Noisy': {
+    ...defaults, noise: 0.8, sizeRandom: 0.3, opacityVar: 0.15,
+  },
+  'Soft': {
+    ...defaults, edgeSoft: 14, falloffOuter: 2.5, dotMax: 4,
+  },
+  'Hard': {
+    ...defaults, edgeSoft: 0, falloffOuter: 0.4, dotMin: 1.8,
+  },
+  'Oval': {
+    ...defaults, scaleX: 1.4, scaleY: 0.85,
+  },
+  'Tilted': {
+    ...defaults, rotation: 15, gridSize: 38,
+  },
+};
+
+let P = { ...defaults };
+let activePreset = 'Reference';
+
+// ─── UI ───
+function initControls() {
+  document.querySelectorAll('[data-p]').forEach(el => {
+    const key = el.dataset.p;
+    if (el.type === 'range') {
+      el.value = P[key];
+      el.nextElementSibling.textContent = P[key];
+      el.addEventListener('input', () => {
+        P[key] = parseFloat(el.value);
+        el.nextElementSibling.textContent = P[key];
+        activePreset = null;
+        updatePresetBtns();
+        render();
+      });
+    } else if (el.tagName === 'SELECT') {
+      el.value = P[key];
+      el.addEventListener('change', () => {
+        P[key] = el.value;
+        activePreset = null;
+        updatePresetBtns();
+        render();
+      });
+    } else if (el.type === 'color') {
+      el.value = P[key];
+      el.nextElementSibling.textContent = P[key];
+      el.addEventListener('input', () => {
+        P[key] = el.value;
+        el.nextElementSibling.textContent = P[key];
+        activePreset = null;
+        updatePresetBtns();
+        render();
+      });
+    }
+  });
+}
+
+function syncControls() {
+  document.querySelectorAll('[data-p]').forEach(el => {
+    const key = el.dataset.p;
+    if (el.type === 'range') {
+      el.value = P[key];
+      el.nextElementSibling.textContent = P[key];
+    } else if (el.tagName === 'SELECT') {
+      el.value = P[key];
+    } else if (el.type === 'color') {
+      el.value = P[key];
+      el.nextElementSibling.textContent = P[key];
+    }
+  });
+}
+
+function initPresets() {
+  const c = document.getElementById('presets');
+  Object.keys(presets).forEach(name => {
+    const btn = document.createElement('button');
+    btn.className = 'preset-btn' + (name === activePreset ? ' active' : '');
+    btn.textContent = name;
+    btn.dataset.preset = name;
+    btn.addEventListener('click', () => {
+      P = { ...presets[name] };
+      activePreset = name;
+      syncControls();
+      updatePresetBtns();
+      render();
+    });
+    c.appendChild(btn);
+  });
+}
+
+function updatePresetBtns() {
+  document.querySelectorAll('.preset-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.preset === activePreset)
+  );
+}
+
+// ─── Halftone Engine (single O shape) ───
+function computeDots() {
+  const { gridSize, spacing, cx, cy, outerR, innerR, holeDx, holeDy,
+          dotMax, dotMin, falloffOuter, falloffInner, edgeSoft, intensity,
+          rotation, scaleX, scaleY, noise, opacityVar, sizeRandom, hexGrid } = P;
+
+  const isHex = hexGrid === '1';
+  const cols = gridSize;
+  const rows = gridSize;
+
+  // Grid in 0-100 coordinate space
+  const gridW = (cols - 1) * spacing;
+  const gridH = (rows - 1) * spacing;
+  const maxDim = Math.max(gridW, gridH);
+  const scale = maxDim > 0 ? 100 / maxDim : 1;
+  const ox = (100 - gridW * scale) / 2;
+  const oy = (100 - gridH * scale) / 2 + parseFloat(P.gridOffY || 0);
+
+  // Rotation transform (around center of shape)
+  const rotRad = rotation * Math.PI / 180;
+  const cosR = Math.cos(rotRad);
+  const sinR = Math.sin(rotRad);
+
+  // Hole center
+  const holeCx = cx + holeDx;
+  const holeCy = cy + holeDy;
+
+  const dots = [];
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      let gx = ox + c * spacing * scale;
+      let gy = oy + r * spacing * scale;
+
+      // Hex grid offset
+      if (isHex && r % 2 === 1) {
+        gx += spacing * scale * 0.5;
+      }
+
+      // Add noise to position
+      if (noise > 0) {
+        const rnd1 = seededRandom(c, r) - 0.5;
+        const rnd2 = seededRandom(r, c) - 0.5;
+        gx += rnd1 * noise * spacing * scale;
+        gy += rnd2 * noise * spacing * scale;
+      }
+
+      // Apply inverse rotation + scale to get distance in shape space
+      const dx = gx - cx;
+      const dy = gy - cy;
+      // Rotate point into shape-local space
+      const lx = (dx * cosR + dy * sinR) / scaleX;
+      const ly = (-dx * sinR + dy * cosR) / scaleY;
+      const dist = Math.sqrt(lx * lx + ly * ly);
+
+      // Outer circle intensity
+      if (dist > outerR + edgeSoft) continue;
+
+      let t = 1 - dist / outerR;
+      // Soft edge transition
+      if (edgeSoft > 0 && dist > outerR - edgeSoft) {
+        const edgeT = 1 - (dist - (outerR - edgeSoft)) / (edgeSoft * 2);
+        t = Math.max(0, Math.min(1, edgeT));
+        if (t <= 0) continue;
+      }
+      t = Math.max(0, Math.min(1, t));
+      t = Math.pow(t, falloffOuter);
+
+      // Inner hole
+      if (innerR > 0) {
+        const hlx = (gx - holeCx);
+        const hly = (gy - holeCy);
+        const hDist = Math.sqrt(hlx * hlx + hly * hly);
+        if (hDist < innerR + edgeSoft) {
+          if (hDist < innerR - edgeSoft) {
+            t = 0;
+          } else if (edgeSoft > 0) {
+            const holeT = (hDist - (innerR - edgeSoft)) / (edgeSoft * 2);
+            t *= Math.max(0, Math.min(1, holeT));
+          } else {
+            t = 0;
+          }
+          // Also apply inner falloff for dots near hole edge
+          if (t > 0 && innerR > 0) {
+            const normalizedHDist = (hDist - innerR) / (outerR - innerR);
+            const innerFade = Math.pow(Math.max(0, Math.min(1, 1 - normalizedHDist)), falloffInner);
+            // Blend: near hole = small dots, toward outer = big dots
+            // t already handles the outer falloff; we blend the inner
+          }
+        }
+      }
+
+      if (t <= 0.005) continue;
+
+      // Apply intensity
+      t = Math.min(1, t * intensity);
+
+      // Size randomness
+      let dotR = dotMin + (dotMax - dotMin) * t;
+      if (sizeRandom > 0) {
+        const rndS = seededRandom(c * 3 + 7, r * 5 + 13);
+        dotR *= 1 - sizeRandom * (rndS - 0.5);
+      }
+      dotR = Math.max(0.05, dotR) * scale;
+
+      // Opacity variation
+      let opacity = 1;
+      if (opacityVar > 0) {
+        const rndO = seededRandom(c * 11 + 3, r * 7 + 19);
+        opacity = Math.max(0.15, 1 - opacityVar * rndO);
+      }
+
+      dots.push({ x: gx, y: gy, r: dotR, opacity });
+    }
+  }
+
+  return dots;
+}
+
+// ─── SVG Renderer ───
+function generateSVGContent(size, forExport) {
+  const dots = computeDots();
+  const { dotColor, dotShape } = P;
+
+  let inner = '';
+  dots.forEach(d => {
+    const opAttr = d.opacity < 0.99 ? ` opacity="${d.opacity.toFixed(2)}"` : '';
+
+    if (dotShape === 'circle') {
+      inner += `  <circle cx="${d.x.toFixed(2)}" cy="${d.y.toFixed(2)}" r="${d.r.toFixed(2)}" fill="${dotColor}"${opAttr}/>\n`;
+    } else if (dotShape === 'square') {
+      const s = d.r * 1.65;
+      inner += `  <rect x="${(d.x-s/2).toFixed(2)}" y="${(d.y-s/2).toFixed(2)}" width="${s.toFixed(2)}" height="${s.toFixed(2)}" fill="${dotColor}"${opAttr}/>\n`;
+    } else if (dotShape === 'diamond') {
+      const s = d.r * 1.4;
+      inner += `  <polygon points="${d.x.toFixed(2)},${(d.y-s).toFixed(2)} ${(d.x+s).toFixed(2)},${d.y.toFixed(2)} ${d.x.toFixed(2)},${(d.y+s).toFixed(2)} ${(d.x-s).toFixed(2)},${d.y.toFixed(2)}" fill="${dotColor}"${opAttr}/>\n`;
+    } else if (dotShape === 'rounded-sq') {
+      const s = d.r * 1.55;
+      const rr = s * 0.25;
+      inner += `  <rect x="${(d.x-s/2).toFixed(2)}" y="${(d.y-s/2).toFixed(2)}" width="${s.toFixed(2)}" height="${s.toFixed(2)}" rx="${rr.toFixed(2)}" fill="${dotColor}"${opAttr}/>\n`;
+    }
+  });
+
+  return `<svg width="${size}" height="${size}" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">\n${inner}</svg>`;
+}
+
+function render() {
+  const { canvasSize, bgMode } = P;
+
+  // Background
+  const main = document.getElementById('mainArea');
+  main.className = 'main';
+  if (bgMode === 'light') main.style.background = '#e8e8e8';
+  else if (bgMode === 'dark') { main.style.background = '#0a0a0a'; main.classList.add('dark-bg'); }
+  else if (bgMode === 'white') main.style.background = '#ffffff';
+  else main.style.background = 'repeating-conic-gradient(#ccc 0% 25%, #fff 0% 50%) 0 0 / 20px 20px';
+
+  // Main canvas
+  document.getElementById('canvasWrap').innerHTML = generateSVGContent(canvasSize, false);
+
+  // Size previews
+  const previews = [80, 48, 32, 16];
+  document.getElementById('sizeRow').innerHTML = previews.map(s =>
+    `<div class="size-sample">${generateSVGContent(s, false)}<span>${s}px</span></div>`
+  ).join('');
+
+  // Code
+  document.getElementById('svgCode').textContent = generateSVGContent(200, true);
+}
+
+// ─── Export ───
+function copySVG() {
+  navigator.clipboard.writeText(generateSVGContent(200, true))
+    .then(() => alert('SVG copied to clipboard!'));
+}
+
+function downloadSVG() {
+  const blob = new Blob([generateSVGContent(200, true)], { type: 'image/svg+xml' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'outpulse-logo.svg';
+  a.click();
+}
+
+function downloadPNG() {
+  const size = 1024;
+  const code = generateSVGContent(size, true);
+  const blob = new Blob([code], { type: 'image/svg+xml' });
+  const url = URL.createObjectURL(blob);
+  const img = new Image();
+  img.onload = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = size; canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    const { bgMode } = P;
+    if (bgMode === 'light') { ctx.fillStyle = '#e8e8e8'; ctx.fillRect(0,0,size,size); }
+    else if (bgMode === 'dark') { ctx.fillStyle = '#0a0a0a'; ctx.fillRect(0,0,size,size); }
+    else if (bgMode === 'white') { ctx.fillStyle = '#ffffff'; ctx.fillRect(0,0,size,size); }
+    ctx.drawImage(img, 0, 0, size, size);
+    canvas.toBlob(b => {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(b);
+      a.download = 'outpulse-logo.png';
+      a.click();
+    });
+    URL.revokeObjectURL(url);
+  };
+  img.src = url;
+}
+
+// ─── Init ───
+initPresets();
+initControls();
+render();
+</script>
+
+</body>
+</html>
