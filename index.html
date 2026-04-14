@@ -521,9 +521,11 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
 .pulse-sec-title{font-family:var(--serif);font-style:normal;font-size:clamp(28px,3.8vw,44px);font-weight:500;letter-spacing:-0.02em;line-height:1.12;text-align:center;margin-bottom:14px}
 .pulse-sec-title em{font-style:italic;font-family:var(--serif);color:var(--g);font-weight:400}
 .pulse-sec-desc{font-size:16px;color:var(--text-s);text-align:center;max-width:520px;margin:0 auto 56px;line-height:1.7}
-.pm-wrap{position:relative;padding-bottom:10px}
-/* Stacked card behind */
-.pm-wrap::before{content:'';position:absolute;left:40px;right:40px;bottom:0;height:60px;border-radius:0 0 20px 20px;background:linear-gradient(160deg,#c5ddd0 0%,#b0cfbf 40%,#c5ddd0 100%);border:1px solid rgba(95,168,131,.12);border-top:none;opacity:.2;z-index:0}
+.pm-wrap{position:relative;padding-bottom:22px}
+/* First stacked card behind — closer, slightly inset */
+.pm-wrap::before{content:'';position:absolute;left:24px;right:24px;bottom:12px;height:60px;border-radius:0 0 20px 20px;background:linear-gradient(160deg,#c5ddd0 0%,#b0cfbf 40%,#c5ddd0 100%);border:1px solid rgba(95,168,131,.18);border-top:none;opacity:.45;z-index:0}
+/* Second stacked card behind — further inset, pushed back more */
+.pm-wrap::after{content:'';position:absolute;left:48px;right:48px;bottom:0;height:60px;border-radius:0 0 20px 20px;background:linear-gradient(160deg,#c5ddd0 0%,#b0cfbf 40%,#c5ddd0 100%);border:1px solid rgba(95,168,131,.12);border-top:none;opacity:.25;z-index:0}
 /* Main card — vibrant green liquid glass matching actual dashboard */
 .pm-card{position:relative;z-index:1;border-radius:24px;overflow:hidden;isolation:isolate;box-shadow:0 12px 56px rgba(34,197,94,.28),0 4px 24px rgba(74,222,128,.18)}
 .pm-card-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 70% 80% at 25% 40%,rgba(74,222,128,.85) 0%,transparent 55%),radial-gradient(ellipse 60% 70% at 85% 75%,rgba(34,197,94,.55) 0%,transparent 55%),radial-gradient(ellipse 50% 50% at 50% 50%,rgba(134,239,172,.35) 0%,transparent 70%),linear-gradient(145deg,#f0fdf4 0%,#dcfce7 40%,#f0fdf4 100%);backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px)}
@@ -531,7 +533,7 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
 .pm-card-bg::after{content:'';position:absolute;width:220px;height:220px;bottom:-50px;right:-40px;border-radius:50%;background:radial-gradient(circle,rgba(34,197,94,.55) 0%,transparent 70%);filter:blur(35px);animation:pmOrb2 10s ease-in-out infinite}
 @keyframes pmOrb1{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,20px) scale(1.1)}66%{transform:translate(-15px,30px) scale(.95)}}
 @keyframes pmOrb2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-25px,-15px) scale(1.08)}}
-.pm-card-inner{position:relative;z-index:1;padding:28px 32px 20px;border:1px solid rgba(34,197,94,.18);border-radius:24px;background:rgba(255,255,255,.30);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.pm-card-inner{position:relative;z-index:1;padding:28px 32px 20px;border-radius:24px;background:rgba(255,255,255,.30);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 .pm-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
 .pm-label{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-size:11px;font-weight:700;color:#166534;text-transform:uppercase;letter-spacing:1.2px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.6);border:1px solid rgba(34,197,94,.25);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .pm-label-icon{color:#22c55e;filter:drop-shadow(0 0 4px rgba(74,222,128,.6))}
