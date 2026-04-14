@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VP Sales — SaaS — US | Outpulse</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f2f1ee;--text:#1a1a1a;--muted:#6b6b6b;--muted-light:#b5b5b5;
+  --green:#7cc5a2;--green-dark:#5ba882;--green-light:#e8f5ee;--green-bg:#d4f0e1;
+  --blue:#7BAFD4;--blue-dark:#5a91b8;--blue-light:#e5f0f8;
+  --grey:#9B9590;--grey-dark:#6e6862;--grey-light:#d5d2ce;
+  --white:#fff;--dark:#1a1a1a;--orange:#e8a84c;--red:#e25c5c;
+  --border:rgba(0,0,0,0.08);
+  --font:'DM Sans',sans-serif;--serif:'DM Serif Display',serif;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow:hidden}
+
+/* ===== LAYOUT ===== */
+.layout{display:flex;width:100%;height:100vh}
+
+/* ===== UNIFIED SIDEBAR ===== */
+.sidebar{
+  width:240px;background:var(--dark);color:white;
+  display:flex;flex-direction:column;padding:24px 0;flex-shrink:0;
+  position:fixed;height:100vh;overflow-y:auto;z-index:50;
+}
+.s-logo{display:flex;align-items:center;gap:10px;padding:0 24px;margin-bottom:32px;font-size:17px;font-weight:600;text-decoration:none;color:white}
+.s-logo img{width:32px;height:32px}
+.s-nav{flex:1}
+.s-nav-item{
+  display:flex;align-items:center;gap:12px;padding:10px 24px;
+  font-size:14px;font-weight:400;color:rgba(255,255,255,0.5);
+  cursor:pointer;transition:all 0.2s;text-decoration:none;position:relative;
+}
+.s-nav-item:hover{color:rgba(255,255,255,0.8)}
+.s-nav-item.active{color:white;font-weight:500}
+.s-nav-item.active::before{content:'';position:absolute;left:0;top:6px;bottom:6px;width:3px;background:var(--green);border-radius:0 3px 3px 0}
+.s-nav-item .nav-icon{width:20px;height:20px;flex-shrink:0}
+.s-nav-item .badge{
+  margin-left:auto;padding:2px 8px;border-radius:6px;
+  background:var(--green);color:white;font-size:11px;font-weight:700;
+}
+.s-upgrade{
+  margin:0 16px;padding:20px;background:var(--green);
+  border-radius:16px;margin-bottom:16px;
+}
+.s-upgrade-title{font-size:14px;font-weight:600;margin-bottom:4px}
+.s-upgrade-desc{font-size:12px;color:rgba(255,255,255,0.8);margin-bottom:12px;line-height:1.4}
+.s-upgrade-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;background:rgba(0,0,0,0.2);color:white;font-size:12px;font-weight:600;border:none;cursor:pointer;font-family:var(--font)}
+.s-link{display:flex;align-items:center;gap:8px;padding:10px 24px;font-size:13px;color:rgba(255,255,255,0.4);cursor:pointer;text-decoration:none}
+.s-link:hover{color:rgba(255,255,255,0.6)}
+.s-link svg{width:16px;height:16px}
+.s-user{display:flex;align-items:center;gap:10px;padding:12px 24px;border-top:1px solid rgba(255,255,255,0.08)}
+.s-user-avatar{width:32px;height:32px;border-radius:50%;background:#c4a265;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:white}
+.s-user-name{font-size:13px;font-weight:600}
+.s-user-plan{font-size:11px;color:rgba(255,255,255,0.4)}
+
+/* ===== MAIN ===== */
+.main{flex:1;padding:32px 40px;overflow-y:auto;margin-left:240px}
+
+/* ===== BREADCRUMB & HEADER ===== */
+.breadcrumb{font-size:13px;color:var(--muted);margin-bottom:16px}
+.breadcrumb a{color:var(--green);text-decoration:none;cursor:pointer}
+.breadcrumb a:hover{text-decoration:underline}
+
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:32px;gap:24px}
+.page-header-left{flex:1}
+.page-title{font-family:var(--serif);font-style:italic;font-size:28px;font-weight:400;margin-bottom:12px}
+.page-meta{display:flex;align-items:center;gap:16px}
+.status-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:600;background:var(--green-light);color:var(--green-dark)}
+.status-badge::before{content:'●';font-size:10px}
+
+.page-actions{display:flex;gap:10px}
+.btn-outline{
+  padding:10px 20px;border-radius:12px;border:1px solid var(--border);
+  background:var(--white);color:var(--text);font-family:var(--font);
+  font-size:14px;font-weight:500;cursor:pointer;transition:all 0.2s;
+}
+.btn-outline:hover{border-color:var(--muted-light);background:rgba(0,0,0,0.02)}
+.btn-outline.danger:hover{border-color:var(--red);color:var(--red)}
+
+/* ===== KPI STAT CARDS ===== */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.kpi{border-radius:20px;padding:24px;border:none;transition:transform .2s,box-shadow .2s}
+.kpi:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.08)}
+.kpi-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.kpi-label svg{width:16px;height:16px}
+.kpi-value{font-family:var(--serif);font-size:32px;font-weight:400;letter-spacing:-0.5px;margin-bottom:6px}
+.kpi-change{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:3px 8px;border-radius:6px}
+.kpi-change svg{width:12px;height:12px}
+
+/* KPI color variants */
+.kpi--green{background:var(--green);color:white}
+.kpi--green .kpi-label{color:rgba(255,255,255,0.75)}
+.kpi--green .kpi-label svg{color:white}
+.kpi--green .kpi-value{color:white}
+.kpi--green .kpi-change{background:rgba(255,255,255,0.2);color:white}
+
+.kpi--grey{background:var(--grey-light);color:var(--text);border:none}
+.kpi--grey .kpi-label{color:var(--grey-dark)}
+.kpi--grey .kpi-label svg{color:var(--grey-dark)}
+.kpi--grey .kpi-change{background:rgba(0,0,0,0.08);color:var(--grey-dark)}
+
+.kpi--blue{background:var(--blue);color:white}
+.kpi--blue .kpi-label{color:rgba(255,255,255,0.75)}
+.kpi--blue .kpi-label svg{color:white}
+.kpi--blue .kpi-value{color:white}
+.kpi--blue .kpi-change{background:rgba(255,255,255,0.2);color:white}
+
+.kpi--dark{background:var(--dark);color:white}
+.kpi--dark .kpi-label{color:rgba(255,255,255,0.5)}
+.kpi--dark .kpi-label svg{color:var(--green)}
+.kpi--dark .kpi-value{color:white}
+.kpi--dark .kpi-change{background:rgba(124,197,162,0.15);color:var(--green)}
+
+/* ===== CARDS ===== */
+.card{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:28px;margin-bottom:20px}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.card-title{font-size:16px;font-weight:600}
+.card-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600;background:var(--green-light);color:var(--green)}
+.card-link{font-size:13px;color:var(--green);font-weight:500;text-decoration:none;cursor:pointer}
+.card-link:hover{text-decoration:underline}
+
+/* ===== TIMELINE ===== */
+.timeline{position:relative;padding:20px 0}
+.timeline::before{
+  content:'';position:absolute;left:19px;top:40px;bottom:0;width:2px;background:var(--border);
+}
+.timeline-step{display:flex;gap:24px;margin-bottom:28px;position:relative}
+.timeline-step:last-child{margin-bottom:0}
+
+.timeline-dot{
+  width:40px;height:40px;border-radius:50%;background:var(--white);
+  border:3px solid var(--border);display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;position:relative;z-index:2;font-weight:700;font-size:18px;
+}
+.timeline-dot.completed{border-color:var(--green);background:var(--green);color:white}
+.timeline-dot.in-progress{border-color:var(--blue);background:var(--blue);color:white}
+.timeline-dot.in-progress::after{
+  content:'';position:absolute;width:44px;height:44px;border-radius:50%;
+  border:2px solid var(--blue);left:-2px;top:-2px;
+  animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+  0%{opacity:1;transform:scale(1)}
+  50%{opacity:0.5;transform:scale(1.1)}
+  100%{opacity:0;transform:scale(1.2)}
+}
+
+.timeline-content{flex:1;background:var(--white);border:1px solid var(--border);border-radius:16px;padding:20px;transition:all 0.2s}
+.timeline-content:hover{box-shadow:0 4px 16px rgba(0,0,0,0.06);transform:translateY(-2px)}
+
+.timeline-step-title{font-size:15px;font-weight:600;margin-bottom:8px}
+.timeline-step-subtitle{font-size:13px;color:var(--muted);margin-bottom:12px}
+
+.timeline-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;font-size:12px}
+.timeline-stat{display:flex;flex-direction:column;gap:4px}
+.timeline-stat-label{color:var(--muted-light);text-transform:uppercase;font-weight:600;letter-spacing:0.3px;font-size:10px}
+.timeline-stat-value{color:var(--text);font-weight:700;font-size:13px}
+
+/* ===== TWO-COLUMN GRID ===== */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+
+/* Activity feed */
+.act-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.act-item:last-child{border-bottom:none}
+.act-dot{width:8px;height:8px;border-radius:50%;background:var(--green);margin-top:6px;flex-shrink:0}
+.act-dot.orange{background:var(--orange)}
+.act-dot.blue{background:#6ba3d6}
+.act-text{font-size:13px;color:var(--muted);line-height:1.4}
+.act-text strong{color:var(--text);font-weight:500}
+.act-time{font-size:11px;color:var(--muted-light);margin-top:2px}
+
+/* Top performing subjects */
+.email-perf{padding:14px 0;border-bottom:1px solid var(--border)}
+.email-perf:last-child{border-bottom:none}
+.email-perf-subj{font-size:13px;font-weight:500;margin-bottom:6px}
+.email-perf-stats{display:flex;gap:16px;flex-wrap:wrap}
+.email-perf-stat{font-size:12px;color:var(--muted)}
+.email-perf-stat strong{color:var(--green-dark);font-weight:700}
+
+/* Responsive */
+@media(max-width:1100px){.kpi-row{grid-template-columns:repeat(2,1fr)}.timeline-stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){
+  .layout{flex-direction:column}
+  .sidebar{width:100%;height:auto;flex-direction:row;padding:12px;overflow-x:auto;position:relative}
+  .main{padding:20px;margin-left:0}
+  .grid-2{grid-template-columns:1fr}
+  .page-header{flex-direction:column;align-items:flex-start}
+  .page-actions{width:100%;flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+    <a class="s-logo" href="dashboard.html">
+      <img src="outpulse-logo-white.svg" alt="Outpulse" onerror="this.style.display='none'">
+      <span>Outpulse</span>
+    </a>
+    <nav class="s-nav">
+      <a class="s-nav-item " href="dashboard.html"><svg class="nav-icon" viewBox="0 0 256 256" fill="currentColor"><path d="M216,120v96H152V152H104v64H40V120l88-72Z" opacity="0.2"/><path d="M219.31,108.68l-80-80a16,16,0,0,0-22.62,0l-80,80A15.87,15.87,0,0,0,32,120v96a8,8,0,0,0,8,8h64a8,8,0,0,0,8-8V160h32v56a8,8,0,0,0,8,8h64a8,8,0,0,0,8-8V120A15.87,15.87,0,0,0,219.31,108.68ZM208,208H160V152a8,8,0,0,0-8-8H104a8,8,0,0,0-8,8v56H48V120l80-80,80,80Z"/></svg>Dashboard</a>
+      <a class="s-nav-item active" href="campaigns.html"><svg class="nav-icon" viewBox="0 0 256 256" fill="currentColor"><path d="M224,64V192a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V64A16,16,0,0,1,48,48H208A16,16,0,0,1,224,64Z" opacity="0.2"/><path d="M208,40H48A24,24,0,0,0,24,64V192a24,24,0,0,0,24,24H208a24,24,0,0,0,24-24V64A24,24,0,0,0,208,40Zm8,152a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V64a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8Zm-48-96a8,8,0,0,1,0,16H156.94l-27,45a8,8,0,0,1-6.94,4h-.33a8,8,0,0,1-6.8-4.42L95.07,116.18,69.66,140.8A8,8,0,0,1,58.34,129.2l32-31.2a8,8,0,0,1,12.46,1.42l19.07,38.44L147.06,96Z"/></svg>Campaigns<span class="badge">3</span></a>
+      <a class="s-nav-item " href="prospects.html"><svg class="nav-icon" viewBox="0 0 256 256" fill="currentColor"><path d="M160,112a32,32,0,1,1-32-32A32,32,0,0,1,160,112Z" opacity="0.2"/><path d="M224,40V76a8,8,0,0,1-16,0V48H180a8,8,0,0,1,0-16h36A8,8,0,0,1,224,40Zm-8,132a8,8,0,0,0-8,8v28H180a8,8,0,0,0,0,16h36a8,8,0,0,0,8-8V180A8,8,0,0,0,216,172ZM76,208H48V180a8,8,0,0,0-16,0v36a8,8,0,0,0,8,8H76a8,8,0,0,0,0-16ZM40,84a8,8,0,0,0,8-8V48H76a8,8,0,0,0,0-16H40a8,8,0,0,0-8,8V76A8,8,0,0,0,40,84Zm136,92a8,8,0,0,1-6.41-3.19,52,52,0,0,0-83.2,0,8,8,0,1,1-12.8-9.62A67.94,67.94,0,0,1,101,141.51a40,40,0,1,1,53.94,0,67.94,67.94,0,0,1,27.43,21.68A8,8,0,0,1,176,176Zm-48-40a24,24,0,1,0-24-24A24,24,0,0,0,128,136Z"/></svg>Prospects</a>
+      <a class="s-nav-item " href="emails.html"><svg class="nav-icon" viewBox="0 0 256 256" fill="currentColor"><path d="M224,56l-96,88L32,56Z" opacity="0.2"/><path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"/></svg>AI Emails</a>
+      <a class="s-nav-item " href="settings.html"><svg class="nav-icon" viewBox="0 0 256 256" fill="currentColor"><path d="M216,128a88,88,0,1,1-88-88A88,88,0,0,1,216,128Z" opacity="0.2"/><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm109.94-52.79a8,8,0,0,0-3.89-5.4l-29.83-17-.12-33.62a8,8,0,0,0-2.83-6.08,111.91,111.91,0,0,0-36.72-20.67,8,8,0,0,0-6.46.59L128,42.89,97.88,25a8,8,0,0,0-6.47-.6A112.1,112.1,0,0,0,54.73,45.13a8,8,0,0,0-2.83,6.07l-.15,33.65-29.83,17a8,8,0,0,0-3.89,5.4,106.47,106.47,0,0,0,0,41.56,8,8,0,0,0,3.89,5.4l29.83,17,.12,33.62a8,8,0,0,0,2.83,6.08,111.91,111.91,0,0,0,36.72,20.67,8,8,0,0,0,6.46-.59L128,213.11,158.12,231a7.94,7.94,0,0,0,3.9,1,8.3,8.3,0,0,0,2.57-.42,112.1,112.1,0,0,0,36.68-20.73,8,8,0,0,0,2.83-6.07l.15-33.65,29.83-17a8,8,0,0,0,3.89-5.4A106.47,106.47,0,0,0,237.94,107.21Zm-15,34.91-28.57,16.25a8,8,0,0,0-3,3l-.14,32.42a96.26,96.26,0,0,1-25.71,14.45L136.48,191.6a8,8,0,0,0-4.13-1.14h-.35a8,8,0,0,0-4.13,1.14L98.45,208.27A96.26,96.26,0,0,1,72.74,193.8l-.14-32.42a8,8,0,0,0-3-3L41.06,142.12a90.91,90.91,0,0,1,0-28.24L69.63,97.63a8,8,0,0,0,3-3l.14-32.42A96.26,96.26,0,0,1,98.45,47.73l29.07,16.67a8,8,0,0,0,4.48,1.14h0a8,8,0,0,0,4.13-1.14l29.42-16.67a96.26,96.26,0,0,1,25.71,14.45l.14,32.42a8,8,0,0,0,3,3l28.57,16.25A90.91,90.91,0,0,1,222.94,142.12Z"/></svg>Settings</a>
+    </nav>
+
+    <div class="s-upgrade">
+      <div class="s-upgrade-title">Upgrade to Agency</div>
+      <div class="s-upgrade-desc">Unlock 10 mailboxes and custom integrations.</div>
+      <button class="s-upgrade-btn">Upgrade</button>
+    </div>
+
+    <a class="s-link" href="index.html"><svg viewBox="0 0 256 256" fill="currentColor"><path d="M160,216V40L80,128Z" opacity="0.2"/><path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"/></svg>Back to site</a>
+    <div class="s-user">
+      <div class="s-user-avatar">L</div>
+      <div>
+        <div class="s-user-name">Lukas</div>
+        <div class="s-user-plan">Growth Plan</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <a href="campaigns.html">Campaigns</a> > <span>VP Sales — SaaS — US</span>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">VP Sales — SaaS — US</h1>
+        <div class="page-meta">
+          <span class="status-badge">Active</span>
+        </div>
+      </div>
+      <div class="page-actions">
+        <button class="btn-outline">Pause Campaign</button>
+        <button class="btn-outline">Edit</button>
+        <button class="btn-outline">Duplicate</button>
+        <button class="btn-outline danger">Delete</button>
+      </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="kpi-row">
+      <div class="kpi kpi--green">
+        <div class="kpi-label">
+          <svg viewBox="0 0 256 256" fill="currentColor"><path d="M160,112a32,32,0,1,1-32-32A32,32,0,0,1,160,112Z" opacity="0.2"/><path d="M176,176a8,8,0,0,1-6.41-3.19,52,52,0,0,0-83.2,0,8,8,0,1,1-12.8-9.62A67.94,67.94,0,0,1,101,141.51a40,40,0,1,1,53.94,0,67.94,67.94,0,0,1,27.43,21.68A8,8,0,0,1,176,176Zm-48-40a24,24,0,1,0-24-24A24,24,0,0,0,128,136Z"/></svg>
+          Target Prospects
+        </div>
+        <div class="kpi-value">412</div>
+      </div>
+      <div class="kpi kpi--grey">
+        <div class="kpi-label">
+          <svg viewBox="0 0 256 256" fill="currentColor"><path d="M224,56l-96,88L32,56Z" opacity="0.2"/><path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"/></svg>
+          Emails Sent
+        </div>
+        <div class="kpi-value">287</div>
+      </div>
+      <div class="kpi kpi--blue">
+        <div class="kpi-label">
+          <svg viewBox="0 0 256 256" fill="currentColor"><path d="M128,56C48,56,16,128,16,128s32,72,112,72,112-72,112-72S208,56,128,56Z" opacity="0.2"/><path d="M247.31,124.76c-.35-.79-8.82-19.58-27.65-38.41C194.57,61.26,162.88,48,128,48S61.43,61.26,36.34,86.35C17.51,105.18,9,124,8.69,124.76a8,8,0,0,0,0,6.5c.35.79,8.82,19.57,27.65,38.4C61.43,194.74,93.12,208,128,208s66.57-13.26,91.66-38.34c18.83-18.83,27.3-37.61,27.65-38.4A8,8,0,0,0,247.31,124.76ZM128,192c-30.78,0-57.67-11.19-79.93-33.29A169.47,169.47,0,0,1,24.5,128a169.47,169.47,0,0,1,23.57-30.71C70.33,75.19,97.22,64,128,64s57.67,11.19,79.93,33.29A169.47,169.47,0,0,1,231.5,128C223.87,141.46,192.43,192,128,192Zm0-112a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/></svg>
+          Open Rate
+        </div>
+        <div class="kpi-value">44.2%</div>
+      </div>
+      <div class="kpi kpi--dark">
+        <div class="kpi-label">
+          <svg viewBox="0 0 256 256" fill="currentColor"><path d="M216,48V88H40V48a8,8,0,0,1,8-8H208A8,8,0,0,1,216,48Z" opacity="0.2"/><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-38.34-85.66a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L116,164.69l42.34-42.35A8,8,0,0,1,169.66,122.34Z"/></svg>
+          Meetings Booked
+        </div>
+        <div class="kpi-value">12</div>
+      </div>
+    </div>
+
+    <!-- Outreach Sequence Card -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Outreach Sequence</div>
+      </div>
+      <div class="timeline">
+        <!-- Step 1 -->
+        <div class="timeline-step">
+          <div class="timeline-dot completed">✓</div>
+          <div class="timeline-content">
+            <div class="timeline-step-title">Step 1: Initial Email</div>
+            <div class="timeline-step-subtitle">Sent immediately</div>
+            <div class="timeline-stats">
+              <div class="timeline-stat">
+                <div class="timeline-stat-label">Sent</div>
+                <div class="timeline-stat-value">287</div>
+              </div>
+              <div class="timeline-stat">
+                <div class="timeline-stat-label">Open Rate</div>
+                <div class="timeline-stat-value">44.2%</div>
+              </div>
+              <div class="timeline-stat">
+                <div class="timeline-stat-label">Reply Rate</div>
+                <div class="timeline-stat-value">8.4%</div>
+              </div>
+              <div class="timeline-stat">
+                <div class="timeline-stat-label">Status</div>
+                <div class="timeline-stat-value" style="color:var(--green)">Completed</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="timeline-step">
+          <div class="timeline-dot completed">✓</div>
+          <div class="timeline-content">
+            <div class="timeline-step-title">Step 2: Follow-up #1</div>
+            <div class="timeline-step-subtitle">3 days after initial</div>
+            <div class="timeline-stats">
+              <div class="timeline-stat">
+                <div class="timeline-stat-label">Sent</div>
+                <div class="timeline-stat-value">198</div>
+              </div>
+              <div class="timeline-stat">
+                <div class="timeline-stat-label">Open Rate</div>
+                <div class="timeline-stat-value">38.1%</div>
+              </div>
+              <div class="timeline-stat">
+                <div class="timeline-stat-label">Reply Rate</div>
+                <div class="timeline-stat-value">5.2%</div>
+              </div>
+              <div class="timeline-stat">
+                <div class="timeline-stat-label">Status</div>
+                <div class="timeline-stat-value" style="color:var(--green)">Completed</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="timeline-step">
+          <div class="timeline-dot in-progress">✌</div>
+          <div class="timeline-content">
+            <div class="timeline-step-title">Step 3: Follow-up #2</div>
+            <div class="timeline-step-subtitle">5 days after initial</div>
+            <div class="timeline-stats">
+              <div class="timeline-stat">
+                <div class="timeline-stat-label">Sent</div>
+                <div class="timeline-stat-value">156</div>
+              </div>
+              <div class="timeline-stat">
+                <div class="timeline-stat-label">Open Rate</div>
+                <div class="timeline-stat-value">35.7%</div>
+              </div>
+              <div class="timeline-stat">
+                <div class="timeline-stat-label">Reply Rate</div>
+                <div class="timeline-stat-value">4.1%</div>
+              </div>
+              <div class="timeline-stat">
+                <div class="timeline-stat-label">Status</div>
+                <div class="timeline-stat-value" style="color:var(--blue)">In Progress</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="timeline-step">
+          <div class="timeline-dot" style="border-color:var(--grey-light);color:var(--grey)">○</div>
+          <div class="timeline-content">
+            <div class="timeline-step-title">Step 4: Break-up Email</div>
+            <div class="timeline-step-subtitle">7 days after initial</div>
+            <div class="timeline-stats">
+              <div class="timeline-stat">
+                <div class="timeline-stat-label">Scheduled</div>
+                <div class="timeline-stat-value">—</div>
+              </div>
+              <div class="timeline-stat">
+                <div class="timeline-stat-label">Open Rate</div>
+                <div class="timeline-stat-value">—</div>
+              </div>
+              <div class="timeline-stat">
+                <div class="timeline-stat-label">Reply Rate</div>
+                <div class="timeline-stat-value">—</div>
+              </div>
+              <div class="timeline-stat">
+                <div class="timeline-stat-label">Status</div>
+                <div class="timeline-stat-value" style="color:var(--grey)">Pending</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Grid: Activity + Top Subjects -->
+    <div class="grid-2">
+
+      <!-- Recent Activity -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Recent Activity</div>
+          <span class="card-link">View all</span>
+        </div>
+        <div class="act-item">
+          <div class="act-dot"></div>
+          <div>
+            <div class="act-text"><strong>Meeting booked</strong> — VP Sales at Stripe</div>
+            <div class="act-time">2 hours ago</div>
+          </div>
+        </div>
+        <div class="act-item">
+          <div class="act-dot blue"></div>
+          <div>
+            <div class="act-text"><strong>Email replied</strong> — "Let's sync up next week"</div>
+            <div class="act-time">4 hours ago</div>
+          </div>
+        </div>
+        <div class="act-item">
+          <div class="act-dot"></div>
+          <div>
+            <div class="act-text"><strong>Step 3 launched</strong> — Follow-up #2 sent to 156 prospects</div>
+            <div class="act-time">6 hours ago</div>
+          </div>
+        </div>
+        <div class="act-item">
+          <div class="act-dot blue"></div>
+          <div>
+            <div class="act-text"><strong>Email opened</strong> — Product Manager at Notion (2nd open)</div>
+            <div class="act-time">8 hours ago</div>
+          </div>
+        </div>
+        <div class="act-item">
+          <div class="act-dot orange"></div>
+          <div>
+            <div class="act-text"><strong>Bounced</strong> — Email address no longer valid</div>
+            <div class="act-time">12 hours ago</div>
+          </div>
+        </div>
+        <div class="act-item">
+          <div class="act-dot"></div>
+          <div>
+            <div class="act-text"><strong>Campaign started</strong> — 412 prospects enrolled</div>
+            <div class="act-time">6 days ago</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Performing Subjects -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Top Performing Subjects</div>
+          <span class="card-link">View all</span>
+        </div>
+        <div class="email-perf">
+          <div class="email-perf-subj">"Let's grab a quick coffee?"</div>
+          <div class="email-perf-stats">
+            <span class="email-perf-stat">Open: <strong>54%</strong></span>
+            <span class="email-perf-stat">Reply: <strong>11%</strong></span>
+          </div>
+        </div>
+        <div class="email-perf">
+          <div class="email-perf-subj">"Saw your funding round — well done"</div>
+          <div class="email-perf-stats">
+            <span class="email-perf-stat">Open: <strong>48%</strong></span>
+            <span class="email-perf-stat">Reply: <strong>9%</strong></span>
+          </div>
+        </div>
+        <div class="email-perf">
+          <div class="email-perf-subj">"Quick question about your GTM"</div>
+          <div class="email-perf-stats">
+            <span class="email-perf-stat">Open: <strong>43%</strong></span>
+            <span class="email-perf-stat">Reply: <strong>7%</strong></span>
+          </div>
+        </div>
+        <div class="email-perf">
+          <div class="email-perf-subj">"3 ideas for your next hiring round"</div>
+          <div class="email-perf-stats">
+            <span class="email-perf-stat">Open: <strong>39%</strong></span>
+            <span class="email-perf-stat">Reply: <strong>5%</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>

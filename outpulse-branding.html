@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Outpulse — Brand Identity</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#f2f1ee;--text:#1a1a1a;--muted:#6b6b6b;--green:#7cc5a2;--gd:#5ba882;--white:#fff;--font:'DM Sans',sans-serif;--serif:'DM Serif Display',serif}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;padding:60px 20px 100px}
+.ph{text-align:center;margin-bottom:64px}
+.ph h1{font-family:var(--serif);font-size:40px;font-weight:400;margin-bottom:10px}
+.ph p{color:var(--muted);font-size:15px}
+.hr{display:flex;justify-content:center;gap:40px;margin-bottom:80px;flex-wrap:wrap}
+.hc{border-radius:28px;padding:56px 72px;text-align:center;box-shadow:0 2px 24px rgba(0,0,0,.05)}
+.hc.l{background:var(--white)}.hc.d{background:var(--text)}.hc.g{background:var(--green)}
+.hc .lb{font-family:var(--serif);font-size:22px;margin-top:20px;letter-spacing:-.3px}
+.hc.d .lb,.hc.g .lb{color:#fff}
+.hc .sb{font-size:11px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:1px;font-weight:600}
+.hc.d .sb{color:rgba(255,255,255,.35)}.hc.g .sb{color:rgba(255,255,255,.6)}
+.st{text-align:center;font-family:var(--serif);font-size:28px;margin-bottom:8px}
+.ss{text-align:center;color:var(--muted);font-size:14px;margin-bottom:40px}
+.gr{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:960px;margin:0 auto 80px}
+.cd{border-radius:20px;padding:36px 20px 22px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.04);transition:transform .3s,box-shadow .3s;cursor:pointer}
+.cd.wh{background:var(--white)}.cd.dk{background:var(--text)}
+.cd:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,.1)}
+.cd .nm{font-size:13px;font-weight:600;margin-top:16px;color:var(--text)}
+.cd.dk .nm{color:rgba(255,255,255,.6)}
+.pr{display:flex;justify-content:center;gap:24px;margin:0 auto 80px;flex-wrap:wrap}
+.sw{text-align:center}
+.sc{width:64px;height:64px;border-radius:50%;margin:0 auto 8px;border:3px solid var(--white);box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.sn{font-size:12px;font-weight:600}.sh{font-size:11px;color:var(--muted);font-family:monospace}
+.szr{display:flex;align-items:flex-end;justify-content:center;gap:40px;margin:0 auto 80px;flex-wrap:wrap}
+.szi{text-align:center}.szl{font-size:11px;color:var(--muted);margin-top:8px;font-weight:600}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+@keyframes glow{0%,100%{filter:drop-shadow(0 0 0 transparent)}50%{filter:drop-shadow(0 0 14px rgba(124,197,162,.5))}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes ringDash{0%{stroke-dashoffset:0}100%{stroke-dashoffset:-50}}
+@keyframes rayPulse{0%,100%{opacity:.4;transform:scaleY(.8)}50%{opacity:1;transform:scaleY(1)}}
+@keyframes sparkle{0%,100%{opacity:0}50%{opacity:1}}
+@media(max-width:768px){.gr{grid-template-columns:repeat(2,1fr)}.hr{flex-direction:column;align-items:center}}
+</style>
+</head>
+<body>
+
+<div class="ph">
+  <h1>Outpulse Brand Identity</h1>
+  <p>Three interweaving orbital rings with radiating rays — the atom of outreach</p>
+</div>
+
+<!--
+  Symbol structure (based on outpulse-logo.svg):
+  - 3 tilted elliptical rings at different angles (5°, -55°, 60°)
+  - Each ring has BACK arcs (behind, faded) and FRONT arcs (in front, bright)
+  - 5 starburst rays on top, spread like a crown
+  - No filled sphere — the 3D effect comes from the ring interweaving itself
+  - Colors converted from purple gradients to solid Outpulse brand palette
+-->
+
+<!-- ==================== HERO ==================== -->
+<div class="hr">
+
+  <!-- LIGHT BG — green rings on white -->
+  <div class="hc l">
+    <svg width="180" height="180" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- BACK ARCS (behind, faded) -->
+      <path d="M 117,253 A 140,80.3 5 0,0 249,345" fill="none" stroke="#7cc5a2" stroke-width="20" stroke-linecap="butt" opacity="0.18"/>
+      <path d="M 249,345 A 140,80.3 5 0,0 395,277" fill="none" stroke="#7cc5a2" stroke-width="20" stroke-linecap="butt" opacity="0.12"/>
+      <path d="M 178,376 A 136,111.4 -55 0,0 347,329" fill="none" stroke="#7cc5a2" stroke-width="18" stroke-linecap="butt" opacity="0.18"/>
+      <path d="M 347,329 A 136,111.4 -55 0,0 334,154" fill="none" stroke="#7cc5a2" stroke-width="18" stroke-linecap="butt" opacity="0.12"/>
+      <path d="M 190,151 A 132,129.1 60 0,0 144,330" fill="none" stroke="#7cc5a2" stroke-width="17" stroke-linecap="butt" opacity="0.18"/>
+      <path d="M 144,330 A 132,129.1 60 0,0 322,379" fill="none" stroke="#7cc5a2" stroke-width="17" stroke-linecap="butt" opacity="0.12"/>
+      <!-- FRONT ARCS (in front, bright) -->
+      <path d="M 395,277 A 140,80.3 5 0,0 263,185" fill="none" stroke="#7cc5a2" stroke-width="20" stroke-linecap="butt" opacity="0.95"/>
+      <path d="M 263,185 A 140,80.3 5 0,0 117,253" fill="none" stroke="#7cc5a2" stroke-width="20" stroke-linecap="butt" opacity="0.85"/>
+      <path d="M 334,154 A 136,111.4 -55 0,0 165,201" fill="none" stroke="#7cc5a2" stroke-width="18" stroke-linecap="butt" opacity="0.95"/>
+      <path d="M 165,201 A 136,111.4 -55 0,0 178,376" fill="none" stroke="#7cc5a2" stroke-width="18" stroke-linecap="butt" opacity="0.85"/>
+      <path d="M 322,379 A 132,129.1 60 0,0 368,200" fill="none" stroke="#7cc5a2" stroke-width="17" stroke-linecap="butt" opacity="0.95"/>
+      <path d="M 368,200 A 132,129.1 60 0,0 190,151" fill="none" stroke="#7cc5a2" stroke-width="17" stroke-linecap="butt" opacity="0.85"/>
+      <!-- STARBURST RAYS -->
+      <g stroke="#7cc5a2" stroke-width="13" stroke-linecap="round">
+        <line x1="188" y1="130" x2="177" y2="88"/>
+        <line x1="220" y1="107" x2="213" y2="62"/>
+        <line x1="256" y1="95"  x2="256" y2="48"/>
+        <line x1="292" y1="107" x2="299" y2="62"/>
+        <line x1="324" y1="130" x2="335" y2="88"/>
+      </g>
+    </svg>
+    <div class="lb">Outpulse</div>
+    <div class="sb">Light</div>
+  </div>
+
+  <!-- DARK BG — green rings on dark -->
+  <div class="hc d">
+    <svg width="180" height="180" viewBox="0 0 512 512" fill="none">
+      <path d="M 117,253 A 140,80.3 5 0,0 249,345" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.2"/>
+      <path d="M 249,345 A 140,80.3 5 0,0 395,277" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.12"/>
+      <path d="M 178,376 A 136,111.4 -55 0,0 347,329" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.2"/>
+      <path d="M 347,329 A 136,111.4 -55 0,0 334,154" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.12"/>
+      <path d="M 190,151 A 132,129.1 60 0,0 144,330" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.2"/>
+      <path d="M 144,330 A 132,129.1 60 0,0 322,379" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.12"/>
+      <path d="M 395,277 A 140,80.3 5 0,0 263,185" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.95"/>
+      <path d="M 263,185 A 140,80.3 5 0,0 117,253" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.85"/>
+      <path d="M 334,154 A 136,111.4 -55 0,0 165,201" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.95"/>
+      <path d="M 165,201 A 136,111.4 -55 0,0 178,376" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.85"/>
+      <path d="M 322,379 A 132,129.1 60 0,0 368,200" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.95"/>
+      <path d="M 368,200 A 132,129.1 60 0,0 190,151" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.85"/>
+      <g stroke="#7cc5a2" stroke-width="13" stroke-linecap="round">
+        <line x1="188" y1="130" x2="177" y2="88"/>
+        <line x1="220" y1="107" x2="213" y2="62"/>
+        <line x1="256" y1="95"  x2="256" y2="48"/>
+        <line x1="292" y1="107" x2="299" y2="62"/>
+        <line x1="324" y1="130" x2="335" y2="88"/>
+      </g>
+    </svg>
+    <div class="lb">Outpulse</div>
+    <div class="sb">Dark</div>
+  </div>
+
+  <!-- GREEN BG — white rings on green -->
+  <div class="hc g">
+    <svg width="180" height="180" viewBox="0 0 512 512" fill="none">
+      <path d="M 117,253 A 140,80.3 5 0,0 249,345" fill="none" stroke="#ffffff" stroke-width="20" opacity="0.18"/>
+      <path d="M 249,345 A 140,80.3 5 0,0 395,277" fill="none" stroke="#ffffff" stroke-width="20" opacity="0.1"/>
+      <path d="M 178,376 A 136,111.4 -55 0,0 347,329" fill="none" stroke="#ffffff" stroke-width="18" opacity="0.18"/>
+      <path d="M 347,329 A 136,111.4 -55 0,0 334,154" fill="none" stroke="#ffffff" stroke-width="18" opacity="0.1"/>
+      <path d="M 190,151 A 132,129.1 60 0,0 144,330" fill="none" stroke="#ffffff" stroke-width="17" opacity="0.18"/>
+      <path d="M 144,330 A 132,129.1 60 0,0 322,379" fill="none" stroke="#ffffff" stroke-width="17" opacity="0.1"/>
+      <path d="M 395,277 A 140,80.3 5 0,0 263,185" fill="none" stroke="#ffffff" stroke-width="20" opacity="0.9"/>
+      <path d="M 263,185 A 140,80.3 5 0,0 117,253" fill="none" stroke="#ffffff" stroke-width="20" opacity="0.8"/>
+      <path d="M 334,154 A 136,111.4 -55 0,0 165,201" fill="none" stroke="#ffffff" stroke-width="18" opacity="0.9"/>
+      <path d="M 165,201 A 136,111.4 -55 0,0 178,376" fill="none" stroke="#ffffff" stroke-width="18" opacity="0.8"/>
+      <path d="M 322,379 A 132,129.1 60 0,0 368,200" fill="none" stroke="#ffffff" stroke-width="17" opacity="0.9"/>
+      <path d="M 368,200 A 132,129.1 60 0,0 190,151" fill="none" stroke="#ffffff" stroke-width="17" opacity="0.8"/>
+      <g stroke="#ffffff" stroke-width="13" stroke-linecap="round" opacity="0.9">
+        <line x1="188" y1="130" x2="177" y2="88"/>
+        <line x1="220" y1="107" x2="213" y2="62"/>
+        <line x1="256" y1="95"  x2="256" y2="48"/>
+        <line x1="292" y1="107" x2="299" y2="62"/>
+        <line x1="324" y1="130" x2="335" y2="88"/>
+      </g>
+    </svg>
+    <div class="lb">Outpulse</div>
+    <div class="sb">Green</div>
+  </div>
+
+</div>
+
+<!-- ==================== PALETTE ==================== -->
+<h2 class="st">Colors</h2>
+<p class="ss">Two-color brand system</p>
+<div class="pr">
+  <div class="sw"><div class="sc" style="background:#1a1a1a"></div><div class="sn">Dark</div><div class="sh">#1a1a1a</div></div>
+  <div class="sw"><div class="sc" style="background:#7cc5a2"></div><div class="sn">Green</div><div class="sh">#7cc5a2</div></div>
+  <div class="sw"><div class="sc" style="background:#5ba882"></div><div class="sn">Green Dark</div><div class="sh">#5ba882</div></div>
+  <div class="sw"><div class="sc" style="background:#f2f1ee"></div><div class="sn">BG</div><div class="sh">#f2f1ee</div></div>
+</div>
+
+<!-- ==================== ANIMATED ==================== -->
+<h2 class="st">Animated Variants</h2>
+<p class="ss">Micro-animations for different contexts</p>
+
+<div class="gr">
+
+  <!-- Static -->
+  <div class="cd wh">
+    <svg width="100" height="100" viewBox="0 0 512 512" fill="none">
+      <path d="M 117,253 A 140,80.3 5 0,0 249,345" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.18"/>
+      <path d="M 249,345 A 140,80.3 5 0,0 395,277" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.12"/>
+      <path d="M 178,376 A 136,111.4 -55 0,0 347,329" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.18"/>
+      <path d="M 347,329 A 136,111.4 -55 0,0 334,154" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.12"/>
+      <path d="M 190,151 A 132,129.1 60 0,0 144,330" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.18"/>
+      <path d="M 144,330 A 132,129.1 60 0,0 322,379" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.12"/>
+      <path d="M 395,277 A 140,80.3 5 0,0 263,185" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.95"/>
+      <path d="M 263,185 A 140,80.3 5 0,0 117,253" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.85"/>
+      <path d="M 334,154 A 136,111.4 -55 0,0 165,201" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.95"/>
+      <path d="M 165,201 A 136,111.4 -55 0,0 178,376" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.85"/>
+      <path d="M 322,379 A 132,129.1 60 0,0 368,200" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.95"/>
+      <path d="M 368,200 A 132,129.1 60 0,0 190,151" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.85"/>
+      <g stroke="#7cc5a2" stroke-width="13" stroke-linecap="round">
+        <line x1="188" y1="130" x2="177" y2="88"/><line x1="220" y1="107" x2="213" y2="62"/>
+        <line x1="256" y1="95" x2="256" y2="48"/><line x1="292" y1="107" x2="299" y2="62"/>
+        <line x1="324" y1="130" x2="335" y2="88"/>
+      </g>
+    </svg>
+    <div class="nm">Static</div>
+  </div>
+
+  <!-- Breathing -->
+  <div class="cd wh">
+    <svg width="100" height="100" viewBox="0 0 512 512" fill="none" style="animation:breathe 3s ease-in-out infinite">
+      <path d="M 117,253 A 140,80.3 5 0,0 249,345" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.18"/>
+      <path d="M 249,345 A 140,80.3 5 0,0 395,277" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.12"/>
+      <path d="M 178,376 A 136,111.4 -55 0,0 347,329" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.18"/>
+      <path d="M 347,329 A 136,111.4 -55 0,0 334,154" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.12"/>
+      <path d="M 190,151 A 132,129.1 60 0,0 144,330" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.18"/>
+      <path d="M 144,330 A 132,129.1 60 0,0 322,379" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.12"/>
+      <path d="M 395,277 A 140,80.3 5 0,0 263,185" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.95"/>
+      <path d="M 263,185 A 140,80.3 5 0,0 117,253" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.85"/>
+      <path d="M 334,154 A 136,111.4 -55 0,0 165,201" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.95"/>
+      <path d="M 165,201 A 136,111.4 -55 0,0 178,376" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.85"/>
+      <path d="M 322,379 A 132,129.1 60 0,0 368,200" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.95"/>
+      <path d="M 368,200 A 132,129.1 60 0,0 190,151" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.85"/>
+      <g stroke="#7cc5a2" stroke-width="13" stroke-linecap="round">
+        <line x1="188" y1="130" x2="177" y2="88"/><line x1="220" y1="107" x2="213" y2="62"/>
+        <line x1="256" y1="95" x2="256" y2="48"/><line x1="292" y1="107" x2="299" y2="62"/>
+        <line x1="324" y1="130" x2="335" y2="88"/>
+      </g>
+    </svg>
+    <div class="nm">Breathing</div>
+  </div>
+
+  <!-- Glow -->
+  <div class="cd dk">
+    <svg width="100" height="100" viewBox="0 0 512 512" fill="none" style="animation:glow 2.5s ease-in-out infinite">
+      <path d="M 117,253 A 140,80.3 5 0,0 249,345" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.2"/>
+      <path d="M 249,345 A 140,80.3 5 0,0 395,277" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.12"/>
+      <path d="M 178,376 A 136,111.4 -55 0,0 347,329" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.2"/>
+      <path d="M 347,329 A 136,111.4 -55 0,0 334,154" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.12"/>
+      <path d="M 190,151 A 132,129.1 60 0,0 144,330" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.2"/>
+      <path d="M 144,330 A 132,129.1 60 0,0 322,379" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.12"/>
+      <path d="M 395,277 A 140,80.3 5 0,0 263,185" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.95"/>
+      <path d="M 263,185 A 140,80.3 5 0,0 117,253" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.85"/>
+      <path d="M 334,154 A 136,111.4 -55 0,0 165,201" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.95"/>
+      <path d="M 165,201 A 136,111.4 -55 0,0 178,376" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.85"/>
+      <path d="M 322,379 A 132,129.1 60 0,0 368,200" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.95"/>
+      <path d="M 368,200 A 132,129.1 60 0,0 190,151" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.85"/>
+      <g stroke="#7cc5a2" stroke-width="13" stroke-linecap="round">
+        <line x1="188" y1="130" x2="177" y2="88"/><line x1="220" y1="107" x2="213" y2="62"/>
+        <line x1="256" y1="95" x2="256" y2="48"/><line x1="292" y1="107" x2="299" y2="62"/>
+        <line x1="324" y1="130" x2="335" y2="88"/>
+      </g>
+    </svg>
+    <div class="nm">Glow</div>
+  </div>
+
+  <!-- Float -->
+  <div class="cd wh">
+    <svg width="100" height="100" viewBox="0 0 512 512" fill="none" style="animation:float 3s ease-in-out infinite">
+      <path d="M 117,253 A 140,80.3 5 0,0 249,345" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.18"/>
+      <path d="M 249,345 A 140,80.3 5 0,0 395,277" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.12"/>
+      <path d="M 178,376 A 136,111.4 -55 0,0 347,329" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.18"/>
+      <path d="M 347,329 A 136,111.4 -55 0,0 334,154" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.12"/>
+      <path d="M 190,151 A 132,129.1 60 0,0 144,330" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.18"/>
+      <path d="M 144,330 A 132,129.1 60 0,0 322,379" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.12"/>
+      <path d="M 395,277 A 140,80.3 5 0,0 263,185" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.95"/>
+      <path d="M 263,185 A 140,80.3 5 0,0 117,253" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.85"/>
+      <path d="M 334,154 A 136,111.4 -55 0,0 165,201" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.95"/>
+      <path d="M 165,201 A 136,111.4 -55 0,0 178,376" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.85"/>
+      <path d="M 322,379 A 132,129.1 60 0,0 368,200" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.95"/>
+      <path d="M 368,200 A 132,129.1 60 0,0 190,151" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.85"/>
+      <g stroke="#7cc5a2" stroke-width="13" stroke-linecap="round">
+        <line x1="188" y1="130" x2="177" y2="88"/><line x1="220" y1="107" x2="213" y2="62"/>
+        <line x1="256" y1="95" x2="256" y2="48"/><line x1="292" y1="107" x2="299" y2="62"/>
+        <line x1="324" y1="130" x2="335" y2="88"/>
+      </g>
+    </svg>
+    <div class="nm">Float</div>
+  </div>
+
+  <!-- Pulse ring -->
+  <div class="cd wh">
+    <svg width="100" height="100" viewBox="0 0 512 512" fill="none">
+      <path d="M 117,253 A 140,80.3 5 0,0 249,345" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.18" stroke-dasharray="18 10" style="animation:ringDash 2s linear infinite"/>
+      <path d="M 249,345 A 140,80.3 5 0,0 395,277" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.12" stroke-dasharray="18 10" style="animation:ringDash 2s linear infinite"/>
+      <path d="M 178,376 A 136,111.4 -55 0,0 347,329" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.18" stroke-dasharray="18 10" style="animation:ringDash 2s linear infinite"/>
+      <path d="M 347,329 A 136,111.4 -55 0,0 334,154" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.12" stroke-dasharray="18 10" style="animation:ringDash 2s linear infinite"/>
+      <path d="M 190,151 A 132,129.1 60 0,0 144,330" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.18" stroke-dasharray="18 10" style="animation:ringDash 2s linear infinite"/>
+      <path d="M 144,330 A 132,129.1 60 0,0 322,379" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.12" stroke-dasharray="18 10" style="animation:ringDash 2s linear infinite"/>
+      <path d="M 395,277 A 140,80.3 5 0,0 263,185" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.95" stroke-dasharray="18 10" style="animation:ringDash 2s linear infinite"/>
+      <path d="M 263,185 A 140,80.3 5 0,0 117,253" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.85" stroke-dasharray="18 10" style="animation:ringDash 2s linear infinite"/>
+      <path d="M 334,154 A 136,111.4 -55 0,0 165,201" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.95" stroke-dasharray="18 10" style="animation:ringDash 2s linear infinite"/>
+      <path d="M 165,201 A 136,111.4 -55 0,0 178,376" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.85" stroke-dasharray="18 10" style="animation:ringDash 2s linear infinite"/>
+      <path d="M 322,379 A 132,129.1 60 0,0 368,200" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.95" stroke-dasharray="18 10" style="animation:ringDash 2s linear infinite"/>
+      <path d="M 368,200 A 132,129.1 60 0,0 190,151" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.85" stroke-dasharray="18 10" style="animation:ringDash 2s linear infinite"/>
+      <g stroke="#7cc5a2" stroke-width="13" stroke-linecap="round">
+        <line x1="188" y1="130" x2="177" y2="88"/><line x1="220" y1="107" x2="213" y2="62"/>
+        <line x1="256" y1="95" x2="256" y2="48"/><line x1="292" y1="107" x2="299" y2="62"/>
+        <line x1="324" y1="130" x2="335" y2="88"/>
+      </g>
+    </svg>
+    <div class="nm">Pulse</div>
+  </div>
+
+  <!-- Ray pulse -->
+  <div class="cd wh">
+    <svg width="100" height="100" viewBox="0 0 512 512" fill="none">
+      <path d="M 117,253 A 140,80.3 5 0,0 249,345" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.18"/>
+      <path d="M 249,345 A 140,80.3 5 0,0 395,277" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.12"/>
+      <path d="M 178,376 A 136,111.4 -55 0,0 347,329" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.18"/>
+      <path d="M 347,329 A 136,111.4 -55 0,0 334,154" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.12"/>
+      <path d="M 190,151 A 132,129.1 60 0,0 144,330" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.18"/>
+      <path d="M 144,330 A 132,129.1 60 0,0 322,379" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.12"/>
+      <path d="M 395,277 A 140,80.3 5 0,0 263,185" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.95"/>
+      <path d="M 263,185 A 140,80.3 5 0,0 117,253" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.85"/>
+      <path d="M 334,154 A 136,111.4 -55 0,0 165,201" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.95"/>
+      <path d="M 165,201 A 136,111.4 -55 0,0 178,376" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.85"/>
+      <path d="M 322,379 A 132,129.1 60 0,0 368,200" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.95"/>
+      <path d="M 368,200 A 132,129.1 60 0,0 190,151" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.85"/>
+      <g stroke="#7cc5a2" stroke-width="13" stroke-linecap="round">
+        <line x1="188" y1="130" x2="177" y2="88" style="transform-origin:183px 109px;animation:rayPulse 2s ease 0s infinite"/>
+        <line x1="220" y1="107" x2="213" y2="62" style="transform-origin:217px 85px;animation:rayPulse 2s ease .2s infinite"/>
+        <line x1="256" y1="95" x2="256" y2="48" style="transform-origin:256px 72px;animation:rayPulse 2s ease .4s infinite"/>
+        <line x1="292" y1="107" x2="299" y2="62" style="transform-origin:296px 85px;animation:rayPulse 2s ease .6s infinite"/>
+        <line x1="324" y1="130" x2="335" y2="88" style="transform-origin:330px 109px;animation:rayPulse 2s ease .8s infinite"/>
+      </g>
+    </svg>
+    <div class="nm">Ray Pulse</div>
+  </div>
+
+  <!-- Sparkle dark -->
+  <div class="cd dk">
+    <svg width="100" height="100" viewBox="0 0 512 512" fill="none">
+      <path d="M 117,253 A 140,80.3 5 0,0 249,345" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.2"/>
+      <path d="M 249,345 A 140,80.3 5 0,0 395,277" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.12"/>
+      <path d="M 178,376 A 136,111.4 -55 0,0 347,329" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.2"/>
+      <path d="M 347,329 A 136,111.4 -55 0,0 334,154" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.12"/>
+      <path d="M 190,151 A 132,129.1 60 0,0 144,330" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.2"/>
+      <path d="M 144,330 A 132,129.1 60 0,0 322,379" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.12"/>
+      <path d="M 395,277 A 140,80.3 5 0,0 263,185" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.95"/>
+      <path d="M 263,185 A 140,80.3 5 0,0 117,253" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.85"/>
+      <path d="M 334,154 A 136,111.4 -55 0,0 165,201" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.95"/>
+      <path d="M 165,201 A 136,111.4 -55 0,0 178,376" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.85"/>
+      <path d="M 322,379 A 132,129.1 60 0,0 368,200" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.95"/>
+      <path d="M 368,200 A 132,129.1 60 0,0 190,151" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.85"/>
+      <g stroke="#7cc5a2" stroke-width="13" stroke-linecap="round">
+        <line x1="188" y1="130" x2="177" y2="88"/><line x1="220" y1="107" x2="213" y2="62"/>
+        <line x1="256" y1="95" x2="256" y2="48"/><line x1="292" y1="107" x2="299" y2="62"/>
+        <line x1="324" y1="130" x2="335" y2="88"/>
+      </g>
+      <circle cx="90" cy="200" r="4" fill="#7cc5a2" style="animation:sparkle 1.6s ease 0s infinite"/>
+      <circle cx="75" cy="260" r="3" fill="#7cc5a2" style="animation:sparkle 1.6s ease .3s infinite"/>
+      <circle cx="420" cy="210" r="3.5" fill="#7cc5a2" style="animation:sparkle 1.6s ease .5s infinite"/>
+      <circle cx="430" cy="280" r="2.5" fill="#7cc5a2" style="animation:sparkle 1.6s ease .8s infinite"/>
+    </svg>
+    <div class="nm">Sparkle</div>
+  </div>
+
+  <!-- Mono dark -->
+  <div class="cd wh">
+    <svg width="100" height="100" viewBox="0 0 512 512" fill="none">
+      <path d="M 117,253 A 140,80.3 5 0,0 249,345" fill="none" stroke="#1a1a1a" stroke-width="20" opacity="0.08"/>
+      <path d="M 249,345 A 140,80.3 5 0,0 395,277" fill="none" stroke="#1a1a1a" stroke-width="20" opacity="0.05"/>
+      <path d="M 178,376 A 136,111.4 -55 0,0 347,329" fill="none" stroke="#1a1a1a" stroke-width="18" opacity="0.08"/>
+      <path d="M 347,329 A 136,111.4 -55 0,0 334,154" fill="none" stroke="#1a1a1a" stroke-width="18" opacity="0.05"/>
+      <path d="M 190,151 A 132,129.1 60 0,0 144,330" fill="none" stroke="#1a1a1a" stroke-width="17" opacity="0.08"/>
+      <path d="M 144,330 A 132,129.1 60 0,0 322,379" fill="none" stroke="#1a1a1a" stroke-width="17" opacity="0.05"/>
+      <path d="M 395,277 A 140,80.3 5 0,0 263,185" fill="none" stroke="#1a1a1a" stroke-width="20" opacity="0.55"/>
+      <path d="M 263,185 A 140,80.3 5 0,0 117,253" fill="none" stroke="#1a1a1a" stroke-width="20" opacity="0.45"/>
+      <path d="M 334,154 A 136,111.4 -55 0,0 165,201" fill="none" stroke="#1a1a1a" stroke-width="18" opacity="0.55"/>
+      <path d="M 165,201 A 136,111.4 -55 0,0 178,376" fill="none" stroke="#1a1a1a" stroke-width="18" opacity="0.45"/>
+      <path d="M 322,379 A 132,129.1 60 0,0 368,200" fill="none" stroke="#1a1a1a" stroke-width="17" opacity="0.55"/>
+      <path d="M 368,200 A 132,129.1 60 0,0 190,151" fill="none" stroke="#1a1a1a" stroke-width="17" opacity="0.45"/>
+      <g stroke="#1a1a1a" stroke-width="13" stroke-linecap="round" opacity="0.5">
+        <line x1="188" y1="130" x2="177" y2="88"/><line x1="220" y1="107" x2="213" y2="62"/>
+        <line x1="256" y1="95" x2="256" y2="48"/><line x1="292" y1="107" x2="299" y2="62"/>
+        <line x1="324" y1="130" x2="335" y2="88"/>
+      </g>
+    </svg>
+    <div class="nm">Mono</div>
+  </div>
+
+</div>
+
+<!-- ==================== SIZES ==================== -->
+<h2 class="st">Sizes</h2>
+<p class="ss">Scales cleanly at every resolution</p>
+<div class="szr">
+  <div class="szi">
+    <svg width="128" height="128" viewBox="0 0 512 512" fill="none">
+      <path d="M 117,253 A 140,80.3 5 0,0 249,345" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.18"/>
+      <path d="M 249,345 A 140,80.3 5 0,0 395,277" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.12"/>
+      <path d="M 178,376 A 136,111.4 -55 0,0 347,329" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.18"/>
+      <path d="M 347,329 A 136,111.4 -55 0,0 334,154" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.12"/>
+      <path d="M 190,151 A 132,129.1 60 0,0 144,330" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.18"/>
+      <path d="M 144,330 A 132,129.1 60 0,0 322,379" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.12"/>
+      <path d="M 395,277 A 140,80.3 5 0,0 263,185" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.95"/>
+      <path d="M 263,185 A 140,80.3 5 0,0 117,253" fill="none" stroke="#7cc5a2" stroke-width="20" opacity="0.85"/>
+      <path d="M 334,154 A 136,111.4 -55 0,0 165,201" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.95"/>
+      <path d="M 165,201 A 136,111.4 -55 0,0 178,376" fill="none" stroke="#7cc5a2" stroke-width="18" opacity="0.85"/>
+      <path d="M 322,379 A 132,129.1 60 0,0 368,200" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.95"/>
+      <path d="M 368,200 A 132,129.1 60 0,0 190,151" fill="none" stroke="#7cc5a2" stroke-width="17" opacity="0.85"/>
+      <g stroke="#7cc5a2" stroke-width="13" stroke-linecap="round">
+        <line x1="188" y1="130" x2="177" y2="88"/><line x1="220" y1="107" x2="213" y2="62"/>
+        <line x1="256" y1="95" x2="256" y2="48"/><line x1="292" y1="107" x2="299" y2="62"/>
+        <line x1="324" y1="130" x2="335" y2="88"/>
+      </g>
+    </svg>
+    <div class="szl">128px</div>
+  </div>
+  <div class="szi">
+    <svg width="64" height="64" viewBox="0 0 512 512" fill="none">
+      <path d="M 117,253 A 140,80.3 5 0,0 249,345" fill="none" stroke="#7cc5a2" stroke-width="24" opacity="0.18"/>
+      <path d="M 249,345 A 140,80.3 5 0,0 395,277" fill="none" stroke="#7cc5a2" stroke-width="24" opacity="0.12"/>
+      <path d="M 178,376 A 136,111.4 -55 0,0 347,329" fill="none" stroke="#7cc5a2" stroke-width="22" opacity="0.18"/>
+      <path d="M 347,329 A 136,111.4 -55 0,0 334,154" fill="none" stroke="#7cc5a2" stroke-width="22" opacity="0.12"/>
+      <path d="M 190,151 A 132,129.1 60 0,0 144,330" fill="none" stroke="#7cc5a2" stroke-width="21" opacity="0.18"/>
+      <path d="M 144,330 A 132,129.1 60 0,0 322,379" fill="none" stroke="#7cc5a2" stroke-width="21" opacity="0.12"/>
+      <path d="M 395,277 A 140,80.3 5 0,0 263,185" fill="none" stroke="#7cc5a2" stroke-width="24" opacity="0.95"/>
+      <path d="M 263,185 A 140,80.3 5 0,0 117,253" fill="none" stroke="#7cc5a2" stroke-width="24" opacity="0.85"/>
+      <path d="M 334,154 A 136,111.4 -55 0,0 165,201" fill="none" stroke="#7cc5a2" stroke-width="22" opacity="0.95"/>
+      <path d="M 165,201 A 136,111.4 -55 0,0 178,376" fill="none" stroke="#7cc5a2" stroke-width="22" opacity="0.85"/>
+      <path d="M 322,379 A 132,129.1 60 0,0 368,200" fill="none" stroke="#7cc5a2" stroke-width="21" opacity="0.95"/>
+      <path d="M 368,200 A 132,129.1 60 0,0 190,151" fill="none" stroke="#7cc5a2" stroke-width="21" opacity="0.85"/>
+      <g stroke="#7cc5a2" stroke-width="16" stroke-linecap="round">
+        <line x1="188" y1="130" x2="177" y2="88"/><line x1="220" y1="107" x2="213" y2="62"/>
+        <line x1="256" y1="95" x2="256" y2="48"/><line x1="292" y1="107" x2="299" y2="62"/>
+        <line x1="324" y1="130" x2="335" y2="88"/>
+      </g>
+    </svg>
+    <div class="szl">64px</div>
+  </div>
+  <div class="szi">
+    <svg width="32" height="32" viewBox="0 0 512 512" fill="none">
+      <path d="M 395,277 A 140,80.3 5 0,0 263,185" fill="none" stroke="#7cc5a2" stroke-width="30" opacity="0.95"/>
+      <path d="M 263,185 A 140,80.3 5 0,0 117,253" fill="none" stroke="#7cc5a2" stroke-width="30" opacity="0.85"/>
+      <path d="M 334,154 A 136,111.4 -55 0,0 165,201" fill="none" stroke="#7cc5a2" stroke-width="28" opacity="0.95"/>
+      <path d="M 165,201 A 136,111.4 -55 0,0 178,376" fill="none" stroke="#7cc5a2" stroke-width="28" opacity="0.85"/>
+      <path d="M 322,379 A 132,129.1 60 0,0 368,200" fill="none" stroke="#7cc5a2" stroke-width="26" opacity="0.95"/>
+      <path d="M 368,200 A 132,129.1 60 0,0 190,151" fill="none" stroke="#7cc5a2" stroke-width="26" opacity="0.85"/>
+      <g stroke="#7cc5a2" stroke-width="20" stroke-linecap="round">
+        <line x1="200" y1="120" x2="196" y2="78"/>
+        <line x1="256" y1="95" x2="256" y2="48"/>
+        <line x1="312" y1="120" x2="316" y2="78"/>
+      </g>
+    </svg>
+    <div class="szl">32px</div>
+  </div>
+  <div class="szi">
+    <svg width="16" height="16" viewBox="0 0 512 512" fill="none">
+      <path d="M 395,277 A 140,80.3 5 0,0 263,185" fill="none" stroke="#7cc5a2" stroke-width="38"/>
+      <path d="M 263,185 A 140,80.3 5 0,0 117,253" fill="none" stroke="#7cc5a2" stroke-width="38"/>
+      <path d="M 334,154 A 136,111.4 -55 0,0 165,201" fill="none" stroke="#7cc5a2" stroke-width="36"/>
+      <path d="M 322,379 A 132,129.1 60 0,0 368,200" fill="none" stroke="#7cc5a2" stroke-width="34"/>
+      <line x1="256" y1="100" x2="256" y2="48" stroke="#7cc5a2" stroke-width="28" stroke-linecap="round"/>
+    </svg>
+    <div class="szl">16px</div>
+  </div>
+</div>
+
+</body>
+</html>

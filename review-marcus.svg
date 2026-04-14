@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 280" width="256" height="280">
+  <defs>
+    <clipPath id="circle-marcus">
+      <circle cx="128" cy="140" r="120"/>
+    </clipPath>
+    <linearGradient id="skin-marcus" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d4a574"/>
+      <stop offset="100%" stop-color="#c49464"/>
+    </linearGradient>
+    <linearGradient id="shirt-marcus" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2c3e50"/>
+      <stop offset="100%" stop-color="#1a252f"/>
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#circle-marcus)">
+    <!-- Background -->
+    <rect width="256" height="280" fill="#f2f1ee"/>
+    
+    <!-- Body / Shoulders -->
+    <ellipse cx="128" cy="260" rx="90" ry="60" fill="url(#shirt-marcus)"/>
+    
+    <!-- Neck -->
+    <rect x="114" y="160" width="28" height="30" rx="8" fill="url(#skin-marcus)"/>
+    
+    <!-- Collar -->
+    <path d="M108,185 L128,205 L148,185" fill="none" stroke="#ffffff" stroke-width="2.5" opacity="0.6"/>
+    
+    <!-- Head -->
+    <ellipse cx="128" cy="115" rx="50" ry="55" fill="url(#skin-marcus)"/>
+    
+    <!-- Ears -->
+    <ellipse cx="79" cy="118" rx="8" ry="12" fill="#c49464"/>
+    <ellipse cx="177" cy="118" rx="8" ry="12" fill="#c49464"/>
+    
+    <!-- Hair -->
+    
+            <ellipse cx="128" cy="82" rx="52" ry="28" fill="#2c1810"/>
+            <path d="M78,90 Q76,70 88,55 Q105,40 128,38 Q155,42 168,58 Q178,72 176,90" fill="#2c1810"/>
+            <path d="M78,90 Q76,82 80,75 L82,92Z" fill="#2c1810"/>
+        
+    
+    <!-- Eyes -->
+    <ellipse cx="110" cy="115" rx="7" ry="5" fill="#ffffff"/>
+    <ellipse cx="146" cy="115" rx="7" ry="5" fill="#ffffff"/>
+    <circle cx="111" cy="115" r="3.5" fill="#4a6741"/>
+    <circle cx="147" cy="115" r="3.5" fill="#4a6741"/>
+    <circle cx="111.5" cy="114.5" r="1.8" fill="#1a1a1a"/>
+    <circle cx="147.5" cy="114.5" r="1.8" fill="#1a1a1a"/>
+    <!-- Eye highlights -->
+    <circle cx="112.5" cy="113.5" r="0.8" fill="#ffffff" opacity="0.8"/>
+    <circle cx="148.5" cy="113.5" r="0.8" fill="#ffffff" opacity="0.8"/>
+    
+    <!-- Eyebrows -->
+    <path d="M100,106 Q110,102 120,105" fill="none" stroke="#2c1810" stroke-width="2.2" stroke-linecap="round" opacity="0.7"/>
+    <path d="M136,105 Q146,102 156,106" fill="none" stroke="#2c1810" stroke-width="2.2" stroke-linecap="round" opacity="0.7"/>
+    
+    <!-- Nose -->
+    <path d="M128,118 Q125,130 122,133 Q126,136 128,136 Q130,136 134,133 Q131,130 128,118" fill="#c49464" opacity="0.4"/>
+    
+    <!-- Mouth (slight smile) -->
+    <path d="M116,145 Q122,152 128,152 Q134,152 140,145" fill="none" stroke="#c49464" stroke-width="2" stroke-linecap="round"/>
+    
+    <!-- Beard -->
+    
+            <path d="M104,145 Q108,162 118,170 Q126,175 128,175 Q130,175 138,170 Q148,162 152,145 Q150,155 140,165 Q132,172 128,172 Q124,172 116,165 Q106,155 104,145Z" fill="#2c1810" opacity="0.5"/>
+            <path d="M98,135 Q96,148 102,160 Q108,168 115,172" fill="none" stroke="#2c1810" stroke-width="1.5" opacity="0.3"/>
+            <path d="M158,135 Q160,148 154,160 Q148,168 141,172" fill="none" stroke="#2c1810" stroke-width="1.5" opacity="0.3"/>
+        
+  </g>
+</svg>

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Outpulse — Voice Input Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #f2f1ee;
+    --text: #1a1a1a;
+    --muted: #6b6b6b;
+    --green: #7cc5a2;
+    --green-light: #e8f5ee;
+    --white: #ffffff;
+    --border: rgba(0,0,0,0.08);
+    --input-border: rgba(0,0,0,0.10);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card {
+    background: var(--white);
+    border-radius: 24px;
+    border: 1px solid var(--border);
+    padding: 48px;
+    max-width: 560px;
+    width: 100%;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+  }
+
+  .step-pill {
+    display: inline-block;
+    font-size: 13px;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    margin-bottom: 28px;
+    font-weight: 500;
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+
+  .textarea-wrap {
+    position: relative;
+    margin-bottom: 12px;
+  }
+
+  .textarea {
+    width: 100%;
+    height: 140px;
+    border-radius: 16px;
+    border: 1px solid var(--input-border);
+    padding: 18px 60px 18px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    color: var(--text);
+    line-height: 1.6;
+    resize: none;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background: var(--white);
+  }
+
+  .textarea::placeholder { color: #b5b5b5; }
+  .textarea:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(124,197,162,0.15); }
+  .textarea.listening { border-color: var(--green); box-shadow: 0 0 0 3px rgba(124,197,162,0.15); }
+
+  /* Mic button */
+  .mic-btn {
+    position: absolute;
+    bottom: 14px;
+    right: 14px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: var(--bg);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+
+  .mic-btn:hover { background: var(--green-light); }
+  .mic-btn:hover svg { color: var(--green); }
+
+  .mic-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    color: var(--muted);
+    transition: color 0.3s ease;
+  }
+
+  .mic-btn.listening {
+    background: var(--green-light);
+    animation: pulse-glow 1.5s ease-in-out infinite;
+  }
+  .mic-btn.listening svg { color: var(--green); }
+
+  .mic-btn.done {
+    background: var(--green-light);
+  }
+  .mic-btn.done svg { color: var(--green); }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 0 0px rgba(124,197,162,0.3); }
+    50% { box-shadow: 0 0 0 8px rgba(124,197,162,0.15); }
+  }
+
+  /* Listening label */
+  .listening-label {
+    position: absolute;
+    top: -28px;
+    right: 14px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--green);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .listening-label.visible { opacity: 1; }
+
+  /* Dots animation */
+  .dots {
+    display: inline;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .dots.visible { opacity: 1; }
+  .dots span {
+    animation: dot-blink 1.4s infinite;
+    font-size: 20px;
+    color: var(--muted);
+  }
+  .dots span:nth-child(2) { animation-delay: 0.2s; }
+  .dots span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes dot-blink {
+    0%, 60%, 100% { opacity: 0.2; }
+    30% { opacity: 1; }
+  }
+
+  /* Helper text row */
+  .helpers {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 32px;
+  }
+  .helper-hint { font-size: 13px; color: var(--muted); }
+  .helper-link { font-size: 13px; color: var(--green); text-decoration: none; font-weight: 500; cursor: pointer; }
+
+  /* AI Processing */
+  .ai-processing {
+    margin-bottom: 32px;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.5s ease, max-height 0.5s ease;
+  }
+  .ai-processing.visible { opacity: 1; max-height: 200px; }
+
+  .progress-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+  .progress-label { font-size: 14px; font-weight: 500; color: var(--text); white-space: nowrap; }
+  .progress-bar {
+    flex: 1;
+    height: 6px;
+    background: rgba(0,0,0,0.06);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--green);
+    border-radius: 3px;
+    transition: width 1.5s ease-out;
+  }
+  .prospect-count {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--green);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  .prospect-count.visible { opacity: 1; }
+
+  .ai-hint { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+  /* Tags */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .tag {
+    background: var(--green-light);
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 8px;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .tag.visible { opacity: 1; transform: translateY(0); }
+
+  /* Continue button */
+  .btn-continue {
+    width: 100%;
+    padding: 16px;
+    background: var(--text);
+    color: var(--white);
+    border: none;
+    border-radius: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .btn-continue:hover { opacity: 0.85; }
+
+  /* Cursor blink for typewriter */
+  .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 18px;
+    background: var(--green);
+    margin-left: 1px;
+    vertical-align: text-bottom;
+    animation: blink-cursor 0.6s step-end infinite;
+  }
+  @keyframes blink-cursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* Click prompt */
+  .click-prompt {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--green);
+    font-weight: 500;
+    animation: fade-pulse 2s ease-in-out infinite;
+  }
+  @keyframes fade-pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+  .click-prompt.hidden { display: none; }
+</style>
+</head>
+<body>
+
+<div style="width:100%;max-width:560px;">
+  <p class="click-prompt" id="click-prompt">Click the microphone to start the demo →</p>
+
+  <div class="card">
+    <span class="step-pill">1 of 3</span>
+    <h1>Who's your dream customer?</h1>
+    <p class="subtitle">Describe them like you'd tell a colleague. Our AI handles the rest.</p>
+
+    <div class="textarea-wrap">
+      <span class="listening-label" id="listening-label">Listening...</span>
+      <textarea class="textarea" id="textarea" placeholder="VPs of Sales at Series A SaaS companies in the US..." readonly></textarea>
+      <button class="mic-btn" id="mic-btn" title="Speak instead of typing">
+        <!-- Phosphor Microphone Duotone -->
+        <svg id="mic-icon" viewBox="0 0 256 256" fill="currentColor">
+          <path d="M128,176a48,48,0,0,0,48-48V64a48,48,0,0,0-96,0v64A48,48,0,0,0,128,176Z" opacity="0.2"/>
+          <path d="M128,176a48.05,48.05,0,0,0,48-48V64a48,48,0,0,0-96,0v64A48.05,48.05,0,0,0,128,176ZM96,64a32,32,0,0,1,64,0v64a32,32,0,0,1-64,0Zm40,143.6V232a8,8,0,0,1-16,0V207.6A80.11,80.11,0,0,1,48,128a8,8,0,0,1,16,0,64,64,0,0,0,128,0,8,8,0,0,1,16,0A80.11,80.11,0,0,1,136,207.6Z"/>
+        </svg>
+        <!-- Checkmark (hidden by default) -->
+        <svg id="check-icon" viewBox="0 0 256 256" fill="currentColor" style="display:none;">
+          <path d="M232,56V200a16,16,0,0,1-16,16H40a16,16,0,0,1-16-16V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56Z" opacity="0.2"/>
+          <path d="M205.66,85.66l-96,96a8,8,0,0,1-11.32,0l-40-40a8,8,0,0,1,11.32-11.32L104,164.69l90.34-90.35a8,8,0,0,1,11.32,11.32Z"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="helpers">
+      <span class="helper-hint">Be as specific as you want — industry, role, company size, location, tech stack</span>
+      <a class="helper-link">Prefer structured fields? →</a>
+    </div>
+
+    <div class="ai-processing" id="ai-processing">
+      <div class="progress-bar-wrap">
+        <span class="progress-label">Estimated prospect pool</span>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+        <span class="prospect-count" id="prospect-count">~2,340</span>
+      </div>
+      <p class="ai-hint">Based on your criteria. We recommend 500–2,000 for optimal results.</p>
+      <div class="tags" id="tags">
+        <span class="tag">VP of Sales</span>
+        <span class="tag">SaaS</span>
+        <span class="tag">Startups</span>
+        <span class="tag">United States</span>
+        <span class="tag">50–200 employees</span>
+      </div>
+    </div>
+
+    <button class="btn-continue">Continue →</button>
+  </div>
+</div>
+
+<script>
+  const textarea = document.getElementById('textarea');
+  const micBtn = document.getElementById('mic-btn');
+  const micIcon = document.getElementById('mic-icon');
+  const checkIcon = document.getElementById('check-icon');
+  const listeningLabel = document.getElementById('listening-label');
+  const aiProcessing = document.getElementById('ai-processing');
+  const progressFill = document.getElementById('progress-fill');
+  const prospectCount = document.getElementById('prospect-count');
+  const tags = document.querySelectorAll('.tag');
+  const clickPrompt = document.getElementById('click-prompt');
+
+  const targetText = "I want to reach VPs of Sales at SaaS startups in the US, 50 to 200 employees";
+
+  let state = 'idle'; // idle, listening, transcribing, done
+
+  micBtn.addEventListener('click', () => {
+    if (state !== 'idle') return;
+    startListening();
+  });
+
+  function startListening() {
+    state = 'listening';
+    clickPrompt.classList.add('hidden');
+
+    // Visual: listening state
+    micBtn.classList.add('listening');
+    textarea.classList.add('listening');
+    textarea.value = '';
+    textarea.placeholder = '';
+    listeningLabel.classList.add('visible');
+
+    // Wait 1.5s "listening", then start transcribing
+    setTimeout(() => {
+      startTranscribing();
+    }, 1800);
+  }
+
+  function startTranscribing() {
+    state = 'transcribing';
+    listeningLabel.textContent = 'Transcribing...';
+
+    let charIndex = 0;
+    const speed = 38; // ms per character
+
+    const interval = setInterval(() => {
+      if (charIndex < targetText.length) {
+        textarea.value = targetText.substring(0, charIndex + 1);
+        charIndex++;
+        // Scroll textarea to bottom if needed
+        textarea.scrollTop = textarea.scrollHeight;
+      } else {
+        clearInterval(interval);
+        finishTranscribing();
+      }
+    }, speed);
+  }
+
+  function finishTranscribing() {
+    state = 'done';
+
+    // Switch to checkmark
+    micBtn.classList.remove('listening');
+    micBtn.classList.add('done');
+    micIcon.style.display = 'none';
+    checkIcon.style.display = 'block';
+    listeningLabel.textContent = 'Done';
+
+    // Fade out listening label after 1s
+    setTimeout(() => {
+      listeningLabel.classList.remove('visible');
+      textarea.classList.remove('listening');
+    }, 1200);
+
+    // Show AI processing after 1.5s
+    setTimeout(() => {
+      showProcessing();
+    }, 1800);
+  }
+
+  function showProcessing() {
+    aiProcessing.classList.add('visible');
+
+    // Animate progress bar
+    setTimeout(() => {
+      progressFill.style.width = '72%';
+    }, 100);
+
+    // Show prospect count
+    setTimeout(() => {
+      prospectCount.classList.add('visible');
+    }, 1200);
+
+    // Show tags one by one
+    tags.forEach((tag, i) => {
+      setTimeout(() => {
+        tag.classList.add('visible');
+      }, 1600 + (i * 200));
+    });
+
+    // Reset after 8s so user can replay
+    setTimeout(() => {
+      resetDemo();
+    }, 10000);
+  }
+
+  function resetDemo() {
+    state = 'idle';
+    textarea.value = '';
+    textarea.placeholder = "VPs of Sales at Series A SaaS companies in the US...";
+    textarea.classList.remove('listening');
+    micBtn.classList.remove('listening', 'done');
+    micIcon.style.display = 'block';
+    checkIcon.style.display = 'none';
+    listeningLabel.textContent = 'Listening...';
+    listeningLabel.classList.remove('visible');
+    aiProcessing.classList.remove('visible');
+    progressFill.style.width = '0%';
+    prospectCount.classList.remove('visible');
+    tags.forEach(t => t.classList.remove('visible'));
+    clickPrompt.classList.remove('hidden');
+  }
+</script>
+
+</body>
+</html>
