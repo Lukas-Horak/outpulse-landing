@@ -524,59 +524,67 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
 .pm-wrap{position:relative;padding-bottom:10px}
 /* Stacked card behind */
 .pm-wrap::before{content:'';position:absolute;left:40px;right:40px;bottom:0;height:60px;border-radius:0 0 20px 20px;background:linear-gradient(160deg,#c5ddd0 0%,#b0cfbf 40%,#c5ddd0 100%);border:1px solid rgba(95,168,131,.12);border-top:none;opacity:.2;z-index:0}
-/* Main card — green liquid glass matching actual dashboard */
-.pm-card{position:relative;z-index:1;border-radius:24px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.04),0 12px 32px rgba(0,0,0,.06),0 8px 40px rgba(95,168,131,.15)}
-.pm-card-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 80% 60% at 20% 30%,rgba(95,168,131,.50) 0%,transparent 60%),radial-gradient(ellipse 60% 80% at 80% 70%,rgba(78,146,113,.30) 0%,transparent 50%),radial-gradient(ellipse 50% 50% at 50% 50%,rgba(95,168,131,.15) 0%,transparent 70%),linear-gradient(160deg,#e8f5ee 0%,#d4ece0 40%,#e8f5ee 100%)}
-.pm-card-inner{position:relative;z-index:1;padding:28px 32px 20px;border:1px solid rgba(95,168,131,.20);border-radius:24px;background:rgba(255,255,255,.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-.pm-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-.pm-label{font-family:var(--sans);font-size:11px;font-weight:600;color:var(--app-green-dark);text-transform:uppercase;letter-spacing:1.2px;opacity:.7}
-.pm-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#3d8b5e;background:rgba(255,255,255,.4);padding:4px 12px;border-radius:100px}
-.pm-dot{width:6px;height:6px;border-radius:50%;background:#5fa883;animation:pulse 2s ease-in-out infinite}
-.pm-hero{display:flex;align-items:center;gap:24px;margin-bottom:20px}
+/* Main card — vibrant green liquid glass matching actual dashboard */
+.pm-card{position:relative;z-index:1;border-radius:24px;overflow:hidden;isolation:isolate;box-shadow:0 12px 56px rgba(34,197,94,.28),0 4px 24px rgba(74,222,128,.18)}
+.pm-card-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 70% 80% at 25% 40%,rgba(74,222,128,.85) 0%,transparent 55%),radial-gradient(ellipse 60% 70% at 85% 75%,rgba(34,197,94,.55) 0%,transparent 55%),radial-gradient(ellipse 50% 50% at 50% 50%,rgba(134,239,172,.35) 0%,transparent 70%),linear-gradient(145deg,#f0fdf4 0%,#dcfce7 40%,#f0fdf4 100%);backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px)}
+.pm-card-bg::before{content:'';position:absolute;width:260px;height:260px;top:-60px;left:-40px;border-radius:50%;background:radial-gradient(circle,rgba(74,222,128,.75) 0%,transparent 70%);filter:blur(40px);animation:pmOrb1 8s ease-in-out infinite}
+.pm-card-bg::after{content:'';position:absolute;width:220px;height:220px;bottom:-50px;right:-40px;border-radius:50%;background:radial-gradient(circle,rgba(34,197,94,.55) 0%,transparent 70%);filter:blur(35px);animation:pmOrb2 10s ease-in-out infinite}
+@keyframes pmOrb1{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,20px) scale(1.1)}66%{transform:translate(-15px,30px) scale(.95)}}
+@keyframes pmOrb2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-25px,-15px) scale(1.08)}}
+.pm-card-inner{position:relative;z-index:1;padding:28px 32px 20px;border:1px solid rgba(34,197,94,.18);border-radius:24px;background:rgba(255,255,255,.30);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.pm-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.pm-label{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-size:11px;font-weight:700;color:#166534;text-transform:uppercase;letter-spacing:1.2px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.6);border:1px solid rgba(34,197,94,.25);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.pm-label-icon{color:#22c55e;filter:drop-shadow(0 0 4px rgba(74,222,128,.6))}
+.pm-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#166534;background:rgba(255,255,255,.6);border:1px solid rgba(34,197,94,.25);padding:6px 14px;border-radius:100px}
+.pm-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:pulse 2s ease-in-out infinite}
+.pm-hero{display:flex;align-items:center;gap:24px;margin-bottom:24px}
 .pm-hero-block{flex:1}
-.pm-big{font-family:'Instrument Serif',Georgia,serif;font-size:42px;font-weight:500;color:var(--app-text);line-height:1;letter-spacing:-1.5px}
-.pm-big-fade{color:rgba(0,0,0,.3);font-weight:400}
-.pm-goal-label{font-size:13px;color:rgba(0,0,0,.45);margin-top:4px}
+.pm-big{font-family:'Instrument Serif',Georgia,serif;font-size:60px;font-weight:500;color:var(--app-text);line-height:1;letter-spacing:-2px;white-space:nowrap}
+.pm-big-fade{color:rgba(0,0,0,.32);font-weight:400;font-size:38px;letter-spacing:-1px}
+.pm-goal-label{font-size:14px;color:rgba(0,0,0,.5);margin-top:8px;font-weight:500}
 .pm-divider{width:1px;height:56px;background:rgba(95,168,131,.20);flex-shrink:0}
 .pm-progress-wrap{height:8px;background:rgba(95,168,131,.1);border-radius:100px;overflow:hidden;margin-bottom:8px}
-.pm-progress-bar{height:100%;background:linear-gradient(90deg,#5fa883,#7cc4a0);border-radius:100px;width:0;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
-.pm-progress-meta{display:flex;justify-content:space-between;font-size:12px;color:rgba(0,0,0,.4);margin-bottom:20px}
-.pm-metrics{display:flex;align-items:center;padding:16px 0;border-top:1px solid rgba(95,168,131,.12);border-bottom:1px solid rgba(95,168,131,.12);margin-bottom:20px}
-.pm-metric{flex:1;text-align:center}
-.pm-metric-val{font-family:'Instrument Serif',Georgia,serif;font-size:26px;font-weight:500;color:var(--app-text);line-height:1.2;letter-spacing:-0.5px}
-.pm-metric-tgt{font-size:13px;color:rgba(0,0,0,.3);font-weight:400}
-.pm-metric-label{font-size:11px;color:rgba(0,0,0,.45);text-transform:uppercase;letter-spacing:.3px;margin-top:4px;font-weight:600}
-.pm-arrow{color:rgba(95,168,131,.35);flex-shrink:0;display:flex;align-items:center}
+.pm-progress-bar{height:100%;background:linear-gradient(90deg,#22c55e,#4ade80);border-radius:100px;width:0;transition:width 1.2s cubic-bezier(.22,1,.36,1);box-shadow:0 0 12px rgba(34,197,94,.3)}
+.pm-progress-meta{display:flex;justify-content:space-between;font-size:13px;color:rgba(0,0,0,.45);font-weight:600;margin-bottom:22px}
+.pm-metrics{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;align-items:center;gap:6px;margin-bottom:20px}
+.pm-metric{padding:20px 10px;border-radius:18px;background:rgba(255,255,255,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(34,197,94,.14);text-align:center;box-shadow:0 2px 12px rgba(34,197,94,.06)}
+.pm-metric-val{font-family:'Instrument Serif',Georgia,serif;font-size:40px;font-weight:500;color:var(--app-text);line-height:1;letter-spacing:-1.2px}
+.pm-metric-tgt{font-size:16px;color:rgba(0,0,0,.4);font-weight:400}
+.pm-metric-label{font-size:13px;color:rgba(0,0,0,.5);letter-spacing:.2px;margin-top:8px;font-weight:600}
+.pm-arrow{color:rgba(34,197,94,.35);flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .pm-footer{display:flex;align-items:center}
 .pm-footer-stat{flex:1;text-align:center}
-.pm-footer-label{font-size:11px;color:rgba(0,0,0,.35);margin-bottom:4px}
-.pm-footer-val{font-size:16px;font-weight:700;color:var(--app-text)}
-.pm-footer-val span{color:rgba(0,0,0,.3);font-weight:400;font-size:13px}
+.pm-footer-label{font-size:11px;color:rgba(0,0,0,.45);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.pm-footer-val{font-family:'Instrument Serif',Georgia,serif;font-size:30px;font-weight:500;color:var(--app-text);letter-spacing:-.8px;line-height:1}
+.pm-footer-val span{color:rgba(0,0,0,.4);font-weight:400;font-size:18px}
 .pm-footer-div{width:1px;height:32px;background:rgba(95,168,131,.12);flex-shrink:0}
 @media(max-width:768px){
   .pm-card{padding:0}
   .pm-card-inner{padding:24px 20px 20px}
   .pm-hero{flex-direction:column;gap:16px;align-items:flex-start}
   .pm-divider{width:100%;height:1px}
-  .pm-big{font-size:32px;letter-spacing:-0.5px}
-  .pm-big-fade{letter-spacing:0}
+  .pm-big{font-size:42px;letter-spacing:-1px}
+  .pm-big-fade{font-size:28px;letter-spacing:-.5px}
   .pm-goal-label{font-size:14px;margin-top:6px}
-  .pm-metrics{flex-wrap:wrap;gap:20px 0;padding:20px 0}
+  .pm-metrics{grid-template-columns:1fr 1fr;gap:10px}
   .pm-arrow{display:none}
-  .pm-metric{flex:0 0 50%}
-  .pm-metric-val{font-size:24px;letter-spacing:0.5px}
-  .pm-metric-label{font-size:10px;letter-spacing:1px;margin-top:6px}
+  .pm-metric-val{font-size:28px;letter-spacing:-.5px}
+  .pm-metric-tgt{font-size:13px}
+  .pm-metric-label{font-size:11px;letter-spacing:.5px;margin-top:6px}
   .pm-footer{flex-wrap:wrap;gap:16px 0;padding-top:8px}
   .pm-footer-div{display:none}
-  .pm-footer-stat{flex:0 0 50%}
-  .pm-footer-val{font-size:18px;letter-spacing:0.3px}
-  .pm-footer-label{font-size:12px;margin-bottom:6px}
+  .pm-footer-stat{flex:0 0 33%}
+  .pm-footer-val{font-size:22px;letter-spacing:-.3px}
+  .pm-footer-val span{font-size:14px}
+  .pm-footer-label{font-size:10px;margin-bottom:6px}
   .pm-wrap::before{left:24px;right:24px;height:40px}
   .pm-progress-meta{font-size:13px;margin-bottom:24px}
 }
 @media(max-width:480px){
-  .pm-big{font-size:24px}
-  .pm-metric-val{font-size:18px}
+  .pm-big{font-size:32px}
+  .pm-big-fade{font-size:22px}
+  .pm-metric-val{font-size:22px}
+  .pm-footer-val{font-size:18px}
   .pm-wrap::before{left:16px;right:16px}
 }
 
@@ -1299,7 +1307,7 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
             <div class="pm-card-bg"></div>
             <div class="pm-card-inner">
             <div class="pm-head">
-              <span class="pm-label">Your Pulse</span>
+              <span class="pm-label"><svg class="pm-label-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>Your Pulse</span>
               <span class="pm-badge"><span class="pm-dot"></span>On track</span>
             </div>
             <div class="pm-hero">
@@ -1325,19 +1333,19 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
                 <div class="pm-metric-val"><span class="pm-count" data-target="6840" data-format="comma">0</span></div>
                 <div class="pm-metric-label">Visits</div>
               </div>
-              <div class="pm-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="pm-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
               <div class="pm-metric">
                 <div class="pm-metric-val"><span class="pm-count" data-target="342" data-format="int">0</span></div>
                 <div class="pm-metric-label">Signups</div>
               </div>
-              <div class="pm-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="pm-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
               <div class="pm-metric">
                 <div class="pm-metric-val"><span class="pm-count" data-target="171" data-format="int">0</span></div>
                 <div class="pm-metric-label">Activated</div>
               </div>
-              <div class="pm-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="pm-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
               <div class="pm-metric">
-                <div class="pm-metric-val"><span class="pm-count" data-target="42" data-format="int">0</span></div>
+                <div class="pm-metric-val"><span class="pm-count" data-target="42" data-format="int">0</span><span class="pm-metric-tgt">/68</span></div>
                 <div class="pm-metric-label">Paying</div>
               </div>
             </div>
@@ -1360,6 +1368,11 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
               <div class="pm-footer-stat">
                 <div class="pm-footer-label">New paying</div>
                 <div class="pm-footer-val"><span class="pm-count" data-target="6" data-format="int">0</span></div>
+              </div>
+              <div class="pm-footer-div"></div>
+              <div class="pm-footer-stat">
+                <div class="pm-footer-label">Meetings booked</div>
+                <div class="pm-footer-val"><span class="pm-count" data-target="4" data-format="int">0</span></div>
               </div>
             </div>
             </div>
