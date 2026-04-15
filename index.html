@@ -521,12 +521,12 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
 .pulse-sec-title{font-family:var(--serif);font-style:normal;font-size:clamp(28px,3.8vw,44px);font-weight:500;letter-spacing:-0.02em;line-height:1.12;text-align:center;margin-bottom:14px}
 .pulse-sec-title em{font-style:italic;font-family:var(--serif);color:var(--g);font-weight:400}
 .pulse-sec-desc{font-size:16px;color:var(--text-s);text-align:center;max-width:520px;margin:0 auto 56px;line-height:1.7}
-.pm-wrap{position:relative;padding-bottom:22px}
-/* First stacked card behind — closer, slightly inset. All four corners rounded so the top
-   corners don't poke out at the bottom of the main card's 24px rounded corners. */
-.pm-wrap::before{content:'';position:absolute;left:40px;right:40px;bottom:12px;height:60px;border-radius:20px;background:linear-gradient(160deg,#c5ddd0 0%,#b0cfbf 40%,#c5ddd0 100%);border:1px solid rgba(95,168,131,.18);opacity:.45;z-index:0}
-/* Second stacked card behind — further inset, pushed back more */
-.pm-wrap::after{content:'';position:absolute;left:64px;right:64px;bottom:0;height:60px;border-radius:20px;background:linear-gradient(160deg,#c5ddd0 0%,#b0cfbf 40%,#c5ddd0 100%);border:1px solid rgba(95,168,131,.12);opacity:.25;z-index:0}
+.pm-wrap{position:relative;padding-bottom:40px}
+/* First stacked card behind — clearly visible, rounded all four corners so the peek region
+   shows proper curves that visually match the main card's 24px radius. */
+.pm-wrap::before{content:'';position:absolute;left:40px;right:40px;bottom:20px;height:60px;border-radius:24px;background:linear-gradient(160deg,#c5ddd0 0%,#b0cfbf 40%,#c5ddd0 100%);border:1px solid rgba(95,168,131,.22);opacity:.55;z-index:0}
+/* Second stacked card behind — further inset, pushed back deeper */
+.pm-wrap::after{content:'';position:absolute;left:72px;right:72px;bottom:0;height:60px;border-radius:24px;background:linear-gradient(160deg,#c5ddd0 0%,#b0cfbf 40%,#c5ddd0 100%);border:1px solid rgba(95,168,131,.15);opacity:.3;z-index:0}
 /* Main card — vibrant green liquid glass matching actual dashboard */
 .pm-card{position:relative;z-index:1;border-radius:24px;overflow:hidden;isolation:isolate;box-shadow:0 12px 56px rgba(34,197,94,.28),0 4px 24px rgba(74,222,128,.18)}
 .pm-card-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 70% 80% at 25% 40%,rgba(74,222,128,.85) 0%,transparent 55%),radial-gradient(ellipse 60% 70% at 85% 75%,rgba(34,197,94,.55) 0%,transparent 55%),radial-gradient(ellipse 50% 50% at 50% 50%,rgba(134,239,172,.35) 0%,transparent 70%),linear-gradient(145deg,#f0fdf4 0%,#dcfce7 40%,#f0fdf4 100%);backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px)}
@@ -558,8 +558,8 @@ footer{padding:36px 0;border-top:1px solid var(--border)}
 .pm-footer{display:flex;align-items:center}
 .pm-footer-stat{flex:1;text-align:center}
 .pm-footer-label{font-size:11px;color:rgba(0,0,0,.45);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
-.pm-footer-val{font-family:'Instrument Serif',Georgia,serif;font-size:40px;font-weight:500;color:var(--app-text);letter-spacing:-1.2px;line-height:1}
-.pm-footer-val span{color:rgba(0,0,0,.4);font-weight:400;font-size:24px;letter-spacing:-.4px}
+.pm-footer-val{font-family:'Instrument Serif',Georgia,serif;font-size:46px;font-weight:600;color:#0f1a10;letter-spacing:-1.4px;line-height:1}
+.pm-footer-val span{color:rgba(15,26,16,.55);font-weight:500;font-size:28px;letter-spacing:-.5px}
 .pm-footer-div{width:1px;height:32px;background:rgba(95,168,131,.12);flex-shrink:0}
 @media(max-width:768px){
   .pm-card{padding:0}
