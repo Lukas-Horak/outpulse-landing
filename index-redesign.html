@@ -268,55 +268,56 @@ img{max-width:100%;display:block}
   height:100vh;
   display:flex;align-items:flex-end;justify-content:center;
   padding:0 24px;
-  /* Initial (p=0): mockup sits well below the fold so it can't peek,
-     even on short laptop viewports where the browser content is taller
-     than the pin. Final (p=1): rests near top. The 135vh clearance
-     accounts for mockup overflow on ~720–900px tall laptops. */
-  transform:translateY(calc((1 - var(--p)) * 135vh + var(--p) * -8vh));
+  /* Both cards stay at their natural position — each one translates
+     itself vertically based on --p (see .mk-dashboard / .mk-form). */
   will-change:transform;
-}
-/* On short laptop viewports the mockup content exceeds the pin, so
-   cap it so nothing pokes above wrap. Lower rows simply get cropped —
-   the hero is about presenting the feature, not every prospect. */
-@media(max-height:900px){
-  .hero-mockup .browser{max-height:82vh;overflow:hidden}
-  .hero-mockup .app{min-height:auto}
-}
-@media(max-height:780px){
-  .hero-mockup .browser{max-height:76vh}
 }
 .hero-mockup{
   position:relative;
   width:100%;max-width:1180px;
-  /* Slight pop-in scale effect */
-  transform:scale(calc(.94 + var(--p) * .06));
-  transform-origin:bottom center;
-  filter:drop-shadow(0 30px 50px rgba(60,30,10,.18));
+  /* No scale; each card handles its own transform via --p. */
+}
+/* Per-card scroll-linked rise with staggered start:
+   • Form rises during --p: 0 → 0.55  (first in view)
+   • Dashboard rises during --p: 0.18 → 0.9  (follows, parallax offset)
+   Clamp ensures the cards stay at rest (translateY 0) once landed. */
+.mk-form{
+  --rise: clamp(0, var(--p) / 0.55, 1);
+  transform: translateY(calc((1 - var(--rise)) * 130vh));
+  will-change: transform;
+}
+.mk-dashboard{
+  --rise: clamp(0, (var(--p) - 0.18) / 0.72, 1);
+  transform: translateY(calc((1 - var(--rise)) * 145vh));
+  will-change: transform;
 }
 
-/* ── Split-layer hero mockup — dark dashboard (wide, behind) + white-on-dark
-   onboarding form (narrow, in front, overlapping left). Matches outpulse.ai
-   visual recipe but adapted to our type + spectrum tokens. */
+/* ── Split-layer hero mockup — WHITE dashboard (wide, behind) + white
+   form card (narrow, in front, overlapping left). Content text stays on
+   the light palette matching the rest of the landing page. */
 .mk-dashboard{
-  background:#14100f;
-  color:#fff;
-  border-radius:16px;
+  background:#fff;
+  color:var(--ink);
+  border-radius:18px;
   padding:24px 28px;
-  margin-left:340px;
+  margin-left:320px;
+  margin-top:34px;                         /* form peeks slightly higher */
   min-height:560px;
   display:flex;flex-direction:column;gap:18px;
-  box-shadow:0 40px 80px -16px rgba(10,6,2,.55),
-             inset 0 1px 0 rgba(255,255,255,.04);
+  border:1px solid var(--line);
+  box-shadow:
+    0 40px 80px -18px rgba(14,13,12,.22),
+    0 12px 28px -10px rgba(14,13,12,.1);
   position:relative;z-index:1;
 }
 .mk-db-head{display:flex;align-items:center;justify-content:space-between;gap:14px}
-.mk-db-title{font-family:var(--serif);font-weight:400;font-size:22px;color:#fff;margin:0}
+.mk-db-title{font-family:var(--serif);font-weight:400;font-size:22px;color:var(--ink);margin:0}
 .mk-db-count{
   display:inline-flex;align-items:center;gap:8px;
   padding:7px 14px;border-radius:999px;
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.08);
-  font-size:12px;color:rgba(255,255,255,.8);font-weight:500;
+  background:#fbfaf7;
+  border:1px solid var(--line);
+  font-size:12px;color:var(--ink-2);font-weight:500;
 }
 .mk-ring{
   width:10px;height:10px;border-radius:50%;
@@ -331,37 +332,37 @@ img{max-width:100%;display:block}
 .mk-db-filters{display:flex;flex-wrap:wrap;gap:8px}
 .mk-db-filters .filt{
   padding:7px 14px;border-radius:999px;
-  background:rgba(255,255,255,.035);
-  border:1px solid rgba(255,255,255,.08);
-  color:rgba(255,255,255,.58);
+  background:#fbfaf7;
+  border:1px solid var(--line);
+  color:var(--muted);
   font-size:12px;font-weight:500;
   display:inline-flex;align-items:center;gap:7px;
   transition:background .35s ease,border-color .35s ease,color .35s ease;
 }
 .mk-db-filters .filt .d{
-  width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.3);
+  width:5px;height:5px;border-radius:50%;background:var(--muted-2);
   transition:background .35s ease;
 }
 .mk-db-filters .filt.active{
-  background:rgba(255,91,31,.13);
-  border-color:rgba(255,91,31,.32);
-  color:#ffb38a;
+  background:#fff5ec;
+  border-color:#ffd9b8;
+  color:#d04c14;
 }
 .mk-db-filters .filt.active .d{background:var(--orange)}
 
 .mk-db-cols{
   display:grid;grid-template-columns:1.7fr 1fr 1.4fr 1.1fr;
-  gap:14px;padding:10px 0 12px;
-  border-bottom:1px solid rgba(255,255,255,.06);
+  gap:14px;padding:12px 0 14px;
+  border-bottom:1px solid var(--line);
   font-size:10px;font-weight:700;letter-spacing:.16em;
-  text-transform:uppercase;color:rgba(255,255,255,.38);
+  text-transform:uppercase;color:var(--muted-2);
 }
 .mk-db-rows{display:flex;flex-direction:column}
 .mk-db-rows .prow{
   display:grid;grid-template-columns:1.7fr 1fr 1.4fr 1.1fr;gap:14px;
   align-items:center;padding:13px 0;
-  border-bottom:1px solid rgba(255,255,255,.04);
-  font-size:13px;color:rgba(255,255,255,.88);
+  border-bottom:1px solid var(--line);
+  font-size:13px;color:var(--ink);
   opacity:0;transform:translateY(10px);
   transition:opacity .5s ease,transform .5s ease;
 }
@@ -370,57 +371,58 @@ img{max-width:100%;display:block}
 .mk-cell-name{display:flex;align-items:center;gap:10px;min-width:0}
 .mk-cell-name .av{
   width:30px;height:30px;border-radius:8px;flex-shrink:0;
-  background:rgba(255,91,31,.16);color:#ffb38a;
+  background:#fff5ec;color:var(--orange);
   display:flex;align-items:center;justify-content:center;
   font-size:11px;font-weight:600;
 }
-.mk-cell-name strong{display:block;font-weight:500;color:#fff;font-size:13px;line-height:1.15}
-.mk-cell-name em{display:block;font-style:normal;color:rgba(255,255,255,.48);font-size:11.5px;line-height:1.25;margin-top:2px}
-.mk-email{color:rgba(255,255,255,.5);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mk-cell-name strong{display:block;font-weight:600;color:var(--ink);font-size:13px;line-height:1.15}
+.mk-cell-name em{display:block;font-style:normal;color:var(--muted);font-size:11.5px;line-height:1.25;margin-top:2px}
+.mk-email{color:var(--muted);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mk-sig{
   display:inline-flex;align-items:center;
   padding:5px 11px;border-radius:999px;
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.1);
-  color:rgba(255,255,255,.72);
+  background:#fbfaf7;
+  border:1px solid var(--line-2);
+  color:var(--ink-2);
   font-size:11.5px;font-weight:500;
   justify-self:start;white-space:nowrap;
 }
 .mk-sig.warm{
-  background:rgba(255,91,31,.11);
-  border-color:rgba(255,91,31,.25);
-  color:#ffb38a;
+  background:#fff5ec;
+  border-color:#ffd9b8;
+  color:#d04c14;
 }
 
 /* ── Form card (in front, left, overlapping dashboard) */
 .mk-form{
   position:absolute;top:0;left:0;
   width:360px;
-  background:#1a1714;
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:16px;
-  padding:24px 22px;
-  color:#fff;
-  box-shadow:0 30px 70px -14px rgba(0,0,0,.6),
-             inset 0 1px 0 rgba(255,255,255,.04);
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:26px 24px;
+  color:var(--ink);
+  box-shadow:
+    0 30px 70px -14px rgba(14,13,12,.18),
+    0 8px 22px -8px rgba(14,13,12,.08);
   z-index:2;
   display:flex;flex-direction:column;gap:14px;
 }
 .mk-f-title{
-  font-family:var(--serif);font-weight:400;font-size:20px;color:#fff;
+  font-family:var(--serif);font-weight:400;font-size:20px;color:var(--ink);
   text-align:center;margin:0 0 6px;
 }
 .mk-f-field{position:relative;display:flex;flex-direction:column;gap:6px}
 .mk-f-field label{
   font-size:10px;font-weight:700;letter-spacing:.18em;
-  text-transform:uppercase;color:rgba(255,255,255,.42);
+  text-transform:uppercase;color:var(--muted);
 }
 .mk-f-input,.mk-f-area{
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:8px;
+  background:#fbfaf7;
+  border:1px solid var(--line);
+  border-radius:10px;
   padding:10px 12px;
-  font-family:var(--sans);font-size:13px;color:#fff;
+  font-family:var(--sans);font-size:13px;color:var(--ink);
   min-height:38px;
   display:flex;align-items:center;
 }
@@ -428,18 +430,18 @@ img{max-width:100%;display:block}
 .mk-f-input-url{gap:8px}
 .mk-url-dot{
   width:8px;height:8px;border-radius:50%;
-  background:#9a9289;flex-shrink:0;
+  background:var(--muted-2);flex-shrink:0;
   transition:background .4s ease,box-shadow .4s ease;
 }
 .mk-url-dot.analyzed{
-  background:#22c55e;
-  box-shadow:0 0 0 3px rgba(34,197,94,.18);
+  background:#1a7c4b;
+  box-shadow:0 0 0 3px rgba(26,124,75,.18);
 }
-.mk-url-text{color:#fff;font-size:13px}
+.mk-url-text{color:var(--ink);font-size:13px}
 .mk-f-status{
   display:none;align-items:center;gap:5px;
   position:absolute;top:0;right:0;
-  font-size:10.5px;color:rgba(255,255,255,.55);font-weight:500;
+  font-size:10.5px;color:var(--muted);font-weight:500;
   letter-spacing:.04em;
 }
 .mk-f-status::before{
@@ -447,15 +449,15 @@ img{max-width:100%;display:block}
   background:var(--orange);animation:mkBlink 1.2s ease-out infinite;
 }
 .mk-f-status.visible{display:inline-flex}
-.mk-f-status.done{color:#22c55e}
-.mk-f-status.done::before{background:#22c55e;animation:none;box-shadow:0 0 0 3px rgba(34,197,94,.18)}
+.mk-f-status.done{color:#1a7c4b}
+.mk-f-status.done::before{background:#1a7c4b;animation:none;box-shadow:0 0 0 3px rgba(26,124,75,.18)}
 @keyframes mkBlink{50%{opacity:.3}}
 
 .mk-f-sep{
   text-align:center;
-  font-family:var(--serif);font-weight:400;font-size:15px;color:#fff;
+  font-family:var(--serif);font-weight:400;font-size:15px;color:var(--ink);
   padding:12px 0 2px;margin:6px 0 2px;
-  border-top:1px solid rgba(255,255,255,.07);
+  border-top:1px solid var(--line);
 }
 
 /* Typewriter caret on the field currently being typed */
