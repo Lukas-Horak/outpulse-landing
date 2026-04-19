@@ -752,52 +752,69 @@ h1.display em{
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
 
-/* Intent chip cloud — each chip rises from below with a staggered
-   entry when the band scrolls into view. Mixed sizes create the
-   cloud feel; warm / cool / neutral tints reference the brand
-   spectrum without swamping the whitespace. */
+/* Sticky-pin personalization band — scroll-linked chip reveal, same
+   mechanic as the comparison section. The headline pins, 12 intent
+   chips rise one at a time as the user scrolls. Release after all
+   chips are in view. */
+.chip-pin{
+  position:relative;
+  height:220vh;            /* 120vh of scroll to reveal chips */
+  background:#fff;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.chip-pin-inner{
+  position:sticky;top:0;
+  height:100vh;
+  width:100%;
+  overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:clamp(80px,10vh,120px) 28px;
+  --pp:0;
+}
+.chip-pin-inner::before{
+  content:"";position:absolute;inset:auto 0 -20% 0;height:60%;
+  background:radial-gradient(60% 100% at 50% 100%,rgba(255,138,76,.07),transparent 70%);
+  pointer-events:none;
+}
+.chip-pin-head{
+  position:relative;z-index:1;text-align:center;max-width:900px;margin:0 auto;
+}
 .chip-cloud{
   position:relative;z-index:1;
   display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
-  gap:10px 14px;max-width:920px;margin:56px auto 0;
+  gap:12px 14px;max-width:960px;margin:48px auto 0;
 }
 .chip{
   display:inline-flex;align-items:center;gap:8px;
   font-family:var(--sans);background:#fff;color:var(--ink-2);
   border:1px solid var(--line-2);border-radius:999px;
-  opacity:0;transform:translateY(36px);
-  transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
   white-space:nowrap;
+  --sp:0;
+  opacity:var(--sp);
+  transform:translateY(calc((1 - var(--sp)) * 36px)) scale(calc(.86 + var(--sp) * .14));
+  transform-origin:center bottom;
+  will-change:transform,opacity;
+  transition:box-shadow .25s ease,border-color .25s ease;
 }
 .chip .dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
 .chip.sm{font-size:12px;padding:6px 14px;font-weight:500}
-.chip.md{font-size:14px;padding:8px 18px;font-weight:500}
-.chip.lg{font-size:17px;padding:10px 22px;font-weight:600}
-.chip.xl{font-size:20px;padding:12px 28px;font-weight:600;letter-spacing:-.005em}
+.chip.md{font-size:14px;padding:9px 20px;font-weight:500}
+.chip.lg{font-size:17px;padding:11px 24px;font-weight:600}
+.chip.xl{font-size:20px;padding:13px 30px;font-weight:600;letter-spacing:-.005em}
 .chip.warm{background:#fff5ec;color:#d04c14;border-color:#ffd9b8}
 .chip.cool{background:#eaf2fb;color:#3866a6;border-color:#c8dcf0}
 .chip.ink{background:var(--ink);color:#fff;border-color:var(--ink)}
-.chip:hover{transform:translateY(-3px);box-shadow:0 10px 22px -12px rgba(14,13,12,.22);border-color:currentColor}
-.band.chips-in .chip{animation:chipUp .75s cubic-bezier(.2,.8,.2,1) forwards}
-.band.chips-in .chip:nth-child(1){animation-delay:.00s}
-.band.chips-in .chip:nth-child(2){animation-delay:.05s}
-.band.chips-in .chip:nth-child(3){animation-delay:.10s}
-.band.chips-in .chip:nth-child(4){animation-delay:.16s}
-.band.chips-in .chip:nth-child(5){animation-delay:.22s}
-.band.chips-in .chip:nth-child(6){animation-delay:.28s}
-.band.chips-in .chip:nth-child(7){animation-delay:.34s}
-.band.chips-in .chip:nth-child(8){animation-delay:.40s}
-.band.chips-in .chip:nth-child(9){animation-delay:.46s}
-.band.chips-in .chip:nth-child(10){animation-delay:.52s}
-.band.chips-in .chip:nth-child(11){animation-delay:.58s}
-.band.chips-in .chip:nth-child(12){animation-delay:.64s}
-.band.chips-in .chip:nth-child(13){animation-delay:.70s}
-.band.chips-in .chip:nth-child(14){animation-delay:.76s}
-.band.chips-in .chip:nth-child(15){animation-delay:.82s}
-.band.chips-in .chip:nth-child(n+16){animation-delay:.88s}
-@keyframes chipUp{to{opacity:1;transform:translateY(0)}}
+.chip:hover{box-shadow:0 10px 22px -12px rgba(14,13,12,.22);border-color:currentColor}
+
+@media(max-height:900px){
+  .chip-pin{height:200vh}
+  .chip-cloud{gap:10px 12px;max-width:880px}
+}
 @media(prefers-reduced-motion:reduce){
-  .chip{opacity:1;transform:none}
+  .chip-pin{height:auto}
+  .chip-pin-inner{position:relative;height:auto}
+  .chip{--sp:1 !important}
 }
 
 /* ─────────────────────────────────────── STATS strip (white, between gradient stages) */
@@ -1594,28 +1611,29 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   </div>
 </section>
 
-<!-- ═══════════════════ BAND — transition statement + intent cloud ═══════════════════ -->
-<section class="band" data-chip-band>
-  <div class="band-inner">
-    <span class="band-eyebrow">Personalization</span>
-    <h2 class="band-h">Every email is <em>one-of-one</em>.<br>Written just for them.</h2>
-    <div class="chip-cloud" data-chip-cloud aria-hidden="true">
+<!-- ═══════════════════ BAND — sticky-pin statement + intent cloud ═══════════════════
+     Mirrors the comparison section mechanic: the headline pins while
+     12 intent chips rise one-by-one as the user scrolls. Once all
+     chips are in, the pin releases and scrolling continues naturally. -->
+<section class="chip-pin" data-chip-pin>
+  <div class="chip-pin-inner">
+    <div class="chip-pin-head">
+      <span class="band-eyebrow">Personalization</span>
+      <h2 class="band-h">Every email is <em>one-of-one</em>.<br>Written just for them.</h2>
+    </div>
+    <div class="chip-cloud" aria-hidden="true">
       <span class="chip md"><span class="dot"></span>Hiring 12 roles</span>
       <span class="chip lg warm"><span class="dot"></span>Just raised $50M</span>
-      <span class="chip sm">Opened Tokyo office</span>
       <span class="chip md cool"><span class="dot"></span>New CTO · 2 weeks</span>
       <span class="chip xl warm"><span class="dot"></span>Expanding to EU</span>
-      <span class="chip sm cool">IPO filed</span>
       <span class="chip md"><span class="dot"></span>Product launch · Q2</span>
       <span class="chip lg ink"><span class="dot"></span>Acquired Linear</span>
       <span class="chip sm warm">Migrated off Salesforce</span>
       <span class="chip md cool"><span class="dot"></span>Growing 140% YoY</span>
       <span class="chip lg warm"><span class="dot"></span>Leadership change</span>
-      <span class="chip sm">Partnered with Stripe</span>
+      <span class="chip sm">Opened Tokyo office</span>
       <span class="chip md"><span class="dot"></span>Posted 8 senior jobs</span>
-      <span class="chip sm cool">SOC 2 certified</span>
       <span class="chip md warm"><span class="dot"></span>Series C · $120M</span>
-      <span class="chip sm">Rebranding launched</span>
     </div>
   </div>
 </section>
@@ -2080,21 +2098,59 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   obs.observe(mockup);
 })();
 
-/* ─── Intent chip cloud — trigger once visible ─── */
+/* ─── Intent chip sticky-pin scroll driver ─────────────────────────────
+   Same mechanic as the comparison section: the inner pin sticks, the
+   outer section is tall, and scroll progress feeds each chip its own
+   0→1 window so chips rise one after another before the pin releases. */
 (function(){
-  const band = document.querySelector('[data-chip-band]');
-  if (!band) return;
+  const section = document.querySelector('[data-chip-pin]');
+  if (!section) return;
+  const pin = section.querySelector('.chip-pin-inner');
+  const chips = Array.from(section.querySelectorAll('.chip'));
+  if (!pin || chips.length === 0) return;
+
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-  if (reduce.matches){ band.classList.add('chips-in'); return; }
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting){
-        band.classList.add('chips-in');
-        obs.disconnect();
-      }
-    });
-  }, { threshold: 0.35 });
-  obs.observe(band);
+  if (reduce.matches){
+    chips.forEach(c => c.style.setProperty('--sp', '1'));
+    return;
+  }
+
+  // Assign each chip a window on the pin's 0→1 progress
+  const endAt = 0.88;                      // all chips done by 88%
+  const stepWidth = endAt / chips.length;  // progress per chip
+  const windowSize = Math.min(stepWidth * 1.8, 0.14); // chip reveal length
+  chips.forEach((c, i) => {
+    const start = i * stepWidth;
+    c.dataset.start = start.toFixed(4);
+    c.dataset.end = Math.min(1, start + windowSize).toFixed(4);
+  });
+
+  let ticking = false;
+  function update(){
+    ticking = false;
+    const rect = section.getBoundingClientRect();
+    const total = section.offsetHeight - window.innerHeight;
+    if (total <= 0) return;
+    let pp = -rect.top / total;
+    pp = Math.max(0, Math.min(1, pp));
+    pin.style.setProperty('--pp', pp.toFixed(4));
+    for (const c of chips){
+      const s = parseFloat(c.dataset.start);
+      const e = parseFloat(c.dataset.end);
+      const range = e - s;
+      let sp = range <= 0 ? (pp >= s ? 1 : 0) : (pp - s) / range;
+      sp = Math.max(0, Math.min(1, sp));
+      // out-cubic for a soft settle
+      const eased = 1 - Math.pow(1 - sp, 3);
+      c.style.setProperty('--sp', eased.toFixed(4));
+    }
+  }
+  function onScroll(){
+    if (!ticking){ requestAnimationFrame(update); ticking = true; }
+  }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  window.addEventListener('resize', onScroll, { passive:true });
+  update();
 })();
 
 /* ─── Comparison split-screen scroll driver ─── */
