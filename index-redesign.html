@@ -357,10 +357,25 @@ img{max-width:100%;display:block}
 }
 .mk-main{
   background:#fff;
-  padding:22px 26px;
+  padding:22px 26px 0;
   display:flex;flex-direction:column;gap:16px;
   min-width:0;
+  /* Lock pane height so the rows scroll inside instead of blowing the
+     browser window up. Works with the grid-stack body to keep the
+     skeleton and populated states at the same height. */
+  max-height:620px;
+  overflow:hidden;
 }
+.mk-main > .mk-db-head,
+.mk-main > .mk-db-filters,
+.mk-main > .mk-db-cols{flex-shrink:0}
+.mk-main > .mk-db-body{
+  flex:1;min-height:0;
+  overflow-y:auto;
+  padding-bottom:36px;                     /* room for the fade-out */
+  scrollbar-width:none;                    /* Firefox */
+}
+.mk-main > .mk-db-body::-webkit-scrollbar{width:0;height:0;display:none}
 .mk-db-head{display:flex;align-items:center;justify-content:space-between;gap:14px}
 .mk-db-title{font-family:var(--serif);font-weight:400;font-size:21px;color:var(--ink);margin:0}
 .mk-db-sub{color:var(--muted);font-weight:400;font-size:14px;letter-spacing:.005em}
@@ -1530,9 +1545,17 @@ h1.display em{
 .final{padding:120px 28px;text-align:center;background:#fff}
 .final-card{
   max-width:1180px;margin:0 auto;
-  /* Same Leonard-style lavender base as the hero pin */
-  background:linear-gradient(125deg,
-    #cdc1cd 0%,#c2b6cc 25%,#b8b2c8 45%,#b4b8cc 65%,#b6c5d8 100%);
+  /* Stacked radial gradients reproduce the hero composition directly
+     on the card: orange TR pop, blue BL pop, violet wash, pink accent,
+     lavender base underneath. No blur, no z-index tricks — just layer
+     order. Orange and blue dominate the corners instead of a single
+     violet wash covering the whole card. */
+  background:
+    radial-gradient(60% 90% at 92% 0%, #ff4a17 0%, #ff7a3d 22%, #ffa370 42%, rgba(255,163,112,0) 70%),
+    radial-gradient(65% 80% at 8% 100%, #5e8bbf 0%, #8db8d8 28%, #bcd6e8 50%, rgba(188,214,232,0) 75%),
+    radial-gradient(45% 50% at 62% 38%, rgba(196,152,168,.5) 0%, rgba(180,138,162,.18) 45%, transparent 70%),
+    radial-gradient(70% 55% at 45% 60%, rgba(93,79,124,.28) 0%, rgba(130,116,158,.12) 40%, transparent 72%),
+    linear-gradient(125deg, #cdc1cd 0%, #c2b6cc 25%, #b8b2c8 45%, #b4b8cc 65%, #b6c5d8 100%);
   border-radius:32px;
   padding:120px 48px;color:#fff;position:relative;overflow:hidden;
 }
@@ -1621,15 +1644,22 @@ h1.display em{
 .final-card>*{position:relative;z-index:1}
 .final-card h2{
   font-family:var(--serif);font-weight:400;
-  font-size:clamp(38px,min(6.5vw,9vh),92px);line-height:1;letter-spacing:-.02em;
-  margin-bottom:20px;
+  font-size:clamp(38px,min(6.5vw,9vh),92px);
+  /* Bumped line-height + tiny padding so italic descenders and the
+     trailing "?" don't clip against the card's overflow:hidden. */
+  line-height:1.12;letter-spacing:-.02em;
+  margin-bottom:20px;padding:0 .05em;
   color:#fff;
   text-shadow:0 2px 30px rgba(30,20,50,.25);
 }
 .final-card h2 em{
   font-style:italic;
-  background:linear-gradient(95deg,#ff5b1f 0%,#ff7a3d 60%,#ffa06a 100%);
+  background:linear-gradient(95deg,#ff5b1f 0%,#ff7a3d 55%,#ffa06a 100%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
+  /* Inline-block + extra padding keeps the italic "?" and the top of
+     the ascenders painted even with background-clip:text. */
+  display:inline-block;padding:0 .08em .06em;
+  line-height:1.12;
 }
 .final-card p{font-size:17px;color:rgba(255,255,255,.92);max-width:520px;margin:0 auto 32px;text-shadow:0 1px 20px rgba(30,20,50,.2)}
 /* Button inside the card — flat white pill, NO orange shadow or glow. */
@@ -1878,42 +1908,30 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
                 </div>
 
                 <div class="mk-db-rows">
-                  <div class="prow">
-                    <div class="mk-cell-name"><span class="av">SC</span><span><strong>Sarah Chen</strong><em>VP Engineering</em></span></div>
-                    <div>Vercel</div>
-                    <div class="mk-email">s.chen@vercel.com</div>
-                    <span class="mk-sig warm">Hiring 12 roles</span>
-                  </div>
-                  <div class="prow">
-                    <div class="mk-cell-name"><span class="av">MW</span><span><strong>Marcus Webb</strong><em>CTO</em></span></div>
-                    <div>Linear</div>
-                    <div class="mk-email">marcus@linear.app</div>
-                    <span class="mk-sig">Raised $35M</span>
-                  </div>
-                  <div class="prow">
-                    <div class="mk-cell-name"><span class="av">AK</span><span><strong>Anna Kovacs</strong><em>Head of Product</em></span></div>
-                    <div>Stripe</div>
-                    <div class="mk-email">a.kovacs@stripe.com</div>
-                    <span class="mk-sig warm">Expanding · EU</span>
-                  </div>
-                  <div class="prow">
-                    <div class="mk-cell-name"><span class="av">RP</span><span><strong>Rachel Park</strong><em>VP Sales</em></span></div>
-                    <div>Ramp</div>
-                    <div class="mk-email">rachel@ramp.com</div>
-                    <span class="mk-sig">Raised $100M</span>
-                  </div>
-                  <div class="prow">
-                    <div class="mk-cell-name"><span class="av">DK</span><span><strong>David Kim</strong><em>CTO</em></span></div>
-                    <div>Webflow</div>
-                    <div class="mk-email">david@webflow.com</div>
-                    <span class="mk-sig warm">Hiring 8 roles</span>
-                  </div>
-                  <div class="prow">
-                    <div class="mk-cell-name"><span class="av">LP</span><span><strong>Lisa Park</strong><em>VP Ops</em></span></div>
-                    <div>Figma</div>
-                    <div class="mk-email">lisa@figma.com</div>
-                    <span class="mk-sig">New role · 2w</span>
-                  </div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">SC</span><span><strong>Sarah Chen</strong><em>VP Engineering</em></span></div><div>Vercel</div><div class="mk-email">s.chen@vercel.com</div><span class="mk-sig warm">Hiring 12 roles</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">MW</span><span><strong>Marcus Webb</strong><em>CTO</em></span></div><div>Linear</div><div class="mk-email">marcus@linear.app</div><span class="mk-sig">Raised $35M</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">AK</span><span><strong>Anna Kovacs</strong><em>Head of Product</em></span></div><div>Stripe</div><div class="mk-email">a.kovacs@stripe.com</div><span class="mk-sig warm">Expanding · EU</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">RP</span><span><strong>Rachel Park</strong><em>VP Sales</em></span></div><div>Ramp</div><div class="mk-email">rachel@ramp.com</div><span class="mk-sig">Raised $100M</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">DK</span><span><strong>David Kim</strong><em>CTO</em></span></div><div>Webflow</div><div class="mk-email">david@webflow.com</div><span class="mk-sig warm">Hiring 8 roles</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">LP</span><span><strong>Lisa Park</strong><em>VP Ops</em></span></div><div>Figma</div><div class="mk-email">lisa@figma.com</div><span class="mk-sig">New role · 2w</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">EL</span><span><strong>Eva Lang</strong><em>CFO</em></span></div><div>Deel</div><div class="mk-email">eva@deel.com</div><span class="mk-sig warm">Opened 3 offices</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">AW</span><span><strong>Amanda Walsh</strong><em>VP Eng</em></span></div><div>Loom</div><div class="mk-email">amanda@loom.com</div><span class="mk-sig">Migrating to AWS</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">JL</span><span><strong>James Liu</strong><em>Founder</em></span></div><div>Notion</div><div class="mk-email">james@notion.so</div><span class="mk-sig warm">Hiring 5 roles</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">NG</span><span><strong>Nina Garcia</strong><em>Head of Growth</em></span></div><div>Supabase</div><div class="mk-email">nina@supabase.io</div><span class="mk-sig warm">Series B · $80M</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">TH</span><span><strong>Tom Heller</strong><em>CTO</em></span></div><div>Replit</div><div class="mk-email">tom@replit.com</div><span class="mk-sig">AI product · Q2</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">OP</span><span><strong>Omar Patel</strong><em>VP Marketing</em></span></div><div>Raycast</div><div class="mk-email">omar@raycast.com</div><span class="mk-sig warm">Hiring 7 roles</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">PR</span><span><strong>Priya Raman</strong><em>Head of Product</em></span></div><div>Sentry</div><div class="mk-email">priya@sentry.io</div><span class="mk-sig">Expanding · APAC</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">DF</span><span><strong>Daniel Frost</strong><em>VP Sales</em></span></div><div>Datadog</div><div class="mk-email">daniel@datadoghq.com</div><span class="mk-sig warm">New VP · 4 weeks</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">HM</span><span><strong>Hannah Moreno</strong><em>CPO</em></span></div><div>Retool</div><div class="mk-email">hannah@retool.com</div><span class="mk-sig">Raised $45M</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">SK</span><span><strong>Sam Kowalski</strong><em>CTO</em></span></div><div>Cursor</div><div class="mk-email">sam@cursor.sh</div><span class="mk-sig warm">Hiring 20 roles</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">RV</span><span><strong>Ruby Vance</strong><em>VP Eng</em></span></div><div>Mixpanel</div><div class="mk-email">ruby@mixpanel.com</div><span class="mk-sig">New role · 5d</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">QB</span><span><strong>Quentin Blake</strong><em>CFO</em></span></div><div>Calendly</div><div class="mk-email">q.blake@calendly.com</div><span class="mk-sig warm">Series C · $150M</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">UK</span><span><strong>Uma Krishna</strong><em>Head of Digital</em></span></div><div>Airtable</div><div class="mk-email">uma@airtable.com</div><span class="mk-sig">Growing 180% YoY</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">VM</span><span><strong>Vera Morales</strong><em>Director of Eng</em></span></div><div>Netlify</div><div class="mk-email">vera@netlify.com</div><span class="mk-sig warm">Acquired · $90M</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">WC</span><span><strong>Wesley Cho</strong><em>Chief of Staff</em></span></div><div>Anthropic</div><div class="mk-email">wes@anthropic.com</div><span class="mk-sig warm">Hiring 30 roles</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">XF</span><span><strong>Xander Finch</strong><em>VP Product</em></span></div><div>Perplexity</div><div class="mk-email">xander@perplexity.ai</div><span class="mk-sig">Product launch · Q3</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">YT</span><span><strong>Yuki Tanaka</strong><em>Head of Ops</em></span></div><div>Canva</div><div class="mk-email">yuki@canva.com</div><span class="mk-sig warm">Opened Tokyo office</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">ZA</span><span><strong>Zain Ahmed</strong><em>CTO</em></span></div><div>Grammarly</div><div class="mk-email">zain@grammarly.com</div><span class="mk-sig">Tech stack change</span></div>
                 </div>
               </div>
             </div>
