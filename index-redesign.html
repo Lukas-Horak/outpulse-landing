@@ -416,18 +416,21 @@ img{max-width:100%;display:block}
   color:var(--muted);
   font-size:12px;font-weight:500;
   display:inline-flex;align-items:center;gap:7px;
-  transition:background .35s ease,border-color .35s ease,color .35s ease;
+  opacity:.5;
+  transition:opacity .35s ease,transform .35s ease;
 }
+.mk-db-filters .filt.active{opacity:1}
 .mk-db-filters .filt .d{
-  width:5px;height:5px;border-radius:50%;background:var(--muted-2);
-  transition:background .35s ease;
+  width:5px;height:5px;border-radius:50%;background:currentColor;
 }
-.mk-db-filters .filt.active{
-  background:#fff5ec;
-  border-color:#ffd9b8;
-  color:#d04c14;
-}
-.mk-db-filters .filt.active .d{background:var(--orange)}
+/* Colour-coded filter families — each intent type gets its own tint
+   pulled from the detected-chips palette below, so signal categories
+   stay visually distinct. */
+.mk-db-filters .filt.c-orange{background:rgba(255,91,31,.11);border-color:rgba(255,91,31,.25);color:#d04c14}
+.mk-db-filters .filt.c-green {background:rgba(26,124,75,.1); border-color:rgba(26,124,75,.22); color:#1a7c4b}
+.mk-db-filters .filt.c-blue  {background:rgba(56,102,166,.1);border-color:rgba(56,102,166,.22);color:#3866a6}
+.mk-db-filters .filt.c-purple{background:rgba(124,93,174,.12);border-color:rgba(124,93,174,.25);color:#7c5dae}
+.mk-db-filters .filt.c-neutral{background:rgba(14,13,12,.05);border-color:rgba(14,13,12,.12);color:var(--ink-2)}
 
 .mk-db-cols{
   display:grid;grid-template-columns:1.7fr 1fr 1.4fr 1.1fr;
@@ -546,31 +549,55 @@ img{max-width:100%;display:block}
   height:88px;                           /* fits 3 lines of the pitch */
   overflow:hidden;
 }
-.mk-f-input-url{gap:8px}
-.mk-url-dot{
-  width:8px;height:8px;border-radius:50%;
-  background:var(--muted-2);flex-shrink:0;
-  transition:background .4s ease,box-shadow .4s ease;
-}
-.mk-url-dot.analyzed{
-  background:#1a7c4b;
-  box-shadow:0 0 0 3px rgba(26,124,75,.18);
+.mk-f-input-url{gap:10px}
+.mk-url-favicon{
+  width:16px;height:16px;flex-shrink:0;border-radius:3px;
+  object-fit:contain;
 }
 .mk-url-text{color:var(--ink);font-size:13px}
+/* Status line BELOW the input (not floating top-right). Default shows
+   an orange pulsing dot + "Analyzing…"; on .done, dot is replaced by
+   a green ✓ and the text turns green. */
 .mk-f-status{
-  display:none;align-items:center;gap:5px;
-  position:absolute;top:0;right:0;
-  font-size:10.5px;color:var(--muted);font-weight:500;
-  letter-spacing:.04em;
-}
-.mk-f-status::before{
-  content:"";width:6px;height:6px;border-radius:50%;
-  background:var(--orange);animation:mkBlink 1.2s ease-out infinite;
+  display:none;align-items:center;gap:6px;
+  margin-top:2px;
+  font-size:11.5px;font-weight:500;
+  color:var(--muted);letter-spacing:.01em;
 }
 .mk-f-status.visible{display:inline-flex}
+.mk-f-status-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--orange);
+  animation:mkBlink 1.2s ease-out infinite;
+}
+.mk-f-check{
+  display:none;width:12px;height:12px;color:#1a7c4b;flex-shrink:0;
+}
 .mk-f-status.done{color:#1a7c4b}
-.mk-f-status.done::before{background:#1a7c4b;animation:none;box-shadow:0 0 0 3px rgba(26,124,75,.18)}
+.mk-f-status.done .mk-f-status-dot{display:none}
+.mk-f-status.done .mk-f-check{display:inline-block}
 @keyframes mkBlink{50%{opacity:.3}}
+
+/* Detected-intent chips that appear under "What do you sell?" once
+   the textarea finishes typing. Brand-spectrum tinted pills.*/
+.mk-f-chips{
+  display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;
+}
+.mk-f-chip{
+  font-size:11.5px;padding:5px 11px;border-radius:999px;font-weight:500;
+  border:1px solid transparent;white-space:nowrap;
+  opacity:0;transform:translateY(4px);
+  transition:opacity .35s ease,transform .35s ease;
+}
+.mk-f-chips.in .mk-f-chip{opacity:1;transform:none}
+.mk-f-chips.in .mk-f-chip:nth-child(1){transition-delay:0s}
+.mk-f-chips.in .mk-f-chip:nth-child(2){transition-delay:.08s}
+.mk-f-chips.in .mk-f-chip:nth-child(3){transition-delay:.16s}
+.mk-f-chips.in .mk-f-chip:nth-child(4){transition-delay:.24s}
+.mk-f-chip.c-green{background:rgba(26,124,75,.1);color:#1a7c4b;border-color:rgba(26,124,75,.22)}
+.mk-f-chip.c-blue{background:rgba(56,102,166,.1);color:#3866a6;border-color:rgba(56,102,166,.22)}
+.mk-f-chip.c-orange{background:rgba(255,91,31,.1);color:#d04c14;border-color:rgba(255,91,31,.22)}
+.mk-f-chip.c-purple{background:rgba(124,93,174,.12);color:#7c5dae;border-color:rgba(124,93,174,.25)}
 
 .mk-f-sep{
   text-align:center;
@@ -1109,11 +1136,40 @@ h1.display em{
    forming an asymmetric plus/X constellation around a central big
    chip. Heights use clamp so the cloud always fits a laptop pin. */
 .chip-cloud{
-  position:relative;z-index:1;
+  position:relative;z-index:2;
   width:min(1200px,94vw);
   height:clamp(420px,62vh,640px);
   margin:clamp(28px,4vh,48px) auto 0;
 }
+/* Blurred ambient layer behind the main cloud. Adds depth and a
+   sense of "many more signals out there" without cluttering the
+   legible foreground. */
+.chip-cloud-bg{
+  position:absolute;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  width:min(1300px,100vw);
+  height:clamp(480px,70vh,720px);
+  z-index:1;
+  pointer-events:none;
+  filter:blur(3.5px);
+  opacity:.55;
+}
+.chip-bg{
+  position:absolute;
+  left:var(--l,50%);top:var(--t,50%);
+  transform:translate(-50%,-50%);
+  display:inline-flex;align-items:center;gap:7px;
+  white-space:nowrap;
+  background:#fff;color:var(--ink-2);
+  border:1px solid var(--line-2);border-radius:999px;
+  font-family:var(--sans);font-weight:500;
+}
+.chip-bg.sm{font-size:12px;padding:6px 14px}
+.chip-bg.md{font-size:14px;padding:8px 18px}
+.chip-bg.lg{font-size:17px;padding:10px 22px;font-weight:600}
+.chip-bg.warm{background:#fff5ec;color:#d04c14;border-color:#ffd9b8}
+.chip-bg.cool{background:#eaf2fb;color:#3866a6;border-color:#c8dcf0}
+.chip-bg.ink{background:var(--ink);color:#fff;border-color:var(--ink)}
 .chip{
   position:absolute;
   left:var(--l,50%);top:var(--t,50%);
@@ -1856,15 +1912,27 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
               <div class="mk-f-field">
                 <label>WEBSITE</label>
                 <div class="mk-f-input mk-f-input-url" data-type-idx="1" data-type="www.plat4m.com">
-                  <span class="mk-url-dot" data-url-dot></span>
+                  <img class="mk-url-favicon" data-url-favicon
+                       src="https://www.google.com/s2/favicons?domain=plat4m.com&sz=64"
+                       alt="" width="16" height="16">
                   <span class="mk-url-text"></span>
                 </div>
-                <span class="mk-f-status" data-status>Analyzing…</span>
+                <div class="mk-f-status" data-status>
+                  <svg class="mk-f-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5l3 3 5-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="mk-f-status-dot"></span>
+                  <span class="mk-f-status-text">Analyzing…</span>
+                </div>
               </div>
 
               <div class="mk-f-field">
                 <label>WHAT DO YOU SELL?</label>
-                <div class="mk-f-area" data-type-idx="2" data-type="Landing pages and product-led websites for SaaS, fintech and design-led teams. We turn launches into pipeline."></div>
+                <div class="mk-f-area" data-type-idx="2" data-type="We design and develop web and mobile applications that help businesses automate workflows and scale faster."></div>
+                <div class="mk-f-chips" data-chips>
+                  <span class="mk-f-chip c-green">Digital Transformation</span>
+                  <span class="mk-f-chip c-blue">UX/UI Design</span>
+                  <span class="mk-f-chip c-orange">Mobile Development</span>
+                  <span class="mk-f-chip c-purple">Web Development</span>
+                </div>
               </div>
 
               <div class="mk-f-sep">Buyer Persona</div>
@@ -1897,11 +1965,11 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
                 <span class="mk-db-streaming"><span class="mk-ring-sm"></span>Streaming intent signals</span>
               </div>
               <div class="mk-db-filters" data-filters>
-                <span class="filt"><span class="d"></span>Hiring</span>
-                <span class="filt"><span class="d"></span>Got funded</span>
-                <span class="filt"><span class="d"></span>Expanding</span>
-                <span class="filt"><span class="d"></span>New role</span>
-                <span class="filt"><span class="d"></span>Tech stack</span>
+                <span class="filt c-orange"><span class="d"></span>Hiring</span>
+                <span class="filt c-green"><span class="d"></span>Got funded</span>
+                <span class="filt c-blue"><span class="d"></span>Expanding</span>
+                <span class="filt c-purple"><span class="d"></span>New role</span>
+                <span class="filt c-neutral"><span class="d"></span>Tech stack</span>
               </div>
               <div class="mk-db-cols">
                 <span>NAME</span>
@@ -2059,6 +2127,21 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
       <span class="band-eyebrow">Personalization</span>
       <h2 class="band-h">Every email is <em>one-of-one</em>.<br>Written just for them.</h2>
     </div>
+    <!-- Blurred background chips — soft depth layer, non-interactive,
+         position behind the main cloud with filter:blur. -->
+    <div class="chip-cloud-bg" aria-hidden="true">
+      <span class="chip-bg md warm" style="--l:8%;--t:18%">Partnered with Stripe</span>
+      <span class="chip-bg sm" style="--l:92%;--t:22%">IPO filed · Q4</span>
+      <span class="chip-bg lg cool" style="--l:14%;--t:70%">Series D · 45 engineers</span>
+      <span class="chip-bg md" style="--l:88%;--t:70%">Raised $200M</span>
+      <span class="chip-bg sm warm" style="--l:42%;--t:8%">Merged with Carta</span>
+      <span class="chip-bg md ink" style="--l:58%;--t:94%">New Chief Marketing Officer</span>
+      <span class="chip-bg sm cool" style="--l:6%;--t:44%">ISO 27001 ·  audited</span>
+      <span class="chip-bg md" style="--l:94%;--t:50%">Migrated off HubSpot</span>
+      <span class="chip-bg sm warm" style="--l:40%;--t:78%">Shipped GenAI tools</span>
+      <span class="chip-bg md cool" style="--l:60%;--t:20%">Moved HQ · Austin</span>
+    </div>
+
     <div class="chip-cloud">
       <!-- Clean 5-row grid, no overlap. Order in DOM = reveal order.
            Row 1 (top):       3 chips at y=10%
@@ -2310,7 +2393,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   <div class="cmp-split-pin">
     <div class="cmp-split-head">
       <span class="eyebrow">Same job. Fraction of the cost.</span>
-      <h2>A full-time sales rep costs <em class="cmp-strike">$7,500</em>/mo.<br>Outpulse starts at <em>$49</em>.</h2>
+      <h2>A full-time sales rep costs <em class="cmp-strike">$7,500/mo.</em><br>Outpulse starts at <em>$49</em>.</h2>
     </div>
 
     <div class="cmp-split-divider" aria-hidden="true"></div>
@@ -2515,8 +2598,8 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
 
   const countEl   = mockup.querySelector('[data-count]');
   const statusEl  = mockup.querySelector('[data-status]');
-  const urlDot    = mockup.querySelector('[data-url-dot]');
   const urlText   = mockup.querySelector('.mk-url-text');
+  const chipsWrap = mockup.querySelector('[data-chips]');
   const filts     = Array.from(mockup.querySelectorAll('.mk-db-filters .filt'));
   const rows      = Array.from(mockup.querySelectorAll('.mk-db-rows .prow'));
   const field = idx => mockup.querySelector(`[data-type-idx="${idx}"]`);
@@ -2528,8 +2611,12 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
       else if (!el.classList.contains('mk-f-input-url')) el.textContent = t;
     });
     if (countEl) countEl.textContent = fmt(parseInt(countEl.dataset.count, 10));
-    if (urlDot) urlDot.classList.add('analyzed');
-    if (statusEl){ statusEl.textContent = 'Analyzed'; statusEl.classList.add('visible','done'); }
+    if (statusEl){
+      const txt = statusEl.querySelector('.mk-f-status-text');
+      if (txt) txt.textContent = 'Analyzed';
+      statusEl.classList.add('visible','done');
+    }
+    if (chipsWrap) chipsWrap.classList.add('in');
     filts.forEach(f => f.classList.add('active'));
     rows.forEach(r => r.classList.add('in'));
   }
@@ -2578,20 +2665,25 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
 
     // 2 — website URL (types into .mk-url-text inside the url input wrapper)
     const urlWrap = field(1);
+    const statusText = statusEl ? statusEl.querySelector('.mk-f-status-text') : null;
     if (urlText && urlWrap){
       await typewrite(urlText, urlWrap.dataset.type, 55);
       if (statusEl){
         statusEl.classList.add('visible');
-        statusEl.textContent = 'Analyzing…';
+        if (statusText) statusText.textContent = 'Analyzing…';
       }
       await sleep(1100);
-      if (urlDot) urlDot.classList.add('analyzed');
-      if (statusEl){ statusEl.textContent = 'Analyzed'; statusEl.classList.add('done'); }
+      if (statusEl){
+        if (statusText) statusText.textContent = 'Analyzed';
+        statusEl.classList.add('done');
+      }
     }
     await sleep(300);
 
     // 3 — "what do you sell" paragraph (slowest — the thinking bit)
     if (sell) await typewrite(sell, sell.dataset.type, 32);
+    // Detected-intent chips fly in after the pitch fills
+    if (chipsWrap) chipsWrap.classList.add('in');
     await sleep(280);
 
     // 4 — buyer persona fields (paced, but quicker since they're tags)
