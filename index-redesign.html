@@ -432,8 +432,11 @@ img{max-width:100%;display:block}
 .mk-db-body{
   display:grid;
   grid-template-areas:'stack';
-  -webkit-mask-image:linear-gradient(180deg,#000 0,#000 60%,transparent 100%);
-          mask-image:linear-gradient(180deg,#000 0,#000 60%,transparent 100%);
+  /* Keep rows fully visible almost to the bottom, then fade over the
+     last 15% only — reads as "content continues below, scroll to see
+     more" instead of a long mid-list wash. */
+  -webkit-mask-image:linear-gradient(180deg,#000 0,#000 85%,transparent 100%);
+          mask-image:linear-gradient(180deg,#000 0,#000 85%,transparent 100%);
 }
 .mk-db-skel,.mk-db-rows{
   grid-area:stack;
