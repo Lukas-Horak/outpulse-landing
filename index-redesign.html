@@ -128,7 +128,9 @@ img{max-width:100%;display:block}
     #ff6a2e 22%,
     #ff8a4c 38%,
     rgba(255,138,76,0) 65%);
-  animation:driftTR 28s ease-in-out infinite alternate;
+  animation:driftTR 18s ease-in-out infinite alternate,
+            breatheTR 9s ease-in-out infinite;
+  transform-origin:80% 20%;
 }
 
 /* ▸ b2 — pale blue, anchored bottom-left (the cool counterweight) */
@@ -140,7 +142,9 @@ img{max-width:100%;display:block}
     #d4e2eb 30%,
     #dee7ee 50%,
     rgba(222,231,238,0) 70%);
-  animation:driftBL 32s ease-in-out infinite alternate;
+  animation:driftBL 22s ease-in-out infinite alternate,
+            breatheBL 11s ease-in-out infinite;
+  transform-origin:20% 80%;
 }
 
 /* ▸ b3 — large warm peach bloom in the centre/middle */
@@ -176,26 +180,39 @@ img{max-width:100%;display:block}
   mix-blend-mode:soft-light;
 }
 
-/* Floating drift — slow & subtle so it feels alive without being distracting */
+/* Floating drift — visibly alive. Corners physically move ~10vw across viewport.
+   TR and BL use both drift (position) + breathe (scale/opacity) so motion reads. */
 @keyframes driftTR{
-  0%  {transform:translate(0,0)        scale(1)}
-  50% {transform:translate(-3vw,2vh)    scale(1.04)}
-  100%{transform:translate(2vw,-2vh)    scale(1.06)}
+  0%  {transform:translate(0,0)       rotate(0deg)  scale(1)}
+  25% {transform:translate(-6vw,4vh)   rotate(-3deg) scale(1.08)}
+  50% {transform:translate(-8vw,-2vh)  rotate(2deg)  scale(1.04)}
+  75% {transform:translate(3vw,5vh)    rotate(-1deg) scale(1.10)}
+  100%{transform:translate(5vw,-4vh)   rotate(3deg)  scale(1.12)}
+}
+@keyframes breatheTR{
+  0%,100%{opacity:.85;filter:blur(80px)}
+  50%    {opacity:1;  filter:blur(90px)}
 }
 @keyframes driftBL{
-  0%  {transform:translate(0,0)        scale(1)}
-  50% {transform:translate(3vw,-2vh)    scale(1.05)}
-  100%{transform:translate(-2vw,3vh)    scale(1.08)}
+  0%  {transform:translate(0,0)       rotate(0deg)  scale(1)}
+  25% {transform:translate(6vw,-4vh)   rotate(3deg)  scale(1.06)}
+  50% {transform:translate(8vw,3vh)    rotate(-2deg) scale(1.10)}
+  75% {transform:translate(-3vw,-5vh)  rotate(1deg)  scale(1.04)}
+  100%{transform:translate(-5vw,4vh)   rotate(-3deg) scale(1.08)}
+}
+@keyframes breatheBL{
+  0%,100%{opacity:.85;filter:blur(80px)}
+  50%    {opacity:1;  filter:blur(95px)}
 }
 @keyframes driftMid{
   0%  {transform:translate(0,0)        scale(1)}
-  50% {transform:translate(-2vw,1vh)    scale(1.04)}
-  100%{transform:translate(3vw,-1vh)    scale(1.06)}
+  50% {transform:translate(-3vw,2vh)    scale(1.06)}
+  100%{transform:translate(4vw,-2vh)    scale(1.08)}
 }
 @keyframes driftMid2{
   0%  {transform:translate(0,0)        scale(1)}
-  50% {transform:translate(2vw,-2vh)    scale(1.03)}
-  100%{transform:translate(-3vw,2vh)    scale(1.05)}
+  50% {transform:translate(3vw,-3vh)    scale(1.05)}
+  100%{transform:translate(-4vw,3vh)    scale(1.07)}
 }
 
 /* ── Hero content (text + CTAs) ──────────────────────────────────────── */
@@ -204,12 +221,26 @@ img{max-width:100%;display:block}
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:96px 28px 0;
   text-align:center;
+  color:#fff;
   /* As scroll progresses, fade out + lift up so it gets out of mockup's way */
   transform:translateY(calc(var(--p) * -8vh));
   opacity:calc(1 - var(--p) * 1.4);
   will-change:transform,opacity;
+  text-shadow:0 2px 20px rgba(40,20,10,.18);
 }
 .hero-content > *{max-width:1280px;width:100%}
+.hero-content h1.display{color:#fff}
+.hero-content .hero-sub{color:rgba(255,255,255,.92)}
+.hero-content .hero-sub strong{color:#fff}
+.hero-content .hero-trust-row{color:rgba(255,255,255,.78)}
+.hero-content .hero-trust-row .div{background:rgba(255,255,255,.3)}
+.hero-content .btn-ghost{color:#fff;border-color:rgba(255,255,255,.45);background:rgba(255,255,255,.08);backdrop-filter:blur(6px)}
+.hero-content .btn-ghost:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.85)}
+/* Keep the italic "on autopilot." gradient-coloured for pop */
+.hero-content h1.display em{
+  -webkit-text-fill-color:transparent;
+  text-shadow:0 2px 40px rgba(255,91,31,.35);
+}
 
 /* ── Mockup wrapper — translates up from below the fold ──────────────── */
 .hero-mockup-wrap{
@@ -436,6 +467,38 @@ h1.display em{
 .k-v{font-family:var(--serif);font-size:30px;font-weight:400;line-height:1;margin:7px 0 4px}
 .k-d{font-size:11px;color:#1a7c4b;font-weight:600}
 
+/* Campaign funnel steps — 3 horizontally-laid campaign steps with reply bars */
+.funnel{
+  display:flex;flex-direction:column;gap:10px;
+}
+.fn-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.fn-step{
+  border:1px solid var(--line);border-radius:12px;padding:14px 16px;
+  display:flex;flex-direction:column;gap:8px;background:#fff;
+}
+.fn-d{
+  font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted-2);
+}
+.fn-h{
+  font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.3;
+}
+.fn-bar{
+  height:6px;border-radius:999px;background:#f3eee5;overflow:hidden;margin-top:4px;
+}
+.fn-fill{
+  height:100%;border-radius:999px;
+  background:var(--grad-warm);
+  transition:width 1.4s cubic-bezier(.2,.8,.2,1);
+}
+.fn-m{
+  display:flex;justify-content:space-between;gap:10px;
+  font-size:11px;color:var(--muted);font-weight:500;
+}
+@media(max-width:980px){
+  .fn-row{grid-template-columns:1fr;gap:10px}
+}
+
 /* Animated prospect rows — first hero stage */
 .proslist{
   border:1px solid var(--line);border-radius:12px;overflow:hidden;
@@ -476,6 +539,61 @@ h1.display em{
 .prow:nth-child(8){animation-delay:.95s}
 .prow:nth-child(9){animation-delay:1.10s}
 .prow:nth-child(10){animation-delay:1.25s}
+
+/* ICP / buyer persona summary card — sits above proscount in the prospects mockup.
+   Shows the user's filled-in search criteria (job titles, industry, size, location). */
+.icp-card{
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:linear-gradient(180deg,#ffffff 0%,#fbfaf7 100%);
+  padding:16px 18px;
+  display:flex;flex-direction:column;gap:11px;
+}
+.icp-h{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+}
+.icp-h-l{
+  display:flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+}
+.icp-h-l .pulse-dot{
+  width:7px;height:7px;border-radius:50%;background:var(--orange);
+  box-shadow:0 0 0 0 rgba(255,91,31,.5);
+  animation:pulseDot 1.8s ease-out infinite;
+}
+@keyframes pulseDot{
+  0%  {box-shadow:0 0 0 0 rgba(255,91,31,.55)}
+  70% {box-shadow:0 0 0 8px rgba(255,91,31,0)}
+  100%{box-shadow:0 0 0 0 rgba(255,91,31,0)}
+}
+.icp-h-r{
+  font-size:11px;color:#1a7c4b;font-weight:600;
+  display:inline-flex;align-items:center;gap:5px;
+}
+.icp-h-r::before{content:"";width:5px;height:5px;border-radius:50%;background:#1a7c4b}
+.icp-rows{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px 22px;
+}
+.icp-row{
+  display:flex;flex-direction:column;gap:3px;min-width:0;
+}
+.icp-k{
+  font-size:10.5px;font-weight:600;color:var(--muted-2);
+  letter-spacing:.05em;text-transform:uppercase;
+}
+.icp-v{
+  font-size:13px;font-weight:500;color:var(--ink);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.icp-v .chip{
+  display:inline-block;background:#fff5ec;color:var(--orange);
+  padding:1px 8px;border-radius:6px;font-size:11.5px;font-weight:600;
+  margin-right:4px;
+}
+@media(max-width:640px){
+  .icp-rows{grid-template-columns:1fr}
+}
 
 /* Counting prospects bar above proslist */
 .proscount{
@@ -799,6 +917,31 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
                 <span class="app-pill"><span class="blink"></span>Streaming intent signals</span>
               </div>
 
+              <div class="icp-card">
+                <div class="icp-h">
+                  <div class="icp-h-l"><span class="pulse-dot"></span>Buyer persona · PLATFORM.com</div>
+                  <div class="icp-h-r">Analyzed</div>
+                </div>
+                <div class="icp-rows">
+                  <div class="icp-row">
+                    <span class="icp-k">Job titles</span>
+                    <span class="icp-v">CTO · VP Engineering · Head of Digital</span>
+                  </div>
+                  <div class="icp-row">
+                    <span class="icp-k">Industry</span>
+                    <span class="icp-v">SaaS · Fintech · E-commerce</span>
+                  </div>
+                  <div class="icp-row">
+                    <span class="icp-k">Company size</span>
+                    <span class="icp-v">50–500 employees</span>
+                  </div>
+                  <div class="icp-row">
+                    <span class="icp-k">Location</span>
+                    <span class="icp-v">Europe · North America</span>
+                  </div>
+                </div>
+              </div>
+
               <div class="proscount">
                 <div class="left">
                   <div class="icon">P</div>
@@ -858,8 +1001,8 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   </div>
 </section>
 
-<!-- ═══════════════════ STAGE 2 — Email mockup (dark gradient) ═══════════════════ -->
-<section class="gradient-stage dark" id="email">
+<!-- ═══════════════════ STAGE 2 — Email mockup (unified peach gradient) ═══════════════════ -->
+<section class="gradient-stage peach" id="email">
   <div class="stage-head">
     <span class="eyebrow">Engage</span>
     <h2>Every email is <em>unique</em>, not a template.</h2>
@@ -924,6 +1067,97 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
               <div class="item"><strong>Outcome, not feature</strong>"Books calls while your team focuses on closing."</div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ STAGE 3 — Campaign analytics (Track & optimize) ═══════════════════ -->
+<section class="gradient-stage peach" id="track">
+  <div class="stage-head">
+    <span class="eyebrow">Track & optimize</span>
+    <h2>See <em>every signal</em> in real time.</h2>
+    <p>Multi-step sequences with automatic follow-ups. Opens, clicks and replies land in one live campaign view — and Outpulse keeps optimising as the data rolls in.</p>
+  </div>
+
+  <div class="container">
+    <div class="browser">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a4 4 0 014 4v3h1a3 3 0 013 3v9a3 3 0 01-3 3H7a3 3 0 01-3-3v-9a3 3 0 013-3h1V5a4 4 0 014-4zm0 2a2 2 0 00-2 2v3h4V5a2 2 0 00-2-2z"/></svg>
+          app.outpulse.ai/campaigns/q1-outbound
+        </div>
+        <div style="width:60px"></div>
+      </div>
+
+      <div class="app">
+        <aside class="app-side">
+          <div class="grp">
+            <div class="grp-h">Find clients</div>
+            <div class="item">Buyer personas</div>
+            <div class="item">Prospects</div>
+          </div>
+          <div class="grp">
+            <div class="grp-h">Engage</div>
+            <div class="item active">Campaigns</div>
+            <div class="item">Messages</div>
+          </div>
+          <div class="grp">
+            <div class="grp-h">Insights</div>
+            <div class="item">Pulse</div>
+            <div class="item">Settings</div>
+          </div>
+        </aside>
+
+        <div class="app-main">
+          <div class="app-top">
+            <div>
+              <h3>Q1 Outbound Campaign</h3>
+              <div style="font-size:12.5px;color:var(--muted);margin-top:3px">Sequence · 5 steps · launched 3 weeks ago</div>
+            </div>
+            <span class="app-pill"><span class="blink"></span>Active</span>
+          </div>
+
+          <div class="kpis">
+            <div class="k"><div class="k-l">Prospects found</div><div class="k-v">2,847</div><div class="k-d">+127 this week</div></div>
+            <div class="k"><div class="k-l">Emails sent</div><div class="k-v">1,548</div><div class="k-d">+156 this week</div></div>
+            <div class="k"><div class="k-l">Open rate</div><div class="k-v">31%</div><div class="k-d">Above avg</div></div>
+            <div class="k"><div class="k-l">Meetings booked</div><div class="k-v">62</div><div class="k-d">+5 this week</div></div>
+          </div>
+
+          <div class="funnel">
+            <div class="fn-row">
+              <div class="fn-step">
+                <div class="fn-d">Step 1 · Intro</div>
+                <div class="fn-h">Pattern interrupt opener</div>
+                <div class="fn-bar"><div class="fn-fill" style="width:100%"></div></div>
+                <div class="fn-m"><span>1,548 sent</span><span>485 opened · 31%</span></div>
+              </div>
+              <div class="fn-step">
+                <div class="fn-d">Step 2 · Follow-up +3d</div>
+                <div class="fn-h">Social proof + proof point</div>
+                <div class="fn-bar"><div class="fn-fill" style="width:71%"></div></div>
+                <div class="fn-m"><span>1,103 sent</span><span>342 opened · 31%</span></div>
+              </div>
+              <div class="fn-step">
+                <div class="fn-d">Step 3 · Break-up +7d</div>
+                <div class="fn-h">Value check-in + ask</div>
+                <div class="fn-bar"><div class="fn-fill" style="width:42%"></div></div>
+                <div class="fn-m"><span>652 sent</span><span>187 opened · 29%</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="proslist">
+            <div class="head"><span></span><span>Recent activity</span><span>Campaign</span><span>Status</span><span style="text-align:right">When</span></div>
+            <div class="prow"><div class="av">M</div><div><div class="name">Meeting booked · Sarah Chen</div><div class="sub">Vercel · Replied to step 1</div></div><span class="badge">Q1 Outbound</span><span class="match" style="color:#1a7c4b">Hot</span><span class="match">2m</span></div>
+            <div class="prow"><div class="av">R</div><div><div class="name">Positive reply · Marcus Webb</div><div class="sub">Linear · "Interested, send time"</div></div><span class="badge">Q1 Outbound</span><span class="match" style="color:#1a7c4b">Positive</span><span class="match">14m</span></div>
+            <div class="prow"><div class="av">O</div><div><div class="name">Email opened · Anna Kovacs</div><div class="sub">Stripe · step 2 of 5</div></div><span class="badge">Q1 Outbound</span><span>Nurturing</span><span class="match">28m</span></div>
+            <div class="prow"><div class="av">C</div><div><div class="name">Link clicked · Rachel Park</div><div class="sub">Ramp · calendly.com/demo</div></div><span class="badge">Q1 Outbound</span><span>Engaged</span><span class="match">41m</span></div>
+          </div>
+
         </div>
       </div>
     </div>
