@@ -55,26 +55,24 @@ img{max-width:100%;display:block}
   border-bottom:1px solid var(--line);
 }
 .nav-row{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
-/* Brand mark + serif wordmark. The italic "pulse" picks up the same
-   orange gradient used for hero "on autopilot" / "growth targets?" —
-   it's the single thread that ties the wordmark to the rest of the
-   page, so the two feel like one brand, not a mark + a label. */
-.brand{display:flex;align-items:center;gap:8px;line-height:1;text-decoration:none}
+/* Brand mark + wordmark. Sans bold with tight kerning reads as a real
+   brand next to the geometric circle mark (the serif version felt
+   delicate and disconnected). Mark and wordmark are tucked close so
+   they read as one object, not a mark + label. */
+.brand{display:flex;align-items:center;gap:4px;line-height:1;text-decoration:none}
 .brand-mark{
-  width:54px;height:54px;
+  width:48px;height:48px;
   background:url('outpulse-logo-dusk.svg') center/contain no-repeat;
   flex-shrink:0;
 }
 .brand-text{
-  font-family:var(--serif);font-weight:400;
-  font-size:26px;color:var(--ink);
-  letter-spacing:-.015em;
+  font-family:var(--sans);font-weight:700;
+  font-size:20px;color:var(--ink);
+  letter-spacing:-.035em;
 }
-.brand-text em{
-  font-style:italic;
-  background:linear-gradient(95deg,#ff5b1f 0%,#ff7a3d 60%,#ffa06a 100%);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-}
+/* Drop the italic accent — in sans it reads as an anomaly rather than
+   a flourish. Wordmark stays single-weight, single-colour. */
+.brand-text em{font-style:normal;color:inherit;background:none;-webkit-text-fill-color:currentColor}
 .nav-links{display:flex;align-items:center;gap:4px}
 .nav-link{padding:8px 14px;font-size:14px;color:var(--ink-2);font-weight:500;border-radius:8px;transition:all .2s}
 .nav-link:hover{background:rgba(0,0,0,.04)}
