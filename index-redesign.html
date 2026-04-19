@@ -244,7 +244,9 @@ img{max-width:100%;display:block}
 .hero-content{
   position:absolute;inset:0;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:72px 28px 0;
+  /* Balanced top + bottom padding so justify-content:center actually
+     puts the copy at the true vertical middle of the viewport. */
+  padding:72px 28px 72px;
   text-align:center;
   color:#fff;
   /* Scroll-driven push-back: recedes along Z axis (hero sits on a perspective
@@ -360,25 +362,10 @@ img{max-width:100%;display:block}
 }
 .mk-main{
   background:#fff;
-  padding:22px 26px 0;
+  padding:22px 26px;
   display:flex;flex-direction:column;gap:16px;
   min-width:0;
-  /* Lock pane height so the rows scroll inside instead of blowing the
-     browser window up. Works with the grid-stack body to keep the
-     skeleton and populated states at the same height. */
-  max-height:620px;
-  overflow:hidden;
 }
-.mk-main > .mk-db-head,
-.mk-main > .mk-db-filters,
-.mk-main > .mk-db-cols{flex-shrink:0}
-.mk-main > .mk-db-body{
-  flex:1;min-height:0;
-  overflow-y:auto;
-  padding-bottom:36px;                     /* room for the fade-out */
-  scrollbar-width:none;                    /* Firefox */
-}
-.mk-main > .mk-db-body::-webkit-scrollbar{width:0;height:0;display:none}
 .mk-db-head{display:flex;align-items:center;justify-content:space-between;gap:14px}
 .mk-db-title{font-family:var(--serif);font-weight:400;font-size:21px;color:var(--ink);margin:0}
 .mk-db-sub{color:var(--muted);font-weight:400;font-size:14px;letter-spacing:.005em}
@@ -437,19 +424,6 @@ img{max-width:100%;display:block}
   grid-template-areas:'stack';
   position:relative;
 }
-/* Scroll fade affordance — a white gradient overlay at the bottom edge
-   of the list pane that tells the eye "content continues below, scroll
-   to see more". Sits on top of the rows via z-index, doesn't dim the
-   visible content, just fades the bottom 60px into #fff. */
-.mk-main{position:relative}
-.mk-main::after{
-  content:"";
-  position:absolute;left:0;right:0;bottom:0;
-  height:70px;
-  background:linear-gradient(180deg,rgba(255,255,255,0) 0%,#fff 85%);
-  pointer-events:none;
-  z-index:4;
-}
 .mk-db-skel,.mk-db-rows{
   grid-area:stack;
   display:flex;flex-direction:column;
@@ -468,6 +442,12 @@ img{max-width:100%;display:block}
 }
 .mk-db-rows .prow.in{opacity:1;transform:none}
 .mk-db-rows .prow:last-child{border-bottom:none}
+/* Last 3 rows of the list fade to nothing — gives the list a natural
+   end without cutting the view off like a window edge. Applied only
+   after .in is set so the stagger-in animation still plays. */
+.mk-db-rows .prow.in:nth-last-child(3){opacity:.68}
+.mk-db-rows .prow.in:nth-last-child(2){opacity:.42}
+.mk-db-rows .prow.in:nth-last-child(1){opacity:.18}
 
 /* Skeleton rows — identical grid shape + padding as .prow so the
    stack's intrinsic height is locked regardless of which layer is on
@@ -1181,8 +1161,28 @@ h1.display em{
 @media(max-height:900px){
   .chip-pin{height:200vh}
   .chip-cloud{height:clamp(360px,58vh,540px)}
-  .chip.xxl{font-size:clamp(22px,2.2vw,30px);padding:13px 32px}
-  .chip.xl{font-size:20px;padding:11px 28px}
+  .chip.xxl{font-size:18px;padding:11px 26px}
+  .chip.xl{font-size:17px;padding:10px 24px}
+}
+/* Mobile fallback — absolute %-positioned chips overlap badly on
+   narrow screens; drop the sticky pin and lay chips out in a regular
+   flex-wrap cloud with all sizes normalised to md. */
+@media(max-width:820px){
+  .chip-pin{height:auto}
+  .chip-pin-inner{position:relative;height:auto;padding:72px 18px 56px;overflow:visible}
+  .chip-cloud{
+    position:static;width:auto;height:auto;max-width:100%;
+    display:flex;flex-wrap:wrap;gap:8px 10px;justify-content:center;
+    margin:32px auto 0;
+  }
+  .chip{
+    position:static;
+    transform:none !important;
+    opacity:1 !important;
+    filter:none !important;
+    font-size:13px !important;padding:7px 14px !important;font-weight:500 !important;
+  }
+  .chip[data-tip]::after,.chip[data-tip]::before{display:none}
 }
 @media(prefers-reduced-motion:reduce){
   .chip-pin{height:auto}
@@ -1246,22 +1246,25 @@ h1.display em{
   font-style:italic;
   background:linear-gradient(95deg,#ff5b1f 0%,#ff7a3d 60%,#ffa06a 100%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
-  /* Scroll-linked orange strikethrough on the "$7,500" sum — draws from
-     left to right as the user reaches this section. The gradient text is
-     painted with background-clip, so a plain text-decoration line-through
-     would be invisible; we use a pseudo-element bar instead. */
   position:relative;display:inline-block;
+}
+/* The struck-out $7,500 is muted grey to match the pricing board
+   treatment below — not orange. A scroll-linked grey bar draws
+   across it as the user reaches the section. */
+.cmp-split-head h2 em.cmp-strike{
+  background:none;
+  -webkit-text-fill-color:var(--muted-2);
+  color:var(--muted-2);
 }
 .cmp-split-head h2 em.cmp-strike::after{
   content:"";position:absolute;
-  left:-4%;right:-4%;top:56%;height:.11em;
+  left:-4%;right:-4%;top:56%;height:.1em;
   background:linear-gradient(90deg,#ff5b1f 0%,#ff7a3d 60%,#ffa06a 100%);
   border-radius:2px;
   transform-origin:left center;
-  /* --cp runs 0→1 across the pin — map roughly 0.06 → 0.32 onto 0 → 1 */
   transform:scaleX(clamp(0,calc((var(--cp) - 0.06) / 0.26),1));
   will-change:transform;
-  box-shadow:0 1px 8px rgba(255,100,40,.35);
+  box-shadow:0 1px 8px rgba(255,100,40,.3);
   pointer-events:none;
 }
 
@@ -1670,12 +1673,43 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
 .foot-links{display:flex;gap:18px}
 .foot-links a:hover{color:var(--ink)}
 
-/* ─────────────────────────────────────── LOGO STRIP */
-.logos{padding:56px 0;background:#fff;border-bottom:1px solid var(--line)}
-.logos-inner{display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap;max-width:1100px;margin:0 auto}
-.logos-l{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);width:100%;text-align:center;margin-bottom:24px}
-.logos-inner img{height:24px;opacity:.5;filter:grayscale(100%);transition:opacity .2s}
-.logos-inner img:hover{opacity:.9}
+/* ─────────────────────────────────────── CAPABILITIES / CREDIBILITY STRIP
+   Pre-traction replacement for the customer-logo band. Four bold,
+   factual capability pulls instead of names we don't have yet. */
+.creds{padding:72px 24px;background:#fff;border-bottom:1px solid var(--line)}
+.creds-label{
+  text-align:center;font-family:var(--serif);font-weight:400;
+  font-size:clamp(18px,1.6vw,22px);color:var(--muted);letter-spacing:-.005em;
+  margin-bottom:36px;font-style:italic;
+}
+.creds-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:28px;
+  max-width:1100px;margin:0 auto;
+  align-items:start;
+}
+.cred{
+  text-align:center;padding:0 12px;
+  border-right:1px solid var(--line);
+}
+.cred:last-child{border-right:none}
+.cred-num{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(38px,4.4vw,56px);line-height:1;
+  letter-spacing:-.02em;color:var(--ink);
+  margin-bottom:10px;
+}
+.cred-num sup{font-size:.45em;font-weight:400;vertical-align:super;margin-left:2px;color:var(--orange)}
+.cred-num .cred-sep{color:var(--orange);font-style:italic;padding:0 2px}
+.cred-lbl{
+  font-size:13px;line-height:1.45;color:var(--ink-2);
+  max-width:22ch;margin:0 auto;
+}
+@media(max-width:820px){
+  .creds{padding:48px 20px}
+  .creds-grid{grid-template-columns:repeat(2,1fr);gap:32px 20px}
+  .cred{border-right:none}
+  .cred:nth-child(odd){border-right:1px solid var(--line)}
+}
 
 /* ─────────────────────────────────────── RESPONSIVE */
 @media(max-width:980px){
@@ -1863,42 +1897,14 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
                 <!-- Skeleton — shown while the left form is typing, fades out
                      once analysed and real rows slide in. -->
                 <div class="mk-db-skel" aria-hidden="true">
-                  <div class="skel-row">
-                    <div class="sk-name-cell"><span class="sk sk-av"></span><div class="sk-name-lines"><span class="sk sk-name"></span><span class="sk sk-sub"></span></div></div>
-                    <span class="sk sk-co"></span>
-                    <span class="sk sk-email"></span>
-                    <span class="sk sk-pill"></span>
-                  </div>
-                  <div class="skel-row">
-                    <div class="sk-name-cell"><span class="sk sk-av"></span><div class="sk-name-lines"><span class="sk sk-name"></span><span class="sk sk-sub"></span></div></div>
-                    <span class="sk sk-co"></span>
-                    <span class="sk sk-email"></span>
-                    <span class="sk sk-pill"></span>
-                  </div>
-                  <div class="skel-row">
-                    <div class="sk-name-cell"><span class="sk sk-av"></span><div class="sk-name-lines"><span class="sk sk-name"></span><span class="sk sk-sub"></span></div></div>
-                    <span class="sk sk-co"></span>
-                    <span class="sk sk-email"></span>
-                    <span class="sk sk-pill"></span>
-                  </div>
-                  <div class="skel-row">
-                    <div class="sk-name-cell"><span class="sk sk-av"></span><div class="sk-name-lines"><span class="sk sk-name"></span><span class="sk sk-sub"></span></div></div>
-                    <span class="sk sk-co"></span>
-                    <span class="sk sk-email"></span>
-                    <span class="sk sk-pill"></span>
-                  </div>
-                  <div class="skel-row">
-                    <div class="sk-name-cell"><span class="sk sk-av"></span><div class="sk-name-lines"><span class="sk sk-name"></span><span class="sk sk-sub"></span></div></div>
-                    <span class="sk sk-co"></span>
-                    <span class="sk sk-email"></span>
-                    <span class="sk sk-pill"></span>
-                  </div>
-                  <div class="skel-row">
-                    <div class="sk-name-cell"><span class="sk sk-av"></span><div class="sk-name-lines"><span class="sk sk-name"></span><span class="sk sk-sub"></span></div></div>
-                    <span class="sk sk-co"></span>
-                    <span class="sk sk-email"></span>
-                    <span class="sk sk-pill"></span>
-                  </div>
+                  <div class="skel-row"><div class="sk-name-cell"><span class="sk sk-av"></span><div class="sk-name-lines"><span class="sk sk-name"></span><span class="sk sk-sub"></span></div></div><span class="sk sk-co"></span><span class="sk sk-email"></span><span class="sk sk-pill"></span></div>
+                  <div class="skel-row"><div class="sk-name-cell"><span class="sk sk-av"></span><div class="sk-name-lines"><span class="sk sk-name"></span><span class="sk sk-sub"></span></div></div><span class="sk sk-co"></span><span class="sk sk-email"></span><span class="sk sk-pill"></span></div>
+                  <div class="skel-row"><div class="sk-name-cell"><span class="sk sk-av"></span><div class="sk-name-lines"><span class="sk sk-name"></span><span class="sk sk-sub"></span></div></div><span class="sk sk-co"></span><span class="sk sk-email"></span><span class="sk sk-pill"></span></div>
+                  <div class="skel-row"><div class="sk-name-cell"><span class="sk sk-av"></span><div class="sk-name-lines"><span class="sk sk-name"></span><span class="sk sk-sub"></span></div></div><span class="sk sk-co"></span><span class="sk sk-email"></span><span class="sk sk-pill"></span></div>
+                  <div class="skel-row"><div class="sk-name-cell"><span class="sk sk-av"></span><div class="sk-name-lines"><span class="sk sk-name"></span><span class="sk sk-sub"></span></div></div><span class="sk sk-co"></span><span class="sk sk-email"></span><span class="sk sk-pill"></span></div>
+                  <div class="skel-row"><div class="sk-name-cell"><span class="sk sk-av"></span><div class="sk-name-lines"><span class="sk sk-name"></span><span class="sk sk-sub"></span></div></div><span class="sk sk-co"></span><span class="sk sk-email"></span><span class="sk sk-pill"></span></div>
+                  <div class="skel-row"><div class="sk-name-cell"><span class="sk sk-av"></span><div class="sk-name-lines"><span class="sk sk-name"></span><span class="sk sk-sub"></span></div></div><span class="sk sk-co"></span><span class="sk sk-email"></span><span class="sk sk-pill"></span></div>
+                  <div class="skel-row"><div class="sk-name-cell"><span class="sk sk-av"></span><div class="sk-name-lines"><span class="sk sk-name"></span><span class="sk sk-sub"></span></div></div><span class="sk sk-co"></span><span class="sk sk-email"></span><span class="sk sk-pill"></span></div>
                 </div>
 
                 <div class="mk-db-rows">
@@ -1907,25 +1913,9 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
                   <div class="prow"><div class="mk-cell-name"><span class="av">AK</span><span><strong>Anna Kovacs</strong><em>Head of Product</em></span></div><div>Stripe</div><div class="mk-email">a.kovacs@stripe.com</div><span class="mk-sig warm">Expanding · EU</span></div>
                   <div class="prow"><div class="mk-cell-name"><span class="av">RP</span><span><strong>Rachel Park</strong><em>VP Sales</em></span></div><div>Ramp</div><div class="mk-email">rachel@ramp.com</div><span class="mk-sig">Raised $100M</span></div>
                   <div class="prow"><div class="mk-cell-name"><span class="av">DK</span><span><strong>David Kim</strong><em>CTO</em></span></div><div>Webflow</div><div class="mk-email">david@webflow.com</div><span class="mk-sig warm">Hiring 8 roles</span></div>
-                  <div class="prow"><div class="mk-cell-name"><span class="av">LP</span><span><strong>Lisa Park</strong><em>VP Ops</em></span></div><div>Figma</div><div class="mk-email">lisa@figma.com</div><span class="mk-sig">New role · 2w</span></div>
-                  <div class="prow"><div class="mk-cell-name"><span class="av">EL</span><span><strong>Eva Lang</strong><em>CFO</em></span></div><div>Deel</div><div class="mk-email">eva@deel.com</div><span class="mk-sig warm">Opened 3 offices</span></div>
-                  <div class="prow"><div class="mk-cell-name"><span class="av">AW</span><span><strong>Amanda Walsh</strong><em>VP Eng</em></span></div><div>Loom</div><div class="mk-email">amanda@loom.com</div><span class="mk-sig">Migrating to AWS</span></div>
-                  <div class="prow"><div class="mk-cell-name"><span class="av">JL</span><span><strong>James Liu</strong><em>Founder</em></span></div><div>Notion</div><div class="mk-email">james@notion.so</div><span class="mk-sig warm">Hiring 5 roles</span></div>
-                  <div class="prow"><div class="mk-cell-name"><span class="av">NG</span><span><strong>Nina Garcia</strong><em>Head of Growth</em></span></div><div>Supabase</div><div class="mk-email">nina@supabase.io</div><span class="mk-sig warm">Series B · $80M</span></div>
-                  <div class="prow"><div class="mk-cell-name"><span class="av">TH</span><span><strong>Tom Heller</strong><em>CTO</em></span></div><div>Replit</div><div class="mk-email">tom@replit.com</div><span class="mk-sig">AI product · Q2</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">MR</span><span><strong>Marcus Ray</strong><em>CFO</em></span></div><div>Deel</div><div class="mk-email">marcus@deel.com</div><span class="mk-sig warm">Opened 3 offices</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">NG</span><span><strong>Nina Garcia</strong><em>Head of Growth</em></span></div><div>Supabase</div><div class="mk-email">nina@supabase.io</div><span class="mk-sig">Series B · $80M</span></div>
                   <div class="prow"><div class="mk-cell-name"><span class="av">OP</span><span><strong>Omar Patel</strong><em>VP Marketing</em></span></div><div>Raycast</div><div class="mk-email">omar@raycast.com</div><span class="mk-sig warm">Hiring 7 roles</span></div>
-                  <div class="prow"><div class="mk-cell-name"><span class="av">PR</span><span><strong>Priya Raman</strong><em>Head of Product</em></span></div><div>Sentry</div><div class="mk-email">priya@sentry.io</div><span class="mk-sig">Expanding · APAC</span></div>
-                  <div class="prow"><div class="mk-cell-name"><span class="av">DF</span><span><strong>Daniel Frost</strong><em>VP Sales</em></span></div><div>Datadog</div><div class="mk-email">daniel@datadoghq.com</div><span class="mk-sig warm">New VP · 4 weeks</span></div>
-                  <div class="prow"><div class="mk-cell-name"><span class="av">HM</span><span><strong>Hannah Moreno</strong><em>CPO</em></span></div><div>Retool</div><div class="mk-email">hannah@retool.com</div><span class="mk-sig">Raised $45M</span></div>
-                  <div class="prow"><div class="mk-cell-name"><span class="av">SK</span><span><strong>Sam Kowalski</strong><em>CTO</em></span></div><div>Cursor</div><div class="mk-email">sam@cursor.sh</div><span class="mk-sig warm">Hiring 20 roles</span></div>
-                  <div class="prow"><div class="mk-cell-name"><span class="av">RV</span><span><strong>Ruby Vance</strong><em>VP Eng</em></span></div><div>Mixpanel</div><div class="mk-email">ruby@mixpanel.com</div><span class="mk-sig">New role · 5d</span></div>
-                  <div class="prow"><div class="mk-cell-name"><span class="av">QB</span><span><strong>Quentin Blake</strong><em>CFO</em></span></div><div>Calendly</div><div class="mk-email">q.blake@calendly.com</div><span class="mk-sig warm">Series C · $150M</span></div>
-                  <div class="prow"><div class="mk-cell-name"><span class="av">UK</span><span><strong>Uma Krishna</strong><em>Head of Digital</em></span></div><div>Airtable</div><div class="mk-email">uma@airtable.com</div><span class="mk-sig">Growing 180% YoY</span></div>
-                  <div class="prow"><div class="mk-cell-name"><span class="av">VM</span><span><strong>Vera Morales</strong><em>Director of Eng</em></span></div><div>Netlify</div><div class="mk-email">vera@netlify.com</div><span class="mk-sig warm">Acquired · $90M</span></div>
-                  <div class="prow"><div class="mk-cell-name"><span class="av">WC</span><span><strong>Wesley Cho</strong><em>Chief of Staff</em></span></div><div>Anthropic</div><div class="mk-email">wes@anthropic.com</div><span class="mk-sig warm">Hiring 30 roles</span></div>
-                  <div class="prow"><div class="mk-cell-name"><span class="av">XF</span><span><strong>Xander Finch</strong><em>VP Product</em></span></div><div>Perplexity</div><div class="mk-email">xander@perplexity.ai</div><span class="mk-sig">Product launch · Q3</span></div>
-                  <div class="prow"><div class="mk-cell-name"><span class="av">YT</span><span><strong>Yuki Tanaka</strong><em>Head of Ops</em></span></div><div>Canva</div><div class="mk-email">yuki@canva.com</div><span class="mk-sig warm">Opened Tokyo office</span></div>
-                  <div class="prow"><div class="mk-cell-name"><span class="av">ZA</span><span><strong>Zain Ahmed</strong><em>CTO</em></span></div><div>Grammarly</div><div class="mk-email">zain@grammarly.com</div><span class="mk-sig">Tech stack change</span></div>
                 </div>
               </div>
             </div>
@@ -1938,19 +1928,27 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   </div>
 </section>
 
-<!-- ═══════════════════ LOGO STRIP ═══════════════════ -->
-<section class="logos">
+<!-- ═══════════════════ CAPABILITIES / CREDIBILITY STRIP ═══════════════════ -->
+<section class="creds">
   <div class="container">
-    <div class="logos-inner">
-      <div class="logos-l">Trusted by teams shipping outbound at</div>
-      <img src="logos/apple.svg" alt="Apple">
-      <img src="logos/spotify.svg" alt="Spotify">
-      <img src="logos/samsung.svg" alt="Samsung">
-      <img src="logos/hp.svg" alt="HP">
-      <img src="logos/royal.svg" alt="Royal">
-      <img src="logos/greystone.svg" alt="Greystone">
-      <img src="logos/tatrabanka.svg" alt="Tatra banka">
-      <img src="logos/unreal.svg" alt="Unreal">
+    <div class="creds-label">Built for serious outbound.</div>
+    <div class="creds-grid">
+      <div class="cred">
+        <div class="cred-num">275M<sup>+</sup></div>
+        <div class="cred-lbl">verified contacts</div>
+      </div>
+      <div class="cred">
+        <div class="cred-num">0</div>
+        <div class="cred-lbl">templates · every email is one-of-one</div>
+      </div>
+      <div class="cred">
+        <div class="cred-num">24<span class="cred-sep">/</span>7</div>
+        <div class="cred-lbl">outreach on autopilot</div>
+      </div>
+      <div class="cred">
+        <div class="cred-num">GDPR</div>
+        <div class="cred-lbl">compliant data · enterprise-ready</div>
+      </div>
     </div>
   </div>
 </section>
