@@ -73,7 +73,197 @@ img{max-width:100%;display:block}
 .btn-ghost{background:transparent;color:var(--ink);padding:14px 22px;border-radius:12px;font-size:15px;border:1px solid var(--line-2)}
 .btn-ghost:hover{background:rgba(0,0,0,.04);border-color:var(--ink)}
 
-/* ─────────────────────────────────────── HERO (mostly white, restrained gradient) */
+/* ─────────────────────────────────────── HERO PARALLAX ─────────────────────────
+   Two-stage scroll-driven hero:
+     • Initial state (--p=0): white-ish hero with a soft peach/pink gradient
+       cluster anchored to the bottom of the viewport. App mockup is hidden
+       below the fold.
+     • Final state   (--p=1): gradient lifts to fill the entire viewport,
+       app interface (browser mockup) translates up from the bottom into view.
+   `--p` is computed by a small scroll listener at the end of <body>. */
+.hero-parallax{
+  position:relative;
+  /* 200vh gives 100vh worth of scroll for the parallax animation */
+  height:200vh;
+  /* Warm muted grey-lavender base — the "middle" tone from the Leonard reference */
+  background:#b6acaf;
+}
+.hero-pin{
+  position:sticky;top:0;
+  height:100vh;
+  width:100%;
+  overflow:hidden;
+  isolation:isolate;
+  --p:0; /* set by JS */
+  background:
+    /* Full-bleed warm-to-cool diagonal base */
+    linear-gradient(135deg,#c4b6b1 0%,#b8aeb3 40%,#aeacb6 70%,#a9b4bd 100%);
+}
+
+/* ── Animated gradient layer ─────────────────────────────────────────────────
+   Two corner accents that "float" in the background (subtle drift loops):
+     • orange in the TOP-RIGHT
+     • soft blue in the BOTTOM-LEFT
+   Plus two soft warm bloomings to give the centre that peachy-tan glow. */
+.hero-grad{
+  position:absolute;inset:0;
+  z-index:-2;
+  pointer-events:none;
+  will-change:transform;
+}
+.hero-grad .blob{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(80px);
+  opacity:1;
+  will-change:transform,opacity;
+}
+
+/* ▸ b1 — vivid orange, anchored top-right (the brand pop) */
+.hero-grad .b1{
+  width:75vw;height:75vh;
+  top:-22vh;right:-22vw;
+  background:radial-gradient(circle at 50% 50%,
+    #ff4a17 0%,
+    #ff6a2e 22%,
+    #ff8a4c 38%,
+    rgba(255,138,76,0) 65%);
+  animation:driftTR 28s ease-in-out infinite alternate;
+}
+
+/* ▸ b2 — pale blue, anchored bottom-left (the cool counterweight) */
+.hero-grad .b2{
+  width:70vw;height:70vh;
+  bottom:-22vh;left:-20vw;
+  background:radial-gradient(circle at 50% 50%,
+    #c6dbe6 0%,
+    #d4e2eb 30%,
+    #dee7ee 50%,
+    rgba(222,231,238,0) 70%);
+  animation:driftBL 32s ease-in-out infinite alternate;
+}
+
+/* ▸ b3 — large warm peach bloom in the centre/middle */
+.hero-grad .b3{
+  width:80vw;height:60vh;
+  top:18vh;left:8vw;
+  background:radial-gradient(ellipse at 50% 50%,
+    #d6b5a8 0%,
+    #c8aaa0 40%,
+    rgba(200,170,160,0) 70%);
+  opacity:.85;
+  animation:driftMid 24s ease-in-out infinite alternate;
+}
+
+/* ▸ b4 — soft pink-tan accent bridging blue→orange */
+.hero-grad .b4{
+  width:55vw;height:55vh;
+  top:32vh;right:18vw;
+  background:radial-gradient(circle at 50% 50%,
+    #d8a99b 0%,
+    #c9a395 35%,
+    rgba(201,163,149,0) 70%);
+  opacity:.7;
+  animation:driftMid2 26s ease-in-out infinite alternate;
+}
+
+/* Soft soft-light overlay — slight light wash, like the Leonard image */
+.hero-grad .grain{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(60% 50% at 25% 60%,rgba(255,255,255,.18) 0,transparent 70%),
+    radial-gradient(40% 40% at 70% 40%,rgba(255,255,255,.10) 0,transparent 70%);
+  mix-blend-mode:soft-light;
+}
+
+/* Floating drift — slow & subtle so it feels alive without being distracting */
+@keyframes driftTR{
+  0%  {transform:translate(0,0)        scale(1)}
+  50% {transform:translate(-3vw,2vh)    scale(1.04)}
+  100%{transform:translate(2vw,-2vh)    scale(1.06)}
+}
+@keyframes driftBL{
+  0%  {transform:translate(0,0)        scale(1)}
+  50% {transform:translate(3vw,-2vh)    scale(1.05)}
+  100%{transform:translate(-2vw,3vh)    scale(1.08)}
+}
+@keyframes driftMid{
+  0%  {transform:translate(0,0)        scale(1)}
+  50% {transform:translate(-2vw,1vh)    scale(1.04)}
+  100%{transform:translate(3vw,-1vh)    scale(1.06)}
+}
+@keyframes driftMid2{
+  0%  {transform:translate(0,0)        scale(1)}
+  50% {transform:translate(2vw,-2vh)    scale(1.03)}
+  100%{transform:translate(-3vw,2vh)    scale(1.05)}
+}
+
+/* ── Hero content (text + CTAs) ──────────────────────────────────────── */
+.hero-content{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:96px 28px 0;
+  text-align:center;
+  /* As scroll progresses, fade out + lift up so it gets out of mockup's way */
+  transform:translateY(calc(var(--p) * -8vh));
+  opacity:calc(1 - var(--p) * 1.4);
+  will-change:transform,opacity;
+}
+.hero-content > *{max-width:1280px;width:100%}
+
+/* ── Mockup wrapper — translates up from below the fold ──────────────── */
+.hero-mockup-wrap{
+  position:absolute;
+  left:0;right:0;
+  bottom:0;
+  height:100vh;
+  display:flex;align-items:flex-end;justify-content:center;
+  padding:0 24px;
+  /* Initial: pushed below the viewport. Final: rests near top. */
+  transform:translateY(calc((1 - var(--p)) * 100vh + var(--p) * -8vh));
+  will-change:transform;
+}
+.hero-mockup{
+  width:100%;max-width:1180px;
+  /* Slight pop-in scale effect */
+  transform:scale(calc(.94 + var(--p) * .06));
+  transform-origin:bottom center;
+  filter:drop-shadow(0 30px 50px rgba(60,30,10,.18));
+}
+
+/* ── Scroll cue under the trust row ──────────────────────────────────── */
+.scroll-cue{
+  position:absolute;left:50%;bottom:36px;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);
+  opacity:calc(1 - var(--p) * 2);
+  pointer-events:none;
+}
+.scroll-cue svg{width:18px;height:18px;color:var(--orange);animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{
+  0%,100%{transform:translateY(0)}
+  50%    {transform:translateY(6px)}
+}
+
+/* Reduce motion: kill drift, kill scroll-driven transforms */
+@media(prefers-reduced-motion:reduce){
+  .hero-grad,.hero-grad .blob,.hero-content,.hero-mockup-wrap,.hero-mockup,.scroll-cue svg{
+    animation:none!important;
+    transform:none!important;
+  }
+  .hero-content{opacity:1!important}
+  .hero-mockup-wrap{transform:translateY(20vh)!important}
+}
+
+/* Mobile: reduce parallax travel & font sizes */
+@media(max-width:980px){
+  .hero-parallax{height:180vh}
+  .hero-content{padding-top:72px}
+  .hero-mockup-wrap{padding:0 12px;transform:translateY(calc((1 - var(--p)) * 95vh + var(--p) * -2vh))}
+}
+
+/* Legacy .hero styles kept for any other pages still using them ↓ */
 .hero{
   position:relative;
   padding:120px 0 80px;
@@ -82,7 +272,6 @@ img{max-width:100%;display:block}
   overflow:hidden;
 }
 .hero::before{
-  /* Warm corner accent — small, top-right */
   content:"";position:absolute;
   top:-180px;right:-160px;
   width:620px;height:620px;
@@ -92,7 +281,6 @@ img{max-width:100%;display:block}
   z-index:-1;
 }
 .hero::after{
-  /* Soft secondary blob — bottom-left */
   content:"";position:absolute;
   bottom:-220px;left:-180px;
   width:560px;height:560px;
@@ -100,18 +288,6 @@ img{max-width:100%;display:block}
   opacity:.55;
   z-index:-1;
 }
-
-.hero-eyebrow{
-  display:inline-flex;align-items:center;gap:10px;
-  font-size:12px;font-weight:500;letter-spacing:.04em;
-  color:var(--muted);
-  background:rgba(255,255,255,.7);
-  border:1px solid var(--line);
-  padding:6px 14px;border-radius:999px;
-  margin-bottom:36px;
-  backdrop-filter:blur(8px);
-}
-.hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 4px rgba(255,91,31,.18)}
 
 h1.display{
   font-family:var(--serif);font-weight:400;
@@ -549,108 +725,119 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   </div>
 </nav>
 
-<!-- ═══════════════════ HERO (white, restrained gradient) ═══════════════════ -->
-<section class="hero">
-  <div class="container">
-    <div class="hero-eyebrow"><span class="dot"></span> AI sales agent · meetings on autopilot</div>
-    <h1 class="display">Find prospects.<br>Send emails.<br>Book meetings, <em>on autopilot.</em></h1>
-    <p class="hero-sub">
-      Outpulse finds your ideal prospects, writes <strong>hyper-personalized</strong>
-      emails, and runs your outreach campaigns — completely hands-free.
-    </p>
-    <div class="hero-cta-row">
-      <a href="#cta" class="btn btn-orange">Start 7-day free trial</a>
-      <a href="#video" class="btn btn-ghost">See how it works →</a>
-    </div>
-    <div class="hero-trust-row">
-      <span>SOC 2</span><span class="div"></span>
-      <span>GDPR</span><span class="div"></span>
-      <span>ISO 27001</span><span class="div"></span>
-      <span>Backed by Apollo · 275M contacts</span>
-    </div>
-  </div>
-</section>
+<!-- ═══════════════════ HERO PARALLAX (gradient + pull-up mockup) ═══════════════════ -->
+<section class="hero-parallax" id="prospects">
+  <div class="hero-pin" data-hero-pin>
 
-<!-- ═══════════════════ STAGE 1 — Prospects loading animation ═══════════════════ -->
-<section class="gradient-stage" id="prospects">
-  <div class="stage-head">
-    <span class="eyebrow">Find clients</span>
-    <h2>AI finds your <em>dream customers</em>.</h2>
-    <p>Watch Outpulse pull verified contacts in real time. 275M+ database, filtered by role, signal, fit.</p>
-  </div>
+    <!-- Animated gradient cluster — bottom-anchored at p=0, fills viewport at p=1 -->
+    <div class="hero-grad" aria-hidden="true">
+      <span class="blob b1"></span>
+      <span class="blob b2"></span>
+      <span class="blob b3"></span>
+      <span class="blob b4"></span>
+      <span class="grain"></span>
+    </div>
 
-  <div class="container">
-    <div class="browser">
-      <div class="browser-bar">
-        <div class="browser-dots"><span></span><span></span><span></span></div>
-        <div class="browser-url">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a4 4 0 014 4v3h1a3 3 0 013 3v9a3 3 0 01-3 3H7a3 3 0 01-3-3v-9a3 3 0 013-3h1V5a4 4 0 014-4zm0 2a2 2 0 00-2 2v3h4V5a2 2 0 00-2-2z"/></svg>
-          app.outpulse.ai/prospects
-        </div>
-        <div style="width:60px"></div>
+    <!-- Hero text + CTAs -->
+    <div class="hero-content">
+      <h1 class="display">Find prospects.<br>Send emails.<br>Book meetings, <em>on autopilot.</em></h1>
+      <p class="hero-sub">
+        Outpulse finds your ideal prospects, writes <strong>hyper-personalized</strong>
+        emails, and runs your outreach campaigns — completely hands-free.
+      </p>
+      <div class="hero-cta-row">
+        <a href="#cta" class="btn btn-orange">Start 7-day free trial</a>
+        <a href="#video" class="btn btn-ghost">See how it works →</a>
       </div>
+      <div class="hero-trust-row">
+        <span>SOC 2</span><span class="div"></span>
+        <span>GDPR</span><span class="div"></span>
+        <span>ISO 27001</span><span class="div"></span>
+        <span>Backed by Apollo · 275M contacts</span>
+      </div>
+      <div class="scroll-cue">
+        <span>Meet your agent</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16m0 0l-6-6m6 6l6-6"/></svg>
+      </div>
+    </div>
 
-      <div class="app">
-        <aside class="app-side">
-          <div class="grp">
-            <div class="grp-h">Find clients</div>
-            <div class="item">Buyer personas</div>
-            <div class="item active">Prospects</div>
-          </div>
-          <div class="grp">
-            <div class="grp-h">Engage</div>
-            <div class="item">Campaigns</div>
-            <div class="item">Messages</div>
-          </div>
-          <div class="grp">
-            <div class="grp-h">Insights</div>
-            <div class="item">Pulse</div>
-            <div class="item">Settings</div>
-          </div>
-        </aside>
-
-        <div class="app-main">
-          <div class="app-top">
-            <h3>Prospects · live discovery</h3>
-            <span class="app-pill"><span class="blink"></span>Streaming intent signals</span>
+    <!-- App interface — translates up from below as the user scrolls -->
+    <div class="hero-mockup-wrap">
+      <div class="hero-mockup">
+        <div class="browser">
+          <div class="browser-bar">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-url">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a4 4 0 014 4v3h1a3 3 0 013 3v9a3 3 0 01-3 3H7a3 3 0 01-3-3v-9a3 3 0 013-3h1V5a4 4 0 014-4zm0 2a2 2 0 00-2 2v3h4V5a2 2 0 00-2-2z"/></svg>
+              app.outpulse.ai/prospects
+            </div>
+            <div style="width:60px"></div>
           </div>
 
-          <div class="proscount">
-            <div class="left">
-              <div class="icon">P</div>
-              <div>
-                <div class="label">Found</div>
-                <div class="num"><em>2,847</em></div>
+          <div class="app">
+            <aside class="app-side">
+              <div class="grp">
+                <div class="grp-h">Find clients</div>
+                <div class="item">Buyer personas</div>
+                <div class="item active">Prospects</div>
+              </div>
+              <div class="grp">
+                <div class="grp-h">Engage</div>
+                <div class="item">Campaigns</div>
+                <div class="item">Messages</div>
+              </div>
+              <div class="grp">
+                <div class="grp-h">Insights</div>
+                <div class="item">Pulse</div>
+                <div class="item">Settings</div>
+              </div>
+            </aside>
+
+            <div class="app-main">
+              <div class="app-top">
+                <h3>Prospects · live discovery</h3>
+                <span class="app-pill"><span class="blink"></span>Streaming intent signals</span>
+              </div>
+
+              <div class="proscount">
+                <div class="left">
+                  <div class="icon">P</div>
+                  <div>
+                    <div class="label">Found</div>
+                    <div class="num"><em>2,847</em></div>
+                  </div>
+                </div>
+                <div class="progress"><div class="bar"></div></div>
+                <div class="small">Of <strong>275M</strong> verified contacts</div>
+              </div>
+
+              <div class="filters">
+                <span class="filt active"><span class="d"></span>Hiring</span>
+                <span class="filt"><span class="d"></span>Just raised</span>
+                <span class="filt"><span class="d"></span>Expanding</span>
+                <span class="filt"><span class="d"></span>New role</span>
+                <span class="filt"><span class="d"></span>Tech change</span>
+                <span class="filt"><span class="d"></span>Leadership change</span>
+              </div>
+
+              <div class="proslist">
+                <div class="head"><span></span><span>Contact</span><span>Signal</span><span>Company</span><span style="text-align:right">Match</span></div>
+                <div class="prow"><div class="av">SC</div><div><div class="name">Sarah Chen</div><div class="sub">VP Engineering</div></div><span class="badge">Hiring 12 roles</span><span>Vercel</span><span class="match">97%</span></div>
+                <div class="prow"><div class="av">JL</div><div><div class="name">James Liu</div><div class="sub">Founder</div></div><span class="badge">Hiring 5 roles</span><span>Notion</span><span class="match">89%</span></div>
+                <div class="prow"><div class="av">DK</div><div><div class="name">David Kim</div><div class="sub">CTO</div></div><span class="badge">Hiring 8 roles</span><span>Webflow</span><span class="match">85%</span></div>
+                <div class="prow"><div class="av">MW</div><div><div class="name">Marcus Webb</div><div class="sub">CTO</div></div><span class="badge">Raised $35M</span><span>Linear</span><span class="match">94%</span></div>
+                <div class="prow"><div class="av">AK</div><div><div class="name">Anna Kovacs</div><div class="sub">Head of Product</div></div><span class="badge">Expanding EU</span><span>Stripe</span><span class="match">91%</span></div>
+                <div class="prow"><div class="av">RP</div><div><div class="name">Rachel Park</div><div class="sub">VP Sales</div></div><span class="badge">Raised $100M</span><span>Ramp</span><span class="match">86%</span></div>
+                <div class="prow"><div class="av">LP</div><div><div class="name">Lisa Park</div><div class="sub">VP Ops</div></div><span class="badge">New role · 2w</span><span>Figma</span><span class="match">90%</span></div>
+                <div class="prow"><div class="av">EL</div><div><div class="name">Eva Lang</div><div class="sub">CFO</div></div><span class="badge">Opened 3 offices</span><span>Deel</span><span class="match">85%</span></div>
+                <div class="prow"><div class="av">AW</div><div><div class="name">Amanda Walsh</div><div class="sub">VP Eng</div></div><span class="badge">Migrating to AWS</span><span>Loom</span><span class="match">87%</span></div>
               </div>
             </div>
-            <div class="progress"><div class="bar"></div></div>
-            <div class="small">Of <strong>275M</strong> verified contacts</div>
-          </div>
-
-          <div class="filters">
-            <span class="filt active"><span class="d"></span>Hiring</span>
-            <span class="filt"><span class="d"></span>Just raised</span>
-            <span class="filt"><span class="d"></span>Expanding</span>
-            <span class="filt"><span class="d"></span>New role</span>
-            <span class="filt"><span class="d"></span>Tech change</span>
-            <span class="filt"><span class="d"></span>Leadership change</span>
-          </div>
-
-          <div class="proslist">
-            <div class="head"><span></span><span>Contact</span><span>Signal</span><span>Company</span><span style="text-align:right">Match</span></div>
-            <div class="prow"><div class="av">SC</div><div><div class="name">Sarah Chen</div><div class="sub">VP Engineering</div></div><span class="badge">Hiring 12 roles</span><span>Vercel</span><span class="match">97%</span></div>
-            <div class="prow"><div class="av">JL</div><div><div class="name">James Liu</div><div class="sub">Founder</div></div><span class="badge">Hiring 5 roles</span><span>Notion</span><span class="match">89%</span></div>
-            <div class="prow"><div class="av">DK</div><div><div class="name">David Kim</div><div class="sub">CTO</div></div><span class="badge">Hiring 8 roles</span><span>Webflow</span><span class="match">85%</span></div>
-            <div class="prow"><div class="av">MW</div><div><div class="name">Marcus Webb</div><div class="sub">CTO</div></div><span class="badge">Raised $35M</span><span>Linear</span><span class="match">94%</span></div>
-            <div class="prow"><div class="av">AK</div><div><div class="name">Anna Kovacs</div><div class="sub">Head of Product</div></div><span class="badge">Expanding EU</span><span>Stripe</span><span class="match">91%</span></div>
-            <div class="prow"><div class="av">RP</div><div><div class="name">Rachel Park</div><div class="sub">VP Sales</div></div><span class="badge">Raised $100M</span><span>Ramp</span><span class="match">86%</span></div>
-            <div class="prow"><div class="av">LP</div><div><div class="name">Lisa Park</div><div class="sub">VP Ops</div></div><span class="badge">New role · 2w</span><span>Figma</span><span class="match">90%</span></div>
-            <div class="prow"><div class="av">EL</div><div><div class="name">Eva Lang</div><div class="sub">CFO</div></div><span class="badge">Opened 3 offices</span><span>Deel</span><span class="match">85%</span></div>
-            <div class="prow"><div class="av">AW</div><div><div class="name">Amanda Walsh</div><div class="sub">VP Eng</div></div><span class="badge">Migrating to AWS</span><span>Loom</span><span class="match">87%</span></div>
           </div>
         </div>
       </div>
     </div>
+
   </div>
 </section>
 
@@ -971,6 +1158,43 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
     </div>
   </div>
 </footer>
+
+<!-- ═══════════════════ Hero parallax scroll driver ═══════════════════ -->
+<script>
+(function(){
+  const pin = document.querySelector('[data-hero-pin]');
+  if (!pin) return;
+  const section = pin.closest('.hero-parallax');
+  if (!section) return;
+
+  // Honour the user's reduced-motion preference: snap to final state, no work.
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (reduce.matches) { pin.style.setProperty('--p', '1'); return; }
+
+  let ticking = false;
+  function update(){
+    ticking = false;
+    const rect = section.getBoundingClientRect();
+    const total = section.offsetHeight - window.innerHeight;
+    if (total <= 0) { pin.style.setProperty('--p', '0'); return; }
+    let p = -rect.top / total;
+    if (p < 0) p = 0;
+    if (p > 1) p = 1;
+    // Ease the progress so first scroll feels softer (out-cubic)
+    const eased = 1 - Math.pow(1 - p, 2.2);
+    pin.style.setProperty('--p', eased.toFixed(4));
+  }
+  function onScroll(){
+    if (!ticking){
+      requestAnimationFrame(update);
+      ticking = true;
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  window.addEventListener('resize', onScroll, { passive:true });
+  update();
+})();
+</script>
 
 </body>
 </html>
