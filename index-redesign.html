@@ -339,10 +339,13 @@ img{max-width:100%;display:block}
 
 h1.display{
   font-family:var(--serif);font-weight:400;
-  font-size:clamp(58px,9.5vw,140px);
+  /* Scale with both width and height — on a 1440×900 laptop 9.5vw=137 but
+     12vh=108, so the min(...) keeps the headline from eating the whole
+     viewport. Big screens (2560×1440) still hit the 140 cap. */
+  font-size:clamp(48px,min(9.5vw,12vh),140px);
   line-height:.92;letter-spacing:-.025em;
   color:var(--ink);
-  max-width:14ch;margin:0 auto 32px;
+  max-width:14ch;margin:0 auto 28px;
 }
 h1.display em{
   font-style:italic;
@@ -705,13 +708,15 @@ h1.display em{
   width:100%;
   overflow:hidden;
   display:flex;flex-direction:column;
-  padding:56px 24px 36px;
+  /* Extra top padding so the eyebrow ("Same job. Fraction of the cost.")
+     has real breathing room — it was hugging the top edge before. */
+  padding:clamp(80px,10vh,120px) 24px 40px;
   --cp:0;
 }
 
 .cmp-split-head{
   text-align:center;
-  max-width:920px;margin:0 auto 28px;
+  max-width:920px;margin:0 auto 36px;
   /* Lifts & dims subtly as rows take focus */
   transform:translateY(calc(var(--cp) * -1.5vh));
   opacity:calc(1 - var(--cp) * 0.35);
@@ -720,16 +725,33 @@ h1.display em{
 }
 .cmp-split-head .eyebrow{
   font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--muted);margin-bottom:14px;display:block;
+  color:var(--muted);margin-bottom:22px;display:block;
 }
 .cmp-split-head h2{
   font-family:var(--serif);font-weight:400;
-  font-size:clamp(34px,4.6vw,64px);line-height:1.04;letter-spacing:-.02em;
+  font-size:clamp(30px,min(4.6vw,6vh),64px);line-height:1.04;letter-spacing:-.02em;
 }
 .cmp-split-head h2 em{
   font-style:italic;
   background:linear-gradient(95deg,#ff5b1f 0%,#ff7a3d 60%,#ffa06a 100%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
+  /* Scroll-linked orange strikethrough on the "$7,500" sum — draws from
+     left to right as the user reaches this section. The gradient text is
+     painted with background-clip, so a plain text-decoration line-through
+     would be invisible; we use a pseudo-element bar instead. */
+  position:relative;display:inline-block;
+}
+.cmp-split-head h2 em.cmp-strike::after{
+  content:"";position:absolute;
+  left:-4%;right:-4%;top:56%;height:.11em;
+  background:linear-gradient(90deg,#ff5b1f 0%,#ff7a3d 60%,#ffa06a 100%);
+  border-radius:2px;
+  transform-origin:left center;
+  /* --cp runs 0→1 across the pin — map roughly 0.06 → 0.32 onto 0 → 1 */
+  transform:scaleX(clamp(0,calc((var(--cp) - 0.06) / 0.26),1));
+  will-change:transform;
+  box-shadow:0 1px 8px rgba(255,100,40,.35);
+  pointer-events:none;
 }
 
 /* Vertical divider — full-height from start (so split is obvious),
@@ -746,33 +768,52 @@ h1.display em{
    so they anchor while rows slot in below them. */
 .cmp-split-board{
   display:grid;grid-template-columns:1fr 1fr;
-  max-width:1100px;margin:0 auto 12px;width:100%;
-  gap:48px;padding:0 24px 28px;
+  max-width:1100px;margin:0 auto 16px;width:100%;
+  gap:48px;padding:0 24px 32px;
   flex-shrink:0;position:relative;z-index:2;
   border-bottom:1px solid var(--line);
+  /* Keep both columns vertically centered against each other — they share
+     the same baseline so the board feels balanced inside the table. */
+  align-items:stretch;
 }
 .cmp-split-col{
-  text-align:center;padding:14px 20px 18px;
+  text-align:center;padding:16px 20px 18px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:180px;
 }
 .cmp-split-title{
   font-family:var(--serif);font-weight:400;
-  font-size:clamp(26px,3.2vw,40px);line-height:1;
-  margin-bottom:10px;
+  font-size:clamp(22px,min(3.2vw,4vh),40px);line-height:1;
+  margin-bottom:12px;
 }
 .cmp-split-col.left .cmp-split-title{color:var(--muted)}
 .cmp-split-col.right .cmp-split-title{color:var(--ink)}
 .cmp-split-price{
   font-family:var(--serif);font-weight:400;
-  font-size:clamp(40px,5.5vw,72px);line-height:1;margin:8px 0 6px;
+  font-size:clamp(34px,min(5.5vw,7vh),72px);line-height:1;margin:4px 0 8px;
+  position:relative;display:inline-block;
 }
-.cmp-split-col.left .cmp-split-price{color:var(--muted-2);text-decoration:line-through;text-decoration-color:rgba(14,13,12,0.2)}
+/* Left price ($7,500) — orange scroll-drawn strikethrough as the section
+   comes into view. Replaces the previous static grey line-through. */
+.cmp-split-col.left .cmp-split-price{color:var(--muted-2)}
+.cmp-split-col.left .cmp-split-price::after{
+  content:"";position:absolute;
+  left:-6%;right:-6%;top:54%;height:.085em;
+  background:linear-gradient(90deg,#ff5b1f 0%,#ff7a3d 55%,#ffa06a 100%);
+  border-radius:3px;
+  transform-origin:left center;
+  transform:scaleX(clamp(0,calc((var(--cp) - 0.06) / 0.26),1));
+  will-change:transform;
+  box-shadow:0 1px 8px rgba(255,100,40,.35);
+  pointer-events:none;
+}
 .cmp-split-col.right .cmp-split-price{
   background:linear-gradient(95deg,#ff5b1f,#ff8a4c);
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
 .cmp-split-price span{font-size:.36em;color:var(--muted);margin-left:4px;font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
 .cmp-split-col.right .cmp-split-price span{-webkit-text-fill-color:var(--muted);background:none}
-.cmp-split-sub{font-size:13px;color:var(--muted);font-weight:500}
+.cmp-split-sub{font-size:13px;color:var(--muted);font-weight:500;margin-top:auto}
 
 /* Rows area — flex:1 lets it fill remaining pinned height */
 .cmp-split-rows{
@@ -796,10 +837,10 @@ h1.display em{
 }
 .cmp-split-row:last-child{border-bottom:none}
 .cmp-row-cell{
-  font-size:clamp(16px,1.4vw,22px);
+  font-size:clamp(14px,min(1.4vw,1.9vh),22px);
   line-height:1.4;
   display:flex;align-items:center;gap:12px;
-  padding:10px 24px;
+  padding:8px 24px;
   font-family:var(--serif);font-weight:400;letter-spacing:-.005em;
 }
 .cmp-row-cell.left{
@@ -849,6 +890,55 @@ h1.display em{
   .cmp-split-pin{position:relative;height:auto}
   .cmp-split-head,.cmp-split-col,.cmp-split-row{transform:none!important;opacity:1!important}
   .cmp-split-divider{transform:scaleY(1)!important;opacity:1!important}
+  /* Snap the orange strikethroughs to their final "drawn" state */
+  .cmp-split-head h2 em.cmp-strike::after,
+  .cmp-split-col.left .cmp-split-price::after{transform:scaleX(1)!important}
+}
+
+/* ── Laptop-height guard (≤900 CSS px tall, typical 13/14" MBP in browser) ──
+   Sticky pins that held comfortably at 1080+ were cropping content on a
+   shorter viewport. We compress paddings, shrink type one notch, and
+   tighten row spacing so the entire comparison board + all 5 rows fit
+   within the 100vh pin at the same time as the user scrolls through. */
+@media(min-width:821px) and (max-height:900px){
+  /* ─ Hero: pull text up so mockup has room to rise. */
+  .hero-content{padding:clamp(32px,5vh,56px) 28px 0;justify-content:flex-start}
+  .hero-content > *{margin-top:0}
+  .hero-sub{margin:0 auto 22px}
+  .hero-cta-row{gap:10px}
+  .hero-trust-row{margin-top:22px;gap:20px}
+  .scroll-cue{bottom:14px !important}
+
+  /* ─ Comparison pin — tighter on every axis. */
+  .cmp-split-pin{padding:clamp(48px,6.5vh,72px) 24px 20px}
+  .cmp-split-head{margin:0 auto 18px}
+  .cmp-split-head .eyebrow{margin-bottom:12px}
+  .cmp-split-board{padding:0 24px 18px;margin:0 auto 10px;gap:36px}
+  .cmp-split-col{min-height:130px;padding:6px 16px 10px}
+  .cmp-split-divider{top:110px;bottom:28px}
+  .cmp-split-rows{padding:0 24px}
+  .cmp-split-row{padding:10px 0}
+  .cmp-row-cell{padding:4px 20px}
+
+  /* ─ CTA card — don't consume 100vh on its own. */
+  .final{padding:80px 24px}
+  .final-card{padding:72px 40px}
+}
+
+/* Short height with plenty of width (≤750) — squeeze further. */
+@media(min-width:821px) and (max-height:750px){
+  .cmp-split-pin{padding:clamp(36px,5vh,56px) 24px 16px}
+  .cmp-split-head{margin:0 auto 12px}
+  .cmp-split-head .eyebrow{font-size:10px;margin-bottom:8px}
+  .cmp-split-board{padding:0 24px 14px;gap:28px}
+  .cmp-split-col{min-height:110px;padding:4px 12px 8px}
+  .cmp-split-title{margin-bottom:8px}
+  .cmp-split-price{margin:2px 0 4px}
+  .cmp-split-row{padding:7px 0}
+  .cmp-row-cell{padding:2px 16px}
+  h1.display{margin-bottom:18px}
+  .hero-sub{margin:0 auto 18px}
+  .hero-trust-row{margin-top:16px}
 }
 
 /* ─────────────────────────────────────── LEGACY COMPARISON (kept for other pages) */
@@ -941,30 +1031,121 @@ h1.display em{
 .faq-list details[open] .plus::after{transform:rotate(90deg)}
 .faq-list .a{margin-top:14px;color:var(--ink-2);font-size:15px;line-height:1.65;max-width:780px}
 
-/* ─────────────────────────────────────── FINAL CTA */
+/* ─────────────────────────────────────── FINAL CTA
+   Uses the same gradient recipe as the hero — lavender base with the four
+   animated blobs (orange TR, blue BL, violet centre bloom, pink-mauve accent).
+   Styles are scoped to .final-card so they don't collide with .hero-grad. */
 .final{padding:120px 28px;text-align:center;background:#fff}
 .final-card{
   max-width:1180px;margin:0 auto;
-  background:var(--grad-warm);border-radius:32px;
+  /* Same Leonard-style lavender base as .hero-pin */
+  background:linear-gradient(125deg,
+    #cdc1cd 0%,
+    #c2b6cc 25%,
+    #b8b2c8 45%,
+    #b4b8cc 65%,
+    #b6c5d8 100%);
+  border-radius:32px;
   padding:120px 48px;color:#fff;position:relative;overflow:hidden;
+  isolation:isolate;
 }
-.final-card::before{
-  content:"";position:absolute;inset:0;
+.final-grad{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden;border-radius:inherit}
+.final-grad .blob{position:absolute;border-radius:50%;filter:blur(80px);will-change:transform,opacity}
+.final-grad .b1{
+  width:75%;height:160%;
+  top:-40%;right:-25%;
+  background:radial-gradient(circle at 50% 50%,
+    #ff4a17 0%,#ff6a2e 22%,#ff8a4c 38%,rgba(255,138,76,0) 65%);
+  animation:ctaDriftTR 18s ease-in-out infinite alternate,
+            ctaBreatheTR 9s ease-in-out infinite;
+  transform-origin:80% 20%;
+}
+.final-grad .b2{
+  width:80%;height:160%;
+  bottom:-40%;left:-25%;
+  background:radial-gradient(circle at 50% 50%,
+    #8db8d8 0%,#a4cae0 22%,#bcd6e8 45%,rgba(188,214,232,0) 72%);
+  animation:ctaDriftBL 22s ease-in-out infinite alternate,
+            ctaBreatheBL 11s ease-in-out infinite;
+  transform-origin:20% 80%;
+}
+.final-grad .b3{
+  width:95%;height:150%;
+  top:-10%;left:2.5%;
+  background:radial-gradient(ellipse at 50% 50%,
+    #5d4f7c 0%,#6e5f8e 22%,#82749e 42%,#978bae 60%,rgba(151,139,174,0) 78%);
+  opacity:.78;
+  mix-blend-mode:multiply;
+  animation:ctaDriftMid 24s ease-in-out infinite alternate;
+}
+.final-grad .b4{
+  width:55%;height:120%;
+  top:-10%;right:14%;
+  background:radial-gradient(circle at 50% 50%,
+    #c498a8 0%,#b48aa2 35%,rgba(180,138,162,0) 70%);
+  opacity:.55;
+  animation:ctaDriftMid2 26s ease-in-out infinite alternate;
+}
+.final-grad .grain{
+  position:absolute;inset:0;
   background:
-    radial-gradient(40% 60% at 80% 30%,rgba(255,255,255,.32),transparent 60%),
-    radial-gradient(50% 60% at 20% 80%,rgba(0,0,0,.18),transparent 60%);
+    radial-gradient(60% 50% at 25% 60%,rgba(255,255,255,.18) 0,transparent 70%),
+    radial-gradient(40% 40% at 70% 40%,rgba(255,255,255,.10) 0,transparent 70%);
+  mix-blend-mode:soft-light;
+}
+/* Scoped keyframes — same rhythm as hero, prefixed to avoid any collision */
+@keyframes ctaDriftTR{
+  0%  {transform:translate(0,0)       rotate(0deg)  scale(1)}
+  25% {transform:translate(-6%,4%)    rotate(-3deg) scale(1.06)}
+  50% {transform:translate(-8%,-2%)   rotate(2deg)  scale(1.04)}
+  75% {transform:translate(3%,5%)     rotate(-1deg) scale(1.08)}
+  100%{transform:translate(5%,-4%)    rotate(3deg)  scale(1.10)}
+}
+@keyframes ctaBreatheTR{
+  0%,100%{opacity:.85;filter:blur(80px)}
+  50%    {opacity:1;  filter:blur(90px)}
+}
+@keyframes ctaDriftBL{
+  0%  {transform:translate(0,0)       rotate(0deg)  scale(1)}
+  25% {transform:translate(6%,-4%)    rotate(3deg)  scale(1.05)}
+  50% {transform:translate(8%,3%)     rotate(-2deg) scale(1.08)}
+  75% {transform:translate(-3%,-5%)   rotate(1deg)  scale(1.03)}
+  100%{transform:translate(-5%,4%)    rotate(-3deg) scale(1.07)}
+}
+@keyframes ctaBreatheBL{
+  0%,100%{opacity:.85;filter:blur(80px)}
+  50%    {opacity:1;  filter:blur(95px)}
+}
+@keyframes ctaDriftMid{
+  0%  {transform:translate(0,0)    scale(1)}
+  50% {transform:translate(-3%,2%) scale(1.05)}
+  100%{transform:translate(4%,-2%) scale(1.07)}
+}
+@keyframes ctaDriftMid2{
+  0%  {transform:translate(0,0)    scale(1)}
+  50% {transform:translate(3%,-3%) scale(1.04)}
+  100%{transform:translate(-4%,3%) scale(1.06)}
 }
 .final-card>*{position:relative;z-index:1}
 .final-card h2{
   font-family:var(--serif);font-weight:400;
-  font-size:clamp(44px,6.5vw,92px);line-height:1;letter-spacing:-.02em;
+  font-size:clamp(38px,min(6.5vw,9vh),92px);line-height:1;letter-spacing:-.02em;
   margin-bottom:20px;
+  color:#fff;
+  text-shadow:0 2px 30px rgba(30,20,50,.25);
 }
-.final-card h2 em{font-style:italic;background:linear-gradient(90deg,#fff,#ffe6d4);-webkit-background-clip:text;background-clip:text;color:transparent}
-.final-card p{font-size:17px;color:rgba(255,255,255,.92);max-width:520px;margin:0 auto 32px}
+.final-card h2 em{
+  font-style:italic;
+  background:linear-gradient(95deg,#ff5b1f 0%,#ff7a3d 60%,#ffa06a 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.final-card p{font-size:17px;color:rgba(255,255,255,.92);max-width:520px;margin:0 auto 32px;text-shadow:0 1px 20px rgba(30,20,50,.2)}
 .final-card .btn-orange{background:#fff;color:var(--ink)}
 .final-card .btn-orange:hover{background:#fff4e7}
-.final-note{font-size:13px;color:rgba(255,255,255,.7);margin-top:18px}
+.final-note{font-size:13px;color:rgba(255,255,255,.8);margin-top:18px}
+@media(prefers-reduced-motion:reduce){
+  .final-grad .blob{animation:none!important}
+}
 
 /* ─────────────────────────────────────── FOOTER */
 footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
@@ -1457,7 +1638,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   <div class="cmp-split-pin">
     <div class="cmp-split-head">
       <span class="eyebrow">Same job. Fraction of the cost.</span>
-      <h2>A full-time sales rep costs <em>$7,500</em>/mo.<br>Outpulse starts at <em>$49</em>.</h2>
+      <h2>A full-time sales rep costs <em class="cmp-strike">$7,500</em>/mo.<br>Outpulse starts at <em>$49</em>.</h2>
     </div>
 
     <div class="cmp-split-divider" aria-hidden="true"></div>
@@ -1585,6 +1766,13 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
 <!-- ═══════════════════ FINAL CTA ═══════════════════ -->
 <section class="final" id="cta">
   <div class="final-card">
+    <div class="final-grad" aria-hidden="true">
+      <span class="blob b1"></span>
+      <span class="blob b2"></span>
+      <span class="blob b3"></span>
+      <span class="blob b4"></span>
+      <span class="grain"></span>
+    </div>
     <h2>Ready to hit your<br><em>growth targets?</em></h2>
     <p>Set your revenue goal, connect your channels, and let Outpulse run your growth engine.</p>
     <a href="https://app.outpulse.ai/signup" class="btn btn-orange">Start 7-day free trial</a>
