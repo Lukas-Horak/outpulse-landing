@@ -1062,63 +1062,45 @@ h1.display em{
 .final{padding:120px 28px;text-align:center;background:#fff}
 .final-card{
   max-width:1180px;margin:0 auto;
-  /* Same Leonard-style lavender base as .hero-pin */
-  background:linear-gradient(125deg,
-    #cdc1cd 0%,
-    #c2b6cc 25%,
-    #b8b2c8 45%,
-    #b4b8cc 65%,
-    #b6c5d8 100%);
+  /* Stacked radial gradients reproduce the hero composition at card
+     scale without relying on blur. Order matters — painted from top
+     down, we stack: violet center wash → pink mauve accent →
+     blue bottom-left → orange top-right → lavender base beneath. */
+  background:
+    radial-gradient(65% 55% at 82% 22%,#ff3d0e 0%,#ff5b1f 18%,#ff7a3d 32%,rgba(255,122,60,0) 62%),
+    radial-gradient(70% 60% at 18% 85%,#5682b3 0%,#6a9dc5 16%,#8db8d8 36%,rgba(141,184,216,0) 68%),
+    radial-gradient(55% 45% at 60% 40%,rgba(216,168,184,.55) 0%,rgba(196,152,168,.35) 35%,transparent 72%),
+    radial-gradient(65% 55% at 45% 55%,rgba(93,79,124,.28) 0%,rgba(130,116,158,.18) 38%,transparent 76%),
+    linear-gradient(125deg,#cdc1cd 0%,#c2b6cc 25%,#b8b2c8 45%,#b4b8cc 65%,#b6c5d8 100%);
   border-radius:32px;
   padding:120px 48px;color:#fff;position:relative;overflow:hidden;
   isolation:isolate;
 }
-/* CTA gradient layer — mirrors the hero stack (orange TR, blue BL,
-   violet centre, pink mauve accent) but re-tuned for the smaller card
-   surface: blobs sit closer to the corners with their cores actually
-   inside the card, blur is softer (50px, not 80), and the violet
-   multiply is a thin wash instead of a dominant layer. */
+/* Soft light wash + slow breathing motion for the card so the
+   gradient doesn't feel static. The actual colours live in the
+   .final-card background stack above — this layer only adds a
+   gentle warm haze that drifts with an 18s / 22s loop. */
 .final-grad{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden;border-radius:inherit}
-.final-grad .blob{position:absolute;border-radius:50%;filter:blur(50px);will-change:transform,opacity}
+.final-grad .blob{position:absolute;border-radius:50%;filter:blur(40px);will-change:transform,opacity}
 .final-grad .b1{
-  width:85%;height:95%;
-  top:-18%;right:-12%;
-  background:radial-gradient(circle at 50% 50%,
-    #ff3d0e 0%,#ff5b1f 18%,#ff7a3d 34%,#ff9a5b 50%,rgba(255,154,91,0) 72%);
-  animation:ctaDriftTR 18s ease-in-out infinite alternate,
-            ctaBreatheTR 9s ease-in-out infinite;
-  transform-origin:80% 20%;
+  width:45%;height:60%;
+  top:-10%;right:-5%;
+  background:radial-gradient(circle at 50% 50%,rgba(255,91,31,.45) 0%,rgba(255,138,76,.2) 45%,transparent 75%);
+  animation:ctaDriftTR 18s ease-in-out infinite alternate;
+  mix-blend-mode:screen;
 }
 .final-grad .b2{
-  width:85%;height:95%;
-  bottom:-18%;left:-12%;
-  background:radial-gradient(circle at 50% 50%,
-    #5682b3 0%,#6a9dc5 18%,#8db8d8 38%,#a8c8dc 55%,rgba(188,214,232,0) 75%);
-  animation:ctaDriftBL 22s ease-in-out infinite alternate,
-            ctaBreatheBL 11s ease-in-out infinite;
-  transform-origin:20% 80%;
+  width:45%;height:60%;
+  bottom:-10%;left:-5%;
+  background:radial-gradient(circle at 50% 50%,rgba(86,130,179,.4) 0%,rgba(141,184,216,.2) 45%,transparent 75%);
+  animation:ctaDriftBL 22s ease-in-out infinite alternate;
+  mix-blend-mode:screen;
 }
-.final-grad .b3{
-  width:75%;height:60%;
-  top:18%;left:12%;
-  background:radial-gradient(ellipse at 50% 50%,
-    #5d4f7c 0%,#82749e 35%,rgba(151,139,174,0) 72%);
-  opacity:.32;
-  mix-blend-mode:multiply;
-  animation:ctaDriftMid 24s ease-in-out infinite alternate;
-}
-.final-grad .b4{
-  width:45%;height:55%;
-  top:18%;right:18%;
-  background:radial-gradient(circle at 50% 50%,
-    #d8a8b8 0%,#c498a8 35%,rgba(180,138,162,0) 70%);
-  opacity:.4;
-  animation:ctaDriftMid2 26s ease-in-out infinite alternate;
-}
+.final-grad .b3,.final-grad .b4{display:none}
 .final-grad .grain{
   position:absolute;inset:0;
   background:
-    radial-gradient(60% 50% at 25% 60%,rgba(255,255,255,.18) 0,transparent 70%),
+    radial-gradient(60% 50% at 25% 60%,rgba(255,255,255,.15) 0,transparent 70%),
     radial-gradient(40% 40% at 70% 40%,rgba(255,255,255,.10) 0,transparent 70%);
   mix-blend-mode:soft-light;
 }
