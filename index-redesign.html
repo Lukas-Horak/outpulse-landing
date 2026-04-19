@@ -309,6 +309,16 @@ img{max-width:100%;display:block}
   .hero-content .scroll-cue{display:none}
   .hero-content .hero-trust-row{display:none}
 }
+/* Tight laptop viewports (≤900 tall): pull the display further down
+   so subtitle + CTAs always land above the fold. */
+@media(min-width:1024px) and (max-height:900px){
+  h1.display{font-size:clamp(44px,min(8.6vw,11.5vh),108px);margin-bottom:20px}
+  .hero-sub{font-size:17px;margin-bottom:26px}
+}
+@media(min-width:1024px) and (max-height:760px){
+  h1.display{font-size:clamp(40px,min(7.8vw,10.5vh),92px);margin-bottom:16px;line-height:.96}
+  .hero-sub{font-size:16px;margin-bottom:22px;line-height:1.45}
+}
 .scroll-cue svg{width:18px;height:18px;color:var(--orange);animation:bob 2.2s ease-in-out infinite}
 @keyframes bob{
   0%,100%{transform:translateY(0)}
@@ -360,14 +370,13 @@ img{max-width:100%;display:block}
 
 h1.display{
   font-family:var(--serif);font-weight:400;
-  /* Big, display-scale on laptop too — 1440×900: min(137, 144) = 137px.
-     The vh ceiling stays generous so the headline reads "huge" on most
-     laptop-class viewports, since the mockup is now fully below the fold
-     at rest (see .hero-mockup-wrap) and doesn't compete for space. */
-  font-size:clamp(48px,min(9.5vw,16vh),140px);
-  line-height:.92;letter-spacing:-.025em;
+  /* Scale with width + height. The vh ceiling is tightened to 13vh
+     so the 4-line display still leaves room for the subtitle, CTAs,
+     and trust badges above the fold on ~800-900px-tall laptops. */
+  font-size:clamp(48px,min(9.5vw,13vh),128px);
+  line-height:.94;letter-spacing:-.025em;
   color:var(--ink);
-  max-width:14ch;margin:0 auto 32px;
+  max-width:16ch;margin:0 auto 24px;
 }
 h1.display em{
   font-style:italic;
@@ -375,13 +384,13 @@ h1.display em{
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
 .hero-sub{
-  font-size:19px;line-height:1.55;color:var(--ink-2);
-  max-width:600px;margin:0 auto 44px;font-weight:400;
+  font-size:19px;line-height:1.5;color:var(--ink-2);
+  max-width:640px;margin:0 auto 32px;font-weight:400;
 }
 .hero-sub strong{color:var(--ink);font-weight:600}
 .hero-cta-row{display:inline-flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center}
 .hero-trust-row{
-  margin-top:48px;display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap;
+  margin-top:28px;display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap;
   font-size:12px;color:var(--muted-2);font-weight:500;letter-spacing:.05em;text-transform:uppercase;
 }
 .hero-trust-row .div{width:1px;height:14px;background:var(--line-2)}
@@ -1417,105 +1426,108 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
       </div>
     </div>
 
-    <!-- App interface — translates up from below as the user scrolls -->
+    <!-- Split-layer mockup — dark dashboard behind + onboarding form in front -->
     <div class="hero-mockup-wrap">
-      <div class="hero-mockup">
-        <div class="browser">
-          <div class="browser-bar">
-            <div class="browser-dots"><span></span><span></span><span></span></div>
-            <div class="browser-url">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a4 4 0 014 4v3h1a3 3 0 013 3v9a3 3 0 01-3 3H7a3 3 0 01-3-3v-9a3 3 0 013-3h1V5a4 4 0 014-4zm0 2a2 2 0 00-2 2v3h4V5a2 2 0 00-2-2z"/></svg>
-              app.outpulse.ai/prospects
-            </div>
-            <div style="width:60px"></div>
+      <div class="hero-mockup" data-mk>
+
+        <!-- Dashboard card (behind, right) -->
+        <div class="mk-dashboard">
+          <div class="mk-db-head">
+            <h3 class="mk-db-title">Prospects</h3>
+            <span class="mk-db-count">
+              <span class="mk-ring"></span>
+              <span data-count="2847">0</span> found
+            </span>
           </div>
-
-          <div class="app">
-            <aside class="app-side">
-              <div class="grp">
-                <div class="grp-h">Find clients</div>
-                <div class="item">Buyer personas</div>
-                <div class="item active">Prospects</div>
-              </div>
-              <div class="grp">
-                <div class="grp-h">Engage</div>
-                <div class="item">Campaigns</div>
-                <div class="item">Messages</div>
-              </div>
-              <div class="grp">
-                <div class="grp-h">Insights</div>
-                <div class="item">Pulse</div>
-                <div class="item">Settings</div>
-              </div>
-            </aside>
-
-            <div class="app-main">
-              <div class="app-top">
-                <h3>Prospects · live discovery</h3>
-                <span class="app-pill"><span class="blink"></span>Streaming intent signals</span>
-              </div>
-
-              <div class="icp-card" data-icp>
-                <div class="icp-h">
-                  <div class="icp-h-l"><span class="pulse-dot"></span>Buyer persona · PLATFORM.com</div>
-                  <div class="icp-h-r" data-icp-status>Analyzing…</div>
-                </div>
-                <div class="icp-rows">
-                  <div class="icp-row">
-                    <span class="icp-k">Job titles</span>
-                    <span class="icp-v" data-type="CTO · VP Engineering · Head of Digital"></span>
-                  </div>
-                  <div class="icp-row">
-                    <span class="icp-k">Industry</span>
-                    <span class="icp-v" data-type="SaaS · Fintech · E-commerce"></span>
-                  </div>
-                  <div class="icp-row">
-                    <span class="icp-k">Company size</span>
-                    <span class="icp-v" data-type="50–500 employees"></span>
-                  </div>
-                  <div class="icp-row">
-                    <span class="icp-k">Location</span>
-                    <span class="icp-v" data-type="Europe · North America"></span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="proscount" data-proscount>
-                <div class="left">
-                  <div class="icon">P</div>
-                  <div>
-                    <div class="label">Found</div>
-                    <div class="num"><em data-count="2847">0</em></div>
-                  </div>
-                </div>
-                <div class="progress"><div class="bar"></div></div>
-                <div class="small">Of <strong>275M</strong> verified contacts</div>
-              </div>
-
-              <div class="filters" data-filters>
-                <span class="filt"><span class="d"></span>Hiring</span>
-                <span class="filt"><span class="d"></span>Just raised</span>
-                <span class="filt"><span class="d"></span>Expanding</span>
-                <span class="filt"><span class="d"></span>New role</span>
-                <span class="filt"><span class="d"></span>Tech change</span>
-                <span class="filt"><span class="d"></span>Leadership change</span>
-              </div>
-
-              <div class="proslist">
-                <div class="head"><span></span><span>Contact</span><span>Signal</span><span>Company</span><span style="text-align:right">Match</span></div>
-                <div class="prow"><div class="av">SC</div><div><div class="name">Sarah Chen</div><div class="sub">VP Engineering</div></div><span class="badge">Hiring 12 roles</span><span>Vercel</span><span class="match">97%</span></div>
-                <div class="prow"><div class="av">JL</div><div><div class="name">James Liu</div><div class="sub">Founder</div></div><span class="badge">Hiring 5 roles</span><span>Notion</span><span class="match">89%</span></div>
-                <div class="prow"><div class="av">DK</div><div><div class="name">David Kim</div><div class="sub">CTO</div></div><span class="badge">Hiring 8 roles</span><span>Webflow</span><span class="match">85%</span></div>
-                <div class="prow"><div class="av">MW</div><div><div class="name">Marcus Webb</div><div class="sub">CTO</div></div><span class="badge">Raised $35M</span><span>Linear</span><span class="match">94%</span></div>
-                <div class="prow"><div class="av">AK</div><div><div class="name">Anna Kovacs</div><div class="sub">Head of Product</div></div><span class="badge">Expanding EU</span><span>Stripe</span><span class="match">91%</span></div>
-                <div class="prow"><div class="av">RP</div><div><div class="name">Rachel Park</div><div class="sub">VP Sales</div></div><span class="badge">Raised $100M</span><span>Ramp</span><span class="match">86%</span></div>
-                <div class="prow"><div class="av">LP</div><div><div class="name">Lisa Park</div><div class="sub">VP Ops</div></div><span class="badge">New role · 2w</span><span>Figma</span><span class="match">90%</span></div>
-                <div class="prow"><div class="av">EL</div><div><div class="name">Eva Lang</div><div class="sub">CFO</div></div><span class="badge">Opened 3 offices</span><span>Deel</span><span class="match">85%</span></div>
-                <div class="prow"><div class="av">AW</div><div><div class="name">Amanda Walsh</div><div class="sub">VP Eng</div></div><span class="badge">Migrating to AWS</span><span>Loom</span><span class="match">87%</span></div>
-              </div>
+          <div class="mk-db-filters" data-filters>
+            <span class="filt"><span class="d"></span>Hiring</span>
+            <span class="filt"><span class="d"></span>Got funded</span>
+            <span class="filt"><span class="d"></span>Expanding</span>
+            <span class="filt"><span class="d"></span>New role</span>
+            <span class="filt"><span class="d"></span>Tech stack</span>
+          </div>
+          <div class="mk-db-cols">
+            <span>NAME</span>
+            <span>COMPANY</span>
+            <span>EMAIL</span>
+            <span>SIGNAL</span>
+          </div>
+          <div class="mk-db-rows">
+            <div class="prow">
+              <div class="mk-cell-name"><span class="av">SC</span><span><strong>Sarah Chen</strong><em>VP Engineering</em></span></div>
+              <div>Vercel</div>
+              <div class="mk-email">s.chen@vercel.com</div>
+              <span class="mk-sig warm">Hiring 12 roles</span>
+            </div>
+            <div class="prow">
+              <div class="mk-cell-name"><span class="av">MW</span><span><strong>Marcus Webb</strong><em>CTO</em></span></div>
+              <div>Linear</div>
+              <div class="mk-email">marcus@linear.app</div>
+              <span class="mk-sig">Raised $35M</span>
+            </div>
+            <div class="prow">
+              <div class="mk-cell-name"><span class="av">AK</span><span><strong>Anna Kovacs</strong><em>Head of Product</em></span></div>
+              <div>Stripe</div>
+              <div class="mk-email">a.kovacs@stripe.com</div>
+              <span class="mk-sig warm">Expanding · EU</span>
+            </div>
+            <div class="prow">
+              <div class="mk-cell-name"><span class="av">RP</span><span><strong>Rachel Park</strong><em>VP Sales</em></span></div>
+              <div>Ramp</div>
+              <div class="mk-email">rachel@ramp.com</div>
+              <span class="mk-sig">Raised $100M</span>
+            </div>
+            <div class="prow">
+              <div class="mk-cell-name"><span class="av">DK</span><span><strong>David Kim</strong><em>CTO</em></span></div>
+              <div>Webflow</div>
+              <div class="mk-email">david@webflow.com</div>
+              <span class="mk-sig warm">Hiring 8 roles</span>
+            </div>
+            <div class="prow">
+              <div class="mk-cell-name"><span class="av">LP</span><span><strong>Lisa Park</strong><em>VP Ops</em></span></div>
+              <div>Figma</div>
+              <div class="mk-email">lisa@figma.com</div>
+              <span class="mk-sig">New role · 2w</span>
             </div>
           </div>
         </div>
+
+        <!-- Form card (in front, left) -->
+        <div class="mk-form">
+          <h3 class="mk-f-title">Tell us about your company</h3>
+
+          <div class="mk-f-field">
+            <label>COMPANY NAME</label>
+            <div class="mk-f-input" data-type-idx="0" data-type="PLATFORM"></div>
+          </div>
+
+          <div class="mk-f-field">
+            <label>WEBSITE</label>
+            <div class="mk-f-input mk-f-input-url" data-type-idx="1" data-type="www.plat4m.com">
+              <span class="mk-url-dot" data-url-dot></span>
+              <span class="mk-url-text"></span>
+            </div>
+            <span class="mk-f-status" data-status>Analyzing…</span>
+          </div>
+
+          <div class="mk-f-field">
+            <label>WHAT DO YOU SELL?</label>
+            <div class="mk-f-area" data-type-idx="2" data-type="Landing pages and product-led websites for SaaS, fintech and design-led teams. We turn launches into pipeline."></div>
+          </div>
+
+          <div class="mk-f-sep">Buyer Persona</div>
+
+          <div class="mk-f-field">
+            <label>JOB TITLES</label>
+            <div class="mk-f-input" data-type-idx="3" data-type="CTO · VP Engineering · Head of Digital"></div>
+          </div>
+
+          <div class="mk-f-field">
+            <label>INDUSTRY</label>
+            <div class="mk-f-input" data-type-idx="4" data-type="SaaS · Fintech · E-commerce"></div>
+          </div>
+        </div>
+
       </div>
     </div>
 
