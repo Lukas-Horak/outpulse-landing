@@ -55,11 +55,25 @@ img{max-width:100%;display:block}
   border-bottom:1px solid var(--line);
 }
 .nav-row{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
-.brand{display:flex;align-items:center;gap:12px;font-weight:600;font-size:17px;letter-spacing:-.01em}
+/* Brand mark + serif wordmark. The italic "pulse" picks up the same
+   orange gradient used for hero "on autopilot" / "growth targets?" —
+   it's the single thread that ties the wordmark to the rest of the
+   page, so the two feel like one brand, not a mark + a label. */
+.brand{display:flex;align-items:center;gap:8px;line-height:1;text-decoration:none}
 .brand-mark{
-  width:60px;height:60px;
+  width:54px;height:54px;
   background:url('outpulse-logo-dusk.svg') center/contain no-repeat;
   flex-shrink:0;
+}
+.brand-text{
+  font-family:var(--serif);font-weight:400;
+  font-size:26px;color:var(--ink);
+  letter-spacing:-.015em;
+}
+.brand-text em{
+  font-style:italic;
+  background:linear-gradient(95deg,#ff5b1f 0%,#ff7a3d 60%,#ffa06a 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
 }
 .nav-links{display:flex;align-items:center;gap:4px}
 .nav-link{padding:8px 14px;font-size:14px;color:var(--ink-2);font-weight:500;border-radius:8px;transition:all .2s}
@@ -278,10 +292,11 @@ img{max-width:100%;display:block}
   /* No scale; each card handles its own transform via --p. */
 }
 /* Unified mockup — single translate on the whole browser as the hero
-   pin progresses. Lands centred on screen, then sequencer fires. */
+   pin progresses. Lands centred on screen with 6vh clearance above
+   the gradient's bottom edge so the section can breathe into the next. */
 .mk-browser{
   --rise: clamp(0, var(--p) / 0.75, 1);
-  transform: translateY(calc((1 - var(--rise)) * 140vh));
+  transform: translateY(calc((1 - var(--rise)) * 140vh + var(--rise) * -6vh));
   will-change: transform;
 }
 
@@ -338,8 +353,8 @@ img{max-width:100%;display:block}
   overflow:hidden;
 }
 .mk-sidebar .mk-f-title{
-  font-family:var(--serif);font-weight:400;font-size:18px;color:var(--ink);
-  text-align:left;margin:0 0 4px;
+  font-family:var(--serif);font-weight:400;font-size:21px;color:var(--ink);
+  text-align:left;margin:0 0 6px;letter-spacing:-.01em;
 }
 .mk-main{
   background:#fff;
@@ -395,7 +410,24 @@ img{max-width:100%;display:block}
   font-size:10px;font-weight:700;letter-spacing:.16em;
   text-transform:uppercase;color:var(--muted-2);
 }
-.mk-db-rows{display:flex;flex-direction:column}
+/* Body of the dashboard holds both the skeleton placeholders and the
+   real populated rows. Skeleton fades out when .rows-in hits, real
+   rows stagger in. A bottom mask-gradient fades the last few rows so
+   the list feels endless rather than cut. */
+.mk-db-body{position:relative}
+.mk-db-skel,.mk-db-rows{
+  display:flex;flex-direction:column;
+  -webkit-mask-image:linear-gradient(180deg,#000 0,#000 62%,transparent 100%);
+          mask-image:linear-gradient(180deg,#000 0,#000 62%,transparent 100%);
+}
+.mk-db-rows{opacity:0;transition:opacity .45s ease}
+.mk-db-skel{opacity:1;transition:opacity .35s ease}
+.hero-mockup.rows-in .mk-db-skel{
+  opacity:0;pointer-events:none;
+  position:absolute;inset:0;              /* hand over the slot */
+}
+.hero-mockup.rows-in .mk-db-rows{opacity:1}
+
 .mk-db-rows .prow{
   display:grid;grid-template-columns:1.7fr 1fr 1.4fr 1.1fr;gap:14px;
   align-items:center;padding:13px 0;
@@ -406,6 +438,36 @@ img{max-width:100%;display:block}
 }
 .mk-db-rows .prow.in{opacity:1;transform:none}
 .mk-db-rows .prow:last-child{border-bottom:none}
+
+/* Skeleton rows — same grid, shimmering gray boxes */
+.mk-db-skel .skel-row{
+  display:grid;grid-template-columns:1.7fr 1fr 1.4fr 1.1fr;gap:14px;
+  align-items:center;padding:15px 0;
+  border-bottom:1px solid var(--line);
+}
+.mk-db-skel .skel-row:last-child{border-bottom:none}
+.sk{
+  display:inline-block;
+  background:linear-gradient(90deg,
+    rgba(14,13,12,.05) 0%,
+    rgba(14,13,12,.11) 50%,
+    rgba(14,13,12,.05) 100%);
+  background-size:200% 100%;
+  border-radius:6px;
+  animation:skelShimmer 1.6s linear infinite;
+}
+.sk-av{width:28px;height:28px;border-radius:8px;justify-self:start;margin-right:4px}
+.sk-name{height:12px;width:70%;justify-self:start}
+.sk-co{height:11px;width:60%;justify-self:start}
+.sk-email{height:11px;width:85%;justify-self:start}
+.sk-pill{height:22px;width:72%;max-width:120px;border-radius:999px;justify-self:start}
+@keyframes skelShimmer{
+  0%{background-position:200% 0}
+  100%{background-position:-200% 0}
+}
+@media(prefers-reduced-motion:reduce){
+  .sk{animation:none}
+}
 .mk-cell-name{display:flex;align-items:center;gap:10px;min-width:0}
 .mk-cell-name .av{
   width:30px;height:30px;border-radius:8px;flex-shrink:0;
@@ -1034,11 +1096,12 @@ h1.display em{
   transition:box-shadow .25s ease,border-color .25s ease;
 }
 .chip .dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
+/* Size spread kept narrower so no single chip dominates the cloud. */
 .chip.sm{font-size:13px;padding:7px 16px;font-weight:500}
-.chip.md{font-size:15px;padding:9px 20px;font-weight:500}
-.chip.lg{font-size:19px;padding:11px 26px;font-weight:600}
-.chip.xl{font-size:24px;padding:13px 32px;font-weight:600;letter-spacing:-.005em}
-.chip.xxl{font-size:clamp(26px,2.6vw,38px);padding:16px 40px;font-weight:600;letter-spacing:-.015em}
+.chip.md{font-size:14px;padding:9px 20px;font-weight:500}
+.chip.lg{font-size:16px;padding:10px 22px;font-weight:600}
+.chip.xl{font-size:18px;padding:11px 26px;font-weight:600;letter-spacing:-.005em}
+.chip.xxl{font-size:20px;padding:12px 28px;font-weight:600;letter-spacing:-.01em}
 .chip.warm{background:#fff5ec;color:#d04c14;border-color:#ffd9b8}
 .chip.cool{background:#eaf2fb;color:#3866a6;border-color:#c8dcf0}
 .chip.ink{background:var(--ink);color:#fff;border-color:var(--ink)}
@@ -1635,7 +1698,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   <div class="container nav-row">
     <a href="/" class="brand">
       <span class="brand-mark"></span>
-      Outpulse
+      <span class="brand-text">Out<em>pulse</em></span>
     </a>
     <div class="nav-links">
       <a href="#prospects" class="nav-link">Find clients</a>
@@ -1767,42 +1830,55 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
                 <span>EMAIL</span>
                 <span>SIGNAL</span>
               </div>
-              <div class="mk-db-rows">
-                <div class="prow">
-                  <div class="mk-cell-name"><span class="av">SC</span><span><strong>Sarah Chen</strong><em>VP Engineering</em></span></div>
-                  <div>Vercel</div>
-                  <div class="mk-email">s.chen@vercel.com</div>
-                  <span class="mk-sig warm">Hiring 12 roles</span>
+              <div class="mk-db-body">
+                <!-- Skeleton — shown while the left form is typing, fades out
+                     once analysed and real rows slide in. -->
+                <div class="mk-db-skel" aria-hidden="true">
+                  <div class="skel-row"><span class="sk sk-av"></span><span class="sk sk-name"></span><span class="sk sk-co"></span><span class="sk sk-email"></span><span class="sk sk-pill"></span></div>
+                  <div class="skel-row"><span class="sk sk-av"></span><span class="sk sk-name"></span><span class="sk sk-co"></span><span class="sk sk-email"></span><span class="sk sk-pill"></span></div>
+                  <div class="skel-row"><span class="sk sk-av"></span><span class="sk sk-name"></span><span class="sk sk-co"></span><span class="sk sk-email"></span><span class="sk sk-pill"></span></div>
+                  <div class="skel-row"><span class="sk sk-av"></span><span class="sk sk-name"></span><span class="sk sk-co"></span><span class="sk sk-email"></span><span class="sk sk-pill"></span></div>
+                  <div class="skel-row"><span class="sk sk-av"></span><span class="sk sk-name"></span><span class="sk sk-co"></span><span class="sk sk-email"></span><span class="sk sk-pill"></span></div>
+                  <div class="skel-row"><span class="sk sk-av"></span><span class="sk sk-name"></span><span class="sk sk-co"></span><span class="sk sk-email"></span><span class="sk sk-pill"></span></div>
                 </div>
-                <div class="prow">
-                  <div class="mk-cell-name"><span class="av">MW</span><span><strong>Marcus Webb</strong><em>CTO</em></span></div>
-                  <div>Linear</div>
-                  <div class="mk-email">marcus@linear.app</div>
-                  <span class="mk-sig">Raised $35M</span>
-                </div>
-                <div class="prow">
-                  <div class="mk-cell-name"><span class="av">AK</span><span><strong>Anna Kovacs</strong><em>Head of Product</em></span></div>
-                  <div>Stripe</div>
-                  <div class="mk-email">a.kovacs@stripe.com</div>
-                  <span class="mk-sig warm">Expanding · EU</span>
-                </div>
-                <div class="prow">
-                  <div class="mk-cell-name"><span class="av">RP</span><span><strong>Rachel Park</strong><em>VP Sales</em></span></div>
-                  <div>Ramp</div>
-                  <div class="mk-email">rachel@ramp.com</div>
-                  <span class="mk-sig">Raised $100M</span>
-                </div>
-                <div class="prow">
-                  <div class="mk-cell-name"><span class="av">DK</span><span><strong>David Kim</strong><em>CTO</em></span></div>
-                  <div>Webflow</div>
-                  <div class="mk-email">david@webflow.com</div>
-                  <span class="mk-sig warm">Hiring 8 roles</span>
-                </div>
-                <div class="prow">
-                  <div class="mk-cell-name"><span class="av">LP</span><span><strong>Lisa Park</strong><em>VP Ops</em></span></div>
-                  <div>Figma</div>
-                  <div class="mk-email">lisa@figma.com</div>
-                  <span class="mk-sig">New role · 2w</span>
+
+                <div class="mk-db-rows">
+                  <div class="prow">
+                    <div class="mk-cell-name"><span class="av">SC</span><span><strong>Sarah Chen</strong><em>VP Engineering</em></span></div>
+                    <div>Vercel</div>
+                    <div class="mk-email">s.chen@vercel.com</div>
+                    <span class="mk-sig warm">Hiring 12 roles</span>
+                  </div>
+                  <div class="prow">
+                    <div class="mk-cell-name"><span class="av">MW</span><span><strong>Marcus Webb</strong><em>CTO</em></span></div>
+                    <div>Linear</div>
+                    <div class="mk-email">marcus@linear.app</div>
+                    <span class="mk-sig">Raised $35M</span>
+                  </div>
+                  <div class="prow">
+                    <div class="mk-cell-name"><span class="av">AK</span><span><strong>Anna Kovacs</strong><em>Head of Product</em></span></div>
+                    <div>Stripe</div>
+                    <div class="mk-email">a.kovacs@stripe.com</div>
+                    <span class="mk-sig warm">Expanding · EU</span>
+                  </div>
+                  <div class="prow">
+                    <div class="mk-cell-name"><span class="av">RP</span><span><strong>Rachel Park</strong><em>VP Sales</em></span></div>
+                    <div>Ramp</div>
+                    <div class="mk-email">rachel@ramp.com</div>
+                    <span class="mk-sig">Raised $100M</span>
+                  </div>
+                  <div class="prow">
+                    <div class="mk-cell-name"><span class="av">DK</span><span><strong>David Kim</strong><em>CTO</em></span></div>
+                    <div>Webflow</div>
+                    <div class="mk-email">david@webflow.com</div>
+                    <span class="mk-sig warm">Hiring 8 roles</span>
+                  </div>
+                  <div class="prow">
+                    <div class="mk-cell-name"><span class="av">LP</span><span><strong>Lisa Park</strong><em>VP Ops</em></span></div>
+                    <div>Figma</div>
+                    <div class="mk-email">lisa@figma.com</div>
+                    <span class="mk-sig">New role · 2w</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1925,56 +2001,56 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
 
       <!-- Centre (reveal first) -->
       <span class="chip xxl warm" style="--l:50%;--t:50%"
-            data-tip="Outpulse spots the expansion signal and personalises your email around their EU launch — you reach them the day they're picking new tools."
+            data-tip="When a company opens a new office, they're shopping for tools to run it. Outpulse emails them while that door is still open."
       ><span class="dot"></span>Expanding · opened EU HQ</span>
 
       <!-- Cross arms -->
       <span class="chip xl ink" style="--l:50%;--t:10%"
-            data-tip="Outpulse catches the funding announcement the day it drops — your outreach lands while budget is hot, not months after the news cycle."
+            data-tip="A fresh round means the spending budget just unlocked. Outpulse reaches out right after the announcement, while other vendors are still drafting."
       ><span class="dot"></span>Series C · raised $120M</span>
 
       <span class="chip lg" style="--l:13%;--t:50%"
-            data-tip="Hiring at this scale means product investment — Outpulse writes a pitch matched to exactly what the new team will need."
+            data-tip="Hiring waves signal a product push. Outpulse writes your email about exactly what the new engineers will need."
       ><span class="dot"></span>Hiring 12 engineers</span>
 
       <span class="chip lg cool" style="--l:87%;--t:50%"
-            data-tip="Post-acquisition stacks are unstable for months — Outpulse frames your message as "simplify", not "migrate", and lands in their priority queue."
+            data-tip="After an acquisition the two teams have a messy overlap of tools. Outpulse offers you as the fix, not another migration."
       ><span class="dot"></span>Acquired Linear · $150M</span>
 
       <!-- Row 1 corners (top-left, top-right) -->
       <span class="chip md" style="--l:18%;--t:10%"
-            data-tip="A fresh CTO is rebuilding the stack — Outpulse reaches them in the narrow window where vendors actually get heard."
+            data-tip="A new CTO is still picking the stack. Outpulse gets your product in front of them before the choices are locked."
       ><span class="dot"></span>New CTO · 2 weeks ago</span>
 
       <span class="chip md cool" style="--l:82%;--t:10%"
-            data-tip="Hyper-growth teams drown in manual work — Outpulse positions you as the automation that catches them up, not another tool to learn."
+            data-tip="Hyper growth leaves everyone drowning. Outpulse pitches you as the relief, not another tool to learn."
       ><span class="dot"></span>Growing 140% YoY</span>
 
       <!-- Row 2 (upper satellites) -->
       <span class="chip md warm" style="--l:30%;--t:30%"
-            data-tip="Fresh capital, budgets already approved — Outpulse times your email to the first spend wave, before every other vendor shows up."
+            data-tip="Cash just landed, budgets approved. Outpulse sends your email during the first spending wave, before every other vendor shows up."
       ><span class="dot"></span>Just raised $50M Series B</span>
 
       <span class="chip md" style="--l:70%;--t:30%"
-            data-tip="A new VP Sales needs quick wins — Outpulse pitches you as the tool that ships revenue in 30 days, not six months."
+            data-tip="A new VP needs quick wins in her first quarter. Outpulse positions you as the tool that books revenue in 30 days."
       ><span class="dot"></span>New VP Sales · 3 weeks</span>
 
       <!-- Row 4 (lower satellites) -->
       <span class="chip md" style="--l:30%;--t:70%"
-            data-tip="Senior hires decide the stack — Outpulse lands your product on their radar before the next director even starts."
+            data-tip="Senior engineers decide which tools the team uses. Outpulse lands your product on their radar before they even start."
       ><span class="dot"></span>Posted 8 senior eng jobs</span>
 
       <span class="chip md warm" style="--l:70%;--t:70%"
-            data-tip="They just went public with AI — Outpulse pivots your outreach to AI-first integrations they're already evaluating."
+            data-tip="They just announced an AI feature. Outpulse pivots your outreach to AI integrations they're already thinking about."
       ><span class="dot"></span>Launched AI product · Q2</span>
 
       <!-- Row 5 (bottom) -->
       <span class="chip sm warm" style="--l:30%;--t:90%"
-            data-tip="They've proven they'll switch vendors — Outpulse flags them as warm for anything CRM-adjacent and drafts the opening line."
+            data-tip="They just proved they will switch CRMs. Outpulse tags them as open to anything adjacent."
       >Switched off Salesforce</span>
 
       <span class="chip sm cool" style="--l:70%;--t:90%"
-            data-tip="Security-mature buyers unblock enterprise deals — Outpulse queues pitches here that would stall at smaller teams."
+            data-tip="Security mature teams unblock enterprise deals faster. Outpulse queues these for pitches that would stall at smaller teams."
       ><span class="dot"></span>SOC 2 Type II certified</span>
     </div>
   </div>
@@ -2427,55 +2503,53 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
     const jobs     = field(3);
     const industry = field(4);
 
-    // 1 — company name
-    if (company) await typewrite(company, company.dataset.type, 46);
-    await sleep(220);
+    // 1 — company name (slower, feels like a real person typing)
+    if (company) await typewrite(company, company.dataset.type, 75);
+    await sleep(380);
 
     // 2 — website URL (types into .mk-url-text inside the url input wrapper)
     const urlWrap = field(1);
     if (urlText && urlWrap){
-      await typewrite(urlText, urlWrap.dataset.type, 30);
+      await typewrite(urlText, urlWrap.dataset.type, 55);
       if (statusEl){
         statusEl.classList.add('visible');
         statusEl.textContent = 'Analyzing…';
       }
-      await sleep(900);
+      await sleep(1100);
       if (urlDot) urlDot.classList.add('analyzed');
       if (statusEl){ statusEl.textContent = 'Analyzed'; statusEl.classList.add('done'); }
     }
+    await sleep(300);
 
-    // 3 — kick off dashboard in parallel: counter, filters, rows
+    // 3 — "what do you sell" paragraph (slowest — the thinking bit)
+    if (sell) await typewrite(sell, sell.dataset.type, 32);
+    await sleep(280);
+
+    // 4 — buyer persona fields (paced, but quicker since they're tags)
+    if (jobs)     await typewrite(jobs, jobs.dataset.type, 40);
+    await sleep(200);
+    if (industry) await typewrite(industry, industry.dataset.type, 40);
+    await sleep(180);
+    const size = field(5);
+    if (size)     await typewrite(size, size.dataset.type, 40);
+    await sleep(180);
+    const location = field(6);
+    if (location) await typewrite(location, location.dataset.type, 40);
+
+    // 5 — form complete: hand over from skeleton to real prospects
+    await sleep(300);
+    mockup.classList.add('rows-in');
     (async () => {
-      if (countEl) countUp(countEl, parseInt(countEl.dataset.count, 10), 2100);
+      if (countEl) countUp(countEl, parseInt(countEl.dataset.count, 10), 1800);
       for (let i = 0; i < filts.length; i++){
         filts[i].classList.add('active');
-        await sleep(170);
+        await sleep(150);
       }
     })();
-    (async () => {
-      await sleep(450);
-      for (let i = 0; i < rows.length; i++){
-        rows[i].classList.add('in');
-        await sleep(170);
-      }
-    })();
-
-    await sleep(400);
-
-    // 4 — "what do you sell" paragraph
-    if (sell) await typewrite(sell, sell.dataset.type, 16);
-    await sleep(200);
-
-    // 5 — buyer persona fields
-    if (jobs)     await typewrite(jobs, jobs.dataset.type, 22);
-    await sleep(120);
-    if (industry) await typewrite(industry, industry.dataset.type, 22);
-    await sleep(120);
-    const size = field(5);
-    if (size)     await typewrite(size, size.dataset.type, 22);
-    await sleep(120);
-    const location = field(6);
-    if (location) await typewrite(location, location.dataset.type, 22);
+    for (let i = 0; i < rows.length; i++){
+      rows[i].classList.add('in');
+      await sleep(140);
+    }
   }
 
   const obs = new IntersectionObserver(entries => {
