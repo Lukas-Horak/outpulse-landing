@@ -732,28 +732,27 @@ h1.display em{
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
 
-/* Vertical divider — draws itself from top as rows appear */
+/* Vertical divider — full-height from start (so split is obvious),
+   slightly stronger as rows fill in. */
 .cmp-split-divider{
-  position:absolute;left:50%;top:160px;bottom:40px;
+  position:absolute;left:50%;top:140px;bottom:40px;
   width:1px;
-  background:linear-gradient(180deg,transparent 0%,var(--line-2) 10%,var(--line-2) 90%,transparent 100%);
-  transform:scaleY(calc(0.05 + var(--cp) * 0.95));
-  transform-origin:top;
-  opacity:calc(0.2 + var(--cp) * 0.8);
+  background:linear-gradient(180deg,transparent 0%,var(--line-2) 8%,var(--line-2) 92%,transparent 100%);
+  opacity:calc(0.55 + var(--cp) * 0.45);
   z-index:1;
 }
 
-/* Column title boards */
+/* Column title boards — static once section enters view (no scroll-drive),
+   so they anchor while rows slot in below them. */
 .cmp-split-board{
   display:grid;grid-template-columns:1fr 1fr;
-  max-width:1100px;margin:0 auto;width:100%;
-  gap:48px;padding:0 24px 24px;
+  max-width:1100px;margin:0 auto 12px;width:100%;
+  gap:48px;padding:0 24px 28px;
   flex-shrink:0;position:relative;z-index:2;
+  border-bottom:1px solid var(--line);
 }
 .cmp-split-col{
   text-align:center;padding:14px 20px 18px;
-  transform:translateY(calc((1 - var(--cp)) * 22vh));
-  opacity:calc(var(--cp) * 2 - 0.2);
 }
 .cmp-split-title{
   font-family:var(--serif);font-weight:400;
@@ -1666,20 +1665,19 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
     cp = Math.max(0, Math.min(1, cp));
     pin.style.setProperty('--cp', cp.toFixed(4));
 
-    // Row stagger — first 12% for column boards to settle,
-    // next 88% distributed among rows with slight overlap so they feel
-    // like they slot into each other rather than queue.
+    // Row stagger — first 5% breath, rest distributed among rows with
+    // slight overlap so they feel interlocked, not queued.
     const N = rows.length;
-    const headPortion = 0.12;
-    const rowSlice = (1 - headPortion) / N;
-    const overlap = rowSlice * 0.45; // rows start before previous finishes
+    const headPortion = 0.05;
+    const rowSlice = (1 - headPortion - 0.05) / N; // small tail breath too
+    const overlap = rowSlice * 0.35;
     rows.forEach((row, i) => {
       const start = headPortion + i * rowSlice - (i ? overlap : 0);
       const end   = start + rowSlice + overlap;
       let rp = (cp - start) / (end - start);
       rp = Math.max(0, Math.min(1, rp));
-      // Ease out (snappy settle)
-      rp = 1 - Math.pow(1 - rp, 2.4);
+      // Ease out cubic — snappy settle
+      rp = 1 - Math.pow(1 - rp, 2.6);
       row.style.setProperty('--rp', rp.toFixed(4));
     });
   }
