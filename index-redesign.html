@@ -85,8 +85,8 @@ img{max-width:100%;display:block}
   position:relative;
   /* 200vh gives 100vh worth of scroll for the parallax animation */
   height:200vh;
-  /* Warm muted grey-lavender base — the "middle" tone from the Leonard reference */
-  background:#b6acaf;
+  /* Lavender-violet base — sits behind the pin so the page bg doesn't flash white */
+  background:#b8b2c8;
 }
 .hero-pin{
   position:sticky;top:0;
@@ -95,9 +95,17 @@ img{max-width:100%;display:block}
   overflow:hidden;
   isolation:isolate;
   --p:0; /* set by JS */
+  perspective:1400px;
+  perspective-origin:50% 45%;
   background:
-    /* Full-bleed warm-to-cool diagonal base */
-    linear-gradient(135deg,#c4b6b1 0%,#b8aeb3 40%,#aeacb6 70%,#a9b4bd 100%);
+    /* Brighter Leonard-style base — cool lavender top-left → soft blue bottom-left
+       → neutral lavender middle → warm at right. More luminous than v1. */
+    linear-gradient(125deg,
+      #cdc1cd 0%,    /* upper-left: light lavender-grey */
+      #c2b6cc 25%,   /* slight violet drift toward middle */
+      #b8b2c8 45%,   /* center: lavender-violet base */
+      #b4b8cc 65%,   /* mid-bottom: lavender-blue blend */
+      #b6c5d8 100%); /* bottom-right: cool blue-lavender */
 }
 
 /* ── Animated gradient layer ─────────────────────────────────────────────────
@@ -133,41 +141,45 @@ img{max-width:100%;display:block}
   transform-origin:80% 20%;
 }
 
-/* ▸ b2 — pale blue, anchored bottom-left (the cool counterweight) */
+/* ▸ b2 — bright pastel blue, anchored bottom-left (saturated counterweight) */
 .hero-grad .b2{
-  width:70vw;height:70vh;
-  bottom:-22vh;left:-20vw;
+  width:75vw;height:75vh;
+  bottom:-22vh;left:-22vw;
   background:radial-gradient(circle at 50% 50%,
-    #c6dbe6 0%,
-    #d4e2eb 30%,
-    #dee7ee 50%,
-    rgba(222,231,238,0) 70%);
+    #8db8d8 0%,
+    #a4cae0 22%,
+    #bcd6e8 45%,
+    rgba(188,214,232,0) 72%);
   animation:driftBL 22s ease-in-out infinite alternate,
             breatheBL 11s ease-in-out infinite;
   transform-origin:20% 80%;
 }
 
-/* ▸ b3 — large warm peach bloom in the centre/middle */
+/* ▸ b3 — DEEP VIOLET centred bloom that sits behind the headline,
+   gives the white display type the contrast it needs to read on the gradient. */
 .hero-grad .b3{
-  width:80vw;height:60vh;
-  top:18vh;left:8vw;
+  width:95vw;height:75vh;
+  top:8vh;left:2.5vw;
   background:radial-gradient(ellipse at 50% 50%,
-    #d6b5a8 0%,
-    #c8aaa0 40%,
-    rgba(200,170,160,0) 70%);
-  opacity:.85;
+    #5d4f7c 0%,         /* core violet */
+    #6e5f8e 22%,
+    #82749e 42%,
+    #978bae 60%,
+    rgba(151,139,174,0) 78%);
+  opacity:.78;
+  mix-blend-mode:multiply;
   animation:driftMid 24s ease-in-out infinite alternate;
 }
 
-/* ▸ b4 — soft pink-tan accent bridging blue→orange */
+/* ▸ b4 — soft pink-mauve accent bridging the centre toward the orange corner */
 .hero-grad .b4{
   width:55vw;height:55vh;
-  top:32vh;right:18vw;
+  top:30vh;right:14vw;
   background:radial-gradient(circle at 50% 50%,
-    #d8a99b 0%,
-    #c9a395 35%,
-    rgba(201,163,149,0) 70%);
-  opacity:.7;
+    #c498a8 0%,
+    #b48aa2 35%,
+    rgba(180,138,162,0) 70%);
+  opacity:.55;
   animation:driftMid2 26s ease-in-out infinite alternate;
 }
 
@@ -219,14 +231,19 @@ img{max-width:100%;display:block}
 .hero-content{
   position:absolute;inset:0;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:96px 28px 0;
+  padding:72px 28px 0;
   text-align:center;
   color:#fff;
-  /* As scroll progresses, fade out + lift up so it gets out of mockup's way */
-  transform:translateY(calc(var(--p) * -8vh));
-  opacity:calc(1 - var(--p) * 1.4);
-  will-change:transform,opacity;
-  text-shadow:0 2px 20px rgba(40,20,10,.18);
+  /* Scroll-driven push-back: recedes along Z axis (hero sits on a perspective
+     parent), lifts slightly, fades, and softens with blur — feels like the
+     copy is being pushed into the distance as the mockup rises forward. */
+  transform-origin:50% 40%;
+  transform:
+    translate3d(0, calc(var(--p) * -4vh), calc(var(--p) * -420px));
+  opacity:calc(1 - var(--p) * 1.35);
+  filter:blur(calc(var(--p) * 3px));
+  will-change:transform,opacity,filter;
+  text-shadow:0 2px 30px rgba(30,20,50,.25);
 }
 .hero-content > *{max-width:1280px;width:100%}
 .hero-content h1.display{color:#fff}
@@ -351,21 +368,42 @@ h1.display em{
   padding:80px 0;
   background:var(--grad-warm);
   position:relative;overflow:hidden;
+  isolation:isolate;
 }
+/* TR white-light bloom — static, gentle */
 .gradient-stage::before{
   content:"";position:absolute;inset:0;
-  background:
-    radial-gradient(60% 60% at 80% 20%,rgba(255,255,255,.45) 0,transparent 60%),
-    radial-gradient(50% 60% at 15% 90%,rgba(255,75,20,.5) 0,transparent 60%);
-  pointer-events:none;
+  background:radial-gradient(60% 60% at 80% 20%,rgba(255,255,255,.45) 0,transparent 60%);
+  pointer-events:none;z-index:0;
 }
+/* BL orange bloom — rotates and pulses so motion is visibly there */
+.gradient-stage::after{
+  content:"";position:absolute;inset:-15%;
+  background:radial-gradient(45% 55% at 18% 88%,rgba(255,75,20,.55) 0,transparent 60%);
+  pointer-events:none;z-index:0;
+  transform-origin:18% 88%;
+  animation:gradRotate 14s ease-in-out infinite;
+  will-change:transform,opacity;
+}
+@keyframes gradRotate{
+  0%,100%{transform:rotate(0deg)   scale(1)    ;opacity:.85}
+  33%    {transform:rotate(15deg)  scale(1.18) ;opacity:1}
+  66%    {transform:rotate(-7deg)  scale(1.10) ;opacity:.95}
+}
+/* Section content needs to stay above the animated overlays */
+.gradient-stage > *{position:relative;z-index:1}
 .gradient-stage.dark{background:linear-gradient(135deg,#1f1611 0%,#2e1d12 60%,#3a2010 100%)}
 .gradient-stage.dark::before{
-  background:
-    radial-gradient(60% 60% at 80% 20%,rgba(255,140,80,.18) 0,transparent 60%),
-    radial-gradient(50% 60% at 15% 90%,rgba(255,180,120,.12) 0,transparent 60%);
+  background:radial-gradient(60% 60% at 80% 20%,rgba(255,140,80,.18) 0,transparent 60%);
+}
+.gradient-stage.dark::after{
+  background:radial-gradient(45% 55% at 18% 88%,rgba(255,180,120,.18) 0,transparent 60%);
 }
 .gradient-stage.peach{background:var(--grad-warm-soft)}
+.gradient-stage.peach::after{
+  /* Slightly stronger orange on peach to read against the warm base */
+  background:radial-gradient(45% 55% at 18% 88%,rgba(255,91,31,.45) 0,transparent 62%);
+}
 
 .stage-head{
   max-width:880px;margin:0 auto 48px;text-align:center;
@@ -652,7 +690,169 @@ h1.display em{
 }
 .stat-l{font-size:14px;color:var(--ink-2);font-weight:500;line-height:1.5;max-width:24ch;margin:0 auto}
 
-/* ─────────────────────────────────────── COMPARISON */
+/* ─────────────────────────────────────── COMPARISON (split-screen parallax)
+   260vh tall section with a 100vh sticky pin. Scroll progress feeds --cp;
+   each row has its own staggered --rp that slides it up from below and
+   locks it into place. Headline stays pinned while rows slot in. */
+.cmp-split{
+  position:relative;
+  height:260vh;
+  background:#fff;
+}
+.cmp-split-pin{
+  position:sticky;top:0;
+  height:100vh;
+  width:100%;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  padding:56px 24px 36px;
+  --cp:0;
+}
+
+.cmp-split-head{
+  text-align:center;
+  max-width:920px;margin:0 auto 28px;
+  /* Lifts & dims subtly as rows take focus */
+  transform:translateY(calc(var(--cp) * -1.5vh));
+  opacity:calc(1 - var(--cp) * 0.35);
+  will-change:transform,opacity;
+  z-index:3;
+}
+.cmp-split-head .eyebrow{
+  font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:14px;display:block;
+}
+.cmp-split-head h2{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(34px,4.6vw,64px);line-height:1.04;letter-spacing:-.02em;
+}
+.cmp-split-head h2 em{
+  font-style:italic;
+  background:linear-gradient(95deg,#ff5b1f 0%,#ff7a3d 60%,#ffa06a 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+
+/* Vertical divider — draws itself from top as rows appear */
+.cmp-split-divider{
+  position:absolute;left:50%;top:160px;bottom:40px;
+  width:1px;
+  background:linear-gradient(180deg,transparent 0%,var(--line-2) 10%,var(--line-2) 90%,transparent 100%);
+  transform:scaleY(calc(0.05 + var(--cp) * 0.95));
+  transform-origin:top;
+  opacity:calc(0.2 + var(--cp) * 0.8);
+  z-index:1;
+}
+
+/* Column title boards */
+.cmp-split-board{
+  display:grid;grid-template-columns:1fr 1fr;
+  max-width:1100px;margin:0 auto;width:100%;
+  gap:48px;padding:0 24px 24px;
+  flex-shrink:0;position:relative;z-index:2;
+}
+.cmp-split-col{
+  text-align:center;padding:14px 20px 18px;
+  transform:translateY(calc((1 - var(--cp)) * 22vh));
+  opacity:calc(var(--cp) * 2 - 0.2);
+}
+.cmp-split-title{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(26px,3.2vw,40px);line-height:1;
+  margin-bottom:10px;
+}
+.cmp-split-col.left .cmp-split-title{color:var(--muted)}
+.cmp-split-col.right .cmp-split-title{color:var(--ink)}
+.cmp-split-price{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(40px,5.5vw,72px);line-height:1;margin:8px 0 6px;
+}
+.cmp-split-col.left .cmp-split-price{color:var(--muted-2);text-decoration:line-through;text-decoration-color:rgba(14,13,12,0.2)}
+.cmp-split-col.right .cmp-split-price{
+  background:linear-gradient(95deg,#ff5b1f,#ff8a4c);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.cmp-split-price span{font-size:.36em;color:var(--muted);margin-left:4px;font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
+.cmp-split-col.right .cmp-split-price span{-webkit-text-fill-color:var(--muted);background:none}
+.cmp-split-sub{font-size:13px;color:var(--muted);font-weight:500}
+
+/* Rows area — flex:1 lets it fill remaining pinned height */
+.cmp-split-rows{
+  position:relative;
+  flex:1;
+  max-width:1100px;margin:0 auto;width:100%;
+  padding:0 24px;
+  display:flex;flex-direction:column;justify-content:flex-start;gap:0;
+  z-index:2;
+}
+.cmp-split-row{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:48px;
+  padding:18px 0;
+  border-bottom:1px solid var(--line);
+  --rp:0;
+  opacity:var(--rp);
+  transform:translateY(calc((1 - var(--rp)) * 22vh)) scale(calc(0.94 + var(--rp) * 0.06));
+  transform-origin:50% 50%;
+  will-change:transform,opacity;
+}
+.cmp-split-row:last-child{border-bottom:none}
+.cmp-row-cell{
+  font-size:clamp(16px,1.4vw,22px);
+  line-height:1.4;
+  display:flex;align-items:center;gap:12px;
+  padding:10px 24px;
+  font-family:var(--serif);font-weight:400;letter-spacing:-.005em;
+}
+.cmp-row-cell.left{
+  color:var(--muted);
+  justify-content:flex-end;text-align:right;
+  padding-right:36px;
+}
+.cmp-row-cell.left::before{
+  content:"";width:16px;height:16px;border-radius:50%;
+  border:1.5px solid var(--muted-2);flex-shrink:0;
+  order:2;margin-left:8px;
+  position:relative;
+}
+.cmp-row-cell.left::after{
+  content:"";position:absolute;
+  /* subtle dash through the circle for "missing" */
+}
+.cmp-row-cell.right{
+  color:var(--ink);
+  justify-content:flex-start;text-align:left;
+  padding-left:36px;font-weight:500;
+}
+.cmp-row-cell.right::before{
+  content:"";width:18px;height:18px;border-radius:50%;
+  background:var(--orange);flex-shrink:0;
+  position:relative;
+  background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M4 8.5l2.8 2.8L12 5.7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>');
+  background-repeat:no-repeat;background-position:center;background-size:14px;
+}
+
+/* Mobile: stack left/right, collapse to single column */
+@media(max-width:820px){
+  .cmp-split{height:200vh}
+  .cmp-split-pin{padding:40px 16px 24px}
+  .cmp-split-divider{display:none}
+  .cmp-split-board{grid-template-columns:1fr;gap:14px}
+  .cmp-split-col{padding:8px 12px}
+  .cmp-split-row{grid-template-columns:1fr;gap:4px;padding:10px 0}
+  .cmp-row-cell{font-size:15px;padding:6px 0}
+  .cmp-row-cell.left{justify-content:flex-start;text-align:left;padding:6px 0 2px;padding-right:0}
+  .cmp-row-cell.left::before{order:0;margin-left:0;margin-right:8px}
+  .cmp-row-cell.right{padding:2px 0 6px;padding-left:0}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .cmp-split{height:auto}
+  .cmp-split-pin{position:relative;height:auto}
+  .cmp-split-head,.cmp-split-col,.cmp-split-row{transform:none!important;opacity:1!important}
+  .cmp-split-divider{transform:scaleY(1)!important;opacity:1!important}
+}
+
+/* ─────────────────────────────────────── LEGACY COMPARISON (kept for other pages) */
 .cmp{padding:120px 0;background:#fff}
 .cmp-head{text-align:center;max-width:840px;margin:0 auto 56px}
 .cmp-head .eyebrow{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:block}
@@ -858,7 +1058,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
 
     <!-- Hero text + CTAs -->
     <div class="hero-content">
-      <h1 class="display">Find prospects.<br>Send emails.<br>Book meetings, <em>on autopilot.</em></h1>
+      <h1 class="display">Find prospects.<br>Send emails.<br>Book meetings,<br><em>on autopilot.</em></h1>
       <p class="hero-sub">
         Outpulse finds your ideal prospects, writes <strong>hyper-personalized</strong>
         emails, and runs your outreach campaigns — completely hands-free.
@@ -1006,7 +1206,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   <div class="stage-head">
     <span class="eyebrow">Engage</span>
     <h2>Every email is <em>unique</em>, not a template.</h2>
-    <p>AI analyzes role, company, tech stack and buying signals — then writes one email that reads like it was hand-crafted.</p>
+    <p>AI analyzes each prospect's role, company, and buying signals to write emails that feel completely hand-crafted.</p>
   </div>
 
   <div class="container">
@@ -1048,8 +1248,8 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
           <div class="email-grid">
             <div class="email-card">
               <div class="email-from">
-                <div class="av" style="width:28px;height:28px;border-radius:8px;background:#fff5ec;color:var(--orange);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:11px">L</div>
-                Lukas · Outpulse → Sarah Chen, VP Eng @ Vercel
+                <div class="av" style="width:28px;height:28px;border-radius:8px;background:#fff5ec;color:var(--orange);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:11px">SC</div>
+                Sarah Chen · CEO at Vercel · 180 emp · Raised $150M · Hiring 12 roles
               </div>
               <div class="email-subject">Vercel's next 50 customers?</div>
               <div class="email-body">
@@ -1061,9 +1261,9 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
             </div>
 
             <div class="struct">
-              <div class="item"><strong>Pattern interrupt</strong>No "Hi". Leads with their funding, earns the read.</div>
-              <div class="item"><strong>Tension</strong>Team will double before pipeline catches up — a real pain.</div>
-              <div class="item"><strong>Proof of relevance</strong>Mentions stack, funding, hiring. Hand-written feel.</div>
+              <div class="item"><strong>Pattern interrupt</strong>No "Hi", leads with their funding news, earns the read.</div>
+              <div class="item"><strong>Tension</strong>Team will double before pipeline catches up — a real pain point.</div>
+              <div class="item"><strong>Proof of relevance</strong>Mentions their stack, funding, hiring. Feels hand-written.</div>
               <div class="item"><strong>Outcome, not feature</strong>"Books calls while your team focuses on closing."</div>
             </div>
           </div>
@@ -1077,8 +1277,8 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
 <section class="gradient-stage peach" id="track">
   <div class="stage-head">
     <span class="eyebrow">Track & optimize</span>
-    <h2>See <em>every signal</em> in real time.</h2>
-    <p>Multi-step sequences with automatic follow-ups. Opens, clicks and replies land in one live campaign view — and Outpulse keeps optimising as the data rolls in.</p>
+    <h2>Track and <em>optimize</em> in real time.</h2>
+    <p>Multi-step sequences with automatic follow-ups. Track opens, clicks, and replies in real time.</p>
   </div>
 
   <div class="container">
@@ -1178,7 +1378,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   <div class="stage-head">
     <span class="eyebrow">Insights</span>
     <h2>See your <em>growth</em> at a glance.</h2>
-    <p>Your Pulse tracks every step from first visit to closed deal. Set a target. Watch the numbers come alive.</p>
+    <p>Your Pulse tracks every step from first visit to closed deal. Set a revenue target and watch the numbers come alive.</p>
   </div>
 
   <div class="container">
@@ -1253,37 +1453,49 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   </div>
 </section>
 
-<!-- ═══════════════════ COMPARISON ═══════════════════ -->
-<section class="cmp">
-  <div class="cmp-head">
-    <span class="eyebrow">Same job. Fraction of the cost.</span>
-    <h2>A full-time SDR costs <em>$7,500</em>/mo.<br>Outpulse starts at <em>$49</em>.</h2>
-  </div>
-  <div class="container">
-    <div class="cmp-grid">
-      <div class="cmp-save">Save 97%</div>
-      <div class="cmp-col">
-        <h4 style="color:var(--muted)">Hire an SDR</h4>
-        <div class="sub">$7,500/mo · US average + benefits</div>
-        <ul>
-          <li>2–4 weeks to onboard</li>
-          <li>Works 8h/day, 5 days a week</li>
-          <li>Inconsistent quality</li>
-          <li>No built-in intent signals</li>
-          <li>Sick days, churn, ramp</li>
-        </ul>
+<!-- ═══════════════════ COMPARISON — split-screen parallax ═══════════════════ -->
+<section class="cmp-split" id="comparison" data-cmp-pin>
+  <div class="cmp-split-pin">
+    <div class="cmp-split-head">
+      <span class="eyebrow">Same job. Fraction of the cost.</span>
+      <h2>A full-time sales rep costs <em>$7,500</em>/mo.<br>Outpulse starts at <em>$49</em>.</h2>
+    </div>
+
+    <div class="cmp-split-divider" aria-hidden="true"></div>
+
+    <div class="cmp-split-board">
+      <div class="cmp-split-col left">
+        <div class="cmp-split-title">Hire a sales rep</div>
+        <div class="cmp-split-price">$7,500<span>/mo</span></div>
+        <div class="cmp-split-sub">US average + benefits</div>
       </div>
-      <div class="cmp-vs">vs.</div>
-      <div class="cmp-col win">
-        <h4>Outpulse</h4>
-        <div class="sub">$49/mo · 7-day free trial</div>
-        <ul>
-          <li>Setup in 2 minutes</li>
-          <li>Runs 24/7, never tired</li>
-          <li>AI-personalized every time</li>
-          <li>Built-in real-time intent signals</li>
-          <li>Cancel anytime</li>
-        </ul>
+      <div class="cmp-split-col right">
+        <div class="cmp-split-title">Outpulse</div>
+        <div class="cmp-split-price">$49<span>/mo</span></div>
+        <div class="cmp-split-sub">7-day free trial · cancel anytime</div>
+      </div>
+    </div>
+
+    <div class="cmp-split-rows">
+      <div class="cmp-split-row" data-row="0">
+        <div class="cmp-row-cell left">2–4 weeks to onboard</div>
+        <div class="cmp-row-cell right">Setup in 2 minutes</div>
+      </div>
+      <div class="cmp-split-row" data-row="1">
+        <div class="cmp-row-cell left">Works 8h/day, 5 days a week</div>
+        <div class="cmp-row-cell right">Runs 24/7 non-stop</div>
+      </div>
+      <div class="cmp-split-row" data-row="2">
+        <div class="cmp-row-cell left">Inconsistent quality</div>
+        <div class="cmp-row-cell right">AI-personalized every time</div>
+      </div>
+      <div class="cmp-split-row" data-row="3">
+        <div class="cmp-row-cell left">No built-in intent signals</div>
+        <div class="cmp-row-cell right">Built-in intent signals</div>
+      </div>
+      <div class="cmp-split-row" data-row="4">
+        <div class="cmp-row-cell left">Sick days, churn, ramp</div>
+        <div class="cmp-row-cell right">Never sleeps, never quits</div>
       </div>
     </div>
   </div>
@@ -1424,6 +1636,54 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
       ticking = true;
     }
   }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  window.addEventListener('resize', onScroll, { passive:true });
+  update();
+})();
+
+/* ─── Comparison split-screen scroll driver ─── */
+(function(){
+  const section = document.querySelector('[data-cmp-pin]');
+  if (!section) return;
+  const pin = section.querySelector('.cmp-split-pin');
+  const rows = Array.from(section.querySelectorAll('.cmp-split-row'));
+  if (!pin || rows.length === 0) return;
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (reduce.matches) {
+    pin.style.setProperty('--cp', '1');
+    rows.forEach(r => r.style.setProperty('--rp', '1'));
+    return;
+  }
+
+  let ticking = false;
+  function update(){
+    ticking = false;
+    const rect = section.getBoundingClientRect();
+    const total = section.offsetHeight - window.innerHeight;
+    if (total <= 0) return;
+    let cp = -rect.top / total;
+    cp = Math.max(0, Math.min(1, cp));
+    pin.style.setProperty('--cp', cp.toFixed(4));
+
+    // Row stagger — first 12% for column boards to settle,
+    // next 88% distributed among rows with slight overlap so they feel
+    // like they slot into each other rather than queue.
+    const N = rows.length;
+    const headPortion = 0.12;
+    const rowSlice = (1 - headPortion) / N;
+    const overlap = rowSlice * 0.45; // rows start before previous finishes
+    rows.forEach((row, i) => {
+      const start = headPortion + i * rowSlice - (i ? overlap : 0);
+      const end   = start + rowSlice + overlap;
+      let rp = (cp - start) / (end - start);
+      rp = Math.max(0, Math.min(1, rp));
+      // Ease out (snappy settle)
+      rp = 1 - Math.pow(1 - rp, 2.4);
+      row.style.setProperty('--rp', rp.toFixed(4));
+    });
+  }
+  function onScroll(){ if (!ticking){ requestAnimationFrame(update); ticking = true; } }
   window.addEventListener('scroll', onScroll, { passive:true });
   window.addEventListener('resize', onScroll, { passive:true });
   update();
