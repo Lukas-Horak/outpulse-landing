@@ -277,33 +277,26 @@ img{max-width:100%;display:block}
   width:100%;max-width:1180px;
   /* No scale; each card handles its own transform via --p. */
 }
-/* Per-card scroll-linked rise with staggered start:
-   • Form rises during --p: 0 → 0.55  (first, lands centred)
-   • Dashboard-in-browser rises during --p: 0.2 → 0.9  (follows)
-   Both cards land in their natural positions within the mockup. */
-.mk-form{
-  --rise: clamp(0, var(--p) / 0.55, 1);
-  transform: translateY(calc((1 - var(--rise)) * 135vh));
-  will-change: transform;
-}
+/* Unified mockup — single translate on the whole browser as the hero
+   pin progresses. Lands centred on screen, then sequencer fires. */
 .mk-browser{
-  --rise: clamp(0, (var(--p) - 0.2) / 0.7, 1);
-  transform: translateY(calc((1 - var(--rise)) * 150vh));
+  --rise: clamp(0, var(--p) / 0.75, 1);
+  transform: translateY(calc((1 - var(--rise)) * 140vh));
   will-change: transform;
 }
 
-/* ── Browser window wrapping the dashboard (behind, centred) */
+/* Browser window — max 1100 wide, auto-centered */
 .mk-browser{
-  position:relative;z-index:1;
-  max-width:860px;
-  margin:34px auto 0;
+  position:relative;
+  width:100%;max-width:1100px;
+  margin:0 auto;
   background:#fff;
   border-radius:16px;
   border:1px solid var(--line);
   overflow:hidden;
   box-shadow:
-    0 40px 80px -18px rgba(14,13,12,.22),
-    0 12px 28px -10px rgba(14,13,12,.1);
+    0 50px 100px -20px rgba(14,13,12,.28),
+    0 16px 36px -12px rgba(14,13,12,.12);
 }
 .mk-browser-bar{
   display:flex;align-items:center;gap:14px;
@@ -331,12 +324,28 @@ img{max-width:100%;display:block}
   font-size:11.5px;color:var(--ink-2);font-weight:500;flex-shrink:0;
 }
 
-/* ── Dashboard content (inside the browser window) */
-.mk-dashboard{
+/* ── App body inside the browser: sidebar (form) + main (dashboard) */
+.mk-app{
+  display:grid;
+  grid-template-columns:320px 1fr;
+  min-height:560px;
+}
+.mk-sidebar{
+  background:#fbfaf7;
+  border-right:1px solid var(--line);
+  padding:22px 20px;
+  display:flex;flex-direction:column;gap:14px;
+  overflow:hidden;
+}
+.mk-sidebar .mk-f-title{
+  font-family:var(--serif);font-weight:400;font-size:18px;color:var(--ink);
+  text-align:left;margin:0 0 4px;
+}
+.mk-main{
   background:#fff;
-  color:var(--ink);
   padding:22px 26px;
   display:flex;flex-direction:column;gap:16px;
+  min-width:0;
 }
 .mk-db-head{display:flex;align-items:center;justify-content:space-between;gap:14px}
 .mk-db-title{font-family:var(--serif);font-weight:400;font-size:21px;color:var(--ink);margin:0}
@@ -422,25 +431,6 @@ img{max-width:100%;display:block}
   color:#d04c14;
 }
 
-/* ── Form card (in front, left, overlapping dashboard) */
-.mk-form{
-  position:absolute;top:0;left:0;
-  width:360px;
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:26px 24px;
-  color:var(--ink);
-  box-shadow:
-    0 30px 70px -14px rgba(14,13,12,.18),
-    0 8px 22px -8px rgba(14,13,12,.08);
-  z-index:2;
-  display:flex;flex-direction:column;gap:14px;
-}
-.mk-f-title{
-  font-family:var(--serif);font-weight:400;font-size:20px;color:var(--ink);
-  text-align:center;margin:0 0 6px;
-}
 .mk-f-field{position:relative;display:flex;flex-direction:column;gap:6px}
 .mk-f-field label{
   font-size:10px;font-weight:700;letter-spacing:.18em;
@@ -501,17 +491,19 @@ img{max-width:100%;display:block}
 }
 @keyframes mkCaret{50%{opacity:0}}
 
-/* Small-viewport fallback: hide form, let dashboard fill. */
+/* Small-viewport fallback: stack sidebar above dashboard, drop email column */
 @media(max-width:820px){
-  .mk-dashboard{margin-left:0;min-height:auto}
-  .mk-form{display:none}
+  .mk-app{grid-template-columns:1fr;min-height:auto}
+  .mk-sidebar{border-right:none;border-bottom:1px solid var(--line);padding:18px 16px}
   .mk-db-cols,.mk-db-rows .prow{grid-template-columns:1.6fr 1fr 1fr}
   .mk-db-cols>*:nth-child(3),.mk-db-rows .prow>*:nth-child(3){display:none}
 }
-/* Short laptop viewports — fewer rows visible without cropping */
+/* Short laptop viewports — tighter sidebar + row spacing */
 @media(max-height:900px){
-  .mk-dashboard{min-height:460px}
+  .mk-app{min-height:480px}
+  .mk-sidebar{gap:10px;padding:18px 18px}
   .mk-db-rows .prow{padding:10px 0}
+  .mk-f-area{min-height:56px}
 }
 
 /* ── Scroll cue under the trust row ──────────────────────────────────── */
@@ -1121,9 +1113,9 @@ h1.display em{
   width:100%;
   overflow:hidden;
   display:flex;flex-direction:column;
-  /* Extra top padding so the eyebrow ("Same job. Fraction of the cost.")
-     has real breathing room — it was hugging the top edge before. */
-  padding:clamp(80px,10vh,120px) 24px 40px;
+  /* Same padding-top rhythm as the personalization pin — the eyebrow
+     ('Same job. Fraction of the cost.') docks ~100px below the nav. */
+  padding:clamp(140px,18vh,200px) 24px clamp(24px,4vh,40px);
   --cp:0;
 }
 
@@ -1313,8 +1305,8 @@ h1.display em{
    stay full-size because the mockup is parked completely below the fold
    until the user scrolls. */
 @media(min-width:821px) and (max-height:900px){
-  /* ─ Comparison pin — tighter on every axis so 5 rows + board fit. */
-  .cmp-split-pin{padding:clamp(48px,6.5vh,72px) 24px 20px}
+  /* ─ Comparison pin — still roomy on top, tighter elsewhere. */
+  .cmp-split-pin{padding:clamp(110px,14vh,150px) 24px 20px}
   .cmp-split-head{margin:0 auto 18px}
   .cmp-split-head .eyebrow{margin-bottom:12px}
   .cmp-split-board{padding:0 24px 18px;margin:0 auto 10px;gap:36px}
@@ -1331,7 +1323,7 @@ h1.display em{
 
 /* Short height with plenty of width (≤750) — squeeze comparison further. */
 @media(min-width:821px) and (max-height:750px){
-  .cmp-split-pin{padding:clamp(36px,5vh,56px) 24px 16px}
+  .cmp-split-pin{padding:clamp(90px,12vh,120px) 24px 16px}
   .cmp-split-head{margin:0 auto 12px}
   .cmp-split-head .eyebrow{font-size:10px;margin-bottom:8px}
   .cmp-split-board{padding:0 24px 14px;gap:28px}
@@ -1691,11 +1683,11 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
       </div>
     </div>
 
-    <!-- Split-layer mockup — dashboard in a browser window behind + onboarding form card in front -->
+    <!-- Unified hero mockup — single browser window, split inside:
+         left sidebar = "Tell us about your company" form, right main =
+         Prospects dashboard. Same app, two panes. -->
     <div class="hero-mockup-wrap">
       <div class="hero-mockup" data-mk>
-
-        <!-- Dashboard sitting inside a browser window (behind, centred) -->
         <div class="mk-browser">
           <div class="mk-browser-bar">
             <div class="browser-dots"><span></span><span></span><span></span></div>
@@ -1709,108 +1701,111 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
             </span>
           </div>
 
-        <div class="mk-dashboard">
-          <div class="mk-db-head">
-            <h3 class="mk-db-title">Prospects <span class="mk-db-sub">· live discovery</span></h3>
-            <span class="mk-db-streaming"><span class="mk-ring-sm"></span>Streaming intent signals</span>
-          </div>
-          <div class="mk-db-filters" data-filters>
-            <span class="filt"><span class="d"></span>Hiring</span>
-            <span class="filt"><span class="d"></span>Got funded</span>
-            <span class="filt"><span class="d"></span>Expanding</span>
-            <span class="filt"><span class="d"></span>New role</span>
-            <span class="filt"><span class="d"></span>Tech stack</span>
-          </div>
-          <div class="mk-db-cols">
-            <span>NAME</span>
-            <span>COMPANY</span>
-            <span>EMAIL</span>
-            <span>SIGNAL</span>
-          </div>
-          <div class="mk-db-rows">
-            <div class="prow">
-              <div class="mk-cell-name"><span class="av">SC</span><span><strong>Sarah Chen</strong><em>VP Engineering</em></span></div>
-              <div>Vercel</div>
-              <div class="mk-email">s.chen@vercel.com</div>
-              <span class="mk-sig warm">Hiring 12 roles</span>
+          <div class="mk-app">
+            <!-- Left: company info form (fills first) -->
+            <aside class="mk-sidebar">
+              <h3 class="mk-f-title">Tell us about your company</h3>
+
+              <div class="mk-f-field">
+                <label>COMPANY NAME</label>
+                <div class="mk-f-input" data-type-idx="0" data-type="PLATFORM"></div>
+              </div>
+
+              <div class="mk-f-field">
+                <label>WEBSITE</label>
+                <div class="mk-f-input mk-f-input-url" data-type-idx="1" data-type="www.plat4m.com">
+                  <span class="mk-url-dot" data-url-dot></span>
+                  <span class="mk-url-text"></span>
+                </div>
+                <span class="mk-f-status" data-status>Analyzing…</span>
+              </div>
+
+              <div class="mk-f-field">
+                <label>WHAT DO YOU SELL?</label>
+                <div class="mk-f-area" data-type-idx="2" data-type="Landing pages and product-led websites for SaaS, fintech and design-led teams. We turn launches into pipeline."></div>
+              </div>
+
+              <div class="mk-f-sep">Buyer Persona</div>
+
+              <div class="mk-f-field">
+                <label>JOB TITLES</label>
+                <div class="mk-f-input" data-type-idx="3" data-type="CTO · VP Engineering · Head of Digital"></div>
+              </div>
+
+              <div class="mk-f-field">
+                <label>INDUSTRY</label>
+                <div class="mk-f-input" data-type-idx="4" data-type="SaaS · Fintech · E-commerce"></div>
+              </div>
+
+              <div class="mk-f-field">
+                <label>COMPANY SIZE</label>
+                <div class="mk-f-input" data-type-idx="5" data-type="50–500 employees"></div>
+              </div>
+
+              <div class="mk-f-field">
+                <label>LOCATION</label>
+                <div class="mk-f-input" data-type-idx="6" data-type="Europe · North America"></div>
+              </div>
+            </aside>
+
+            <!-- Right: prospects dashboard (populates when form fills) -->
+            <div class="mk-main">
+              <div class="mk-db-head">
+                <h3 class="mk-db-title">Prospects <span class="mk-db-sub">· live discovery</span></h3>
+                <span class="mk-db-streaming"><span class="mk-ring-sm"></span>Streaming intent signals</span>
+              </div>
+              <div class="mk-db-filters" data-filters>
+                <span class="filt"><span class="d"></span>Hiring</span>
+                <span class="filt"><span class="d"></span>Got funded</span>
+                <span class="filt"><span class="d"></span>Expanding</span>
+                <span class="filt"><span class="d"></span>New role</span>
+                <span class="filt"><span class="d"></span>Tech stack</span>
+              </div>
+              <div class="mk-db-cols">
+                <span>NAME</span>
+                <span>COMPANY</span>
+                <span>EMAIL</span>
+                <span>SIGNAL</span>
+              </div>
+              <div class="mk-db-rows">
+                <div class="prow">
+                  <div class="mk-cell-name"><span class="av">SC</span><span><strong>Sarah Chen</strong><em>VP Engineering</em></span></div>
+                  <div>Vercel</div>
+                  <div class="mk-email">s.chen@vercel.com</div>
+                  <span class="mk-sig warm">Hiring 12 roles</span>
+                </div>
+                <div class="prow">
+                  <div class="mk-cell-name"><span class="av">MW</span><span><strong>Marcus Webb</strong><em>CTO</em></span></div>
+                  <div>Linear</div>
+                  <div class="mk-email">marcus@linear.app</div>
+                  <span class="mk-sig">Raised $35M</span>
+                </div>
+                <div class="prow">
+                  <div class="mk-cell-name"><span class="av">AK</span><span><strong>Anna Kovacs</strong><em>Head of Product</em></span></div>
+                  <div>Stripe</div>
+                  <div class="mk-email">a.kovacs@stripe.com</div>
+                  <span class="mk-sig warm">Expanding · EU</span>
+                </div>
+                <div class="prow">
+                  <div class="mk-cell-name"><span class="av">RP</span><span><strong>Rachel Park</strong><em>VP Sales</em></span></div>
+                  <div>Ramp</div>
+                  <div class="mk-email">rachel@ramp.com</div>
+                  <span class="mk-sig">Raised $100M</span>
+                </div>
+                <div class="prow">
+                  <div class="mk-cell-name"><span class="av">DK</span><span><strong>David Kim</strong><em>CTO</em></span></div>
+                  <div>Webflow</div>
+                  <div class="mk-email">david@webflow.com</div>
+                  <span class="mk-sig warm">Hiring 8 roles</span>
+                </div>
+                <div class="prow">
+                  <div class="mk-cell-name"><span class="av">LP</span><span><strong>Lisa Park</strong><em>VP Ops</em></span></div>
+                  <div>Figma</div>
+                  <div class="mk-email">lisa@figma.com</div>
+                  <span class="mk-sig">New role · 2w</span>
+                </div>
+              </div>
             </div>
-            <div class="prow">
-              <div class="mk-cell-name"><span class="av">MW</span><span><strong>Marcus Webb</strong><em>CTO</em></span></div>
-              <div>Linear</div>
-              <div class="mk-email">marcus@linear.app</div>
-              <span class="mk-sig">Raised $35M</span>
-            </div>
-            <div class="prow">
-              <div class="mk-cell-name"><span class="av">AK</span><span><strong>Anna Kovacs</strong><em>Head of Product</em></span></div>
-              <div>Stripe</div>
-              <div class="mk-email">a.kovacs@stripe.com</div>
-              <span class="mk-sig warm">Expanding · EU</span>
-            </div>
-            <div class="prow">
-              <div class="mk-cell-name"><span class="av">RP</span><span><strong>Rachel Park</strong><em>VP Sales</em></span></div>
-              <div>Ramp</div>
-              <div class="mk-email">rachel@ramp.com</div>
-              <span class="mk-sig">Raised $100M</span>
-            </div>
-            <div class="prow">
-              <div class="mk-cell-name"><span class="av">DK</span><span><strong>David Kim</strong><em>CTO</em></span></div>
-              <div>Webflow</div>
-              <div class="mk-email">david@webflow.com</div>
-              <span class="mk-sig warm">Hiring 8 roles</span>
-            </div>
-            <div class="prow">
-              <div class="mk-cell-name"><span class="av">LP</span><span><strong>Lisa Park</strong><em>VP Ops</em></span></div>
-              <div>Figma</div>
-              <div class="mk-email">lisa@figma.com</div>
-              <span class="mk-sig">New role · 2w</span>
-            </div>
-          </div>
-        </div>
-        </div><!-- /.mk-browser -->
-
-        <!-- Form card (in front, left) -->
-        <div class="mk-form">
-          <h3 class="mk-f-title">Tell us about your company</h3>
-
-          <div class="mk-f-field">
-            <label>COMPANY NAME</label>
-            <div class="mk-f-input" data-type-idx="0" data-type="PLATFORM"></div>
-          </div>
-
-          <div class="mk-f-field">
-            <label>WEBSITE</label>
-            <div class="mk-f-input mk-f-input-url" data-type-idx="1" data-type="www.plat4m.com">
-              <span class="mk-url-dot" data-url-dot></span>
-              <span class="mk-url-text"></span>
-            </div>
-            <span class="mk-f-status" data-status>Analyzing…</span>
-          </div>
-
-          <div class="mk-f-field">
-            <label>WHAT DO YOU SELL?</label>
-            <div class="mk-f-area" data-type-idx="2" data-type="Landing pages and product-led websites for SaaS, fintech and design-led teams. We turn launches into pipeline."></div>
-          </div>
-
-          <div class="mk-f-sep">Buyer Persona</div>
-
-          <div class="mk-f-field">
-            <label>JOB TITLES</label>
-            <div class="mk-f-input" data-type-idx="3" data-type="CTO · VP Engineering · Head of Digital"></div>
-          </div>
-
-          <div class="mk-f-field">
-            <label>INDUSTRY</label>
-            <div class="mk-f-input" data-type-idx="4" data-type="SaaS · Fintech · E-commerce"></div>
-          </div>
-
-          <div class="mk-f-field">
-            <label>COMPANY SIZE</label>
-            <div class="mk-f-input" data-type-idx="5" data-type="50–500 employees"></div>
-          </div>
-
-          <div class="mk-f-field">
-            <label>LOCATION</label>
-            <div class="mk-f-input" data-type-idx="6" data-type="Europe · North America"></div>
           </div>
         </div>
 
@@ -1930,56 +1925,56 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
 
       <!-- Centre (reveal first) -->
       <span class="chip xxl warm" style="--l:50%;--t:50%"
-            data-tip="They just opened a European HQ — lead with how you help teams operate cross-border without rebuilding the stack."
+            data-tip="Outpulse spots the expansion signal and personalises your email around their EU launch — you reach them the day they're picking new tools."
       ><span class="dot"></span>Expanding · opened EU HQ</span>
 
       <!-- Cross arms -->
       <span class="chip xl ink" style="--l:50%;--t:10%"
-            data-tip="Fresh capital means the budget cycle is open for the next 60 days — pitch before the CFO closes it."
+            data-tip="Outpulse catches the funding announcement the day it drops — your outreach lands while budget is hot, not months after the news cycle."
       ><span class="dot"></span>Series C · raised $120M</span>
 
       <span class="chip lg" style="--l:13%;--t:50%"
-            data-tip="Engineering hires at this volume signal product investment — lead with developer tooling that scales with the team."
+            data-tip="Hiring at this scale means product investment — Outpulse writes a pitch matched to exactly what the new team will need."
       ><span class="dot"></span>Hiring 12 engineers</span>
 
       <span class="chip lg cool" style="--l:87%;--t:50%"
-            data-tip="Post-acquisition integrations are messy for six months — offer something that unifies stacks without a migration."
+            data-tip="Post-acquisition stacks are unstable for months — Outpulse frames your message as "simplify", not "migrate", and lands in their priority queue."
       ><span class="dot"></span>Acquired Linear · $150M</span>
 
       <!-- Row 1 corners (top-left, top-right) -->
       <span class="chip md" style="--l:18%;--t:10%"
-            data-tip="A brand-new CTO is still choosing the stack — get in before the roadmap locks."
+            data-tip="A fresh CTO is rebuilding the stack — Outpulse reaches them in the narrow window where vendors actually get heard."
       ><span class="dot"></span>New CTO · 2 weeks ago</span>
 
       <span class="chip md cool" style="--l:82%;--t:10%"
-            data-tip="Hyper-growth means stretched ops and duct-taped processes — they need automation to catch up, fast."
+            data-tip="Hyper-growth teams drown in manual work — Outpulse positions you as the automation that catches them up, not another tool to learn."
       ><span class="dot"></span>Growing 140% YoY</span>
 
       <!-- Row 2 (upper satellites) -->
       <span class="chip md warm" style="--l:30%;--t:30%"
-            data-tip="Budget is already approved for this quarter — reach out now and you're buying into the first spend wave."
+            data-tip="Fresh capital, budgets already approved — Outpulse times your email to the first spend wave, before every other vendor shows up."
       ><span class="dot"></span>Just raised $50M Series B</span>
 
       <span class="chip md" style="--l:70%;--t:30%"
-            data-tip="A new VP is looking for quick wins — position around shipping revenue in 30 days, not a six-month migration."
+            data-tip="A new VP Sales needs quick wins — Outpulse pitches you as the tool that ships revenue in 30 days, not six months."
       ><span class="dot"></span>New VP Sales · 3 weeks</span>
 
       <!-- Row 4 (lower satellites) -->
       <span class="chip md" style="--l:30%;--t:70%"
-            data-tip="Senior hires drive tool and spec decisions — land the next director and your product is already in the stack."
+            data-tip="Senior hires decide the stack — Outpulse lands your product on their radar before the next director even starts."
       ><span class="dot"></span>Posted 8 senior eng jobs</span>
 
       <span class="chip md warm" style="--l:70%;--t:70%"
-            data-tip="They just publicly staked a flag in AI — lean into AI-first integrations and their CMO will listen."
+            data-tip="They just went public with AI — Outpulse pivots your outreach to AI-first integrations they're already evaluating."
       ><span class="dot"></span>Launched AI product · Q2</span>
 
       <!-- Row 5 (bottom) -->
       <span class="chip sm warm" style="--l:30%;--t:90%"
-            data-tip="They've already proven they'll switch — that makes them warm for anything CRM-adjacent."
+            data-tip="They've proven they'll switch vendors — Outpulse flags them as warm for anything CRM-adjacent and drafts the opening line."
       >Switched off Salesforce</span>
 
       <span class="chip sm cool" style="--l:70%;--t:90%"
-            data-tip="Security-mature — enterprise pitches don't hit a procurement wall here."
+            data-tip="Security-mature buyers unblock enterprise deals — Outpulse queues pitches here that would stall at smaller teams."
       ><span class="dot"></span>SOC 2 Type II certified</span>
     </div>
   </div>
