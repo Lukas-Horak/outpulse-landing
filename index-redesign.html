@@ -1073,45 +1073,46 @@ h1.display em{
   padding:120px 48px;color:#fff;position:relative;overflow:hidden;
   isolation:isolate;
 }
-/* CTA gradient layer — 1:1 proportional copy of the hero gradient,
-   scaled to the card surface. Same 75% blob / -22% corner offsets
-   the hero uses in vw/vh, just expressed as % of the card. Violet
-   centre bloom is dialled back so it doesn't swamp the orange & blue. */
+/* CTA gradient layer — mirrors the hero stack (orange TR, blue BL,
+   violet centre, pink mauve accent) but re-tuned for the smaller card
+   surface: blobs sit closer to the corners with their cores actually
+   inside the card, blur is softer (50px, not 80), and the violet
+   multiply is a thin wash instead of a dominant layer. */
 .final-grad{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden;border-radius:inherit}
-.final-grad .blob{position:absolute;border-radius:50%;filter:blur(72px);will-change:transform,opacity}
+.final-grad .blob{position:absolute;border-radius:50%;filter:blur(50px);will-change:transform,opacity}
 .final-grad .b1{
-  width:75%;height:75%;
-  top:-22%;right:-22%;
+  width:85%;height:95%;
+  top:-18%;right:-12%;
   background:radial-gradient(circle at 50% 50%,
-    #ff4a17 0%,#ff6a2e 22%,#ff8a4c 38%,rgba(255,138,76,0) 65%);
+    #ff3d0e 0%,#ff5b1f 18%,#ff7a3d 34%,#ff9a5b 50%,rgba(255,154,91,0) 72%);
   animation:ctaDriftTR 18s ease-in-out infinite alternate,
             ctaBreatheTR 9s ease-in-out infinite;
   transform-origin:80% 20%;
 }
 .final-grad .b2{
-  width:75%;height:75%;
-  bottom:-22%;left:-22%;
+  width:85%;height:95%;
+  bottom:-18%;left:-12%;
   background:radial-gradient(circle at 50% 50%,
-    #8db8d8 0%,#a4cae0 22%,#bcd6e8 45%,rgba(188,214,232,0) 72%);
+    #5682b3 0%,#6a9dc5 18%,#8db8d8 38%,#a8c8dc 55%,rgba(188,214,232,0) 75%);
   animation:ctaDriftBL 22s ease-in-out infinite alternate,
             ctaBreatheBL 11s ease-in-out infinite;
   transform-origin:20% 80%;
 }
 .final-grad .b3{
-  width:95%;height:75%;
-  top:8%;left:2.5%;
+  width:75%;height:60%;
+  top:18%;left:12%;
   background:radial-gradient(ellipse at 50% 50%,
-    #5d4f7c 0%,#6e5f8e 22%,#82749e 42%,#978bae 60%,rgba(151,139,174,0) 78%);
-  opacity:.55;
+    #5d4f7c 0%,#82749e 35%,rgba(151,139,174,0) 72%);
+  opacity:.32;
   mix-blend-mode:multiply;
   animation:ctaDriftMid 24s ease-in-out infinite alternate;
 }
 .final-grad .b4{
-  width:55%;height:55%;
-  top:30%;right:14%;
+  width:45%;height:55%;
+  top:18%;right:18%;
   background:radial-gradient(circle at 50% 50%,
-    #c498a8 0%,#b48aa2 35%,rgba(180,138,162,0) 70%);
-  opacity:.45;
+    #d8a8b8 0%,#c498a8 35%,rgba(180,138,162,0) 70%);
+  opacity:.4;
   animation:ctaDriftMid2 26s ease-in-out infinite alternate;
 }
 .final-grad .grain{
