@@ -339,13 +339,13 @@ img{max-width:100%;display:block}
 }
 
 /* ── App body inside the browser: sidebar (form) + main (dashboard).
-   Fixed height (not min-height) so the browser window can't grow
-   while the left form is typing. Sidebar holds its own overflow; the
-   main pane scrolls inside its own bounds. */
+   Fixed height tall enough for the full form so the sidebar never
+   needs its internal scrollbar; main dashboard still scrolls inside
+   its own bounds for the 16-row prospect list. */
 .mk-app{
   display:grid;
   grid-template-columns:320px 1fr;
-  height:620px;
+  height:720px;
 }
 .mk-sidebar{
   background:#fbfaf7;
@@ -625,18 +625,28 @@ img{max-width:100%;display:block}
 }
 @keyframes mkCaret{50%{opacity:0}}
 
-/* Small-viewport fallback: stack sidebar above dashboard, drop email column */
+/* Small-viewport fallback: stack sidebar above dashboard, everything
+   flows naturally — no fixed heights, no inner scroll on either pane. */
 @media(max-width:820px){
   .mk-app{grid-template-columns:1fr;height:auto}
-  .mk-sidebar{border-right:none;border-bottom:1px solid var(--line);padding:18px 16px;height:auto}
-  .mk-db-cols,.mk-db-rows .prow{grid-template-columns:1.6fr 1fr 1fr}
-  .mk-db-cols>*:nth-child(3),.mk-db-rows .prow>*:nth-child(3){display:none}
+  .mk-sidebar{
+    border-right:none;border-bottom:1px solid var(--line);
+    padding:18px 16px;height:auto;overflow:visible;
+  }
+  .mk-main{overflow:visible;max-height:none;padding:22px 20px}
+  .mk-main > .mk-db-body{flex:initial;overflow:visible;padding-bottom:0;min-height:auto}
+  .mk-main::after{display:none}
+  .mk-db-cols,.mk-db-rows .prow,.mk-db-skel .skel-row{grid-template-columns:1.6fr 1fr 1fr}
+  .mk-db-cols>*:nth-child(3),
+  .mk-db-rows .prow>*:nth-child(3),
+  .mk-db-skel .skel-row>*:nth-child(3){display:none}
+  .mk-db-rows .prow,.mk-db-skel .skel-row{padding:10px 0}
 }
-/* Short laptop viewports — tighter rows, shrink the fixed height.
-   Compress inputs + textarea so the whole form fits without cropping. */
-@media(max-height:900px){
-  .mk-app{height:540px}
-  .mk-main{max-height:540px}
+/* Short laptop viewports — shrink the fixed frame to fit a 900-tall
+   viewport while keeping the form tall enough to avoid inner scroll. */
+@media(min-width:821px) and (max-height:900px){
+  .mk-app{height:600px}
+  .mk-main{max-height:600px}
   .mk-sidebar{gap:10px;padding:16px 16px}
   .mk-sidebar .mk-f-title{font-size:18px;margin-bottom:2px}
   .mk-db-rows .prow{padding:10px 0}
