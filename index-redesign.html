@@ -13,532 +13,525 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
 :root{
-  /* Warm premium palette inspired by ZeroDrift / Uneevo */
-  --cream:#fdf7f1;
-  --cream-2:#f8eee2;
   --paper:#ffffff;
-  --ink:#1a1611;
-  --ink-2:#3d342b;
-  --muted:#6b5e51;
-  --line:rgba(26,22,17,0.08);
-  --line-2:rgba(26,22,17,0.14);
+  --bg:#fafaf7;
+  --ink:#0e0d0c;
+  --ink-2:#3a342e;
+  --muted:#7a7269;
+  --muted-2:#9a9289;
+  --line:rgba(14,13,12,0.08);
+  --line-2:rgba(14,13,12,0.14);
 
-  /* Brand orange */
   --orange:#ff5b1f;
   --orange-2:#ff7a3d;
   --orange-3:#ffa06a;
   --peach:#ffd9b8;
 
-  /* Gradient accents */
-  --grad-warm:linear-gradient(135deg,#ff5b1f 0%,#ff8a4c 45%,#ffc28a 100%);
-  --grad-spectrum:linear-gradient(90deg,#ff4b1f 0%,#ff7a3d 30%,#c98aff 70%,#e6dfd3 100%);
-  --grad-soft:linear-gradient(180deg,#fff7ee 0%,#ffe9d4 100%);
+  /* Gradient palettes */
+  --grad-warm:linear-gradient(135deg,#ff5b1f 0%,#ff8649 35%,#ffba85 70%,#ffd9b8 100%);
+  --grad-warm-soft:linear-gradient(135deg,#fff2e7 0%,#ffe0c4 50%,#ffcfa6 100%);
+  --grad-corner:radial-gradient(80% 80% at 100% 0%,#ff7a3d 0%,#ffb888 30%,transparent 65%);
 
-  /* Type */
   --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   --serif:'Instrument Serif','Times New Roman',Georgia,serif;
-
-  /* Radius */
-  --r-sm:10px;
-  --r-md:20px;
-  --r-lg:32px;
-  --r-xl:42px;
 }
 
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 body{
-  font-family:var(--sans);
-  background:var(--cream);
-  color:var(--ink);
-  font-size:16px;
-  line-height:1.55;
-  overflow-x:hidden;
+  font-family:var(--sans);background:var(--paper);color:var(--ink);
+  font-size:16px;line-height:1.55;overflow-x:hidden;
 }
-
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 
-.container{max-width:1240px;margin:0 auto;padding:0 28px}
-.eyebrow{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.container{max-width:1280px;margin:0 auto;padding:0 28px}
 
-/* ───────── Nav ───────── */
+/* ─────────────────────────────────────── NAV */
 .nav{
   position:sticky;top:0;z-index:50;
-  padding:18px 0;
-  background:rgba(253,247,241,.78);
-  backdrop-filter:blur(20px) saturate(1.6);
-  -webkit-backdrop-filter:blur(20px) saturate(1.6);
+  background:rgba(255,255,255,.78);
+  backdrop-filter:blur(18px) saturate(1.4);
+  -webkit-backdrop-filter:blur(18px) saturate(1.4);
   border-bottom:1px solid var(--line);
 }
-.nav-row{display:flex;align-items:center;justify-content:space-between}
-.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:17px;letter-spacing:-.01em}
+.nav-row{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:16px;letter-spacing:-.01em}
 .brand-mark{
-  width:28px;height:28px;border-radius:8px;
+  width:24px;height:24px;border-radius:7px;
   background:var(--grad-warm);
-  box-shadow:0 6px 18px -6px rgba(255,91,31,.55);
+  box-shadow:0 4px 12px -4px rgba(255,91,31,.5);
 }
-.nav-links{display:flex;align-items:center;gap:6px}
-.nav-link{padding:8px 14px;font-size:14px;color:var(--ink-2);font-weight:500;border-radius:8px;transition:background .2s}
-.nav-link:hover{background:rgba(26,22,17,.05)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--sans);font-weight:600;font-size:14px;cursor:pointer;border:none;transition:all .2s ease;white-space:nowrap}
-.btn-dark{background:var(--ink);color:#fff;padding:11px 20px;border-radius:10px}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-link{padding:8px 14px;font-size:14px;color:var(--ink-2);font-weight:500;border-radius:8px;transition:all .2s}
+.nav-link:hover{background:rgba(0,0,0,.04)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--sans);font-weight:600;cursor:pointer;border:none;transition:all .2s ease;white-space:nowrap}
+.btn-dark{background:var(--ink);color:#fff;padding:10px 18px;border-radius:10px;font-size:14px}
 .btn-dark:hover{background:#000;transform:translateY(-1px)}
-.btn-orange{background:var(--orange);color:#fff;padding:14px 26px;border-radius:12px;font-size:15px;box-shadow:0 10px 30px -10px rgba(255,91,31,.5)}
+.btn-orange{background:var(--orange);color:#fff;padding:14px 26px;border-radius:12px;font-size:15px;box-shadow:0 12px 32px -10px rgba(255,91,31,.5)}
 .btn-orange:hover{background:var(--orange-2);transform:translateY(-1px)}
 .btn-ghost{background:transparent;color:var(--ink);padding:14px 22px;border-radius:12px;font-size:15px;border:1px solid var(--line-2)}
-.btn-ghost:hover{background:rgba(26,22,17,.04)}
+.btn-ghost:hover{background:rgba(0,0,0,.04);border-color:var(--ink)}
 
-/* ───────── Hero ───────── */
+/* ─────────────────────────────────────── HERO (mostly white, restrained gradient) */
 .hero{
   position:relative;
-  padding:32px 0 0;
-}
-.hero-card{
-  position:relative;
-  border-radius:var(--r-xl);
-  overflow:hidden;
-  background:var(--grad-warm);
-  padding:80px 64px 64px;
-  min-height:620px;
+  padding:120px 0 80px;
+  text-align:center;
   isolation:isolate;
+  overflow:hidden;
 }
-.hero-card::before{
-  content:"";position:absolute;inset:0;
-  background:
-    radial-gradient(80% 60% at 80% 20%,rgba(255,255,255,.55) 0%,transparent 60%),
-    radial-gradient(60% 60% at 20% 90%,rgba(255,75,20,.55) 0%,transparent 60%);
+.hero::before{
+  /* Warm corner accent — small, top-right */
+  content:"";position:absolute;
+  top:-180px;right:-160px;
+  width:620px;height:620px;
+  background:var(--grad-corner);
+  filter:blur(2px);
+  opacity:.6;
   z-index:-1;
 }
-.hero-card::after{
-  content:"";position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);
-  background-size:60px 60px;
-  mask-image:radial-gradient(ellipse 70% 80% at 50% 30%,black 0%,transparent 80%);
+.hero::after{
+  /* Soft secondary blob — bottom-left */
+  content:"";position:absolute;
+  bottom:-220px;left:-180px;
+  width:560px;height:560px;
+  background:radial-gradient(60% 60% at 30% 70%,#ffd9b8 0%,transparent 70%);
+  opacity:.55;
   z-index:-1;
 }
-.hero-backed{
+
+.hero-eyebrow{
   display:inline-flex;align-items:center;gap:10px;
   font-size:12px;font-weight:500;letter-spacing:.04em;
-  color:rgba(255,255,255,.85);
-  margin-bottom:28px;
+  color:var(--muted);
+  background:rgba(255,255,255,.7);
+  border:1px solid var(--line);
+  padding:6px 14px;border-radius:999px;
+  margin-bottom:36px;
+  backdrop-filter:blur(8px);
 }
-.hero-backed .dot{width:6px;height:6px;border-radius:50%;background:#fff;opacity:.6}
+.hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 4px rgba(255,91,31,.18)}
 
 h1.display{
-  font-family:var(--serif);
-  font-weight:400;
-  font-size:clamp(56px,9vw,128px);
-  line-height:.95;
-  letter-spacing:-.02em;
-  color:#fff;
-  max-width:14ch;
-  margin-bottom:36px;
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(58px,9.5vw,140px);
+  line-height:.92;letter-spacing:-.025em;
+  color:var(--ink);
+  max-width:14ch;margin:0 auto 32px;
 }
-h1.display em{font-style:italic;color:#fff}
-h1.display .accent{
+h1.display em{
   font-style:italic;
-  background:linear-gradient(90deg,#fff 0%,#ffe6d4 60%,#ffd1ad 100%);
-  -webkit-background-clip:text;background-clip:text;
-  color:transparent;
-}
-.hero-cta-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:8px}
-.hero-cta-row .btn-orange{background:#fff;color:var(--ink);box-shadow:0 12px 40px -12px rgba(0,0,0,.35)}
-.hero-cta-row .btn-orange:hover{background:#fff8f0}
-.hero-cta-row .btn-ghost{color:#fff;border-color:rgba(255,255,255,.5)}
-.hero-cta-row .btn-ghost:hover{background:rgba(255,255,255,.12)}
-
-.hero-bottom{
-  display:grid;
-  grid-template-columns:1.2fr 1fr;
-  gap:48px;align-items:end;
-  margin-top:96px;
+  background:linear-gradient(95deg,#ff5b1f 0%,#ff8a4c 50%,#ffa06a 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
 }
 .hero-sub{
-  font-size:16px;line-height:1.65;
-  color:rgba(255,255,255,.92);
-  max-width:480px;
+  font-size:19px;line-height:1.55;color:var(--ink-2);
+  max-width:600px;margin:0 auto 44px;font-weight:400;
 }
-.hero-sub strong{font-weight:600;color:#fff}
-.hero-trust{
-  display:flex;align-items:center;gap:14px;
-  margin-top:24px;
-  color:rgba(255,255,255,.65);
-  font-size:13px;
+.hero-sub strong{color:var(--ink);font-weight:600}
+.hero-cta-row{display:inline-flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center}
+.hero-trust-row{
+  margin-top:48px;display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap;
+  font-size:12px;color:var(--muted-2);font-weight:500;letter-spacing:.05em;text-transform:uppercase;
 }
-.hero-trust .badge{
-  display:inline-flex;align-items:center;justify-content:center;
-  width:36px;height:36px;border-radius:50%;
-  border:1px solid rgba(255,255,255,.4);
-  font-size:9px;font-weight:600;color:rgba(255,255,255,.85);
-  letter-spacing:.05em;
-}
+.hero-trust-row .div{width:1px;height:14px;background:var(--line-2)}
 
-.hero-thumb{
-  position:relative;
-  border-radius:var(--r-md);
-  overflow:hidden;
-  aspect-ratio:16/10;
-  background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.2);
-  backdrop-filter:blur(10px);
-  box-shadow:0 30px 80px -20px rgba(0,0,0,.35);
-  cursor:pointer;
-}
-.hero-thumb-inner{
-  position:absolute;inset:0;
-  background:
-    radial-gradient(60% 60% at 50% 50%,rgba(255,255,255,.2) 0,transparent 70%),
-    linear-gradient(135deg,#3a2418 0%,#1a0e08 100%);
-}
-.hero-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.85}
-.play{
-  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  width:64px;height:64px;border-radius:50%;
-  background:rgba(255,255,255,.95);
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 12px 30px rgba(0,0,0,.4);
-}
-.play::after{
-  content:"";display:block;
-  border-style:solid;border-width:10px 0 10px 16px;
-  border-color:transparent transparent transparent var(--ink);
-  margin-left:4px;
-}
-
-/* ───────── Marquee logos ───────── */
-.marquee{
-  padding:56px 0 24px;
-  text-align:center;
-}
-.marquee-label{
-  font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--muted);margin-bottom:28px;
-}
-.marquee-row{
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:36px;
-  max-width:1100px;margin:0 auto;padding:0 28px;
-}
-.marquee-row img{height:22px;opacity:.55;filter:grayscale(100%);transition:opacity .2s}
-.marquee-row img:hover{opacity:.9}
-
-/* ───────── Section base ───────── */
-.section{padding:100px 0}
-.s-head{max-width:780px;margin:0 0 56px;display:flex;flex-direction:column;gap:18px}
-.s-eyebrow{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
-.s-title{
-  font-family:var(--serif);font-weight:400;
-  font-size:clamp(40px,5.4vw,72px);
-  line-height:1;letter-spacing:-.015em;
-  color:var(--ink);
-}
-.s-title em{font-style:italic;color:var(--orange)}
-.s-sub{font-size:17px;color:var(--ink-2);max-width:560px;line-height:1.6}
-
-/* ───────── Engine block (two-up) ───────── */
-.two-up{
-  display:grid;grid-template-columns:1fr 1.15fr;gap:36px;align-items:stretch;
-}
-.panel{
-  background:var(--paper);
-  border:1px solid var(--line);
-  border-radius:var(--r-lg);
-  padding:48px 44px;
+/* ─────────────────────────────────────── BROWSER WINDOW PATTERN
+   Pattern: full-bleed gradient panel with a centered browser-window mockup.
+   Gradient bleeds visibly beyond all four window edges. */
+.gradient-stage{
+  padding:80px 0;
+  background:var(--grad-warm);
   position:relative;overflow:hidden;
 }
-.panel.tall{padding:48px 44px 44px}
-.panel-eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:16px}
-.panel-h{
+.gradient-stage::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(60% 60% at 80% 20%,rgba(255,255,255,.45) 0,transparent 60%),
+    radial-gradient(50% 60% at 15% 90%,rgba(255,75,20,.5) 0,transparent 60%);
+  pointer-events:none;
+}
+.gradient-stage.dark{background:linear-gradient(135deg,#1f1611 0%,#2e1d12 60%,#3a2010 100%)}
+.gradient-stage.dark::before{
+  background:
+    radial-gradient(60% 60% at 80% 20%,rgba(255,140,80,.18) 0,transparent 60%),
+    radial-gradient(50% 60% at 15% 90%,rgba(255,180,120,.12) 0,transparent 60%);
+}
+.gradient-stage.peach{background:var(--grad-warm-soft)}
+
+.stage-head{
+  max-width:880px;margin:0 auto 48px;text-align:center;
+  position:relative;z-index:1;padding:0 28px;color:#fff;
+}
+.gradient-stage.peach .stage-head{color:var(--ink)}
+.stage-head .eyebrow{
+  display:inline-block;font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  opacity:.85;margin-bottom:16px;
+}
+.stage-head h2{
   font-family:var(--serif);font-weight:400;
-  font-size:48px;line-height:1.05;letter-spacing:-.01em;
-  margin-bottom:20px;
+  font-size:clamp(40px,5.4vw,72px);
+  line-height:1.02;letter-spacing:-.02em;
 }
-.panel-p{color:var(--ink-2);font-size:15px;line-height:1.65;max-width:42ch}
+.stage-head h2 em{font-style:italic;opacity:.92}
+.gradient-stage.peach .stage-head h2 em{
+  background:linear-gradient(90deg,var(--orange),#ff8a4c);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.stage-head p{margin-top:18px;font-size:17px;line-height:1.6;opacity:.88;max-width:560px;margin-left:auto;margin-right:auto}
 
-/* Mock visuals (engine flow) */
-.flow{
-  background:linear-gradient(180deg,#fff 0%,#fff7ee 100%);
-  border:1px solid var(--line);
-  border-radius:var(--r-md);
-  padding:28px;
-  display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center;
-  margin-top:auto;
-}
-.flow-col{display:flex;flex-direction:column;gap:8px}
-.flow-tile{
-  background:#fff;border:1px solid var(--line);
-  border-radius:10px;padding:10px 12px;
-  font-size:12px;color:var(--ink-2);font-weight:500;
-  display:flex;align-items:center;gap:8px;
-}
-.flow-tile .ico{
-  width:14px;height:14px;border-radius:4px;background:var(--peach);
-  display:inline-flex;align-items:center;justify-content:center;font-size:9px;
-}
-.flow-core{
-  width:120px;text-align:center;padding:14px 10px;
-  border-radius:14px;
-  background:var(--grad-warm);color:#fff;
-  font-weight:600;font-size:13px;letter-spacing:.01em;
-  box-shadow:0 14px 30px -10px rgba(255,91,31,.5);
-}
-.flow-props{
-  display:flex;justify-content:space-between;gap:8px;
-  margin-top:18px;padding-top:18px;border-top:1px dashed var(--line);
-}
-.flow-props .chip{font-size:11px;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-weight:500}
-
-/* Compose policy studio mock */
-.studio{
-  background:var(--grad-soft);
-  border:1px solid var(--line);
-  border-radius:var(--r-md);
-  padding:24px;
-  display:grid;grid-template-columns:1fr 1.4fr;gap:14px;
-  margin-top:24px;
-}
-.studio .col{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
-.studio h5{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:10px}
-.studio .row{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:8px;font-size:13px;color:var(--ink-2);font-weight:500}
-.studio .row + .row{margin-top:2px}
-.studio .row.active{background:#fff5ec;color:var(--orange);font-weight:600}
-.studio .meta{font-size:12px;color:var(--muted);margin:4px 0}
-.studio .quote{margin-top:8px;padding:10px 12px;background:#fff5ec;border-radius:8px;font-size:13px;color:var(--ink-2);font-style:italic}
-.studio .dotrow{display:flex;gap:4px;margin-top:6px}
-.studio .dotrow span{width:7px;height:7px;border-radius:50%;background:var(--orange)}
-
-/* ───────── Mockup card (full-bleed dashboard) ───────── */
-.mockup-wrap{
-  position:relative;
-  border-radius:var(--r-lg);
+/* The browser window itself — sits inside .gradient-stage, centered, gradient bleeds around it */
+.browser{
+  max-width:1180px;margin:0 auto;
+  background:#ffffff;
+  border-radius:16px;
   overflow:hidden;
-  background:var(--grad-warm);
-  padding:80px 64px 0;
-  margin-top:64px;
-  isolation:isolate;
+  box-shadow:
+    0 40px 100px -20px rgba(0,0,0,.4),
+    0 12px 30px -10px rgba(0,0,0,.2),
+    0 0 0 1px rgba(255,255,255,.5) inset;
+  position:relative;z-index:1;
 }
-.mockup-wrap.cool{background:linear-gradient(135deg,#1f1611 0%,#2a1a10 60%,#3a1f10 100%)}
-.mockup-wrap .label{
-  display:flex;flex-direction:column;gap:14px;
-  max-width:600px;margin-bottom:48px;color:#fff;
+.browser-bar{
+  display:flex;align-items:center;gap:14px;
+  padding:12px 18px;
+  background:#f4f4f1;border-bottom:1px solid rgba(0,0,0,.06);
 }
-.mockup-wrap .label .s-eyebrow{color:rgba(255,255,255,.7)}
-.mockup-wrap .label h3{
-  font-family:var(--serif);font-weight:400;
-  font-size:clamp(34px,4vw,56px);line-height:1.05;
-  color:#fff;letter-spacing:-.01em;
+.browser-dots{display:flex;gap:7px}
+.browser-dots span{width:11px;height:11px;border-radius:50%}
+.browser-dots span:nth-child(1){background:#ff5f57}
+.browser-dots span:nth-child(2){background:#febc2e}
+.browser-dots span:nth-child(3){background:#28c840}
+.browser-url{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
+  background:#fff;border:1px solid rgba(0,0,0,.06);
+  border-radius:8px;padding:6px 12px;
+  font-size:12px;color:var(--muted);font-weight:500;
+  max-width:520px;margin:0 auto;
 }
-.mockup-wrap .label h3 em{font-style:italic;background:linear-gradient(90deg,#fff,#ffd9b8);-webkit-background-clip:text;background-clip:text;color:transparent}
-.mockup-wrap .label p{color:rgba(255,255,255,.85);font-size:15px;line-height:1.6;max-width:500px}
+.browser-url svg{width:11px;height:11px;flex-shrink:0;opacity:.55}
 
-.dashboard-frame{
-  background:#fff;border-radius:18px 18px 0 0;
-  border:1px solid rgba(0,0,0,.08);border-bottom:none;
-  box-shadow:0 -30px 80px -20px rgba(0,0,0,.4);
-  overflow:hidden;
-  display:grid;grid-template-columns:200px 1fr;
-  min-height:420px;
+/* App content area */
+.app{
+  display:grid;grid-template-columns:208px 1fr;
+  min-height:520px;background:#fff;
 }
-.df-side{background:#fafaf8;border-right:1px solid var(--line);padding:18px 14px;font-size:13px}
-.df-side .grp{margin-bottom:18px}
-.df-side .grp-h{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:0 8px;margin-bottom:6px}
-.df-side .item{padding:7px 10px;border-radius:8px;color:var(--ink-2);font-weight:500;cursor:pointer}
-.df-side .item.active{background:#fff5ec;color:var(--orange);font-weight:600}
-.df-side .item:hover:not(.active){background:rgba(0,0,0,.03)}
-.df-main{padding:22px 26px;background:#fff}
-.df-main .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-.df-main .top h4{font-size:14px;font-weight:600}
-.df-main .top .pill{font-size:11px;background:#e6f7ee;color:#197a4a;font-weight:600;padding:4px 10px;border-radius:999px}
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
-.kpi{border:1px solid var(--line);border-radius:12px;padding:14px}
-.kpi-l{font-size:11px;letter-spacing:.04em;color:var(--muted);font-weight:600;text-transform:uppercase}
-.kpi-v{font-family:var(--serif);font-size:32px;font-weight:400;line-height:1;margin:8px 0 4px}
-.kpi-d{font-size:11px;color:#197a4a;font-weight:600}
-.df-rows{display:flex;flex-direction:column;gap:1px;background:var(--line);border-radius:10px;overflow:hidden;border:1px solid var(--line)}
-.df-row{display:grid;grid-template-columns:32px 1.4fr 1fr .8fr 60px;gap:14px;align-items:center;background:#fff;padding:11px 14px;font-size:13px}
-.df-row .av{width:28px;height:28px;border-radius:8px;background:#fff5ec;color:var(--orange);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:11px}
-.df-row .name{font-weight:600}
-.df-row .sub{font-size:11px;color:var(--muted)}
-.df-row .badge{font-size:10px;padding:3px 8px;border-radius:999px;background:#fff5ec;color:var(--orange);font-weight:600;display:inline-block}
-.df-row .match{font-weight:600;color:#197a4a;text-align:right}
+.app-side{
+  background:#fbfaf7;border-right:1px solid var(--line);
+  padding:18px 12px;
+}
+.app-side .grp{margin-bottom:18px}
+.app-side .grp-h{
+  font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted-2);
+  font-weight:700;padding:0 10px;margin-bottom:6px;
+}
+.app-side .item{
+  padding:8px 10px;border-radius:8px;font-size:13.5px;font-weight:500;color:var(--ink-2);
+  cursor:pointer;display:flex;align-items:center;gap:9px;
+}
+.app-side .item:hover{background:rgba(0,0,0,.035)}
+.app-side .item.active{background:#fff5ec;color:var(--orange);font-weight:600}
+.app-side .item .ico{width:14px;height:14px;opacity:.7;flex-shrink:0}
+.app-side .item.active .ico{opacity:1}
 
-/* ───────── Stats ───────── */
-.stats{
-  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-  background:linear-gradient(180deg,var(--cream) 0%,#fff7ed 100%);
+.app-main{padding:24px 28px;background:#fff;display:flex;flex-direction:column;gap:18px;min-width:0}
+.app-top{display:flex;align-items:center;justify-content:space-between;gap:18px}
+.app-top h3{font-size:16px;font-weight:600;letter-spacing:-.005em}
+.app-pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;background:#e8f7ee;color:#1a7c4b;font-weight:600;padding:5px 10px;border-radius:999px}
+.app-pill .blink{width:6px;height:6px;border-radius:50%;background:#1a7c4b;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* Filters bar */
+.filters{display:flex;flex-wrap:wrap;gap:6px}
+.filt{
+  font-size:11.5px;font-weight:500;color:var(--muted);
+  background:#fff;border:1px solid var(--line);border-radius:8px;padding:5px 11px;
+  display:inline-flex;align-items:center;gap:6px;
 }
-.stats-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  max-width:1240px;margin:0 auto;
+.filt .d{width:6px;height:6px;border-radius:50%;background:var(--muted-2)}
+.filt.active{background:#fff5ec;color:var(--orange);border-color:#ffd9b8}
+.filt.active .d{background:var(--orange)}
+
+/* KPI strip */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.k{border:1px solid var(--line);border-radius:11px;padding:14px 14px}
+.k-l{font-size:10.5px;letter-spacing:.06em;color:var(--muted-2);font-weight:600;text-transform:uppercase}
+.k-v{font-family:var(--serif);font-size:30px;font-weight:400;line-height:1;margin:7px 0 4px}
+.k-d{font-size:11px;color:#1a7c4b;font-weight:600}
+
+/* Animated prospect rows — first hero stage */
+.proslist{
+  border:1px solid var(--line);border-radius:12px;overflow:hidden;
+  display:flex;flex-direction:column;
 }
-.stat{
-  padding:80px 32px;text-align:center;
-  border-right:1px solid var(--line);
+.proslist .head{
+  display:grid;grid-template-columns:32px 1.4fr 1fr .9fr 64px;gap:14px;align-items:center;
+  background:#fafaf7;padding:10px 14px;
+  font-size:10.5px;color:var(--muted-2);text-transform:uppercase;letter-spacing:.08em;font-weight:700;
+  border-bottom:1px solid var(--line);
 }
+.prow{
+  display:grid;grid-template-columns:32px 1.4fr 1fr .9fr 64px;gap:14px;align-items:center;
+  padding:10px 14px;font-size:13px;
+  border-bottom:1px solid var(--line);
+  opacity:0;transform:translateY(8px);
+  animation:rowIn .5s ease-out forwards;
+}
+.prow:last-child{border-bottom:none}
+.prow .av{
+  width:28px;height:28px;border-radius:8px;background:#fff5ec;color:var(--orange);
+  display:flex;align-items:center;justify-content:center;font-weight:600;font-size:11px;
+}
+.prow .name{font-weight:600;font-size:13px}
+.prow .sub{font-size:11px;color:var(--muted)}
+.prow .badge{
+  display:inline-block;font-size:10.5px;padding:3px 9px;border-radius:999px;
+  background:#fff5ec;color:var(--orange);font-weight:600;
+}
+.prow .match{font-weight:600;color:#1a7c4b;text-align:right;font-size:12.5px}
+@keyframes rowIn{to{opacity:1;transform:translateY(0)}}
+.prow:nth-child(2){animation-delay:.05s}
+.prow:nth-child(3){animation-delay:.20s}
+.prow:nth-child(4){animation-delay:.35s}
+.prow:nth-child(5){animation-delay:.50s}
+.prow:nth-child(6){animation-delay:.65s}
+.prow:nth-child(7){animation-delay:.80s}
+.prow:nth-child(8){animation-delay:.95s}
+.prow:nth-child(9){animation-delay:1.10s}
+.prow:nth-child(10){animation-delay:1.25s}
+
+/* Counting prospects bar above proslist */
+.proscount{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:14px 16px;border:1px solid var(--line);border-radius:12px;
+  background:linear-gradient(90deg,#fffaf3 0%,#fff 70%);
+}
+.proscount .left{display:flex;align-items:center;gap:14px}
+.proscount .icon{
+  width:36px;height:36px;border-radius:10px;background:var(--grad-warm);
+  display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;
+  box-shadow:0 8px 16px -6px rgba(255,91,31,.5);
+}
+.proscount .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+.proscount .num{font-family:var(--serif);font-size:34px;line-height:1;font-weight:400;color:var(--ink)}
+.proscount .num em{font-style:italic;color:var(--orange)}
+.proscount .progress{
+  flex:1;max-width:280px;height:8px;border-radius:999px;background:#f3eee5;overflow:hidden;
+}
+.proscount .progress .bar{
+  height:100%;width:0;
+  background:var(--grad-warm);border-radius:999px;
+  animation:fillBar 2.6s ease-out forwards;
+}
+@keyframes fillBar{to{width:78%}}
+.proscount .small{font-size:11.5px;color:var(--muted);font-weight:500}
+
+/* Email mockup body */
+.email-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:18px}
+.email-card{
+  border:1px solid var(--line);border-radius:14px;padding:22px 24px;background:#fff;
+}
+.email-from{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--muted);margin-bottom:14px}
+.email-subject{font-family:var(--serif);font-size:24px;line-height:1.2;color:var(--ink);margin-bottom:14px}
+.email-body{font-size:14px;color:var(--ink-2);line-height:1.65}
+.email-body p+p{margin-top:10px}
+.email-body .sig{color:var(--muted);font-size:12.5px;margin-top:16px}
+
+.struct{display:flex;flex-direction:column;gap:9px}
+.struct .item{
+  background:#fff5ec;border:1px solid #ffe0c4;border-radius:11px;padding:12px 14px;font-size:12.5px;
+}
+.struct .item strong{color:var(--orange);display:block;font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px}
+
+/* ─────────────────────────────────────── STATS strip (white, between gradient stages) */
+.stats{padding:96px 0;background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;max-width:1100px;margin:0 auto}
+.stat{padding:0 28px;text-align:center;border-right:1px solid var(--line)}
 .stat:last-child{border-right:none}
 .stat-num{
   font-family:var(--serif);font-style:italic;font-weight:400;
-  font-size:clamp(60px,7vw,100px);line-height:1;
-  background:var(--grad-warm);-webkit-background-clip:text;background-clip:text;color:transparent;
+  font-size:clamp(64px,8vw,108px);line-height:1;
+  background:linear-gradient(95deg,#ff5b1f 0%,#ff7a3d 60%,#ffa06a 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
   margin-bottom:14px;
 }
-.stat-l{font-size:14px;color:var(--ink-2);font-weight:500;letter-spacing:.01em;line-height:1.5;max-width:24ch;margin:0 auto}
+.stat-l{font-size:14px;color:var(--ink-2);font-weight:500;line-height:1.5;max-width:24ch;margin:0 auto}
 
-/* ───────── Comparison ───────── */
-.compare{
-  background:#fff;border-radius:var(--r-lg);
-  border:1px solid var(--line);
-  padding:64px 48px;
-  display:grid;grid-template-columns:1fr 80px 1fr;gap:24px;align-items:stretch;
-  margin-top:48px;
+/* ─────────────────────────────────────── COMPARISON */
+.cmp{padding:120px 0;background:#fff}
+.cmp-head{text-align:center;max-width:840px;margin:0 auto 56px}
+.cmp-head .eyebrow{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:block}
+.cmp-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(40px,5.4vw,72px);line-height:1.02;letter-spacing:-.02em}
+.cmp-head h2 em{font-style:italic;color:var(--orange)}
+.cmp-grid{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 80px 1fr;gap:20px;align-items:stretch;
+  background:#fff;border:1px solid var(--line);border-radius:24px;padding:48px;
+  position:relative;
 }
-.compare-col{padding:8px}
-.compare-col h4{
-  font-family:var(--serif);font-weight:400;
-  font-size:32px;line-height:1.1;margin-bottom:6px;
-}
-.compare-col .price{font-size:13px;color:var(--muted);margin-bottom:18px}
-.compare-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
-.compare-col li{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--ink-2);line-height:1.4}
-.compare-col li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--muted);margin-top:8px;flex-shrink:0}
-.compare-col.win li::before{background:var(--orange)}
-.compare-col.win h4{color:var(--ink)}
-.compare-col.lose h4{color:var(--muted)}
-.compare-vs{
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--serif);font-style:italic;font-size:36px;color:var(--orange);
-}
-.save-pill{
+.cmp-save{
   position:absolute;top:24px;right:24px;
-  background:var(--ink);color:#fff;
-  font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
-  padding:8px 14px;border-radius:999px;
+  background:var(--ink);color:#fff;font-size:11px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;padding:8px 14px;border-radius:999px;
 }
+.cmp-col h4{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.1;margin-bottom:8px}
+.cmp-col .sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+.cmp-col ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+.cmp-col li{display:flex;gap:12px;font-size:14px;color:var(--ink-2);line-height:1.45;align-items:flex-start}
+.cmp-col li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--muted-2);margin-top:8px;flex-shrink:0}
+.cmp-col.win li::before{background:var(--orange)}
+.cmp-vs{display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:36px;color:var(--orange)}
 
-/* ───────── Pricing ───────── */
-.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px}
-.price-card{
-  background:#fff;border:1px solid var(--line);border-radius:24px;
-  padding:36px 32px;display:flex;flex-direction:column;
+/* ─────────────────────────────────────── PRICING */
+.pricing{padding:120px 0;background:var(--bg)}
+.price-head{text-align:center;max-width:780px;margin:0 auto 56px}
+.price-head .eyebrow{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:block}
+.price-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(40px,5.4vw,68px);line-height:1.02;letter-spacing:-.02em}
+.price-head h2 em{font-style:italic;color:var(--orange)}
+.price-head p{margin-top:14px;font-size:16px;color:var(--muted);line-height:1.55}
+
+.pgrid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+  max-width:1100px;margin:0 auto;
 }
-.price-card.featured{
+.pcard{
+  background:#fff;border:1px solid var(--line);border-radius:22px;padding:34px 30px;
+  display:flex;flex-direction:column;
+}
+.pcard.featured{
   background:var(--ink);color:#fff;border:none;
-  box-shadow:0 30px 80px -20px rgba(0,0,0,.5);
-  transform:scale(1.02);
+  box-shadow:0 30px 80px -20px rgba(0,0,0,.4);transform:scale(1.02);
 }
-.price-card.featured .pc-l, .price-card.featured .pc-d{color:rgba(255,255,255,.7)}
-.price-card.featured .pc-feat::before{background:var(--orange)}
-.price-card.featured .btn{background:var(--orange);color:#fff}
-.pc-tag{
-  align-self:flex-start;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
-  background:var(--peach);color:var(--orange);padding:5px 10px;border-radius:6px;margin-bottom:16px;
+.pcard.featured .p-d,.pcard.featured .p-feat{color:rgba(255,255,255,.78)}
+.p-tag{
+  align-self:flex-start;font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  background:var(--peach);color:var(--orange);padding:5px 10px;border-radius:6px;margin-bottom:18px;
 }
-.price-card.featured .pc-tag{background:rgba(255,91,31,.18);color:var(--orange-3)}
-.pc-name{font-family:var(--serif);font-size:32px;font-weight:400;line-height:1;margin-bottom:6px}
-.pc-d{font-size:13px;color:var(--muted);margin-bottom:24px}
-.pc-price{display:flex;align-items:baseline;gap:6px;margin-bottom:28px}
-.pc-price .num{font-family:var(--serif);font-size:64px;font-weight:400;line-height:1}
-.pc-price .per{font-size:14px;color:var(--muted)}
-.price-card.featured .pc-price .per{color:rgba(255,255,255,.6)}
-.pc-feats{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:28px;flex:1}
-.pc-feat{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ink-2);line-height:1.4}
-.price-card.featured .pc-feat{color:rgba(255,255,255,.85)}
-.pc-feat::before{
-  content:"";width:14px;height:14px;border-radius:50%;
-  background:var(--orange);flex-shrink:0;margin-top:3px;
-  background-image:radial-gradient(circle,#fff 0 30%,transparent 30% 100%);
+.pcard.featured .p-tag{background:rgba(255,91,31,.18);color:var(--orange-3)}
+.p-name{font-family:var(--serif);font-size:30px;font-weight:400;line-height:1;margin-bottom:6px}
+.p-d{font-size:13px;color:var(--muted);margin-bottom:24px}
+.p-price{display:flex;align-items:baseline;gap:6px;margin-bottom:24px}
+.p-price .num{font-family:var(--serif);font-size:60px;font-weight:400;line-height:1}
+.p-price .per{font-size:13px;color:var(--muted)}
+.pcard.featured .p-price .per{color:rgba(255,255,255,.55)}
+.p-feats{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:26px;flex:1}
+.p-feat{display:flex;align-items:flex-start;gap:10px;font-size:14px;line-height:1.4;color:var(--ink-2)}
+.p-feat::before{
+  content:"";width:14px;height:14px;border-radius:50%;flex-shrink:0;margin-top:3px;
+  background:radial-gradient(circle,#fff 0 30%,transparent 30%),var(--orange);
 }
-.price-card .btn{width:100%;padding:14px;border-radius:12px;font-size:14px}
-.price-card:not(.featured) .btn{background:var(--ink);color:#fff}
-.pc-foot{font-size:12px;color:var(--muted);text-align:center;margin-top:10px}
+.pcard .btn{width:100%;padding:14px;border-radius:11px;font-size:14px}
+.pcard:not(.featured) .btn{background:var(--ink);color:#fff}
+.pcard.featured .btn{background:var(--orange);color:#fff}
+.p-foot{font-size:12px;color:var(--muted);text-align:center;margin-top:10px}
 
-/* ───────── FAQ ───────── */
-.faq{display:flex;flex-direction:column;gap:0;margin-top:48px;border-top:1px solid var(--line)}
-.faq details{border-bottom:1px solid var(--line);padding:22px 4px;cursor:pointer}
-.faq details[open] summary .plus::before{transform:rotate(0deg)}
-.faq details[open] summary .plus::after{transform:rotate(90deg)}
-.faq summary{
+/* ─────────────────────────────────────── FAQ */
+.faq{padding:120px 0;background:#fff}
+.faq-head{text-align:center;max-width:780px;margin:0 auto 48px}
+.faq-head .eyebrow{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:block}
+.faq-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(40px,5vw,64px);line-height:1.02;letter-spacing:-.02em}
+.faq-head h2 em{font-style:italic;color:var(--orange)}
+.faq-list{max-width:840px;margin:0 auto;border-top:1px solid var(--line)}
+.faq-list details{border-bottom:1px solid var(--line);padding:24px 4px;cursor:pointer}
+.faq-list summary{
   list-style:none;display:flex;align-items:center;justify-content:space-between;gap:24px;
-  font-size:18px;font-weight:500;color:var(--ink);letter-spacing:-.005em;
+  font-size:18px;font-weight:500;color:var(--ink);
 }
-.faq summary::-webkit-details-marker{display:none}
-.faq .plus{position:relative;width:18px;height:18px;flex-shrink:0}
-.faq .plus::before, .faq .plus::after{
+.faq-list summary::-webkit-details-marker{display:none}
+.faq-list .plus{position:relative;width:18px;height:18px;flex-shrink:0}
+.faq-list .plus::before,.faq-list .plus::after{
   content:"";position:absolute;background:var(--ink);transition:transform .25s ease;
 }
-.faq .plus::before{left:0;right:0;top:50%;height:1.5px;margin-top:-.75px}
-.faq .plus::after{top:0;bottom:0;left:50%;width:1.5px;margin-left:-.75px}
-.faq .a{color:var(--ink-2);font-size:15px;line-height:1.65;margin-top:14px;max-width:760px}
+.faq-list .plus::before{left:0;right:0;top:50%;height:1.5px;margin-top:-.75px}
+.faq-list .plus::after{top:0;bottom:0;left:50%;width:1.5px;margin-left:-.75px}
+.faq-list details[open] .plus::after{transform:rotate(90deg)}
+.faq-list .a{margin-top:14px;color:var(--ink-2);font-size:15px;line-height:1.65;max-width:780px}
 
-/* ───────── Final CTA ───────── */
-.final-cta{
-  margin:80px 0 40px;
-  background:var(--grad-warm);
-  border-radius:var(--r-xl);
-  padding:120px 64px;
-  text-align:center;color:#fff;position:relative;overflow:hidden;
+/* ─────────────────────────────────────── FINAL CTA */
+.final{padding:120px 28px;text-align:center;background:#fff}
+.final-card{
+  max-width:1180px;margin:0 auto;
+  background:var(--grad-warm);border-radius:32px;
+  padding:120px 48px;color:#fff;position:relative;overflow:hidden;
 }
-.final-cta::before{
+.final-card::before{
   content:"";position:absolute;inset:0;
   background:
-    radial-gradient(40% 60% at 80% 30%,rgba(255,255,255,.3),transparent 60%),
+    radial-gradient(40% 60% at 80% 30%,rgba(255,255,255,.32),transparent 60%),
     radial-gradient(50% 60% at 20% 80%,rgba(0,0,0,.18),transparent 60%);
 }
-.final-cta > *{position:relative;z-index:1}
-.final-cta h2{
+.final-card>*{position:relative;z-index:1}
+.final-card h2{
   font-family:var(--serif);font-weight:400;
-  font-size:clamp(48px,7vw,96px);
-  line-height:1;letter-spacing:-.02em;color:#fff;margin-bottom:20px;
+  font-size:clamp(44px,6.5vw,92px);line-height:1;letter-spacing:-.02em;
+  margin-bottom:20px;
 }
-.final-cta h2 em{font-style:italic;background:linear-gradient(90deg,#fff,#ffe6d4);-webkit-background-clip:text;background-clip:text;color:transparent}
-.final-cta p{font-size:17px;color:rgba(255,255,255,.9);max-width:520px;margin:0 auto 36px}
-.final-cta .btn-orange{background:#fff;color:var(--ink)}
-.final-cta .btn-orange:hover{background:#fff4e7}
-.final-cta-note{font-size:13px;color:rgba(255,255,255,.7);margin-top:18px}
+.final-card h2 em{font-style:italic;background:linear-gradient(90deg,#fff,#ffe6d4);-webkit-background-clip:text;background-clip:text;color:transparent}
+.final-card p{font-size:17px;color:rgba(255,255,255,.92);max-width:520px;margin:0 auto 32px}
+.final-card .btn-orange{background:#fff;color:var(--ink)}
+.final-card .btn-orange:hover{background:#fff4e7}
+.final-note{font-size:13px;color:rgba(255,255,255,.7);margin-top:18px}
 
-/* ───────── Footer ───────── */
-.footer{padding:56px 0 36px}
-.footer-row{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
-.footer-links{display:flex;gap:18px}
-.footer-links a:hover{color:var(--ink)}
+/* ─────────────────────────────────────── FOOTER */
+footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
+.foot-row{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.foot-links{display:flex;gap:18px}
+.foot-links a:hover{color:var(--ink)}
 
-/* ───────── Responsive ───────── */
+/* ─────────────────────────────────────── LOGO STRIP */
+.logos{padding:56px 0;background:#fff;border-bottom:1px solid var(--line)}
+.logos-inner{display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap;max-width:1100px;margin:0 auto}
+.logos-l{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);width:100%;text-align:center;margin-bottom:24px}
+.logos-inner img{height:24px;opacity:.5;filter:grayscale(100%);transition:opacity .2s}
+.logos-inner img:hover{opacity:.9}
+
+/* ─────────────────────────────────────── RESPONSIVE */
 @media(max-width:980px){
-  .hero-card{padding:60px 36px 48px}
-  h1.display{font-size:clamp(48px,12vw,80px)}
-  .hero-bottom{grid-template-columns:1fr;gap:36px;margin-top:60px}
-  .two-up{grid-template-columns:1fr}
-  .compare{grid-template-columns:1fr;padding:36px 28px}
-  .compare-vs{padding:14px 0}
-  .pricing-grid{grid-template-columns:1fr;gap:14px}
-  .price-card.featured{transform:none}
-  .stats-grid{grid-template-columns:1fr}
-  .stat{border-right:none;border-bottom:1px solid var(--line);padding:48px 24px}
-  .stat:last-child{border-bottom:none}
-  .dashboard-frame{grid-template-columns:1fr}
-  .df-side{display:none}
-  .kpi-grid{grid-template-columns:repeat(2,1fr)}
-  .df-row{grid-template-columns:32px 1fr;font-size:12px}
-  .df-row > *:nth-child(n+3){display:none}
-  .mockup-wrap{padding:48px 24px 0}
-  .panel{padding:32px 26px}
-  .panel-h{font-size:34px}
-  .section{padding:64px 0}
-  .marquee-row{gap:24px;justify-content:center}
+  .hero{padding:80px 0 40px}
+  .hero::before{width:380px;height:380px;top:-100px;right:-100px}
+  .hero::after{width:340px;height:340px;bottom:-180px;left:-120px}
+  .hero-trust-row{gap:16px}
+  .hero-trust-row .div{display:none}
+  .stage-head h2{font-size:36px}
+  .gradient-stage{padding:56px 0}
+  .browser{margin:0 16px}
+  .app{grid-template-columns:1fr}
+  .app-side{display:none}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .proslist .head,.prow{grid-template-columns:32px 1fr 88px;gap:10px}
+  .proslist .head>*:nth-child(n+4),.prow>*:nth-child(n+4){display:none}
+  .email-grid{grid-template-columns:1fr}
+  .stats{padding:64px 0}
+  .stats-grid{grid-template-columns:1fr;gap:48px}
+  .stat{border-right:none;border-bottom:1px solid var(--line);padding:0 24px 36px}
+  .stat:last-child{border-bottom:none;padding-bottom:0}
+  .cmp{padding:72px 0}
+  .cmp-grid{grid-template-columns:1fr;padding:32px 24px}
+  .cmp-vs{padding:8px 0}
+  .pricing{padding:72px 0}
+  .pgrid{grid-template-columns:1fr;gap:14px}
+  .pcard.featured{transform:none}
+  .faq{padding:72px 0}
+  .final{padding:48px 16px}
+  .final-card{padding:80px 28px;border-radius:24px}
+  .nav-link:not(.btn){display:none}
 }
-@media(max-width:640px){
-  .nav-links .nav-link{display:none}
-  .hero-card{padding:48px 24px 40px;border-radius:24px}
-  .marquee-row img{height:18px}
-  .final-cta{padding:80px 28px;border-radius:24px}
+@media(max-width:560px){
+  .hero{padding:64px 0 24px}
+  h1.display{font-size:54px}
+  .hero-sub{font-size:16px}
+  .browser-bar{padding:10px 12px;gap:10px}
+  .browser-url{font-size:11px;padding:5px 10px}
+  .app-main{padding:18px}
+  .proscount{flex-wrap:wrap}
+  .proscount .progress{order:3;width:100%;max-width:none}
 }
 </style>
 </head>
 <body>
 
-<!-- ═══════════ NAV ═══════════ -->
+<!-- ═══════════════════ NAV ═══════════════════ -->
 <nav class="nav">
   <div class="container nav-row">
     <a href="/" class="brand">
@@ -546,174 +539,59 @@ h1.display .accent{
       Outpulse
     </a>
     <div class="nav-links">
-      <a href="#engine" class="nav-link">Platform</a>
+      <a href="#prospects" class="nav-link">Find clients</a>
+      <a href="#email" class="nav-link">Engage</a>
       <a href="#pricing" class="nav-link">Pricing</a>
       <a href="#faq" class="nav-link">FAQ</a>
       <a href="/login" class="nav-link">Log in</a>
-      <a href="#cta" class="btn btn-dark">Get Started</a>
+      <a href="#cta" class="nav-link btn btn-dark">Get Started</a>
     </div>
   </div>
 </nav>
 
-<!-- ═══════════ HERO ═══════════ -->
+<!-- ═══════════════════ HERO (white, restrained gradient) ═══════════════════ -->
 <section class="hero">
   <div class="container">
-    <div class="hero-card">
-
-      <div class="hero-backed">
-        BACKED BY <strong>Apollo · 275M contacts</strong>
-        <span class="dot"></span>
-        <span>SOC 2 · GDPR · ISO 27001</span>
-      </div>
-
-      <h1 class="display">
-        Find prospects.<br>
-        Send emails.<br>
-        Book meetings,<br>
-        <span class="accent">on autopilot.</span>
-      </h1>
-
-      <div class="hero-cta-row">
-        <a href="#cta" class="btn btn-orange">Start 7-day free trial</a>
-        <a href="#video" class="btn btn-ghost">See how it works</a>
-      </div>
-
-      <div class="hero-bottom">
-        <div>
-          <p class="hero-sub">
-            Outpulse finds your ideal prospects, writes <strong>hyper-personalized emails</strong>,
-            and runs your outreach campaigns — completely hands-free.
-            Replaces a $7,500/mo SDR with a system that runs 24/7.
-          </p>
-          <div class="hero-trust">
-            <span class="badge">SOC2</span>
-            <span class="badge">GDPR</span>
-            <span class="badge">ISO</span>
-          </div>
-        </div>
-
-        <div class="hero-thumb" id="video">
-          <div class="hero-thumb-inner"></div>
-          <img src="lukas-headshot.jpg" alt="See how it works" onerror="this.style.display='none'">
-          <div class="play"></div>
-        </div>
-      </div>
-
+    <div class="hero-eyebrow"><span class="dot"></span> AI sales agent · meetings on autopilot</div>
+    <h1 class="display">Find prospects.<br>Send emails.<br>Book meetings, <em>on autopilot.</em></h1>
+    <p class="hero-sub">
+      Outpulse finds your ideal prospects, writes <strong>hyper-personalized</strong>
+      emails, and runs your outreach campaigns — completely hands-free.
+    </p>
+    <div class="hero-cta-row">
+      <a href="#cta" class="btn btn-orange">Start 7-day free trial</a>
+      <a href="#video" class="btn btn-ghost">See how it works →</a>
+    </div>
+    <div class="hero-trust-row">
+      <span>SOC 2</span><span class="div"></span>
+      <span>GDPR</span><span class="div"></span>
+      <span>ISO 27001</span><span class="div"></span>
+      <span>Backed by Apollo · 275M contacts</span>
     </div>
   </div>
 </section>
 
-<!-- ═══════════ MARQUEE ═══════════ -->
-<div class="marquee">
-  <div class="marquee-label">Trusted by teams shipping outbound at</div>
-  <div class="marquee-row">
-    <img src="logos/apple.svg" alt="Apple">
-    <img src="logos/spotify.svg" alt="Spotify">
-    <img src="logos/samsung.svg" alt="Samsung">
-    <img src="logos/hp.svg" alt="HP">
-    <img src="logos/royal.svg" alt="Royal">
-    <img src="logos/greystone.svg" alt="Greystone">
-    <img src="logos/tatrabanka.svg" alt="Tatra banka">
-    <img src="logos/unreal.svg" alt="Unreal">
+<!-- ═══════════════════ STAGE 1 — Prospects loading animation ═══════════════════ -->
+<section class="gradient-stage" id="prospects">
+  <div class="stage-head">
+    <span class="eyebrow">Find clients</span>
+    <h2>AI finds your <em>dream customers</em>.</h2>
+    <p>Watch Outpulse pull verified contacts in real time. 275M+ database, filtered by role, signal, fit.</p>
   </div>
-</div>
 
-<!-- ═══════════ ENGINE / COMPOSE (two-up) ═══════════ -->
-<section class="section" id="engine">
   <div class="container">
-
-    <div class="two-up">
-
-      <!-- Engine panel -->
-      <div class="panel tall">
-        <div class="panel-eyebrow">Platform</div>
-        <h3 class="panel-h">The <em style="font-family:var(--serif);font-style:italic;color:var(--orange)">Engine</em></h3>
-        <p class="panel-p">
-          Send any prospect. Get back a verified contact, hyper-personalized email,
-          a multi-step sequence, and a booked meeting — same input, same outcome,
-          every time.
-        </p>
-
-        <div class="flow">
-          <div class="flow-col">
-            <div class="flow-tile"><span class="ico">✉</span> Email</div>
-            <div class="flow-tile"><span class="ico">📄</span> Docs</div>
-            <div class="flow-tile"><span class="ico">🌐</span> Web</div>
-            <div class="flow-tile"><span class="ico">✦</span> Signals</div>
-            <div class="flow-tile"><span class="ico">⇆</span> CRM</div>
-          </div>
-          <div class="flow-core">Outpulse&nbsp;AI</div>
-          <div class="flow-col">
-            <div class="flow-tile"><span class="ico">✓</span> Verified contacts</div>
-            <div class="flow-tile"><span class="ico">★</span> Personalized emails</div>
-            <div class="flow-tile"><span class="ico">⏱</span> Auto follow-ups</div>
-            <div class="flow-tile"><span class="ico">📅</span> Meetings booked</div>
-            <div class="flow-tile"><span class="ico">⤴</span> CRM sync</div>
-          </div>
+    <div class="browser">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a4 4 0 014 4v3h1a3 3 0 013 3v9a3 3 0 01-3 3H7a3 3 0 01-3-3v-9a3 3 0 013-3h1V5a4 4 0 014-4zm0 2a2 2 0 00-2 2v3h4V5a2 2 0 00-2-2z"/></svg>
+          app.outpulse.ai/prospects
         </div>
-
-        <div class="flow-props">
-          <span class="chip">Deterministic</span>
-          <span class="chip">Explainable</span>
-          <span class="chip">&lt; 2 seconds</span>
-          <span class="chip">Fully auditable</span>
-        </div>
+        <div style="width:60px"></div>
       </div>
 
-      <!-- Compose / Studio panel -->
-      <div class="panel tall">
-        <div class="panel-eyebrow">Compose · Define the rules</div>
-        <h3 class="panel-h"><em style="font-family:var(--serif);font-style:italic;color:var(--orange)">Hand-crafted</em>, every time.</h3>
-        <p class="panel-p">
-          Same product, different audiences. Compose lets you define ICPs, tone,
-          rule-packs and sending limits separately — then turn them on per campaign.
-        </p>
-
-        <div class="studio">
-          <div class="col">
-            <h5>Buyer personas</h5>
-            <div class="row active">VP Engineering · SaaS</div>
-            <div class="row">Head of Growth</div>
-            <div class="row">Founder · Series A</div>
-            <div class="row">Custom</div>
-          </div>
-          <div class="col">
-            <h5>Persona detail</h5>
-            <div class="meta">Industry: SaaS, Fintech</div>
-            <div class="meta">Size: 50–500 · Region: EU</div>
-            <div class="meta">Signals: Hiring · Just raised</div>
-            <div class="dotrow"><span></span><span></span><span></span></div>
-            <div class="quote">"Sarah, saw you just closed $150M. With 12 roles open, your team will double before pipeline catches up…"</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════ DREAM CUSTOMERS (full-bleed warm gradient mockup) ═══════════ -->
-<section class="section" style="padding-top:0">
-  <div class="container">
-
-    <div class="s-head">
-      <span class="s-eyebrow">Find clients</span>
-      <h2 class="s-title">AI finds your <em>dream customers</em>.</h2>
-      <p class="s-sub">
-        Search across 275M+ verified contacts by role, industry, size, and tech stack.
-        Powered by real-time intent signals — hiring, funding, expansion, leadership change.
-      </p>
-    </div>
-
-    <div class="mockup-wrap">
-      <div class="label">
-        <span class="s-eyebrow" style="color:rgba(255,255,255,.7)">app.outpulse.ai · Prospects</span>
-        <h3>2,847 matches, <em>filtered to fit.</em></h3>
-        <p>Cycle through Hiring, Just-Raised, Expanding, New-Role, Tech-Change. Click a row to enrich and queue for a campaign.</p>
-      </div>
-
-      <div class="dashboard-frame">
-        <aside class="df-side">
+      <div class="app">
+        <aside class="app-side">
           <div class="grp">
             <div class="grp-h">Find clients</div>
             <div class="item">Buyer personas</div>
@@ -730,80 +608,142 @@ h1.display .accent{
             <div class="item">Settings</div>
           </div>
         </aside>
-        <div class="df-main">
-          <div class="top">
-            <h4>Prospects · 2,847 matches</h4>
-            <span class="pill">● Live signals</span>
+
+        <div class="app-main">
+          <div class="app-top">
+            <h3>Prospects · live discovery</h3>
+            <span class="app-pill"><span class="blink"></span>Streaming intent signals</span>
           </div>
-          <div class="kpi-grid">
-            <div class="kpi"><div class="kpi-l">Hiring</div><div class="kpi-v">2,847</div><div class="kpi-d">+312 this week</div></div>
-            <div class="kpi"><div class="kpi-l">Just raised</div><div class="kpi-v">1,203</div><div class="kpi-d">+148 this week</div></div>
-            <div class="kpi"><div class="kpi-l">Expanding</div><div class="kpi-v">894</div><div class="kpi-d">+71 this week</div></div>
-            <div class="kpi"><div class="kpi-l">New role</div><div class="kpi-v">1,567</div><div class="kpi-d">+204 this week</div></div>
+
+          <div class="proscount">
+            <div class="left">
+              <div class="icon">P</div>
+              <div>
+                <div class="label">Found</div>
+                <div class="num"><em>2,847</em></div>
+              </div>
+            </div>
+            <div class="progress"><div class="bar"></div></div>
+            <div class="small">Of <strong>275M</strong> verified contacts</div>
           </div>
-          <div class="df-rows">
-            <div class="df-row"><div class="av">SC</div><div><div class="name">Sarah Chen</div><div class="sub">VP Engineering · Vercel</div></div><span class="badge">Hiring 12 roles</span><span>Vercel</span><span class="match">97%</span></div>
-            <div class="df-row"><div class="av">JL</div><div><div class="name">James Liu</div><div class="sub">Founder · Notion</div></div><span class="badge">Hiring 5 roles</span><span>Notion</span><span class="match">89%</span></div>
-            <div class="df-row"><div class="av">DK</div><div><div class="name">David Kim</div><div class="sub">CTO · Webflow</div></div><span class="badge">Hiring 8 roles</span><span>Webflow</span><span class="match">85%</span></div>
-            <div class="df-row"><div class="av">AK</div><div><div class="name">Anna Kovacs</div><div class="sub">Head of Product · Stripe</div></div><span class="badge">Expanding EU</span><span>Stripe</span><span class="match">91%</span></div>
-            <div class="df-row"><div class="av">MW</div><div><div class="name">Marcus Webb</div><div class="sub">CTO · Linear</div></div><span class="badge">Raised $35M</span><span>Linear</span><span class="match">94%</span></div>
+
+          <div class="filters">
+            <span class="filt active"><span class="d"></span>Hiring</span>
+            <span class="filt"><span class="d"></span>Just raised</span>
+            <span class="filt"><span class="d"></span>Expanding</span>
+            <span class="filt"><span class="d"></span>New role</span>
+            <span class="filt"><span class="d"></span>Tech change</span>
+            <span class="filt"><span class="d"></span>Leadership change</span>
+          </div>
+
+          <div class="proslist">
+            <div class="head"><span></span><span>Contact</span><span>Signal</span><span>Company</span><span style="text-align:right">Match</span></div>
+            <div class="prow"><div class="av">SC</div><div><div class="name">Sarah Chen</div><div class="sub">VP Engineering</div></div><span class="badge">Hiring 12 roles</span><span>Vercel</span><span class="match">97%</span></div>
+            <div class="prow"><div class="av">JL</div><div><div class="name">James Liu</div><div class="sub">Founder</div></div><span class="badge">Hiring 5 roles</span><span>Notion</span><span class="match">89%</span></div>
+            <div class="prow"><div class="av">DK</div><div><div class="name">David Kim</div><div class="sub">CTO</div></div><span class="badge">Hiring 8 roles</span><span>Webflow</span><span class="match">85%</span></div>
+            <div class="prow"><div class="av">MW</div><div><div class="name">Marcus Webb</div><div class="sub">CTO</div></div><span class="badge">Raised $35M</span><span>Linear</span><span class="match">94%</span></div>
+            <div class="prow"><div class="av">AK</div><div><div class="name">Anna Kovacs</div><div class="sub">Head of Product</div></div><span class="badge">Expanding EU</span><span>Stripe</span><span class="match">91%</span></div>
+            <div class="prow"><div class="av">RP</div><div><div class="name">Rachel Park</div><div class="sub">VP Sales</div></div><span class="badge">Raised $100M</span><span>Ramp</span><span class="match">86%</span></div>
+            <div class="prow"><div class="av">LP</div><div><div class="name">Lisa Park</div><div class="sub">VP Ops</div></div><span class="badge">New role · 2w</span><span>Figma</span><span class="match">90%</span></div>
+            <div class="prow"><div class="av">EL</div><div><div class="name">Eva Lang</div><div class="sub">CFO</div></div><span class="badge">Opened 3 offices</span><span>Deel</span><span class="match">85%</span></div>
+            <div class="prow"><div class="av">AW</div><div><div class="name">Amanda Walsh</div><div class="sub">VP Eng</div></div><span class="badge">Migrating to AWS</span><span>Loom</span><span class="match">87%</span></div>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </section>
 
-<!-- ═══════════ EVERY EMAIL UNIQUE ═══════════ -->
-<section class="section" style="padding-top:40px">
+<!-- ═══════════════════ LOGO STRIP ═══════════════════ -->
+<section class="logos">
   <div class="container">
-
-    <div class="s-head">
-      <span class="s-eyebrow">Engage</span>
-      <h2 class="s-title">Every email is <em>unique</em>,<br>not a template.</h2>
-      <p class="s-sub">
-        Outpulse analyses each prospect's role, company, tech stack and buying signals
-        and writes a single email that reads like it was hand-crafted.
-        Pattern interrupt, tension, proof-of-relevance, outcome — every time.
-      </p>
+    <div class="logos-inner">
+      <div class="logos-l">Trusted by teams shipping outbound at</div>
+      <img src="logos/apple.svg" alt="Apple">
+      <img src="logos/spotify.svg" alt="Spotify">
+      <img src="logos/samsung.svg" alt="Samsung">
+      <img src="logos/hp.svg" alt="HP">
+      <img src="logos/royal.svg" alt="Royal">
+      <img src="logos/greystone.svg" alt="Greystone">
+      <img src="logos/tatrabanka.svg" alt="Tatra banka">
+      <img src="logos/unreal.svg" alt="Unreal">
     </div>
+  </div>
+</section>
 
-    <div class="mockup-wrap cool">
-      <div class="label">
-        <span class="s-eyebrow" style="color:rgba(255,255,255,.7)">campaigns / preview</span>
-        <h3>"Vercel's next 50 customers?"<br><em>One look. No template.</em></h3>
+<!-- ═══════════════════ STAGE 2 — Email mockup (dark gradient) ═══════════════════ -->
+<section class="gradient-stage dark" id="email">
+  <div class="stage-head">
+    <span class="eyebrow">Engage</span>
+    <h2>Every email is <em>unique</em>, not a template.</h2>
+    <p>AI analyzes role, company, tech stack and buying signals — then writes one email that reads like it was hand-crafted.</p>
+  </div>
+
+  <div class="container">
+    <div class="browser">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a4 4 0 014 4v3h1a3 3 0 013 3v9a3 3 0 01-3 3H7a3 3 0 01-3-3v-9a3 3 0 013-3h1V5a4 4 0 014-4zm0 2a2 2 0 00-2 2v3h4V5a2 2 0 00-2-2z"/></svg>
+          app.outpulse.ai/campaigns/preview
+        </div>
+        <div style="width:60px"></div>
       </div>
 
-      <div class="dashboard-frame" style="grid-template-columns:1fr">
-        <div class="df-main" style="padding:32px 36px;background:#fff">
-          <div class="top">
-            <h4>To: sarah@vercel.com · Subject preview</h4>
-            <span class="pill" style="background:#fff5ec;color:var(--orange)">● AI-Personalized</span>
+      <div class="app">
+        <aside class="app-side">
+          <div class="grp">
+            <div class="grp-h">Find clients</div>
+            <div class="item">Buyer personas</div>
+            <div class="item">Prospects</div>
           </div>
-          <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:24px">
-            <div style="font-size:14.5px;color:var(--ink-2);line-height:1.7;border:1px solid var(--line);border-radius:14px;padding:22px 24px">
-              <div style="font-family:var(--serif);font-size:22px;line-height:1.2;color:var(--ink);margin-bottom:14px">Vercel's next 50 customers?</div>
-              <p>Sarah, saw you just closed $150M. That's a big bet on growth.</p>
-              <p style="margin-top:10px">With 12 roles open, your team's going to double before the pipeline catches up.</p>
-              <p style="margin-top:10px">We built something that finds your exact ICP, writes emails using their real data (stack, funding, hiring), and books calls while your team focuses on closing.</p>
-              <p style="margin-top:14px;color:var(--muted);font-size:13px">— Lukas, Outpulse</p>
+          <div class="grp">
+            <div class="grp-h">Engage</div>
+            <div class="item active">Campaigns</div>
+            <div class="item">Messages</div>
+          </div>
+          <div class="grp">
+            <div class="grp-h">Insights</div>
+            <div class="item">Pulse</div>
+            <div class="item">Settings</div>
+          </div>
+        </aside>
+
+        <div class="app-main">
+          <div class="app-top">
+            <h3>To: sarah@vercel.com · Subject preview</h3>
+            <span class="app-pill" style="background:#fff5ec;color:var(--orange)"><span class="blink" style="background:var(--orange)"></span>AI personalized</span>
+          </div>
+
+          <div class="email-grid">
+            <div class="email-card">
+              <div class="email-from">
+                <div class="av" style="width:28px;height:28px;border-radius:8px;background:#fff5ec;color:var(--orange);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:11px">L</div>
+                Lukas · Outpulse → Sarah Chen, VP Eng @ Vercel
+              </div>
+              <div class="email-subject">Vercel's next 50 customers?</div>
+              <div class="email-body">
+                <p>Sarah, saw you just closed $150M. That's a big bet on growth.</p>
+                <p>With 12 roles open, your team's going to double before the pipeline catches up.</p>
+                <p>We built something that finds your exact ICP, writes emails using their real data (stack, funding, hiring), and books calls while your team focuses on closing.</p>
+                <p class="sig">— Lukas, Outpulse</p>
+              </div>
             </div>
-            <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
-              <div style="background:#fff5ec;border:1px solid #ffd9b8;border-radius:12px;padding:14px"><strong style="color:var(--orange)">Pattern interrupt</strong><div style="color:var(--ink-2);margin-top:4px">No "Hi". Leads with their funding news, earns the read.</div></div>
-              <div style="background:#fff5ec;border:1px solid #ffd9b8;border-radius:12px;padding:14px"><strong style="color:var(--orange)">Tension</strong><div style="color:var(--ink-2);margin-top:4px">Team will double before pipeline catches up — a real pain.</div></div>
-              <div style="background:#fff5ec;border:1px solid #ffd9b8;border-radius:12px;padding:14px"><strong style="color:var(--orange)">Proof of relevance</strong><div style="color:var(--ink-2);margin-top:4px">Mentions stack, funding, hiring. Feels hand-written.</div></div>
-              <div style="background:#fff5ec;border:1px solid #ffd9b8;border-radius:12px;padding:14px"><strong style="color:var(--orange)">Outcome, not feature</strong><div style="color:var(--ink-2);margin-top:4px">"Books calls while your team focuses on closing."</div></div>
+
+            <div class="struct">
+              <div class="item"><strong>Pattern interrupt</strong>No "Hi". Leads with their funding, earns the read.</div>
+              <div class="item"><strong>Tension</strong>Team will double before pipeline catches up — a real pain.</div>
+              <div class="item"><strong>Proof of relevance</strong>Mentions stack, funding, hiring. Hand-written feel.</div>
+              <div class="item"><strong>Outcome, not feature</strong>"Books calls while your team focuses on closing."</div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </section>
 
-<!-- ═══════════ STATS BAR ═══════════ -->
+<!-- ═══════════════════ STATS strip ═══════════════════ -->
 <section class="stats">
   <div class="stats-grid">
     <div class="stat"><div class="stat-num">1M+</div><div class="stat-l">Prospects discovered<br>across 275M+ contacts</div></div>
@@ -812,19 +752,98 @@ h1.display .accent{
   </div>
 </section>
 
-<!-- ═══════════ COMPARISON ═══════════ -->
-<section class="section">
-  <div class="container">
-    <div class="s-head" style="margin:0 auto 12px;text-align:center;align-items:center">
-      <span class="s-eyebrow">Same job. Fraction of the cost.</span>
-      <h2 class="s-title" style="text-align:center">A full-time SDR costs <em style="font-family:var(--serif);font-style:italic;color:var(--orange)">$7,500/mo</em>.<br>Outpulse starts at <em style="font-family:var(--serif);font-style:italic;color:var(--orange)">$49</em>.</h2>
-    </div>
+<!-- ═══════════════════ STAGE 3 — Pulse dashboard (peach soft gradient) ═══════════════════ -->
+<section class="gradient-stage peach">
+  <div class="stage-head">
+    <span class="eyebrow">Insights</span>
+    <h2>See your <em>growth</em> at a glance.</h2>
+    <p>Your Pulse tracks every step from first visit to closed deal. Set a target. Watch the numbers come alive.</p>
+  </div>
 
-    <div class="compare" style="position:relative">
-      <div class="save-pill">Save 97%</div>
-      <div class="compare-col lose">
-        <h4>Hire an SDR</h4>
-        <div class="price">$7,500/mo · US average + benefits</div>
+  <div class="container">
+    <div class="browser">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a4 4 0 014 4v3h1a3 3 0 013 3v9a3 3 0 01-3 3H7a3 3 0 01-3-3v-9a3 3 0 013-3h1V5a4 4 0 014-4zm0 2a2 2 0 00-2 2v3h4V5a2 2 0 00-2-2z"/></svg>
+          app.outpulse.ai/dashboard
+        </div>
+        <div style="width:60px"></div>
+      </div>
+
+      <div class="app">
+        <aside class="app-side">
+          <div class="grp">
+            <div class="grp-h">Find clients</div>
+            <div class="item">Buyer personas</div>
+            <div class="item">Prospects</div>
+          </div>
+          <div class="grp">
+            <div class="grp-h">Engage</div>
+            <div class="item">Campaigns</div>
+            <div class="item">Messages</div>
+          </div>
+          <div class="grp">
+            <div class="grp-h">Insights</div>
+            <div class="item active">Pulse</div>
+            <div class="item">Settings</div>
+          </div>
+        </aside>
+
+        <div class="app-main">
+          <div class="app-top">
+            <div>
+              <h3>Good afternoon, Lukas</h3>
+              <div style="font-size:12.5px;color:var(--muted);margin-top:3px">Almost there — keep going</div>
+            </div>
+            <span class="app-pill"><span class="blink"></span>On track</span>
+          </div>
+
+          <div class="proscount">
+            <div class="left">
+              <div class="icon">$</div>
+              <div>
+                <div class="label">Revenue target</div>
+                <div class="num">$<em>10,132</em></div>
+              </div>
+            </div>
+            <div class="progress"><div class="bar" style="animation:fillBar 2s ease-out forwards;animation-delay:.4s"></div></div>
+            <div class="small">12 days left · 78% complete</div>
+          </div>
+
+          <div class="kpis">
+            <div class="k"><div class="k-l">Prospects found</div><div class="k-v">860</div><div class="k-d">+720 enriched</div></div>
+            <div class="k"><div class="k-l">Emails sent</div><div class="k-v">1,548</div><div class="k-d">+485 opened</div></div>
+            <div class="k"><div class="k-l">Open rate</div><div class="k-v">31%</div><div class="k-d">Above avg</div></div>
+            <div class="k"><div class="k-l">Meetings</div><div class="k-v">62</div><div class="k-d">+5 this week</div></div>
+          </div>
+
+          <div class="proslist">
+            <div class="head"><span></span><span>Recent activity</span><span>Source</span><span>Status</span><span style="text-align:right">When</span></div>
+            <div class="prow"><div class="av">M</div><div><div class="name">Meeting booked · Sarah Chen</div><div class="sub">Vercel</div></div><span class="badge">Q1 Outbound</span><span>Replied</span><span class="match">2m</span></div>
+            <div class="prow"><div class="av">R</div><div><div class="name">Reply received · Marcus Webb</div><div class="sub">Linear</div></div><span class="badge">Q1 Outbound</span><span>Positive</span><span class="match">14m</span></div>
+            <div class="prow"><div class="av">O</div><div><div class="name">Email opened · Anna Kovacs</div><div class="sub">Stripe</div></div><span class="badge">Q1 Outbound</span><span>Step 2</span><span class="match">28m</span></div>
+            <div class="prow"><div class="av">S</div><div><div class="name">127 prospects added</div><div class="sub">Buyer persona "VP Eng · SaaS"</div></div><span class="badge">Auto-discovery</span><span>Enriched</span><span class="match">1h</span></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ COMPARISON ═══════════════════ -->
+<section class="cmp">
+  <div class="cmp-head">
+    <span class="eyebrow">Same job. Fraction of the cost.</span>
+    <h2>A full-time SDR costs <em>$7,500</em>/mo.<br>Outpulse starts at <em>$49</em>.</h2>
+  </div>
+  <div class="container">
+    <div class="cmp-grid">
+      <div class="cmp-save">Save 97%</div>
+      <div class="cmp-col">
+        <h4 style="color:var(--muted)">Hire an SDR</h4>
+        <div class="sub">$7,500/mo · US average + benefits</div>
         <ul>
           <li>2–4 weeks to onboard</li>
           <li>Works 8h/day, 5 days a week</li>
@@ -833,12 +852,12 @@ h1.display .accent{
           <li>Sick days, churn, ramp</li>
         </ul>
       </div>
-      <div class="compare-vs">vs.</div>
-      <div class="compare-col win">
+      <div class="cmp-vs">vs.</div>
+      <div class="cmp-col win">
         <h4>Outpulse</h4>
-        <div class="price">$49/mo · 7-day free trial</div>
+        <div class="sub">$49/mo · 7-day free trial</div>
         <ul>
-          <li>Set-up in 2 minutes</li>
+          <li>Setup in 2 minutes</li>
           <li>Runs 24/7, never tired</li>
           <li>AI-personalized every time</li>
           <li>Built-in real-time intent signals</li>
@@ -846,130 +865,106 @@ h1.display .accent{
         </ul>
       </div>
     </div>
-
   </div>
 </section>
 
-<!-- ═══════════ PRICING ═══════════ -->
-<section class="section" id="pricing">
+<!-- ═══════════════════ PRICING ═══════════════════ -->
+<section class="pricing" id="pricing">
+  <div class="price-head">
+    <span class="eyebrow">Pricing</span>
+    <h2>Simple, <em>transparent</em> pricing.</h2>
+    <p>Every plan starts with a 7-day free trial. Cancel anytime — no charge until the trial ends.</p>
+  </div>
   <div class="container">
-    <div class="s-head" style="margin:0 auto 0;text-align:center;align-items:center">
-      <span class="s-eyebrow">Pricing</span>
-      <h2 class="s-title" style="text-align:center">Simple, <em>transparent</em> pricing.</h2>
-      <p class="s-sub" style="text-align:center;margin:0 auto">
-        Every plan starts with a 7-day free trial.
-        Cancel anytime — no charge until the trial ends.
-      </p>
-    </div>
+    <div class="pgrid">
 
-    <div class="pricing-grid">
-
-      <div class="price-card">
-        <div class="pc-tag">Starter</div>
-        <div class="pc-name">Starter</div>
-        <div class="pc-d">For founders testing cold outreach</div>
-        <div class="pc-price"><span class="num">$49</span><span class="per">/mo</span></div>
-        <ul class="pc-feats">
-          <li class="pc-feat">100 prospects per month</li>
-          <li class="pc-feat">2 active campaigns</li>
-          <li class="pc-feat">AI-personalized emails</li>
-          <li class="pc-feat">1 sending mailbox</li>
-          <li class="pc-feat">Email warm-up included</li>
-          <li class="pc-feat">Community support</li>
+      <div class="pcard">
+        <div class="p-tag">Starter</div>
+        <div class="p-name">Starter</div>
+        <div class="p-d">For founders testing cold outreach</div>
+        <div class="p-price"><span class="num">$49</span><span class="per">/mo</span></div>
+        <ul class="p-feats">
+          <li class="p-feat">100 prospects per month</li>
+          <li class="p-feat">2 active campaigns</li>
+          <li class="p-feat">AI-personalized emails</li>
+          <li class="p-feat">1 sending mailbox</li>
+          <li class="p-feat">Email warm-up included</li>
+          <li class="p-feat">Community support</li>
         </ul>
         <a href="#cta" class="btn">Start free trial</a>
-        <div class="pc-foot">No charge for 7 days</div>
+        <div class="p-foot">No charge for 7 days</div>
       </div>
 
-      <div class="price-card featured">
-        <div class="pc-tag">Most popular</div>
-        <div class="pc-name">Growth</div>
-        <div class="pc-d">For teams scaling outbound pipeline</div>
-        <div class="pc-price"><span class="num">$149</span><span class="per">/mo</span></div>
-        <ul class="pc-feats">
-          <li class="pc-feat">500 prospects per month</li>
-          <li class="pc-feat">Unlimited campaigns</li>
-          <li class="pc-feat">Open, click & reply tracking</li>
-          <li class="pc-feat">3 sending mailboxes</li>
-          <li class="pc-feat">AI copy optimization</li>
-          <li class="pc-feat">Priority support</li>
+      <div class="pcard featured">
+        <div class="p-tag">Most popular</div>
+        <div class="p-name">Growth</div>
+        <div class="p-d">For teams scaling outbound pipeline</div>
+        <div class="p-price"><span class="num">$149</span><span class="per">/mo</span></div>
+        <ul class="p-feats">
+          <li class="p-feat">500 prospects per month</li>
+          <li class="p-feat">Unlimited campaigns</li>
+          <li class="p-feat">Open, click & reply tracking</li>
+          <li class="p-feat">3 sending mailboxes</li>
+          <li class="p-feat">AI copy optimization</li>
+          <li class="p-feat">Priority support</li>
         </ul>
         <a href="#cta" class="btn">Start free trial</a>
-        <div class="pc-foot">No charge for 7 days</div>
+        <div class="p-foot" style="color:rgba(255,255,255,.6)">No charge for 7 days</div>
       </div>
 
-      <div class="price-card">
-        <div class="pc-tag">Agency</div>
-        <div class="pc-name">Agency</div>
-        <div class="pc-d">For agencies managing multiple clients</div>
-        <div class="pc-price"><span class="num">$499</span><span class="per">/mo</span></div>
-        <ul class="pc-feats">
-          <li class="pc-feat">2,500 prospects per month</li>
-          <li class="pc-feat">Full analytics + A/B testing</li>
-          <li class="pc-feat">10 sending mailboxes</li>
-          <li class="pc-feat">Dedicated account manager</li>
-          <li class="pc-feat">Custom integrations</li>
+      <div class="pcard">
+        <div class="p-tag">Agency</div>
+        <div class="p-name">Agency</div>
+        <div class="p-d">For agencies managing multiple clients</div>
+        <div class="p-price"><span class="num">$499</span><span class="per">/mo</span></div>
+        <ul class="p-feats">
+          <li class="p-feat">2,500 prospects per month</li>
+          <li class="p-feat">Full analytics + A/B testing</li>
+          <li class="p-feat">10 sending mailboxes</li>
+          <li class="p-feat">Dedicated account manager</li>
+          <li class="p-feat">Custom integrations</li>
         </ul>
         <a href="#cta" class="btn">Start free trial</a>
-        <div class="pc-foot">No charge for 7 days</div>
+        <div class="p-foot">No charge for 7 days</div>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- ═══════════ FAQ ═══════════ -->
-<section class="section" id="faq">
-  <div class="container" style="max-width:880px">
-    <div class="s-head" style="margin:0 auto 0;text-align:center;align-items:center">
-      <span class="s-eyebrow">FAQ</span>
-      <h2 class="s-title" style="text-align:center">Common <em>questions</em>.</h2>
-    </div>
-
-    <div class="faq">
-      <details open>
-        <summary>Is there a free trial? <span class="plus"></span></summary>
-        <div class="a">Yes — every plan starts with a 7-day free trial. You can test the full platform including AI prospect discovery, email generation, and campaign launching. No charge until the trial ends, and you can cancel in one click.</div>
-      </details>
-      <details>
-        <summary>How does the AI write personalized emails? <span class="plus"></span></summary>
-        <div class="a">Our AI analyses each prospect's real data: their role, company, tech stack, recent funding, hiring activity and more. It writes a unique email for each person — no templates, no mail-merge.</div>
-      </details>
-      <details>
-        <summary>Will my emails land in spam? <span class="plus"></span></summary>
-        <div class="a">Outpulse includes built-in email warm-up that gradually increases your sending volume over 14 days. Combined with SPF, DKIM and DMARC verification, your emails are optimized for deliverability from day one.</div>
-      </details>
-      <details>
-        <summary>Where does the prospect data come from? <span class="plus"></span></summary>
-        <div class="a">We use Apollo's verified database of 275M+ contacts. All data is GDPR compliant and regularly updated — verified emails, job titles, company info, tech stacks, and buying intent signals.</div>
-      </details>
-      <details>
-        <summary>Can I connect my existing email? <span class="plus"></span></summary>
-        <div class="a">Yes — Outpulse integrates with Gmail and Outlook. Emails are sent from your real address, building trust and improving deliverability.</div>
-      </details>
-      <details>
-        <summary>Can I cancel anytime? <span class="plus"></span></summary>
-        <div class="a">Absolutely. No contracts, no commitments. Cancel anytime from your account settings.</div>
-      </details>
+<!-- ═══════════════════ FAQ ═══════════════════ -->
+<section class="faq" id="faq">
+  <div class="faq-head">
+    <span class="eyebrow">FAQ</span>
+    <h2>Common <em>questions</em>.</h2>
+  </div>
+  <div class="container">
+    <div class="faq-list">
+      <details open><summary>Is there a free trial? <span class="plus"></span></summary><div class="a">Yes — every plan starts with a 7-day free trial. You can test the full platform: AI prospect discovery, email generation, and campaign launching. No charge until the trial ends, and you can cancel in one click.</div></details>
+      <details><summary>How does the AI write personalized emails? <span class="plus"></span></summary><div class="a">Our AI analyses each prospect's real data: their role, company, tech stack, recent funding, hiring activity and more. It writes a unique email for each person — no templates, no mail-merge.</div></details>
+      <details><summary>Will my emails land in spam? <span class="plus"></span></summary><div class="a">Outpulse includes built-in email warm-up that gradually increases your sending volume over 14 days. Combined with SPF, DKIM and DMARC verification, your emails are optimized for deliverability from day one.</div></details>
+      <details><summary>Where does the prospect data come from? <span class="plus"></span></summary><div class="a">We use Apollo's verified database of 275M+ contacts. All data is GDPR compliant and regularly updated — verified emails, job titles, company info, tech stacks, and buying intent signals.</div></details>
+      <details><summary>Can I connect my existing email? <span class="plus"></span></summary><div class="a">Yes — Outpulse integrates with Gmail and Outlook. Emails are sent from your real address, building trust and improving deliverability.</div></details>
+      <details><summary>Can I cancel anytime? <span class="plus"></span></summary><div class="a">Absolutely. No contracts, no commitments. Cancel anytime from your account settings.</div></details>
     </div>
   </div>
 </section>
 
-<!-- ═══════════ FINAL CTA ═══════════ -->
-<section class="container" id="cta">
-  <div class="final-cta">
+<!-- ═══════════════════ FINAL CTA ═══════════════════ -->
+<section class="final" id="cta">
+  <div class="final-card">
     <h2>Ready to hit your<br><em>growth targets?</em></h2>
     <p>Set your revenue goal, connect your channels, and let Outpulse run your growth engine.</p>
     <a href="https://app.outpulse.ai/signup" class="btn btn-orange">Start 7-day free trial</a>
-    <div class="final-cta-note">7-day free trial · Cancel anytime</div>
+    <div class="final-note">7-day free trial · Cancel anytime</div>
   </div>
 </section>
 
-<!-- ═══════════ FOOTER ═══════════ -->
-<footer class="footer">
-  <div class="container footer-row">
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+  <div class="container foot-row">
     <div>© 2026 Outpulse. Designed and engineered by <a href="https://plat4m.com" style="color:var(--ink);font-weight:600">PLATFORM</a>.</div>
-    <div class="footer-links">
+    <div class="foot-links">
       <a href="/privacy">Privacy</a>
       <a href="/terms">Terms</a>
       <a href="mailto:hello@outpulse.ai">Contact</a>
