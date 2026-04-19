@@ -69,12 +69,20 @@ img{max-width:100%;display:block}
 
 /* ── Section shell */
 section.ds{padding:clamp(64px,8vh,112px) 0;border-top:1px solid var(--line)}
-.ds-head{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin-bottom:44px;flex-wrap:wrap}
-.ds-num{font-family:var(--serif);font-style:italic;font-size:72px;line-height:1;color:var(--orange);opacity:.8;letter-spacing:-.02em}
-.ds-head-copy{flex:1;min-width:280px}
+.ds-head{margin-bottom:44px;max-width:860px}
 .ds-eyebrow{font-size:10.5px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:10px}
-.ds-head-copy h2{font-family:var(--serif);font-weight:400;font-size:clamp(36px,4vw,56px);line-height:1.04;letter-spacing:-.02em;margin:0 0 12px}
-.ds-head-copy p{color:var(--ink-2);margin:0;max-width:68ch;font-size:16px}
+.ds-head h2{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(36px,4vw,56px);line-height:1.04;letter-spacing:-.02em;
+  margin:0 0 12px;
+  display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;
+}
+.ds-num{
+  font-family:var(--serif);font-style:italic;font-weight:400;
+  font-size:.55em;line-height:1;
+  color:var(--orange);opacity:.82;letter-spacing:-.01em;
+}
+.ds-head p{color:var(--ink-2);margin:0;max-width:68ch;font-size:16px}
 
 /* ── Logo block */
 .logo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
@@ -224,12 +232,9 @@ footer{padding:56px 0 48px;border-top:1px solid var(--line);background:var(--bg)
 <section class="ds">
   <div class="container">
     <div class="ds-head">
-      <div class="ds-num">01</div>
-      <div class="ds-head-copy">
-        <span class="ds-eyebrow">Identity</span>
-        <h2>The mark.</h2>
-        <p>Two circles, overlapping — one hollow, one filled. The left ring is the prospect, outlined and empty; the right disc is the customer, filled and committed. The thin white crescent between them is the handshake: the precise moment outreach becomes a relationship.</p>
-      </div>
+      <span class="ds-eyebrow">Identity</span>
+      <h2><span class="ds-num">01</span>The mark.</h2>
+      <p>Two circles, overlapping — one hollow, one filled. The left ring is the prospect, outlined and empty; the right disc is the customer, filled and committed. The thin white crescent between them is the handshake: the precise moment outreach becomes a relationship.</p>
     </div>
 
     <div class="logo-grid">
@@ -253,12 +258,9 @@ footer{padding:56px 0 48px;border-top:1px solid var(--line);background:var(--bg)
 <section class="ds">
   <div class="container">
     <div class="ds-head">
-      <div class="ds-num">02</div>
-      <div class="ds-head-copy">
-        <span class="ds-eyebrow">Narrative</span>
-        <h2>Cold left, warm right.</h2>
-        <p>Every brand surface reads from cold to warm. A hero gradient, a chart, a CTA section — all of them move the eye from blue (prospect in stranger territory) to orange (prospect who said yes). Hold this story straight and the product writes itself visually.</p>
-      </div>
+      <span class="ds-eyebrow">Narrative</span>
+      <h2><span class="ds-num">02</span>Cold left, warm right.</h2>
+      <p>Every brand surface reads from cold to warm. A hero gradient, a chart, a CTA section — all of them move the eye from blue (prospect in stranger territory) to orange (prospect who said yes). Hold this story straight and the product writes itself visually.</p>
     </div>
 
     <div class="cold-warm">
@@ -281,12 +283,9 @@ footer{padding:56px 0 48px;border-top:1px solid var(--line);background:var(--bg)
 <section class="ds">
   <div class="container">
     <div class="ds-head">
-      <div class="ds-num">03</div>
-      <div class="ds-head-copy">
-        <span class="ds-eyebrow">Palette</span>
-        <h2>Colour tokens.</h2>
-        <p>Ink and paper for everything load-bearing. Orange for action. Blue for cold signals, intent, analytics. Muted greys for supporting text. Never hard-code; always reach for a token.</p>
-      </div>
+      <span class="ds-eyebrow">Palette</span>
+      <h2><span class="ds-num">03</span>Colour tokens.</h2>
+      <p>Ink and paper for everything load-bearing. Orange for action. Blue for cold signals, intent, analytics. Muted greys for supporting text. Never hard-code; always reach for a token.</p>
     </div>
 
     <h3 style="font-family:var(--serif);font-weight:400;font-size:22px;margin:0 0 16px;color:var(--muted)">Warm</h3>
@@ -319,12 +318,9 @@ footer{padding:56px 0 48px;border-top:1px solid var(--line);background:var(--bg)
 <section class="ds">
   <div class="container">
     <div class="ds-head">
-      <div class="ds-num">04</div>
-      <div class="ds-head-copy">
-        <span class="ds-eyebrow">Gradients</span>
-        <h2>The spectrum stack.</h2>
-        <p>Gradients are the primary storytelling device — they act out the cold-to-warm journey across every hero, card, and CTA. Use them sparingly on hero surfaces; never on body text.</p>
-      </div>
+      <span class="ds-eyebrow">Gradients</span>
+      <h2><span class="ds-num">04</span>The spectrum stack.</h2>
+      <p>Gradients are the primary storytelling device — they act out the cold-to-warm journey across every hero, card, and CTA. Use them sparingly on hero surfaces; never on body text.</p>
     </div>
 
     <div class="grads">
@@ -342,12 +338,9 @@ footer{padding:56px 0 48px;border-top:1px solid var(--line);background:var(--bg)
 <section class="ds">
   <div class="container">
     <div class="ds-head">
-      <div class="ds-num">05</div>
-      <div class="ds-head-copy">
-        <span class="ds-eyebrow">Typography</span>
-        <h2>Serif display, sans body.</h2>
-        <p>Instrument Serif carries the voice. Inter carries the work. Italics signal warmth (outcomes, "on autopilot", "growth targets"); roman text stays grounded. Never set body copy in the serif.</p>
-      </div>
+      <span class="ds-eyebrow">Typography</span>
+      <h2><span class="ds-num">05</span>Serif display, sans body.</h2>
+      <p>Instrument Serif carries the voice. Inter carries the work. Italics signal warmth (outcomes, "on autopilot", "growth targets"); roman text stays grounded. Never set body copy in the serif.</p>
     </div>
 
     <div class="type-row">
@@ -389,12 +382,9 @@ footer{padding:56px 0 48px;border-top:1px solid var(--line);background:var(--bg)
 <section class="ds">
   <div class="container">
     <div class="ds-head">
-      <div class="ds-num">06</div>
-      <div class="ds-head-copy">
-        <span class="ds-eyebrow">Buttons</span>
-        <h2>Pill-shaped, fully rounded.</h2>
-        <p>Every CTA is a pill — no soft-corner rectangles. The orange primary is the only high-intensity call; everything else supports. Use at most one orange button per view.</p>
-      </div>
+      <span class="ds-eyebrow">Buttons</span>
+      <h2><span class="ds-num">06</span>Pill-shaped, fully rounded.</h2>
+      <p>Every CTA is a pill — no soft-corner rectangles. The orange primary is the only high-intensity call; everything else supports. Use at most one orange button per view.</p>
     </div>
 
     <div class="btn-stack">
@@ -429,12 +419,9 @@ footer{padding:56px 0 48px;border-top:1px solid var(--line);background:var(--bg)
 <section class="ds">
   <div class="container">
     <div class="ds-head">
-      <div class="ds-num">07</div>
-      <div class="ds-head-copy">
-        <span class="ds-eyebrow">Pills</span>
-        <h2>Status, signal, label.</h2>
-        <p>Pills communicate state in the product — hot leads, active campaigns, cold signals. Colour-code them to the narrative: cool blue for cold signals, orange for warm/active, green for success, neutral for everything else.</p>
-      </div>
+      <span class="ds-eyebrow">Pills</span>
+      <h2><span class="ds-num">07</span>Status, signal, label.</h2>
+      <p>Pills communicate state in the product — hot leads, active campaigns, cold signals. Colour-code them to the narrative: cool blue for cold signals, orange for warm/active, green for success, neutral for everything else.</p>
     </div>
 
     <div class="comp-grid">
@@ -482,12 +469,9 @@ footer{padding:56px 0 48px;border-top:1px solid var(--line);background:var(--bg)
 <section class="ds">
   <div class="container">
     <div class="ds-head">
-      <div class="ds-num">08</div>
-      <div class="ds-head-copy">
-        <span class="ds-eyebrow">Tokens</span>
-        <h2>Spacing & radius.</h2>
-        <p>Spacing scales on an 8-point grid with a handful of named steps. Radius stops hit at 8 (chips), 12 (cards), 16–20 (browser mockups), 32 (CTA cards), 999px (pills). Everything else is a bug.</p>
-      </div>
+      <span class="ds-eyebrow">Tokens</span>
+      <h2><span class="ds-num">08</span>Spacing & radius.</h2>
+      <p>Spacing scales on an 8-point grid with a handful of named steps. Radius stops hit at 8 (chips), 12 (cards), 16–20 (browser mockups), 32 (CTA cards), 999px (pills). Everything else is a bug.</p>
     </div>
 
     <h3 style="font-family:var(--serif);font-weight:400;font-size:22px;margin:0 0 16px;color:var(--muted)">Spacing</h3>
@@ -515,12 +499,9 @@ footer{padding:56px 0 48px;border-top:1px solid var(--line);background:var(--bg)
 <section class="ds">
   <div class="container">
     <div class="ds-head">
-      <div class="ds-num">09</div>
-      <div class="ds-head-copy">
-        <span class="ds-eyebrow">Pattern</span>
-        <h2>Cold-to-warm composition.</h2>
-        <p>A ready-to-use split composition. Cold side carries the "before" — stranger, inbox, silence. Warm side carries the "after" — reply, meeting, deal.</p>
-      </div>
+      <span class="ds-eyebrow">Pattern</span>
+      <h2><span class="ds-num">09</span>Cold-to-warm composition.</h2>
+      <p>A ready-to-use split composition. Cold side carries the "before" — stranger, inbox, silence. Warm side carries the "after" — reply, meeting, deal.</p>
     </div>
 
     <div class="pattern">
