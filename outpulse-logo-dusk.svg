@@ -1,0 +1,27 @@
+<svg id="logo" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <mask id="maskA" maskUnits="userSpaceOnUse">
+          <rect x="0" y="0" width="1000" height="1000" fill="white"/>
+          <circle id="maskCircleA" cx="601" cy="500" r="200" fill="black"/>
+        </mask>
+        <mask id="maskB" maskUnits="userSpaceOnUse">
+          <rect x="0" y="0" width="1000" height="1000" fill="white"/>
+          <circle id="maskCircleB" cx="391" cy="500" r="200" fill="black"/>
+        </mask>
+      </defs>
+      <g id="logoGroup" style="mix-blend-mode: normal;">
+        <!-- groupA: main + outer + inner strokes for A -->
+        
+        <!-- groupB -->
+        
+      <g id="groupA" style="">
+          <circle id="circleA" cx="391" cy="500" r="200" fill="#111111" stroke="#111111" stroke-width="0" style="cursor: grab;"/>
+          <circle id="circleAOuter" cx="391" cy="500" r="200" fill="none" stroke="#111111" stroke-width="0" style="display: none;"/>
+          <circle id="circleAInner" cx="391" cy="500" r="200" fill="none" stroke="#111111" stroke-width="0" style="display: none;"/>
+        </g><g id="groupB">
+          <circle id="circleB" cx="601" cy="500" r="200" fill="none" stroke="none" stroke-width="40" style="cursor: grab;"/>
+          <circle id="circleBOuter" cx="601" cy="500" r="220.5" fill="none" stroke="transparent" stroke-width="41" style=""/>
+          <circle id="circleBInner" cx="601" cy="500" r="180" fill="none" stroke="#111111" stroke-width="40" style=""/>
+        </g></g>
+      <text id="rmark" x="757" y="344" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#111111" opacity="0.85">®</text>
+    </svg>
