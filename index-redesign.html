@@ -969,8 +969,10 @@ h1.display em{
   height:100vh;
   width:100%;
   overflow:hidden;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:clamp(80px,10vh,120px) 28px;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  /* Proper top padding so the 'Personalization' eyebrow docks ~100px
+     below the nav bottom — no longer hugging the top edge. */
+  padding:clamp(140px,18vh,200px) 28px clamp(48px,6vh,80px);
   --pp:0;
 }
 .chip-pin-inner::before{
@@ -1019,7 +1021,31 @@ h1.display em{
 .chip.warm{background:#fff5ec;color:#d04c14;border-color:#ffd9b8}
 .chip.cool{background:#eaf2fb;color:#3866a6;border-color:#c8dcf0}
 .chip.ink{background:var(--ink);color:#fff;border-color:var(--ink)}
-.chip:hover{box-shadow:0 10px 22px -12px rgba(14,13,12,.22);border-color:currentColor;z-index:5}
+.chip:hover{border-color:currentColor;z-index:5}
+/* Tooltip — "how to use this intent". Soft, fast opacity fade only,
+   no travel, no shadow on the chip itself. */
+.chip[data-tip]{cursor:help}
+.chip[data-tip]::after{
+  content:attr(data-tip);
+  position:absolute;bottom:calc(100% + 10px);left:50%;
+  transform:translateX(-50%);
+  background:var(--ink);color:#fff;
+  font-family:var(--sans);font-weight:400;font-size:12.5px;line-height:1.5;
+  padding:12px 16px;border-radius:10px;
+  white-space:normal;width:max-content;max-width:320px;text-align:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .12s ease;
+  z-index:10;letter-spacing:normal;text-transform:none;
+}
+.chip[data-tip]::before{
+  content:"";position:absolute;bottom:calc(100% + 4px);left:50%;
+  transform:translateX(-50%);
+  border:6px solid transparent;border-top-color:var(--ink);
+  opacity:0;pointer-events:none;
+  transition:opacity .12s ease;
+  z-index:10;
+}
+.chip[data-tip]:hover::after,.chip[data-tip]:hover::before{opacity:1}
 
 @media(max-height:900px){
   .chip-pin{height:200vh}
@@ -1841,22 +1867,58 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
       <span class="band-eyebrow">Personalization</span>
       <h2 class="band-h">Every email is <em>one-of-one</em>.<br>Written just for them.</h2>
     </div>
-    <div class="chip-cloud" aria-hidden="true">
+    <div class="chip-cloud">
       <!-- Order in DOM = reveal order. Centre chip first, then the
            cross arms (top, bottom, left, right), then scatter. Each
-           chip is absolutely placed with --l / --t (% of cloud). -->
-      <span class="chip xxl warm"                      style="--l:50%;--t:50%"><span class="dot"></span>Expanding to EU</span>
-      <span class="chip xl ink"                        style="--l:50%;--t:12%"><span class="dot"></span>Series C · $120M</span>
-      <span class="chip lg warm"                       style="--l:50%;--t:88%"><span class="dot"></span>Leadership change</span>
-      <span class="chip lg"                            style="--l:14%;--t:50%"><span class="dot"></span>Hiring 12 roles</span>
-      <span class="chip lg cool"                       style="--l:86%;--t:50%"><span class="dot"></span>New CTO · 2 weeks</span>
-      <span class="chip md warm"                       style="--l:22%;--t:26%"><span class="dot"></span>Just raised $50M</span>
-      <span class="chip md cool"                       style="--l:78%;--t:26%"><span class="dot"></span>Growing 140% YoY</span>
-      <span class="chip md"                            style="--l:22%;--t:76%"><span class="dot"></span>Posted 8 senior jobs</span>
-      <span class="chip md ink"                        style="--l:78%;--t:76%"><span class="dot"></span>Acquired Linear</span>
-      <span class="chip sm"                            style="--l:36%;--t:36%"><span class="dot"></span>Product launch · Q2</span>
-      <span class="chip sm warm"                       style="--l:64%;--t:66%">Migrated off Salesforce</span>
-      <span class="chip sm cool"                       style="--l:64%;--t:36%"><span class="dot"></span>SOC 2 certified</span>
+           chip carries a data-tip explaining how to convert the
+           intent into a concrete outbound angle. -->
+      <span class="chip xxl warm"  style="--l:50%;--t:50%"
+            data-tip="They just opened a European HQ — lead with how you help teams operate cross-border without rebuilding the stack."
+      ><span class="dot"></span>Expanding · opened EU HQ</span>
+
+      <span class="chip xl ink"  style="--l:50%;--t:12%"
+            data-tip="Fresh capital means the budget cycle is open for the next 60 days — pitch before the CFO closes it."
+      ><span class="dot"></span>Series C · raised $120M</span>
+
+      <span class="chip lg warm"  style="--l:50%;--t:88%"
+            data-tip="A new VP is looking for quick wins — position around shipping revenue in 30 days, not a six-month migration."
+      ><span class="dot"></span>New VP Sales · 3 weeks ago</span>
+
+      <span class="chip lg"  style="--l:14%;--t:50%"
+            data-tip="Engineering hires at this volume signal product investment — lead with developer tooling that scales with the team."
+      ><span class="dot"></span>Hiring 12 engineers</span>
+
+      <span class="chip lg cool"  style="--l:86%;--t:50%"
+            data-tip="A brand-new CTO is still choosing the stack — get in before the roadmap locks."
+      ><span class="dot"></span>New CTO · hired 2 weeks ago</span>
+
+      <span class="chip md warm"  style="--l:22%;--t:26%"
+            data-tip="Budget is already approved for this quarter — reach out now and you're buying into the first spend wave."
+      ><span class="dot"></span>Just raised $50M Series B</span>
+
+      <span class="chip md cool"  style="--l:78%;--t:26%"
+            data-tip="Hyper-growth means stretched ops and duct-taped processes — they need automation to catch up, fast."
+      ><span class="dot"></span>Growing 140% YoY</span>
+
+      <span class="chip md"  style="--l:22%;--t:76%"
+            data-tip="Senior hires drive tool and spec decisions — land the next director and your product is already in the stack."
+      ><span class="dot"></span>Posted 8 senior eng jobs</span>
+
+      <span class="chip md ink"  style="--l:78%;--t:76%"
+            data-tip="Post-acquisition integrations are messy for six months — offer something that unifies stacks without a migration."
+      ><span class="dot"></span>Acquired Linear · $150M</span>
+
+      <span class="chip sm"  style="--l:36%;--t:36%"
+            data-tip="They just publicly staked a flag in AI — lean into AI-first integrations and their CMO will listen."
+      ><span class="dot"></span>Launched AI product · Q2</span>
+
+      <span class="chip sm warm"  style="--l:64%;--t:66%"
+            data-tip="They've already proven they'll switch — that makes them warm for anything CRM-adjacent."
+      >Switched off Salesforce</span>
+
+      <span class="chip sm cool"  style="--l:64%;--t:36%"
+            data-tip="Security-mature — enterprise pitches don't hit a procurement wall here."
+      ><span class="dot"></span>SOC 2 Type II certified</span>
     </div>
   </div>
 </section>
