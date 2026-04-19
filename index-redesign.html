@@ -268,10 +268,22 @@ img{max-width:100%;display:block}
   height:100vh;
   display:flex;align-items:flex-end;justify-content:center;
   padding:0 24px;
-  /* Initial (p=0): mockup is fully below the fold with ~15vh of clearance
-     so shadows / scaling don't peek. Final (p=1): rests near top. */
-  transform:translateY(calc((1 - var(--p)) * 115vh + var(--p) * -8vh));
+  /* Initial (p=0): mockup sits well below the fold so it can't peek,
+     even on short laptop viewports where the browser content is taller
+     than the pin. Final (p=1): rests near top. The 135vh clearance
+     accounts for mockup overflow on ~720–900px tall laptops. */
+  transform:translateY(calc((1 - var(--p)) * 135vh + var(--p) * -8vh));
   will-change:transform;
+}
+/* On short laptop viewports the mockup content exceeds the pin, so
+   cap it so nothing pokes above wrap. Lower rows simply get cropped —
+   the hero is about presenting the feature, not every prospect. */
+@media(max-height:900px){
+  .hero-mockup .browser{max-height:82vh;overflow:hidden}
+  .hero-mockup .app{min-height:auto}
+}
+@media(max-height:780px){
+  .hero-mockup .browser{max-height:76vh}
 }
 .hero-mockup{
   width:100%;max-width:1180px;
@@ -565,9 +577,10 @@ h1.display em{
   display:grid;grid-template-columns:32px 1.4fr 1fr .9fr 64px;gap:14px;align-items:center;
   padding:10px 14px;font-size:13px;
   border-bottom:1px solid var(--line);
-  opacity:0;transform:translateY(8px);
-  animation:rowIn .5s ease-out forwards;
+  opacity:0;transform:translateY(12px);
 }
+/* Rows enter only once the sequencer flips .rows-in on the mockup */
+.hero-mockup.rows-in .prow{animation:rowIn .55s ease-out forwards}
 .prow:last-child{border-bottom:none}
 .prow .av{
   width:28px;height:28px;border-radius:8px;background:#fff5ec;color:var(--orange);
@@ -667,9 +680,26 @@ h1.display em{
 .proscount .progress .bar{
   height:100%;width:0;
   background:var(--grad-warm);border-radius:999px;
-  animation:fillBar 2.6s ease-out forwards;
 }
+/* Bar fills only once the counter is ticking (dashboard-in) */
+.hero-mockup.dashboard-in .proscount .progress .bar{animation:fillBar 2.0s ease-out forwards}
 @keyframes fillBar{to{width:78%}}
+
+/* ICP input typewriter caret — shown on the field currently being typed. */
+.icp-v{min-height:1.25em}
+.icp-v.typing::after{
+  content:"";display:inline-block;
+  width:2px;height:1em;
+  background:var(--orange);margin-left:3px;
+  vertical-align:-.12em;
+  animation:icpCaret .9s step-end infinite;
+}
+@keyframes icpCaret{50%{opacity:0}}
+/* Swap the Analyzing / Analyzed dot colour based on status text */
+.icp-h-r{color:var(--orange)}
+.icp-h-r::before{background:var(--orange)}
+.hero-mockup.dashboard-in .icp-h-r{color:#1a7c4b}
+.hero-mockup.dashboard-in .icp-h-r::before{background:#1a7c4b}
 .proscount .small{font-size:11.5px;color:var(--muted);font-weight:500}
 
 /* Email mockup body */
@@ -720,6 +750,54 @@ h1.display em{
   font-style:italic;
   background:linear-gradient(95deg,#ff5b1f 0%,#ff7a3d 60%,#ffa06a 100%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+
+/* Intent chip cloud — each chip rises from below with a staggered
+   entry when the band scrolls into view. Mixed sizes create the
+   cloud feel; warm / cool / neutral tints reference the brand
+   spectrum without swamping the whitespace. */
+.chip-cloud{
+  position:relative;z-index:1;
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
+  gap:10px 14px;max-width:920px;margin:56px auto 0;
+}
+.chip{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--sans);background:#fff;color:var(--ink-2);
+  border:1px solid var(--line-2);border-radius:999px;
+  opacity:0;transform:translateY(36px);
+  transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
+  white-space:nowrap;
+}
+.chip .dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
+.chip.sm{font-size:12px;padding:6px 14px;font-weight:500}
+.chip.md{font-size:14px;padding:8px 18px;font-weight:500}
+.chip.lg{font-size:17px;padding:10px 22px;font-weight:600}
+.chip.xl{font-size:20px;padding:12px 28px;font-weight:600;letter-spacing:-.005em}
+.chip.warm{background:#fff5ec;color:#d04c14;border-color:#ffd9b8}
+.chip.cool{background:#eaf2fb;color:#3866a6;border-color:#c8dcf0}
+.chip.ink{background:var(--ink);color:#fff;border-color:var(--ink)}
+.chip:hover{transform:translateY(-3px);box-shadow:0 10px 22px -12px rgba(14,13,12,.22);border-color:currentColor}
+.band.chips-in .chip{animation:chipUp .75s cubic-bezier(.2,.8,.2,1) forwards}
+.band.chips-in .chip:nth-child(1){animation-delay:.00s}
+.band.chips-in .chip:nth-child(2){animation-delay:.05s}
+.band.chips-in .chip:nth-child(3){animation-delay:.10s}
+.band.chips-in .chip:nth-child(4){animation-delay:.16s}
+.band.chips-in .chip:nth-child(5){animation-delay:.22s}
+.band.chips-in .chip:nth-child(6){animation-delay:.28s}
+.band.chips-in .chip:nth-child(7){animation-delay:.34s}
+.band.chips-in .chip:nth-child(8){animation-delay:.40s}
+.band.chips-in .chip:nth-child(9){animation-delay:.46s}
+.band.chips-in .chip:nth-child(10){animation-delay:.52s}
+.band.chips-in .chip:nth-child(11){animation-delay:.58s}
+.band.chips-in .chip:nth-child(12){animation-delay:.64s}
+.band.chips-in .chip:nth-child(13){animation-delay:.70s}
+.band.chips-in .chip:nth-child(14){animation-delay:.76s}
+.band.chips-in .chip:nth-child(15){animation-delay:.82s}
+.band.chips-in .chip:nth-child(n+16){animation-delay:.88s}
+@keyframes chipUp{to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){
+  .chip{opacity:1;transform:none}
 }
 
 /* ─────────────────────────────────────── STATS strip (white, between gradient stages) */
@@ -1010,33 +1088,42 @@ h1.display em{
   max-width:1100px;margin:0 auto;
   align-items:stretch;
 }
+/* Pricing cards stay still — no lift, no orange shadow, no glow.
+   The only interaction is: hovering a card reveals a subtle warm
+   wash from its top-left, and siblings dim slightly so focus pulls
+   to the one under the cursor. Cards remain predominantly white. */
 .pcard{
-  background:#fff;border:1px solid var(--line);border-radius:22px;padding:34px 30px;
-  display:flex;flex-direction:column;position:relative;
-  transition:transform .35s cubic-bezier(.2,.7,.2,1),
-             box-shadow .35s cubic-bezier(.2,.7,.2,1),
-             border-color .35s ease;
-  will-change:transform;
-  box-shadow:0 2px 8px -4px rgba(14,13,12,.04);
+  background:#fff;
+  border:1px solid var(--line);border-radius:22px;padding:34px 30px;
+  display:flex;flex-direction:column;position:relative;overflow:hidden;
+  transition:border-color .35s ease,opacity .35s ease,transform .35s ease;
 }
-.pcard:hover{
-  transform:translateY(-10px);
-  box-shadow:0 30px 70px -24px rgba(14,13,12,.18);
-  border-color:rgba(14,13,12,.14);
-  z-index:2;
+.pcard::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(135deg,
+    rgba(255,91,31,.08) 0%,
+    rgba(255,91,31,.03) 28%,
+    rgba(255,91,31,0) 55%);
+  opacity:0;transition:opacity .4s ease;
+  border-radius:inherit;
 }
-/* Featured card — gentle peach wash + soft orange glow, NOT a dark
-   high-contrast block. It's pre-lifted so the middle reads as the
-   recommended choice, but hover on any card overtakes it. */
-.pcard.featured{
-  background:
-    radial-gradient(70% 80% at 50% 0%,rgba(255,91,31,.08),transparent 70%),
-    linear-gradient(180deg,#fffaf4 0%,#ffffff 100%);
-  border:1px solid rgba(255,91,31,.22);
-  transform:translateY(-8px);
-  box-shadow:0 22px 54px -22px rgba(255,91,31,.28);
+.pcard > *{position:relative;z-index:1}
+.pcard:hover{border-color:rgba(14,13,12,.16)}
+.pcard:hover::before{opacity:1}
+
+/* When the grid is being hovered, dim + slightly settle the cards
+   that aren't under the cursor. No translate — just a focus pull. */
+.pgrid:hover .pcard:not(:hover){
+  opacity:.62;
+  transform:scale(.985);
 }
-.pcard.featured:hover{transform:translateY(-16px)}
+
+/* Featured card — permanent subtle wash (same gradient as hover state),
+   crisp white base, no shadow, no glow, no pre-lift. The wash itself
+   is the signal. */
+.pcard.featured{border:1px solid rgba(14,13,12,.11)}
+.pcard.featured::before{opacity:1}
+
 .p-tag{
   align-self:flex-start;font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
   background:var(--peach);color:var(--orange);padding:5px 12px;border-radius:999px;margin-bottom:18px;
@@ -1091,41 +1178,55 @@ h1.display em{
 .final{padding:120px 28px;text-align:center;background:#fff}
 .final-card{
   max-width:1180px;margin:0 auto;
-  /* Stacked radial gradients reproduce the hero composition at card
-     scale without relying on blur. Order matters — painted from top
-     down, we stack: violet center wash → pink mauve accent →
-     blue bottom-left → orange top-right → lavender base beneath. */
-  background:
-    radial-gradient(65% 55% at 82% 22%,#ff3d0e 0%,#ff5b1f 18%,#ff7a3d 32%,rgba(255,122,60,0) 62%),
-    radial-gradient(70% 60% at 18% 85%,#5682b3 0%,#6a9dc5 16%,#8db8d8 36%,rgba(141,184,216,0) 68%),
-    radial-gradient(55% 45% at 60% 40%,rgba(216,168,184,.55) 0%,rgba(196,152,168,.35) 35%,transparent 72%),
-    radial-gradient(65% 55% at 45% 55%,rgba(93,79,124,.28) 0%,rgba(130,116,158,.18) 38%,transparent 76%),
-    linear-gradient(125deg,#cdc1cd 0%,#c2b6cc 25%,#b8b2c8 45%,#b4b8cc 65%,#b6c5d8 100%);
+  /* Lavender base only — the orange/blue/violet blooms live inside
+     .final-grad as blurred blob divs (same mechanic as hero), so the
+     composition reads as a soft atmospheric mix, not distinct balls. */
+  background:linear-gradient(125deg,
+    #cdc1cd 0%,#c2b6cc 25%,#b8b2c8 45%,#b4b8cc 65%,#b6c5d8 100%);
   border-radius:32px;
   padding:120px 48px;color:#fff;position:relative;overflow:hidden;
   isolation:isolate;
 }
-/* Soft light wash + slow breathing motion for the card so the
-   gradient doesn't feel static. The actual colours live in the
-   .final-card background stack above — this layer only adds a
-   gentle warm haze that drifts with an 18s / 22s loop. */
+/* CTA gradient — blurred div blobs (same mechanic as hero). Blob
+   sizes are large enough and blur is heavy enough that the colour
+   transitions read as atmosphere, not discrete blooms. */
 .final-grad{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden;border-radius:inherit}
-.final-grad .blob{position:absolute;border-radius:50%;filter:blur(40px);will-change:transform,opacity}
+.final-grad .blob{position:absolute;border-radius:50%;filter:blur(90px);will-change:transform,opacity}
 .final-grad .b1{
-  width:45%;height:60%;
-  top:-10%;right:-5%;
-  background:radial-gradient(circle at 50% 50%,rgba(255,91,31,.45) 0%,rgba(255,138,76,.2) 45%,transparent 75%);
-  animation:ctaDriftTR 18s ease-in-out infinite alternate;
-  mix-blend-mode:screen;
+  width:95%;height:130%;
+  top:-30%;right:-25%;
+  background:radial-gradient(circle at 50% 50%,
+    #ff4a17 0%,#ff6a2e 24%,#ff8a4c 42%,rgba(255,138,76,0) 70%);
+  animation:ctaDriftTR 18s ease-in-out infinite alternate,
+            ctaBreatheTR 9s ease-in-out infinite;
+  transform-origin:80% 20%;
 }
 .final-grad .b2{
-  width:45%;height:60%;
-  bottom:-10%;left:-5%;
-  background:radial-gradient(circle at 50% 50%,rgba(86,130,179,.4) 0%,rgba(141,184,216,.2) 45%,transparent 75%);
-  animation:ctaDriftBL 22s ease-in-out infinite alternate;
-  mix-blend-mode:screen;
+  width:95%;height:130%;
+  bottom:-30%;left:-25%;
+  background:radial-gradient(circle at 50% 50%,
+    #6a9dc5 0%,#8db8d8 24%,#bcd6e8 46%,rgba(188,214,232,0) 72%);
+  animation:ctaDriftBL 22s ease-in-out infinite alternate,
+            ctaBreatheBL 11s ease-in-out infinite;
+  transform-origin:20% 80%;
 }
-.final-grad .b3,.final-grad .b4{display:none}
+.final-grad .b3{
+  width:110%;height:90%;
+  top:5%;left:-5%;
+  background:radial-gradient(ellipse at 50% 50%,
+    #5d4f7c 0%,#82749e 35%,rgba(151,139,174,0) 72%);
+  opacity:.45;
+  mix-blend-mode:multiply;
+  animation:ctaDriftMid 24s ease-in-out infinite alternate;
+}
+.final-grad .b4{
+  width:65%;height:60%;
+  top:20%;right:12%;
+  background:radial-gradient(circle at 50% 50%,
+    #d8a8b8 0%,#c498a8 40%,rgba(180,138,162,0) 72%);
+  opacity:.4;
+  animation:ctaDriftMid2 26s ease-in-out infinite alternate;
+}
 .final-grad .grain{
   position:absolute;inset:0;
   background:
@@ -1180,8 +1281,9 @@ h1.display em{
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
 .final-card p{font-size:17px;color:rgba(255,255,255,.92);max-width:520px;margin:0 auto 32px;text-shadow:0 1px 20px rgba(30,20,50,.2)}
-.final-card .btn-orange{background:#fff;color:var(--ink)}
-.final-card .btn-orange:hover{background:#fff4e7}
+/* Button inside the card — flat white pill, NO orange shadow or glow. */
+.final-card .btn-orange{background:#fff;color:var(--ink);box-shadow:none}
+.final-card .btn-orange:hover{background:#fff4e7;box-shadow:0 12px 28px -12px rgba(14,13,12,.22);transform:translateY(-1px)}
 .final-note{font-size:13px;color:rgba(255,255,255,.8);margin-top:18px}
 @media(prefers-reduced-motion:reduce){
   .final-grad .blob{animation:none!important}
@@ -1336,45 +1438,45 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
                 <span class="app-pill"><span class="blink"></span>Streaming intent signals</span>
               </div>
 
-              <div class="icp-card">
+              <div class="icp-card" data-icp>
                 <div class="icp-h">
                   <div class="icp-h-l"><span class="pulse-dot"></span>Buyer persona · PLATFORM.com</div>
-                  <div class="icp-h-r">Analyzed</div>
+                  <div class="icp-h-r" data-icp-status>Analyzing…</div>
                 </div>
                 <div class="icp-rows">
                   <div class="icp-row">
                     <span class="icp-k">Job titles</span>
-                    <span class="icp-v">CTO · VP Engineering · Head of Digital</span>
+                    <span class="icp-v" data-type="CTO · VP Engineering · Head of Digital"></span>
                   </div>
                   <div class="icp-row">
                     <span class="icp-k">Industry</span>
-                    <span class="icp-v">SaaS · Fintech · E-commerce</span>
+                    <span class="icp-v" data-type="SaaS · Fintech · E-commerce"></span>
                   </div>
                   <div class="icp-row">
                     <span class="icp-k">Company size</span>
-                    <span class="icp-v">50–500 employees</span>
+                    <span class="icp-v" data-type="50–500 employees"></span>
                   </div>
                   <div class="icp-row">
                     <span class="icp-k">Location</span>
-                    <span class="icp-v">Europe · North America</span>
+                    <span class="icp-v" data-type="Europe · North America"></span>
                   </div>
                 </div>
               </div>
 
-              <div class="proscount">
+              <div class="proscount" data-proscount>
                 <div class="left">
                   <div class="icon">P</div>
                   <div>
                     <div class="label">Found</div>
-                    <div class="num"><em>2,847</em></div>
+                    <div class="num"><em data-count="2847">0</em></div>
                   </div>
                 </div>
                 <div class="progress"><div class="bar"></div></div>
                 <div class="small">Of <strong>275M</strong> verified contacts</div>
               </div>
 
-              <div class="filters">
-                <span class="filt active"><span class="d"></span>Hiring</span>
+              <div class="filters" data-filters>
+                <span class="filt"><span class="d"></span>Hiring</span>
                 <span class="filt"><span class="d"></span>Just raised</span>
                 <span class="filt"><span class="d"></span>Expanding</span>
                 <span class="filt"><span class="d"></span>New role</span>
@@ -1492,11 +1594,29 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   </div>
 </section>
 
-<!-- ═══════════════════ BAND — transition statement ═══════════════════ -->
-<section class="band">
+<!-- ═══════════════════ BAND — transition statement + intent cloud ═══════════════════ -->
+<section class="band" data-chip-band>
   <div class="band-inner">
     <span class="band-eyebrow">Personalization</span>
     <h2 class="band-h">Every email is <em>one-of-one</em>.<br>Written just for them.</h2>
+    <div class="chip-cloud" data-chip-cloud aria-hidden="true">
+      <span class="chip md"><span class="dot"></span>Hiring 12 roles</span>
+      <span class="chip lg warm"><span class="dot"></span>Just raised $50M</span>
+      <span class="chip sm">Opened Tokyo office</span>
+      <span class="chip md cool"><span class="dot"></span>New CTO · 2 weeks</span>
+      <span class="chip xl warm"><span class="dot"></span>Expanding to EU</span>
+      <span class="chip sm cool">IPO filed</span>
+      <span class="chip md"><span class="dot"></span>Product launch · Q2</span>
+      <span class="chip lg ink"><span class="dot"></span>Acquired Linear</span>
+      <span class="chip sm warm">Migrated off Salesforce</span>
+      <span class="chip md cool"><span class="dot"></span>Growing 140% YoY</span>
+      <span class="chip lg warm"><span class="dot"></span>Leadership change</span>
+      <span class="chip sm">Partnered with Stripe</span>
+      <span class="chip md"><span class="dot"></span>Posted 8 senior jobs</span>
+      <span class="chip sm cool">SOC 2 certified</span>
+      <span class="chip md warm"><span class="dot"></span>Series C · $120M</span>
+      <span class="chip sm">Rebranding launched</span>
+    </div>
   </div>
 </section>
 
@@ -1873,6 +1993,108 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   window.addEventListener('scroll', onScroll, { passive:true });
   window.addEventListener('resize', onScroll, { passive:true });
   update();
+})();
+
+/* ─── Hero mockup animation sequencer ─────────────────────────────────
+   Plays once when the mockup rises into view. Phases:
+     1. Typewrite each ICP value (Job titles, Industry, Size, Location)
+     2. Flip status "Analyzing…" → "Analyzed"
+     3. Light up filters, start the counter 0 → 2,847 and progress bar fill
+     4. Stagger-in the prospect rows (handled by .rows-in CSS gate) */
+(function(){
+  const mockup = document.querySelector('.hero-mockup');
+  if (!mockup) return;
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const fmt = n => n.toLocaleString('en-US');
+
+  function setFinalState(){
+    mockup.querySelectorAll('.icp-v[data-type]').forEach(v => { v.textContent = v.dataset.type; });
+    const status = mockup.querySelector('[data-icp-status]');
+    if (status) status.textContent = 'Analyzed';
+    const em = mockup.querySelector('[data-count]');
+    if (em) em.textContent = fmt(parseInt(em.dataset.count, 10));
+    const first = mockup.querySelector('.filters .filt');
+    if (first) first.classList.add('active');
+    mockup.classList.add('dashboard-in','rows-in');
+  }
+
+  if (reduce.matches){ setFinalState(); return; }
+
+  function typewrite(el, text, perChar = 22){
+    return new Promise(resolve => {
+      el.classList.add('typing');
+      el.textContent = '';
+      let i = 0;
+      (function step(){
+        el.textContent = text.slice(0, ++i);
+        if (i < text.length) setTimeout(step, perChar);
+        else { el.classList.remove('typing'); resolve(); }
+      })();
+    });
+  }
+  function countUp(el, to, duration = 1400){
+    return new Promise(resolve => {
+      const start = performance.now();
+      (function step(now){
+        const t = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = fmt(Math.round(to * eased));
+        if (t < 1) requestAnimationFrame(step);
+        else resolve();
+      })(start);
+    });
+  }
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+  let started = false;
+  async function run(){
+    if (started) return;
+    started = true;
+
+    const vals = Array.from(mockup.querySelectorAll('.icp-v[data-type]'));
+    for (const v of vals){
+      await typewrite(v, v.dataset.type);
+      await sleep(160);
+    }
+
+    const status = mockup.querySelector('[data-icp-status]');
+    if (status) status.textContent = 'Analyzed';
+    await sleep(260);
+
+    mockup.classList.add('dashboard-in');
+    const first = mockup.querySelector('.filters .filt');
+    if (first) first.classList.add('active');
+
+    const em = mockup.querySelector('[data-count]');
+    const target = em ? parseInt(em.dataset.count, 10) : 0;
+    if (em) countUp(em, target, 1500);
+
+    await sleep(650);
+    mockup.classList.add('rows-in');
+  }
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) run(); });
+  }, { threshold: 0.2 });
+  obs.observe(mockup);
+})();
+
+/* ─── Intent chip cloud — trigger once visible ─── */
+(function(){
+  const band = document.querySelector('[data-chip-band]');
+  if (!band) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (reduce.matches){ band.classList.add('chips-in'); return; }
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting){
+        band.classList.add('chips-in');
+        obs.disconnect();
+      }
+    });
+  }, { threshold: 0.35 });
+  obs.observe(band);
 })();
 
 /* ─── Comparison split-screen scroll driver ─── */
