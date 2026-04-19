@@ -279,12 +279,11 @@ img{max-width:100%;display:block}
 .hero-mockup-wrap{
   position:absolute;
   left:0;right:0;
-  bottom:0;
-  height:100vh;
-  display:flex;align-items:flex-end;justify-content:center;
+  top:0;bottom:0;
+  display:flex;align-items:center;justify-content:center;
   padding:0 24px;
-  /* Both cards stay at their natural position — each one translates
-     itself vertically based on --p (see .mk-dashboard / .mk-form). */
+  /* Mockup sits in the vertical centre of the pin instead of hugging
+     the bottom edge. --p drives an internal rise on .mk-browser. */
   will-change:transform;
 }
 .hero-mockup{
@@ -293,11 +292,10 @@ img{max-width:100%;display:block}
   /* No scale; each card handles its own transform via --p. */
 }
 /* Unified mockup — single translate on the whole browser as the hero
-   pin progresses. Lands centred on screen with 6vh clearance above
-   the gradient's bottom edge so the section can breathe into the next. */
+   pin progresses. Lands in the vertical centre of the viewport. */
 .mk-browser{
   --rise: clamp(0, var(--p) / 0.75, 1);
-  transform: translateY(calc((1 - var(--rise)) * 140vh + var(--rise) * -6vh));
+  transform: translateY(calc((1 - var(--rise)) * 120vh));
   will-change: transform;
 }
 
@@ -362,9 +360,33 @@ img{max-width:100%;display:block}
 }
 .mk-main{
   background:#fff;
-  padding:22px 26px;
+  padding:22px 26px 0;
   display:flex;flex-direction:column;gap:16px;
   min-width:0;
+  position:relative;
+  /* Lock the dashboard pane height so the rows list scrolls inside
+     rather than growing the whole browser window. Filter / header
+     stay pinned at the top. */
+  overflow:hidden;
+}
+.mk-main > .mk-db-head,
+.mk-main > .mk-db-filters,
+.mk-main > .mk-db-cols{flex-shrink:0}
+.mk-main > .mk-db-body{
+  flex:1;min-height:0;
+  overflow-y:auto;
+  padding-bottom:36px;
+  scrollbar-width:none;
+}
+.mk-main > .mk-db-body::-webkit-scrollbar{display:none;width:0;height:0}
+/* White gradient fade overlay at the bottom of the dashboard pane —
+   signals "scroll to see more" without dimming the visible rows. */
+.mk-main::after{
+  content:"";
+  position:absolute;left:0;right:0;bottom:0;
+  height:64px;
+  background:linear-gradient(180deg,rgba(255,255,255,0) 0%,#fff 85%);
+  pointer-events:none;z-index:4;
 }
 .mk-db-head{display:flex;align-items:center;justify-content:space-between;gap:14px}
 .mk-db-title{font-family:var(--serif);font-weight:400;font-size:21px;color:var(--ink);margin:0}
@@ -442,12 +464,6 @@ img{max-width:100%;display:block}
 }
 .mk-db-rows .prow.in{opacity:1;transform:none}
 .mk-db-rows .prow:last-child{border-bottom:none}
-/* Last 3 rows of the list fade to nothing — gives the list a natural
-   end without cutting the view off like a window edge. Applied only
-   after .in is set so the stagger-in animation still plays. */
-.mk-db-rows .prow.in:nth-last-child(3){opacity:.68}
-.mk-db-rows .prow.in:nth-last-child(2){opacity:.42}
-.mk-db-rows .prow.in:nth-last-child(1){opacity:.18}
 
 /* Skeleton rows — identical grid shape + padding as .prow so the
    stack's intrinsic height is locked regardless of which layer is on
@@ -1916,6 +1932,14 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
                   <div class="prow"><div class="mk-cell-name"><span class="av">MR</span><span><strong>Marcus Ray</strong><em>CFO</em></span></div><div>Deel</div><div class="mk-email">marcus@deel.com</div><span class="mk-sig warm">Opened 3 offices</span></div>
                   <div class="prow"><div class="mk-cell-name"><span class="av">NG</span><span><strong>Nina Garcia</strong><em>Head of Growth</em></span></div><div>Supabase</div><div class="mk-email">nina@supabase.io</div><span class="mk-sig">Series B · $80M</span></div>
                   <div class="prow"><div class="mk-cell-name"><span class="av">OP</span><span><strong>Omar Patel</strong><em>VP Marketing</em></span></div><div>Raycast</div><div class="mk-email">omar@raycast.com</div><span class="mk-sig warm">Hiring 7 roles</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">JL</span><span><strong>James Liu</strong><em>Founder</em></span></div><div>Notion</div><div class="mk-email">james@notion.so</div><span class="mk-sig warm">Hiring 5 roles</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">LP</span><span><strong>Lisa Park</strong><em>VP Ops</em></span></div><div>Figma</div><div class="mk-email">lisa@figma.com</div><span class="mk-sig">New role · 2w</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">AW</span><span><strong>Amanda Walsh</strong><em>VP Eng</em></span></div><div>Loom</div><div class="mk-email">amanda@loom.com</div><span class="mk-sig">Migrating to AWS</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">TH</span><span><strong>Tom Heller</strong><em>CTO</em></span></div><div>Replit</div><div class="mk-email">tom@replit.com</div><span class="mk-sig warm">AI product · Q2</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">PR</span><span><strong>Priya Raman</strong><em>Head of Product</em></span></div><div>Sentry</div><div class="mk-email">priya@sentry.io</div><span class="mk-sig">Expanding · APAC</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">DF</span><span><strong>Daniel Frost</strong><em>VP Sales</em></span></div><div>Datadog</div><div class="mk-email">daniel@datadoghq.com</div><span class="mk-sig warm">New VP · 4 weeks</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">HM</span><span><strong>Hannah Moreno</strong><em>CPO</em></span></div><div>Retool</div><div class="mk-email">hannah@retool.com</div><span class="mk-sig">Raised $45M</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">SK</span><span><strong>Sam Kowalski</strong><em>CTO</em></span></div><div>Cursor</div><div class="mk-email">sam@cursor.sh</div><span class="mk-sig warm">Hiring 20 roles</span></div>
                 </div>
               </div>
             </div>
