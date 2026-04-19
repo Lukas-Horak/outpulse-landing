@@ -789,42 +789,51 @@ h1.display em{
 .chip-pin-head{
   position:relative;z-index:1;text-align:center;max-width:900px;margin:0 auto;
 }
+/* Cloud is a near-fullscreen stage; chips sit at absolute %-positions
+   forming an asymmetric plus/X constellation around a central big
+   chip. Heights use clamp so the cloud always fits a laptop pin. */
 .chip-cloud{
   position:relative;z-index:1;
-  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
-  gap:12px 14px;max-width:960px;margin:48px auto 0;
+  width:min(1200px,94vw);
+  height:clamp(420px,62vh,640px);
+  margin:clamp(28px,4vh,48px) auto 0;
 }
 .chip{
+  position:absolute;
+  left:var(--l,50%);top:var(--t,50%);
   display:inline-flex;align-items:center;gap:8px;
   font-family:var(--sans);background:#fff;color:var(--ink-2);
   border:1px solid var(--line-2);border-radius:999px;
   white-space:nowrap;
-  /* --dx/--dy are per-chip vectors pointing AWAY from the cloud centre
-     (set by JS once layout is known). At --sp=0 the chip sits pushed
-     out along that vector and scaled down (as if "behind" the cloud);
-     at --sp=1 it settles in its flex-layout slot at full size. */
-  --sp:0;--dx:0;--dy:0;
+  /* Chips appear "from behind": small scale-up + opacity + blur-clear,
+     no large translate. --sp (0→1) is set per-chip by the scroll
+     driver; hardcoded positions are the chip's final resting place. */
+  --sp:0;
   opacity:var(--sp);
   transform:
-    translate(calc(var(--dx) * (1 - var(--sp))), calc(var(--dy) * (1 - var(--sp))))
-    scale(calc(.72 + var(--sp) * .28));
+    translate(-50%,-50%)
+    scale(calc(.78 + var(--sp) * .22));
+  filter:blur(calc((1 - var(--sp)) * 5px));
   transform-origin:center center;
-  will-change:transform,opacity;
+  will-change:transform,opacity,filter;
   transition:box-shadow .25s ease,border-color .25s ease;
 }
 .chip .dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
-.chip.sm{font-size:12px;padding:6px 14px;font-weight:500}
-.chip.md{font-size:14px;padding:9px 20px;font-weight:500}
-.chip.lg{font-size:17px;padding:11px 24px;font-weight:600}
-.chip.xl{font-size:20px;padding:13px 30px;font-weight:600;letter-spacing:-.005em}
+.chip.sm{font-size:13px;padding:7px 16px;font-weight:500}
+.chip.md{font-size:15px;padding:9px 20px;font-weight:500}
+.chip.lg{font-size:19px;padding:11px 26px;font-weight:600}
+.chip.xl{font-size:24px;padding:13px 32px;font-weight:600;letter-spacing:-.005em}
+.chip.xxl{font-size:clamp(26px,2.6vw,38px);padding:16px 40px;font-weight:600;letter-spacing:-.015em}
 .chip.warm{background:#fff5ec;color:#d04c14;border-color:#ffd9b8}
 .chip.cool{background:#eaf2fb;color:#3866a6;border-color:#c8dcf0}
 .chip.ink{background:var(--ink);color:#fff;border-color:var(--ink)}
-.chip:hover{box-shadow:0 10px 22px -12px rgba(14,13,12,.22);border-color:currentColor}
+.chip:hover{box-shadow:0 10px 22px -12px rgba(14,13,12,.22);border-color:currentColor;z-index:5}
 
 @media(max-height:900px){
   .chip-pin{height:200vh}
-  .chip-cloud{gap:10px 12px;max-width:880px}
+  .chip-cloud{height:clamp(360px,58vh,540px)}
+  .chip.xxl{font-size:clamp(22px,2.2vw,30px);padding:13px 32px}
+  .chip.xl{font-size:20px;padding:11px 28px}
 }
 @media(prefers-reduced-motion:reduce){
   .chip-pin{height:auto}
@@ -1219,44 +1228,45 @@ h1.display em{
   padding:120px 48px;color:#fff;position:relative;overflow:hidden;
   isolation:isolate;
 }
-/* CTA gradient — blurred div blobs (same mechanic as hero). Blob
-   sizes are large enough and blur is heavy enough that the colour
-   transitions read as atmosphere, not discrete blooms. */
+/* CTA gradient — mirrors hero-grad 1:1 using vw/vh so the card reads
+   identical to the hero section. The card clips the blobs via its
+   overflow:hidden. Violet multiply is dialled way down so the orange
+   and blue corners actually come through instead of a violet wash. */
 .final-grad{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden;border-radius:inherit}
-.final-grad .blob{position:absolute;border-radius:50%;filter:blur(90px);will-change:transform,opacity}
+.final-grad .blob{position:absolute;border-radius:50%;filter:blur(80px);will-change:transform,opacity}
 .final-grad .b1{
-  width:95%;height:130%;
-  top:-30%;right:-25%;
+  width:75vw;height:75vh;
+  top:-22vh;right:-22vw;
   background:radial-gradient(circle at 50% 50%,
-    #ff4a17 0%,#ff6a2e 24%,#ff8a4c 42%,rgba(255,138,76,0) 70%);
+    #ff4a17 0%,#ff6a2e 22%,#ff8a4c 38%,rgba(255,138,76,0) 65%);
   animation:ctaDriftTR 18s ease-in-out infinite alternate,
             ctaBreatheTR 9s ease-in-out infinite;
   transform-origin:80% 20%;
 }
 .final-grad .b2{
-  width:95%;height:130%;
-  bottom:-30%;left:-25%;
+  width:75vw;height:75vh;
+  bottom:-22vh;left:-22vw;
   background:radial-gradient(circle at 50% 50%,
-    #6a9dc5 0%,#8db8d8 24%,#bcd6e8 46%,rgba(188,214,232,0) 72%);
+    #8db8d8 0%,#a4cae0 22%,#bcd6e8 45%,rgba(188,214,232,0) 72%);
   animation:ctaDriftBL 22s ease-in-out infinite alternate,
             ctaBreatheBL 11s ease-in-out infinite;
   transform-origin:20% 80%;
 }
 .final-grad .b3{
-  width:110%;height:90%;
-  top:5%;left:-5%;
+  width:95vw;height:75vh;
+  top:8vh;left:2.5vw;
   background:radial-gradient(ellipse at 50% 50%,
-    #5d4f7c 0%,#82749e 35%,rgba(151,139,174,0) 72%);
-  opacity:.45;
+    #5d4f7c 0%,#6e5f8e 22%,#82749e 42%,#978bae 60%,rgba(151,139,174,0) 78%);
+  opacity:.25;
   mix-blend-mode:multiply;
   animation:ctaDriftMid 24s ease-in-out infinite alternate;
 }
 .final-grad .b4{
-  width:65%;height:60%;
-  top:20%;right:12%;
+  width:55vw;height:55vh;
+  top:30vh;right:14vw;
   background:radial-gradient(circle at 50% 50%,
-    #d8a8b8 0%,#c498a8 40%,rgba(180,138,162,0) 72%);
-  opacity:.4;
+    #c498a8 0%,#b48aa2 35%,rgba(180,138,162,0) 70%);
+  opacity:.35;
   animation:ctaDriftMid2 26s ease-in-out infinite alternate;
 }
 .final-grad .grain{
@@ -1640,18 +1650,21 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
       <h2 class="band-h">Every email is <em>one-of-one</em>.<br>Written just for them.</h2>
     </div>
     <div class="chip-cloud" aria-hidden="true">
-      <span class="chip md"><span class="dot"></span>Hiring 12 roles</span>
-      <span class="chip lg warm"><span class="dot"></span>Just raised $50M</span>
-      <span class="chip md cool"><span class="dot"></span>New CTO · 2 weeks</span>
-      <span class="chip xl warm"><span class="dot"></span>Expanding to EU</span>
-      <span class="chip md"><span class="dot"></span>Product launch · Q2</span>
-      <span class="chip lg ink"><span class="dot"></span>Acquired Linear</span>
-      <span class="chip sm warm">Migrated off Salesforce</span>
-      <span class="chip md cool"><span class="dot"></span>Growing 140% YoY</span>
-      <span class="chip lg warm"><span class="dot"></span>Leadership change</span>
-      <span class="chip sm">Opened Tokyo office</span>
-      <span class="chip md"><span class="dot"></span>Posted 8 senior jobs</span>
-      <span class="chip md warm"><span class="dot"></span>Series C · $120M</span>
+      <!-- Order in DOM = reveal order. Centre chip first, then the
+           cross arms (top, bottom, left, right), then scatter. Each
+           chip is absolutely placed with --l / --t (% of cloud). -->
+      <span class="chip xxl warm"                      style="--l:50%;--t:50%"><span class="dot"></span>Expanding to EU</span>
+      <span class="chip xl ink"                        style="--l:50%;--t:12%"><span class="dot"></span>Series C · $120M</span>
+      <span class="chip lg warm"                       style="--l:50%;--t:88%"><span class="dot"></span>Leadership change</span>
+      <span class="chip lg"                            style="--l:14%;--t:50%"><span class="dot"></span>Hiring 12 roles</span>
+      <span class="chip lg cool"                       style="--l:86%;--t:50%"><span class="dot"></span>New CTO · 2 weeks</span>
+      <span class="chip md warm"                       style="--l:22%;--t:26%"><span class="dot"></span>Just raised $50M</span>
+      <span class="chip md cool"                       style="--l:78%;--t:26%"><span class="dot"></span>Growing 140% YoY</span>
+      <span class="chip md"                            style="--l:22%;--t:76%"><span class="dot"></span>Posted 8 senior jobs</span>
+      <span class="chip md ink"                        style="--l:78%;--t:76%"><span class="dot"></span>Acquired Linear</span>
+      <span class="chip sm"                            style="--l:36%;--t:36%"><span class="dot"></span>Product launch · Q2</span>
+      <span class="chip sm warm"                       style="--l:64%;--t:66%">Migrated off Salesforce</span>
+      <span class="chip sm cool"                       style="--l:64%;--t:36%"><span class="dot"></span>SOC 2 certified</span>
     </div>
   </div>
 </section>
@@ -2117,64 +2130,26 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
 })();
 
 /* ─── Intent chip sticky-pin scroll driver ─────────────────────────────
-   Chips converge to their flex-layout slot from outside the cloud.
-   On layout we measure each chip's vector from the cloud centre and
-   write --dx/--dy (scaled away from centre) on the chip itself, plus
-   an "order" index sorted by distance (closest in first). Scroll
-   progress feeds each chip its own 0→1 window driving --sp, which
-   the CSS uses to pull (dx,dy) → (0,0) and scale(.72)→1 in sync. */
+   Chips are absolutely positioned in the cloud (hand-placed into a plus/X
+   constellation). Reveal order = DOM order (centre first, then cross arms,
+   then scatter). Each chip reveals from behind — scale 0.78 → 1, opacity
+   0 → 1, blur 5px → 0 — no wild horizontal travel. */
 (function(){
   const section = document.querySelector('[data-chip-pin]');
   if (!section) return;
   const pin   = section.querySelector('.chip-pin-inner');
-  const cloud = section.querySelector('.chip-cloud');
   const chips = Array.from(section.querySelectorAll('.chip'));
-  if (!pin || !cloud || chips.length === 0) return;
+  if (!pin || chips.length === 0) return;
 
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-  const PUSH_MIN = 2.4;  // multiplier for chips close to centre (needs boost)
-  const PUSH_MAX = 3.6;  // multiplier for chips at the far edges
-
-  function layout(){
-    const r  = cloud.getBoundingClientRect();
-    const cx = r.left + r.width  / 2;
-    const cy = r.top  + r.height / 2;
-    const data = chips.map(chip => {
-      const cr = chip.getBoundingClientRect();
-      const x  = cr.left + cr.width  / 2 - cx;
-      const y  = cr.top  + cr.height / 2 - cy;
-      return { chip, x, y, dist: Math.hypot(x, y) };
-    });
-    const maxDist = Math.max(...data.map(d => d.dist), 1);
-    // Closest chip to centre gets order 0, furthest gets order n-1.
-    data.sort((a, b) => a.dist - b.dist);
-    data.forEach((d, i) => {
-      const t = d.dist / maxDist;              // 0 at centre, 1 at edge
-      const k = PUSH_MIN + (PUSH_MAX - PUSH_MIN) * t;
-      d.chip.style.setProperty('--dx', (d.x * k).toFixed(1) + 'px');
-      d.chip.style.setProperty('--dy', (d.y * k).toFixed(1) + 'px');
-      d.chip.dataset.order = i;
-    });
-  }
-
   if (reduce.matches){
     chips.forEach(c => c.style.setProperty('--sp', '1'));
     return;
   }
 
-  // Layout twice — first immediately, then after fonts settle so
-  // chip widths match their final text.
-  layout();
-  if (document.fonts && document.fonts.ready){
-    document.fonts.ready.then(layout);
-  } else {
-    setTimeout(layout, 300);
-  }
-
-  const endAt     = 0.9;
-  const stepWidth = endAt / chips.length;
-  const windowSize = Math.min(stepWidth * 2.0, 0.16);
+  const endAt      = 0.9;
+  const stepWidth  = endAt / chips.length;
+  const windowSize = Math.min(stepWidth * 2.2, 0.18);
 
   let ticking = false;
   function update(){
@@ -2185,22 +2160,21 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
     let pp = -rect.top / total;
     pp = Math.max(0, Math.min(1, pp));
     pin.style.setProperty('--pp', pp.toFixed(4));
-    for (const c of chips){
-      const i = parseInt(c.dataset.order, 10) || 0;
+    chips.forEach((c, i) => {
       const start = i * stepWidth;
       const end   = Math.min(1, start + windowSize);
       const range = end - start;
       let sp = range <= 0 ? (pp >= start ? 1 : 0) : (pp - start) / range;
       sp = Math.max(0, Math.min(1, sp));
-      const eased = 1 - Math.pow(1 - sp, 3);      // out-cubic settle
+      const eased = 1 - Math.pow(1 - sp, 3);
       c.style.setProperty('--sp', eased.toFixed(4));
-    }
+    });
   }
   function onScroll(){
     if (!ticking){ requestAnimationFrame(update); ticking = true; }
   }
   window.addEventListener('scroll', onScroll, { passive:true });
-  window.addEventListener('resize', () => { layout(); update(); }, { passive:true });
+  window.addEventListener('resize', onScroll, { passive:true });
   update();
 })();
 
