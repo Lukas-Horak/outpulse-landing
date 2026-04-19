@@ -278,47 +278,76 @@ img{max-width:100%;display:block}
   /* No scale; each card handles its own transform via --p. */
 }
 /* Per-card scroll-linked rise with staggered start:
-   • Form rises during --p: 0 → 0.55  (first in view)
-   • Dashboard rises during --p: 0.18 → 0.9  (follows, parallax offset)
-   Clamp ensures the cards stay at rest (translateY 0) once landed. */
+   • Form rises during --p: 0 → 0.55  (first, lands centred)
+   • Dashboard-in-browser rises during --p: 0.2 → 0.9  (follows)
+   Both cards land in their natural positions within the mockup. */
 .mk-form{
   --rise: clamp(0, var(--p) / 0.55, 1);
-  transform: translateY(calc((1 - var(--rise)) * 130vh));
+  transform: translateY(calc((1 - var(--rise)) * 135vh));
   will-change: transform;
 }
-.mk-dashboard{
-  --rise: clamp(0, (var(--p) - 0.18) / 0.72, 1);
-  transform: translateY(calc((1 - var(--rise)) * 145vh));
+.mk-browser{
+  --rise: clamp(0, (var(--p) - 0.2) / 0.7, 1);
+  transform: translateY(calc((1 - var(--rise)) * 150vh));
   will-change: transform;
 }
 
-/* ── Split-layer hero mockup — WHITE dashboard (wide, behind) + white
-   form card (narrow, in front, overlapping left). Content text stays on
-   the light palette matching the rest of the landing page. */
-.mk-dashboard{
+/* ── Browser window wrapping the dashboard (behind, centred) */
+.mk-browser{
+  position:relative;z-index:1;
+  max-width:860px;
+  margin:34px auto 0;
   background:#fff;
-  color:var(--ink);
-  border-radius:18px;
-  padding:24px 28px;
-  margin-left:320px;
-  margin-top:34px;                         /* form peeks slightly higher */
-  min-height:560px;
-  display:flex;flex-direction:column;gap:18px;
+  border-radius:16px;
   border:1px solid var(--line);
+  overflow:hidden;
   box-shadow:
     0 40px 80px -18px rgba(14,13,12,.22),
     0 12px 28px -10px rgba(14,13,12,.1);
-  position:relative;z-index:1;
+}
+.mk-browser-bar{
+  display:flex;align-items:center;gap:14px;
+  padding:11px 18px;
+  background:#f4f4f1;
+  border-bottom:1px solid var(--line);
+}
+.mk-browser-bar .browser-dots{display:flex;gap:7px;flex-shrink:0}
+.mk-browser-bar .browser-dots span{width:11px;height:11px;border-radius:50%}
+.mk-browser-bar .browser-dots span:nth-child(1){background:#ff5f57}
+.mk-browser-bar .browser-dots span:nth-child(2){background:#febc2e}
+.mk-browser-bar .browser-dots span:nth-child(3){background:#28c840}
+.mk-browser-bar .browser-url{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
+  max-width:420px;margin:0 auto;
+  background:#fff;border:1px solid rgba(14,13,12,.06);
+  border-radius:8px;padding:6px 12px;
+  font-size:12px;color:var(--muted);font-weight:500;
+}
+.mk-browser-bar .browser-url svg{width:11px;height:11px;flex-shrink:0;opacity:.55}
+.mk-browser-count{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:6px 11px;border-radius:999px;
+  background:#fff;border:1px solid var(--line);
+  font-size:11.5px;color:var(--ink-2);font-weight:500;flex-shrink:0;
+}
+
+/* ── Dashboard content (inside the browser window) */
+.mk-dashboard{
+  background:#fff;
+  color:var(--ink);
+  padding:22px 26px;
+  display:flex;flex-direction:column;gap:16px;
 }
 .mk-db-head{display:flex;align-items:center;justify-content:space-between;gap:14px}
-.mk-db-title{font-family:var(--serif);font-weight:400;font-size:22px;color:var(--ink);margin:0}
-.mk-db-count{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:7px 14px;border-radius:999px;
-  background:#fbfaf7;
-  border:1px solid var(--line);
-  font-size:12px;color:var(--ink-2);font-weight:500;
+.mk-db-title{font-family:var(--serif);font-weight:400;font-size:21px;color:var(--ink);margin:0}
+.mk-db-sub{color:var(--muted);font-weight:400;font-size:14px;letter-spacing:.005em}
+.mk-db-streaming{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:5px 11px;border-radius:999px;
+  background:#fff5ec;border:1px solid #ffd9b8;
+  font-size:11.5px;color:#d04c14;font-weight:500;
 }
+.mk-ring-sm{width:6px;height:6px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 0 rgba(255,91,31,.5);animation:mkPulse 2s ease-out infinite}
 .mk-ring{
   width:10px;height:10px;border-radius:50%;
   border:2px solid var(--orange);flex-shrink:0;
@@ -1022,16 +1051,20 @@ h1.display em{
 .chip.cool{background:#eaf2fb;color:#3866a6;border-color:#c8dcf0}
 .chip.ink{background:var(--ink);color:#fff;border-color:var(--ink)}
 .chip:hover{border-color:currentColor;z-index:5}
-/* Tooltip — "how to use this intent". Soft, fast opacity fade only,
-   no travel, no shadow on the chip itself. */
+/* Tooltip — subtle, translucent white. Fast opacity fade, no travel. */
 .chip[data-tip]{cursor:help}
 .chip[data-tip]::after{
   content:attr(data-tip);
   position:absolute;bottom:calc(100% + 10px);left:50%;
   transform:translateX(-50%);
-  background:var(--ink);color:#fff;
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(14px) saturate(1.3);
+  -webkit-backdrop-filter:blur(14px) saturate(1.3);
+  color:var(--ink);
   font-family:var(--sans);font-weight:400;font-size:12.5px;line-height:1.5;
-  padding:12px 16px;border-radius:10px;
+  padding:12px 16px;border-radius:12px;
+  border:1px solid rgba(14,13,12,.06);
+  box-shadow:0 16px 40px -12px rgba(14,13,12,.18);
   white-space:normal;width:max-content;max-width:320px;text-align:center;
   opacity:0;pointer-events:none;
   transition:opacity .12s ease;
@@ -1040,7 +1073,7 @@ h1.display em{
 .chip[data-tip]::before{
   content:"";position:absolute;bottom:calc(100% + 4px);left:50%;
   transform:translateX(-50%);
-  border:6px solid transparent;border-top-color:var(--ink);
+  border:6px solid transparent;border-top-color:rgba(255,255,255,.88);
   opacity:0;pointer-events:none;
   transition:opacity .12s ease;
   z-index:10;
@@ -1437,33 +1470,32 @@ h1.display em{
 .final{padding:120px 28px;text-align:center;background:#fff}
 .final-card{
   max-width:1180px;margin:0 auto;
-  /* Lavender base only — the orange/blue/violet blooms live inside
-     .final-grad as blurred blob divs (same mechanic as hero), so the
-     composition reads as a soft atmospheric mix, not distinct balls. */
+  /* Same Leonard-style lavender base as the hero pin */
   background:linear-gradient(125deg,
     #cdc1cd 0%,#c2b6cc 25%,#b8b2c8 45%,#b4b8cc 65%,#b6c5d8 100%);
   border-radius:32px;
   padding:120px 48px;color:#fff;position:relative;overflow:hidden;
-  isolation:isolate;
 }
-/* CTA gradient — mirrors hero-grad 1:1 using vw/vh so the card reads
-   identical to the hero section. The card clips the blobs via its
-   overflow:hidden. Violet multiply is dialled way down so the orange
-   and blue corners actually come through instead of a violet wash. */
-.final-grad{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden;border-radius:inherit}
-.final-grad .blob{position:absolute;border-radius:50%;filter:blur(80px);will-change:transform,opacity}
+/* CTA gradient — IDENTICAL recipe as hero-grad. Uses absolute px-ish
+   sizes relative to the CARD (not viewport), so blob cores always
+   sit inside the card regardless of screen size. Card is max 1180
+   wide with ~420px effective height; blob sizes tuned to that. */
+.final-grad{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:inherit}
+.final-grad .blob{position:absolute;border-radius:50%;filter:blur(72px);will-change:transform,opacity}
 .final-grad .b1{
-  width:75vw;height:75vh;
-  top:-22vh;right:-22vw;
+  /* Orange bloom — top-right corner of card */
+  width:68%;height:160%;
+  top:-30%;right:-10%;
   background:radial-gradient(circle at 50% 50%,
-    #ff4a17 0%,#ff6a2e 22%,#ff8a4c 38%,rgba(255,138,76,0) 65%);
+    #ff4a17 0%,#ff6a2e 22%,#ff8a4c 40%,rgba(255,138,76,0) 70%);
   animation:ctaDriftTR 18s ease-in-out infinite alternate,
             ctaBreatheTR 9s ease-in-out infinite;
   transform-origin:80% 20%;
 }
 .final-grad .b2{
-  width:75vw;height:75vh;
-  bottom:-22vh;left:-22vw;
+  /* Blue bloom — bottom-left corner of card */
+  width:68%;height:160%;
+  bottom:-30%;left:-10%;
   background:radial-gradient(circle at 50% 50%,
     #8db8d8 0%,#a4cae0 22%,#bcd6e8 45%,rgba(188,214,232,0) 72%);
   animation:ctaDriftBL 22s ease-in-out infinite alternate,
@@ -1471,20 +1503,19 @@ h1.display em{
   transform-origin:20% 80%;
 }
 .final-grad .b3{
-  width:95vw;height:75vh;
-  top:8vh;left:2.5vw;
+  /* Violet centre wash — thin, no multiply so it doesn't swamp */
+  width:85%;height:120%;
+  top:-10%;left:7.5%;
   background:radial-gradient(ellipse at 50% 50%,
-    #5d4f7c 0%,#6e5f8e 22%,#82749e 42%,#978bae 60%,rgba(151,139,174,0) 78%);
-  opacity:.25;
-  mix-blend-mode:multiply;
+    rgba(93,79,124,.38) 0%,rgba(130,116,158,.2) 35%,rgba(151,139,174,0) 72%);
   animation:ctaDriftMid 24s ease-in-out infinite alternate;
 }
 .final-grad .b4{
-  width:55vw;height:55vh;
-  top:30vh;right:14vw;
+  /* Pink-mauve accent, upper-right quadrant */
+  width:50%;height:90%;
+  top:10%;right:20%;
   background:radial-gradient(circle at 50% 50%,
-    #c498a8 0%,#b48aa2 35%,rgba(180,138,162,0) 70%);
-  opacity:.35;
+    rgba(196,152,168,.55) 0%,rgba(180,138,162,.25) 40%,rgba(180,138,162,0) 72%);
   animation:ctaDriftMid2 26s ease-in-out infinite alternate;
 }
 .final-grad .grain{
@@ -1660,18 +1691,28 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
       </div>
     </div>
 
-    <!-- Split-layer mockup — dark dashboard behind + onboarding form in front -->
+    <!-- Split-layer mockup — dashboard in a browser window behind + onboarding form card in front -->
     <div class="hero-mockup-wrap">
       <div class="hero-mockup" data-mk>
 
-        <!-- Dashboard card (behind, right) -->
-        <div class="mk-dashboard">
-          <div class="mk-db-head">
-            <h3 class="mk-db-title">Prospects</h3>
-            <span class="mk-db-count">
+        <!-- Dashboard sitting inside a browser window (behind, centred) -->
+        <div class="mk-browser">
+          <div class="mk-browser-bar">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-url">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1a4 4 0 014 4v3h1a3 3 0 013 3v9a3 3 0 01-3 3H7a3 3 0 01-3-3v-9a3 3 0 013-3h1V5a4 4 0 014-4zm0 2a2 2 0 00-2 2v3h4V5a2 2 0 00-2-2z"/></svg>
+              app.outpulse.ai/prospects
+            </div>
+            <span class="mk-browser-count">
               <span class="mk-ring"></span>
               <span data-count="2847">0</span> found
             </span>
+          </div>
+
+        <div class="mk-dashboard">
+          <div class="mk-db-head">
+            <h3 class="mk-db-title">Prospects <span class="mk-db-sub">· live discovery</span></h3>
+            <span class="mk-db-streaming"><span class="mk-ring-sm"></span>Streaming intent signals</span>
           </div>
           <div class="mk-db-filters" data-filters>
             <span class="filt"><span class="d"></span>Hiring</span>
@@ -1725,6 +1766,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
             </div>
           </div>
         </div>
+        </div><!-- /.mk-browser -->
 
         <!-- Form card (in front, left) -->
         <div class="mk-form">
@@ -1759,6 +1801,16 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
           <div class="mk-f-field">
             <label>INDUSTRY</label>
             <div class="mk-f-input" data-type-idx="4" data-type="SaaS · Fintech · E-commerce"></div>
+          </div>
+
+          <div class="mk-f-field">
+            <label>COMPANY SIZE</label>
+            <div class="mk-f-input" data-type-idx="5" data-type="50–500 employees"></div>
+          </div>
+
+          <div class="mk-f-field">
+            <label>LOCATION</label>
+            <div class="mk-f-input" data-type-idx="6" data-type="Europe · North America"></div>
           </div>
         </div>
 
@@ -1868,55 +1920,65 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
       <h2 class="band-h">Every email is <em>one-of-one</em>.<br>Written just for them.</h2>
     </div>
     <div class="chip-cloud">
-      <!-- Order in DOM = reveal order. Centre chip first, then the
-           cross arms (top, bottom, left, right), then scatter. Each
-           chip carries a data-tip explaining how to convert the
-           intent into a concrete outbound angle. -->
-      <span class="chip xxl warm"  style="--l:50%;--t:50%"
+      <!-- Clean 5-row grid, no overlap. Order in DOM = reveal order.
+           Row 1 (top):       3 chips at y=10%
+           Row 2 (upper):     2 chips at y=30%
+           Row 3 (center):    1 big + 2 side chips at y=50%
+           Row 4 (lower):     2 chips at y=70%
+           Row 5 (bottom):    2 chips at y=90%
+           Each chip has a data-tip "how to convert the intent". -->
+
+      <!-- Centre (reveal first) -->
+      <span class="chip xxl warm" style="--l:50%;--t:50%"
             data-tip="They just opened a European HQ — lead with how you help teams operate cross-border without rebuilding the stack."
       ><span class="dot"></span>Expanding · opened EU HQ</span>
 
-      <span class="chip xl ink"  style="--l:50%;--t:12%"
+      <!-- Cross arms -->
+      <span class="chip xl ink" style="--l:50%;--t:10%"
             data-tip="Fresh capital means the budget cycle is open for the next 60 days — pitch before the CFO closes it."
       ><span class="dot"></span>Series C · raised $120M</span>
 
-      <span class="chip lg warm"  style="--l:50%;--t:88%"
-            data-tip="A new VP is looking for quick wins — position around shipping revenue in 30 days, not a six-month migration."
-      ><span class="dot"></span>New VP Sales · 3 weeks ago</span>
-
-      <span class="chip lg"  style="--l:14%;--t:50%"
+      <span class="chip lg" style="--l:13%;--t:50%"
             data-tip="Engineering hires at this volume signal product investment — lead with developer tooling that scales with the team."
       ><span class="dot"></span>Hiring 12 engineers</span>
 
-      <span class="chip lg cool"  style="--l:86%;--t:50%"
-            data-tip="A brand-new CTO is still choosing the stack — get in before the roadmap locks."
-      ><span class="dot"></span>New CTO · hired 2 weeks ago</span>
-
-      <span class="chip md warm"  style="--l:22%;--t:26%"
-            data-tip="Budget is already approved for this quarter — reach out now and you're buying into the first spend wave."
-      ><span class="dot"></span>Just raised $50M Series B</span>
-
-      <span class="chip md cool"  style="--l:78%;--t:26%"
-            data-tip="Hyper-growth means stretched ops and duct-taped processes — they need automation to catch up, fast."
-      ><span class="dot"></span>Growing 140% YoY</span>
-
-      <span class="chip md"  style="--l:22%;--t:76%"
-            data-tip="Senior hires drive tool and spec decisions — land the next director and your product is already in the stack."
-      ><span class="dot"></span>Posted 8 senior eng jobs</span>
-
-      <span class="chip md ink"  style="--l:78%;--t:76%"
+      <span class="chip lg cool" style="--l:87%;--t:50%"
             data-tip="Post-acquisition integrations are messy for six months — offer something that unifies stacks without a migration."
       ><span class="dot"></span>Acquired Linear · $150M</span>
 
-      <span class="chip sm"  style="--l:36%;--t:36%"
+      <!-- Row 1 corners (top-left, top-right) -->
+      <span class="chip md" style="--l:18%;--t:10%"
+            data-tip="A brand-new CTO is still choosing the stack — get in before the roadmap locks."
+      ><span class="dot"></span>New CTO · 2 weeks ago</span>
+
+      <span class="chip md cool" style="--l:82%;--t:10%"
+            data-tip="Hyper-growth means stretched ops and duct-taped processes — they need automation to catch up, fast."
+      ><span class="dot"></span>Growing 140% YoY</span>
+
+      <!-- Row 2 (upper satellites) -->
+      <span class="chip md warm" style="--l:30%;--t:30%"
+            data-tip="Budget is already approved for this quarter — reach out now and you're buying into the first spend wave."
+      ><span class="dot"></span>Just raised $50M Series B</span>
+
+      <span class="chip md" style="--l:70%;--t:30%"
+            data-tip="A new VP is looking for quick wins — position around shipping revenue in 30 days, not a six-month migration."
+      ><span class="dot"></span>New VP Sales · 3 weeks</span>
+
+      <!-- Row 4 (lower satellites) -->
+      <span class="chip md" style="--l:30%;--t:70%"
+            data-tip="Senior hires drive tool and spec decisions — land the next director and your product is already in the stack."
+      ><span class="dot"></span>Posted 8 senior eng jobs</span>
+
+      <span class="chip md warm" style="--l:70%;--t:70%"
             data-tip="They just publicly staked a flag in AI — lean into AI-first integrations and their CMO will listen."
       ><span class="dot"></span>Launched AI product · Q2</span>
 
-      <span class="chip sm warm"  style="--l:64%;--t:66%"
+      <!-- Row 5 (bottom) -->
+      <span class="chip sm warm" style="--l:30%;--t:90%"
             data-tip="They've already proven they'll switch — that makes them warm for anything CRM-adjacent."
       >Switched off Salesforce</span>
 
-      <span class="chip sm cool"  style="--l:64%;--t:36%"
+      <span class="chip sm cool" style="--l:70%;--t:90%"
             data-tip="Security-mature — enterprise pitches don't hit a procurement wall here."
       ><span class="dot"></span>SOC 2 Type II certified</span>
     </div>
@@ -2411,8 +2473,14 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
 
     // 5 — buyer persona fields
     if (jobs)     await typewrite(jobs, jobs.dataset.type, 22);
-    await sleep(140);
+    await sleep(120);
     if (industry) await typewrite(industry, industry.dataset.type, 22);
+    await sleep(120);
+    const size = field(5);
+    if (size)     await typewrite(size, size.dataset.type, 22);
+    await sleep(120);
+    const location = field(6);
+    if (location) await typewrite(location, location.dataset.type, 22);
   }
 
   const obs = new IntersectionObserver(entries => {
