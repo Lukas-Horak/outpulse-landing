@@ -5,7 +5,7 @@
          this mask defines where the right circle becomes transparent. -->
     <mask id="outpulseGap" maskUnits="userSpaceOnUse">
       <rect width="1000" height="1000" fill="white"/>
-      <circle cx="391" cy="500" r="244" fill="none" stroke="black" stroke-width="32"/>
+      <circle cx="391" cy="500" r="248" fill="none" stroke="black" stroke-width="48"/>
     </mask>
   </defs>
   <!-- Left: hollow ring -->

@@ -290,6 +290,13 @@ img{max-width:100%;display:block}
   opacity:calc(1 - var(--p) * 2);
   pointer-events:none;
 }
+/* Desktop-class viewports have room for the hero to speak for itself —
+   hide the "Meet your agent" cue and trust badges so the copy + CTAs
+   carry the fold without small-print clutter. */
+@media(min-width:1024px){
+  .hero-content .scroll-cue{display:none}
+  .hero-content .hero-trust-row{display:none}
+}
 .scroll-cue svg{width:18px;height:18px;color:var(--orange);animation:bob 2.2s ease-in-out infinite}
 @keyframes bob{
   0%,100%{transform:translateY(0)}
@@ -1001,36 +1008,58 @@ h1.display em{
 .pgrid{
   display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
   max-width:1100px;margin:0 auto;
+  align-items:stretch;
 }
 .pcard{
   background:#fff;border:1px solid var(--line);border-radius:22px;padding:34px 30px;
-  display:flex;flex-direction:column;
+  display:flex;flex-direction:column;position:relative;
+  transition:transform .35s cubic-bezier(.2,.7,.2,1),
+             box-shadow .35s cubic-bezier(.2,.7,.2,1),
+             border-color .35s ease;
+  will-change:transform;
+  box-shadow:0 2px 8px -4px rgba(14,13,12,.04);
 }
+.pcard:hover{
+  transform:translateY(-10px);
+  box-shadow:0 30px 70px -24px rgba(14,13,12,.18);
+  border-color:rgba(14,13,12,.14);
+  z-index:2;
+}
+/* Featured card — gentle peach wash + soft orange glow, NOT a dark
+   high-contrast block. It's pre-lifted so the middle reads as the
+   recommended choice, but hover on any card overtakes it. */
 .pcard.featured{
-  background:var(--ink);color:#fff;border:none;
-  box-shadow:0 30px 80px -20px rgba(0,0,0,.4);transform:scale(1.02);
+  background:
+    radial-gradient(70% 80% at 50% 0%,rgba(255,91,31,.08),transparent 70%),
+    linear-gradient(180deg,#fffaf4 0%,#ffffff 100%);
+  border:1px solid rgba(255,91,31,.22);
+  transform:translateY(-8px);
+  box-shadow:0 22px 54px -22px rgba(255,91,31,.28);
 }
-.pcard.featured .p-d,.pcard.featured .p-feat{color:rgba(255,255,255,.78)}
+.pcard.featured:hover{transform:translateY(-16px)}
 .p-tag{
   align-self:flex-start;font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
-  background:var(--peach);color:var(--orange);padding:5px 10px;border-radius:6px;margin-bottom:18px;
+  background:var(--peach);color:var(--orange);padding:5px 12px;border-radius:999px;margin-bottom:18px;
 }
-.pcard.featured .p-tag{background:rgba(255,91,31,.18);color:var(--orange-3)}
+.pcard.featured .p-tag{background:var(--orange);color:#fff}
 .p-name{font-family:var(--serif);font-size:30px;font-weight:400;line-height:1;margin-bottom:6px}
 .p-d{font-size:13px;color:var(--muted);margin-bottom:24px}
 .p-price{display:flex;align-items:baseline;gap:6px;margin-bottom:24px}
 .p-price .num{font-family:var(--serif);font-size:60px;font-weight:400;line-height:1}
+.pcard.featured .p-price .num{background:linear-gradient(95deg,#ff5b1f,#ff8a4c);-webkit-background-clip:text;background-clip:text;color:transparent}
 .p-price .per{font-size:13px;color:var(--muted)}
-.pcard.featured .p-price .per{color:rgba(255,255,255,.55)}
 .p-feats{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:26px;flex:1}
 .p-feat{display:flex;align-items:flex-start;gap:10px;font-size:14px;line-height:1.4;color:var(--ink-2)}
 .p-feat::before{
   content:"";width:14px;height:14px;border-radius:50%;flex-shrink:0;margin-top:3px;
   background:radial-gradient(circle,#fff 0 30%,transparent 30%),var(--orange);
 }
-.pcard .btn{width:100%;padding:14px;border-radius:11px;font-size:14px}
+/* Pricing CTAs are pills too — matches the global button language. */
+.pcard .btn{width:100%;padding:15px;border-radius:999px;font-size:14px;transition:all .25s ease}
 .pcard:not(.featured) .btn{background:var(--ink);color:#fff}
-.pcard.featured .btn{background:var(--orange);color:#fff}
+.pcard:not(.featured):hover .btn{background:#000}
+.pcard.featured .btn{background:var(--orange);color:#fff;box-shadow:0 10px 24px -8px rgba(255,91,31,.45)}
+.pcard.featured:hover .btn{background:var(--orange-2);box-shadow:0 14px 30px -8px rgba(255,91,31,.55)}
 .p-foot{font-size:12px;color:var(--muted);text-align:center;margin-top:10px}
 
 /* ─────────────────────────────────────── FAQ */
@@ -1261,8 +1290,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
       <div class="hero-trust-row">
         <span>SOC 2</span><span class="div"></span>
         <span>GDPR</span><span class="div"></span>
-        <span>ISO 27001</span><span class="div"></span>
-        <span>Backed by Apollo · 275M contacts</span>
+        <span>ISO 27001</span>
       </div>
       <div class="scroll-cue">
         <span>Meet your agent</span>
@@ -1775,7 +1803,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
       <details open><summary>Is there a free trial? <span class="plus"></span></summary><div class="a">Yes — every plan starts with a 7-day free trial. You can test the full platform: AI prospect discovery, email generation, and campaign launching. No charge until the trial ends, and you can cancel in one click.</div></details>
       <details><summary>How does the AI write personalized emails? <span class="plus"></span></summary><div class="a">Our AI analyses each prospect's real data: their role, company, tech stack, recent funding, hiring activity and more. It writes a unique email for each person — no templates, no mail-merge.</div></details>
       <details><summary>Will my emails land in spam? <span class="plus"></span></summary><div class="a">Outpulse includes built-in email warm-up that gradually increases your sending volume over 14 days. Combined with SPF, DKIM and DMARC verification, your emails are optimized for deliverability from day one.</div></details>
-      <details><summary>Where does the prospect data come from? <span class="plus"></span></summary><div class="a">We use Apollo's verified database of 275M+ contacts. All data is GDPR compliant and regularly updated — verified emails, job titles, company info, tech stacks, and buying intent signals.</div></details>
+      <details><summary>Where does the prospect data come from? <span class="plus"></span></summary><div class="a">We use an enterprise-grade verified database of 275M+ contacts. All data is GDPR compliant and regularly updated — verified emails, job titles, company info, tech stacks, and buying intent signals.</div></details>
       <details><summary>Can I connect my existing email? <span class="plus"></span></summary><div class="a">Yes — Outpulse integrates with Gmail and Outlook. Emails are sent from your real address, building trust and improving deliverability.</div></details>
       <details><summary>Can I cancel anytime? <span class="plus"></span></summary><div class="a">Absolutely. No contracts, no commitments. Cancel anytime from your account settings.</div></details>
     </div>
