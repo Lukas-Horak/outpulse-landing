@@ -409,44 +409,49 @@ img{max-width:100%;display:block}
   font-size:10px;font-weight:700;letter-spacing:.16em;
   text-transform:uppercase;color:var(--muted-2);
 }
-/* Body of the dashboard holds both the skeleton placeholders and the
-   real populated rows. Skeleton fades out when .rows-in hits, real
-   rows stagger in. A bottom mask-gradient fades the last few rows so
-   the list feels endless rather than cut. */
-.mk-db-body{position:relative}
+/* Body of the dashboard — skeleton and real rows live in the SAME
+   grid cell (grid-template-areas:'stack'), so they share the same
+   height at all times. Switching between them is pure opacity
+   cross-fade — never a layout change, never a window jump. Bottom
+   mask-gradient fades the tail so the list feels endless. */
+.mk-db-body{
+  display:grid;
+  grid-template-areas:'stack';
+  -webkit-mask-image:linear-gradient(180deg,#000 0,#000 60%,transparent 100%);
+          mask-image:linear-gradient(180deg,#000 0,#000 60%,transparent 100%);
+}
 .mk-db-skel,.mk-db-rows{
+  grid-area:stack;
   display:flex;flex-direction:column;
-  -webkit-mask-image:linear-gradient(180deg,#000 0,#000 62%,transparent 100%);
-          mask-image:linear-gradient(180deg,#000 0,#000 62%,transparent 100%);
 }
-.mk-db-rows{opacity:0;transition:opacity .45s ease}
-.mk-db-skel{opacity:1;transition:opacity .35s ease}
-.hero-mockup.rows-in .mk-db-skel{
-  opacity:0;pointer-events:none;
-  position:absolute;inset:0;              /* hand over the slot */
-}
-.hero-mockup.rows-in .mk-db-rows{opacity:1}
+.mk-db-skel{z-index:2;transition:opacity .4s ease}
+.mk-db-rows{z-index:1}
+.hero-mockup.rows-in .mk-db-skel{opacity:0;pointer-events:none}
 
 .mk-db-rows .prow{
   display:grid;grid-template-columns:1.7fr 1fr 1.4fr 1.1fr;gap:14px;
   align-items:center;padding:13px 0;
   border-bottom:1px solid var(--line);
   font-size:13px;color:var(--ink);
-  opacity:0;transform:translateY(10px);
+  opacity:0;transform:translateY(8px);
   transition:opacity .5s ease,transform .5s ease;
 }
 .mk-db-rows .prow.in{opacity:1;transform:none}
 .mk-db-rows .prow:last-child{border-bottom:none}
 
-/* Skeleton rows — same grid, shimmering gray boxes */
+/* Skeleton rows — identical grid shape + padding as .prow so the
+   stack's intrinsic height is locked regardless of which layer is on
+   top. Shimmering grey boxes fill each cell. */
 .mk-db-skel .skel-row{
   display:grid;grid-template-columns:1.7fr 1fr 1.4fr 1.1fr;gap:14px;
-  align-items:center;padding:15px 0;
+  align-items:center;padding:13px 0;
   border-bottom:1px solid var(--line);
 }
 .mk-db-skel .skel-row:last-child{border-bottom:none}
+.sk-name-cell{display:flex;align-items:center;gap:10px;min-width:0}
+.sk-name-lines{display:flex;flex-direction:column;gap:5px;flex:1;min-width:0}
 .sk{
-  display:inline-block;
+  display:block;
   background:linear-gradient(90deg,
     rgba(14,13,12,.05) 0%,
     rgba(14,13,12,.11) 50%,
@@ -455,11 +460,12 @@ img{max-width:100%;display:block}
   border-radius:6px;
   animation:skelShimmer 1.6s linear infinite;
 }
-.sk-av{width:28px;height:28px;border-radius:8px;justify-self:start;margin-right:4px}
-.sk-name{height:12px;width:70%;justify-self:start}
-.sk-co{height:11px;width:60%;justify-self:start}
-.sk-email{height:11px;width:85%;justify-self:start}
-.sk-pill{height:22px;width:72%;max-width:120px;border-radius:999px;justify-self:start}
+.sk-av{width:28px;height:28px;border-radius:8px;flex-shrink:0}
+.sk-name{height:12px;width:72%}
+.sk-sub{height:10px;width:52%}
+.sk-co{height:12px;width:60%}
+.sk-email{height:12px;width:88%}
+.sk-pill{height:22px;width:70%;max-width:118px;border-radius:999px;justify-self:start}
 @keyframes skelShimmer{
   0%{background-position:200% 0}
   100%{background-position:-200% 0}
@@ -1833,12 +1839,42 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
                 <!-- Skeleton — shown while the left form is typing, fades out
                      once analysed and real rows slide in. -->
                 <div class="mk-db-skel" aria-hidden="true">
-                  <div class="skel-row"><span class="sk sk-av"></span><span class="sk sk-name"></span><span class="sk sk-co"></span><span class="sk sk-email"></span><span class="sk sk-pill"></span></div>
-                  <div class="skel-row"><span class="sk sk-av"></span><span class="sk sk-name"></span><span class="sk sk-co"></span><span class="sk sk-email"></span><span class="sk sk-pill"></span></div>
-                  <div class="skel-row"><span class="sk sk-av"></span><span class="sk sk-name"></span><span class="sk sk-co"></span><span class="sk sk-email"></span><span class="sk sk-pill"></span></div>
-                  <div class="skel-row"><span class="sk sk-av"></span><span class="sk sk-name"></span><span class="sk sk-co"></span><span class="sk sk-email"></span><span class="sk sk-pill"></span></div>
-                  <div class="skel-row"><span class="sk sk-av"></span><span class="sk sk-name"></span><span class="sk sk-co"></span><span class="sk sk-email"></span><span class="sk sk-pill"></span></div>
-                  <div class="skel-row"><span class="sk sk-av"></span><span class="sk sk-name"></span><span class="sk sk-co"></span><span class="sk sk-email"></span><span class="sk sk-pill"></span></div>
+                  <div class="skel-row">
+                    <div class="sk-name-cell"><span class="sk sk-av"></span><div class="sk-name-lines"><span class="sk sk-name"></span><span class="sk sk-sub"></span></div></div>
+                    <span class="sk sk-co"></span>
+                    <span class="sk sk-email"></span>
+                    <span class="sk sk-pill"></span>
+                  </div>
+                  <div class="skel-row">
+                    <div class="sk-name-cell"><span class="sk sk-av"></span><div class="sk-name-lines"><span class="sk sk-name"></span><span class="sk sk-sub"></span></div></div>
+                    <span class="sk sk-co"></span>
+                    <span class="sk sk-email"></span>
+                    <span class="sk sk-pill"></span>
+                  </div>
+                  <div class="skel-row">
+                    <div class="sk-name-cell"><span class="sk sk-av"></span><div class="sk-name-lines"><span class="sk sk-name"></span><span class="sk sk-sub"></span></div></div>
+                    <span class="sk sk-co"></span>
+                    <span class="sk sk-email"></span>
+                    <span class="sk sk-pill"></span>
+                  </div>
+                  <div class="skel-row">
+                    <div class="sk-name-cell"><span class="sk sk-av"></span><div class="sk-name-lines"><span class="sk sk-name"></span><span class="sk sk-sub"></span></div></div>
+                    <span class="sk sk-co"></span>
+                    <span class="sk sk-email"></span>
+                    <span class="sk sk-pill"></span>
+                  </div>
+                  <div class="skel-row">
+                    <div class="sk-name-cell"><span class="sk sk-av"></span><div class="sk-name-lines"><span class="sk sk-name"></span><span class="sk sk-sub"></span></div></div>
+                    <span class="sk sk-co"></span>
+                    <span class="sk sk-email"></span>
+                    <span class="sk sk-pill"></span>
+                  </div>
+                  <div class="skel-row">
+                    <div class="sk-name-cell"><span class="sk sk-av"></span><div class="sk-name-lines"><span class="sk sk-name"></span><span class="sk sk-sub"></span></div></div>
+                    <span class="sk sk-co"></span>
+                    <span class="sk sk-email"></span>
+                    <span class="sk sk-pill"></span>
+                  </div>
                 </div>
 
                 <div class="mk-db-rows">
@@ -2000,56 +2036,56 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
 
       <!-- Centre (reveal first) -->
       <span class="chip xxl warm" style="--l:50%;--t:50%"
-            data-tip="When a company opens a new office, they're shopping for tools to run it. Outpulse emails them while that door is still open."
+            data-tip="A new office means new budgets, new tools, new priorities. The first vendors to land in their inbox get to be part of the launch."
       ><span class="dot"></span>Expanding · opened EU HQ</span>
 
       <!-- Cross arms -->
       <span class="chip xl ink" style="--l:50%;--t:10%"
-            data-tip="A fresh round means the spending budget just unlocked. Outpulse reaches out right after the announcement, while other vendors are still drafting."
+            data-tip="Fresh funding means the company is actively spending. Vendors who show up this week claim a piece of a brand new budget before anyone else."
       ><span class="dot"></span>Series C · raised $120M</span>
 
       <span class="chip lg" style="--l:13%;--t:50%"
-            data-tip="Hiring waves signal a product push. Outpulse writes your email about exactly what the new engineers will need."
+            data-tip="A hiring wave signals a product push. Pitches that speak to what the new engineers will need walk in ahead of everyone else."
       ><span class="dot"></span>Hiring 12 engineers</span>
 
       <span class="chip lg cool" style="--l:87%;--t:50%"
-            data-tip="After an acquisition the two teams have a messy overlap of tools. Outpulse offers you as the fix, not another migration."
+            data-tip="After an acquisition two overlapping toolchains have to be simplified. Anything that unifies the stack lands in front of a buyer already in rethink mode."
       ><span class="dot"></span>Acquired Linear · $150M</span>
 
       <!-- Row 1 corners (top-left, top-right) -->
       <span class="chip md" style="--l:18%;--t:10%"
-            data-tip="A new CTO is still picking the stack. Outpulse gets your product in front of them before the choices are locked."
+            data-tip="A new CTO is still picking their stack. Arriving now gives you a window to influence standards that will hold for years."
       ><span class="dot"></span>New CTO · 2 weeks ago</span>
 
       <span class="chip md cool" style="--l:82%;--t:10%"
-            data-tip="Hyper growth leaves everyone drowning. Outpulse pitches you as the relief, not another tool to learn."
+            data-tip="Hypergrowth breaks the processes the team relied on yesterday. They are actively hunting for anything that makes their days lighter, and they reply faster."
       ><span class="dot"></span>Growing 140% YoY</span>
 
       <!-- Row 2 (upper satellites) -->
       <span class="chip md warm" style="--l:30%;--t:30%"
-            data-tip="Cash just landed, budgets approved. Outpulse sends your email during the first spending wave, before every other vendor shows up."
+            data-tip="A closed round means budget is approved and spending is starting. Your email lands when checks are being written, not months later."
       ><span class="dot"></span>Just raised $50M Series B</span>
 
       <span class="chip md" style="--l:70%;--t:30%"
-            data-tip="A new VP needs quick wins in her first quarter. Outpulse positions you as the tool that books revenue in 30 days."
+            data-tip="A new VP needs quick wins in the first quarter. Anything that promises revenue in 30 days gets opened first."
       ><span class="dot"></span>New VP Sales · 3 weeks</span>
 
       <!-- Row 4 (lower satellites) -->
       <span class="chip md" style="--l:30%;--t:70%"
-            data-tip="Senior engineers decide which tools the team uses. Outpulse lands your product on their radar before they even start."
+            data-tip="Senior engineers choose the stack the team will run for years. Landing before they start means your product is one of their first picks."
       ><span class="dot"></span>Posted 8 senior eng jobs</span>
 
       <span class="chip md warm" style="--l:70%;--t:70%"
-            data-tip="They just announced an AI feature. Outpulse pivots your outreach to AI integrations they're already thinking about."
+            data-tip="They just made AI a priority in public. Any pitch that plugs into or extends that story is instantly relevant to leadership."
       ><span class="dot"></span>Launched AI product · Q2</span>
 
       <!-- Row 5 (bottom) -->
       <span class="chip sm warm" style="--l:30%;--t:90%"
-            data-tip="They just proved they will switch CRMs. Outpulse tags them as open to anything adjacent."
+            data-tip="They have already proven they will change CRMs. For anything adjacent, that is the warmest lead a team can get."
       >Switched off Salesforce</span>
 
       <span class="chip sm cool" style="--l:70%;--t:90%"
-            data-tip="Security mature teams unblock enterprise deals faster. Outpulse queues these for pitches that would stall at smaller teams."
+            data-tip="A security mature buyer won't stall an enterprise deal over procurement. The same pitch that gets ignored elsewhere gets read here."
       ><span class="dot"></span>SOC 2 Type II certified</span>
     </div>
   </div>
