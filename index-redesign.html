@@ -351,9 +351,13 @@ img{max-width:100%;display:block}
   background:#fbfaf7;
   border-right:1px solid var(--line);
   padding:22px 20px;
-  display:flex;flex-direction:column;gap:14px;
-  overflow:hidden;
+  display:flex;flex-direction:column;gap:12px;
+  /* Allow internal scroll — keeps all fields reachable even when the
+     fixed .mk-app height is tighter than the form's natural height. */
+  overflow-y:auto;
+  scrollbar-width:none;
 }
+.mk-sidebar::-webkit-scrollbar{display:none;width:0}
 .mk-sidebar .mk-f-title{
   font-family:var(--serif);font-weight:400;font-size:21px;color:var(--ink);
   text-align:left;margin:0 0 6px;letter-spacing:-.01em;
@@ -628,13 +632,18 @@ img{max-width:100%;display:block}
   .mk-db-cols,.mk-db-rows .prow{grid-template-columns:1.6fr 1fr 1fr}
   .mk-db-cols>*:nth-child(3),.mk-db-rows .prow>*:nth-child(3){display:none}
 }
-/* Short laptop viewports — tighter rows, shrink the fixed height */
+/* Short laptop viewports — tighter rows, shrink the fixed height.
+   Compress inputs + textarea so the whole form fits without cropping. */
 @media(max-height:900px){
-  .mk-app{height:520px}
-  .mk-main{max-height:520px}
-  .mk-sidebar{gap:10px;padding:18px 18px}
+  .mk-app{height:540px}
+  .mk-main{max-height:540px}
+  .mk-sidebar{gap:10px;padding:16px 16px}
+  .mk-sidebar .mk-f-title{font-size:18px;margin-bottom:2px}
   .mk-db-rows .prow{padding:10px 0}
-  .mk-f-area{height:72px}
+  .mk-f-input{height:34px;padding:8px 10px}
+  .mk-f-area{height:64px;padding:8px 10px}
+  .mk-f-field label{font-size:9.5px}
+  .mk-f-sep{font-size:13px;padding:8px 0 2px}
 }
 
 /* ── Scroll cue under the trust row ──────────────────────────────────── */
