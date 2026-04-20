@@ -2998,17 +2998,17 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
     entries.forEach(function(e){
       if (!e.isIntersecting) return;
       obs.disconnect();
-      // Stagger the three visible cards in from bottom up: first the
-      // bottom card drifts into slot 2, then middle, then the top
-      // card (which immediately starts its draft sequence).
-      setTimeout(function(){ cards[2].dataset.slot = '2'; }, 240);
-      setTimeout(function(){ cards[1].dataset.slot = '1'; }, 500);
+      // Stagger the three visible cards in from top down: the active
+      // top card lands first (and its draft sequence kicks off),
+      // then middle, then bottom.
       setTimeout(function(){
         cards[0].dataset.slot = '0';
         activate(cards[0]);
-      }, 760);
+      }, 240);
+      setTimeout(function(){ cards[1].dataset.slot = '1'; }, 500);
+      setTimeout(function(){ cards[2].dataset.slot = '2'; }, 760);
       // After the first card plays its full beat, start the loop.
-      setTimeout(function(){ setInterval(tick, TICK); }, 760 + TICK);
+      setTimeout(function(){ setInterval(tick, TICK); }, 240 + TICK);
     });
   }, { threshold: 0.15 });
   obs.observe(host);
