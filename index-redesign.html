@@ -131,11 +131,12 @@ img{max-width:100%;display:block}
   width:100%;
   overflow:hidden;
   isolation:isolate;
-  /* Two-column grid — text left, prospect cards right. Content
-     centres vertically within the post-nav viewport. */
+  /* Two-column grid — text left, prospect cards right. justify-self
+     tucks both towards the centre so they read as one composition,
+     not two columns at opposite edges. */
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:40px;
+  gap:24px;
   align-items:center;
   padding:48px clamp(28px,5vw,72px);
   background:
@@ -275,7 +276,8 @@ img{max-width:100%;display:block}
   text-align:left;
   color:#fff;
   text-shadow:0 2px 30px rgba(30,20,50,.25);
-  max-width:640px;
+  max-width:560px;
+  justify-self:end;                        /* tuck towards the centre */
 }
 .hero-content > *{width:100%}
 .hero-content h1.display{color:#fff}
@@ -303,9 +305,10 @@ img{max-width:100%;display:block}
 .hero-cards{
   position:relative;
   height:620px;
-  max-width:460px;
+  max-width:440px;
   width:100%;
-  margin:0 auto;
+  margin:0;
+  justify-self:start;                      /* tuck towards the centre */
 }
 .pcard-hero{
   position:absolute;
@@ -846,6 +849,44 @@ img{max-width:100%;display:block}
   font-family:var(--serif);font-weight:400;font-size:15px;color:var(--ink);
   padding:12px 0 2px;margin:6px 0 2px;
   border-top:1px solid var(--line);
+}
+/* Second section header inside the sidebar — same typography as the
+   top "Tell us about your company" title, left-aligned, with a small
+   AI-generated badge so the viewer understands Outpulse wrote the
+   fields below. */
+.mk-sidebar .mk-f-title-sub{
+  margin:12px 0 2px;
+  border-top:1px solid var(--line);
+  padding-top:14px;
+  display:flex;align-items:center;gap:8px;
+}
+.mk-f-ai-badge{
+  display:inline-flex;align-items:center;
+  font-family:var(--sans);
+  font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  padding:3px 7px;border-radius:999px;
+  background:linear-gradient(95deg,#7c5dae 0%,#b57ae0 100%);
+  color:#fff;
+  flex-shrink:0;
+}
+/* AI-generated fields pick up a soft purple tint (same gradient
+   colour family) so it's obvious at a glance which bits Outpulse
+   produced vs what the user typed. */
+.mk-f-ai .mk-f-input,
+.mk-f-ai .mk-f-area{
+  background:linear-gradient(135deg,rgba(124,93,174,.06) 0%,rgba(181,122,224,.04) 100%);
+  border-color:rgba(124,93,174,.16);
+}
+.mk-f-ai label{color:#7c5dae}
+/* AI-fill burst — brief purple glow as Outpulse populates a field
+   instead of the user typing it. */
+.mk-f-input.ai-filling,
+.mk-f-area.ai-filling{
+  animation:aiFillGlow .7s ease-out;
+}
+@keyframes aiFillGlow{
+  0%  {background:#f3ecfa;box-shadow:0 0 0 3px rgba(124,93,174,.3)}
+  100%{background:linear-gradient(135deg,rgba(124,93,174,.06) 0%,rgba(181,122,224,.04) 100%);box-shadow:0 0 0 0 rgba(124,93,174,0)}
 }
 
 /* Typewriter caret on the field currently being typed */
@@ -2208,8 +2249,8 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
                 </div>
               </div>
 
-              <div class="mk-f-field">
-                <label>WHAT DO YOU SELL?</label>
+              <div class="mk-f-field mk-f-ai">
+                <label>WHAT DO YOU SELL? <span class="mk-f-ai-badge">AI</span></label>
                 <div class="mk-f-area" data-type-idx="2" data-type="We design and develop web and mobile applications that help businesses automate workflows and scale faster."></div>
                 <div class="mk-f-chips" data-chips>
                   <span class="mk-f-chip c-green">Digital Transformation</span>
@@ -2219,24 +2260,24 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
                 </div>
               </div>
 
-              <div class="mk-f-sep">Buyer Persona</div>
+              <h3 class="mk-f-title mk-f-title-sub">Buyer Persona <span class="mk-f-ai-badge">AI-generated</span></h3>
 
-              <div class="mk-f-field">
+              <div class="mk-f-field mk-f-ai">
                 <label>JOB TITLES</label>
                 <div class="mk-f-input" data-type-idx="3" data-type="CTO · VP Engineering · Head of Digital"></div>
               </div>
 
-              <div class="mk-f-field">
+              <div class="mk-f-field mk-f-ai">
                 <label>INDUSTRY</label>
                 <div class="mk-f-input" data-type-idx="4" data-type="SaaS · Fintech · E-commerce"></div>
               </div>
 
-              <div class="mk-f-field">
+              <div class="mk-f-field mk-f-ai">
                 <label>COMPANY SIZE</label>
                 <div class="mk-f-input" data-type-idx="5" data-type="50–500 employees"></div>
               </div>
 
-              <div class="mk-f-field">
+              <div class="mk-f-field mk-f-ai">
                 <label>LOCATION</label>
                 <div class="mk-f-input" data-type-idx="6" data-type="Europe · North America"></div>
               </div>
@@ -3137,6 +3178,16 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   const sleep = ms => new Promise(r => setTimeout(r, ms));
 
   let started = false;
+  // AI auto-fill: drops the full text in at once with a purple glow
+  // instead of typing character-by-character. Visually distinguishes
+  // "Outpulse generated this" from "user typed this".
+  function aiFill(el, text){
+    if (!el) return;
+    el.textContent = text;
+    el.classList.add('ai-filling');
+    setTimeout(function(){ el.classList.remove('ai-filling'); }, 700);
+  }
+
   async function run(){
     if (started) return;
     started = true;
@@ -3146,11 +3197,11 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
     const jobs     = field(3);
     const industry = field(4);
 
-    // 1 — company name (slower, feels like a real person typing)
+    // 1 — COMPANY NAME (user-typed — the only things the visitor fills in)
     if (company) await typewrite(company, company.dataset.type, 75);
     await sleep(380);
 
-    // 2 — website URL (types into .mk-url-text inside the url input wrapper)
+    // 2 — WEBSITE (user-typed, then Outpulse analyses)
     const urlWrap = field(1);
     const statusText = statusEl ? statusEl.querySelector('.mk-f-status-text') : null;
     if (urlText && urlWrap){
@@ -3165,24 +3216,24 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
         statusEl.classList.add('done');
       }
     }
-    await sleep(300);
+    await sleep(350);
 
-    // 3 — "what do you sell" paragraph (slowest — the thinking bit)
-    if (sell) await typewrite(sell, sell.dataset.type, 32);
-    // Detected-intent chips fly in after the pitch fills
+    // 3+ — Everything below is AI-GENERATED. Fields pop in with a
+    // purple highlight burst, not a typewriter, so it's clear Outpulse
+    // produced all of this from just the company name + website.
+    if (sell) aiFill(sell, sell.dataset.type);
     if (chipsWrap) chipsWrap.classList.add('in');
-    await sleep(280);
+    await sleep(450);
 
-    // 4 — buyer persona fields (paced, but quicker since they're tags)
-    if (jobs)     await typewrite(jobs, jobs.dataset.type, 40);
-    await sleep(200);
-    if (industry) await typewrite(industry, industry.dataset.type, 40);
-    await sleep(180);
+    if (jobs)     aiFill(jobs, jobs.dataset.type);
+    await sleep(220);
+    if (industry) aiFill(industry, industry.dataset.type);
+    await sleep(220);
     const size = field(5);
-    if (size)     await typewrite(size, size.dataset.type, 40);
-    await sleep(180);
+    if (size)     aiFill(size, size.dataset.type);
+    await sleep(220);
     const location = field(6);
-    if (location) await typewrite(location, location.dataset.type, 40);
+    if (location) aiFill(location, location.dataset.type);
 
     // 5 — form complete: hand over from skeleton to real prospects
     await sleep(300);
