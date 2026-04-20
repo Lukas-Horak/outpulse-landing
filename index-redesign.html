@@ -860,29 +860,37 @@ img{max-width:100%;display:block}
   display:inline-flex;align-items:center;
   font-family:var(--sans);
   font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-  padding:3px 7px;border-radius:999px;
-  background:linear-gradient(95deg,#7c5dae 0%,#b57ae0 100%);
+  padding:3px 8px;border-radius:999px;
+  /* Cold → warm brand spectrum (same as design-system --grad-spectrum). */
+  background:linear-gradient(95deg,
+    #3866a6 0%,#5b8ec8 18%,#8db8d8 33%,#bcd6e8 45%,
+    #e8d4cc 55%,#ffba85 68%,#ff8649 82%,#ff5b1f 100%);
   color:#fff;
   flex-shrink:0;
 }
-/* AI-generated fields pick up a soft purple tint (same gradient
-   colour family) so it's obvious at a glance which bits Outpulse
-   produced vs what the user typed. */
+/* AI-generated fields pick up the subtlest spectrum tint so it's
+   obvious at a glance which bits Outpulse produced vs what the
+   user typed. */
 .mk-f-ai .mk-f-input,
 .mk-f-ai .mk-f-area{
-  background:linear-gradient(135deg,rgba(124,93,174,.06) 0%,rgba(181,122,224,.04) 100%);
-  border-color:rgba(124,93,174,.16);
+  background:linear-gradient(135deg,rgba(56,102,166,.06) 0%,rgba(255,138,76,.05) 100%);
+  border-color:rgba(56,102,166,.16);
 }
-.mk-f-ai label{color:#7c5dae}
-/* AI-fill burst — brief purple glow as Outpulse populates a field
-   instead of the user typing it. */
+.mk-f-ai label{color:#3866a6}
+/* AI-fill burst — brief spectrum glow as Outpulse populates a field. */
 .mk-f-input.ai-filling,
 .mk-f-area.ai-filling{
   animation:aiFillGlow .7s ease-out;
 }
 @keyframes aiFillGlow{
-  0%  {background:#f3ecfa;box-shadow:0 0 0 3px rgba(124,93,174,.3)}
-  100%{background:linear-gradient(135deg,rgba(124,93,174,.06) 0%,rgba(181,122,224,.04) 100%);box-shadow:0 0 0 0 rgba(124,93,174,0)}
+  0%{
+    background:linear-gradient(135deg,rgba(56,102,166,.22) 0%,rgba(255,138,76,.2) 100%);
+    box-shadow:0 0 0 3px rgba(141,184,216,.25);
+  }
+  100%{
+    background:linear-gradient(135deg,rgba(56,102,166,.06) 0%,rgba(255,138,76,.05) 100%);
+    box-shadow:0 0 0 0 rgba(141,184,216,0);
+  }
 }
 
 /* Typewriter caret on the field currently being typed */
@@ -2246,8 +2254,8 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
               </div>
 
               <div class="mk-f-field mk-f-ai">
-                <label>WHAT DO YOU SELL? <span class="mk-f-ai-badge">AI</span></label>
-                <div class="mk-f-area" data-type-idx="2" data-type="We design and develop web and mobile applications that help businesses automate workflows and scale faster."></div>
+                <label>WHAT DO YOU SELL? <span class="mk-f-ai-badge">AI generated</span></label>
+                <div class="mk-f-area" data-type-idx="2" data-type="We build web and mobile apps for SaaS, fintech and e-commerce teams — helping engineering and digital leads at 50-to-500-person companies automate workflows and scale faster."></div>
                 <div class="mk-f-chips" data-chips>
                   <span class="mk-f-chip c-green">Digital Transformation</span>
                   <span class="mk-f-chip c-blue">UX/UI Design</span>
@@ -2256,7 +2264,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
                 </div>
               </div>
 
-              <h3 class="mk-f-title mk-f-title-sub">Buyer Persona <span class="mk-f-ai-badge">AI-generated</span></h3>
+              <h3 class="mk-f-title mk-f-title-sub">Buyer Persona <span class="mk-f-ai-badge">AI generated</span></h3>
 
               <div class="mk-f-field mk-f-ai">
                 <label>JOB TITLES</label>
