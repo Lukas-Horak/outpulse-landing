@@ -861,35 +861,50 @@ img{max-width:100%;display:block}
   font-family:var(--sans);
   font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
   padding:3px 8px;border-radius:999px;
-  /* Cold → warm brand spectrum (same as design-system --grad-spectrum). */
+  /* Blue → violet → orange — same arc as the hero atmospheric bloom
+     (blue b2 bottom-left, violet b3 center, orange b1 top-right). */
   background:linear-gradient(95deg,
-    #3866a6 0%,#5b8ec8 18%,#8db8d8 33%,#bcd6e8 45%,
-    #e8d4cc 55%,#ffba85 68%,#ff8649 82%,#ff5b1f 100%);
+    #3866a6 0%,
+    #5b8ec8 14%,
+    #7d70b5 30%,
+    #9964a8 46%,
+    #c06a88 62%,
+    #ff8649 82%,
+    #ff5b1f 100%);
   color:#fff;
   flex-shrink:0;
 }
 /* AI-generated fields pick up the subtlest spectrum tint so it's
    obvious at a glance which bits Outpulse produced vs what the
-   user typed. */
+   user typed. Three-stop tint so the violet middle reads too. */
 .mk-f-ai .mk-f-input,
 .mk-f-ai .mk-f-area{
-  background:linear-gradient(135deg,rgba(56,102,166,.06) 0%,rgba(255,138,76,.05) 100%);
-  border-color:rgba(56,102,166,.16);
+  background:linear-gradient(135deg,
+    rgba(56,102,166,.06) 0%,
+    rgba(153,100,168,.05) 50%,
+    rgba(255,138,76,.05) 100%);
+  border-color:rgba(125,112,181,.20);
 }
 .mk-f-ai label{color:#3866a6}
-/* AI-fill burst — brief spectrum glow as Outpulse populates a field. */
+/* AI-fill burst — blue→violet→orange glow as Outpulse populates a field. */
 .mk-f-input.ai-filling,
 .mk-f-area.ai-filling{
   animation:aiFillGlow .7s ease-out;
 }
 @keyframes aiFillGlow{
   0%{
-    background:linear-gradient(135deg,rgba(56,102,166,.22) 0%,rgba(255,138,76,.2) 100%);
-    box-shadow:0 0 0 3px rgba(141,184,216,.25);
+    background:linear-gradient(135deg,
+      rgba(56,102,166,.22) 0%,
+      rgba(153,100,168,.22) 50%,
+      rgba(255,138,76,.22) 100%);
+    box-shadow:0 0 0 3px rgba(153,100,168,.25);
   }
   100%{
-    background:linear-gradient(135deg,rgba(56,102,166,.06) 0%,rgba(255,138,76,.05) 100%);
-    box-shadow:0 0 0 0 rgba(141,184,216,0);
+    background:linear-gradient(135deg,
+      rgba(56,102,166,.06) 0%,
+      rgba(153,100,168,.05) 50%,
+      rgba(255,138,76,.05) 100%);
+    box-shadow:0 0 0 0 rgba(153,100,168,0);
   }
 }
 
