@@ -880,8 +880,14 @@ img{max-width:100%;display:block}
   background:linear-gradient(95deg,#8a76b8 0%,#a88fd0 55%,#c3aee0 100%);
   color:#fff;
   flex-shrink:0;
+  /* Hidden by default — the sequencer only reveals the badge once
+     Outpulse actually starts generating that section, so it's not
+     sitting on the page before the user has submitted anything. */
+  opacity:0;
+  transform:scale(.92);
   transition:opacity .45s ease,transform .45s ease;
 }
+.mk-f-ai-badge.visible{opacity:1;transform:scale(1)}
 /* Pulsing dot that lives inside the badge while Outpulse is "thinking". */
 .mk-f-ai-badge .ab-dot{
   width:5px;height:5px;border-radius:50%;
@@ -897,7 +903,8 @@ img{max-width:100%;display:block}
 }
 .mk-f-ai-badge.done .ab-dot{display:none}
 .mk-f-ai-badge.done .ab-check{display:inline-block}
-/* Fade out entirely once the field has been shown as AI-generated. */
+/* Fade out entirely once the field has been shown as AI-generated.
+   Also removes 'visible' in JS so the opacity returns to 0. */
 .mk-f-ai-badge.fade{opacity:0;transform:scale(.92);pointer-events:none}
 @keyframes abPulse{
   0%,100%{opacity:.45;transform:scale(1)}
@@ -3271,11 +3278,17 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
     setTimeout(function(){ el.classList.remove('ai-filling'); }, 700);
   }
 
-  // Badge state transitions: Generating… (pulse dot) → AI generated
-  // (check mark) → fade out. Called once all fields governed by a
-  // given badge have been populated.
+  // Badge state transitions:
+  //   hidden → badgeShow() → Generating… (pulse dot)
+  //   → badgeDone() → AI generated (check mark)
+  //   → fades out automatically 1.4s later
+  function badge(name){ return mockup.querySelector('[data-ai-badge="'+name+'"]'); }
+  function badgeShow(name){
+    const b = badge(name);
+    if (b) b.classList.add('visible');
+  }
   function badgeDone(name){
-    const b = mockup.querySelector('[data-ai-badge="'+name+'"]');
+    const b = badge(name);
     if (!b) return;
     const t = b.querySelector('.ab-text');
     if (t) t.textContent = 'AI generated';
@@ -3316,6 +3329,10 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
     // 3+ — Everything below is AI-GENERATED. Fields pop in with a
     // purple highlight burst, not a typewriter, so it's clear Outpulse
     // produced all of this from just the company name + website.
+    // Badge only shows up HERE — after website analysis is done — so
+    // 'Generating…' actually corresponds to live generation.
+    badgeShow('sell');
+    await sleep(300);
     if (sell) aiFill(sell, sell.dataset.type);
     if (chipsWrap) chipsWrap.classList.add('in');
     await sleep(750);
@@ -3323,6 +3340,9 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
     badgeDone('sell');
 
     await sleep(150);
+    // Persona section now starts generating — reveal its badge.
+    badgeShow('persona');
+    await sleep(220);
     if (jobs)     aiFill(jobs, jobs.dataset.type);
     await sleep(220);
     if (industry) aiFill(industry, industry.dataset.type);
