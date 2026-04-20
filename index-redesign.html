@@ -1019,6 +1019,8 @@ h1.display em{
   font-style:italic;
   background:linear-gradient(95deg,#ff5b1f 0%,#ff8a4c 50%,#ffa06a 100%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
+  display:inline-block;
+  transition:opacity .3s ease;
 }
 .hero-sub{
   font-size:19px;line-height:1.5;color:var(--ink-2);
@@ -2179,7 +2181,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
 
     <!-- Hero text + CTAs (left on desktop) -->
     <div class="hero-content">
-      <h1 class="display">Find prospects.<br>Send emails.<br>Book meetings,<br><em>on autopilot.</em></h1>
+      <h1 class="display">Find prospects.<br>Send emails.<br>Book meetings,<br><em data-autopilot>on autopilot.</em></h1>
       <p class="hero-sub">
         Outpulse finds your ideal prospects, writes <strong>hyper-personalized</strong>
         emails, and runs your outreach campaigns — completely hands-free.
@@ -2884,6 +2886,37 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
     </div>
   </div>
 </footer>
+
+<!-- ═══════════════════ Hero autopilot phrase cycler ═══════════════════ -->
+<script>
+(function(){
+  const el = document.querySelector('[data-autopilot]');
+  if (!el) return;
+  const PHRASES = [
+    'on autopilot.',
+    'while you sleep.',
+    'over your morning coffee.',
+    'during your lunch break.',
+    'while you close deals.',
+    "while you're on a call.",
+    'during your commute.',
+    'over the weekend.',
+    'while you run standup.',
+    "while you're out of office."
+  ];
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (reduce.matches) return;
+  let idx = 0;
+  setInterval(function(){
+    idx = (idx + 1) % PHRASES.length;
+    el.style.opacity = '0';
+    setTimeout(function(){
+      el.textContent = PHRASES[idx];
+      el.style.opacity = '1';
+    }, 320);
+  }, 3400);
+})();
+</script>
 
 <!-- ═══════════════════ Hero prospect cards cycler ═══════════════════ -->
 <script>
