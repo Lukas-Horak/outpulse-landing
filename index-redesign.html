@@ -323,15 +323,19 @@ img{max-width:100%;display:block}
     opacity .5s ease;
   will-change:transform,opacity;
 }
-.pcard-hero[data-slot="0"]{transform:translateY(0) scale(1);opacity:1;z-index:3}
-.pcard-hero[data-slot="1"]{transform:translateY(150px) scale(1);opacity:1;z-index:2}
-.pcard-hero[data-slot="2"]{transform:translateY(300px) scale(1);opacity:1;z-index:1}
+/* Slots: 0 = top (active), 1 = middle (preview), 2 = bottom (more
+   faded), -1 = exiting above, 3 = queued below.
+   Opacity fades as cards move down the stack; as they climb up
+   they gain opacity back and land at full focus on top. */
+.pcard-hero[data-slot="0"]{transform:translateY(0) scale(1);opacity:1;z-index:4}
+.pcard-hero[data-slot="1"]{transform:translateY(160px) scale(.98);opacity:.6;z-index:3}
+.pcard-hero[data-slot="2"]{transform:translateY(310px) scale(.95);opacity:.3;z-index:2}
 .pcard-hero[data-slot="-1"]{transform:translateY(-220px) scale(.94);opacity:0;z-index:0}
-.pcard-hero[data-slot="3"]{transform:translateY(540px) scale(.92);opacity:0;z-index:0}
-/* Active state lives on the MIDDLE card (slot 1). When it expands,
-   the bottom card (slot 2) slides further down to make room; the
-   top card (slot 0) stays put as a "just sent" trail above it. */
-.hero-cards:has(.pcard-hero.active) .pcard-hero[data-slot="2"]{transform:translateY(480px) scale(.98)}
+.pcard-hero[data-slot="3"]{transform:translateY(560px) scale(.92);opacity:0;z-index:0}
+/* When the top card expands (becomes .active), push the lower
+   previews further down so the expanded draft panel has room. */
+.hero-cards:has(.pcard-hero[data-slot="0"].active) .pcard-hero[data-slot="1"]{transform:translateY(320px) scale(.98);opacity:.5}
+.hero-cards:has(.pcard-hero[data-slot="0"].active) .pcard-hero[data-slot="2"]{transform:translateY(470px) scale(.95);opacity:.22}
 .pch-top{display:flex;align-items:center;gap:12px}
 .pch-av{
   width:44px;height:44px;border-radius:12px;flex-shrink:0;
@@ -2881,60 +2885,111 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
 
   if (reduce.matches){ assign(0); return; }
 
-  // Active card is always the MIDDLE one (slot 1). On each tick the
-  // active card moves up to slot 0 (trailing), and the bottom card
-  // (slot 2) becomes the new active middle. Slot assignments (relative
-  // to step = index of the current active card):
-  //   offset 0   → slot 1  (middle, active)
-  //   offset 1   → slot 2  (queued below)
-  //   offset n-1 → slot 0  (just sent, trailing up top)
-  //   offset n-2 → slot -1 (exited above)
-  //   else       → slot 3  (hidden, queued deeper)
+  // Active card is always the TOP one (slot 0). On each tick the
+  // active card exits up, the one below rises into slot 0 and
+  // activates, and a new card queues at the bottom.
+  //   offset 0   → slot 0  (top, active, expanded, typing)
+  //   offset 1   → slot 1  (middle, partial opacity)
+  //   offset 2   → slot 2  (bottom, more faded)
+  //   offset n-1 → slot -1 (just exited above)
+  //   else       → slot 3  (hidden below, queued)
   function assignAll(step){
     const n = cards.length;
     cards.forEach(function(c, idx){
       const off = ((idx - step) % n + n) % n;
       let slot;
-      if (off === 0) slot = '1';
-      else if (off === 1) slot = '2';
-      else if (off === n - 1) slot = '0';
-      else if (off === n - 2) slot = '-1';
+      if (off === 0) slot = '0';
+      else if (off === 1) slot = '1';
+      else if (off === 2) slot = '2';
+      else if (off === n - 1) slot = '-1';
       else slot = '3';
       c.dataset.slot = slot;
     });
   }
 
-  const ACTIVE_DELAY = 500;    // ms after landing at slot 1 → draft opens
-  const SENT_DELAY   = 2900;   // ms after landing → click + flip to sent
-  const TICK         = 4500;   // ms per full draft → send → exit beat
+  // Typewriter — fast, cancellable via card generation counter.
+  function typewrite(el, text, cps, gen, card){
+    if (!el) return;
+    el.textContent = '';
+    let i = 0;
+    (function step(){
+      if (card._gen !== gen) return;
+      i += 1;
+      el.textContent = text.slice(0, i);
+      if (i < text.length) setTimeout(step, cps);
+    })();
+  }
+
+  function resetCard(card){
+    card.classList.remove('active','clicking','sent');
+    const subjectEl = card.querySelector('.pch-subject');
+    const bodyEl    = card.querySelector('.pch-body');
+    const label     = card.querySelector('.pch-draft-state');
+    const btn       = card.querySelector('.label-send');
+    if (subjectEl) subjectEl.textContent = '';
+    if (bodyEl)    bodyEl.textContent    = '';
+    if (label)     label.textContent     = 'Drafting personalised email';
+    if (btn)       btn.textContent       = 'Send';
+  }
 
   function activate(card){
+    const idx = parseInt(card.dataset.idx, 10);
+    const data = POOL[idx];
+    const subjectEl = card.querySelector('.pch-subject');
+    const bodyEl    = card.querySelector('.pch-body');
+    const label     = card.querySelector('.pch-draft-state');
+    const btn       = card.querySelector('.label-send');
+    // Bump generation so stale timers can bail out quietly.
+    card._gen = (card._gen || 0) + 1;
+    const gen = card._gen;
+
+    // Reset text + state so the typewriter starts from empty.
+    if (subjectEl) subjectEl.textContent = '';
+    if (bodyEl)    bodyEl.textContent    = '';
+    if (label)     label.textContent     = 'Drafting personalised email';
+    if (btn)       btn.textContent       = 'Send';
+
+    // Panel opens
     setTimeout(function(){
+      if (card._gen !== gen) return;
       card.classList.add('active');
-      const label = card.querySelector('.pch-draft-state');
-      if (label) label.textContent = 'Drafting personalised email';
-    }, ACTIVE_DELAY);
-    setTimeout(function(){ card.classList.add('clicking'); }, SENT_DELAY - 220);
+    }, 350);
+    // Type subject
     setTimeout(function(){
+      if (card._gen !== gen) return;
+      typewrite(subjectEl, data.subject, 22, gen, card);
+    }, 650);
+    // Type body
+    setTimeout(function(){
+      if (card._gen !== gen) return;
+      typewrite(bodyEl, data.body, 16, gen, card);
+    }, 1400);
+    // Click effect
+    setTimeout(function(){
+      if (card._gen !== gen) return;
+      card.classList.add('clicking');
+    }, 3400);
+    // Flip to sent
+    setTimeout(function(){
+      if (card._gen !== gen) return;
       card.classList.remove('clicking');
       card.classList.add('sent');
-      const label = card.querySelector('.pch-draft-state');
-      const btn = card.querySelector('.label-send');
       if (label) label.textContent = 'Email sent';
-      if (btn) btn.textContent = 'Sent';
-    }, SENT_DELAY);
+      if (btn)   btn.textContent   = 'Sent';
+    }, 3650);
   }
 
   if (reduce.matches){ assignAll(0); return; }
 
+  const TICK = 4600; // ms per full draft → send → exit beat
   let step = 0;
 
   function tick(){
-    // Outgoing card (was middle, going to slot 0 as trail): its
-    // .active/.sent/.clicking classes drop — draft panel collapses
-    // as it moves up. New middle gets fresh activate() call.
-    cards.forEach(function(c){ c.classList.remove('active','clicking','sent'); });
-    step++;
+    // Clear state on every card so stale timers stop immediately.
+    cards.forEach(resetCard);
+    // Bump generation on all cards to invalidate any in-flight timers.
+    cards.forEach(function(c){ c._gen = (c._gen || 0) + 1; });
+    step += 1;
     assignAll(step);
     activate(cards[step % cards.length]);
   }
@@ -2943,19 +2998,17 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
     entries.forEach(function(e){
       if (!e.isIntersecting) return;
       obs.disconnect();
-      // Initial reveal: stagger the 3 visible slots in. The middle
-      // card is the one that plays the draft → send animation.
+      // Stagger the three visible cards in from bottom up: first the
+      // bottom card drifts into slot 2, then middle, then the top
+      // card (which immediately starts its draft sequence).
+      setTimeout(function(){ cards[2].dataset.slot = '2'; }, 240);
+      setTimeout(function(){ cards[1].dataset.slot = '1'; }, 500);
       setTimeout(function(){
-        cards[2].dataset.slot = '2';     // bottom queued
-      }, 220);
-      setTimeout(function(){
-        cards[0].dataset.slot = '1';     // middle (active)
+        cards[0].dataset.slot = '0';
         activate(cards[0]);
-      }, 500);
-      // Slot 0 stays empty on the very first beat — the "trail"
-      // slot only starts showing after the first card is sent. So
-      // no initial assign of slot 0.
-      setTimeout(function(){ setInterval(tick, TICK); }, 500 + TICK);
+      }, 760);
+      // After the first card plays its full beat, start the loop.
+      setTimeout(function(){ setInterval(tick, TICK); }, 760 + TICK);
     });
   }, { threshold: 0.15 });
   obs.observe(host);
