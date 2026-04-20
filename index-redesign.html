@@ -131,12 +131,10 @@ img{max-width:100%;display:block}
   width:100%;
   overflow:hidden;
   isolation:isolate;
-  /* Two-column grid — text left, prospect cards right. justify-self
-     tucks both towards the centre so they read as one composition,
-     not two columns at opposite edges. */
+  /* Two-column grid — text left, prospect cards right. */
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:24px;
+  gap:40px;
   align-items:center;
   padding:48px clamp(28px,5vw,72px);
   background:
@@ -269,15 +267,14 @@ img{max-width:100%;display:block}
   100%{transform:translate(-4vw,3vh)    scale(1.07)}
 }
 
-/* ── Hero content (text + CTAs) — left column on desktop ─────────────── */
+/* ── Hero content (text + CTAs) — left column on desktop, no tuck */
 .hero-content{
   position:relative;
   display:flex;flex-direction:column;align-items:flex-start;
   text-align:left;
   color:#fff;
   text-shadow:0 2px 30px rgba(30,20,50,.25);
-  max-width:560px;
-  justify-self:end;                        /* tuck towards the centre */
+  max-width:640px;
 }
 .hero-content > *{width:100%}
 .hero-content h1.display{color:#fff}
@@ -307,8 +304,7 @@ img{max-width:100%;display:block}
   height:620px;
   max-width:440px;
   width:100%;
-  margin:0;
-  justify-self:start;                      /* tuck towards the centre */
+  margin:0 auto;                           /* centred within its column */
 }
 .pcard-hero{
   position:absolute;
@@ -1007,13 +1003,11 @@ img{max-width:100%;display:block}
 
 h1.display{
   font-family:var(--serif);font-weight:400;
-  /* Scale with width + height. The vh ceiling is tightened to 13vh
-     so the 4-line display still leaves room for the subtitle, CTAs,
-     and trust badges above the fold on ~800-900px-tall laptops. */
-  font-size:clamp(48px,min(9.5vw,13vh),128px);
-  line-height:.94;letter-spacing:-.025em;
+  /* Sized so the 4 lines stay single-line on the hero text column. */
+  font-size:clamp(42px,min(7.8vw,11vh),104px);
+  line-height:.96;letter-spacing:-.02em;
   color:var(--ink);
-  max-width:16ch;margin:0 auto 24px;
+  max-width:18ch;margin:0 auto 24px;
 }
 h1.display em{
   font-style:italic;
@@ -2895,14 +2889,14 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   const PHRASES = [
     'on autopilot.',
     'while you sleep.',
-    'over your morning coffee.',
-    'during your lunch break.',
-    'while you close deals.',
-    "while you're on a call.",
-    'during your commute.',
-    'over the weekend.',
-    'while you run standup.',
-    "while you're out of office."
+    'over coffee.',
+    'at lunch.',
+    'after hours.',
+    'on vacation.',
+    'on the weekend.',
+    'at the gym.',
+    'on your commute.',
+    'over dinner.'
   ];
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (reduce.matches) return;
