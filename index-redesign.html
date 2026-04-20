@@ -118,22 +118,26 @@ img{max-width:100%;display:block}
    `--p` is computed by a small scroll listener at the end of <body>. */
 .hero-parallax{
   position:relative;
-  min-height:100vh;
+  /* Subtract the sticky nav height from the hero's min-height so the
+     visible area under the nav is exactly the hero section — grid's
+     align-items:center then puts the content at the true visible
+     centre instead of 40px below it. */
+  min-height:calc(100vh - 72px);
   background:#b8b2c8;
 }
 .hero-pin{
   position:relative;
-  min-height:100vh;
+  min-height:calc(100vh - 72px);
   width:100%;
   overflow:hidden;
   isolation:isolate;
-  /* Hero is now a two-column grid — text left, prospect cards right —
-     so it fits on a laptop in a single viewport, no sticky-pin needed. */
+  /* Two-column grid — text left, prospect cards right. Content
+     centres vertically within the post-nav viewport. */
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:40px;
   align-items:center;
-  padding:112px clamp(28px,5vw,72px) 80px;
+  padding:48px clamp(28px,5vw,72px);
   background:
     /* Brighter Leonard-style base — cool lavender top-left → soft blue bottom-left
        → neutral lavender middle → warm at right. More luminous than v1. */
