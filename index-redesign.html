@@ -270,40 +270,50 @@ img{max-width:100%;display:block}
 .hero-content .hero-cta-row{justify-content:flex-start}
 .hero-content .hero-trust-row{justify-content:flex-start}
 
-/* ── Hero prospect cards (right column on desktop) ─────────────────── */
+/* ── Hero prospect cards — stacked column of 3 visible slots. Cards
+   are absolutely positioned inside a fixed-height host; their
+   data-slot attribute drives where they sit (0/1/2 visible, -1
+   exiting above, 3 queued below). JS cycles cards through the slots. */
 .hero-cards{
   position:relative;
-  display:flex;flex-direction:column;gap:16px;
-  padding:12px 6px;
+  height:460px;
+  max-width:440px;
+  width:100%;
+  margin:0 auto;
 }
 .pcard-hero{
+  position:absolute;
+  left:0;right:0;top:0;
   background:#fff;
   border:1px solid var(--line);
   border-radius:18px;
-  padding:18px 20px;
-  display:flex;flex-direction:column;gap:12px;
+  padding:16px 18px;
+  display:flex;flex-direction:column;gap:10px;
   box-shadow:
     0 26px 54px -20px rgba(14,13,12,.28),
     0 8px 20px -8px rgba(14,13,12,.1);
   opacity:0;
-  transform:translateY(28px) scale(.98);
-  transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);
+  transform:translateY(520px) scale(.92);
+  /* Elastic ease-out-back: small overshoot that settles. */
+  transition:
+    transform .7s cubic-bezier(.34,1.56,.64,1),
+    opacity .5s ease;
+  will-change:transform,opacity;
 }
-.hero-cards.in .pcard-hero{opacity:1;transform:translateY(0) scale(1)}
-.hero-cards.in .pcard-hero[data-card="1"]{transition-delay:.05s}
-.hero-cards.in .pcard-hero[data-card="2"]{transition-delay:.22s}
-.hero-cards.in .pcard-hero[data-card="3"]{transition-delay:.4s}
-.pcard-hero[data-card="2"]{margin-left:clamp(24px,4vw,60px);rotate:-1.2deg}
-.pcard-hero[data-card="3"]{margin-left:clamp(-16px,-1vw,-8px);rotate:1deg}
+.pcard-hero[data-slot="0"]{transform:translateY(0) scale(1);opacity:1;z-index:3}
+.pcard-hero[data-slot="1"]{transform:translateY(150px) scale(1);opacity:1;z-index:2}
+.pcard-hero[data-slot="2"]{transform:translateY(300px) scale(1);opacity:1;z-index:1}
+.pcard-hero[data-slot="-1"]{transform:translateY(-180px) scale(.94);opacity:0;z-index:0}
+.pcard-hero[data-slot="3"]{transform:translateY(520px) scale(.92);opacity:0;z-index:0}
 .pch-top{display:flex;align-items:center;gap:12px}
 .pch-av{
   width:44px;height:44px;border-radius:12px;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
   font-weight:600;font-size:14px;letter-spacing:.02em;
 }
-.pcard-hero[data-card="1"] .pch-av{background:#fff5ec;color:#d04c14}
-.pcard-hero[data-card="2"] .pch-av{background:#eaf2fb;color:#3866a6}
-.pcard-hero[data-card="3"] .pch-av{background:#edf7f0;color:#1a7c4b}
+.pcard-hero[data-bg="orange"] .pch-av{background:#fff5ec;color:#d04c14}
+.pcard-hero[data-bg="blue"]   .pch-av{background:#eaf2fb;color:#3866a6}
+.pcard-hero[data-bg="green"]  .pch-av{background:#edf7f0;color:#1a7c4b}
 .pch-meta{flex:1;min-width:0}
 .pch-name{font-weight:600;font-size:15px;color:var(--ink);letter-spacing:-.005em}
 .pch-role{font-size:12.5px;color:var(--muted);margin-top:2px}
@@ -426,14 +436,14 @@ img{max-width:100%;display:block}
   font-size:11.5px;color:var(--ink-2);font-weight:500;flex-shrink:0;
 }
 
-/* ── App body inside the browser: sidebar (form) + main (dashboard).
-   Sidebar flows at its natural height showing every field — main pane
-   stretches to match, dashboard scrolls internally with a bottom
-   fade. */
+/* ── App body — sidebar (natural height) + main (JS-synced to sidebar).
+   Grid align:start so each child uses its own height; main gets an
+   explicit height via JS = sidebar.offsetHeight so the mockup window
+   ends where the form ends, and the prospect list scrolls inside. */
 .mk-app{
   display:grid;
   grid-template-columns:320px 1fr;
-  min-height:720px;
+  align-items:start;
 }
 .mk-sidebar{
   background:#fbfaf7;
@@ -737,10 +747,9 @@ img{max-width:100%;display:block}
   .mk-db-skel .skel-row>*:nth-child(3){display:none}
   .mk-db-rows .prow,.mk-db-skel .skel-row{padding:10px 0}
 }
-/* Short laptop viewports — compressed field heights; sidebar still
-   flows at its (now shorter) natural height without scroll. */
+/* Short laptop viewports — compressed field heights shrink the sidebar
+   naturally; JS keeps main in sync. */
 @media(min-width:821px) and (max-height:900px){
-  .mk-app{min-height:640px}
   .mk-sidebar{gap:10px;padding:16px 16px}
   .mk-sidebar .mk-f-title{font-size:18px;margin-bottom:2px}
   .mk-db-rows .prow{padding:10px 0}
@@ -1712,17 +1721,16 @@ h1.display em{
 .pcard:hover::before{opacity:1}
 
 /* When the grid is being hovered, dim + slightly settle the cards
-   that aren't under the cursor. No translate — just a focus pull. */
+   that aren't under the cursor. Strong dim for clear focus pull. */
 .pgrid:hover .pcard:not(:hover){
-  opacity:.62;
-  transform:scale(.985);
+  opacity:.4;
+  transform:scale(.98);
 }
 
-/* Featured card — permanent subtle wash (same gradient as hover state),
-   crisp white base, no shadow, no glow, no pre-lift. The wash itself
-   is the signal. */
+/* Featured card — starts fully white like the others. The warm wash
+   appears on hover only (like the other cards), so all three start
+   visually identical and the focused one lights up. */
 .pcard.featured{border:1px solid rgba(14,13,12,.11)}
-.pcard.featured::before{opacity:1}
 
 .p-tag{
   align-self:flex-start;font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
@@ -2012,65 +2020,9 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
       </div>
     </div>
 
-    <!-- Three floating prospect cards (right on desktop, below on mobile) -->
-    <div class="hero-cards" data-cards>
-      <div class="pcard-hero" data-card="1">
-        <div class="pch-top">
-          <div class="pch-av">SC</div>
-          <div class="pch-meta">
-            <div class="pch-name">Sarah Chen</div>
-            <div class="pch-role">VP Engineering · Vercel</div>
-          </div>
-          <div class="pch-match">97%</div>
-        </div>
-        <div class="pch-email">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          s.chen@vercel.com
-        </div>
-        <div class="pch-chips">
-          <span class="pch-chip warm"><span class="d"></span>Hiring 12 engineers</span>
-          <span class="pch-chip ink"><span class="d"></span>Series C · $120M</span>
-        </div>
-      </div>
-
-      <div class="pcard-hero" data-card="2">
-        <div class="pch-top">
-          <div class="pch-av">MW</div>
-          <div class="pch-meta">
-            <div class="pch-name">Marcus Webb</div>
-            <div class="pch-role">CTO · Linear</div>
-          </div>
-          <div class="pch-match">94%</div>
-        </div>
-        <div class="pch-email">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          marcus@linear.app
-        </div>
-        <div class="pch-chips">
-          <span class="pch-chip green"><span class="d"></span>Raised $35M Series B</span>
-          <span class="pch-chip purple"><span class="d"></span>New CTO · 2 weeks</span>
-        </div>
-      </div>
-
-      <div class="pcard-hero" data-card="3">
-        <div class="pch-top">
-          <div class="pch-av">AK</div>
-          <div class="pch-meta">
-            <div class="pch-name">Anna Kovacs</div>
-            <div class="pch-role">Head of Product · Stripe</div>
-          </div>
-          <div class="pch-match">91%</div>
-        </div>
-        <div class="pch-email">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          a.kovacs@stripe.com
-        </div>
-        <div class="pch-chips">
-          <span class="pch-chip warm"><span class="d"></span>Expanding · opened EU HQ</span>
-          <span class="pch-chip cool"><span class="d"></span>Growing 140% YoY</span>
-        </div>
-      </div>
-    </div>
+    <!-- Floating prospect cards — 3 visible in a stacked column, loop of 8.
+         Populated and animated by JS (see hero cards cycler script below). -->
+    <div class="hero-cards" data-cards></div>
 
   </div>
 </section>
@@ -2758,22 +2710,103 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   </div>
 </footer>
 
-<!-- ═══════════════════ Hero prospect cards reveal ═══════════════════ -->
+<!-- ═══════════════════ Hero prospect cards cycler ═══════════════════ -->
 <script>
 (function(){
-  const cards = document.querySelector('[data-cards]');
-  if (!cards) return;
+  const host = document.querySelector('[data-cards]');
+  if (!host) return;
+
+  const EMAIL_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>';
+
+  const POOL = [
+    {ini:'SC', bg:'orange', name:'Sarah Chen',   role:'VP Engineering · Vercel',    email:'s.chen@vercel.com',     match:97, chips:[['warm','Hiring 12 engineers'],['ink','Series C · $120M']]},
+    {ini:'MW', bg:'blue',   name:'Marcus Webb',  role:'CTO · Linear',               email:'marcus@linear.app',     match:94, chips:[['green','Raised $35M'],['purple','New CTO · 2 weeks']]},
+    {ini:'AK', bg:'green',  name:'Anna Kovacs',  role:'Head of Product · Stripe',   email:'a.kovacs@stripe.com',   match:91, chips:[['warm','Opened EU HQ'],['cool','Growing 140% YoY']]},
+    {ini:'RP', bg:'orange', name:'Rachel Park',  role:'VP Sales · Ramp',            email:'rachel@ramp.com',       match:89, chips:[['green','Raised $100M'],['warm','Hiring 8 roles']]},
+    {ini:'DK', bg:'blue',   name:'David Kim',    role:'CTO · Webflow',              email:'david@webflow.com',     match:92, chips:[['warm','Hiring 8 engineers'],['purple','Migrating to AWS']]},
+    {ini:'NG', bg:'green',  name:'Nina Garcia',  role:'Head of Growth · Supabase',  email:'nina@supabase.io',      match:95, chips:[['green','Series B · $80M'],['cool','Growing 180% YoY']]},
+    {ini:'TH', bg:'orange', name:'Tom Heller',   role:'CTO · Replit',               email:'tom@replit.com',        match:88, chips:[['warm','AI product launch'],['purple','New VP Eng']]},
+    {ini:'OP', bg:'blue',   name:'Omar Patel',   role:'VP Marketing · Raycast',     email:'omar@raycast.com',      match:86, chips:[['green','Raised $45M'],['warm','Expanding · APAC']]},
+  ];
+
+  // Build all 8 cards in DOM, start all at slot=3 (below fold)
+  POOL.forEach((p, idx) => {
+    const card = document.createElement('div');
+    card.className = 'pcard-hero';
+    card.dataset.idx = String(idx);
+    card.dataset.slot = '3';
+    card.dataset.bg = p.bg;
+    card.innerHTML =
+      '<div class="pch-top">' +
+        '<div class="pch-av">' + p.ini + '</div>' +
+        '<div class="pch-meta">' +
+          '<div class="pch-name">' + p.name + '</div>' +
+          '<div class="pch-role">' + p.role + '</div>' +
+        '</div>' +
+        '<div class="pch-match">' + p.match + '%</div>' +
+      '</div>' +
+      '<div class="pch-email">' + EMAIL_SVG + p.email + '</div>' +
+      '<div class="pch-chips">' +
+        p.chips.map(function(c){return '<span class="pch-chip ' + c[0] + '"><span class="d"></span>' + c[1] + '</span>';}).join('') +
+      '</div>';
+    host.appendChild(card);
+  });
+
+  const cards = Array.from(host.children);
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-  if (reduce.matches){ cards.classList.add('in'); return; }
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting){
-        cards.classList.add('in');
-        obs.disconnect();
-      }
+
+  function assign(base){
+    const n = cards.length;
+    cards.forEach(function(c, idx){
+      const rel = ((idx - base) + n) % n;
+      let slot;
+      if (rel === 0)             slot = '0';
+      else if (rel === 1)        slot = '1';
+      else if (rel === 2)        slot = '2';
+      else if (rel === n - 1)    slot = '-1';
+      else                        slot = '3';
+      c.dataset.slot = slot;
+    });
+  }
+
+  if (reduce.matches){ assign(0); return; }
+
+  let base = 0;
+  function tick(){
+    base = (base + 1) % cards.length;
+    assign(base);
+  }
+
+  const obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (!e.isIntersecting) return;
+      obs.disconnect();
+      // Staggered initial reveal — cards rise from below into slots 0,1,2
+      setTimeout(function(){ cards[0].dataset.slot = '0'; }, 220);
+      setTimeout(function(){ cards[1].dataset.slot = '1'; }, 450);
+      setTimeout(function(){ cards[2].dataset.slot = '2'; }, 680);
+      // After settled, start the loop
+      setTimeout(function(){ setInterval(tick, 3200); }, 3400);
     });
   }, { threshold: 0.15 });
-  obs.observe(cards);
+  obs.observe(host);
+})();
+
+/* ─── #how mockup — sync main pane height to sidebar natural height */
+(function(){
+  const apps = document.querySelectorAll('.how-it-works .mk-app');
+  apps.forEach(function(app){
+    const sidebar = app.querySelector('.mk-sidebar');
+    const main = app.querySelector('.mk-main');
+    if (!sidebar || !main) return;
+    function sync(){
+      main.style.height = sidebar.offsetHeight + 'px';
+    }
+    sync();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
+    window.addEventListener('resize', sync, { passive:true });
+    new ResizeObserver(sync).observe(sidebar);
+  });
 })();
 
 /* ─── Hero mockup sequencer v2 ────────────────────────────────────────
