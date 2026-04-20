@@ -302,7 +302,7 @@ img{max-width:100%;display:block}
    overlap or bleed through each other. */
 .hero-cards{
   position:relative;
-  height:600px;
+  height:680px;
   max-width:460px;
   width:100%;
   margin:0 auto;
@@ -326,14 +326,15 @@ img{max-width:100%;display:block}
     opacity .5s ease;
   will-change:transform,opacity;
 }
-/* Slot positions. Top card (slot 0) is tall (~280), bottom two are
-   compact (~140). Spacing places each compact card below the one
-   above without overlap; opacity fades down the stack. */
+/* Slot positions. Top card (slot 0) is ~360px tall with the draft
+   panel including the pre-sized body field. Bottom two are compact
+   (~140px, no draft). No overlap between the active top and the
+   first preview. */
 .pcard-hero[data-slot="0"]{transform:translateY(0) scale(1);opacity:1;z-index:4}
-.pcard-hero[data-slot="1"]{transform:translateY(300px) scale(.98);opacity:.5;z-index:3}
-.pcard-hero[data-slot="2"]{transform:translateY(460px) scale(.95);opacity:.22;z-index:2}
-.pcard-hero[data-slot="-1"]{transform:translateY(-260px) scale(.94);opacity:0;z-index:0}
-.pcard-hero[data-slot="3"]{transform:translateY(640px) scale(.92);opacity:0;z-index:0}
+.pcard-hero[data-slot="1"]{transform:translateY(380px) scale(.98);opacity:.5;z-index:3}
+.pcard-hero[data-slot="2"]{transform:translateY(540px) scale(.95);opacity:.22;z-index:2}
+.pcard-hero[data-slot="-1"]{transform:translateY(-300px) scale(.94);opacity:0;z-index:0}
+.pcard-hero[data-slot="3"]{transform:translateY(700px) scale(.92);opacity:0;z-index:0}
 .pch-top{display:flex;align-items:center;gap:12px}
 .pch-av{
   width:44px;height:44px;border-radius:12px;flex-shrink:0;
@@ -416,14 +417,23 @@ img{max-width:100%;display:block}
 }
 .pcard-hero.sent .pch-draft-label{color:#1a7c4b}
 .pcard-hero.sent .pch-draft-label::before{background:#1a7c4b;animation:none}
+/* Subject + body rendered as pre-sized grey "text fields" so the
+   typewriter fills them without changing the card's overall height.
+   Body field is fixed at 2-lines worth of space. */
 .pch-subject{
   font-size:13px;font-weight:600;color:var(--ink);
-  padding:6px 10px;border-radius:8px;background:#fbfaf7;
+  padding:6px 10px;border-radius:8px;background:#f7f6f2;
+  border:1px solid var(--line);
+  min-height:30px;
+  display:flex;align-items:center;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 .pch-body{
   font-size:12px;line-height:1.5;color:var(--ink-2);
-  padding:0 2px;
-  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+  padding:7px 10px;border-radius:8px;background:#f7f6f2;
+  border:1px solid var(--line);
+  min-height:52px;                       /* 2 lines × 18px + padding */
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
 }
 .pch-send-row{
   display:flex;align-items:center;justify-content:space-between;
