@@ -296,13 +296,13 @@ img{max-width:100%;display:block}
 .hero-content .hero-cta-row{justify-content:flex-start}
 .hero-content .hero-trust-row{justify-content:flex-start}
 
-/* ── Hero prospect cards — stacked column of 3 visible slots. All
-   cards share the same fixed height so there's no grow/shrink when
-   a card becomes active — the draft panel is always present, only
-   its CONTENTS (subject/body typewriter) fade in on active. */
+/* ── Hero prospect cards — stacked column. The TOP card (slot 0)
+   is tall because its draft panel is present (pre-sized to fit the
+   email); the cards below are compact (draft hidden), so they don't
+   overlap or bleed through each other. */
 .hero-cards{
   position:relative;
-  height:620px;
+  height:600px;
   max-width:460px;
   width:100%;
   margin:0 auto;
@@ -315,8 +315,6 @@ img{max-width:100%;display:block}
   border-radius:18px;
   padding:16px 18px;
   display:flex;flex-direction:column;gap:10px;
-  /* Fixed height — doesn't change between active/inactive states. */
-  min-height:272px;
   box-shadow:
     0 26px 54px -20px rgba(14,13,12,.28),
     0 8px 20px -8px rgba(14,13,12,.1);
@@ -328,12 +326,12 @@ img{max-width:100%;display:block}
     opacity .5s ease;
   will-change:transform,opacity;
 }
-/* Slot positions — fixed spacing matching the full card height.
-   Cards never grow/shrink; they just slide between slots. Opacity
-   fades as the card moves down the stack and climbs back up. */
+/* Slot positions. Top card (slot 0) is tall (~280), bottom two are
+   compact (~140). Spacing places each compact card below the one
+   above without overlap; opacity fades down the stack. */
 .pcard-hero[data-slot="0"]{transform:translateY(0) scale(1);opacity:1;z-index:4}
-.pcard-hero[data-slot="1"]{transform:translateY(285px) scale(.98);opacity:.5;z-index:3}
-.pcard-hero[data-slot="2"]{transform:translateY(470px) scale(.95);opacity:.22;z-index:2}
+.pcard-hero[data-slot="1"]{transform:translateY(300px) scale(.98);opacity:.5;z-index:3}
+.pcard-hero[data-slot="2"]{transform:translateY(460px) scale(.95);opacity:.22;z-index:2}
 .pcard-hero[data-slot="-1"]{transform:translateY(-260px) scale(.94);opacity:0;z-index:0}
 .pcard-hero[data-slot="3"]{transform:translateY(640px) scale(.92);opacity:0;z-index:0}
 .pch-top{display:flex;align-items:center;gap:12px}
@@ -375,17 +373,21 @@ img{max-width:100%;display:block}
 .pch-chip.ink{background:var(--ink);color:#fff;border-color:var(--ink)}
 .pch-chip.purple{background:#f3ecfa;color:#7c5dae;border-color:#ddc9ee}
 
-/* Email-draft panel inside every card — always present so the card's
-   height doesn't change when it becomes active. Contents fade in
-   when .active flips; the typewriter fills subject + body inline. */
+/* Email-draft panel — hidden on the compact middle/bottom cards
+   (they're compact like the original). Shown only on the top slot
+   (active) where the card is already pre-sized tall enough for
+   two lines of body so the typewriter doesn't resize the card. */
 .pch-draft{
-  display:flex;flex-direction:column;gap:7px;
+  display:none;
+  flex-direction:column;gap:7px;
   border-top:1px solid var(--line);
   padding:10px 0 0;margin-top:2px;
   min-height:136px;
 }
-/* Contents invisible until .active — card stays the same size but
-   shows empty structured space for non-active slots. */
+.pcard-hero[data-slot="0"] .pch-draft,
+.pcard-hero[data-slot="-1"] .pch-draft{display:flex}
+/* Draft contents fade in once .active flips on (after the card
+   has slid into slot 0 and the panel is already in the layout). */
 .pch-draft-label,
 .pch-field,
 .pch-send-row{
