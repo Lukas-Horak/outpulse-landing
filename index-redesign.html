@@ -874,37 +874,28 @@ img{max-width:100%;display:block}
   color:#fff;
   flex-shrink:0;
 }
-/* AI-generated fields pick up the subtlest spectrum tint so it's
-   obvious at a glance which bits Outpulse produced vs what the
-   user typed. Three-stop tint so the violet middle reads too. */
+/* AI-generated fields pick up a soft violet wash — just enough to
+   read as "not user-typed" without competing with the content.
+   The rainbow lives on the badge; the field itself stays calm. */
 .mk-f-ai .mk-f-input,
 .mk-f-ai .mk-f-area{
-  background:linear-gradient(135deg,
-    rgba(56,102,166,.06) 0%,
-    rgba(153,100,168,.05) 50%,
-    rgba(255,138,76,.05) 100%);
-  border-color:rgba(125,112,181,.20);
+  background:rgba(141,120,190,.06);
+  border-color:rgba(141,120,190,.22);
 }
-.mk-f-ai label{color:#3866a6}
-/* AI-fill burst — blue→violet→orange glow as Outpulse populates a field. */
+.mk-f-ai label{color:#7a6aa8}
+/* AI-fill burst — brief violet glow as Outpulse populates a field. */
 .mk-f-input.ai-filling,
 .mk-f-area.ai-filling{
   animation:aiFillGlow .7s ease-out;
 }
 @keyframes aiFillGlow{
   0%{
-    background:linear-gradient(135deg,
-      rgba(56,102,166,.22) 0%,
-      rgba(153,100,168,.22) 50%,
-      rgba(255,138,76,.22) 100%);
-    box-shadow:0 0 0 3px rgba(153,100,168,.25);
+    background:rgba(141,120,190,.18);
+    box-shadow:0 0 0 3px rgba(141,120,190,.25);
   }
   100%{
-    background:linear-gradient(135deg,
-      rgba(56,102,166,.06) 0%,
-      rgba(153,100,168,.05) 50%,
-      rgba(255,138,76,.05) 100%);
-    box-shadow:0 0 0 0 rgba(153,100,168,0);
+    background:rgba(141,120,190,.06);
+    box-shadow:0 0 0 0 rgba(141,120,190,0);
   }
 }
 
@@ -1031,12 +1022,19 @@ h1.display{
   line-height:.96;letter-spacing:-.02em;
   color:var(--ink);
   max-width:18ch;margin:0 auto 24px;
+  /* Give italic descenders (g, y, p) enough vertical room so the
+     .hero-pin overflow:hidden doesn't shave their bottoms off. */
+  padding-bottom:.12em;
 }
 h1.display em{
   font-style:italic;
   background:linear-gradient(95deg,#ff5b1f 0%,#ff8a4c 50%,#ffa06a 100%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
   display:inline-block;
+  /* Cycling italic phrase must NEVER wrap — pick safe, short phrases
+     in the JS below, and this keeps it single-line even if the phrase
+     is slightly wider than the preceding lines. */
+  white-space:nowrap;
   transition:opacity .3s ease;
 }
 .hero-sub{
@@ -2916,9 +2914,9 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
     'at lunch.',
     'after hours.',
     'on vacation.',
-    'on the weekend.',
+    'on weekends.',
     'at the gym.',
-    'on your commute.',
+    'on the go.',
     'over dinner.'
   ];
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
