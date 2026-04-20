@@ -903,6 +903,13 @@ img{max-width:100%;display:block}
 }
 .mk-f-ai-badge.done .ab-dot{display:none}
 .mk-f-ai-badge.done .ab-check{display:inline-block}
+/* Scan-origin badge — no generating state, just a check mark when
+   the data is pulled in from the website analysis. Uses a calmer
+   blue-ish tint to separate it from AI-generated content. */
+.mk-f-ai-badge--scan{
+  background:linear-gradient(95deg,#6f8ab8 0%,#88a4cc 55%,#b0c4de 100%);
+}
+.mk-f-ai-badge--scan .ab-check{display:inline-block}
 /* Fade out entirely once the field has been shown as AI-generated.
    Also removes 'visible' in JS so the opacity returns to 0. */
 .mk-f-ai-badge.fade{opacity:0;transform:scale(.92);pointer-events:none}
@@ -2309,7 +2316,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
               </div>
 
               <div class="mk-f-field mk-f-ai">
-                <label>WHAT DO YOU SELL? <span class="mk-f-ai-badge" data-ai-badge="sell"><span class="ab-dot"></span><svg class="ab-check" viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg><span class="ab-text">Generating…</span></span></label>
+                <label>WHAT DO YOU SELL? <span class="mk-f-ai-badge mk-f-ai-badge--scan" data-ai-badge="sell"><svg class="ab-check" viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg><span class="ab-text">From your website</span></span></label>
                 <div class="mk-f-area" data-type-idx="2" data-type="We build web and mobile apps for SaaS, fintech and e-commerce teams — helping engineering and digital leads at 50-to-500-person companies automate workflows and scale faster."></div>
                 <div class="mk-f-chips" data-chips>
                   <span class="mk-f-chip c-green">Digital Transformation</span>
@@ -3309,40 +3316,41 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
     if (company) await typewrite(company, company.dataset.type, 75);
     await sleep(380);
 
-    // 2 — WEBSITE (user-typed, then Outpulse analyses)
+    // 2 — WEBSITE (user-typed, then Outpulse scans it). The website
+    // scan is what fills the 'What do you sell' field — it's extracted
+    // from the site copy, not generated from nothing. So the sell
+    // field populates at the moment the status pill flips to 'Analyzed',
+    // same moment the scan result lands.
     const urlWrap = field(1);
     const statusText = statusEl ? statusEl.querySelector('.mk-f-status-text') : null;
     if (urlText && urlWrap){
       await typewrite(urlText, urlWrap.dataset.type, 55);
       if (statusEl){
         statusEl.classList.add('visible');
-        if (statusText) statusText.textContent = 'Analyzing…';
+        if (statusText) statusText.textContent = 'Scanning your website…';
       }
-      await sleep(1100);
+      await sleep(1400);
       if (statusEl){
         if (statusText) statusText.textContent = 'Analyzed';
         statusEl.classList.add('done');
       }
+      // Scan complete — drop the extracted pitch into the sell field
+      // at the exact moment of 'Analyzed', and reveal the 'From your
+      // website' tag next to the label.
+      if (sell) aiFill(sell, sell.dataset.type);
+      badgeShow('sell');
+      if (chipsWrap) chipsWrap.classList.add('in');
     }
-    await sleep(350);
+    await sleep(1400);
+    // Scan tag fades out once the user has had a moment to see it.
+    const sellBadge = badge('sell');
+    if (sellBadge) sellBadge.classList.add('fade');
 
-    // 3+ — Everything below is AI-GENERATED. Fields pop in with a
-    // purple highlight burst, not a typewriter, so it's clear Outpulse
-    // produced all of this from just the company name + website.
-    // Badge only shows up HERE — after website analysis is done — so
-    // 'Generating…' actually corresponds to live generation.
-    badgeShow('sell');
-    await sleep(300);
-    if (sell) aiFill(sell, sell.dataset.type);
-    if (chipsWrap) chipsWrap.classList.add('in');
-    await sleep(750);
-    // Sell field is done — badge flips to 'AI generated' then fades.
-    badgeDone('sell');
-
-    await sleep(150);
-    // Persona section now starts generating — reveal its badge.
+    // 3+ — Persona section is AI-GENERATED from the scan result.
+    // Reveal the 'Generating…' pill right before the first persona
+    // field starts populating.
     badgeShow('persona');
-    await sleep(220);
+    await sleep(300);
     if (jobs)     aiFill(jobs, jobs.dataset.type);
     await sleep(220);
     if (industry) aiFill(industry, industry.dataset.type);
