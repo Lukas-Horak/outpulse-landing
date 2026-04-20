@@ -131,11 +131,15 @@ img{max-width:100%;display:block}
   width:100%;
   overflow:hidden;
   isolation:isolate;
-  /* Two-column grid — text left, prospect cards right. */
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:40px;
+  /* Text + cards as a centred pair — NOT a 50/50 grid. On wide
+     viewports the grid version left 200-400px of dead air between
+     the two columns because each 1fr track expanded to fill its
+     half. Flex with justify-content:center keeps the pair together
+     in the middle of the screen and caps the gap with clamp(). */
+  display:flex;
+  justify-content:center;
   align-items:center;
+  gap:clamp(40px,5vw,88px);
   padding:48px clamp(28px,5vw,72px);
   background:
     /* Brighter Leonard-style base — cool lavender top-left → soft blue bottom-left
@@ -267,13 +271,21 @@ img{max-width:100%;display:block}
   100%{transform:translate(-4vw,3vh)    scale(1.07)}
 }
 
-/* ── Hero content (text + CTAs) — left column on desktop, no tuck */
+/* ── Hero content (text + CTAs) — left side of the centred pair.
+   flex-basis 640px locks the natural width; flex-shrink:1 lets it
+   compress gracefully between ~980px and ~1100px viewports where
+   the cards side is fixed and there's not quite 640+440+gap to
+   spare. min-width:0 is necessary so the content CAN actually
+   shrink (h1 max-width:18ch would otherwise establish a large
+   intrinsic min-content). */
 .hero-content{
   position:relative;
   display:flex;flex-direction:column;align-items:flex-start;
   text-align:left;
   color:#fff;
   text-shadow:0 2px 30px rgba(30,20,50,.25);
+  flex:0 1 640px;
+  min-width:0;
   max-width:640px;
 }
 .hero-content > *{width:100%}
@@ -302,9 +314,11 @@ img{max-width:100%;display:block}
 .hero-cards{
   position:relative;
   height:620px;
+  width:440px;
   max-width:440px;
-  width:100%;
-  margin:0 auto;                           /* centred within its column */
+  /* Locked basis so cards never grow or shrink — they sit at 440px
+     and the flex parent centres the whole pair. */
+  flex:0 0 440px;
 }
 .pcard-hero{
   position:absolute;
@@ -471,13 +485,13 @@ img{max-width:100%;display:block}
 .pcard-hero.sent .pch-check{display:inline-block}
 
 @media(max-width:980px){
-  .hero-pin{grid-template-columns:1fr;gap:48px;padding:96px 24px 64px}
-  .hero-content{text-align:center;align-items:center;max-width:720px;margin:0 auto}
+  .hero-pin{flex-direction:column;gap:48px;padding:96px 24px 64px}
+  .hero-content{text-align:center;align-items:center;max-width:720px;margin:0 auto;flex:0 0 auto}
   .hero-content h1.display,
   .hero-content .hero-sub{margin:0 auto 24px}
   .hero-content .hero-cta-row,
   .hero-content .hero-trust-row{justify-content:center}
-  .hero-cards{max-width:520px;margin:0 auto;width:100%}
+  .hero-cards{max-width:520px;margin:0 auto;width:100%;flex:0 0 auto}
   .pcard-hero[data-card="2"]{margin-left:0;rotate:0deg}
   .pcard-hero[data-card="3"]{margin-left:0;rotate:0deg}
 }
