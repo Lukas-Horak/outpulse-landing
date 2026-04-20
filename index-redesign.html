@@ -427,25 +427,23 @@ img{max-width:100%;display:block}
 }
 
 /* ── App body inside the browser: sidebar (form) + main (dashboard).
-   Fixed height tall enough for the full form so the sidebar never
-   needs its internal scrollbar; main dashboard still scrolls inside
-   its own bounds for the 16-row prospect list. */
+   Sidebar flows at its natural height showing every field — main pane
+   stretches to match, dashboard scrolls internally with a bottom
+   fade. */
 .mk-app{
   display:grid;
   grid-template-columns:320px 1fr;
-  height:720px;
+  min-height:720px;
 }
 .mk-sidebar{
   background:#fbfaf7;
   border-right:1px solid var(--line);
   padding:22px 20px;
   display:flex;flex-direction:column;gap:12px;
-  /* Allow internal scroll — keeps all fields reachable even when the
-     fixed .mk-app height is tighter than the form's natural height. */
-  overflow-y:auto;
-  scrollbar-width:none;
+  /* No internal scroll — every form field visible at once. Sidebar's
+     natural height drives the .mk-app row; main pane stretches. */
+  overflow:visible;
 }
-.mk-sidebar::-webkit-scrollbar{display:none;width:0}
 .mk-sidebar .mk-f-title{
   font-family:var(--serif);font-weight:400;font-size:21px;color:var(--ink);
   text-align:left;margin:0 0 6px;letter-spacing:-.01em;
@@ -471,6 +469,15 @@ img{max-width:100%;display:block}
   scrollbar-width:none;
 }
 .mk-main > .mk-db-body::-webkit-scrollbar{display:none;width:0;height:0}
+/* White gradient fade at the bottom of the dashboard pane — rows scroll
+   up through it and dissolve into the surface. */
+.mk-main::after{
+  content:"";
+  position:absolute;left:0;right:0;bottom:0;
+  height:110px;
+  background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.75) 55%,#fff 100%);
+  pointer-events:none;z-index:5;
+}
 /* Keep content inside grid tracks — prevents the main pane from
    pushing past the browser's right edge when emails or signal chips
    would otherwise force a column to expand. */
@@ -730,11 +737,10 @@ img{max-width:100%;display:block}
   .mk-db-skel .skel-row>*:nth-child(3){display:none}
   .mk-db-rows .prow,.mk-db-skel .skel-row{padding:10px 0}
 }
-/* Short laptop viewports — shrink the fixed frame to fit a 900-tall
-   viewport while keeping the form tall enough to avoid inner scroll. */
+/* Short laptop viewports — compressed field heights; sidebar still
+   flows at its (now shorter) natural height without scroll. */
 @media(min-width:821px) and (max-height:900px){
-  .mk-app{height:600px}
-  .mk-main{max-height:600px}
+  .mk-app{min-height:640px}
   .mk-sidebar{gap:10px;padding:16px 16px}
   .mk-sidebar .mk-f-title{font-size:18px;margin-bottom:2px}
   .mk-db-rows .prow{padding:10px 0}
@@ -2200,6 +2206,21 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
                   <div class="prow"><div class="mk-cell-name"><span class="av">DF</span><span><strong>Daniel Frost</strong><em>VP Sales</em></span></div><div>Datadog</div><div class="mk-email">daniel@datadoghq.com</div><span class="mk-sig warm">New VP · 4 weeks</span></div>
                   <div class="prow"><div class="mk-cell-name"><span class="av">HM</span><span><strong>Hannah Moreno</strong><em>CPO</em></span></div><div>Retool</div><div class="mk-email">hannah@retool.com</div><span class="mk-sig">Raised $45M</span></div>
                   <div class="prow"><div class="mk-cell-name"><span class="av">SK</span><span><strong>Sam Kowalski</strong><em>CTO</em></span></div><div>Cursor</div><div class="mk-email">sam@cursor.sh</div><span class="mk-sig warm">Hiring 20 roles</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">EL</span><span><strong>Eva Lang</strong><em>CFO</em></span></div><div>Deel</div><div class="mk-email">eva@deel.com</div><span class="mk-sig warm">Opened 3 offices</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">AW</span><span><strong>Amanda Walsh</strong><em>VP Eng</em></span></div><div>Loom</div><div class="mk-email">amanda@loom.com</div><span class="mk-sig">Migrating to AWS</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">RV</span><span><strong>Ruby Vance</strong><em>VP Eng</em></span></div><div>Mixpanel</div><div class="mk-email">ruby@mixpanel.com</div><span class="mk-sig">New role · 5d</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">QB</span><span><strong>Quentin Blake</strong><em>CFO</em></span></div><div>Calendly</div><div class="mk-email">q.blake@calendly.com</div><span class="mk-sig warm">Series C · $150M</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">UK</span><span><strong>Uma Krishna</strong><em>Head of Digital</em></span></div><div>Airtable</div><div class="mk-email">uma@airtable.com</div><span class="mk-sig">Growing 180% YoY</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">VM</span><span><strong>Vera Morales</strong><em>Director of Eng</em></span></div><div>Netlify</div><div class="mk-email">vera@netlify.com</div><span class="mk-sig warm">Acquired · $90M</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">WC</span><span><strong>Wesley Cho</strong><em>Chief of Staff</em></span></div><div>Anthropic</div><div class="mk-email">wes@anthropic.com</div><span class="mk-sig warm">Hiring 30 roles</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">XF</span><span><strong>Xander Finch</strong><em>VP Product</em></span></div><div>Perplexity</div><div class="mk-email">xander@perplexity.ai</div><span class="mk-sig">Product launch · Q3</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">YT</span><span><strong>Yuki Tanaka</strong><em>Head of Ops</em></span></div><div>Canva</div><div class="mk-email">yuki@canva.com</div><span class="mk-sig warm">Opened Tokyo office</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">ZA</span><span><strong>Zain Ahmed</strong><em>CTO</em></span></div><div>Grammarly</div><div class="mk-email">zain@grammarly.com</div><span class="mk-sig">Tech stack change</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">LP</span><span><strong>Lisa Park</strong><em>VP Ops</em></span></div><div>Figma</div><div class="mk-email">lisa@figma.com</div><span class="mk-sig">New role · 2w</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">JL</span><span><strong>James Liu</strong><em>Founder</em></span></div><div>Notion</div><div class="mk-email">james@notion.so</div><span class="mk-sig warm">Hiring 5 roles</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">TH</span><span><strong>Tom Heller</strong><em>CTO</em></span></div><div>Replit</div><div class="mk-email">tom@replit.com</div><span class="mk-sig warm">AI product · Q2</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">NR</span><span><strong>Nikita Roy</strong><em>VP Engineering</em></span></div><div>Arc</div><div class="mk-email">nikita@arc.net</div><span class="mk-sig">Hiring 14 roles</span></div>
+                  <div class="prow"><div class="mk-cell-name"><span class="av">PG</span><span><strong>Pavel Gordon</strong><em>CTO</em></span></div><div>Railway</div><div class="mk-email">pavel@railway.app</div><span class="mk-sig warm">Raised $20M</span></div>
                 </div>
               </div>
             </div>
@@ -2314,8 +2335,8 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
 <section class="chip-pin" data-chip-pin>
   <div class="chip-pin-inner">
     <div class="chip-pin-head">
-      <span class="band-eyebrow">Personalization</span>
-      <h2 class="band-h">Every email is <em>one-of-one</em>.<br>Written just for them.</h2>
+      <span class="band-eyebrow">Intent signals</span>
+      <h2 class="band-h">Every move they make is<br><em>a reason to reach out.</em></h2>
     </div>
     <!-- Blurred background chips — soft depth layer, non-interactive,
          position behind the main cloud with filter:blur. -->
