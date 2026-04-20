@@ -96,20 +96,22 @@ img{max-width:100%;display:block}
    `--p` is computed by a small scroll listener at the end of <body>. */
 .hero-parallax{
   position:relative;
-  /* 200vh gives 100vh worth of scroll for the parallax animation */
-  height:200vh;
-  /* Lavender-violet base — sits behind the pin so the page bg doesn't flash white */
+  min-height:100vh;
   background:#b8b2c8;
 }
 .hero-pin{
-  position:sticky;top:0;
-  height:100vh;
+  position:relative;
+  min-height:100vh;
   width:100%;
   overflow:hidden;
   isolation:isolate;
-  --p:0; /* set by JS */
-  perspective:1400px;
-  perspective-origin:50% 45%;
+  /* Hero is now a two-column grid — text left, prospect cards right —
+     so it fits on a laptop in a single viewport, no sticky-pin needed. */
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:40px;
+  align-items:center;
+  padding:112px clamp(28px,5vw,72px) 80px;
   background:
     /* Brighter Leonard-style base — cool lavender top-left → soft blue bottom-left
        → neutral lavender middle → warm at right. More luminous than v1. */
@@ -240,27 +242,16 @@ img{max-width:100%;display:block}
   100%{transform:translate(-4vw,3vh)    scale(1.07)}
 }
 
-/* ── Hero content (text + CTAs) ──────────────────────────────────────── */
+/* ── Hero content (text + CTAs) — left column on desktop ─────────────── */
 .hero-content{
-  position:absolute;inset:0;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  /* Balanced top + bottom padding so justify-content:center actually
-     puts the copy at the true vertical middle of the viewport. */
-  padding:72px 28px 72px;
-  text-align:center;
+  position:relative;
+  display:flex;flex-direction:column;align-items:flex-start;
+  text-align:left;
   color:#fff;
-  /* Scroll-driven push-back: recedes along Z axis (hero sits on a perspective
-     parent), lifts slightly, fades, and softens with blur — feels like the
-     copy is being pushed into the distance as the mockup rises forward. */
-  transform-origin:50% 40%;
-  transform:
-    translate3d(0, calc(var(--p) * -4vh), calc(var(--p) * -420px));
-  opacity:calc(1 - var(--p) * 1.35);
-  filter:blur(calc(var(--p) * 3px));
-  will-change:transform,opacity,filter;
   text-shadow:0 2px 30px rgba(30,20,50,.25);
+  max-width:640px;
 }
-.hero-content > *{max-width:1280px;width:100%}
+.hero-content > *{width:100%}
 .hero-content h1.display{color:#fff}
 .hero-content .hero-sub{color:rgba(255,255,255,.92)}
 .hero-content .hero-sub strong{color:#fff}
@@ -274,30 +265,127 @@ img{max-width:100%;display:block}
   -webkit-text-fill-color:transparent;
   text-shadow:none;
 }
+.hero-content h1.display{max-width:none;margin-left:0;margin-right:auto}
+.hero-content .hero-sub{margin-left:0;margin-right:auto;text-align:left}
+.hero-content .hero-cta-row{justify-content:flex-start}
+.hero-content .hero-trust-row{justify-content:flex-start}
+
+/* ── Hero prospect cards (right column on desktop) ─────────────────── */
+.hero-cards{
+  position:relative;
+  display:flex;flex-direction:column;gap:16px;
+  padding:12px 6px;
+}
+.pcard-hero{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:18px 20px;
+  display:flex;flex-direction:column;gap:12px;
+  box-shadow:
+    0 26px 54px -20px rgba(14,13,12,.28),
+    0 8px 20px -8px rgba(14,13,12,.1);
+  opacity:0;
+  transform:translateY(28px) scale(.98);
+  transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);
+}
+.hero-cards.in .pcard-hero{opacity:1;transform:translateY(0) scale(1)}
+.hero-cards.in .pcard-hero[data-card="1"]{transition-delay:.05s}
+.hero-cards.in .pcard-hero[data-card="2"]{transition-delay:.22s}
+.hero-cards.in .pcard-hero[data-card="3"]{transition-delay:.4s}
+.pcard-hero[data-card="2"]{margin-left:clamp(24px,4vw,60px);rotate:-1.2deg}
+.pcard-hero[data-card="3"]{margin-left:clamp(-16px,-1vw,-8px);rotate:1deg}
+.pch-top{display:flex;align-items:center;gap:12px}
+.pch-av{
+  width:44px;height:44px;border-radius:12px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:600;font-size:14px;letter-spacing:.02em;
+}
+.pcard-hero[data-card="1"] .pch-av{background:#fff5ec;color:#d04c14}
+.pcard-hero[data-card="2"] .pch-av{background:#eaf2fb;color:#3866a6}
+.pcard-hero[data-card="3"] .pch-av{background:#edf7f0;color:#1a7c4b}
+.pch-meta{flex:1;min-width:0}
+.pch-name{font-weight:600;font-size:15px;color:var(--ink);letter-spacing:-.005em}
+.pch-role{font-size:12.5px;color:var(--muted);margin-top:2px}
+.pch-match{
+  font-size:12.5px;font-weight:600;color:#1a7c4b;
+  background:#edf7f0;padding:5px 11px;border-radius:999px;
+  border:1px solid rgba(26,124,75,.18);
+  flex-shrink:0;
+}
+.pch-email{
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;color:var(--ink-2);
+  background:#fbfaf7;padding:9px 12px;border-radius:10px;
+  border:1px solid var(--line);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.pch-email svg{width:13px;height:13px;color:var(--muted-2);flex-shrink:0}
+.pch-chips{display:flex;flex-wrap:wrap;gap:6px}
+.pch-chip{
+  font-size:11.5px;padding:5px 11px;border-radius:999px;font-weight:500;
+  display:inline-flex;align-items:center;gap:6px;
+  border:1px solid transparent;white-space:nowrap;
+}
+.pch-chip .d{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
+.pch-chip.warm{background:#fff5ec;color:#d04c14;border-color:#ffd9b8}
+.pch-chip.cool{background:#eaf2fb;color:#3866a6;border-color:#c8dcf0}
+.pch-chip.green{background:#edf7f0;color:#1a7c4b;border-color:#b8e0c8}
+.pch-chip.ink{background:var(--ink);color:#fff;border-color:var(--ink)}
+.pch-chip.purple{background:#f3ecfa;color:#7c5dae;border-color:#ddc9ee}
+
+@media(max-width:980px){
+  .hero-pin{grid-template-columns:1fr;gap:48px;padding:96px 24px 64px}
+  .hero-content{text-align:center;align-items:center;max-width:720px;margin:0 auto}
+  .hero-content h1.display,
+  .hero-content .hero-sub{margin:0 auto 24px}
+  .hero-content .hero-cta-row,
+  .hero-content .hero-trust-row{justify-content:center}
+  .hero-cards{max-width:520px;margin:0 auto;width:100%}
+  .pcard-hero[data-card="2"]{margin-left:0;rotate:0deg}
+  .pcard-hero[data-card="3"]{margin-left:0;rotate:0deg}
+}
+
+/* ── How-it-works — dedicated demo section for the full flow ─────────── */
+.how-it-works{
+  padding:clamp(80px,10vh,140px) clamp(16px,4vw,40px);
+  background:#fff;
+  position:relative;
+}
+.how-head{
+  text-align:center;max-width:780px;margin:0 auto 56px;
+}
+.how-head .eyebrow{
+  font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:14px;display:block;
+}
+.how-head h2{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(34px,4.5vw,60px);line-height:1.04;letter-spacing:-.02em;
+  margin:0 0 16px;
+}
+.how-head h2 em{
+  font-style:italic;
+  background:linear-gradient(95deg,#ff5b1f 0%,#ff7a3d 60%,#ffa06a 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.how-head p{font-size:17px;line-height:1.55;color:var(--ink-2);max-width:620px;margin:0 auto}
+.how-mockup-wrap{
+  max-width:1180px;margin:0 auto;
+}
 
 /* ── Mockup wrapper — translates up from below the fold ──────────────── */
-.hero-mockup-wrap{
-  position:absolute;
-  left:0;right:0;
-  top:0;bottom:0;
-  display:flex;align-items:center;justify-content:center;
-  padding:0 24px;
-  /* Mockup sits in the vertical centre of the pin instead of hugging
-     the bottom edge. --p drives an internal rise on .mk-browser. */
-  will-change:transform;
-}
+/* .hero-mockup-wrap is no longer used in the hero (mockup moved to
+   #how-it-works). Keep shell styles neutral in case older markup
+   still references it. */
+.hero-mockup-wrap{position:relative}
 .hero-mockup{
   position:relative;
   width:100%;max-width:1180px;
   /* No scale; each card handles its own transform via --p. */
 }
-/* Unified mockup — single translate on the whole browser as the hero
-   pin progresses. Lands in the vertical centre of the viewport. */
-.mk-browser{
-  --rise: clamp(0, var(--p) / 0.75, 1);
-  transform: translateY(calc((1 - var(--rise)) * 120vh));
-  will-change: transform;
-}
+/* Mockup is no longer pinned/translated — sits in the #how section
+   and the inner sequencer fires on IntersectionObserver. */
 
 /* Browser window — max 1100 wide, auto-centered */
 .mk-browser{
@@ -1887,11 +1975,11 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   </div>
 </nav>
 
-<!-- ═══════════════════ HERO PARALLAX (gradient + pull-up mockup) ═══════════════════ -->
+<!-- ═══════════════════ HERO — text + 3 floating prospect cards ═══════════════════ -->
 <section class="hero-parallax" id="prospects">
-  <div class="hero-pin" data-hero-pin>
+  <div class="hero-pin">
 
-    <!-- Animated gradient cluster — bottom-anchored at p=0, fills viewport at p=1 -->
+    <!-- Animated gradient cluster -->
     <div class="hero-grad" aria-hidden="true">
       <span class="blob b1"></span>
       <span class="blob b2"></span>
@@ -1900,7 +1988,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
       <span class="grain"></span>
     </div>
 
-    <!-- Hero text + CTAs -->
+    <!-- Hero text + CTAs (left on desktop) -->
     <div class="hero-content">
       <h1 class="display">Find prospects.<br>Send emails.<br>Book meetings,<br><em>on autopilot.</em></h1>
       <p class="hero-sub">
@@ -1909,24 +1997,87 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
       </p>
       <div class="hero-cta-row">
         <a href="#cta" class="btn btn-orange">Start 7-day free trial</a>
-        <a href="#video" class="btn btn-ghost">See how it works →</a>
+        <a href="#how" class="btn btn-ghost">See how it works →</a>
       </div>
       <div class="hero-trust-row">
         <span>SOC 2</span><span class="div"></span>
         <span>GDPR</span><span class="div"></span>
         <span>ISO 27001</span>
       </div>
-      <div class="scroll-cue">
-        <span>Meet your agent</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16m0 0l-6-6m6 6l6-6"/></svg>
+    </div>
+
+    <!-- Three floating prospect cards (right on desktop, below on mobile) -->
+    <div class="hero-cards" data-cards>
+      <div class="pcard-hero" data-card="1">
+        <div class="pch-top">
+          <div class="pch-av">SC</div>
+          <div class="pch-meta">
+            <div class="pch-name">Sarah Chen</div>
+            <div class="pch-role">VP Engineering · Vercel</div>
+          </div>
+          <div class="pch-match">97%</div>
+        </div>
+        <div class="pch-email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          s.chen@vercel.com
+        </div>
+        <div class="pch-chips">
+          <span class="pch-chip warm"><span class="d"></span>Hiring 12 engineers</span>
+          <span class="pch-chip ink"><span class="d"></span>Series C · $120M</span>
+        </div>
+      </div>
+
+      <div class="pcard-hero" data-card="2">
+        <div class="pch-top">
+          <div class="pch-av">MW</div>
+          <div class="pch-meta">
+            <div class="pch-name">Marcus Webb</div>
+            <div class="pch-role">CTO · Linear</div>
+          </div>
+          <div class="pch-match">94%</div>
+        </div>
+        <div class="pch-email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          marcus@linear.app
+        </div>
+        <div class="pch-chips">
+          <span class="pch-chip green"><span class="d"></span>Raised $35M Series B</span>
+          <span class="pch-chip purple"><span class="d"></span>New CTO · 2 weeks</span>
+        </div>
+      </div>
+
+      <div class="pcard-hero" data-card="3">
+        <div class="pch-top">
+          <div class="pch-av">AK</div>
+          <div class="pch-meta">
+            <div class="pch-name">Anna Kovacs</div>
+            <div class="pch-role">Head of Product · Stripe</div>
+          </div>
+          <div class="pch-match">91%</div>
+        </div>
+        <div class="pch-email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          a.kovacs@stripe.com
+        </div>
+        <div class="pch-chips">
+          <span class="pch-chip warm"><span class="d"></span>Expanding · opened EU HQ</span>
+          <span class="pch-chip cool"><span class="d"></span>Growing 140% YoY</span>
+        </div>
       </div>
     </div>
 
-    <!-- Unified hero mockup — single browser window, split inside:
-         left sidebar = "Tell us about your company" form, right main =
-         Prospects dashboard. Same app, two panes. -->
-    <div class="hero-mockup-wrap">
-      <div class="hero-mockup" data-mk>
+  </div>
+</section>
+
+<!-- ═══════════════════ HOW IT WORKS — the unified browser demo ═══════════════════ -->
+<section class="how-it-works" id="how">
+  <div class="how-head">
+    <span class="eyebrow">See it in action</span>
+    <h2>Tell us once. <em>Outpulse finds the rest.</em></h2>
+    <p>Share your company, your ICP, and what you sell. Outpulse pulls verified prospects with real intent signals — so your outreach lands while the door is open.</p>
+  </div>
+  <div class="how-mockup-wrap">
+    <div class="hero-mockup" data-mk>
         <div class="mk-browser">
           <div class="mk-browser-bar">
             <div class="browser-dots"><span></span><span></span><span></span></div>
@@ -2057,8 +2208,6 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
 
       </div>
     </div>
-
-  </div>
 </section>
 
 <!-- ═══════════════════ CAPABILITIES / CREDIBILITY STRIP ═══════════════════ -->
@@ -2588,40 +2737,22 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   </div>
 </footer>
 
-<!-- ═══════════════════ Hero parallax scroll driver ═══════════════════ -->
+<!-- ═══════════════════ Hero prospect cards reveal ═══════════════════ -->
 <script>
 (function(){
-  const pin = document.querySelector('[data-hero-pin]');
-  if (!pin) return;
-  const section = pin.closest('.hero-parallax');
-  if (!section) return;
-
-  // Honour the user's reduced-motion preference: snap to final state, no work.
+  const cards = document.querySelector('[data-cards]');
+  if (!cards) return;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-  if (reduce.matches) { pin.style.setProperty('--p', '1'); return; }
-
-  let ticking = false;
-  function update(){
-    ticking = false;
-    const rect = section.getBoundingClientRect();
-    const total = section.offsetHeight - window.innerHeight;
-    if (total <= 0) { pin.style.setProperty('--p', '0'); return; }
-    let p = -rect.top / total;
-    if (p < 0) p = 0;
-    if (p > 1) p = 1;
-    // Ease the progress so first scroll feels softer (out-cubic)
-    const eased = 1 - Math.pow(1 - p, 2.2);
-    pin.style.setProperty('--p', eased.toFixed(4));
-  }
-  function onScroll(){
-    if (!ticking){
-      requestAnimationFrame(update);
-      ticking = true;
-    }
-  }
-  window.addEventListener('scroll', onScroll, { passive:true });
-  window.addEventListener('resize', onScroll, { passive:true });
-  update();
+  if (reduce.matches){ cards.classList.add('in'); return; }
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting){
+        cards.classList.add('in');
+        obs.disconnect();
+      }
+    });
+  }, { threshold: 0.15 });
+  obs.observe(cards);
 })();
 
 /* ─── Hero mockup sequencer v2 ────────────────────────────────────────
