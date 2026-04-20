@@ -1374,9 +1374,9 @@ h1.display em{
   width:100%;
   overflow:hidden;
   display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
-  /* Proper top padding so the 'Personalization' eyebrow docks ~100px
-     below the nav bottom — no longer hugging the top edge. */
-  padding:clamp(140px,18vh,200px) 28px clamp(48px,6vh,80px);
+  /* Same rhythm as the comparison pin — 60px gap between nav bottom
+     and the 'Intent signals' eyebrow. */
+  padding:132px 28px clamp(48px,6vh,80px);
   --pp:0;
 }
 .chip-pin-inner::before{
@@ -1565,9 +1565,10 @@ h1.display em{
   width:100%;
   overflow:hidden;
   display:flex;flex-direction:column;
-  /* Same padding-top rhythm as the personalization pin — the eyebrow
-     ('Same job. Fraction of the cost.') docks ~100px below the nav. */
-  padding:clamp(140px,18vh,200px) 24px clamp(24px,4vh,40px);
+  /* Pin sticks at viewport top, nav overlays the first 72px.
+     Padding-top 132 gives exactly 60px of breathing room between the
+     nav bottom and the eyebrow. */
+  padding:132px 24px clamp(24px,4vh,40px);
   --cp:0;
 }
 
@@ -1760,8 +1761,8 @@ h1.display em{
    stay full-size because the mockup is parked completely below the fold
    until the user scrolls. */
 @media(min-width:821px) and (max-height:900px){
-  /* ─ Comparison pin — still roomy on top, tighter elsewhere. */
-  .cmp-split-pin{padding:clamp(110px,14vh,150px) 24px 20px}
+  /* ─ Comparison pin — maintain the 60px-from-nav rhythm. */
+  .cmp-split-pin{padding:132px 24px 20px}
   .cmp-split-head{margin:0 auto 18px}
   .cmp-split-head .eyebrow{margin-bottom:12px}
   .cmp-split-board{padding:0 24px 18px;margin:0 auto 10px;gap:36px}
@@ -1778,7 +1779,7 @@ h1.display em{
 
 /* Short height with plenty of width (≤750) — squeeze comparison further. */
 @media(min-width:821px) and (max-height:750px){
-  .cmp-split-pin{padding:clamp(90px,12vh,120px) 24px 16px}
+  .cmp-split-pin{padding:116px 24px 16px}
   .cmp-split-head{margin:0 auto 12px}
   .cmp-split-head .eyebrow{font-size:10px;margin-bottom:8px}
   .cmp-split-board{padding:0 24px 14px;gap:28px}
