@@ -440,47 +440,43 @@ img{max-width:100%;display:block}
   margin-top:2px;
 }
 .pch-send-row small{font-size:11px;color:var(--muted)}
-.pch-send{
-  background:var(--orange);color:#fff;
-  padding:7px 16px;border-radius:999px;
-  font-size:12px;font-weight:600;
-  border:none;cursor:pointer;
-  display:inline-flex;align-items:center;gap:6px;
-  transition:background .35s ease, transform .25s ease;
-  position:relative;
+/* Status pill — NOT a button. Auto-send flow is: queued (neutral
+   dot) → sending (spinner) → sent (check). No click affordance. */
+.pch-status{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:6px 12px;border-radius:999px;
+  font-size:11.5px;font-weight:600;
+  background:rgba(14,13,12,.06);
+  color:var(--ink-2);
+  transition:background .35s ease, color .35s ease;
 }
-.pch-send svg.pch-icon{width:12px;height:12px}
-.pch-spinner,.pch-check{display:none}
+.pch-status-dot,.pch-spinner,.pch-check{display:none}
+.pch-status-dot{
+  display:inline-block;
+  width:6px;height:6px;border-radius:50%;
+  background:currentColor;
+}
 .pch-spinner{
-  width:12px;height:12px;
-  border:2px solid rgba(255,255,255,.35);
-  border-top-color:#fff;
+  width:11px;height:11px;
+  border:2px solid rgba(14,13,12,.18);
+  border-top-color:var(--ink-2);
   border-radius:50%;
   animation:pchSpin .7s linear infinite;
 }
 .pch-check{width:13px;height:13px;flex-shrink:0}
 @keyframes pchSpin{to{transform:rotate(360deg)}}
-/* Pulsing glow to pull the eye to the Send before the click.
-   Stops as soon as the card moves into sending or sent state. */
-.pcard-hero.active:not(.sending):not(.sent) .pch-send{
-  animation:pchSendPulse 1.6s ease-in-out infinite;
+/* Sending (loading) — grey, spinner + "Sending" */
+.pcard-hero.sending .pch-status{
+  background:rgba(14,13,12,.08);color:var(--ink-2);
 }
-@keyframes pchSendPulse{
-  0%,100%{box-shadow:0 0 0 0 rgba(255,91,31,.4)}
-  50%    {box-shadow:0 0 0 8px rgba(255,91,31,0)}
-}
-.pcard-hero.clicking .pch-send{transform:scale(.94)}
-/* Sending (loading) — grey pill, spinner + "Sending", default icon hidden */
-.pcard-hero.sending .pch-send{
-  background:var(--muted);animation:none;
-}
-.pcard-hero.sending .pch-icon{display:none}
+.pcard-hero.sending .pch-status-dot{display:none}
 .pcard-hero.sending .pch-spinner{display:inline-block}
-/* Sent — green pill, check + "Sent", spinner gone */
-.pcard-hero.sent .pch-send{
-  background:#1a7c4b;animation:none;
+/* Sent — soft green, check + "Sent" */
+.pcard-hero.sent .pch-status{
+  background:#edf7f0;color:#1a7c4b;
+  border:1px solid rgba(26,124,75,.18);
 }
-.pcard-hero.sent .pch-icon{display:none}
+.pcard-hero.sent .pch-status-dot{display:none}
 .pcard-hero.sent .pch-spinner{display:none}
 .pcard-hero.sent .pch-check{display:inline-block}
 
@@ -2906,13 +2902,13 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
           '<div class="pch-body"></div>' +
         '</div>' +
         '<div class="pch-send-row">' +
-          '<small>AI-personalised · ready to go</small>' +
-          '<button class="pch-send" type="button">' +
-            '<span class="label-send">Send</span>' +
+          '<small>AI-personalised · auto-sends</small>' +
+          '<div class="pch-status" aria-live="polite">' +
+            '<span class="pch-status-dot" aria-hidden="true"></span>' +
             '<span class="pch-spinner" aria-hidden="true"></span>' +
             '<svg class="pch-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg>' +
-            '<svg class="pch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>' +
-          '</button>' +
+            '<span class="label-send">Queued</span>' +
+          '</div>' +
         '</div>' +
       '</div>';
     host.appendChild(card);
@@ -2973,7 +2969,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   }
 
   function resetCard(card){
-    card.classList.remove('active','clicking','sending','sent');
+    card.classList.remove('active','sending','sent');
     const subjectEl = card.querySelector('.pch-subject');
     const bodyEl    = card.querySelector('.pch-body');
     const label     = card.querySelector('.pch-draft-state');
@@ -2981,7 +2977,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
     if (subjectEl) subjectEl.textContent = '';
     if (bodyEl)    bodyEl.textContent    = '';
     if (label)     label.textContent     = 'Drafting personalised email';
-    if (btn)       btn.textContent       = 'Send';
+    if (btn)       btn.textContent       = 'Queued';
   }
 
   function activate(card){
@@ -2999,7 +2995,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
     if (subjectEl) subjectEl.textContent = '';
     if (bodyEl)    bodyEl.textContent    = '';
     if (label)     label.textContent     = 'Drafting personalised email';
-    if (btn)       btn.textContent       = 'Send';
+    if (btn)       btn.textContent       = 'Queued';
 
     // Panel opens
     setTimeout(function(){
@@ -3016,32 +3012,27 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
       if (card._gen !== gen) return;
       typewrite(bodyEl, data.body, 16, gen, card);
     }, 1400);
-    // Click effect — short press
+    // Auto-sending starts right after the body finishes typing —
+    // no click, no intermediate "clicking" state. Status pill goes
+    // queued → sending → sent on its own.
     setTimeout(function(){
       if (card._gen !== gen) return;
-      card.classList.add('clicking');
-    }, 3400);
-    // Enter sending state — quick spinner
-    setTimeout(function(){
-      if (card._gen !== gen) return;
-      card.classList.remove('clicking');
       card.classList.add('sending');
       if (label) label.textContent = 'Sending email';
       if (btn)   btn.textContent   = 'Sending';
-    }, 3550);
-    // Flip to sent — fast network pause
+    }, 3200);
     setTimeout(function(){
       if (card._gen !== gen) return;
       card.classList.remove('sending');
       card.classList.add('sent');
       if (label) label.textContent = 'Email sent';
       if (btn)   btn.textContent   = 'Sent';
-    }, 4000);
+    }, 3700);
   }
 
   if (reduce.matches){ assignAll(0); return; }
 
-  const TICK = 4350; // ms per beat — click → sent flips quickly, exit follows
+  const TICK = 4050; // ms per beat — auto-send finishes, exit follows quickly
   let step = 0;
 
   function tick(){
