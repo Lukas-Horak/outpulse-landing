@@ -292,14 +292,13 @@ img{max-width:100%;display:block}
 .hero-content .hero-cta-row{justify-content:flex-start}
 .hero-content .hero-trust-row{justify-content:flex-start}
 
-/* ── Hero prospect cards — stacked column of 3 visible slots. Cards
-   are absolutely positioned inside a fixed-height host; their
-   data-slot attribute drives where they sit (0/1/2 visible, -1
-   exiting above, 3 queued below). The top (slot 0) card gets
-   .active which expands an inline email-draft panel. */
+/* ── Hero prospect cards — stacked column of 3 visible slots. All
+   cards share the same fixed height so there's no grow/shrink when
+   a card becomes active — the draft panel is always present, only
+   its CONTENTS (subject/body typewriter) fade in on active. */
 .hero-cards{
   position:relative;
-  height:520px;
+  height:620px;
   max-width:460px;
   width:100%;
   margin:0 auto;
@@ -312,30 +311,27 @@ img{max-width:100%;display:block}
   border-radius:18px;
   padding:16px 18px;
   display:flex;flex-direction:column;gap:10px;
+  /* Fixed height — doesn't change between active/inactive states. */
+  min-height:272px;
   box-shadow:
     0 26px 54px -20px rgba(14,13,12,.28),
     0 8px 20px -8px rgba(14,13,12,.1);
   opacity:0;
-  transform:translateY(520px) scale(.92);
+  transform:translateY(620px) scale(.92);
   /* Elastic ease-out-back: small overshoot that settles. */
   transition:
     transform .7s cubic-bezier(.34,1.56,.64,1),
     opacity .5s ease;
   will-change:transform,opacity;
 }
-/* Slots: 0 = top (active), 1 = middle (preview), 2 = bottom (more
-   faded), -1 = exiting above, 3 = queued below.
-   Opacity fades as cards move down the stack; as they climb up
-   they gain opacity back and land at full focus on top. */
+/* Slot positions — fixed spacing matching the full card height.
+   Cards never grow/shrink; they just slide between slots. Opacity
+   fades as the card moves down the stack and climbs back up. */
 .pcard-hero[data-slot="0"]{transform:translateY(0) scale(1);opacity:1;z-index:4}
-.pcard-hero[data-slot="1"]{transform:translateY(160px) scale(.98);opacity:.6;z-index:3}
-.pcard-hero[data-slot="2"]{transform:translateY(310px) scale(.95);opacity:.3;z-index:2}
-.pcard-hero[data-slot="-1"]{transform:translateY(-220px) scale(.94);opacity:0;z-index:0}
-.pcard-hero[data-slot="3"]{transform:translateY(560px) scale(.92);opacity:0;z-index:0}
-/* When the top card expands (becomes .active), push the lower
-   previews further down so the expanded draft panel has room. */
-.hero-cards:has(.pcard-hero[data-slot="0"].active) .pcard-hero[data-slot="1"]{transform:translateY(320px) scale(.98);opacity:.5}
-.hero-cards:has(.pcard-hero[data-slot="0"].active) .pcard-hero[data-slot="2"]{transform:translateY(470px) scale(.95);opacity:.22}
+.pcard-hero[data-slot="1"]{transform:translateY(285px) scale(.98);opacity:.5;z-index:3}
+.pcard-hero[data-slot="2"]{transform:translateY(470px) scale(.95);opacity:.22;z-index:2}
+.pcard-hero[data-slot="-1"]{transform:translateY(-260px) scale(.94);opacity:0;z-index:0}
+.pcard-hero[data-slot="3"]{transform:translateY(640px) scale(.92);opacity:0;z-index:0}
 .pch-top{display:flex;align-items:center;gap:12px}
 .pch-av{
   width:44px;height:44px;border-radius:12px;flex-shrink:0;
@@ -375,21 +371,32 @@ img{max-width:100%;display:block}
 .pch-chip.ink{background:var(--ink);color:#fff;border-color:var(--ink)}
 .pch-chip.purple{background:#f3ecfa;color:#7c5dae;border-color:#ddc9ee}
 
-/* Email-draft panel inside the active (top) card — collapsed by
-   default, expands when .active is on the card. Shows the "Outpulse
-   is drafting" → subject → body → Send (→ Sent) progression. */
+/* Email-draft panel inside every card — always present so the card's
+   height doesn't change when it becomes active. Contents fade in
+   when .active flips; the typewriter fills subject + body inline. */
 .pch-draft{
-  max-height:0;overflow:hidden;opacity:0;
-  transition:max-height .55s cubic-bezier(.2,.7,.2,1),
-             opacity .35s ease .1s,
-             padding .4s ease;
-  display:flex;flex-direction:column;gap:8px;
+  display:flex;flex-direction:column;gap:7px;
   border-top:1px solid var(--line);
-  padding:0 0 0;margin-top:0;
+  padding:10px 0 0;margin-top:2px;
+  min-height:136px;
 }
-.pcard-hero.active .pch-draft{
-  max-height:240px;opacity:1;
-  padding:12px 0 0;margin-top:2px;
+/* Contents invisible until .active — card stays the same size but
+   shows empty structured space for non-active slots. */
+.pch-draft-label,
+.pch-field,
+.pch-send-row{
+  opacity:0;
+  transition:opacity .35s ease;
+}
+.pcard-hero.active .pch-draft-label,
+.pcard-hero.active .pch-field,
+.pcard-hero.active .pch-send-row{opacity:1}
+/* Field wrapper — a clear "Subject" / "Body" key above the value so
+   the viewer knows Outpulse wrote both parts. */
+.pch-field{display:flex;flex-direction:column;gap:3px}
+.pch-field-k{
+  font-size:9.5px;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted-2);
 }
 .pch-draft-label{
   font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
@@ -2874,8 +2881,14 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
       '</div>' +
       '<div class="pch-draft">' +
         '<div class="pch-draft-label"><span class="pch-draft-state">Drafting personalised email</span></div>' +
-        '<div class="pch-subject">' + p.subject + '</div>' +
-        '<div class="pch-body">' + p.body + '</div>' +
+        '<div class="pch-field">' +
+          '<span class="pch-field-k">Subject</span>' +
+          '<div class="pch-subject"></div>' +
+        '</div>' +
+        '<div class="pch-field">' +
+          '<span class="pch-field-k">Body</span>' +
+          '<div class="pch-body"></div>' +
+        '</div>' +
         '<div class="pch-send-row">' +
           '<small>AI-personalised · ready to go</small>' +
           '<button class="pch-send" type="button">' +
