@@ -871,7 +871,7 @@ img{max-width:100%;display:block}
   display:flex;align-items:center;gap:8px;
 }
 .mk-f-ai-badge{
-  display:inline-flex;align-items:center;
+  display:inline-flex;align-items:center;gap:5px;
   font-family:var(--sans);
   font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
   padding:3px 8px;border-radius:999px;
@@ -880,6 +880,28 @@ img{max-width:100%;display:block}
   background:linear-gradient(95deg,#8a76b8 0%,#a88fd0 55%,#c3aee0 100%);
   color:#fff;
   flex-shrink:0;
+  transition:opacity .45s ease,transform .45s ease;
+}
+/* Pulsing dot that lives inside the badge while Outpulse is "thinking". */
+.mk-f-ai-badge .ab-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:#fff;
+  animation:abPulse 1.1s ease-in-out infinite;
+}
+/* Once the field is filled, the dot is replaced by a tiny check mark. */
+.mk-f-ai-badge .ab-check{
+  display:none;
+  width:8px;height:8px;
+  stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;
+  fill:none;
+}
+.mk-f-ai-badge.done .ab-dot{display:none}
+.mk-f-ai-badge.done .ab-check{display:inline-block}
+/* Fade out entirely once the field has been shown as AI-generated. */
+.mk-f-ai-badge.fade{opacity:0;transform:scale(.92);pointer-events:none}
+@keyframes abPulse{
+  0%,100%{opacity:.45;transform:scale(1)}
+  50%   {opacity:1;transform:scale(1.35)}
 }
 /* AI-generated fields pick up a soft violet wash — just enough to
    read as "not user-typed" without competing with the content.
@@ -2280,7 +2302,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
               </div>
 
               <div class="mk-f-field mk-f-ai">
-                <label>WHAT DO YOU SELL? <span class="mk-f-ai-badge">AI generated</span></label>
+                <label>WHAT DO YOU SELL? <span class="mk-f-ai-badge" data-ai-badge="sell"><span class="ab-dot"></span><svg class="ab-check" viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg><span class="ab-text">Generating…</span></span></label>
                 <div class="mk-f-area" data-type-idx="2" data-type="We build web and mobile apps for SaaS, fintech and e-commerce teams — helping engineering and digital leads at 50-to-500-person companies automate workflows and scale faster."></div>
                 <div class="mk-f-chips" data-chips>
                   <span class="mk-f-chip c-green">Digital Transformation</span>
@@ -2290,7 +2312,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
                 </div>
               </div>
 
-              <h3 class="mk-f-title mk-f-title-sub">Buyer Persona <span class="mk-f-ai-badge">AI generated</span></h3>
+              <h3 class="mk-f-title mk-f-title-sub">Buyer Persona <span class="mk-f-ai-badge" data-ai-badge="persona"><span class="ab-dot"></span><svg class="ab-check" viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg><span class="ab-text">Generating…</span></span></h3>
 
               <div class="mk-f-field mk-f-ai">
                 <label>JOB TITLES</label>
@@ -3249,6 +3271,18 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
     setTimeout(function(){ el.classList.remove('ai-filling'); }, 700);
   }
 
+  // Badge state transitions: Generating… (pulse dot) → AI generated
+  // (check mark) → fade out. Called once all fields governed by a
+  // given badge have been populated.
+  function badgeDone(name){
+    const b = mockup.querySelector('[data-ai-badge="'+name+'"]');
+    if (!b) return;
+    const t = b.querySelector('.ab-text');
+    if (t) t.textContent = 'AI generated';
+    b.classList.add('done');
+    setTimeout(function(){ b.classList.add('fade'); }, 1400);
+  }
+
   async function run(){
     if (started) return;
     started = true;
@@ -3284,8 +3318,11 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
     // produced all of this from just the company name + website.
     if (sell) aiFill(sell, sell.dataset.type);
     if (chipsWrap) chipsWrap.classList.add('in');
-    await sleep(450);
+    await sleep(750);
+    // Sell field is done — badge flips to 'AI generated' then fades.
+    badgeDone('sell');
 
+    await sleep(150);
     if (jobs)     aiFill(jobs, jobs.dataset.type);
     await sleep(220);
     if (industry) aiFill(industry, industry.dataset.type);
@@ -3295,6 +3332,9 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
     await sleep(220);
     const location = field(6);
     if (location) aiFill(location, location.dataset.type);
+    // All four persona fields populated — flip the persona badge.
+    await sleep(450);
+    badgeDone('persona');
 
     // 5 — form complete: hand over from skeleton to real prospects
     await sleep(300);
