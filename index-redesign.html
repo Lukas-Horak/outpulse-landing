@@ -3021,27 +3021,27 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
       if (card._gen !== gen) return;
       card.classList.add('clicking');
     }, 3400);
-    // Enter sending state — spinner, button goes grey, label flips
+    // Enter sending state — quick spinner
     setTimeout(function(){
       if (card._gen !== gen) return;
       card.classList.remove('clicking');
       card.classList.add('sending');
       if (label) label.textContent = 'Sending email';
       if (btn)   btn.textContent   = 'Sending';
-    }, 3600);
-    // Flip to sent after a brief "network" pause
+    }, 3550);
+    // Flip to sent — fast network pause
     setTimeout(function(){
       if (card._gen !== gen) return;
       card.classList.remove('sending');
       card.classList.add('sent');
       if (label) label.textContent = 'Email sent';
       if (btn)   btn.textContent   = 'Sent';
-    }, 4600);
+    }, 4000);
   }
 
   if (reduce.matches){ assignAll(0); return; }
 
-  const TICK = 5400; // ms per full draft → sending → sent → exit beat
+  const TICK = 4350; // ms per beat — click → sent flips quickly, exit follows
   let step = 0;
 
   function tick(){
