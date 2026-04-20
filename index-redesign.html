@@ -861,16 +861,9 @@ img{max-width:100%;display:block}
   font-family:var(--sans);
   font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
   padding:3px 8px;border-radius:999px;
-  /* Blue → violet → orange — same arc as the hero atmospheric bloom
-     (blue b2 bottom-left, violet b3 center, orange b1 top-right). */
-  background:linear-gradient(95deg,
-    #3866a6 0%,
-    #5b8ec8 14%,
-    #7d70b5 30%,
-    #9964a8 46%,
-    #c06a88 62%,
-    #ff8649 82%,
-    #ff5b1f 100%);
+  /* Soft violet gradient — clearly marks AI-generated bits without
+     fighting the surrounding content for attention. */
+  background:linear-gradient(95deg,#8a76b8 0%,#a88fd0 55%,#c3aee0 100%);
   color:#fff;
   flex-shrink:0;
 }
@@ -1022,18 +1015,24 @@ h1.display{
   line-height:.96;letter-spacing:-.02em;
   color:var(--ink);
   max-width:18ch;margin:0 auto 24px;
-  /* Give italic descenders (g, y, p) enough vertical room so the
-     .hero-pin overflow:hidden doesn't shave their bottoms off. */
-  padding-bottom:.12em;
 }
 h1.display em{
   font-style:italic;
   background:linear-gradient(95deg,#ff5b1f 0%,#ff8a4c 50%,#ffa06a 100%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
   display:inline-block;
-  /* Cycling italic phrase must NEVER wrap — pick safe, short phrases
-     in the JS below, and this keeps it single-line even if the phrase
-     is slightly wider than the preceding lines. */
+  /* ── Descender rescue ───────────────────────────────────────────────
+     With -webkit-background-clip:text + color:transparent, glyphs are
+     "painted" from the em's background. Italic descenders (g, y, p)
+     hang below the baseline; with line-height:.96 the em's paint box
+     ends right at the baseline, so those descender pixels fall OUTSIDE
+     the paint area and render invisible. Padding-bottom extends the
+     paint box below the baseline; negative margin-bottom keeps the
+     surrounding line-box height unchanged. */
+  padding-bottom:.24em;
+  margin-bottom:-.24em;
+  /* Phrase must stay single-line even when slightly wider than the
+     other lines (italic letter widths vary). */
   white-space:nowrap;
   transition:opacity .3s ease;
 }
@@ -2103,7 +2102,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   margin-bottom:10px;
 }
 .cred-num sup{font-size:.45em;font-weight:400;vertical-align:super;margin-left:2px;color:var(--orange)}
-.cred-num .cred-sep{color:var(--orange);font-style:italic;padding:0 2px}
+.cred-num .cred-sep{color:var(--orange);font-style:italic;padding:0 .14em;display:inline-block}
 .cred-lbl{
   font-size:13px;line-height:1.45;color:var(--ink-2);
   max-width:22ch;margin:0 auto;
