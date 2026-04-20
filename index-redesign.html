@@ -302,7 +302,7 @@ img{max-width:100%;display:block}
    overlap or bleed through each other. */
 .hero-cards{
   position:relative;
-  height:680px;
+  height:620px;
   max-width:460px;
   width:100%;
   margin:0 auto;
@@ -326,15 +326,15 @@ img{max-width:100%;display:block}
     opacity .5s ease;
   will-change:transform,opacity;
 }
-/* Slot positions. Top card (slot 0) is ~360px tall with the draft
-   panel including the pre-sized body field. Bottom two are compact
-   (~140px, no draft). No overlap between the active top and the
-   first preview. */
+/* Slot positions. Top card (slot 0) is ~310px tall with the draft
+   panel + pre-sized body field but no send-row. Bottom two are
+   compact (~150px, no draft). Slot 1 sits 20px below the active
+   card; slot 2 sits 14px below slot 1. */
 .pcard-hero[data-slot="0"]{transform:translateY(0) scale(1);opacity:1;z-index:4}
-.pcard-hero[data-slot="1"]{transform:translateY(380px) scale(.98);opacity:.5;z-index:3}
-.pcard-hero[data-slot="2"]{transform:translateY(540px) scale(.95);opacity:.22;z-index:2}
-.pcard-hero[data-slot="-1"]{transform:translateY(-300px) scale(.94);opacity:0;z-index:0}
-.pcard-hero[data-slot="3"]{transform:translateY(700px) scale(.92);opacity:0;z-index:0}
+.pcard-hero[data-slot="1"]{transform:translateY(330px) scale(.98);opacity:.5;z-index:3}
+.pcard-hero[data-slot="2"]{transform:translateY(495px) scale(.95);opacity:.22;z-index:2}
+.pcard-hero[data-slot="-1"]{transform:translateY(-320px) scale(.94);opacity:0;z-index:0}
+.pcard-hero[data-slot="3"]{transform:translateY(660px) scale(.92);opacity:0;z-index:0}
 .pch-top{display:flex;align-items:center;gap:12px}
 .pch-av{
   width:44px;height:44px;border-radius:12px;flex-shrink:0;
