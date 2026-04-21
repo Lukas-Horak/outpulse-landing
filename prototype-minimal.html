@@ -600,16 +600,26 @@ body{
 }
 .rp-connector .live .d{width:6px;height:6px;border-radius:50%;background:var(--green)}
 
-/* ── Responsive ───────────────────────────────────────────────────────── */
-@media(max-width:1360px){
+/* ── Responsive — Cowork-style progressive collapse ────────────────────
+   Three stages as the viewport narrows:
+   1.  >1180px — full three-column layout (left 240 · main · right 300)
+   2.  920-1180px — right panel hides; left stays full-width
+   3.  640-920px — left sidebar collapses to an icon-only rail (64px)
+   4.  <640px — sidebar hides entirely; single-column mobile layout */
+
+/* Stage 1: tighten columns a little on moderately-sized desktops so
+   content doesn't float in huge gutters. */
+@media(max-width:1440px){
   .app{grid-template-columns:220px 1fr 280px}
-  .main{padding:24px 28px 72px}
+  .main{padding:24px 32px 72px}
   .kpis{gap:12px}
 }
+
+/* Stage 2: right panel goes away, main takes the extra room. */
 @media(max-width:1180px){
   .app{grid-template-columns:220px 1fr}
   .right{display:none}
-  .main{padding:24px 28px 72px}
+  .main{padding:24px 30px 72px}
   /* Funnel collapses to a 2-per-row grid; chevron shapes don't work
      once cards wrap, so we reset to plain rounded cards with a gap. */
   .pulse-funnel{flex-wrap:wrap;gap:10px}
@@ -634,7 +644,44 @@ body{
   .kpis{grid-template-columns:repeat(2,1fr)}
   .two-col{grid-template-columns:1fr}
 }
-@media(max-width:780px){
+
+/* Stage 3: left sidebar collapses to an icon-only rail — labels,
+   count badges, section titles, and user meta all hide. Brand mark
+   stays centred at top; nav items become 40×40 hit targets with
+   only the icon visible. Hover tooltip comes from the title="" attr. */
+@media(max-width:920px){
+  .app{grid-template-columns:64px 1fr}
+  .sidebar{
+    padding:16px 8px 14px;
+    align-items:center;gap:8px;
+  }
+  .sb-brand{
+    padding:2px 0 12px;gap:0;
+    justify-content:center;width:100%;
+  }
+  .sb-brand-name{display:none}
+  .sb-brand-mark{width:28px;height:28px}
+  .sb-section{width:100%;align-items:center}
+  .sb-label{display:none}
+  /* Collapsed sections sit tighter so the rail stays compact. */
+  .sb-section + .sb-section{margin-top:2px}
+  .sb-item{
+    justify-content:center;
+    padding:9px 0;width:44px;margin:0 auto;
+    border-radius:8px;gap:0;
+  }
+  .sb-item-label{display:none}
+  .sb-item .count{display:none}
+  .sb-user{
+    padding:10px 0;margin-top:auto;
+    justify-content:center;gap:0;width:100%;
+  }
+  .sb-user-meta{display:none}
+  .sb-user-more{display:none}
+}
+
+/* Stage 4: mobile — sidebar off, single-column canvas. */
+@media(max-width:640px){
   .app{grid-template-columns:1fr}
   .sidebar{display:none}
   .main{padding:20px 16px 56px}
@@ -674,48 +721,48 @@ body{
     </div>
 
     <div class="sb-section">
-      <div class="sb-item active">
+      <div class="sb-item active" title="Dashboard">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 4l9 8"/><path d="M5 10v10h14V10"/></svg>
-        Dashboard
+        <span class="sb-item-label">Dashboard</span>
       </div>
     </div>
 
     <div class="sb-section">
       <div class="sb-label">Find clients</div>
-      <div class="sb-item">
+      <div class="sb-item" title="Buyer Personas">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="9" r="3"/><path d="M2 20v-1a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v1"/><circle cx="17" cy="9" r="3"/><path d="M16 14a5 5 0 0 1 5 5v1"/></svg>
-        Buyer Personas
+        <span class="sb-item-label">Buyer Personas</span>
       </div>
-      <div class="sb-item">
+      <div class="sb-item" title="Prospects">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-        Prospects
+        <span class="sb-item-label">Prospects</span>
         <span class="count">1,428</span>
       </div>
     </div>
 
     <div class="sb-section">
       <div class="sb-label">Engage</div>
-      <div class="sb-item">
+      <div class="sb-item" title="Campaigns">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>
-        Campaigns
+        <span class="sb-item-label">Campaigns</span>
         <span class="count">6</span>
       </div>
-      <div class="sb-item">
+      <div class="sb-item" title="Messages">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 6 8 7 8-7"/></svg>
-        Messages
+        <span class="sb-item-label">Messages</span>
         <span class="count warn">12</span>
       </div>
-      <div class="sb-item">
+      <div class="sb-item" title="LinkedIn">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.56c0-1.33 0-3.04-1.85-3.04s-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56z"/></svg>
-        LinkedIn
+        <span class="sb-item-label">LinkedIn</span>
       </div>
     </div>
 
     <div class="sb-section">
       <div class="sb-label">Growth</div>
-      <div class="sb-item">
+      <div class="sb-item" title="Pulse">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 2"/></svg>
-        Pulse
+        <span class="sb-item-label">Pulse</span>
       </div>
     </div>
 
