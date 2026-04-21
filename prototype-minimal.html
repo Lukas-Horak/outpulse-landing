@@ -224,20 +224,75 @@ body{
 /* Funnel — 4 white cards connected by small arrow circles that sit
    ON the seam between each pair. Cards float on the Pulse's off-white
    canvas so each stage reads as a distinct step. */
+/* Interlocking chevron cards: each middle card has a left notch and a
+   right point that fit exactly into its neighbours, so the row reads
+   as a single connected sequence ('stage fits into stage'). Negative
+   margin-right pulls each card over its neighbour by the exact
+   chevron width, locking the arrow tip of card N into the notch of
+   card N+1. */
 .pulse-funnel{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+  display:flex;
   margin:8px 0 12px;
 }
 .pf{
+  flex:1 1 0;min-width:0;
   position:relative;
   background:#fff;
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:16px 18px 14px;
+  padding:16px 22px 14px 34px;
   display:flex;flex-direction:column;gap:6px;
-  min-width:0;
-  box-shadow:0 1px 2px rgba(14,13,12,.03);
+  --chev:14px;
+  clip-path:polygon(
+    0 0,
+    calc(100% - var(--chev)) 0,
+    100% 50%,
+    calc(100% - var(--chev)) 100%,
+    0 100%,
+    var(--chev) 50%
+  );
+  margin-right:calc(var(--chev) * -1);
+  /* drop-shadow (not box-shadow) follows the clip-path outline — two
+     layers: a hair-line outline + a gentle elevation. */
+  filter:
+    drop-shadow(0 0 0.5px rgba(14,13,12,.22))
+    drop-shadow(0 1px 2px rgba(14,13,12,.05));
+  z-index:1;
 }
+/* First card: flat left edge (no notch), no extra inner padding */
+.pf:first-child{
+  padding-left:20px;
+  clip-path:polygon(
+    0 0,
+    calc(100% - var(--chev)) 0,
+    100% 50%,
+    calc(100% - var(--chev)) 100%,
+    0 100%
+  );
+}
+/* Last card: flat right edge (no point), no negative pull */
+.pf:last-child{
+  padding-right:20px;
+  margin-right:0;
+  clip-path:polygon(
+    0 0,
+    100% 0,
+    100% 100%,
+    0 100%,
+    var(--chev) 50%
+  );
+}
+/* Subtle gradient in the notch area of non-first cards hints at the
+   join without needing a hard divider line. */
+.pf:not(:first-child){
+  background:
+    linear-gradient(90deg,rgba(14,13,12,.045) 0,transparent 22px),
+    #fff;
+}
+/* Stagger z-index so each earlier card's point sits OVER the next
+   card's notch — gives the arrow tip a clean edge over the joint. */
+.pf:nth-child(1){z-index:4}
+.pf:nth-child(2){z-index:3}
+.pf:nth-child(3){z-index:2}
+.pf:nth-child(4){z-index:1}
 .pf-val{
   font-family:var(--serif);font-weight:400;
   font-size:30px;line-height:1;letter-spacing:-.01em;
@@ -249,29 +304,6 @@ body{
   font-size:11px;letter-spacing:.1em;text-transform:uppercase;
   color:var(--muted);font-weight:600;
 }
-/* Connector — circular white badge with a right-chevron, sits
-   centred on the 12px gap between cards. */
-.pf::after{
-  content:"";
-  position:absolute;top:50%;right:-17px;
-  width:22px;height:22px;border-radius:50%;
-  background:#fff;border:1px solid var(--line);
-  box-shadow:0 1px 2px rgba(14,13,12,.05);
-  transform:translateY(-50%);
-  z-index:2;
-}
-/* Chevron inside the circle */
-.pf::before{
-  content:"";
-  position:absolute;top:50%;right:-10px;
-  width:6px;height:6px;
-  border-top:1.4px solid var(--muted);
-  border-right:1.4px solid var(--muted);
-  transform:translateY(-50%) rotate(45deg);
-  z-index:3;pointer-events:none;
-}
-.pf:last-child::after,
-.pf:last-child::before{display:none}
 
 /* Today strip — 5 small white cards in a row. No connectors (these
    are parallel stats, not a sequence). */
@@ -546,8 +578,21 @@ body{
   .app{grid-template-columns:220px 1fr}
   .right{display:none}
   .main{padding:24px 28px 72px}
-  .pulse-funnel{grid-template-columns:repeat(2,1fr)}
-  .pf:nth-child(2) .pf-arr{display:none}
+  /* Funnel collapses to a 2-per-row grid; chevron shapes don't work
+     once cards wrap, so we reset to plain rounded cards with a gap. */
+  .pulse-funnel{flex-wrap:wrap;gap:10px}
+  .pf,.pf:first-child,.pf:last-child{
+    flex:1 1 calc(50% - 5px);
+    padding:16px 20px 14px;
+    clip-path:none;
+    margin-right:0;
+    border:1px solid var(--line);
+    border-radius:12px;
+    filter:none;
+    background:#fff;
+    z-index:auto;
+    box-shadow:0 1px 2px rgba(14,13,12,.03);
+  }
   .kpis{grid-template-columns:repeat(2,1fr)}
   .two-col{grid-template-columns:1fr}
 }
@@ -558,8 +603,9 @@ body{
   .pulse{padding:18px 20px 14px}
   .pulse-grid{grid-template-columns:1fr;gap:14px}
   .pulse-grid .rule{display:none}
+  .pulse-funnel{gap:8px}
+  .pf,.pf:first-child,.pf:last-child{flex-basis:100%}
   .pulse-mini{grid-template-columns:repeat(2,1fr)}
-  .pulse-mini > div:nth-child(3){border-right:none}
   .kpis{grid-template-columns:1fr}
   .m-head{flex-direction:column;align-items:flex-start;gap:16px}
   .m-actions{width:100%}
