@@ -221,23 +221,26 @@ body{
 }
 .pulse-bar .fill{height:100%;width:8%;background:var(--ink);border-radius:999px}
 
+/* Funnel — 4 white cards connected by small arrow circles that sit
+   ON the seam between each pair. Cards float on the Pulse's off-white
+   canvas so each stage reads as a distinct step. */
 .pulse-funnel{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
-  margin:8px 0 0;
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
+  display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+  margin:8px 0 12px;
 }
 .pf{
   position:relative;
-  padding:18px 20px 16px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:16px 18px 14px;
   display:flex;flex-direction:column;gap:6px;
   min-width:0;
-  border-right:1px solid var(--line);
+  box-shadow:0 1px 2px rgba(14,13,12,.03);
 }
-.pf:last-child{border-right:none}
 .pf-val{
   font-family:var(--serif);font-weight:400;
-  font-size:32px;line-height:1;letter-spacing:-.01em;
+  font-size:30px;line-height:1;letter-spacing:-.01em;
   color:var(--ink);
   font-variant-numeric:lining-nums;
 }
@@ -246,32 +249,46 @@ body{
   font-size:11px;letter-spacing:.1em;text-transform:uppercase;
   color:var(--muted);font-weight:600;
 }
-.pf-arr{display:none}
-/* Mini arrow between funnel stages — positioned ON the divider line */
+/* Connector — circular white badge with a right-chevron, sits
+   centred on the 12px gap between cards. */
 .pf::after{
-  content:"";position:absolute;top:50%;right:-5px;
-  width:9px;height:9px;
-  border-top:1px solid var(--muted-2);
-  border-right:1px solid var(--muted-2);
-  transform:translateY(-50%) rotate(45deg);
-  background:transparent;
+  content:"";
+  position:absolute;top:50%;right:-17px;
+  width:22px;height:22px;border-radius:50%;
+  background:#fff;border:1px solid var(--line);
+  box-shadow:0 1px 2px rgba(14,13,12,.05);
+  transform:translateY(-50%);
+  z-index:2;
 }
-.pf:last-child::after{display:none}
+/* Chevron inside the circle */
+.pf::before{
+  content:"";
+  position:absolute;top:50%;right:-10px;
+  width:6px;height:6px;
+  border-top:1.4px solid var(--muted);
+  border-right:1.4px solid var(--muted);
+  transform:translateY(-50%) rotate(45deg);
+  z-index:3;pointer-events:none;
+}
+.pf:last-child::after,
+.pf:last-child::before{display:none}
 
-/* Today strip — sits directly under the funnel, no separate card,
-   same divider rhythm. */
+/* Today strip — 5 small white cards in a row. No connectors (these
+   are parallel stats, not a sequence). */
 .pulse-mini{
-  display:grid;grid-template-columns:repeat(5,1fr);
-  margin-top:0;
+  display:grid;grid-template-columns:repeat(5,1fr);gap:12px;
+  margin-top:2px;
 }
 .pulse-mini > div{
-  padding:16px 20px 14px;
-  border-right:1px solid var(--line);
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px 16px 12px;
   display:flex;flex-direction:column;gap:6px;
+  box-shadow:0 1px 2px rgba(14,13,12,.03);
 }
-.pulse-mini > div:last-child{border-right:none}
 .pm-lbl{
-  font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;
   color:var(--muted-2);font-weight:600;
 }
 .pm-val{
