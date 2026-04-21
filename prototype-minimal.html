@@ -159,126 +159,128 @@ body{
 .btn-primary svg{width:14px;height:14px}
 
 /* ─── PULSE HERO CARD ─────────────────────────────────────────────────── */
+/* Minimalist treatment: pure white card, slightly stronger border and
+   a tiny shadow so it still reads as the primary block on the page.
+   Colour earns its place only where it carries information — the
+   'Behind pace' status pill and the progress bar fill. */
 .pulse{
   position:relative;
-  border-radius:18px;
-  padding:24px 28px 20px;
-  overflow:hidden;
-  background:
-    radial-gradient(80% 100% at 15% 20%,#e9f4ec 0%,#f4faf6 50%,#fbfbf9 100%);
-  border:1px solid #e4ede7;
-  margin-bottom:36px;
+  border-radius:16px;
+  padding:22px 26px 18px;
+  background:#ffffff;
+  border:1px solid var(--line);
+  box-shadow:0 1px 2px rgba(14,13,12,.03);
+  margin-bottom:32px;
 }
-.pulse::before{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:
-    radial-gradient(55% 65% at 85% 120%,rgba(26,124,75,.10),transparent 70%),
-    radial-gradient(40% 60% at 110% 10%,rgba(255,138,76,.05),transparent 70%);
-}
-.pulse > *{position:relative;z-index:1}
 .pulse-top{
   display:flex;align-items:center;justify-content:space-between;gap:16px;
-  margin-bottom:14px;
+  margin-bottom:6px;
 }
 .pulse-eyebrow{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:4px 10px;border-radius:999px;
-  background:rgba(255,255,255,.72);
-  border:1px solid rgba(26,124,75,.16);
-  color:var(--green-ink);
-  font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
 }
-.pulse-eyebrow svg{width:11px;height:11px;color:var(--green)}
+.pulse-eyebrow svg{width:12px;height:12px;color:var(--ink)}
 .pulse-status{
   display:inline-flex;align-items:center;gap:6px;
   padding:4px 10px;border-radius:999px;
   background:var(--orange-soft);color:var(--orange-ink);
-  border:1px solid rgba(255,91,31,.2);
+  border:1px solid rgba(255,91,31,.18);
   font-size:11px;font-weight:600;
 }
 .pulse-status .d{width:6px;height:6px;border-radius:50%;background:var(--orange)}
 
 .pulse-grid{
-  display:grid;grid-template-columns:1fr 1px 1fr;gap:24px;
-  padding:6px 0 18px;
+  display:grid;grid-template-columns:1fr 1px 1fr;gap:28px;
+  padding:14px 0 16px;
 }
-.pulse-grid .rule{background:rgba(26,124,75,.12);width:1px}
-.pulse-col-lbl{font-size:12px;color:var(--muted);margin:0 0 6px}
+.pulse-grid .rule{background:var(--line);width:1px}
+.pulse-col-lbl{
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted-2);font-weight:600;
+  margin:0 0 10px;
+}
 .pulse-col-n{
   font-family:var(--serif);font-weight:400;
-  font-size:48px;line-height:1;letter-spacing:-.02em;
+  font-size:52px;line-height:1;letter-spacing:-.02em;
   color:var(--ink);
   font-variant-numeric:lining-nums;
 }
-.pulse-col-n .frac{font-size:.5em;color:var(--muted);letter-spacing:0;margin-left:2px}
-.pulse-col-sub{font-size:13px;color:var(--muted);margin-top:8px}
+.pulse-col-n .frac{font-size:.44em;color:var(--muted-2);letter-spacing:0;margin-left:2px}
+.pulse-col-sub{font-size:13px;color:var(--muted);margin-top:10px}
 
 .pulse-prog{
   display:flex;align-items:center;justify-content:space-between;gap:12px;
   font-size:11.5px;color:var(--muted);
-  padding:6px 0 12px;
+  padding:4px 0 14px;
 }
 .pulse-bar{
-  height:4px;background:rgba(26,124,75,.12);border-radius:999px;
-  overflow:hidden;margin-bottom:4px;
+  height:3px;background:var(--line);border-radius:999px;
+  overflow:hidden;margin-bottom:6px;
 }
-.pulse-bar .fill{height:100%;width:8%;background:var(--green);border-radius:999px}
+.pulse-bar .fill{height:100%;width:8%;background:var(--ink);border-radius:999px}
 
 .pulse-funnel{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
-  margin:4px 0 14px;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  margin:8px 0 0;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
 }
 .pf{
   position:relative;
-  background:rgba(255,255,255,.7);
-  border:1px solid rgba(26,124,75,.14);
-  border-radius:12px;
-  padding:14px 16px 12px;
-  display:flex;flex-direction:column;gap:4px;
+  padding:18px 20px 16px;
+  display:flex;flex-direction:column;gap:6px;
   min-width:0;
+  border-right:1px solid var(--line);
 }
+.pf:last-child{border-right:none}
 .pf-val{
   font-family:var(--serif);font-weight:400;
-  font-size:28px;line-height:1;letter-spacing:-.01em;
+  font-size:32px;line-height:1;letter-spacing:-.01em;
   color:var(--ink);
   font-variant-numeric:lining-nums;
 }
-.pf-val .frac{font-size:.48em;color:var(--muted);margin-left:2px}
-.pf-lbl{font-size:12px;color:var(--muted);letter-spacing:.02em}
-.pf-arr{
-  position:absolute;top:50%;right:-10px;transform:translateY(-50%);
-  width:18px;height:18px;border-radius:50%;
-  background:#fff;border:1px solid rgba(26,124,75,.18);
-  display:inline-flex;align-items:center;justify-content:center;
-  z-index:2;color:var(--muted);
-  font-size:11px;line-height:1;
+.pf-val .frac{font-size:.44em;color:var(--muted-2);margin-left:2px}
+.pf-lbl{
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);font-weight:600;
 }
-.pf:last-child .pf-arr{display:none}
+.pf-arr{display:none}
+/* Mini arrow between funnel stages — positioned ON the divider line */
+.pf::after{
+  content:"";position:absolute;top:50%;right:-5px;
+  width:9px;height:9px;
+  border-top:1px solid var(--muted-2);
+  border-right:1px solid var(--muted-2);
+  transform:translateY(-50%) rotate(45deg);
+  background:transparent;
+}
+.pf:last-child::after{display:none}
 
+/* Today strip — sits directly under the funnel, no separate card,
+   same divider rhythm. */
 .pulse-mini{
   display:grid;grid-template-columns:repeat(5,1fr);
-  background:rgba(255,255,255,.72);
-  border:1px solid rgba(26,124,75,.14);
-  border-radius:12px;
-  overflow:hidden;
+  margin-top:0;
 }
 .pulse-mini > div{
-  padding:14px 18px;
-  border-right:1px solid rgba(26,124,75,.10);
-  display:flex;flex-direction:column;gap:4px;
+  padding:16px 20px 14px;
+  border-right:1px solid var(--line);
+  display:flex;flex-direction:column;gap:6px;
 }
 .pulse-mini > div:last-child{border-right:none}
 .pm-lbl{
-  font-size:10px;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--muted);font-weight:600;
+  font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted-2);font-weight:600;
 }
 .pm-val{
   font-family:var(--serif);font-weight:400;
-  font-size:24px;line-height:1;letter-spacing:-.01em;
+  font-size:22px;line-height:1;letter-spacing:-.01em;
   color:var(--ink);
   font-variant-numeric:lining-nums;
 }
-.pm-val .frac{font-size:.5em;color:var(--muted);margin-left:2px}
+.pm-val .frac{font-size:.48em;color:var(--muted-2);margin-left:2px}
 
 /* ─── SECTION LABEL (reused across canvas) ────────────────────────────── */
 .sect-lbl{
@@ -287,6 +289,10 @@ body{
 }
 
 /* ─── OUTREACH KPI CARDS ──────────────────────────────────────────────── */
+/* All cards are plain white; colour exists only as a small dot next to
+   the category label and a matching tint on the delta chip. That keeps
+   the row reading as one coherent block of data instead of four
+   competing colour fields. */
 .kpis{
   display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
   margin-bottom:32px;
@@ -297,7 +303,16 @@ body{
   background:#fff;
   border:1px solid var(--line);
   display:flex;flex-direction:column;gap:10px;
-  position:relative;overflow:hidden;
+  position:relative;
+  box-shadow:0 1px 2px rgba(14,13,12,.02);
+}
+.kpi-top{
+  display:flex;align-items:center;gap:8px;
+}
+.kpi-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--muted-2);
+  flex-shrink:0;
 }
 .kpi-lbl{
   font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
@@ -315,19 +330,19 @@ body{
   padding:3px 10px;border-radius:999px;
   background:var(--bg-subtle);color:var(--muted);
   border:1px solid var(--line);
+  display:inline-flex;align-items:center;gap:5px;
 }
-.kpi.green {background:linear-gradient(180deg,#f1f8f3 0%,#fafdfb 100%);border-color:#e2ece6}
-.kpi.green  .kpi-lbl,.kpi.green .kpi-chip{color:var(--green-ink)}
-.kpi.green  .kpi-chip{background:#e3f0e8;border-color:#cfe2d6}
-.kpi.orange{background:linear-gradient(180deg,#fef4ec 0%,#fefaf5 100%);border-color:#f2e0cf}
-.kpi.orange .kpi-lbl,.kpi.orange .kpi-chip{color:var(--orange-ink)}
-.kpi.orange .kpi-chip{background:#fce4d0;border-color:#f0ceb4}
-.kpi.blue  {background:linear-gradient(180deg,#eef3fa 0%,#f7fafd 100%);border-color:#dbe6f1}
-.kpi.blue   .kpi-lbl,.kpi.blue .kpi-chip{color:var(--blue-ink)}
-.kpi.blue   .kpi-chip{background:#e3ecf6;border-color:#cedcee}
-.kpi.violet{background:linear-gradient(180deg,#f2edf8 0%,#faf8fc 100%);border-color:#e1d9ec}
-.kpi.violet .kpi-lbl,.kpi.violet .kpi-chip{color:var(--violet-ink)}
-.kpi.violet .kpi-chip{background:#e8e0f2;border-color:#d8cce7}
+.kpi-chip .arr{font-size:11px;line-height:1}
+/* Category-specific accents — ONLY the dot and the chip carry colour;
+   card body stays white so the group reads as a calm data row. */
+.kpi.green  .kpi-dot{background:var(--green)}
+.kpi.green  .kpi-chip{background:#eef6f1;border-color:#dbeae2;color:var(--green-ink)}
+.kpi.orange .kpi-dot{background:var(--orange)}
+.kpi.orange .kpi-chip{background:#fdf1e7;border-color:#f3dec9;color:var(--orange-ink)}
+.kpi.blue   .kpi-dot{background:var(--blue)}
+.kpi.blue   .kpi-chip{background:#ecf1f8;border-color:#d8e3ef;color:var(--blue-ink)}
+.kpi.violet .kpi-dot{background:var(--violet)}
+.kpi.violet .kpi-chip{background:#f0ecf5;border-color:#ded4ea;color:var(--violet-ink)}
 
 /* ─── TWO-COLUMN BLOCKS (Outreach activity + Active campaigns) ────────── */
 .two-col{
@@ -664,17 +679,14 @@ body{
         <div class="pf">
           <span class="pf-val">587<span class="frac">/417</span></span>
           <span class="pf-lbl">Visits</span>
-          <span class="pf-arr">›</span>
         </div>
         <div class="pf">
           <span class="pf-val">0</span>
           <span class="pf-lbl">Inquiries</span>
-          <span class="pf-arr">›</span>
         </div>
         <div class="pf">
           <span class="pf-val">0</span>
           <span class="pf-lbl">Calls</span>
-          <span class="pf-arr">›</span>
         </div>
         <div class="pf">
           <span class="pf-val">0<span class="frac">/3</span></span>
@@ -695,22 +707,34 @@ body{
     <div class="sect-lbl">Outreach</div>
     <div class="kpis">
       <div class="kpi green">
-        <span class="kpi-lbl">Prospects found</span>
+        <div class="kpi-top">
+          <span class="kpi-dot"></span>
+          <span class="kpi-lbl">Prospects found</span>
+        </div>
         <span class="kpi-val">40</span>
         <span class="kpi-chip">40 enriched</span>
       </div>
       <div class="kpi orange">
-        <span class="kpi-lbl">Emails sent</span>
+        <div class="kpi-top">
+          <span class="kpi-dot"></span>
+          <span class="kpi-lbl">Emails sent</span>
+        </div>
         <span class="kpi-val">0</span>
         <span class="kpi-chip">Create a campaign first</span>
       </div>
       <div class="kpi blue">
-        <span class="kpi-lbl">Open rate</span>
+        <div class="kpi-top">
+          <span class="kpi-dot"></span>
+          <span class="kpi-lbl">Open rate</span>
+        </div>
         <span class="kpi-val">—</span>
         <span class="kpi-chip">Tracked automatically</span>
       </div>
       <div class="kpi violet">
-        <span class="kpi-lbl">Meetings booked</span>
+        <div class="kpi-top">
+          <span class="kpi-dot"></span>
+          <span class="kpi-lbl">Meetings booked</span>
+        </div>
         <span class="kpi-val">0</span>
         <span class="kpi-chip">Your first one is coming</span>
       </div>
