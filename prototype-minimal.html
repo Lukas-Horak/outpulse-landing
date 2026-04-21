@@ -234,15 +234,20 @@ body{
   display:flex;
   margin:8px 0 12px;
 }
+/* Nested-layer chevron so the seam reads as a crisp 1px stroke.
+   Outer .pf is the 'stroke' layer (grey bg, clip-path applied, 1px
+   padding). Inner .pf-inner is the 'fill' layer (white bg, same
+   clip-path, fills 100% of the padding-box). The 1px padding gap
+   between the two clip-paths is what becomes the visible outline —
+   works on every edge including the slanted chevron, and doesn't
+   depend on filter:drop-shadow behaving correctly. */
 .pf{
   flex:1 1 0;min-width:0;
   position:relative;
-  background:#fff;
-  padding:16px 26px 14px 40px;
-  display:flex;flex-direction:column;gap:6px;
-  /* Pronounced chevron so the interlock actually reads at laptop
-     widths — 22px bite is clearly visible on ~180-220px cards. */
   --chev:22px;
+  background:#b8b2a6;               /* stroke colour */
+  padding:1px;                       /* creates the 1px outline band */
+  box-sizing:border-box;
   clip-path:polygon(
     0 0,
     calc(100% - var(--chev)) 0,
@@ -252,23 +257,39 @@ body{
     var(--chev) 50%
   );
   margin-right:calc(var(--chev) * -1);
-  /* 1px outline that follows the clip-path polygon. Four cardinal
-     drop-shadows build a crisp stroke on every edge (straight AND
-     slanted chevron). Colour is the same warm grey the rest of the
-     dashboard uses for dividers but a notch darker so the seam
-     between overlapping cards is unmistakable. A 5th soft shadow
-     adds gentle elevation under the whole row. */
-  filter:
-    drop-shadow( 1px  0 0 #b8b2a6)
-    drop-shadow(-1px  0 0 #b8b2a6)
-    drop-shadow( 0  1px 0 #b8b2a6)
-    drop-shadow( 0 -1px 0 #b8b2a6)
-    drop-shadow(0 2px 4px rgba(14,13,12,.05));
   z-index:1;
+  /* Soft elevation under the row — drop-shadow follows clip-path. */
+  filter:drop-shadow(0 2px 4px rgba(14,13,12,.05));
 }
-/* First card: flat left edge (no notch), no extra inner padding */
+.pf-inner{
+  position:relative;
+  background:#fff;
+  width:100%;height:100%;
+  box-sizing:border-box;
+  padding:15px 25px 13px 39px;
+  display:flex;flex-direction:column;gap:6px;
+  min-height:70px;
+  clip-path:polygon(
+    0 0,
+    calc(100% - var(--chev)) 0,
+    100% 50%,
+    calc(100% - var(--chev)) 100%,
+    0 100%,
+    var(--chev) 50%
+  );
+}
+/* First card: flat left edge (no notch) */
 .pf:first-child{
-  padding-left:20px;
+  clip-path:polygon(
+    0 0,
+    calc(100% - var(--chev)) 0,
+    100% 50%,
+    calc(100% - var(--chev)) 100%,
+    0 100%
+  );
+}
+.pf:first-child .pf-inner{
+  padding-left:19px;
   clip-path:polygon(
     0 0,
     calc(100% - var(--chev)) 0,
@@ -279,7 +300,6 @@ body{
 }
 /* Last card: flat right edge (no point), no negative pull */
 .pf:last-child{
-  padding-right:20px;
   margin-right:0;
   clip-path:polygon(
     0 0,
@@ -289,9 +309,16 @@ body{
     var(--chev) 50%
   );
 }
-/* Subtle gradient tint in the notch area removed — the crisp
-   drop-shadow outline above now provides the 'seam' line where
-   cards interlock. Keeping the cards on flat white. */
+.pf:last-child .pf-inner{
+  padding-right:19px;
+  clip-path:polygon(
+    0 0,
+    100% 0,
+    100% 100%,
+    0 100%,
+    var(--chev) 50%
+  );
+}
 /* Stagger z-index so each earlier card's point sits OVER the next
    card's notch — gives the arrow tip a clean edge over the joint. */
 .pf:nth-child(1){z-index:4}
@@ -588,14 +615,20 @@ body{
   .pulse-funnel{flex-wrap:wrap;gap:10px}
   .pf,.pf:first-child,.pf:last-child{
     flex:1 1 calc(50% - 5px);
-    padding:16px 20px 14px;
+    padding:0;
     clip-path:none;
     margin-right:0;
+    background:transparent;
+    z-index:auto;
+    filter:none;
+  }
+  .pf .pf-inner,
+  .pf:first-child .pf-inner,
+  .pf:last-child .pf-inner{
+    padding:16px 20px 14px;
+    clip-path:none;
     border:1px solid var(--line);
     border-radius:12px;
-    filter:none;
-    background:#fff;
-    z-index:auto;
     box-shadow:0 1px 2px rgba(14,13,12,.03);
   }
   .kpis{grid-template-columns:repeat(2,1fr)}
@@ -745,20 +778,28 @@ body{
 
       <div class="pulse-funnel">
         <div class="pf">
-          <span class="pf-val">587<span class="frac">/417</span></span>
-          <span class="pf-lbl">Visits</span>
+          <div class="pf-inner">
+            <span class="pf-val">587<span class="frac">/417</span></span>
+            <span class="pf-lbl">Visits</span>
+          </div>
         </div>
         <div class="pf">
-          <span class="pf-val">0</span>
-          <span class="pf-lbl">Inquiries</span>
+          <div class="pf-inner">
+            <span class="pf-val">0</span>
+            <span class="pf-lbl">Inquiries</span>
+          </div>
         </div>
         <div class="pf">
-          <span class="pf-val">0</span>
-          <span class="pf-lbl">Calls</span>
+          <div class="pf-inner">
+            <span class="pf-val">0</span>
+            <span class="pf-lbl">Calls</span>
+          </div>
         </div>
         <div class="pf">
-          <span class="pf-val">0<span class="frac">/3</span></span>
-          <span class="pf-lbl">Closed</span>
+          <div class="pf-inner">
+            <span class="pf-val">0<span class="frac">/3</span></span>
+            <span class="pf-lbl">Closed</span>
+          </div>
         </div>
       </div>
 
