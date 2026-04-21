@@ -250,11 +250,18 @@ body{
     var(--chev) 50%
   );
   margin-right:calc(var(--chev) * -1);
-  /* drop-shadow (not box-shadow) follows the clip-path outline — two
-     layers: a hair-line outline + a gentle elevation. */
+  /* Outline that follows the clip-path. Four 1px drop-shadows in
+     cardinal directions build a crisp 1px stroke around the whole
+     polygon (plain borders can't follow clip-path). A 5th, soft
+     shadow adds gentle elevation. When card N's chevron sits on top
+     of card N+1's notch, the stroke on the chevron edge reads as the
+     'seam' between the two cards. */
   filter:
-    drop-shadow(0 0 0.5px rgba(14,13,12,.22))
-    drop-shadow(0 1px 2px rgba(14,13,12,.05));
+    drop-shadow( 1px  0 0 #d8d5d0)
+    drop-shadow(-1px  0 0 #d8d5d0)
+    drop-shadow( 0  1px 0 #d8d5d0)
+    drop-shadow( 0 -1px 0 #d8d5d0)
+    drop-shadow(0 1px 2px rgba(14,13,12,.04));
   z-index:1;
 }
 /* First card: flat left edge (no notch), no extra inner padding */
@@ -280,13 +287,9 @@ body{
     var(--chev) 50%
   );
 }
-/* Subtle gradient in the notch area of non-first cards hints at the
-   join without needing a hard divider line. */
-.pf:not(:first-child){
-  background:
-    linear-gradient(90deg,rgba(14,13,12,.045) 0,transparent 22px),
-    #fff;
-}
+/* Subtle gradient tint in the notch area removed — the crisp
+   drop-shadow outline above now provides the 'seam' line where
+   cards interlock. Keeping the cards on flat white. */
 /* Stagger z-index so each earlier card's point sits OVER the next
    card's notch — gives the arrow tip a clean edge over the joint. */
 .pf:nth-child(1){z-index:4}
