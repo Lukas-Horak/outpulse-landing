@@ -238,9 +238,11 @@ body{
   flex:1 1 0;min-width:0;
   position:relative;
   background:#fff;
-  padding:16px 22px 14px 34px;
+  padding:16px 26px 14px 40px;
   display:flex;flex-direction:column;gap:6px;
-  --chev:14px;
+  /* Pronounced chevron so the interlock actually reads at laptop
+     widths — 22px bite is clearly visible on ~180-220px cards. */
+  --chev:22px;
   clip-path:polygon(
     0 0,
     calc(100% - var(--chev)) 0,
@@ -250,18 +252,18 @@ body{
     var(--chev) 50%
   );
   margin-right:calc(var(--chev) * -1);
-  /* Outline that follows the clip-path. Four 1px drop-shadows in
-     cardinal directions build a crisp 1px stroke around the whole
-     polygon (plain borders can't follow clip-path). A 5th, soft
-     shadow adds gentle elevation. When card N's chevron sits on top
-     of card N+1's notch, the stroke on the chevron edge reads as the
-     'seam' between the two cards. */
+  /* 1px outline that follows the clip-path polygon. Four cardinal
+     drop-shadows build a crisp stroke on every edge (straight AND
+     slanted chevron). Colour is the same warm grey the rest of the
+     dashboard uses for dividers but a notch darker so the seam
+     between overlapping cards is unmistakable. A 5th soft shadow
+     adds gentle elevation under the whole row. */
   filter:
-    drop-shadow( 1px  0 0 #d8d5d0)
-    drop-shadow(-1px  0 0 #d8d5d0)
-    drop-shadow( 0  1px 0 #d8d5d0)
-    drop-shadow( 0 -1px 0 #d8d5d0)
-    drop-shadow(0 1px 2px rgba(14,13,12,.04));
+    drop-shadow( 1px  0 0 #b8b2a6)
+    drop-shadow(-1px  0 0 #b8b2a6)
+    drop-shadow( 0  1px 0 #b8b2a6)
+    drop-shadow( 0 -1px 0 #b8b2a6)
+    drop-shadow(0 2px 4px rgba(14,13,12,.05));
   z-index:1;
 }
 /* First card: flat left edge (no notch), no extra inner padding */
