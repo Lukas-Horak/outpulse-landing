@@ -59,6 +59,100 @@ body{
   -moz-osx-font-smoothing:grayscale;
 }
 
+/* ═════════ SKELETON LOADER ═════════════════════════════════════════════
+   Renders immediately on page load with a tasteful shimmer animation
+   to bridge the gap before real content paints. Structure mirrors the
+   dashboard's three-column grid so there's no layout jolt when it
+   fades out. */
+.skeleton-page{
+  position:fixed;inset:0;z-index:500;
+  display:grid;grid-template-columns:240px 1fr 300px;
+  background:#ffffff;
+  transition:opacity .45s ease;
+  opacity:1;
+}
+.skeleton-page.done{
+  opacity:0;pointer-events:none;
+}
+.skeleton-page .sk-col{
+  padding:22px 22px;min-width:0;
+  display:flex;flex-direction:column;gap:14px;
+}
+.skeleton-page .sk-col.sk-left{
+  background:var(--bg-panel);
+  border-right:1px solid var(--line);
+  padding:18px 14px;
+}
+.skeleton-page .sk-col.sk-right{
+  background:var(--bg-panel);
+  border-left:1px solid var(--line);
+  padding:22px 18px;
+}
+.skeleton-page .sk-col.sk-main{
+  padding:28px 36px;
+}
+.sk{
+  background:linear-gradient(90deg,#ececea 0%,#f7f5f1 50%,#ececea 100%);
+  background-size:200% 100%;
+  animation:skShimmer 1.3s ease-in-out infinite;
+  border-radius:8px;
+}
+@keyframes skShimmer{
+  0%{background-position:100% 0}
+  100%{background-position:-100% 0}
+}
+/* Piece shapes — each class preset matches a real element's rough
+   footprint so the transition from skeleton → content reads cleanly. */
+.sk-brand{height:34px;width:70%;border-radius:10px}
+.sk-row{height:34px;width:100%;border-radius:9px}
+.sk-row-sm{height:28px;width:80%;border-radius:8px}
+.sk-label{height:11px;width:60%;margin:10px 6px 2px;border-radius:5px}
+.sk-user{height:46px;width:100%;margin-top:auto;border-radius:9px}
+.sk-head{height:16px;width:32%;border-radius:5px}
+.sk-head-h1{height:40px;width:55%;border-radius:8px;margin-top:4px}
+.sk-actions{
+  display:flex;gap:8px;align-self:flex-end;margin-top:-44px;margin-bottom:12px;
+}
+.sk-btn{height:36px;width:112px;border-radius:9px}
+.sk-btn-sq{height:36px;width:36px;border-radius:9px}
+.sk-pulse{
+  height:320px;width:100%;
+  border-radius:16px;
+  background:
+    linear-gradient(90deg,#ececea 0%,#f7f5f1 50%,#ececea 100%),
+    var(--bg-panel);
+  background-size:200% 100%,100% 100%;
+  background-blend-mode:multiply;
+  animation:skShimmer 1.3s ease-in-out infinite;
+}
+.sk-kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.sk-kpi{height:128px;border-radius:14px}
+.sk-two-row{display:grid;grid-template-columns:1.25fr 1fr;gap:20px}
+.sk-panel{height:240px;border-radius:14px}
+.sk-feed-row{height:56px;border-radius:10px}
+
+/* Responsive — when the real app collapses sidebars we do too. */
+@media(max-width:1400px){
+  .skeleton-page{grid-template-columns:240px 1fr}
+  .skeleton-page .sk-col.sk-right{display:none}
+  .sk-kpi-row{grid-template-columns:repeat(2,1fr)}
+  .sk-two-row{grid-template-columns:1fr}
+}
+@media(max-width:1160px){
+  .skeleton-page{grid-template-columns:64px 1fr}
+  .skeleton-page .sk-col.sk-left{padding:16px 10px;align-items:center}
+  .sk-brand{width:30px;height:30px;border-radius:50%}
+  .sk-row,.sk-row-sm{width:44px;height:40px;margin:0 auto;border-radius:10px}
+  .sk-label{display:none}
+  .sk-user{width:36px;height:36px;border-radius:50%}
+}
+@media(max-width:640px){
+  .skeleton-page{grid-template-columns:1fr}
+  .skeleton-page .sk-col.sk-left{display:none}
+  .skeleton-page .sk-col.sk-main{padding:18px 16px}
+  .sk-kpi-row{grid-template-columns:1fr}
+}
+
 /* ── Layout ──────────────────────────────────────────────────────────── */
 .app{
   display:grid;
@@ -741,6 +835,54 @@ body{
 </head>
 <body>
 
+<!-- ══════════════════ SKELETON LOADER (shown on initial paint) ══════════════════ -->
+<div class="skeleton-page" aria-hidden="true">
+  <div class="sk-col sk-left">
+    <div class="sk sk-brand"></div>
+    <div class="sk sk-row"></div>
+    <div class="sk sk-label"></div>
+    <div class="sk sk-row-sm"></div>
+    <div class="sk sk-row-sm"></div>
+    <div class="sk sk-label"></div>
+    <div class="sk sk-row-sm"></div>
+    <div class="sk sk-row-sm"></div>
+    <div class="sk sk-row-sm"></div>
+    <div class="sk sk-label"></div>
+    <div class="sk sk-row-sm"></div>
+    <div class="sk sk-user"></div>
+  </div>
+  <div class="sk-col sk-main">
+    <div class="sk sk-head"></div>
+    <div class="sk sk-head-h1"></div>
+    <div class="sk-actions">
+      <div class="sk sk-btn"></div>
+      <div class="sk sk-btn"></div>
+      <div class="sk sk-btn-sq"></div>
+    </div>
+    <div class="sk sk-pulse"></div>
+    <div class="sk sk-head" style="width:12%;margin-top:6px"></div>
+    <div class="sk-kpi-row">
+      <div class="sk sk-kpi"></div>
+      <div class="sk sk-kpi"></div>
+      <div class="sk sk-kpi"></div>
+      <div class="sk sk-kpi"></div>
+    </div>
+    <div class="sk-two-row">
+      <div class="sk sk-panel"></div>
+      <div class="sk sk-panel"></div>
+    </div>
+    <div class="sk sk-head" style="width:18%;margin-top:8px"></div>
+    <div class="sk sk-feed-row"></div>
+    <div class="sk sk-feed-row"></div>
+    <div class="sk sk-feed-row"></div>
+  </div>
+  <div class="sk-col sk-right">
+    <div class="sk sk-panel" style="height:200px"></div>
+    <div class="sk sk-panel" style="height:160px"></div>
+    <div class="sk sk-panel" style="height:200px"></div>
+  </div>
+</div>
+
 <div class="app">
 
   <!-- ══════════════════ LEFT SIDEBAR ══════════════════ -->
@@ -1151,6 +1293,31 @@ body{
   </aside>
 
 </div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════════
+   Skeleton loader — fade-out once the page paints, then remove from the
+   DOM. Kept deliberately short (~750ms) so the real content appears
+   quickly; long enough to register as an intentional loading state. */
+(function(){
+  const skel = document.querySelector('.skeleton-page');
+  if (!skel) return;
+  function finish(){
+    skel.classList.add('done');
+    setTimeout(() => skel.remove(), 500);
+  }
+  // Ensure a minimum visible duration so the animation reads, but
+  // don't hang forever if page paints fast.
+  const start = performance.now();
+  window.addEventListener('load', () => {
+    const elapsed = performance.now() - start;
+    const hold = Math.max(0, 750 - elapsed);
+    setTimeout(finish, hold);
+  });
+  // Fallback if 'load' is already past (e.g. cached pages)
+  setTimeout(finish, 2500);
+})();
+</script>
 
 <script>
 /* ══════════════════════════════════════════════════════════════════════
