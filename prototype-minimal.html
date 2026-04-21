@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Outpulse — Prototype (minimal)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<style>
+/* ═══════════════════════════════════════════════════════════════════════
+   Outpulse — minimal product prototype
+   ----------------------------------------------------------------------
+   Reimagines the product surface in the same ultra-minimal language as
+   Claude's Cowork UI:
+     • lots of whitespace, thin 1px dividers, off-white sidebars
+     • tiny uppercase section labels, generous vertical rhythm
+     • circular progress indicators, strikethrough for "done"
+     • accents only where they earn their keep (orange / violet / blue)
+   Typography and brand palette are carried over from outpulse-landing
+   so the product still reads as Outpulse — just quieter.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root{
+  /* palette — carried over from the landing page */
+  --ink:#14120f;
+  --ink-2:#3a342c;
+  --muted:#6c6458;
+  --muted-2:#a8a097;
+  --line:#ececeaee;         /* primary 1px divider */
+  --line-2:#f4f3f0;         /* softer divider */
+  --bg:#ffffff;
+  --bg-panel:#fbfaf7;       /* sidebar / right panel off-white */
+  --bg-subtle:#f7f5f1;      /* subtle row hover */
+  --orange:#ff5b1f;
+  --orange-soft:#fff4ec;
+  --violet:#8a76b8;
+  --violet-soft:#f1edf7;
+  --blue:#3866a6;
+  --blue-soft:#eef3fa;
+  --green:#1a7c4b;
+  --green-soft:#edf7f0;
+  --warn:#c97a10;
+
+  --serif:"Playfair Display",Georgia,serif;
+  --sans:"Inter","Helvetica Neue",system-ui,sans-serif;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--sans);
+  font-size:14px;line-height:1.55;
+  color:var(--ink);
+  background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* ── Layout ──────────────────────────────────────────────────────────── */
+.app{
+  display:grid;
+  grid-template-columns:260px 1fr 320px;
+  min-height:100vh;
+  background:var(--bg);
+}
+
+/* ═════════ LEFT SIDEBAR ════════════════════════════════════════════════ */
+.sidebar{
+  border-right:1px solid var(--line);
+  background:var(--bg-panel);
+  padding:18px 14px 24px;
+  display:flex;flex-direction:column;gap:18px;
+  position:sticky;top:0;height:100vh;overflow-y:auto;
+}
+.sb-brand{
+  display:flex;align-items:center;gap:9px;padding:6px 10px;
+}
+.sb-brand-mark{
+  width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;
+}
+.sb-brand-mark svg{width:100%;height:100%;display:block}
+.sb-brand-name{font-family:var(--serif);font-weight:500;font-size:18px;letter-spacing:-.01em}
+
+.sb-search{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 10px;
+  border:1px solid var(--line);border-radius:8px;
+  background:#fff;
+  color:var(--muted);font-size:13px;
+  cursor:text;
+}
+.sb-search svg{width:14px;height:14px;flex-shrink:0}
+.sb-search .kbd{
+  margin-left:auto;font-size:11px;color:var(--muted-2);
+  padding:1px 5px;border:1px solid var(--line);border-radius:4px;
+  background:var(--bg-panel);
+}
+
+.sb-section{display:flex;flex-direction:column;gap:2px}
+.sb-label{
+  font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted-2);
+  padding:10px 10px 6px;
+}
+.sb-item{
+  display:flex;align-items:center;gap:9px;
+  padding:6px 10px;border-radius:6px;
+  font-size:13px;color:var(--ink-2);font-weight:400;
+  cursor:pointer;
+  transition:background .15s ease;
+}
+.sb-item:hover{background:#efede9}
+.sb-item.active{background:#efede9;color:var(--ink);font-weight:500}
+.sb-item svg{width:14px;height:14px;flex-shrink:0;color:var(--muted)}
+.sb-item .count{
+  margin-left:auto;font-size:11px;color:var(--muted-2);
+}
+.sb-item .dot{
+  width:7px;height:7px;border-radius:50%;background:var(--muted-2);flex-shrink:0;
+}
+.sb-item .dot.orange{background:var(--orange)}
+.sb-item .dot.violet{background:var(--violet)}
+.sb-item .dot.blue{background:var(--blue)}
+.sb-item .dot.green{background:var(--green)}
+.sb-item .warn{color:var(--warn)}
+
+.sb-new{
+  margin-top:4px;
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 12px;border-radius:8px;
+  background:var(--ink);color:#fff;
+  font-size:13px;font-weight:500;
+  cursor:pointer;border:none;width:100%;
+}
+.sb-new:hover{background:#2a241c}
+.sb-new svg{width:14px;height:14px}
+
+.sb-user{
+  margin-top:auto;
+  display:flex;align-items:center;gap:10px;
+  padding:10px;border-top:1px solid var(--line);
+}
+.sb-user-av{
+  width:26px;height:26px;border-radius:50%;
+  background:linear-gradient(135deg,var(--violet),var(--blue));
+  color:#fff;display:inline-flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:600;
+}
+.sb-user-name{font-size:13px;font-weight:500}
+
+/* ═════════ MAIN CANVAS ════════════════════════════════════════════════ */
+.main{
+  padding:26px 48px 80px;
+  max-width:820px;
+  margin:0 auto;
+}
+.m-top{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:4px 0 28px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:36px;
+}
+.m-crumbs{
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;color:var(--muted);
+}
+.m-crumbs .sep{color:var(--muted-2)}
+.m-crumbs .here{color:var(--ink);font-weight:500}
+.m-tabs{display:flex;align-items:center;gap:4px}
+.m-tab{
+  padding:5px 10px;border-radius:6px;
+  font-size:13px;color:var(--muted);
+  cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.m-tab:hover{background:var(--bg-subtle);color:var(--ink-2)}
+.m-tab.on{color:var(--ink);font-weight:500}
+
+/* Page heading — serif display used sparingly, once per view. */
+.m-head{
+  margin-bottom:8px;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:24px;
+}
+.m-head h1{
+  font-family:var(--serif);font-weight:400;
+  font-size:34px;line-height:1.1;letter-spacing:-.01em;
+  margin:0;
+}
+.m-head h1 em{
+  font-style:italic;color:var(--orange);
+  /* descender rescue for italic g/y since we don't use background-clip here */
+}
+.m-head-meta{
+  display:flex;align-items:center;gap:12px;
+  font-size:12.5px;color:var(--muted);
+  white-space:nowrap;
+}
+.m-head-meta .dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.m-sub{
+  font-size:14.5px;color:var(--muted);
+  margin:0 0 32px;max-width:58ch;
+}
+
+/* Inline KPI strip — no cards, just three columns separated by thin rules. */
+.kpi{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  margin:0 0 40px;
+}
+.kpi-col{
+  padding:18px 20px 18px 0;
+  border-right:1px solid var(--line);
+}
+.kpi-col:last-child{border-right:none;padding-right:0}
+.kpi-lbl{
+  font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted-2);font-weight:600;
+}
+.kpi-val{
+  font-family:var(--serif);font-weight:400;
+  font-size:30px;line-height:1;letter-spacing:-.01em;
+  margin:10px 0 6px;
+}
+.kpi-delta{
+  font-size:12px;color:var(--muted);
+  display:inline-flex;align-items:center;gap:4px;
+}
+.kpi-delta .arrow{color:var(--green);font-size:11px}
+.kpi-delta.down .arrow{color:var(--warn)}
+
+/* ── Section header shared across the main canvas ────────────────────── */
+.section-h{
+  display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+  padding-bottom:10px;margin:40px 0 14px;
+  border-bottom:1px solid var(--line);
+}
+.section-h h3{
+  margin:0;font-size:13px;font-weight:600;letter-spacing:.02em;
+}
+.section-h .action{
+  font-size:12px;color:var(--muted);
+  display:inline-flex;align-items:center;gap:4px;cursor:pointer;
+}
+.section-h .action:hover{color:var(--ink)}
+
+/* ── Prospect rows — zero card chrome, just thin dividers ─────────────── */
+.rows{display:flex;flex-direction:column}
+.row{
+  display:grid;
+  grid-template-columns:auto 1fr auto auto;
+  gap:14px;align-items:center;
+  padding:14px 2px;
+  border-bottom:1px solid var(--line-2);
+  cursor:pointer;
+}
+.row:hover{background:var(--bg-subtle)}
+.row .av{
+  width:28px;height:28px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:10.5px;font-weight:600;
+  background:var(--violet-soft);color:var(--violet);
+}
+.row .av.blue{background:var(--blue-soft);color:var(--blue)}
+.row .av.orange{background:var(--orange-soft);color:var(--orange)}
+.row .av.green{background:var(--green-soft);color:var(--green)}
+.row-who{display:flex;flex-direction:column;min-width:0}
+.row-name{font-size:14px;font-weight:500;letter-spacing:-.005em}
+.row-role{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-signal{
+  font-size:12px;color:var(--muted);
+  display:inline-flex;align-items:center;gap:6px;
+  white-space:nowrap;
+}
+.row-signal .bullet{width:4px;height:4px;border-radius:50%;background:var(--muted-2)}
+.row-signal .bullet.orange{background:var(--orange)}
+.row-signal .bullet.blue{background:var(--blue)}
+.row-signal .bullet.green{background:var(--green)}
+.row-status{
+  font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);font-weight:600;
+  display:inline-flex;align-items:center;gap:6px;
+  white-space:nowrap;
+}
+.row-status .dot{width:6px;height:6px;border-radius:50%;background:var(--muted-2)}
+.row-status[data-state="queued"]   .dot{background:var(--muted-2)}
+.row-status[data-state="sending"]  .dot{background:var(--blue)}
+.row-status[data-state="sent"]     .dot{background:var(--green)}
+.row-status[data-state="replied"]  .dot{background:var(--orange)}
+.row-status[data-state="queued"]   {color:var(--muted)}
+.row-status[data-state="sending"]  {color:var(--blue)}
+.row-status[data-state="sent"]     {color:var(--green)}
+.row-status[data-state="replied"]  {color:var(--orange)}
+
+/* "Today" divider — tiny label between groups of rows */
+.day-divider{
+  font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted-2);font-weight:600;
+  padding:20px 0 8px;
+}
+
+/* ── Email preview — flat, no shadows, just a column of text ───────────── */
+.preview{
+  margin-top:8px;
+  padding:4px 0 8px;
+}
+.preview-meta{
+  display:flex;flex-direction:column;gap:2px;
+  padding-bottom:14px;margin-bottom:16px;
+  border-bottom:1px solid var(--line-2);
+}
+.preview-row{
+  display:flex;gap:14px;font-size:13px;
+  padding:2px 0;
+}
+.preview-row .k{color:var(--muted-2);width:64px;flex-shrink:0;font-weight:500;
+  font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding-top:3px}
+.preview-row .v{color:var(--ink-2);min-width:0}
+.preview-body{
+  font-size:15px;line-height:1.7;color:var(--ink-2);
+  max-width:64ch;
+  white-space:pre-line;
+}
+.preview-body strong{font-weight:600;color:var(--ink)}
+
+/* ── Activity feed — vertical timeline with a thin guide line ──────────── */
+.feed{position:relative;padding:4px 0}
+.feed::before{
+  content:"";position:absolute;
+  left:7px;top:10px;bottom:10px;width:1px;background:var(--line);
+}
+.feed-item{
+  position:relative;padding:10px 0 10px 30px;
+  display:flex;flex-direction:column;gap:3px;
+}
+.feed-item::before{
+  content:"";position:absolute;left:3px;top:15px;
+  width:9px;height:9px;border-radius:50%;
+  background:#fff;border:1.5px solid var(--muted-2);
+  box-sizing:border-box;
+}
+.feed-item[data-k="sent"]::before   {background:var(--green);border-color:var(--green)}
+.feed-item[data-k="reply"]::before  {background:var(--orange);border-color:var(--orange)}
+.feed-item[data-k="meeting"]::before{background:var(--blue);border-color:var(--blue)}
+.feed-when{font-size:11px;color:var(--muted-2);letter-spacing:.04em}
+.feed-title{font-size:14px;font-weight:500;color:var(--ink)}
+.feed-body{font-size:13px;color:var(--muted);max-width:54ch}
+
+/* ═════════ RIGHT PANEL ════════════════════════════════════════════════ */
+.right{
+  border-left:1px solid var(--line);
+  background:var(--bg-panel);
+  padding:20px 18px 24px;
+  display:flex;flex-direction:column;gap:20px;
+  position:sticky;top:0;height:100vh;overflow-y:auto;
+}
+.rp-block{
+  border:1px solid var(--line);
+  border-radius:10px;background:#fff;
+  padding:12px 14px;
+}
+.rp-h{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:2px 0 10px;
+}
+.rp-h-title{font-size:12px;font-weight:600;letter-spacing:.02em;color:var(--ink)}
+.rp-h-chev{color:var(--muted-2);font-size:13px}
+.rp-list{display:flex;flex-direction:column;gap:8px}
+.rp-step{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:13px;color:var(--ink-2);line-height:1.4;
+  padding:4px 0;
+}
+.rp-step .ck{
+  width:16px;height:16px;flex-shrink:0;border-radius:50%;
+  border:1.5px solid var(--muted-2);background:#fff;
+  display:inline-flex;align-items:center;justify-content:center;
+  margin-top:1px;
+}
+.rp-step.done .ck{background:var(--orange);border-color:var(--orange)}
+.rp-step.done .ck svg{width:9px;height:9px;stroke:#fff;stroke-width:3;fill:none}
+.rp-step.done{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--muted-2)}
+.rp-step.now .ck{border-color:var(--blue)}
+.rp-step.now .ck::after{
+  content:"";width:6px;height:6px;background:var(--blue);border-radius:50%;
+  animation:nowPulse 1s ease-in-out infinite;
+}
+@keyframes nowPulse{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.2)}}
+
+.rp-kv{
+  display:flex;justify-content:space-between;gap:10px;
+  padding:6px 0;
+  font-size:13px;border-bottom:1px solid var(--line-2);
+}
+.rp-kv:last-child{border-bottom:none}
+.rp-kv .k{color:var(--muted)}
+.rp-kv .v{color:var(--ink-2);font-weight:500;text-align:right}
+
+.rp-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 10px;border-radius:999px;
+  font-size:12px;color:var(--ink-2);font-weight:500;
+  background:var(--bg-subtle);border:1px solid var(--line);
+}
+.rp-chip .d{width:5px;height:5px;border-radius:50%;background:var(--orange)}
+.rp-chips{display:flex;flex-wrap:wrap;gap:6px}
+
+.rp-connector{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 0;font-size:13px;color:var(--ink-2);
+}
+.rp-connector svg{width:18px;height:18px;color:var(--muted)}
+.rp-connector .live{
+  margin-left:auto;
+  font-size:11px;color:var(--green);
+  display:inline-flex;align-items:center;gap:4px;
+}
+.rp-connector .live .d{width:6px;height:6px;border-radius:50%;background:var(--green)}
+
+/* ── Responsive: collapse the right panel, then the left ─────────────── */
+@media(max-width:1280px){
+  .app{grid-template-columns:240px 1fr}
+  .right{display:none}
+  .main{padding:26px 40px 80px;max-width:720px}
+}
+@media(max-width:900px){
+  .app{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .main{padding:22px 20px 64px}
+  .kpi{grid-template-columns:1fr;}
+  .kpi-col{border-right:none;border-bottom:1px solid var(--line);padding:14px 0}
+  .kpi-col:last-child{border-bottom:none}
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ══════════════════ LEFT SIDEBAR ══════════════════ -->
+  <aside class="sidebar">
+
+    <div class="sb-brand">
+      <span class="sb-brand-mark">
+        <svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <mask id="outpulseGap" maskUnits="userSpaceOnUse">
+              <rect width="1000" height="1000" fill="white"/>
+              <circle cx="391" cy="500" r="248" fill="none" stroke="black" stroke-width="48"/>
+            </mask>
+          </defs>
+          <circle cx="391" cy="500" r="200" fill="none" stroke="currentColor" stroke-width="48"/>
+          <circle cx="601" cy="500" r="200" fill="currentColor" mask="url(#outpulseGap)"/>
+        </svg>
+      </span>
+      <span class="sb-brand-name">Outpulse</span>
+    </div>
+
+    <div class="sb-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      Search
+      <span class="kbd">⌘K</span>
+    </div>
+
+    <button class="sb-new">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+      New campaign
+    </button>
+
+    <div class="sb-section">
+      <div class="sb-item active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 4l9 8"/><path d="M5 10v10h14V10"/></svg>
+        Overview
+      </div>
+      <div class="sb-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
+        Campaigns
+        <span class="count">6</span>
+      </div>
+      <div class="sb-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a8 8 0 0 1 16 0v1"/></svg>
+        Prospects
+        <span class="count">1,428</span>
+      </div>
+      <div class="sb-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 6 8 7 8-7"/></svg>
+        Inbox
+        <span class="count warn">12</span>
+      </div>
+      <div class="sb-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>
+        Analytics
+      </div>
+      <div class="sb-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
+        Settings
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-label">Pinned campaigns</div>
+      <div class="sb-item">
+        <span class="dot orange"></span>
+        Q2 · Series B CTOs
+      </div>
+      <div class="sb-item">
+        <span class="dot blue"></span>
+        SaaS · 50–200 · EU
+      </div>
+      <div class="sb-item">
+        <span class="dot violet"></span>
+        Fintech · Heads of Growth
+      </div>
+      <div class="sb-item">
+        <span class="dot green"></span>
+        Warm replies · follow-up
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-label">Recents</div>
+      <div class="sb-item">Sarah Chen · Vercel</div>
+      <div class="sb-item">Marcus Webb · Linear</div>
+      <div class="sb-item">Anna Kovacs · Stripe</div>
+      <div class="sb-item">Rachel Park · Ramp</div>
+    </div>
+
+    <div class="sb-user">
+      <span class="sb-user-av">LH</span>
+      <span class="sb-user-name">Lukas Horak</span>
+    </div>
+  </aside>
+
+  <!-- ══════════════════ MAIN CANVAS ══════════════════ -->
+  <main class="main">
+
+    <div class="m-top">
+      <div class="m-crumbs">
+        <span>Campaigns</span>
+        <span class="sep">/</span>
+        <span class="here">Q2 · Series B CTOs</span>
+      </div>
+      <div class="m-tabs">
+        <div class="m-tab on">Overview</div>
+        <div class="m-tab">Prospects</div>
+        <div class="m-tab">Inbox</div>
+        <div class="m-tab">Settings</div>
+      </div>
+    </div>
+
+    <div class="m-head">
+      <div>
+        <h1>Series B CTOs, <em>on autopilot.</em></h1>
+      </div>
+      <div class="m-head-meta">
+        <span class="dot"></span>
+        Running · 14 days
+      </div>
+    </div>
+    <p class="m-sub">Outpulse is reaching 428 Series B CTOs across SaaS, fintech, and e-commerce. Emails are AI-personalised per prospect and sent whenever the intent signals are strongest.</p>
+
+    <!-- KPI strip — inline numbers, no card chrome. -->
+    <div class="kpi">
+      <div class="kpi-col">
+        <div class="kpi-lbl">Sent this week</div>
+        <div class="kpi-val">1,284</div>
+        <div class="kpi-delta"><span class="arrow">↑</span> 18% vs last week</div>
+      </div>
+      <div class="kpi-col">
+        <div class="kpi-lbl">Reply rate</div>
+        <div class="kpi-val">11.2%</div>
+        <div class="kpi-delta"><span class="arrow">↑</span> 2.4 pts vs last week</div>
+      </div>
+      <div class="kpi-col">
+        <div class="kpi-lbl">Meetings booked</div>
+        <div class="kpi-val">27</div>
+        <div class="kpi-delta"><span class="arrow">↑</span> 6 this week</div>
+      </div>
+    </div>
+
+    <!-- Prospect stream — Today / Yesterday sections. -->
+    <div class="section-h">
+      <h3>Sent in the last 24 hours</h3>
+      <span class="action">View all →</span>
+    </div>
+
+    <div class="day-divider">Today · 21 Apr</div>
+
+    <div class="rows">
+      <div class="row">
+        <span class="av">SC</span>
+        <div class="row-who">
+          <span class="row-name">Sarah Chen</span>
+          <span class="row-role">VP Engineering · Vercel</span>
+        </div>
+        <span class="row-signal"><span class="bullet orange"></span>Hiring 12 engineers</span>
+        <span class="row-status" data-state="replied"><span class="dot"></span>Replied</span>
+      </div>
+
+      <div class="row">
+        <span class="av blue">MW</span>
+        <div class="row-who">
+          <span class="row-name">Marcus Webb</span>
+          <span class="row-role">CTO · Linear</span>
+        </div>
+        <span class="row-signal"><span class="bullet blue"></span>New CTO · 2 weeks</span>
+        <span class="row-status" data-state="sent"><span class="dot"></span>Sent</span>
+      </div>
+
+      <div class="row">
+        <span class="av orange">AK</span>
+        <div class="row-who">
+          <span class="row-name">Anna Kovacs</span>
+          <span class="row-role">Head of Product · Stripe</span>
+        </div>
+        <span class="row-signal"><span class="bullet green"></span>Opened EU HQ</span>
+        <span class="row-status" data-state="sent"><span class="dot"></span>Sent</span>
+      </div>
+
+      <div class="row">
+        <span class="av green">RP</span>
+        <div class="row-who">
+          <span class="row-name">Rachel Park</span>
+          <span class="row-role">VP Sales · Ramp</span>
+        </div>
+        <span class="row-signal"><span class="bullet orange"></span>Raised $100M · Series D</span>
+        <span class="row-status" data-state="sending"><span class="dot"></span>Sending</span>
+      </div>
+
+      <div class="row">
+        <span class="av">DK</span>
+        <div class="row-who">
+          <span class="row-name">David Kim</span>
+          <span class="row-role">CTO · Webflow</span>
+        </div>
+        <span class="row-signal"><span class="bullet blue"></span>Migrating to AWS</span>
+        <span class="row-status" data-state="queued"><span class="dot"></span>Queued</span>
+      </div>
+    </div>
+
+    <div class="day-divider">Yesterday · 20 Apr</div>
+
+    <div class="rows">
+      <div class="row">
+        <span class="av blue">NG</span>
+        <div class="row-who">
+          <span class="row-name">Nina Garcia</span>
+          <span class="row-role">Head of Growth · Supabase</span>
+        </div>
+        <span class="row-signal"><span class="bullet orange"></span>Growing 180% YoY</span>
+        <span class="row-status" data-state="replied"><span class="dot"></span>Replied</span>
+      </div>
+      <div class="row">
+        <span class="av orange">TH</span>
+        <div class="row-who">
+          <span class="row-name">Tom Heller</span>
+          <span class="row-role">VP Eng · Replit</span>
+        </div>
+        <span class="row-signal"><span class="bullet green"></span>Shipped GenAI tools</span>
+        <span class="row-status" data-state="sent"><span class="dot"></span>Sent</span>
+      </div>
+      <div class="row">
+        <span class="av">OP</span>
+        <div class="row-who">
+          <span class="row-name">Omar Patel</span>
+          <span class="row-role">VP Marketing · Raycast</span>
+        </div>
+        <span class="row-signal"><span class="bullet blue"></span>Expanding APAC</span>
+        <span class="row-status" data-state="sent"><span class="dot"></span>Sent</span>
+      </div>
+    </div>
+
+    <!-- Email preview — flat, no chrome. -->
+    <div class="section-h">
+      <h3>Draft sent to Sarah Chen</h3>
+      <span class="action">Edit template →</span>
+    </div>
+    <div class="preview">
+      <div class="preview-meta">
+        <div class="preview-row"><span class="k">To</span><span class="v">s.chen@vercel.com</span></div>
+        <div class="preview-row"><span class="k">Subject</span><span class="v">Vercel's next 50 customers?</span></div>
+        <div class="preview-row"><span class="k">Signal</span><span class="v">Hiring 12 engineers · Series C $120M (3 days ago)</span></div>
+      </div>
+      <div class="preview-body">Sarah,
+
+saw you just closed Series C. 12 engineering hires says this quarter is about product push — worth a quick chat about the top-of-funnel piece?
+
+I run Outpulse. We help Series B/C SaaS teams turn signal into meetings, completely hands-free. If it's not right for Vercel I'll say so in 5 minutes.
+
+<strong>Free on Thursday or Friday?</strong></div>
+    </div>
+
+    <!-- Recent activity — tiny vertical timeline. -->
+    <div class="section-h">
+      <h3>Recent activity</h3>
+      <span class="action">All events →</span>
+    </div>
+    <div class="feed">
+      <div class="feed-item" data-k="meeting">
+        <span class="feed-when">12:38 · today</span>
+        <span class="feed-title">Meeting booked with Nina Garcia</span>
+        <span class="feed-body">Supabase · Thursday 24 Apr · 30 min · Google Meet</span>
+      </div>
+      <div class="feed-item" data-k="reply">
+        <span class="feed-when">11:05 · today</span>
+        <span class="feed-title">Sarah Chen replied</span>
+        <span class="feed-body">"Interesting — send me a 15-min slot next week."</span>
+      </div>
+      <div class="feed-item" data-k="sent">
+        <span class="feed-when">09:12 · today</span>
+        <span class="feed-title">42 emails sent</span>
+        <span class="feed-body">Q2 · Series B CTOs batch · average 11.4% reply rate historically</span>
+      </div>
+      <div class="feed-item" data-k="reply">
+        <span class="feed-when">Yesterday · 16:22</span>
+        <span class="feed-title">Marcus Webb opened twice</span>
+        <span class="feed-body">Linear · first open at 14:03, forwarded internally</span>
+      </div>
+      <div class="feed-item" data-k="sent">
+        <span class="feed-when">Yesterday · 10:00</span>
+        <span class="feed-title">38 emails sent</span>
+        <span class="feed-body">Q2 · Series B CTOs · 4 bounces retried automatically</span>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ══════════════════ RIGHT PANEL ══════════════════ -->
+  <aside class="right">
+
+    <!-- Campaign progress — the equivalent of Cowork's Progress block -->
+    <div class="rp-block">
+      <div class="rp-h">
+        <span class="rp-h-title">Progress</span>
+        <span class="rp-h-chev">⌄</span>
+      </div>
+      <div class="rp-list">
+        <div class="rp-step done">
+          <span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+          Website scanned — 48 pages
+        </div>
+        <div class="rp-step done">
+          <span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+          Buyer persona generated
+        </div>
+        <div class="rp-step done">
+          <span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+          428 prospects matched
+        </div>
+        <div class="rp-step done">
+          <span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+          Inboxes warmed · 5 mailboxes
+        </div>
+        <div class="rp-step now">
+          <span class="ck"></span>
+          Sending — 1,284 of 2,400 sent
+        </div>
+        <div class="rp-step">
+          <span class="ck"></span>
+          Follow-ups scheduled
+        </div>
+        <div class="rp-step">
+          <span class="ck"></span>
+          Meeting handoff to calendar
+        </div>
+      </div>
+    </div>
+
+    <!-- Campaign details -->
+    <div class="rp-block">
+      <div class="rp-h">
+        <span class="rp-h-title">Campaign</span>
+        <span class="rp-h-chev">⌄</span>
+      </div>
+      <div class="rp-kv"><span class="k">Audience</span><span class="v">428 prospects</span></div>
+      <div class="rp-kv"><span class="k">Sequence</span><span class="v">Email · 4 touches</span></div>
+      <div class="rp-kv"><span class="k">Sending window</span><span class="v">9–18 local</span></div>
+      <div class="rp-kv"><span class="k">Daily cap</span><span class="v">60 / mailbox</span></div>
+      <div class="rp-kv"><span class="k">Started</span><span class="v">7 Apr 2026</span></div>
+    </div>
+
+    <!-- Intent signals -->
+    <div class="rp-block">
+      <div class="rp-h">
+        <span class="rp-h-title">Intent signals</span>
+        <span class="rp-h-chev">⌄</span>
+      </div>
+      <div class="rp-chips">
+        <span class="rp-chip"><span class="d"></span>Hiring eng</span>
+        <span class="rp-chip"><span class="d"></span>Recent raise</span>
+        <span class="rp-chip"><span class="d"></span>New CxO</span>
+        <span class="rp-chip"><span class="d"></span>Opened HQ</span>
+        <span class="rp-chip"><span class="d"></span>Shipped AI</span>
+        <span class="rp-chip"><span class="d"></span>Migrated stack</span>
+      </div>
+    </div>
+
+    <!-- Connectors -->
+    <div class="rp-block">
+      <div class="rp-h">
+        <span class="rp-h-title">Connectors</span>
+        <span class="rp-h-chev">⌄</span>
+      </div>
+      <div class="rp-connector">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 6 8 7 8-7"/></svg>
+        Gmail · 5 mailboxes
+        <span class="live"><span class="d"></span>Live</span>
+      </div>
+      <div class="rp-connector">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Google Calendar
+        <span class="live"><span class="d"></span>Live</span>
+      </div>
+      <div class="rp-connector">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Slack · #sales-alerts
+        <span class="live"><span class="d"></span>Live</span>
+      </div>
+      <div class="rp-connector">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10h-10z"/></svg>
+        HubSpot CRM
+        <span class="live"><span class="d"></span>Synced 2m ago</span>
+      </div>
+    </div>
+
+  </aside>
+
+</div>
+
+</body>
+</html>
