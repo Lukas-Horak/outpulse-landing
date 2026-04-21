@@ -77,10 +77,30 @@ body{
 }
 .sb-brand{
   display:flex;align-items:center;gap:11px;padding:4px 8px 14px;
+  position:relative;
 }
 .sb-brand-mark{width:33px;height:33px;display:inline-flex;align-items:center;justify-content:center;color:var(--ink)}
 .sb-brand-mark svg{width:100%;height:100%;display:block}
 .sb-brand-name{font-family:var(--serif);font-weight:500;font-size:22px;letter-spacing:-.015em}
+
+/* ── Sidebar toggle — chevron button that collapses / expands the rail.
+   Lives in the top-right of the sidebar when expanded; when collapsed
+   it slides down under the brand mark so it's still reachable inside
+   the 64px rail. */
+.sb-toggle{
+  margin-left:auto;
+  width:26px;height:26px;border-radius:7px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:transparent;border:1px solid transparent;
+  color:var(--muted);cursor:pointer;flex-shrink:0;
+  transition:background .15s ease,color .15s ease,transform .2s ease;
+}
+.sb-toggle:hover{background:#eeece8;color:var(--ink)}
+.sb-toggle svg{width:14px;height:14px}
+/* Chevron points LEFT when sidebar is expanded (click to collapse)
+   and RIGHT when collapsed (click to expand) — implemented by
+   flipping horizontally via a data attribute. */
+.app.left-collapsed .sb-toggle svg{transform:scaleX(-1)}
 
 .sb-section{display:flex;flex-direction:column;gap:1px}
 .sb-label{
@@ -157,6 +177,23 @@ body{
 }
 .btn-primary:hover{background:#0e0c09}
 .btn-primary svg{width:14px;height:14px}
+/* Ghost icon toggle — used to reveal / hide the right panel. */
+.btn-icon{
+  width:36px;height:36px;border-radius:9px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:#fff;border:1px solid var(--line);color:var(--muted);
+  cursor:pointer;flex-shrink:0;
+}
+.btn-icon:hover{background:var(--bg-subtle);color:var(--ink)}
+.btn-icon svg{width:16px;height:16px}
+/* Subtle dot on the panel icon when the panel is currently hidden,
+   as a hint that clicking will reveal something. */
+.btn-icon.has-dot{position:relative}
+.btn-icon.has-dot::after{
+  content:"";position:absolute;top:8px;right:9px;
+  width:5px;height:5px;border-radius:50%;background:var(--orange);
+}
+.app:not(.right-hidden) .btn-icon.has-dot::after{display:none}
 
 /* ─── PULSE HERO CARD ─────────────────────────────────────────────────── */
 /* Same off-white as the sidebar so the Pulse clearly separates from
@@ -600,101 +637,106 @@ body{
 }
 .rp-connector .live .d{width:6px;height:6px;border-radius:50%;background:var(--green)}
 
-/* ── Responsive — Cowork-style progressive collapse ────────────────────
-   Three stages as the viewport narrows:
-   1.  >1180px — full three-column layout (left 240 · main · right 300)
-   2.  920-1180px — right panel hides; left stays full-width
-   3.  640-920px — left sidebar collapses to an icon-only rail (64px)
-   4.  <640px — sidebar hides entirely; single-column mobile layout */
+/* ── Responsive — Cowork-style progressive collapse, class-driven ────
+   All layout state lives on the .app element as classes, so user
+   toggles and resize handlers share one mechanism. The JS at the
+   bottom of the page adds/removes these classes based on viewport,
+   AND the toggle buttons in the sidebar header / main actions flip
+   them manually.
 
-/* Stage 1: tighten columns a little on moderately-sized desktops so
-   content doesn't float in huge gutters. */
-@media(max-width:1440px){
-  .app{grid-template-columns:220px 1fr 280px}
-  .main{padding:24px 32px 72px}
-  .kpis{gap:12px}
-}
+     .app.right-hidden      — right panel collapsed
+     .app.left-collapsed    — left sidebar in icon-rail mode
+     .app.is-mobile         — sidebar fully hidden, single-column
 
-/* Stage 2: right panel goes away, main takes the extra room. */
-@media(max-width:1180px){
-  .app{grid-template-columns:220px 1fr}
-  .right{display:none}
-  .main{padding:24px 30px 72px}
-  /* Funnel collapses to a 2-per-row grid; chevron shapes don't work
-     once cards wrap, so we reset to plain rounded cards with a gap. */
-  .pulse-funnel{flex-wrap:wrap;gap:10px}
-  .pf,.pf:first-child,.pf:last-child{
-    flex:1 1 calc(50% - 5px);
-    padding:0;
-    clip-path:none;
-    margin-right:0;
-    background:transparent;
-    z-index:auto;
-    filter:none;
-  }
-  .pf .pf-inner,
-  .pf:first-child .pf-inner,
-  .pf:last-child .pf-inner{
-    padding:16px 20px 14px;
-    clip-path:none;
-    border:1px solid var(--line);
-    border-radius:12px;
-    box-shadow:0 1px 2px rgba(14,13,12,.03);
-  }
-  .kpis{grid-template-columns:repeat(2,1fr)}
-  .two-col{grid-template-columns:1fr}
-}
+   Auto-activation thresholds (inside the JS):
+     right-hidden     at <= 1400px    (Pulse needs the room)
+     left-collapsed   at <= 1160px    (Pulse funnel gets cramped)
+     is-mobile        at <= 640px */
 
-/* Stage 3: left sidebar collapses to an icon-only rail — labels,
-   count badges, section titles, and user meta all hide. Brand mark
-   stays centred at top; nav items become 40×40 hit targets with
-   only the icon visible. Hover tooltip comes from the title="" attr. */
-@media(max-width:920px){
-  .app{grid-template-columns:64px 1fr}
-  .sidebar{
-    padding:16px 8px 14px;
-    align-items:center;gap:8px;
-  }
-  .sb-brand{
-    padding:2px 0 12px;gap:0;
-    justify-content:center;width:100%;
-  }
-  .sb-brand-name{display:none}
-  .sb-brand-mark{width:28px;height:28px}
-  .sb-section{width:100%;align-items:center}
-  .sb-label{display:none}
-  /* Collapsed sections sit tighter so the rail stays compact. */
-  .sb-section + .sb-section{margin-top:2px}
-  .sb-item{
-    justify-content:center;
-    padding:9px 0;width:44px;margin:0 auto;
-    border-radius:8px;gap:0;
-  }
-  .sb-item-label{display:none}
-  .sb-item .count{display:none}
-  .sb-user{
-    padding:10px 0;margin-top:auto;
-    justify-content:center;gap:0;width:100%;
-  }
-  .sb-user-meta{display:none}
-  .sb-user-more{display:none}
-}
+/* Right panel hidden */
+.app.right-hidden{grid-template-columns:240px 1fr}
+.app.right-hidden .right{display:none}
 
-/* Stage 4: mobile — sidebar off, single-column canvas. */
-@media(max-width:640px){
-  .app{grid-template-columns:1fr}
-  .sidebar{display:none}
-  .main{padding:20px 16px 56px}
-  .pulse{padding:18px 20px 14px}
-  .pulse-grid{grid-template-columns:1fr;gap:14px}
-  .pulse-grid .rule{display:none}
-  .pulse-funnel{gap:8px}
-  .pf,.pf:first-child,.pf:last-child{flex-basis:100%}
-  .pulse-mini{grid-template-columns:repeat(2,1fr)}
-  .kpis{grid-template-columns:1fr}
-  .m-head{flex-direction:column;align-items:flex-start;gap:16px}
-  .m-actions{width:100%}
+/* Left sidebar in icon-rail mode */
+.app.left-collapsed{grid-template-columns:64px 1fr 300px}
+.app.left-collapsed.right-hidden{grid-template-columns:64px 1fr}
+.app.left-collapsed .sidebar{
+  padding:16px 8px 14px;
+  align-items:center;gap:8px;
 }
+.app.left-collapsed .sb-brand{
+  padding:2px 0 12px;gap:0;
+  justify-content:center;width:100%;
+  flex-direction:column;
+}
+.app.left-collapsed .sb-brand-name{display:none}
+.app.left-collapsed .sb-brand-mark{width:28px;height:28px}
+.app.left-collapsed .sb-toggle{
+  margin-left:0;margin-top:10px;
+}
+.app.left-collapsed .sb-section{width:100%;align-items:center}
+.app.left-collapsed .sb-label{display:none}
+.app.left-collapsed .sb-section + .sb-section{margin-top:2px}
+.app.left-collapsed .sb-item{
+  justify-content:center;
+  padding:9px 0;width:44px;margin:0 auto;
+  border-radius:8px;gap:0;
+}
+.app.left-collapsed .sb-item-label{display:none}
+.app.left-collapsed .sb-item .count{display:none}
+.app.left-collapsed .sb-user{
+  padding:10px 0;margin-top:auto;
+  justify-content:center;gap:0;width:100%;
+}
+.app.left-collapsed .sb-user-meta{display:none}
+.app.left-collapsed .sb-user-more{display:none}
+
+/* Funnel falls back to plain rounded cards when the Pulse gets
+   squeezed, regardless of sidebar state — the chevron shape stops
+   making sense below a certain main-canvas width. */
+.app.right-hidden .pulse-funnel,
+.app.left-collapsed .pulse-funnel{flex-wrap:wrap;gap:10px}
+.app.right-hidden .pf,
+.app.right-hidden .pf:first-child,
+.app.right-hidden .pf:last-child,
+.app.left-collapsed .pf,
+.app.left-collapsed .pf:first-child,
+.app.left-collapsed .pf:last-child{
+  flex:1 1 calc(50% - 5px);
+  padding:0;clip-path:none;margin-right:0;
+  background:transparent;z-index:auto;filter:none;
+}
+.app.right-hidden .pf .pf-inner,
+.app.right-hidden .pf:first-child .pf-inner,
+.app.right-hidden .pf:last-child .pf-inner,
+.app.left-collapsed .pf .pf-inner,
+.app.left-collapsed .pf:first-child .pf-inner,
+.app.left-collapsed .pf:last-child .pf-inner{
+  padding:16px 20px 14px;clip-path:none;
+  border:1px solid var(--line);border-radius:12px;
+  box-shadow:0 1px 2px rgba(14,13,12,.03);
+}
+.app.right-hidden .two-col{grid-template-columns:1fr}
+.app.left-collapsed .two-col{grid-template-columns:1fr}
+.app.right-hidden .kpis,
+.app.left-collapsed .kpis{grid-template-columns:repeat(2,1fr)}
+
+/* Mobile */
+.app.is-mobile{grid-template-columns:1fr}
+.app.is-mobile .sidebar,
+.app.is-mobile .right{display:none}
+.app.is-mobile .main{padding:20px 16px 56px}
+.app.is-mobile .pulse{padding:18px 20px 14px}
+.app.is-mobile .pulse-grid{grid-template-columns:1fr;gap:14px}
+.app.is-mobile .pulse-grid .rule{display:none}
+.app.is-mobile .pulse-funnel{gap:8px}
+.app.is-mobile .pf,
+.app.is-mobile .pf:first-child,
+.app.is-mobile .pf:last-child{flex-basis:100%}
+.app.is-mobile .pulse-mini{grid-template-columns:repeat(2,1fr)}
+.app.is-mobile .kpis{grid-template-columns:1fr}
+.app.is-mobile .m-head{flex-direction:column;align-items:flex-start;gap:16px}
+.app.is-mobile .m-actions{width:100%}
 </style>
 </head>
 <body>
@@ -718,6 +760,9 @@ body{
         </svg>
       </span>
       <span class="sb-brand-name">Outpulse</span>
+      <button class="sb-toggle" data-toggle="left" aria-label="Toggle sidebar" title="Collapse sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18 9 12l6-6"/></svg>
+      </button>
     </div>
 
     <div class="sb-section">
@@ -792,6 +837,9 @@ body{
         <button class="btn-primary">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
           New campaign
+        </button>
+        <button class="btn-icon has-dot" data-toggle="right" aria-label="Toggle side panel" title="Toggle side panel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M15 4v16"/></svg>
         </button>
       </div>
     </div>
@@ -1103,6 +1151,89 @@ body{
   </aside>
 
 </div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════════
+   Layout state management — progressive sidebar collapse (Cowork-style)
+   + manual toggle buttons.
+
+   Two state classes live on the .app element:
+     • right-hidden     — right panel collapsed
+     • left-collapsed   — left sidebar in icon-rail mode
+     • is-mobile        — full mobile layout (sidebar hidden)
+
+   `applyResponsive()` sets these based on window width.
+   Once the user manually toggles via a button, that side stops
+   auto-updating until the viewport crosses a breakpoint boundary.
+   ══════════════════════════════════════════════════════════════════════ */
+(function(){
+  const app = document.querySelector('.app');
+  if (!app) return;
+
+  // Auto state tracking — JS remembers whether each side was user-set
+  // so resizes don't unwind manual choices mid-interaction.
+  let leftUserSet = false;
+  let rightUserSet = false;
+  let lastBucket = null;
+
+  function bucketFor(w){
+    if (w <= 640) return 'mobile';
+    if (w <= 1160) return 'compact';
+    if (w <= 1400) return 'medium';
+    return 'wide';
+  }
+
+  function applyResponsive(){
+    const w = window.innerWidth;
+    const bucket = bucketFor(w);
+
+    // Whenever the bucket changes, reset user overrides — viewport
+    // change is a reasonable moment to fall back to sensible defaults.
+    if (lastBucket !== null && bucket !== lastBucket){
+      leftUserSet = false;
+      rightUserSet = false;
+    }
+    lastBucket = bucket;
+
+    app.classList.toggle('is-mobile', bucket === 'mobile');
+
+    if (!leftUserSet){
+      app.classList.toggle(
+        'left-collapsed',
+        bucket === 'compact'
+      );
+    }
+    if (!rightUserSet){
+      app.classList.toggle(
+        'right-hidden',
+        bucket !== 'wide' && bucket !== 'mobile'
+          ? true
+          : bucket === 'mobile'
+      );
+      // Simpler: right is hidden at anything narrower than 'wide',
+      // EXCEPT we don't care about .right-hidden in mobile (panel is
+      // hidden anyway by is-mobile).
+    }
+  }
+
+  window.addEventListener('resize', applyResponsive);
+  applyResponsive();
+
+  // Manual toggles — delegate via [data-toggle]
+  document.querySelectorAll('[data-toggle]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const side = btn.dataset.toggle;
+      if (side === 'left'){
+        leftUserSet = true;
+        app.classList.toggle('left-collapsed');
+      } else if (side === 'right'){
+        rightUserSet = true;
+        app.classList.toggle('right-hidden');
+      }
+    });
+  });
+})();
+</script>
 
 </body>
 </html>
