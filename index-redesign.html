@@ -1156,7 +1156,17 @@ h1.display em{
   font-size:clamp(40px,5.4vw,72px);
   line-height:1.02;letter-spacing:-.02em;
 }
-.stage-head h2 em{font-style:italic;opacity:.92}
+.stage-head h2 em{
+  font-style:italic;opacity:.92;
+  /* Descender rescue — italic g/y/p on 'growth' / 'targets' were
+     getting clipped because background-clip:text + color:transparent
+     paints the glyph only where the em's box covers it. Extra
+     padding-bottom grows the paint box below the baseline; negative
+     margin keeps the surrounding line-box height unchanged. */
+  display:inline-block;
+  padding-bottom:.22em;
+  margin-bottom:-.22em;
+}
 .gradient-stage.peach .stage-head h2 em{
   background:linear-gradient(90deg,var(--orange),#ff8a4c);
   -webkit-background-clip:text;background-clip:text;color:transparent;
@@ -1505,12 +1515,16 @@ h1.display em{
 }
 /* Blurred ambient layer behind the main cloud. Hidden until the pin
    becomes visible, then fades in staggered from below (like the
-   foreground chips) to feel like they're pulling out of the depth. */
+   foreground chips) to feel like they're pulling out of the depth.
+   Bottom-anchored + matched to .chip-cloud's height so the blurred
+   chips stay down in the cloud region and never drift up into the
+   headline area. */
 .chip-cloud-bg{
   position:absolute;
-  top:50%;left:50%;transform:translate(-50%,-50%);
+  left:50%;bottom:clamp(32px,4vh,64px);top:auto;
+  transform:translateX(-50%);
   width:min(1300px,100vw);
-  height:clamp(480px,70vh,720px);
+  height:clamp(420px,62vh,640px);
   z-index:1;
   pointer-events:none;
   filter:blur(3.5px);
@@ -1805,11 +1819,14 @@ h1.display em{
 }
 .cmp-split-row:last-child{border-bottom:none}
 .cmp-row-cell{
-  font-size:clamp(14px,min(1.4vw,1.9vh),22px);
+  font-size:clamp(14px,min(1.35vw,1.85vh),20px);
   line-height:1.4;
   display:flex;align-items:center;gap:12px;
   padding:8px 24px;
-  font-family:var(--serif);font-weight:400;letter-spacing:-.005em;
+  /* Sans for readability — the decorative serif was hard to scan at
+     the small sizes this row uses. Keep the weight light so the row
+     still reads as supporting content, not a headline. */
+  font-family:var(--sans);font-weight:400;letter-spacing:0;
 }
 .cmp-row-cell.left{
   color:var(--muted);
