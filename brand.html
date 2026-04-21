@@ -1,0 +1,1121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Outpulse — Brand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* ═══════════════════════════════════════════════════════════════════════
+   Outpulse — brand book
+   ----------------------------------------------------------------------
+   One-page vertical brand document. Each section occupies a generous
+   viewport-sized slot; a fixed side-rail lets the reader jump between
+   them. Display type is Instrument Serif (the proposed replacement for
+   Playfair — better geometric match for the circle mark); body and
+   small text is Inter.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root{
+  --ink:#14120f;
+  --ink-2:#3a342c;
+  --muted:#6c6458;
+  --muted-2:#a8a097;
+  --line:#ececeaee;
+  --line-2:#f4f3f0;
+  --bg:#ffffff;
+  --bg-panel:#fbfaf7;
+  --bg-subtle:#f6f4f0;
+
+  --orange:#ff5b1f;
+  --orange-soft:#fff4ec;
+  --orange-ink:#c24518;
+  --violet:#8a76b8;
+  --violet-soft:#f2edf8;
+  --violet-ink:#6a5594;
+  --blue:#3866a6;
+  --blue-soft:#eef3fa;
+  --blue-ink:#2d5488;
+  --green:#1a7c4b;
+  --green-soft:#eaf4ee;
+  --green-ink:#166440;
+
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"Inter","Helvetica Neue",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:0}
+body{
+  margin:0;padding:0;
+  font-family:var(--sans);font-size:15px;line-height:1.6;
+  color:var(--ink);background:var(--bg);
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+
+/* ── Fixed side-rail nav ─────────────────────────────────────────────── */
+.rail{
+  position:fixed;top:0;left:0;bottom:0;z-index:10;
+  width:64px;padding:28px 0;
+  background:var(--bg-panel);border-right:1px solid var(--line);
+  display:flex;flex-direction:column;align-items:center;gap:20px;
+}
+.rail-mark{
+  width:30px;height:30px;color:var(--ink);
+}
+.rail-mark svg{width:100%;height:100%;display:block}
+.rail-nav{
+  display:flex;flex-direction:column;gap:2px;
+  margin-top:auto;margin-bottom:auto;
+}
+.rail-nav a{
+  width:44px;padding:6px 8px;border-radius:7px;
+  text-align:center;font-size:10px;letter-spacing:.08em;
+  text-transform:uppercase;font-weight:600;
+  color:var(--muted);text-decoration:none;
+  transition:background .15s ease,color .15s ease;
+}
+.rail-nav a:hover{background:#efede9;color:var(--ink)}
+.rail-nav a.on{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.04),inset 0 0 0 1px var(--line)}
+
+.rail-foot{
+  writing-mode:vertical-rl;transform:rotate(180deg);
+  font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted-2);font-weight:600;
+}
+
+/* ── Page frame ─────────────────────────────────────────────────────── */
+main{margin-left:64px}
+section{
+  min-height:100vh;
+  padding:120px clamp(40px,6vw,100px) 100px;
+  position:relative;
+  display:flex;flex-direction:column;justify-content:center;
+  border-bottom:1px solid var(--line);
+  max-width:1280px;margin-left:64px;
+}
+section.narrow{max-width:1080px}
+section:last-child{border-bottom:none}
+
+/* Small eyebrow label used on every section */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted-2);
+  margin-bottom:20px;
+}
+.eyebrow::before{
+  content:"";width:24px;height:1px;background:var(--muted-2);
+}
+.section-h{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(44px,5.2vw,84px);line-height:1.02;
+  letter-spacing:-.02em;margin:0 0 20px;
+  color:var(--ink);
+}
+.section-h em{font-style:italic;color:var(--orange);display:inline-block;padding-bottom:.06em}
+.section-sub{
+  font-size:18px;line-height:1.55;color:var(--muted);
+  max-width:64ch;margin:0 0 48px;
+}
+.section-sub strong{color:var(--ink-2);font-weight:500}
+
+/* ══════════════════ 1. COVER ══════════════════════════════════════════ */
+.cover{
+  padding:120px clamp(40px,6vw,100px) 100px;
+  min-height:100vh;
+  display:grid;grid-template-columns:1fr;
+  align-items:center;
+  background:
+    radial-gradient(60% 80% at 20% 100%,rgba(255,138,76,.06),transparent 60%),
+    radial-gradient(50% 70% at 100% 20%,rgba(138,118,184,.05),transparent 60%),
+    #ffffff;
+}
+.cover-inner{max-width:900px}
+.cover-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--sans);font-size:12px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  margin-bottom:28px;
+}
+.cover-eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--orange)}
+.cover-logo{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:48px;
+}
+.cover-logo .mark{width:84px;height:84px;color:var(--ink)}
+.cover-logo .mark svg{width:100%;height:100%;display:block}
+.cover-logo .word{
+  font-family:var(--serif);font-weight:400;
+  font-size:76px;line-height:1;letter-spacing:-.025em;
+  color:var(--ink);
+}
+.cover h1{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(56px,7vw,124px);line-height:.98;letter-spacing:-.025em;
+  margin:0 0 28px;color:var(--ink);
+}
+.cover h1 em{font-style:italic;color:var(--orange);display:inline-block;padding-bottom:.06em}
+.cover p{
+  font-size:19px;line-height:1.55;color:var(--muted);
+  max-width:58ch;margin:0 0 36px;
+}
+.cover-meta{
+  display:flex;gap:36px;flex-wrap:wrap;
+  font-size:12px;color:var(--muted-2);letter-spacing:.08em;
+  text-transform:uppercase;font-weight:600;
+}
+.cover-meta span{display:flex;flex-direction:column;gap:4px}
+.cover-meta b{color:var(--ink);font-size:13px;font-weight:500;letter-spacing:0;text-transform:none}
+
+/* ══════════════════ 2. THE MARK ═══════════════════════════════════════ */
+.mark-showcase{
+  display:grid;grid-template-columns:1.3fr 1fr;gap:56px;align-items:center;
+}
+.mark-stage{
+  aspect-ratio:1;
+  background:var(--bg-panel);
+  border:1px solid var(--line);border-radius:20px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.mark-stage .big-mark{width:60%;height:60%;color:var(--ink)}
+.mark-stage .big-mark svg{width:100%;height:100%;display:block}
+/* Subtle grid behind the mark to show geometric construction */
+.mark-stage::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(to right,rgba(14,13,12,.03) 1px,transparent 1px),
+    linear-gradient(to bottom,rgba(14,13,12,.03) 1px,transparent 1px);
+  background-size:32px 32px;
+  pointer-events:none;
+}
+.mark-explain h3{
+  font-family:var(--serif);font-weight:400;
+  font-size:32px;line-height:1.15;letter-spacing:-.015em;
+  margin:0 0 18px;
+}
+.mark-explain p{font-size:16px;line-height:1.65;color:var(--muted);margin:0 0 14px}
+.mark-explain p strong{color:var(--ink);font-weight:500}
+.mark-points{
+  list-style:none;padding:0;margin:24px 0 0;
+  display:flex;flex-direction:column;gap:12px;
+}
+.mark-points li{
+  display:flex;align-items:flex-start;gap:12px;
+  font-size:14.5px;line-height:1.55;color:var(--ink-2);
+  padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:#fff;
+}
+.mark-points li .n{
+  font-family:var(--serif);font-size:22px;line-height:1;
+  color:var(--orange);flex-shrink:0;min-width:24px;
+}
+.mark-points li b{font-weight:600;color:var(--ink);display:block;margin-bottom:2px}
+
+/* ══════════════════ 3. WORDMARK / FONT ═══════════════════════════════ */
+.type-compare{
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;
+  margin:8px 0 48px;
+}
+.type-card{
+  border:1px solid var(--line);border-radius:14px;
+  padding:40px 36px;background:var(--bg-panel);
+  position:relative;
+}
+.type-card.on{background:#fff;border-color:var(--ink);box-shadow:0 4px 20px -12px rgba(14,13,12,.12)}
+.type-card-tag{
+  position:absolute;top:16px;right:18px;
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:700;color:var(--muted-2);
+}
+.type-card.on .type-card-tag{
+  color:var(--green-ink);
+  background:var(--green-soft);padding:3px 8px;border-radius:999px;
+  border:1px solid rgba(26,124,75,.2);
+}
+.type-lockup{display:flex;align-items:center;gap:6px;margin-bottom:18px}
+.type-lockup .mk{width:44px;height:44px;color:var(--ink)}
+.type-lockup .mk svg{width:100%;height:100%;display:block}
+.type-lockup .word{
+  font-weight:400;font-size:34px;line-height:1;
+  letter-spacing:-.02em;color:var(--ink);
+}
+.type-lockup.playfair .word{font-family:"Playfair Display",serif}
+.type-lockup.instrument .word{font-family:"Instrument Serif",serif}
+.type-meta{font-size:12.5px;color:var(--muted);line-height:1.6}
+.type-meta b{display:block;color:var(--ink-2);font-weight:500;margin-bottom:2px}
+.type-reasons{
+  list-style:none;padding:0;margin:16px 0 0;
+  display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--muted);
+}
+.type-reasons li{
+  display:flex;align-items:flex-start;gap:8px;
+}
+.type-reasons li::before{
+  content:"";width:4px;height:4px;border-radius:50%;background:var(--muted-2);
+  margin-top:9px;flex-shrink:0;
+}
+.type-card.on .type-reasons li::before{background:var(--green)}
+
+/* Large letterform grid — A a O o in the new font */
+.specimen{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:14px;
+  overflow:hidden;margin-top:8px;
+}
+.specimen .sp{
+  padding:48px 12px 24px;background:#fff;text-align:center;
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(80px,8vw,120px);line-height:1;color:var(--ink);
+  position:relative;
+}
+.specimen .sp em{font-style:italic;color:var(--orange)}
+.specimen .sp .cap{
+  position:absolute;top:12px;left:12px;
+  font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted-2);
+}
+
+/* ══════════════════ 4. LOGOTYPE VARIANTS ═════════════════════════════ */
+.variants{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+  margin-top:8px;
+}
+.variant{
+  border:1px solid var(--line);border-radius:14px;
+  padding:40px 28px 22px;background:#fff;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:200px;gap:24px;
+}
+.variant.dark{background:var(--ink);border-color:var(--ink)}
+.variant.dark .variant-label{color:rgba(255,255,255,.6)}
+.variant.dark .vl-mark,.variant.dark .vl-word{color:#fff}
+.variant.soft{background:var(--bg-panel)}
+.variant-label{
+  font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:700;color:var(--muted-2);margin-top:auto;
+}
+.variant .vl{display:flex;align-items:center;gap:6px}
+.variant .vl-mark{width:30px;height:30px;color:var(--ink)}
+.variant .vl-mark.lg{width:52px;height:52px}
+.variant .vl-mark svg{width:100%;height:100%;display:block}
+.variant .vl-word{
+  font-family:var(--serif);font-weight:400;letter-spacing:-.02em;
+  color:var(--ink);line-height:1;
+}
+.variant .vl-word.md{font-size:26px}
+.variant .vl-word.lg{font-size:46px}
+.variant.stack .vl{flex-direction:column;gap:14px}
+.variant.mark-only .vl-mark{width:64px;height:64px}
+
+/* ══════════════════ 5. CLEAR SPACE / MINIMUM SIZE ═════════════════════ */
+.clearspace-grid{
+  display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center;
+}
+.clearspace-stage{
+  aspect-ratio:1.2;
+  background:var(--bg-panel);border:1px solid var(--line);border-radius:14px;
+  position:relative;padding:40px;
+  display:flex;align-items:center;justify-content:center;
+}
+.cs-frame{
+  position:relative;padding:48px;
+  border:1px dashed rgba(255,91,31,.45);border-radius:4px;
+}
+.cs-lockup{display:flex;align-items:center;gap:6px}
+.cs-lockup .mk{width:60px;height:60px;color:var(--ink)}
+.cs-lockup .mk svg{width:100%;height:100%;display:block}
+.cs-lockup .word{
+  font-family:var(--serif);font-weight:400;font-size:48px;letter-spacing:-.02em;
+  line-height:1;color:var(--ink);
+}
+.cs-label{
+  position:absolute;font-size:10px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--orange);
+}
+.cs-label-t{top:18px;left:50%;transform:translateX(-50%)}
+.cs-label-r{top:50%;right:18px;transform:translateY(-50%)}
+.cs-label-b{bottom:18px;left:50%;transform:translateX(-50%)}
+.cs-label-l{top:50%;left:18px;transform:translateY(-50%)}
+
+.sizing-list{
+  display:flex;flex-direction:column;gap:14px;margin:0;padding:0;list-style:none;
+}
+.sizing-list li{
+  display:flex;align-items:center;gap:18px;
+  padding:16px 20px;border:1px solid var(--line);border-radius:12px;background:#fff;
+}
+.sizing-list .prev{display:flex;align-items:center;gap:4px}
+.sizing-list .prev .mk svg{width:100%;height:100%;display:block}
+.sizing-list .prev .word{font-family:var(--serif);font-weight:400;letter-spacing:-.02em;line-height:1;color:var(--ink)}
+.sizing-list .info{margin-left:auto;text-align:right}
+.sizing-list .info b{display:block;font-size:14px;color:var(--ink);font-weight:500}
+.sizing-list .info span{font-size:12px;color:var(--muted)}
+
+/* ══════════════════ 6. COLOURS ═══════════════════════════════════════ */
+.palette{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:12px;
+  margin-top:8px;
+}
+.palette.neutrals{grid-template-columns:repeat(4,1fr)}
+.swatch{
+  border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;
+}
+.swatch-fill{height:150px}
+.swatch-body{padding:14px 16px}
+.swatch-name{font-weight:600;font-size:14px;color:var(--ink);margin-bottom:2px}
+.swatch-meta{font-family:var(--mono);font-size:11.5px;color:var(--muted);line-height:1.45}
+.swatch-meta span{display:block}
+
+/* ══════════════════ 7. TYPE SYSTEM ════════════════════════════════════ */
+.type-sys{display:flex;flex-direction:column;gap:4px;margin-top:12px}
+.type-row{
+  display:grid;grid-template-columns:200px 1fr 200px;gap:24px;align-items:baseline;
+  padding:22px 0;border-bottom:1px solid var(--line-2);
+}
+.type-row:last-child{border-bottom:none}
+.type-row .step{
+  font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  font-weight:700;color:var(--muted-2);
+}
+.type-row .example.serif{font-family:var(--serif);color:var(--ink)}
+.type-row .example.sans{font-family:var(--sans);color:var(--ink)}
+.type-row .example em{font-style:italic;color:var(--orange)}
+.type-row .meta{
+  font-family:var(--mono);font-size:11.5px;color:var(--muted);
+  text-align:right;line-height:1.5;
+}
+
+.tr-display .example{font-family:var(--serif);font-weight:400;font-size:72px;line-height:1;letter-spacing:-.025em}
+.tr-h1 .example{font-family:var(--serif);font-weight:400;font-size:48px;line-height:1.05;letter-spacing:-.02em}
+.tr-h2 .example{font-family:var(--serif);font-weight:400;font-size:32px;line-height:1.1;letter-spacing:-.015em}
+.tr-h3 .example{font-family:var(--sans);font-weight:600;font-size:20px;line-height:1.3}
+.tr-body .example{font-family:var(--sans);font-weight:400;font-size:16px;line-height:1.6;color:var(--ink-2)}
+.tr-small .example{font-family:var(--sans);font-weight:400;font-size:13px;line-height:1.5;color:var(--muted)}
+.tr-micro .example{font-family:var(--sans);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2)}
+
+/* ══════════════════ 8. VOICE ═════════════════════════════════════════ */
+.voice-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:24px;
+  margin-top:8px;
+}
+.voice-card{
+  border:1px solid var(--line);border-radius:14px;background:#fff;
+  padding:28px 30px;
+}
+.voice-card h3{
+  font-family:var(--serif);font-weight:400;font-size:28px;line-height:1.1;
+  letter-spacing:-.015em;margin:0 0 14px;
+}
+.voice-card .is-is-not{
+  display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px;
+  font-size:14px;
+}
+.voice-card .is-is-not .lbl{
+  font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  font-weight:700;margin-bottom:8px;
+}
+.voice-card .is-is-not .lbl.is{color:var(--green-ink)}
+.voice-card .is-is-not .lbl.isnt{color:var(--orange-ink)}
+.voice-card .is-is-not ul{
+  list-style:none;padding:0;margin:0;
+  display:flex;flex-direction:column;gap:6px;
+  color:var(--ink-2);line-height:1.5;
+}
+.voice-card .is-is-not ul li{
+  padding:6px 0;font-size:14px;
+}
+.sample{
+  margin-top:24px;padding:20px 22px;
+  background:var(--bg-subtle);border:1px solid var(--line-2);border-radius:10px;
+  font-family:var(--serif);font-size:22px;line-height:1.3;letter-spacing:-.01em;
+  color:var(--ink);
+}
+.sample em{font-style:italic;color:var(--orange)}
+
+/* ══════════════════ 9. DO'S / DON'TS ═════════════════════════════════ */
+.rules-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:12px;
+}
+.rule{
+  border:1px solid var(--line);border-radius:14px;background:#fff;
+  padding:32px 24px 22px;
+  display:flex;flex-direction:column;gap:16px;
+  min-height:240px;
+}
+.rule-preview{
+  height:120px;display:flex;align-items:center;justify-content:center;
+  background:var(--bg-panel);border:1px solid var(--line-2);border-radius:10px;
+  position:relative;overflow:hidden;
+}
+.rule-preview .lk{display:flex;align-items:center;gap:6px}
+.rule-preview .lk .mk{width:32px;height:32px;color:var(--ink)}
+.rule-preview .lk .mk svg{width:100%;height:100%;display:block}
+.rule-preview .lk .word{font-family:var(--serif);font-weight:400;font-size:28px;letter-spacing:-.02em;line-height:1;color:var(--ink)}
+.rule-preview.bad .lk .word{font-family:"Comic Sans MS","Chalkboard",sans-serif;letter-spacing:0;font-weight:700}
+.rule-preview.bad-2 .lk{transform:skewX(-6deg);opacity:.6;filter:hue-rotate(90deg)}
+.rule-preview.bad-3 .lk .mk{transform:rotate(25deg)}
+.rule-preview.bad-3 .lk .word{color:var(--orange)}
+.rule-preview.bad-4{background:linear-gradient(135deg,#ff5b1f,#8a76b8)}
+.rule-preview.bad-4 .lk .word{color:#fff}
+.rule-tag{
+  font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.rule-tag .d{width:7px;height:7px;border-radius:50%}
+.rule-tag.good{color:var(--green-ink)}
+.rule-tag.good .d{background:var(--green)}
+.rule-tag.bad{color:var(--orange-ink)}
+.rule-tag.bad .d{background:var(--orange)}
+.rule-title{font-weight:600;font-size:15px;color:var(--ink);line-height:1.3}
+.rule-body{font-size:13px;color:var(--muted);line-height:1.55}
+
+/* ══════════════════ 10. CLOSE ═════════════════════════════════════════ */
+.close{
+  min-height:70vh;
+  padding:120px clamp(40px,6vw,100px) 100px;
+  display:flex;flex-direction:column;justify-content:center;
+  border-bottom:none;
+}
+.close-logo{
+  display:flex;align-items:center;gap:10px;margin-bottom:40px;
+}
+.close-logo .mk{width:52px;height:52px;color:var(--ink)}
+.close-logo .mk svg{width:100%;height:100%;display:block}
+.close-logo .word{font-family:var(--serif);font-weight:400;font-size:48px;line-height:1;letter-spacing:-.025em}
+.close h2{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(40px,5vw,72px);line-height:1.02;letter-spacing:-.02em;
+  margin:0 0 24px;max-width:18ch;
+}
+.close h2 em{font-style:italic;color:var(--orange)}
+.close p{font-size:16px;color:var(--muted);max-width:58ch;margin:0 0 36px}
+.close-links{
+  display:flex;gap:12px;flex-wrap:wrap;
+  font-size:13px;
+}
+.close-links a{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:10px 16px;border-radius:9px;
+  background:#fff;border:1px solid var(--line);
+  color:var(--ink-2);text-decoration:none;font-weight:500;
+  transition:background .15s ease;
+}
+.close-links a:hover{background:var(--bg-subtle)}
+.close-links a.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+.close-links a.primary:hover{background:#0e0c09}
+.close-links a svg{width:14px;height:14px}
+.close-foot{
+  margin-top:80px;padding-top:24px;
+  border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+  font-size:12px;color:var(--muted-2);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────── */
+@media(max-width:1100px){
+  .rail{width:52px;padding:22px 0}
+  .rail-nav a{width:36px;padding:5px 6px;font-size:9px}
+  .rail-mark{width:24px;height:24px}
+  section{max-width:none;margin-left:52px;padding:80px 40px 70px}
+  main{margin-left:52px}
+  .mark-showcase{grid-template-columns:1fr;gap:36px}
+  .clearspace-grid{grid-template-columns:1fr;gap:32px}
+  .type-compare{grid-template-columns:1fr}
+  .variants{grid-template-columns:1fr 1fr}
+  .palette{grid-template-columns:repeat(3,1fr)}
+  .palette.neutrals{grid-template-columns:repeat(2,1fr)}
+  .voice-grid{grid-template-columns:1fr}
+  .rules-grid{grid-template-columns:1fr 1fr}
+  .specimen{grid-template-columns:repeat(2,1fr)}
+  .type-row{grid-template-columns:1fr;gap:6px}
+  .type-row .meta{text-align:left}
+}
+@media(max-width:640px){
+  .rail{display:none}
+  section,main{margin-left:0;padding:60px 24px 50px;min-height:auto}
+  .cover{padding:60px 24px 50px}
+  .variants{grid-template-columns:1fr}
+  .palette,.palette.neutrals{grid-template-columns:1fr 1fr}
+  .rules-grid{grid-template-columns:1fr}
+  .specimen{grid-template-columns:1fr 1fr}
+  .cover-logo .mark{width:56px;height:56px}
+  .cover-logo .word{font-size:50px}
+  .tr-display .example{font-size:44px}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ Reusable SVG symbol ══════════════════ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="op-mark" viewBox="0 0 1000 1000">
+      <mask id="opGap" maskUnits="userSpaceOnUse">
+        <rect width="1000" height="1000" fill="white"/>
+        <circle cx="391" cy="500" r="248" fill="none" stroke="black" stroke-width="48"/>
+      </mask>
+      <circle cx="391" cy="500" r="200" fill="none" stroke="currentColor" stroke-width="48"/>
+      <circle cx="601" cy="500" r="200" fill="currentColor" mask="url(#opGap)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ══════════════════ Side-rail nav ══════════════════ -->
+<nav class="rail" aria-label="Brand book sections">
+  <a href="#cover" class="rail-mark" aria-label="Outpulse">
+    <svg><use href="#op-mark"/></svg>
+  </a>
+  <div class="rail-nav">
+    <a href="#cover" class="on">01</a>
+    <a href="#mark">02</a>
+    <a href="#type">03</a>
+    <a href="#variants">04</a>
+    <a href="#space">05</a>
+    <a href="#colour">06</a>
+    <a href="#scale">07</a>
+    <a href="#voice">08</a>
+    <a href="#rules">09</a>
+  </div>
+  <div class="rail-foot">Brand · 2026</div>
+</nav>
+
+<main>
+
+  <!-- ══════════════════ 01 · COVER ══════════════════ -->
+  <section id="cover" class="cover">
+    <div class="cover-inner">
+      <div class="cover-eyebrow"><span class="dot"></span>Outpulse Brand · v1 · April 2026</div>
+      <div class="cover-logo">
+        <span class="mark"><svg><use href="#op-mark"/></svg></span>
+        <span class="word">Outpulse</span>
+      </div>
+      <h1>A brand for the <em>signal-driven</em> sales era.</h1>
+      <p>This document covers the logo, typography, colour, and voice that shape how Outpulse shows up — on the product, on the web, in a pitch, in a reply. The mark is a small thing; the consistency around it is what builds the brand.</p>
+      <div class="cover-meta">
+        <span><b>Category</b>AI sales agent · SaaS</span>
+        <span><b>Voice</b>Direct, quietly confident</span>
+        <span><b>Palette</b>Ink · Cream · Ember</span>
+        <span><b>Last updated</b>Apr 2026</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 02 · THE MARK ══════════════════ -->
+  <section id="mark">
+    <div class="eyebrow">02 · The mark</div>
+    <h2 class="section-h">Two circles. <em>One pulse.</em></h2>
+    <p class="section-sub">The mark is a lockup of two perfect circles — one open ring, one solid disc — separated by a crescent carved out of the disc along the ring's outer edge. The <strong>ring is the prospect</strong>; unknown, untouched. The <strong>disc is the response</strong>; full, engaged. The carved negative space between them is the <strong>pulse</strong> — the signal moving outward.</p>
+
+    <div class="mark-showcase">
+      <div class="mark-stage">
+        <div class="big-mark"><svg><use href="#op-mark"/></svg></div>
+      </div>
+      <div class="mark-explain">
+        <h3>Geometric, deliberate, whole.</h3>
+        <p>Both circles sit at the same radius. The disc is anchored at the grid centre; the ring hangs off to the left, overlapping 10% of the disc's width. The crescent gap is carved by a 48-unit stroke mask so the disc and ring read as one composed shape, not two floating objects.</p>
+        <ul class="mark-points">
+          <li><span class="n">01</span><div><b>Reads at any size</b>No fine detail breaks at 16px; no empty space floods at 128px.</div></li>
+          <li><span class="n">02</span><div><b>Works in one colour</b>Ink on cream, cream on ink, orange on dark — all legal. Never gradient, never two-tone.</div></li>
+          <li><span class="n">03</span><div><b>Never flipped or rotated</b>The ring always sits on the left of the disc. The geometry is the meaning.</div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 03 · WORDMARK ══════════════════ -->
+  <section id="type">
+    <div class="eyebrow">03 · Wordmark</div>
+    <h2 class="section-h">Instrument Serif pairs the geometry.</h2>
+    <p class="section-sub">The circle mark is pure geometry; the wordmark should echo that, not fight it. Playfair's high-contrast, italic-leaning display feel pulled toward editorial. <strong>Instrument Serif</strong> — a modern cut with near-circular bowls on O, D, and Q — reads as a natural twin to the mark. Its subtle contrast and sharp terminals give the lockup bite without ornament.</p>
+
+    <div class="type-compare">
+      <div class="type-card">
+        <span class="type-card-tag">Before</span>
+        <div class="type-lockup playfair">
+          <span class="mk"><svg><use href="#op-mark"/></svg></span>
+          <span class="word">Outpulse</span>
+        </div>
+        <div class="type-meta">
+          <b>Playfair Display</b>
+          Transitional high-contrast serif · drop-cap energy · heavy stress axis
+        </div>
+        <ul class="type-reasons">
+          <li>Strong thick/thin contrast competes with the mark's even stroke</li>
+          <li>The ornate 'p' tail and italic swashes pull toward editorial, not product</li>
+          <li>Circular 'O' is squeezed by the axis — doesn't echo the mark's geometry</li>
+        </ul>
+      </div>
+
+      <div class="type-card on">
+        <span class="type-card-tag">Proposed</span>
+        <div class="type-lockup instrument">
+          <span class="mk"><svg><use href="#op-mark"/></svg></span>
+          <span class="word">Outpulse</span>
+        </div>
+        <div class="type-meta">
+          <b>Instrument Serif</b>
+          Modern optical serif · near-circular bowls · crisp terminals · free on Google Fonts
+        </div>
+        <ul class="type-reasons">
+          <li>'O' reads almost perfectly circular — geometric twin of the mark</li>
+          <li>Controlled contrast sits beside the even stroke of the ring cleanly</li>
+          <li>Italic retains elegance for accents without looking editorial</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="sp"><span class="cap">Outpulse</span>O</div>
+      <div class="sp"><span class="cap">Italic</span><em>O</em></div>
+      <div class="sp"><span class="cap">Disc</span>D</div>
+      <div class="sp"><span class="cap">Ring</span>Q</div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 04 · LOGOTYPE VARIANTS ══════════════════ -->
+  <section id="variants">
+    <div class="eyebrow">04 · Logotype variants</div>
+    <h2 class="section-h">One lockup, <em>four ways</em>.</h2>
+    <p class="section-sub">The primary horizontal lockup covers 90% of use cases. The stacked, mark-only, and inverted variants handle the remaining 10% — narrow rails, dark surfaces, social avatars, favicons.</p>
+
+    <div class="variants">
+      <div class="variant">
+        <div class="vl">
+          <span class="vl-mark lg"><svg><use href="#op-mark"/></svg></span>
+          <span class="vl-word lg">Outpulse</span>
+        </div>
+        <div class="variant-label">Primary · horizontal</div>
+      </div>
+
+      <div class="variant stack">
+        <div class="vl">
+          <span class="vl-mark lg"><svg><use href="#op-mark"/></svg></span>
+          <span class="vl-word md">Outpulse</span>
+        </div>
+        <div class="variant-label">Stacked · compact header</div>
+      </div>
+
+      <div class="variant dark">
+        <div class="vl">
+          <span class="vl-mark lg" style="color:#fff"><svg><use href="#op-mark"/></svg></span>
+          <span class="vl-word lg" style="color:#fff">Outpulse</span>
+        </div>
+        <div class="variant-label">Inverted · dark surfaces</div>
+      </div>
+
+      <div class="variant mark-only soft">
+        <div class="vl">
+          <span class="vl-mark lg"><svg><use href="#op-mark"/></svg></span>
+        </div>
+        <div class="variant-label">Mark only · avatar · favicon</div>
+      </div>
+
+      <div class="variant">
+        <div class="vl">
+          <span class="vl-mark"><svg><use href="#op-mark"/></svg></span>
+          <span class="vl-word md">Outpulse</span>
+        </div>
+        <div class="variant-label">Header inline · 32px</div>
+      </div>
+
+      <div class="variant soft">
+        <div class="vl" style="color:var(--orange)">
+          <span class="vl-mark lg" style="color:var(--orange)"><svg><use href="#op-mark"/></svg></span>
+        </div>
+        <div class="variant-label">Ember accent · reserved</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 05 · CLEAR SPACE ══════════════════ -->
+  <section id="space" class="narrow">
+    <div class="eyebrow">05 · Clear space · sizing</div>
+    <h2 class="section-h">Give it room.</h2>
+    <p class="section-sub">Clear space around the lockup equals the ring's stroke width (x) on every side. Anything closer and the mark starts competing with its neighbours. Minimum rendering sizes keep the ring legible at print and on small screens.</p>
+
+    <div class="clearspace-grid">
+      <div class="clearspace-stage">
+        <div class="cs-frame">
+          <div class="cs-lockup">
+            <span class="mk"><svg><use href="#op-mark"/></svg></span>
+            <span class="word">Outpulse</span>
+          </div>
+          <span class="cs-label cs-label-t">x</span>
+          <span class="cs-label cs-label-r">x</span>
+          <span class="cs-label cs-label-b">x</span>
+          <span class="cs-label cs-label-l">x</span>
+        </div>
+      </div>
+
+      <div>
+        <ul class="sizing-list">
+          <li>
+            <div class="prev">
+              <span class="mk" style="width:40px;height:40px"><svg><use href="#op-mark"/></svg></span>
+              <span class="word" style="font-size:36px">Outpulse</span>
+            </div>
+            <div class="info"><b>Primary lockup</b><span>≥ 40 px mark · 36 px word</span></div>
+          </li>
+          <li>
+            <div class="prev">
+              <span class="mk" style="width:28px;height:28px"><svg><use href="#op-mark"/></svg></span>
+              <span class="word" style="font-size:22px">Outpulse</span>
+            </div>
+            <div class="info"><b>Nav / sidebar</b><span>28 px mark · 22 px word</span></div>
+          </li>
+          <li>
+            <div class="prev">
+              <span class="mk" style="width:20px;height:20px"><svg><use href="#op-mark"/></svg></span>
+              <span class="word" style="font-size:16px">Outpulse</span>
+            </div>
+            <div class="info"><b>Small label</b><span>20 px mark · 16 px word · minimum for lockup</span></div>
+          </li>
+          <li>
+            <div class="prev">
+              <span class="mk" style="width:16px;height:16px"><svg><use href="#op-mark"/></svg></span>
+            </div>
+            <div class="info"><b>Mark only</b><span>≥ 16 px · favicon, badge, inline glyph</span></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 06 · COLOUR ══════════════════ -->
+  <section id="colour">
+    <div class="eyebrow">06 · Colour</div>
+    <h2 class="section-h">Ink on cream, <em>ember when it matters</em>.</h2>
+    <p class="section-sub">The default surface is cream on white; the default mark is ink. Ember (the brand orange) is reserved for things that carry meaning — italics, active states, status indicators, the one big CTA on a page. Violet, blue, and green are data-layer colours, used in dashboards to separate categories of information.</p>
+
+    <h3 style="font-family:var(--sans);font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--muted-2);margin:32px 0 12px">Neutrals · the stage</h3>
+    <div class="palette neutrals">
+      <div class="swatch">
+        <div class="swatch-fill" style="background:#14120f"></div>
+        <div class="swatch-body">
+          <div class="swatch-name" style="color:var(--ink)">Ink</div>
+          <div class="swatch-meta"><span>#14120f</span><span>Primary text · mark</span></div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-fill" style="background:#fbfaf7;border-bottom:1px solid var(--line)"></div>
+        <div class="swatch-body">
+          <div class="swatch-name">Cream</div>
+          <div class="swatch-meta"><span>#fbfaf7</span><span>Panel · sidebar</span></div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-fill" style="background:#ffffff;border-bottom:1px solid var(--line)"></div>
+        <div class="swatch-body">
+          <div class="swatch-name">Paper</div>
+          <div class="swatch-meta"><span>#ffffff</span><span>Canvas · cards</span></div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-fill" style="background:#6c6458"></div>
+        <div class="swatch-body">
+          <div class="swatch-name">Stone</div>
+          <div class="swatch-meta"><span>#6c6458</span><span>Muted text · captions</span></div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--sans);font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--muted-2);margin:40px 0 12px">Brand + data accents</h3>
+    <div class="palette">
+      <div class="swatch">
+        <div class="swatch-fill" style="background:#ff5b1f"></div>
+        <div class="swatch-body">
+          <div class="swatch-name">Ember</div>
+          <div class="swatch-meta"><span>#ff5b1f</span><span>Primary brand · CTA</span></div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-fill" style="background:#8a76b8"></div>
+        <div class="swatch-body">
+          <div class="swatch-name">Amethyst</div>
+          <div class="swatch-meta"><span>#8a76b8</span><span>AI / generated content</span></div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-fill" style="background:#3866a6"></div>
+        <div class="swatch-body">
+          <div class="swatch-name">Lapis</div>
+          <div class="swatch-meta"><span>#3866a6</span><span>Info · in-progress</span></div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-fill" style="background:#1a7c4b"></div>
+        <div class="swatch-body">
+          <div class="swatch-name">Pine</div>
+          <div class="swatch-meta"><span>#1a7c4b</span><span>Success · verified</span></div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-fill" style="background:#c97a10"></div>
+        <div class="swatch-body">
+          <div class="swatch-name">Amber</div>
+          <div class="swatch-meta"><span>#c97a10</span><span>Warning · attention</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 07 · TYPE SYSTEM ══════════════════ -->
+  <section id="scale">
+    <div class="eyebrow">07 · Typography system</div>
+    <h2 class="section-h">A two-family scale.</h2>
+    <p class="section-sub"><strong>Instrument Serif</strong> is the display voice — headlines, hero statements, the one italic accent on a page. <strong>Inter</strong> runs the working layer — UI labels, tables, body copy, metadata. Never mix them in the same line; let the scale switch guide the eye from shape to substance.</p>
+
+    <div class="type-sys">
+      <div class="type-row tr-display">
+        <div class="step">Display</div>
+        <div class="example serif">Every move <em>matters</em></div>
+        <div class="meta">Instrument Serif 400 · 72px · -.025em · 1</div>
+      </div>
+      <div class="type-row tr-h1">
+        <div class="step">H1</div>
+        <div class="example serif">Almost there — keep going.</div>
+        <div class="meta">Instrument Serif 400 · 48px · -.02em · 1.05</div>
+      </div>
+      <div class="type-row tr-h2">
+        <div class="step">H2</div>
+        <div class="example serif">Two circles. One pulse.</div>
+        <div class="meta">Instrument Serif 400 · 32px · -.015em · 1.1</div>
+      </div>
+      <div class="type-row tr-h3">
+        <div class="step">H3 / Panel</div>
+        <div class="example sans">Active campaigns</div>
+        <div class="meta">Inter 600 · 20px · 0 · 1.3</div>
+      </div>
+      <div class="type-row tr-body">
+        <div class="step">Body</div>
+        <div class="example sans">Outpulse finds your ideal prospects, writes hyper-personalised emails, and runs your outreach campaigns completely hands-free.</div>
+        <div class="meta">Inter 400 · 16px · 0 · 1.6</div>
+      </div>
+      <div class="type-row tr-small">
+        <div class="step">Caption</div>
+        <div class="example sans">Tracked automatically · last 7 days</div>
+        <div class="meta">Inter 400 · 13px · 0 · 1.5</div>
+      </div>
+      <div class="type-row tr-micro">
+        <div class="step">Micro · label</div>
+        <div class="example sans">Prospects found · today</div>
+        <div class="meta">Inter 700 · 11px · .1em · uppercase</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 08 · VOICE ══════════════════ -->
+  <section id="voice">
+    <div class="eyebrow">08 · Voice</div>
+    <h2 class="section-h">Direct. Quiet. <em>Earned.</em></h2>
+    <p class="section-sub">Outpulse writes the way a senior salesperson emails — short sentences, zero filler, signals in the first line. We don't shout, we don't use emoji, we don't promise. We describe what we do plainly and let results carry the pitch.</p>
+
+    <div class="voice-grid">
+      <div class="voice-card">
+        <h3>Confident, not loud.</h3>
+        <div class="is-is-not">
+          <div>
+            <div class="lbl is">Is</div>
+            <ul>
+              <li>Specific numbers over superlatives</li>
+              <li>Short sentences · one idea at a time</li>
+              <li>Plain words · sentence case</li>
+              <li>Honest about trade-offs</li>
+            </ul>
+          </div>
+          <div>
+            <div class="lbl isnt">Isn't</div>
+            <ul>
+              <li>"Revolutionary AI-powered platform"</li>
+              <li>Three-clause paragraphs</li>
+              <li>ALL CAPS or exclamation points</li>
+              <li>Vague promises of scale</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sample">"Sarah, saw you just closed Series C. <em>Worth a quick chat?</em>"</div>
+      </div>
+
+      <div class="voice-card">
+        <h3>Helpful, not hungry.</h3>
+        <div class="is-is-not">
+          <div>
+            <div class="lbl is">Is</div>
+            <ul>
+              <li>Explains <em>why</em> the email is relevant</li>
+              <li>Offers 15 minutes, not a demo</li>
+              <li>Tells the reader the ask in line one</li>
+              <li>Says <em>"if this isn't right, say so"</em></li>
+            </ul>
+          </div>
+          <div>
+            <div class="lbl isnt">Isn't</div>
+            <ul>
+              <li>"Circling back" · "just wanted to"</li>
+              <li>Bait-and-switch subject lines</li>
+              <li>Pretending the email isn't outbound</li>
+              <li>Guilt-tripping follow-ups</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sample">"If Outpulse isn't right for Vercel, I'll say so in five minutes."</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 09 · DO'S / DON'TS ══════════════════ -->
+  <section id="rules">
+    <div class="eyebrow">09 · Do's and don'ts</div>
+    <h2 class="section-h">Keep the mark honest.</h2>
+    <p class="section-sub">Six small rules that cover 95% of how the logotype gets abused.</p>
+
+    <div class="rules-grid">
+
+      <div class="rule">
+        <div class="rule-preview">
+          <div class="lk">
+            <span class="mk"><svg><use href="#op-mark"/></svg></span>
+            <span class="word">Outpulse</span>
+          </div>
+        </div>
+        <div>
+          <div class="rule-tag good"><span class="d"></span>Do</div>
+          <div class="rule-title">Use Instrument Serif for the wordmark</div>
+        </div>
+        <div class="rule-body">It's the approved pairing. Sizes and weights set in the system above.</div>
+      </div>
+
+      <div class="rule">
+        <div class="rule-preview bad">
+          <div class="lk">
+            <span class="mk"><svg><use href="#op-mark"/></svg></span>
+            <span class="word">Outpulse</span>
+          </div>
+        </div>
+        <div>
+          <div class="rule-tag bad"><span class="d"></span>Don't</div>
+          <div class="rule-title">Never substitute the typeface</div>
+        </div>
+        <div class="rule-body">System serifs or Comic Sans break the composition. If Instrument Serif isn't available, ship Georgia and file a ticket.</div>
+      </div>
+
+      <div class="rule">
+        <div class="rule-preview">
+          <div class="lk">
+            <span class="mk" style="width:32px;height:32px;color:var(--orange)"><svg><use href="#op-mark"/></svg></span>
+            <span class="word" style="color:var(--orange)">Outpulse</span>
+          </div>
+        </div>
+        <div>
+          <div class="rule-tag good"><span class="d"></span>Do</div>
+          <div class="rule-title">Ember lockup, sparingly</div>
+        </div>
+        <div class="rule-body">Full-ember lockup is reserved for brand moments — launches, partnerships. Not a default.</div>
+      </div>
+
+      <div class="rule">
+        <div class="rule-preview bad-4">
+          <div class="lk">
+            <span class="mk" style="color:#fff"><svg><use href="#op-mark"/></svg></span>
+            <span class="word" style="color:#fff">Outpulse</span>
+          </div>
+        </div>
+        <div>
+          <div class="rule-tag bad"><span class="d"></span>Don't</div>
+          <div class="rule-title">Never sit the lockup on a gradient</div>
+        </div>
+        <div class="rule-body">Mark needs flat ground. Solid ink, cream, paper, or ember — that's it.</div>
+      </div>
+
+      <div class="rule">
+        <div class="rule-preview">
+          <div class="lk">
+            <span class="mk"><svg><use href="#op-mark"/></svg></span>
+          </div>
+        </div>
+        <div>
+          <div class="rule-tag good"><span class="d"></span>Do</div>
+          <div class="rule-title">Mark-only at 16–48 px</div>
+        </div>
+        <div class="rule-body">Favicons, avatars, inline glyphs — drop the wordmark. Mark reads cleanly on its own.</div>
+      </div>
+
+      <div class="rule">
+        <div class="rule-preview bad-3">
+          <div class="lk">
+            <span class="mk"><svg><use href="#op-mark"/></svg></span>
+            <span class="word">Outpulse</span>
+          </div>
+        </div>
+        <div>
+          <div class="rule-tag bad"><span class="d"></span>Don't</div>
+          <div class="rule-title">Never rotate or skew the mark</div>
+        </div>
+        <div class="rule-body">The ring sits on the left of the disc. Always. Rotating the pair breaks the meaning.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════ 10 · CLOSE ══════════════════ -->
+  <section id="close" class="close">
+    <div class="close-logo">
+      <span class="mk"><svg><use href="#op-mark"/></svg></span>
+      <span class="word">Outpulse</span>
+    </div>
+    <h2>That's the <em>whole brand.</em></h2>
+    <p>Everything else is a variation on what's in these nine sections. If you're not sure, default to: ink on cream, Instrument Serif for the display line, Inter for everything else, one ember accent per page.</p>
+    <div class="close-links">
+      <a class="primary" href="prototype-minimal.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 4l9 8"/><path d="M5 10v10h14V10"/></svg>
+        Dashboard prototype
+      </a>
+      <a href="prototype-prospects.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        Prospects prototype
+      </a>
+      <a href="design-system.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        Design system
+      </a>
+    </div>
+    <div class="close-foot">
+      <span>Outpulse · Brand book · v1 · April 2026</span>
+      <span>Maintained by the design team</span>
+    </div>
+  </section>
+
+</main>
+
+<script>
+/* Smooth scroll-spy — highlights the current section in the rail nav. */
+(function(){
+  const sections = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('.rail-nav a');
+  if (!sections.length || !links.length) return;
+
+  const byId = {};
+  links.forEach(l => {
+    const id = l.getAttribute('href').slice(1);
+    byId[id] = l;
+  });
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting){
+        links.forEach(l => l.classList.remove('on'));
+        const link = byId[e.target.id];
+        if (link) link.classList.add('on');
+      }
+    });
+  }, {rootMargin:'-40% 0px -55% 0px', threshold:0});
+
+  sections.forEach(s => obs.observe(s));
+})();
+</script>
+
+</body>
+</html>
