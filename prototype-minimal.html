@@ -928,6 +928,36 @@ body{
   line-height:1;white-space:nowrap;
 }
 .beta-badge .d{width:5px;height:5px;border-radius:50%;background:var(--orange)}
+.beta-badge{cursor:pointer;user-select:none;transition:transform .15s ease}
+.beta-badge:hover{transform:scale(1.05)}
+.beta-badge:active{transform:scale(.96)}
+
+/* Easter-egg toast + confetti container — shown briefly when the beta
+   badge is clicked. The toast cycles through playful one-liners; the
+   confetti bursts from the badge's position using the brand palette. */
+.beta-toast{
+  position:fixed;bottom:28px;left:50%;
+  transform:translateX(-50%) translateY(20px);
+  padding:10px 18px;border-radius:999px;
+  background:var(--ink);color:#fff;
+  font-size:13px;font-weight:500;letter-spacing:.01em;
+  opacity:0;pointer-events:none;z-index:9999;
+  box-shadow:0 12px 32px -10px rgba(14,13,12,.35),0 2px 6px rgba(14,13,12,.1);
+  transition:opacity .35s ease,transform .35s ease;
+  display:inline-flex;align-items:center;gap:8px;white-space:nowrap;
+  max-width:calc(100vw - 32px);
+}
+.beta-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.beta-toast .d{width:6px;height:6px;border-radius:50%;background:var(--orange)}
+
+/* Confetti particle base — JS sets colour, position, and transition. */
+.confetti-host{
+  position:fixed;inset:0;pointer-events:none;z-index:9998;overflow:hidden;
+}
+.confetti-p{
+  position:absolute;width:8px;height:3px;border-radius:2px;
+  will-change:transform,opacity;
+}
 
 /* ─── Workspace switcher ─────────────────────────────────────────────
    Outpulse supports running two (or more) companies from a single
@@ -994,9 +1024,15 @@ body{
 .app.left-collapsed .ws-switch-body,
 .app.left-collapsed .ws-chev{display:none}
 
-/* Content that swaps based on the currently-active workspace. */
-html[data-ws="services"] [data-workspace="product"]{display:none}
-html[data-ws="product"] [data-workspace="services"]{display:none}
+/* Content that swaps based on the currently-active workspace. Three
+   workspaces: services (Platform), product (Outpulse self-serve),
+   book (Evolvium). Only the matching [data-workspace] block shows. */
+html[data-ws="services"] [data-workspace="product"],
+html[data-ws="services"] [data-workspace="book"],
+html[data-ws="product"]  [data-workspace="services"],
+html[data-ws="product"]  [data-workspace="book"],
+html[data-ws="book"]     [data-workspace="services"],
+html[data-ws="book"]     [data-workspace="product"]{display:none}
 
 .m-tb-btn{
   width:38px;height:38px;border-radius:9px;
@@ -1184,6 +1220,16 @@ html[data-ws="product"] [data-workspace="services"]{display:none}
           </div>
           <svg class="ws-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg>
         </div>
+        <div class="ws-item" data-ws-target="book">
+          <span class="ws-av">
+            <img src="https://www.google.com/s2/favicons?domain=evolvium.com&sz=128" alt="Evolvium" />
+          </span>
+          <div class="ws-switch-body">
+            <span class="ws-name">Evolvium</span>
+            <span class="ws-type">Book · Starter Plan</span>
+          </div>
+          <svg class="ws-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg>
+        </div>
         <div class="ws-divider"></div>
         <div class="ws-extra">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
@@ -1282,6 +1328,7 @@ html[data-ws="product"] [data-workspace="services"]{display:none}
         <span class="m-greet">Good evening, Lukas</span>
         <h1 data-workspace="services">Strong week — <em>two more to close.</em></h1>
         <h1 data-workspace="product">Seven paid customers — <em>three to go.</em></h1>
+        <h1 data-workspace="book">127 copies sold — <em>73 to hit target.</em></h1>
       </div>
       <div class="m-actions">
         <button class="btn-ghost">
@@ -1435,6 +1482,74 @@ html[data-ws="product"] [data-workspace="services"]{display:none}
       </div>
     </section>
 
+    <!-- ════════ PULSE · BOOK WORKSPACE ════════
+         Evolvium — book sales funnel. Visits → Previews → Carts →
+         Sold. Revenue in actual dollars, not MRR, since books are
+         one-shot purchases not subscriptions. -->
+    <section class="pulse" data-workspace="book">
+      <div class="pulse-top">
+        <span class="pulse-eyebrow">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+          Your Pulse
+        </span>
+        <span class="pulse-status" style="background:var(--green-soft);color:var(--green-ink);border-color:rgba(26,124,75,.18)">
+          <span class="d" style="background:var(--green)"></span>On pace
+        </span>
+      </div>
+
+      <div class="pulse-grid">
+        <div>
+          <div class="pulse-col-lbl">Books sold</div>
+          <div class="pulse-col-n">127<span class="frac">/200</span></div>
+          <div class="pulse-col-sub">73 to hit the launch target</div>
+        </div>
+        <div class="rule"></div>
+        <div>
+          <div class="pulse-col-lbl">Revenue</div>
+          <div class="pulse-col-n">$3.8k<span class="frac"> /$6k</span></div>
+          <div class="pulse-col-sub">Launch-window goal</div>
+        </div>
+      </div>
+
+      <div class="pulse-bar"><span class="fill" style="width:64%;background:var(--orange)"></span></div>
+      <div class="pulse-prog"><span>64% complete</span><span>14 days left · ends 14 May</span></div>
+
+      <div class="pulse-funnel">
+        <div class="pf">
+          <div class="pf-inner">
+            <span class="pf-val">4,820<span class="frac">/3,200</span></span>
+            <span class="pf-lbl">Visits</span>
+          </div>
+        </div>
+        <div class="pf">
+          <div class="pf-inner">
+            <span class="pf-val">412</span>
+            <span class="pf-lbl">Previews</span>
+          </div>
+        </div>
+        <div class="pf">
+          <div class="pf-inner">
+            <span class="pf-val">164</span>
+            <span class="pf-lbl">Cart adds</span>
+          </div>
+        </div>
+        <div class="pf">
+          <div class="pf-inner">
+            <span class="pf-val">127<span class="frac">/200</span></span>
+            <span class="pf-lbl">Sold</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pulse-mini">
+        <div><span class="pm-lbl">Today's visits</span><span class="pm-val">286<span class="frac">/160</span></span></div>
+        <div><span class="pm-lbl">Emails sent</span><span class="pm-val">96<span class="frac">/80</span></span></div>
+        <div><span class="pm-lbl">Previews today</span><span class="pm-val">28</span></div>
+        <div><span class="pm-lbl">Cart adds today</span><span class="pm-val">12</span></div>
+        <div><span class="pm-lbl">Books sold today</span><span class="pm-val">5</span></div>
+      </div>
+    </section>
+
     <!-- ─────────── OUTREACH KPI CARDS ─────────── -->
     <div class="sect-lbl">Outreach</div>
 
@@ -1483,6 +1598,30 @@ html[data-ws="product"] [data-workspace="services"]{display:none}
         <div class="kpi-top"><span class="kpi-dot"></span><span class="kpi-lbl">Trials started</span></div>
         <span class="kpi-val">42</span>
         <span class="kpi-chip">7 paid · $12.8k MRR</span>
+      </div>
+    </div>
+
+    <!-- Book KPIs: Readers · Emails · Click rate · Books sold -->
+    <div class="kpis" data-workspace="book">
+      <div class="kpi green">
+        <div class="kpi-top"><span class="kpi-dot"></span><span class="kpi-lbl">Readers on list</span></div>
+        <span class="kpi-val">8,420</span>
+        <span class="kpi-chip">↑ 612 this week</span>
+      </div>
+      <div class="kpi orange">
+        <div class="kpi-top"><span class="kpi-dot"></span><span class="kpi-lbl">Emails sent</span></div>
+        <span class="kpi-val">3,200</span>
+        <span class="kpi-chip">Launch broadcast</span>
+      </div>
+      <div class="kpi blue">
+        <div class="kpi-top"><span class="kpi-dot"></span><span class="kpi-lbl">Click rate</span></div>
+        <span class="kpi-val">8.4%</span>
+        <span class="kpi-chip">↑ 2.1 pts</span>
+      </div>
+      <div class="kpi violet">
+        <div class="kpi-top"><span class="kpi-dot"></span><span class="kpi-lbl">Books sold</span></div>
+        <span class="kpi-val">127</span>
+        <span class="kpi-chip">$3,810 revenue</span>
       </div>
     </div>
 
@@ -1742,6 +1881,85 @@ html[data-ws="product"] [data-workspace="services"]{display:none}
 
 <script>
 /* ══════════════════════════════════════════════════════════════════════
+   Beta badge easter egg — click triggers a confetti burst in the
+   brand palette + a toast with a rotating playful line. We're in beta,
+   and we want early users to feel it. */
+(function(){
+  const lines = [
+    "You're one of the first 100. Thanks for betting on us.",
+    "v1 ships in 47 days · hi 👋",
+    "Built in a garage. Shipped from a bedroom.",
+    "You found it. Keep clicking.",
+    "Every sale starts with a signal.",
+    "Almost prod. Keep your seatbelt loose."
+  ];
+  const palette = ['#ff5b1f','#8a76b8','#3866a6','#1a7c4b','#c97a10','#ffa06a'];
+  let clickCount = 0;
+
+  function confetti(x, y){
+    const host = document.createElement('div');
+    host.className = 'confetti-host';
+    document.body.appendChild(host);
+    const count = 42;
+    for (let i = 0; i < count; i++){
+      const p = document.createElement('div');
+      p.className = 'confetti-p';
+      const c = palette[Math.floor(Math.random() * palette.length)];
+      const size = 5 + Math.random() * 7;
+      p.style.background = c;
+      p.style.width = size + 'px';
+      p.style.height = (size * (0.35 + Math.random()*.35)) + 'px';
+      p.style.left = x + 'px';
+      p.style.top = y + 'px';
+      p.style.opacity = '1';
+      p.style.transform = 'translate(-50%,-50%) rotate(' + (Math.random()*360) + 'deg)';
+      // Blur/fade lines: each particle flies in a random arc
+      const angle = Math.random() * Math.PI * 2;
+      const velocity = 60 + Math.random() * 220;
+      const dx = Math.cos(angle) * velocity;
+      const dy = Math.sin(angle) * velocity - 80 - Math.random() * 40;
+      const rot = (Math.random() * 720) - 360;
+      p.style.transition = 'transform 1.3s cubic-bezier(.18,.72,.35,1), opacity 1.3s ease-out, top 1.5s cubic-bezier(.3,.05,.75,1), left 1.5s cubic-bezier(.2,.7,.4,1)';
+      host.appendChild(p);
+      requestAnimationFrame(() => {
+        p.style.top = (y + dy + 360) + 'px';
+        p.style.left = (x + dx) + 'px';
+        p.style.transform = 'translate(-50%,-50%) rotate(' + rot + 'deg) scale(.4)';
+        p.style.opacity = '0';
+      });
+    }
+    setTimeout(() => host.remove(), 1700);
+  }
+
+  function toast(msg){
+    // Remove any existing toast first
+    document.querySelectorAll('.beta-toast').forEach(t => t.remove());
+    const t = document.createElement('div');
+    t.className = 'beta-toast';
+    t.innerHTML = '<span class="d"></span>' + msg;
+    document.body.appendChild(t);
+    requestAnimationFrame(() => t.classList.add('show'));
+    setTimeout(() => {
+      t.classList.remove('show');
+      setTimeout(() => t.remove(), 450);
+    }, 3200);
+  }
+
+  document.addEventListener('click', e => {
+    const badge = e.target.closest('.beta-badge');
+    if (!badge) return;
+    const rect = badge.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    confetti(x, y);
+    toast(lines[clickCount % lines.length]);
+    clickCount++;
+  });
+})();
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════════
    Workspace switcher — flips the dashboard between the services
    workspace (Platform agency) and the product workspace (Outpulse
    self-serve). Updates the switcher label, sets a top-level data
@@ -1767,6 +1985,12 @@ html[data-ws="product"] [data-workspace="services"]{display:none}
       alt:'Outpulse',
       name:'Outpulse self-serve',
       type:'Product · Growth Plan'
+    },
+    book: {
+      logo:'https://www.google.com/s2/favicons?domain=evolvium.com&sz=128',
+      alt:'Evolvium',
+      name:'Evolvium',
+      type:'Book · Starter Plan'
     }
   };
 
