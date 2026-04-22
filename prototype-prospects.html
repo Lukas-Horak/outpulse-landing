@@ -150,6 +150,33 @@ body{
 .sb-toggle:hover{background:#eeece8;color:var(--ink)}
 .sb-toggle svg{width:14px;height:14px}
 .app.left-collapsed .sb-toggle svg{transform:scaleX(-1)}
+.sb-search{
+  display:flex;align-items:center;gap:8px;
+  padding:7px 10px;border-radius:8px;
+  background:#fff;border:1px solid var(--line);
+  color:var(--muted-2);font-size:13px;cursor:text;
+  transition:border-color .15s ease;
+}
+.sb-search:hover{border-color:#dcd8d1}
+.sb-search svg{width:14px;height:14px;flex-shrink:0;color:var(--muted-2)}
+.sb-search-label{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-search .kbd{
+  flex-shrink:0;font-size:10.5px;color:var(--muted-2);
+  padding:1px 5px;border:1px solid var(--line);border-radius:4px;
+  background:var(--bg-subtle);font-family:var(--sans);
+}
+.sb-new{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  padding:9px 14px;border-radius:9px;
+  background:var(--ink);color:#fff;border:1px solid var(--ink);
+  font-family:var(--sans);font-size:13px;font-weight:500;
+  cursor:pointer;width:100%;
+  transition:background .15s ease,border-color .15s ease;
+}
+.sb-new:hover{background:var(--orange);border-color:var(--orange)}
+.sb-new svg{width:14px;height:14px}
+.sb-new-label{white-space:nowrap}
+
 .sb-section{display:flex;flex-direction:column;gap:1px}
 .sb-label{
   font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
@@ -525,22 +552,117 @@ tr.checked .ck svg{display:inline-block;width:10px;height:10px;stroke:#fff;strok
 .app.left-collapsed .sb-item{justify-content:center;padding:9px 0;width:44px;margin:0 auto;border-radius:8px;gap:0}
 .app.left-collapsed .sb-item-label{display:none}
 .app.left-collapsed .sb-item .count{display:none}
+.app.left-collapsed .sb-search{width:44px;padding:0;height:36px;justify-content:center;margin:0 auto}
+.app.left-collapsed .sb-search-label,
+.app.left-collapsed .sb-search .kbd{display:none}
+.app.left-collapsed .sb-new{width:44px;padding:0;height:36px;margin:0 auto}
+.app.left-collapsed .sb-new-label{display:none}
 .app.left-collapsed .sb-user{padding:10px 0;margin-top:auto;justify-content:center;gap:0;width:100%}
 .app.left-collapsed .sb-user-meta{display:none}
 .app.left-collapsed .sb-user-more{display:none}
 
+/* Mobile — same native-app treatment as the dashboard */
 .app.is-mobile{grid-template-columns:1fr}
 .app.is-mobile .sidebar,
 .app.is-mobile .right{display:none}
-.app.is-mobile .main{padding:20px 16px 56px}
-.app.is-mobile .m-head{flex-direction:column;align-items:flex-start;gap:16px}
-.app.is-mobile .m-actions{width:100%;flex-wrap:wrap}
+.app.is-mobile .main{padding:18px 16px 104px}
+.app.is-mobile .m-head{flex-direction:column;align-items:flex-start;gap:10px;margin-bottom:16px}
+.app.is-mobile .m-actions{display:none}
+.app.is-mobile .m-head h1{font-size:28px;line-height:1.05}
+.app.is-mobile .m-greet{font-size:12.5px}
 .app.is-mobile .toolbar{padding:10px;gap:8px}
 .app.is-mobile .tb-search{flex:1 1 100%}
 .app.is-mobile .ptbl thead th.col-signals,
 .app.is-mobile .ptbl tbody td.col-signals,
 .app.is-mobile .ptbl thead th.col-persona,
 .app.is-mobile .ptbl tbody td.col-persona{display:none}
+.app.is-mobile .view-switch,
+.app.is-mobile .tb-spacer{display:none}
+
+/* Beta badge — shown in both the desktop sidebar brand and mobile top bar. */
+.beta-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  margin-left:6px;padding:2.5px 8px;border-radius:999px;
+  background:var(--orange-soft);border:1px solid rgba(255,91,31,.22);
+  color:var(--orange-ink);
+  font-family:var(--sans);font-size:9.5px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;
+  line-height:1;white-space:nowrap;
+}
+.beta-badge .d{width:5px;height:5px;border-radius:50%;background:var(--orange)}
+.app.left-collapsed .beta-badge{display:none}
+
+/* ── Mobile top bar + tabs + FAB ─────────────────────────────────────── */
+.m-topbar{display:none}
+.app.is-mobile .m-topbar{
+  display:flex;position:sticky;top:0;z-index:50;
+  background:var(--bg-panel);border-bottom:1px solid var(--line);
+  height:54px;padding:0 14px;align-items:center;gap:10px;
+}
+.m-tb-brand{display:flex;align-items:center;gap:7px;flex:1;min-width:0}
+.m-tb-brand img{width:26px;height:26px;display:block}
+.m-tb-brand span{font-family:var(--serif);font-weight:500;font-size:21px;letter-spacing:-.02em;line-height:1}
+.m-tb-btn{
+  width:38px;height:38px;border-radius:9px;
+  background:#fff;border:1px solid var(--line);color:var(--ink-2);
+  display:inline-flex;align-items:center;justify-content:center;
+  cursor:pointer;position:relative;flex-shrink:0;
+}
+.m-tb-btn:hover{background:var(--bg-subtle)}
+.m-tb-btn svg{width:17px;height:17px}
+.m-tb-btn .dot{
+  position:absolute;top:7px;right:7px;
+  width:7px;height:7px;border-radius:50%;background:var(--orange);
+  border:2px solid var(--bg-panel);
+}
+.m-tb-av{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--green-soft);color:var(--green-ink);
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:600;flex-shrink:0;cursor:pointer;
+}
+
+.m-tabs{display:none}
+.app.is-mobile .m-tabs{
+  display:flex;position:fixed;bottom:0;left:0;right:0;z-index:60;
+  background:#fff;border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom,0);
+  height:64px;
+  align-items:center;justify-content:space-around;
+  box-shadow:0 -1px 3px rgba(14,13,12,.04);
+}
+.m-tab{
+  flex:1 1 0;height:64px;min-width:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  color:var(--muted-2);
+  font-size:10.5px;font-weight:500;letter-spacing:.01em;
+  padding:8px 4px 10px;text-decoration:none;position:relative;
+  transition:color .15s ease;
+}
+.m-tab svg{width:22px;height:22px;stroke-width:2}
+.m-tab.active{color:var(--ink)}
+.m-tab.active svg{stroke-width:2.4}
+.m-tab .badge{
+  position:absolute;top:6px;left:50%;margin-left:3px;
+  background:var(--orange);color:#fff;
+  font-size:9.5px;font-weight:700;
+  min-width:16px;height:16px;padding:0 4px;border-radius:999px;
+  display:inline-flex;align-items:center;justify-content:center;
+  border:2px solid #fff;
+}
+.m-fab-slot{flex:0 0 64px;height:64px;position:relative}
+.m-fab{
+  position:absolute;left:50%;top:-8px;transform:translateX(-50%);
+  width:56px;height:56px;border-radius:50%;
+  background:var(--ink);color:#fff;border:none;
+  display:inline-flex;align-items:center;justify-content:center;
+  box-shadow:0 10px 22px -4px rgba(14,13,12,.28),0 2px 4px rgba(14,13,12,.12);
+  cursor:pointer;
+  transition:background .15s ease,transform .15s ease;
+}
+.m-fab:hover{background:var(--orange)}
+.m-fab:active{transform:translateX(-50%) scale(.96)}
+.m-fab svg{width:22px;height:22px;stroke-width:2.6}
 </style>
 </head>
 <body>
@@ -583,6 +705,19 @@ tr.checked .ck svg{display:inline-block;width:10px;height:10px;stroke:#fff;strok
 
 <div class="app">
 
+  <header class="m-topbar">
+    <div class="m-tb-brand">
+      <img src="outpulse-logo-dusk.svg" alt="" />
+      <span>Outpulse</span>
+      <span class="beta-badge"><span class="d"></span>Beta</span>
+    </div>
+    <button class="m-tb-btn" aria-label="Notifications">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+      <span class="dot"></span>
+    </button>
+    <span class="m-tb-av" title="Lukas Horak">LH</span>
+  </header>
+
   <!-- ══════════════════ LEFT SIDEBAR ══════════════════ -->
   <aside class="sidebar">
 
@@ -600,42 +735,59 @@ tr.checked .ck svg{display:inline-block;width:10px;height:10px;stroke:#fff;strok
         </svg>
       </span>
       <span class="sb-brand-name">Outpulse</span>
+      <span class="beta-badge" title="Public beta · April 2026"><span class="d"></span>Beta</span>
       <button class="sb-toggle" data-toggle="left" aria-label="Toggle sidebar" title="Collapse sidebar">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18 9 12l6-6"/></svg>
       </button>
     </div>
 
+    <div class="sb-search" title="Search (⌘K)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <span class="sb-search-label">Search everything</span>
+      <span class="kbd">⌘K</span>
+    </div>
+
+    <button class="sb-new" title="New campaign">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+      <span class="sb-new-label">New campaign</span>
+    </button>
+
     <div class="sb-section">
+      <div class="sb-label">Workspace</div>
       <a class="sb-item" href="prototype-minimal.html" title="Dashboard">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 4l9 8"/><path d="M5 10v10h14V10"/></svg>
         <span class="sb-item-label">Dashboard</span>
       </a>
+      <div class="sb-item" title="Pulse">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 2"/></svg>
+        <span class="sb-item-label">Pulse</span>
+      </div>
+      <div class="sb-item" title="Inbox">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 6 8 7 8-7"/></svg>
+        <span class="sb-item-label">Inbox</span>
+        <span class="count warn">12</span>
+      </div>
     </div>
 
     <div class="sb-section">
-      <div class="sb-label">Find clients</div>
+      <div class="sb-label">Audience</div>
       <div class="sb-item" title="Buyer Personas">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="9" r="3"/><path d="M2 20v-1a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v1"/><circle cx="17" cy="9" r="3"/><path d="M16 14a5 5 0 0 1 5 5v1"/></svg>
         <span class="sb-item-label">Buyer Personas</span>
       </div>
       <div class="sb-item active" title="Prospects">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
         <span class="sb-item-label">Prospects</span>
         <span class="count">1,428</span>
       </div>
     </div>
 
     <div class="sb-section">
-      <div class="sb-label">Engage</div>
+      <div class="sb-label">Outreach</div>
       <div class="sb-item" title="Campaigns">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 22 2l-6.5 18-3-9z"/><path d="M3 11l9 3"/></svg>
         <span class="sb-item-label">Campaigns</span>
         <span class="count">6</span>
-      </div>
-      <div class="sb-item" title="Messages">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 6 8 7 8-7"/></svg>
-        <span class="sb-item-label">Messages</span>
-        <span class="count warn">12</span>
       </div>
       <div class="sb-item" title="LinkedIn">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.56c0-1.33 0-3.04-1.85-3.04s-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56z"/></svg>
@@ -644,10 +796,14 @@ tr.checked .ck svg{display:inline-block;width:10px;height:10px;stroke:#fff;strok
     </div>
 
     <div class="sb-section">
-      <div class="sb-label">Growth</div>
-      <div class="sb-item" title="Pulse">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 2"/></svg>
-        <span class="sb-item-label">Pulse</span>
+      <div class="sb-label">Setup</div>
+      <div class="sb-item" title="Integrations">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="2" width="8" height="8" rx="2"/><rect x="2" y="14" width="8" height="8" rx="2"/><rect x="14" y="14" width="8" height="8" rx="2"/><path d="M10 6H6a2 2 0 0 0-2 2v4"/></svg>
+        <span class="sb-item-label">Integrations</span>
+      </div>
+      <div class="sb-item" title="Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
+        <span class="sb-item-label">Settings</span>
       </div>
     </div>
 
@@ -1248,6 +1404,32 @@ tr.checked .ck svg{display:inline-block;width:10px;height:10px;stroke:#fff;strok
     </div>
 
   </aside>
+
+  <!-- ══════════════════ MOBILE BOTTOM TAB BAR ══════════════════ -->
+  <nav class="m-tabs" aria-label="Primary">
+    <a class="m-tab" href="prototype-minimal.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 4l9 8"/><path d="M5 10v10h14V10"/></svg>
+      Home
+    </a>
+    <a class="m-tab active" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
+      Prospects
+    </a>
+    <div class="m-fab-slot">
+      <button class="m-fab" aria-label="New campaign">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+    </div>
+    <a class="m-tab" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 6 8 7 8-7"/></svg>
+      Inbox
+      <span class="badge">12</span>
+    </a>
+    <a class="m-tab" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
+      More
+    </a>
+  </nav>
 
 </div>
 
