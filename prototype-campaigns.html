@@ -377,8 +377,7 @@ body{
    card's other dividers. Metrics sit in a 3-column strip below. */
 .ccard-body{
   grid-column:1 / -1;
-  display:flex;flex-direction:column;gap:14px;
-  padding-top:8px;
+  display:flex;flex-direction:column;gap:12px;
 }
 
 /* Nested progress panel — visible surface inside the card */
@@ -556,12 +555,8 @@ body{
 
 .app.right-hidden .csum,
 .app.left-collapsed .csum{grid-template-columns:repeat(2,1fr)}
-.app.right-hidden .ccard-body,
-.app.left-collapsed .ccard-body{grid-template-columns:1fr;gap:14px}
-.app.right-hidden .ccard-body > .ccard-metric:nth-child(n+2),
-.app.left-collapsed .ccard-body > .ccard-metric:nth-child(n+2){
-  display:grid;grid-template-columns:1fr 1fr;gap:14px;
-}
+/* Campaign card body now stacks progress-panel → metrics-row by default,
+   so the narrower viewports don't need a layout override here. */
 
 .app.is-mobile{grid-template-columns:1fr}
 .app.is-mobile .sidebar,
@@ -583,8 +578,10 @@ body{
 .app.is-mobile .ccard{padding:16px 18px 14px}
 .app.is-mobile .ccard-title{font-size:19px}
 .app.is-mobile .ccard-status{min-width:0;padding-top:0}
-.app.is-mobile .ccard-body{grid-template-columns:1fr;gap:10px;padding-top:6px;margin-top:0;border-top:none}
-.app.is-mobile .ccard-prog{border-top:1px solid var(--line-2);padding-top:10px}
+.app.is-mobile .ccard-body{gap:10px;padding-top:2px}
+.app.is-mobile .ccard-prog{padding:12px 14px 10px}
+.app.is-mobile .ccard-metric{padding:10px 12px 8px}
+.app.is-mobile .ccard-m-val{font-size:20px}
 .app.is-mobile .ccard-next{flex-wrap:wrap;gap:4px 10px}
 
 /* Mobile top bar + tabs + FAB — shared */
