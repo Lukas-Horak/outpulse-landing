@@ -949,8 +949,13 @@ body{
   display:inline-flex;align-items:center;justify-content:center;
   font-size:11px;font-weight:700;letter-spacing:0;
   background:var(--green-soft);color:var(--green-ink);
+  overflow:hidden;
 }
 .ws-av.product{background:var(--violet-soft);color:var(--violet-ink)}
+/* When the avatar holds an actual logo image, drop the coloured tile
+   background and let the image breathe. */
+.ws-av:has(img){background:#fff;border:1px solid var(--line)}
+.ws-av img{width:100%;height:100%;object-fit:contain;padding:3px;display:block}
 .ws-switch-body{display:flex;flex-direction:column;line-height:1.25;flex:1;min-width:0}
 .ws-name{font-size:13px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ws-type{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -1150,23 +1155,29 @@ html[data-ws="product"] [data-workspace="services"]{display:none}
     <!-- Workspace switcher — flips between the services company and the
          product company the user is running in the same Outpulse account. -->
     <div class="ws-switch" data-ws-switch>
-      <span class="ws-av" data-ws-av>PA</span>
+      <span class="ws-av" data-ws-av>
+        <img src="https://www.google.com/s2/favicons?domain=plat4m.com&sz=128" alt="Platform" />
+      </span>
       <div class="ws-switch-body">
-        <span class="ws-name" data-ws-name>Platform agency</span>
+        <span class="ws-name" data-ws-name>Platform</span>
         <span class="ws-type" data-ws-type>Services · Growth Plan</span>
       </div>
       <svg class="ws-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
       <div class="ws-menu">
         <div class="ws-item on" data-ws-target="services">
-          <span class="ws-av">PA</span>
+          <span class="ws-av">
+            <img src="https://www.google.com/s2/favicons?domain=plat4m.com&sz=128" alt="Platform" />
+          </span>
           <div class="ws-switch-body">
-            <span class="ws-name">Platform agency</span>
+            <span class="ws-name">Platform</span>
             <span class="ws-type">Services · Growth Plan</span>
           </div>
           <svg class="ws-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg>
         </div>
         <div class="ws-item" data-ws-target="product">
-          <span class="ws-av product">OS</span>
+          <span class="ws-av">
+            <img src="outpulse-logo-dusk.svg" alt="Outpulse" />
+          </span>
           <div class="ws-switch-body">
             <span class="ws-name">Outpulse self-serve</span>
             <span class="ws-type">Product · Growth Plan</span>
@@ -1745,16 +1756,25 @@ html[data-ws="product"] [data-workspace="services"]{display:none}
   const items = switcher.querySelectorAll('.ws-item');
 
   const data = {
-    services:{av:'PA',avProduct:false,name:'Platform agency',type:'Services · Growth Plan'},
-    product: {av:'OS',avProduct:true, name:'Outpulse self-serve',type:'Product · Growth Plan'}
+    services:{
+      logo:'https://www.google.com/s2/favicons?domain=plat4m.com&sz=128',
+      alt:'Platform',
+      name:'Platform',
+      type:'Services · Growth Plan'
+    },
+    product: {
+      logo:'outpulse-logo-dusk.svg',
+      alt:'Outpulse',
+      name:'Outpulse self-serve',
+      type:'Product · Growth Plan'
+    }
   };
 
   function setWorkspace(key){
     const d = data[key]; if (!d) return;
     document.documentElement.setAttribute('data-ws', key);
     if (avEl){
-      avEl.textContent = d.av;
-      avEl.classList.toggle('product', !!d.avProduct);
+      avEl.innerHTML = '<img src="' + d.logo + '" alt="' + d.alt + '" />';
     }
     if (nameEl) nameEl.textContent = d.name;
     if (typeEl) typeEl.textContent = d.type;
