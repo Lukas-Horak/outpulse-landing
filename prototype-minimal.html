@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-ws="services">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -928,6 +928,71 @@ body{
   line-height:1;white-space:nowrap;
 }
 .beta-badge .d{width:5px;height:5px;border-radius:50%;background:var(--orange)}
+
+/* ─── Workspace switcher ─────────────────────────────────────────────
+   Outpulse supports running two (or more) companies from a single
+   account — one that sells services, one that sells a digital product.
+   The funnel / KPIs / Pulse for each are fundamentally different, so
+   the switcher lives prominently under the brand and swaps the
+   dashboard content when the user flips between them. */
+.ws-switch{
+  position:relative;
+  padding:8px 10px;border-radius:10px;
+  background:#fff;border:1px solid var(--line);
+  cursor:pointer;display:flex;align-items:center;gap:10px;
+  transition:border-color .15s ease,background .15s ease;
+}
+.ws-switch:hover{border-color:#d8d4cc}
+.ws-switch.open{border-color:#c9c4ba}
+.ws-av{
+  width:28px;height:28px;border-radius:7px;flex-shrink:0;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;letter-spacing:0;
+  background:var(--green-soft);color:var(--green-ink);
+}
+.ws-av.product{background:var(--violet-soft);color:var(--violet-ink)}
+.ws-switch-body{display:flex;flex-direction:column;line-height:1.25;flex:1;min-width:0}
+.ws-name{font-size:13px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ws-type{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ws-chev{width:14px;height:14px;color:var(--muted-2);flex-shrink:0;transition:transform .2s ease}
+.ws-switch.open .ws-chev{transform:rotate(180deg);color:var(--ink-2)}
+
+.ws-menu{
+  position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:100;
+  background:#fff;border:1px solid var(--line);border-radius:10px;
+  box-shadow:0 10px 30px -8px rgba(14,13,12,.14),0 2px 6px rgba(14,13,12,.04);
+  padding:6px;display:none;
+}
+.ws-switch.open .ws-menu{display:block}
+.ws-item{
+  display:flex;align-items:center;gap:10px;
+  padding:7px 8px;border-radius:7px;cursor:pointer;
+  transition:background .12s ease;
+}
+.ws-item:hover{background:var(--bg-subtle)}
+.ws-item.on{background:var(--bg-subtle)}
+.ws-item .ws-check{margin-left:auto;width:14px;height:14px;color:var(--green-ink);flex-shrink:0;visibility:hidden}
+.ws-item.on .ws-check{visibility:visible}
+.ws-divider{height:1px;background:var(--line);margin:4px 2px}
+.ws-extra{
+  display:flex;align-items:center;gap:10px;
+  padding:7px 8px;border-radius:7px;cursor:pointer;
+  font-size:12.5px;color:var(--muted);
+  transition:background .12s ease,color .12s ease;
+}
+.ws-extra:hover{background:var(--bg-subtle);color:var(--ink-2)}
+.ws-extra svg{width:14px;height:14px;flex-shrink:0}
+
+.app.left-collapsed .ws-switch{
+  padding:0;width:44px;height:40px;margin:0 auto;justify-content:center;
+}
+.app.left-collapsed .ws-switch-body,
+.app.left-collapsed .ws-chev{display:none}
+
+/* Content that swaps based on the currently-active workspace. */
+html[data-ws="services"] [data-workspace="product"]{display:none}
+html[data-ws="product"] [data-workspace="services"]{display:none}
+
 .m-tb-btn{
   width:38px;height:38px;border-radius:9px;
   background:#fff;border:1px solid var(--line);color:var(--ink-2);
@@ -1082,6 +1147,44 @@ body{
       </button>
     </div>
 
+    <!-- Workspace switcher — flips between the services company and the
+         product company the user is running in the same Outpulse account. -->
+    <div class="ws-switch" data-ws-switch>
+      <span class="ws-av" data-ws-av>PA</span>
+      <div class="ws-switch-body">
+        <span class="ws-name" data-ws-name>Platform agency</span>
+        <span class="ws-type" data-ws-type>Services · Growth Plan</span>
+      </div>
+      <svg class="ws-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <div class="ws-menu">
+        <div class="ws-item on" data-ws-target="services">
+          <span class="ws-av">PA</span>
+          <div class="ws-switch-body">
+            <span class="ws-name">Platform agency</span>
+            <span class="ws-type">Services · Growth Plan</span>
+          </div>
+          <svg class="ws-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg>
+        </div>
+        <div class="ws-item" data-ws-target="product">
+          <span class="ws-av product">OS</span>
+          <div class="ws-switch-body">
+            <span class="ws-name">Outpulse self-serve</span>
+            <span class="ws-type">Product · Growth Plan</span>
+          </div>
+          <svg class="ws-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg>
+        </div>
+        <div class="ws-divider"></div>
+        <div class="ws-extra">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+          New workspace
+        </div>
+        <div class="ws-extra">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
+          Workspace settings
+        </div>
+      </div>
+    </div>
+
     <!-- Search — quick jump to any prospect, campaign, persona, or page. -->
     <div class="sb-search" title="Search (⌘K)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
@@ -1166,7 +1269,8 @@ body{
     <div class="m-head">
       <div class="m-head-text">
         <span class="m-greet">Good evening, Lukas</span>
-        <h1>Almost there — <em>keep going.</em></h1>
+        <h1 data-workspace="services">Strong week — <em>two more to close.</em></h1>
+        <h1 data-workspace="product">Seven paid customers — <em>three to go.</em></h1>
       </div>
       <div class="m-actions">
         <button class="btn-ghost">
@@ -1184,102 +1288,190 @@ body{
     </div>
 
     <!-- ─────────── PULSE HERO CARD ─────────── -->
-    <section class="pulse">
+    <!-- ════════ PULSE · SERVICES WORKSPACE (default) ════════
+         Platform agency — realistic mid-quarter data: 3 of 5 deals
+         closed, ~60% of revenue target, on pace. Funnel shows
+         Visits → Inquiries → Calls → Closed (the services pipeline). -->
+    <section class="pulse" data-workspace="services">
       <div class="pulse-top">
         <span class="pulse-eyebrow">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
           Your Pulse
         </span>
-        <span class="pulse-status"><span class="d"></span>Behind pace</span>
+        <span class="pulse-status" style="background:var(--green-soft);color:var(--green-ink);border-color:rgba(26,124,75,.18)">
+          <span class="d" style="background:var(--green)"></span>On pace
+        </span>
       </div>
 
       <div class="pulse-grid">
         <div>
           <div class="pulse-col-lbl">Closed deals</div>
-          <div class="pulse-col-n">0<span class="frac">/3</span></div>
-          <div class="pulse-col-sub">3 to go this quarter</div>
+          <div class="pulse-col-n">3<span class="frac">/5</span></div>
+          <div class="pulse-col-sub">2 to go this quarter</div>
         </div>
         <div class="rule"></div>
         <div>
-          <div class="pulse-col-lbl">Revenue</div>
-          <div class="pulse-col-n">$0<span class="frac"> /$60,000</span></div>
+          <div class="pulse-col-lbl">Revenue booked</div>
+          <div class="pulse-col-n">$54k<span class="frac"> /$90k</span></div>
           <div class="pulse-col-sub">Q2 revenue target</div>
         </div>
       </div>
 
-      <div class="pulse-bar"><span class="fill"></span></div>
-      <div class="pulse-prog"><span>0% complete</span><span>23 days left · ends 14 May</span></div>
+      <div class="pulse-bar"><span class="fill" style="width:60%;background:var(--green)"></span></div>
+      <div class="pulse-prog"><span>60% complete</span><span>14 days left · ends 14 May</span></div>
 
       <div class="pulse-funnel">
         <div class="pf">
           <div class="pf-inner">
-            <span class="pf-val">587<span class="frac">/417</span></span>
+            <span class="pf-val">1,842<span class="frac">/1,200</span></span>
             <span class="pf-lbl">Visits</span>
           </div>
         </div>
         <div class="pf">
           <div class="pf-inner">
-            <span class="pf-val">0</span>
+            <span class="pf-val">142</span>
             <span class="pf-lbl">Inquiries</span>
           </div>
         </div>
         <div class="pf">
           <div class="pf-inner">
-            <span class="pf-val">0</span>
+            <span class="pf-val">38</span>
             <span class="pf-lbl">Calls</span>
           </div>
         </div>
         <div class="pf">
           <div class="pf-inner">
-            <span class="pf-val">0<span class="frac">/3</span></span>
+            <span class="pf-val">3<span class="frac">/5</span></span>
             <span class="pf-lbl">Closed</span>
           </div>
         </div>
       </div>
 
       <div class="pulse-mini">
-        <div><span class="pm-lbl">Today's visits</span><span class="pm-val">38<span class="frac">/14</span></span></div>
-        <div><span class="pm-lbl">Emails sent</span><span class="pm-val">0<span class="frac">/14</span></span></div>
-        <div><span class="pm-lbl">Opens today</span><span class="pm-val">0</span></div>
-        <div><span class="pm-lbl">Replies today</span><span class="pm-val">0</span></div>
-        <div><span class="pm-lbl">Meetings booked</span><span class="pm-val">0</span></div>
+        <div><span class="pm-lbl">Today's visits</span><span class="pm-val">84<span class="frac">/40</span></span></div>
+        <div><span class="pm-lbl">Emails sent</span><span class="pm-val">124<span class="frac">/100</span></span></div>
+        <div><span class="pm-lbl">Opens today</span><span class="pm-val">68</span></div>
+        <div><span class="pm-lbl">Replies today</span><span class="pm-val">14</span></div>
+        <div><span class="pm-lbl">Meetings booked</span><span class="pm-val">3</span></div>
+      </div>
+    </section>
+
+    <!-- ════════ PULSE · PRODUCT WORKSPACE ════════
+         Outpulse self-serve — MRR target, funnel Visits → Signups →
+         Trials → Paid. Hidden by default; visible when workspace
+         switcher flips to 'product'. -->
+    <section class="pulse" data-workspace="product">
+      <div class="pulse-top">
+        <span class="pulse-eyebrow">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+          Your Pulse
+        </span>
+        <span class="pulse-status" style="background:var(--green-soft);color:var(--green-ink);border-color:rgba(26,124,75,.18)">
+          <span class="d" style="background:var(--green)"></span>On pace
+        </span>
+      </div>
+
+      <div class="pulse-grid">
+        <div>
+          <div class="pulse-col-lbl">Paid conversions</div>
+          <div class="pulse-col-n">7<span class="frac">/10</span></div>
+          <div class="pulse-col-sub">3 to go this quarter</div>
+        </div>
+        <div class="rule"></div>
+        <div>
+          <div class="pulse-col-lbl">MRR</div>
+          <div class="pulse-col-n">$18.4k<span class="frac"> /$30k</span></div>
+          <div class="pulse-col-sub">Q2 MRR target</div>
+        </div>
+      </div>
+
+      <div class="pulse-bar"><span class="fill" style="width:61%;background:var(--violet)"></span></div>
+      <div class="pulse-prog"><span>61% complete</span><span>14 days left · ends 14 May</span></div>
+
+      <div class="pulse-funnel">
+        <div class="pf">
+          <div class="pf-inner">
+            <span class="pf-val">4,216<span class="frac">/3,000</span></span>
+            <span class="pf-lbl">Visits</span>
+          </div>
+        </div>
+        <div class="pf">
+          <div class="pf-inner">
+            <span class="pf-val">184</span>
+            <span class="pf-lbl">Signups</span>
+          </div>
+        </div>
+        <div class="pf">
+          <div class="pf-inner">
+            <span class="pf-val">67</span>
+            <span class="pf-lbl">Trials</span>
+          </div>
+        </div>
+        <div class="pf">
+          <div class="pf-inner">
+            <span class="pf-val">7<span class="frac">/10</span></span>
+            <span class="pf-lbl">Paid</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pulse-mini">
+        <div><span class="pm-lbl">Today's visits</span><span class="pm-val">312<span class="frac">/200</span></span></div>
+        <div><span class="pm-lbl">Emails sent</span><span class="pm-val">86<span class="frac">/80</span></span></div>
+        <div><span class="pm-lbl">Clicks today</span><span class="pm-val">42</span></div>
+        <div><span class="pm-lbl">Trials today</span><span class="pm-val">4</span></div>
+        <div><span class="pm-lbl">Paid today</span><span class="pm-val">1</span></div>
       </div>
     </section>
 
     <!-- ─────────── OUTREACH KPI CARDS ─────────── -->
     <div class="sect-lbl">Outreach</div>
-    <div class="kpis">
+
+    <!-- Services KPIs: Prospects · Emails · Reply rate · Meetings -->
+    <div class="kpis" data-workspace="services">
       <div class="kpi green">
-        <div class="kpi-top">
-          <span class="kpi-dot"></span>
-          <span class="kpi-lbl">Prospects found</span>
-        </div>
-        <span class="kpi-val">40</span>
-        <span class="kpi-chip">40 enriched</span>
+        <div class="kpi-top"><span class="kpi-dot"></span><span class="kpi-lbl">Prospects found</span></div>
+        <span class="kpi-val">1,428</span>
+        <span class="kpi-chip">1,404 enriched</span>
       </div>
       <div class="kpi orange">
-        <div class="kpi-top">
-          <span class="kpi-dot"></span>
-          <span class="kpi-lbl">Emails sent</span>
-        </div>
-        <span class="kpi-val">0</span>
-        <span class="kpi-chip">Create a campaign first</span>
+        <div class="kpi-top"><span class="kpi-dot"></span><span class="kpi-lbl">Emails sent</span></div>
+        <span class="kpi-val">2,284</span>
+        <span class="kpi-chip">↑ 18% this week</span>
       </div>
       <div class="kpi blue">
-        <div class="kpi-top">
-          <span class="kpi-dot"></span>
-          <span class="kpi-lbl">Open rate</span>
-        </div>
-        <span class="kpi-val">—</span>
-        <span class="kpi-chip">Tracked automatically</span>
+        <div class="kpi-top"><span class="kpi-dot"></span><span class="kpi-lbl">Reply rate</span></div>
+        <span class="kpi-val">10.7%</span>
+        <span class="kpi-chip">↑ 2.4 pts</span>
       </div>
       <div class="kpi violet">
-        <div class="kpi-top">
-          <span class="kpi-dot"></span>
-          <span class="kpi-lbl">Meetings booked</span>
-        </div>
-        <span class="kpi-val">0</span>
-        <span class="kpi-chip">Your first one is coming</span>
+        <div class="kpi-top"><span class="kpi-dot"></span><span class="kpi-lbl">Meetings booked</span></div>
+        <span class="kpi-val">75</span>
+        <span class="kpi-chip">↑ 14 this week</span>
+      </div>
+    </div>
+
+    <!-- Product KPIs: Prospects · Emails · Click rate · Trials started -->
+    <div class="kpis" data-workspace="product">
+      <div class="kpi green">
+        <div class="kpi-top"><span class="kpi-dot"></span><span class="kpi-lbl">Prospects found</span></div>
+        <span class="kpi-val">520</span>
+        <span class="kpi-chip">520 enriched</span>
+      </div>
+      <div class="kpi orange">
+        <div class="kpi-top"><span class="kpi-dot"></span><span class="kpi-lbl">Emails sent</span></div>
+        <span class="kpi-val">1,340</span>
+        <span class="kpi-chip">Multi-touch sequence</span>
+      </div>
+      <div class="kpi blue">
+        <div class="kpi-top"><span class="kpi-dot"></span><span class="kpi-lbl">Click rate</span></div>
+        <span class="kpi-val">6.8%</span>
+        <span class="kpi-chip">↑ 1.4 pts</span>
+      </div>
+      <div class="kpi violet">
+        <div class="kpi-top"><span class="kpi-dot"></span><span class="kpi-lbl">Trials started</span></div>
+        <span class="kpi-val">42</span>
+        <span class="kpi-chip">7 paid · $12.8k MRR</span>
       </div>
     </div>
 
@@ -1534,6 +1726,60 @@ body{
   });
   // Fallback if 'load' is already past (e.g. cached pages)
   setTimeout(finish, 2500);
+})();
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════════
+   Workspace switcher — flips the dashboard between the services
+   workspace (Platform agency) and the product workspace (Outpulse
+   self-serve). Updates the switcher label, sets a top-level data
+   attribute, and the CSS shows/hides the matching [data-workspace]
+   blocks. */
+(function(){
+  const switcher = document.querySelector('[data-ws-switch]');
+  if (!switcher) return;
+  const avEl = switcher.querySelector('[data-ws-av]');
+  const nameEl = switcher.querySelector('[data-ws-name]');
+  const typeEl = switcher.querySelector('[data-ws-type]');
+  const items = switcher.querySelectorAll('.ws-item');
+
+  const data = {
+    services:{av:'PA',avProduct:false,name:'Platform agency',type:'Services · Growth Plan'},
+    product: {av:'OS',avProduct:true, name:'Outpulse self-serve',type:'Product · Growth Plan'}
+  };
+
+  function setWorkspace(key){
+    const d = data[key]; if (!d) return;
+    document.documentElement.setAttribute('data-ws', key);
+    if (avEl){
+      avEl.textContent = d.av;
+      avEl.classList.toggle('product', !!d.avProduct);
+    }
+    if (nameEl) nameEl.textContent = d.name;
+    if (typeEl) typeEl.textContent = d.type;
+    items.forEach(i => i.classList.toggle('on', i.dataset.wsTarget === key));
+    switcher.classList.remove('open');
+  }
+  // Default to services on first paint
+  setWorkspace('services');
+
+  // Toggle dropdown on switcher click (but not on menu items)
+  switcher.addEventListener('click', e => {
+    if (e.target.closest('.ws-item, .ws-extra')) return;
+    switcher.classList.toggle('open');
+  });
+  // Close on outside click
+  document.addEventListener('click', e => {
+    if (!switcher.contains(e.target)) switcher.classList.remove('open');
+  });
+  // Select workspace via item click
+  items.forEach(item => {
+    item.addEventListener('click', e => {
+      e.stopPropagation();
+      setWorkspace(item.dataset.wsTarget);
+    });
+  });
 })();
 </script>
 
