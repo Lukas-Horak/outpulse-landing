@@ -279,14 +279,23 @@ body{
 }
 .ccard:hover{border-color:#d8d4cc;box-shadow:0 4px 14px -6px rgba(14,13,12,.08)}
 
+/* Card head is a 3-col × 2-row grid:
+     row 1:  status  ·  flag  ·  kebab   (centre-aligned horizontally)
+     row 2:  title-wrap spanning all columns
+   Predictable baselines — no more padding-top / margin-top drift. */
 .ccard-head{
   grid-column:1 / -1;
-  display:flex;align-items:flex-start;gap:14px;
+  display:grid;
+  grid-template-columns:1fr auto auto;
+  align-items:center;
+  column-gap:12px;
+  row-gap:8px;
 }
 .ccard-status{
+  grid-column:1;grid-row:1;
   display:inline-flex;align-items:center;gap:7px;
   font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
-  color:var(--muted);padding-top:5px;min-width:110px;flex-shrink:0;
+  color:var(--muted);
 }
 .ccard-status .d{width:7px;height:7px;border-radius:50%;background:var(--muted-2)}
 .ccard.running .ccard-status   {color:var(--green-ink)}
@@ -299,7 +308,15 @@ body{
 .ccard.archived .ccard-status  {color:var(--muted-2)}
 @keyframes pulseDot{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.35)}}
 
-.ccard-title-wrap{flex:1;min-width:0}
+/* Title-wrap spans all three head columns on row 2 — title sits under
+   the status row, meta sits under the title. Clean vertical hierarchy:
+     1.  status · flag · kebab   (tiny caps, subdued)
+     2.  Title                   (serif, dominant)
+     3.  goal · audience         (small muted line) */
+.ccard-title-wrap{
+  grid-column:1 / -1;grid-row:2;
+  min-width:0;
+}
 .ccard-title{
   font-family:var(--serif);font-weight:400;font-size:22px;line-height:1.2;
   letter-spacing:-.01em;color:var(--ink);margin:0 0 6px;
@@ -328,10 +345,10 @@ body{
 .ccard-meta-row .dot-sep{color:var(--muted-2)}
 
 .ccard-flag{
+  grid-column:2;grid-row:1;
   display:inline-flex;align-items:center;gap:5px;
   padding:3px 9px;border-radius:999px;
   font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
-  flex-shrink:0;margin-top:4px;
 }
 .ccard-flag.winning{background:var(--green-soft);color:var(--green-ink);border:1px solid rgba(26,124,75,.22)}
 .ccard-flag.cooling{background:var(--orange-soft);color:var(--orange-ink);border:1px solid rgba(255,91,31,.2)}
@@ -340,6 +357,7 @@ body{
 .ccard-flag.cooling .d{background:var(--orange)}
 
 .ccard-kebab{
+  grid-column:3;grid-row:1;
   width:30px;height:30px;border-radius:7px;
   display:inline-flex;align-items:center;justify-content:center;
   color:var(--muted);cursor:pointer;flex-shrink:0;
