@@ -66,13 +66,24 @@
   --motion-slow:.35s cubic-bezier(.4,0,.2,1);
 }
 
-html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+html{
+  scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  overflow-x:hidden;max-width:100%;
+}
 body{
   font-family:var(--sans);background:var(--paper);color:var(--ink);
-  font-size:16px;line-height:1.55;overflow-x:hidden;
+  font-size:16px;line-height:1.55;overflow-x:hidden;max-width:100%;
   -webkit-tap-highlight-color:transparent;
 }
 *,*::before,*::after{-webkit-tap-highlight-color:transparent}
+/* Kill the blue selection-highlight that iOS paints over hero prospect
+   cards and other tappable divs. */
+.hero-card,.hero-cards,.hero-cards *,.nav *{
+  -webkit-tap-highlight-color:rgba(0,0,0,0) !important;
+  -webkit-touch-callout:none;
+  user-select:none;
+}
+.hero-card:focus,.hero-card:active,.hero-card:focus-visible{outline:none;background-color:inherit}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 
@@ -95,8 +106,15 @@ img{max-width:100%;display:block}
 .nav-row .nav-right{justify-self:end;display:flex;align-items:center;gap:10px}
 .nav-login{font-size:14px;color:var(--ink-2);font-weight:500;padding:8px 14px;border-radius:10px;transition:color .2s;white-space:nowrap}
 .nav-login:hover{color:var(--ink)}
+@media(max-width:720px){
+  /* Guarantee breathing room on phones — nav never hugs the edges */
+  .nav .container{padding:0 18px}
+  .nav-row{gap:10px;padding:12px 0}
+}
 @media(max-width:520px){
-  .nav-login{padding:8px 10px}
+  .nav-login{padding:8px 8px;font-size:13px}
+  .nav-row .nav-right .btn{padding:9px 14px;font-size:13px}
+  .nav .container{padding:0 16px}
 }
 /* Brand mark + wordmark. Sans bold with tight kerning reads as a real
    brand next to the geometric circle mark (the serif version felt
