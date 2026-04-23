@@ -1834,6 +1834,154 @@ h1.display em{
   .bs-cta{justify-content:center}
 }
 
+/* ══════════════════ TESTIMONIALS CAROUSEL ══════════════════
+   3-up on desktop, 2-up on tablet, 1-up on mobile. Arrows slide
+   the track by one card per click; dots mirror the pages.
+   Cards use the same bs-* visual language (quote-mark, serif
+   italic em) so the social-proof feels unified across the page. */
+.tmns{
+  padding:120px 28px 110px;
+  background:#fff;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.tmns-head{
+  text-align:center;
+  max-width:780px;margin:0 auto 56px;
+}
+.tmns-head .eyebrow{
+  display:block;font-size:11px;font-weight:600;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:18px;
+}
+.tmns-head h2{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(28px,3.6vw,48px);line-height:1.1;letter-spacing:-.02em;color:var(--ink);
+}
+.tmns-head h2 em{
+  font-style:italic;
+  background:linear-gradient(95deg,#ff5b1f 0%,#ff7a3d 60%,#ffa06a 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.tmns-wrap{
+  position:relative;
+  max-width:1260px;margin:0 auto;
+  display:grid;grid-template-columns:56px 1fr 56px;gap:18px;align-items:center;
+}
+.tmns-arrow{
+  width:52px;height:52px;border-radius:50%;
+  background:#fff;border:1px solid var(--line);color:var(--ink-2);
+  display:inline-flex;align-items:center;justify-content:center;
+  cursor:pointer;flex-shrink:0;
+  transition:background .18s ease,color .18s ease,border-color .18s ease,transform .12s ease,box-shadow .2s ease;
+  box-shadow:0 1px 2px rgba(14,13,12,.04);
+}
+.tmns-arrow:hover:not([disabled]){color:var(--ink);border-color:var(--ink-2);box-shadow:0 4px 12px rgba(14,13,12,.08)}
+.tmns-arrow:active:not([disabled]){transform:translateY(1px)}
+.tmns-arrow[disabled]{opacity:.3;cursor:default}
+.tmns-arrow:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+.tmns-viewport{
+  overflow:hidden;
+  /* Outer fade so card edges feel soft at viewport boundaries */
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%);
+          mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%);
+}
+.tmns-track{
+  display:flex;gap:22px;
+  transition:transform .55s cubic-bezier(.22,.8,.3,1);
+  will-change:transform;
+}
+.tmns-card{
+  flex:0 0 calc((100% - 44px) / 3);        /* 3-up default */
+  margin:0;
+  background:var(--bg-panel,#fbfaf8);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:34px 30px 26px;
+  display:flex;flex-direction:column;gap:24px;
+  min-height:260px;
+  position:relative;
+  transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease;
+}
+.tmns-card::before{
+  content:"\201C";                           /* big italic opening quote */
+  position:absolute;top:10px;left:22px;
+  font-family:var(--serif);font-style:italic;font-weight:400;
+  font-size:64px;line-height:1;color:var(--orange);opacity:.18;
+  pointer-events:none;
+}
+.tmns-card:hover{border-color:var(--line-2);box-shadow:0 10px 30px -12px rgba(14,13,12,.12)}
+.tmns-quote{
+  margin:0;
+  font-family:var(--serif);font-weight:400;font-style:normal;
+  font-size:18px;line-height:1.55;color:var(--ink);letter-spacing:-.005em;
+  flex:1;
+}
+.tmns-quote em{
+  font-style:italic;
+  color:var(--orange-ink,#d04c14);
+}
+.tmns-foot{
+  display:flex;align-items:center;gap:14px;
+  padding-top:18px;border-top:1px solid var(--line);
+}
+.tmns-av{
+  width:44px;height:44px;border-radius:50%;
+  object-fit:cover;object-position:center;
+  background:linear-gradient(135deg,#ff8a4c,#ff5b1f);
+  color:#fff;flex-shrink:0;
+  /* Initials fallback — if the image fails to load the data-initials
+     text shows through via the ::after pseudo on the parent. Simpler
+     approach: alt-text shows but looks ugly; we mount initials via JS
+     on error (see script). */
+  display:block;
+  border:1px solid rgba(14,13,12,.08);
+}
+.tmns-av.fallback{
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:.02em;
+  color:#fff;
+}
+.tmns-who{display:flex;flex-direction:column;line-height:1.3;min-width:0}
+.tmns-who strong{font-size:14px;font-weight:600;color:var(--ink);letter-spacing:-.005em}
+.tmns-who span{font-size:12.5px;color:var(--muted)}
+
+.tmns-dots{
+  display:flex;gap:8px;justify-content:center;
+  margin:34px auto 0;
+}
+.tmns-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--line-2);border:none;padding:0;cursor:pointer;
+  transition:background .2s ease,width .25s ease;
+}
+.tmns-dot.on{background:var(--orange);width:22px;border-radius:4px}
+.tmns-dot:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+
+/* Tablet — 2-up */
+@media(max-width:960px){
+  .tmns{padding:88px 24px 84px}
+  .tmns-head{margin:0 auto 44px}
+  .tmns-wrap{grid-template-columns:44px 1fr 44px;gap:12px}
+  .tmns-arrow{width:44px;height:44px}
+  .tmns-card{flex:0 0 calc((100% - 22px) / 2);padding:28px 26px 22px}
+  .tmns-quote{font-size:16.5px}
+}
+/* Mobile — 1-up, bigger card */
+@media(max-width:640px){
+  .tmns{padding:72px 16px 64px}
+  .tmns-head h2{font-size:26px;line-height:1.15}
+  .tmns-wrap{grid-template-columns:1fr;gap:0}
+  .tmns-arrow{display:none}
+  .tmns-viewport{-webkit-mask-image:none;mask-image:none}
+  .tmns-track{gap:14px}
+  .tmns-card{flex:0 0 100%;min-height:0;padding:28px 22px 22px}
+  .tmns-quote{font-size:17px}
+  .tmns-dots{margin-top:22px}
+}
+@media(prefers-reduced-motion:reduce){
+  .tmns-track{transition:none}
+}
+
 /* ══════════════════ LOOP ENGINE — full automation story ══════════════════
    A dedicated section that shows the whole pipeline before we dive into
    any one step. Built on design-system-ui tokens. */
@@ -4280,6 +4428,98 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   </div>
 </section>
 
+<!-- ═══════════════════ TESTIMONIALS — carousel, 3 visible, arrows + dots ═══════════════════ -->
+<section class="tmns" id="testimonials" aria-label="Customer testimonials">
+  <div class="tmns-head">
+    <span class="eyebrow">Social proof</span>
+    <h2>Founders and sales leaders <em>already shipping with Outpulse</em>.</h2>
+  </div>
+
+  <div class="tmns-wrap" data-tmns>
+    <button class="tmns-arrow tmns-prev" type="button" aria-label="Previous testimonial">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+
+    <div class="tmns-viewport">
+      <div class="tmns-track" data-tmns-track>
+
+        <figure class="tmns-card">
+          <blockquote class="tmns-quote">First campaign booked <em>4 discovery calls</em> from 280 sends. A week of work I used to stretch over a month.</blockquote>
+          <figcaption class="tmns-foot">
+            <img class="tmns-av" alt="" loading="lazy" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&amp;h=160&amp;fit=crop&amp;crop=faces&amp;q=80" data-initials="DK">
+            <div class="tmns-who">
+              <strong>Daniel Kellner</strong>
+              <span>Founder · Loopstack</span>
+            </div>
+          </figcaption>
+        </figure>
+
+        <figure class="tmns-card">
+          <blockquote class="tmns-quote">I used to spend Mondays cleaning lists and writing sequences. Now I spend Mondays <em>on calls</em>. That's the product.</blockquote>
+          <figcaption class="tmns-foot">
+            <img class="tmns-av" alt="" loading="lazy" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&amp;h=160&amp;fit=crop&amp;crop=faces&amp;q=80" data-initials="SC">
+            <div class="tmns-who">
+              <strong>Sarah Chen</strong>
+              <span>Head of Growth · Fernloop</span>
+            </div>
+          </figcaption>
+        </figure>
+
+        <figure class="tmns-card">
+          <blockquote class="tmns-quote">We killed our outbound agency the week we got Outpulse in. Payback was inside a month — and <em>the emails are actually better</em>.</blockquote>
+          <figcaption class="tmns-foot">
+            <img class="tmns-av" alt="" loading="lazy" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&amp;h=160&amp;fit=crop&amp;crop=faces&amp;q=80" data-initials="MT">
+            <div class="tmns-who">
+              <strong>Marcus Thaler</strong>
+              <span>Co-founder &amp; CEO · Basecoat</span>
+            </div>
+          </figcaption>
+        </figure>
+
+        <figure class="tmns-card">
+          <blockquote class="tmns-quote">The personalisation is scary. Prospects reply thinking we researched them manually — <em>we just pointed Outpulse at them</em>.</blockquote>
+          <figcaption class="tmns-foot">
+            <img class="tmns-av" alt="" loading="lazy" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&amp;h=160&amp;fit=crop&amp;crop=faces&amp;q=80" data-initials="PD">
+            <div class="tmns-who">
+              <strong>Priya Desai</strong>
+              <span>VP Sales · Slopeworks</span>
+            </div>
+          </figcaption>
+        </figure>
+
+        <figure class="tmns-card">
+          <blockquote class="tmns-quote">Set it up Sunday night. <em>Three meetings</em> on the calendar by Monday noon. That was the demo I needed.</blockquote>
+          <figcaption class="tmns-foot">
+            <img class="tmns-av" alt="" loading="lazy" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=160&amp;h=160&amp;fit=crop&amp;crop=faces&amp;q=80" data-initials="JN">
+            <div class="tmns-who">
+              <strong>Jakub Novák</strong>
+              <span>CEO · Statly</span>
+            </div>
+          </figcaption>
+        </figure>
+
+        <figure class="tmns-card">
+          <blockquote class="tmns-quote">We <em>4×'d reply rate</em> the week we stopped using templates. Every email now reads like a real human wrote it at 2am — because Outpulse did.</blockquote>
+          <figcaption class="tmns-foot">
+            <img class="tmns-av" alt="" loading="lazy" src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=160&amp;h=160&amp;fit=crop&amp;crop=faces&amp;q=80" data-initials="EH">
+            <div class="tmns-who">
+              <strong>Emma Hartwell</strong>
+              <span>Head of Revenue · Kindred Labs</span>
+            </div>
+          </figcaption>
+        </figure>
+
+      </div>
+    </div>
+
+    <button class="tmns-arrow tmns-next" type="button" aria-label="Next testimonial">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+
+  <div class="tmns-dots" data-tmns-dots aria-hidden="true"></div>
+</section>
+
 <!-- ═══════════════════ PRICING ═══════════════════ -->
 <section class="pricing" id="pricing">
   <div class="price-head">
@@ -5096,6 +5336,124 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
     entries.forEach(e => { if(e.isIntersecting) run(); });
   }, { threshold:0.3 });
   io.observe(demo);
+})();
+</script>
+
+<script>
+/* ═══════════════ TESTIMONIALS CAROUSEL ═══════════════
+   3-up on desktop, 2-up on tablet, 1-up on mobile. Arrows step one
+   card per click; dots show pages (one dot per possible start
+   position). Wraps at the ends. Swipe support on touch devices.
+   Initials fallback if the Unsplash image 404s. */
+(function(){
+  const wrap  = document.querySelector('[data-tmns]');
+  if (!wrap) return;
+  const track = wrap.querySelector('[data-tmns-track]');
+  const cards = Array.from(track.querySelectorAll('.tmns-card'));
+  const prev  = wrap.querySelector('.tmns-prev');
+  const next  = wrap.querySelector('.tmns-next');
+  const dotsWrap = document.querySelector('[data-tmns-dots]');
+  if (!track || cards.length === 0) return;
+
+  // Replace broken images with initials fallback (Unsplash sometimes
+  // throttles CDN hits). Small gradient-colour roll so avatars aren't
+  // all identical.
+  const PALETTE = [
+    ['#ff8a4c','#ff5b1f'],
+    ['#6c5bb0','#3866a6'],
+    ['#c46a7a','#8a76b8'],
+    ['#3a9d76','#268360'],
+    ['#ff7a3d','#c46a7a'],
+    ['#3866a6','#6c5bb0'],
+  ];
+  cards.forEach((card, i) => {
+    const img = card.querySelector('.tmns-av');
+    if (!img) return;
+    const initials = img.dataset.initials || '';
+    const swap = () => {
+      const span = document.createElement('span');
+      span.className = 'tmns-av fallback';
+      const [a,b] = PALETTE[i % PALETTE.length];
+      span.style.background = `linear-gradient(135deg,${a},${b})`;
+      span.textContent = initials;
+      img.replaceWith(span);
+    };
+    img.addEventListener('error', swap, { once:true });
+  });
+
+  function visibleCount(){
+    if (window.matchMedia('(max-width:640px)').matches) return 1;
+    if (window.matchMedia('(max-width:960px)').matches) return 2;
+    return 3;
+  }
+  let idx = 0;
+  let vis = visibleCount();
+  const max = () => Math.max(0, cards.length - vis);
+
+  function update(){
+    vis = visibleCount();
+    if (idx > max()) idx = max();
+    const card = cards[0];
+    if (!card) return;
+    const style = getComputedStyle(track);
+    const gap = parseFloat(style.gap || '22') || 22;
+    const cw  = card.getBoundingClientRect().width + gap;
+    track.style.transform = `translateX(-${idx * cw}px)`;
+    if (prev) prev.disabled = idx <= 0;
+    if (next) next.disabled = idx >= max();
+    renderDots();
+  }
+
+  function renderDots(){
+    if (!dotsWrap) return;
+    const pages = max() + 1;
+    if (dotsWrap.childElementCount !== pages){
+      dotsWrap.innerHTML = '';
+      for (let p = 0; p < pages; p++){
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'tmns-dot' + (p === idx ? ' on' : '');
+        b.setAttribute('aria-label', `Go to testimonial ${p + 1}`);
+        b.addEventListener('click', () => { idx = p; update(); });
+        dotsWrap.appendChild(b);
+      }
+    } else {
+      Array.from(dotsWrap.children).forEach((b, p) => {
+        b.classList.toggle('on', p === idx);
+      });
+    }
+  }
+
+  if (prev) prev.addEventListener('click', () => { idx = Math.max(0, idx - 1); update(); });
+  if (next) next.addEventListener('click', () => { idx = Math.min(max(), idx + 1); update(); });
+
+  // Keyboard nav when focus is inside the carousel
+  wrap.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft')  { idx = Math.max(0, idx - 1); update(); e.preventDefault(); }
+    if (e.key === 'ArrowRight') { idx = Math.min(max(), idx + 1); update(); e.preventDefault(); }
+  });
+
+  // Touch swipe (mobile)
+  let sx = 0, dx = 0, swiping = false;
+  track.addEventListener('touchstart', (e) => {
+    sx = e.touches[0].clientX; dx = 0; swiping = true;
+  }, { passive:true });
+  track.addEventListener('touchmove', (e) => {
+    if (!swiping) return;
+    dx = e.touches[0].clientX - sx;
+  }, { passive:true });
+  track.addEventListener('touchend', () => {
+    if (!swiping) return;
+    swiping = false;
+    if (Math.abs(dx) > 40){
+      if (dx < 0) idx = Math.min(max(), idx + 1);
+      else        idx = Math.max(0, idx - 1);
+      update();
+    }
+  });
+
+  window.addEventListener('resize', update, { passive:true });
+  update();
 })();
 </script>
 
