@@ -2770,13 +2770,14 @@ h1.display em{
 .chip-cloud .chip{
   position:static !important;
   left:auto !important;top:auto !important;
-  transform:translateY(14px) scale(.94) !important;
-  opacity:0 !important;
   filter:none !important;
   font-size:15px !important;padding:9px 18px !important;font-weight:500 !important;
+  opacity:1 !important;
+  transform:none !important;
   transition:opacity .55s cubic-bezier(.4,0,.2,1),transform .55s cubic-bezier(.4,0,.2,1) !important;
 }
-.chip-cloud.in .chip{opacity:1 !important;transform:translateY(0) scale(1) !important}
+/* Pre-reveal state — only applies while .in has NOT been added yet. */
+.chip-cloud:not(.in) .chip{opacity:0 !important;transform:translateY(14px) scale(.94) !important}
 .chip-cloud.in .chip:nth-child(1) {transition-delay:.00s}
 .chip-cloud.in .chip:nth-child(2) {transition-delay:.05s}
 .chip-cloud.in .chip:nth-child(3) {transition-delay:.10s}
@@ -3004,11 +3005,71 @@ h1.display em{
 }
 
 /* Mobile: stack left/right, collapse to single column */
+/* Unified comparison — desktop AND mobile. Dropped the 260vh sticky
+   parallax (huge empty scroll, fragile reveal). Simple natural-height
+   section with cascade-in on rows. */
+.cmp-split{height:auto !important;padding:96px 0 80px !important;background:#fff}
+.cmp-split-pin{position:relative !important;height:auto !important;padding:0 clamp(20px,4vw,48px) !important;overflow:visible !important;--cp:1 !important;display:block !important}
+.cmp-split-head{transform:none !important;opacity:1 !important;margin:0 auto 40px !important;max-width:920px !important}
+.cmp-split-head h2 em.cmp-strike::after{transform:scaleX(1) !important}
+.cmp-split-divider{display:none !important}
+.cmp-split-board{
+  grid-template-columns:1fr 1fr !important;gap:14px !important;
+  max-width:720px !important;margin:0 auto 36px !important;padding:0 !important;
+  transform:none !important;opacity:1 !important;
+}
+.cmp-split-col{
+  padding:20px 22px !important;min-height:0 !important;
+  background:var(--bg-panel) !important;border:1px solid var(--line) !important;border-radius:16px !important;
+  transform:none !important;opacity:1 !important;
+}
+.cmp-split-col.right{background:#fff !important}
+.cmp-split-title{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.cmp-split-price{font-family:var(--serif);font-size:36px;line-height:1}
+.cmp-split-price span{font-size:14px;color:var(--muted)}
+.cmp-split-sub{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.4}
+.cmp-split-rows{
+  padding:0 !important;margin:0 auto !important;max-width:720px;
+}
+.cmp-split-row{
+  grid-template-columns:1fr 1fr !important;gap:16px !important;padding:14px 0 !important;
+  border-top:1px solid var(--line);
+  transform:none !important;opacity:0;transition:opacity .5s ease,transform .5s ease;
+  transform:translateY(10px) !important;
+}
+.cmp-split-rows.in .cmp-split-row{opacity:1;transform:translateY(0) !important}
+.cmp-split-rows.in .cmp-split-row:nth-child(1){transition-delay:.00s}
+.cmp-split-rows.in .cmp-split-row:nth-child(2){transition-delay:.08s}
+.cmp-split-rows.in .cmp-split-row:nth-child(3){transition-delay:.16s}
+.cmp-split-rows.in .cmp-split-row:nth-child(4){transition-delay:.24s}
+.cmp-split-rows.in .cmp-split-row:nth-child(5){transition-delay:.32s}
+.cmp-split-row:first-child{border-top:none;padding-top:8px}
+.cmp-row-cell{
+  display:flex !important;align-items:center;gap:10px;
+  font-size:15.5px;line-height:1.4;padding:8px 0 !important;
+  background:none !important;
+  justify-content:flex-start !important;text-align:left !important;
+}
+.cmp-row-cell.left{color:var(--muted-2);text-decoration:line-through;text-decoration-color:var(--muted-2)}
+.cmp-row-cell.left::before{
+  content:"";flex-shrink:0;order:-1;margin:0 !important;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--bg-subtle);border:1px solid var(--line);
+  background-image:none !important;
+}
+.cmp-row-cell.right{color:var(--ink);font-weight:500}
+.cmp-row-cell.right::before{
+  content:"";flex-shrink:0;order:-1;margin:0 !important;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--orange);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='4 12 10 18 20 6'/></svg>");
+  background-size:12px 12px;background-position:center;background-repeat:no-repeat;
+}
+
 @media(max-width:820px){
-  /* Kill the parallax pin on mobile — it doesn't work on touch. Show
-     the whole comparison as a natural, scrollable page fragment. */
-  .cmp-split{height:auto !important;padding:64px 0 56px}
-  .cmp-split-pin{position:relative !important;height:auto !important;padding:0 18px;overflow:visible;--cp:1 !important}
+  /* Mobile tightening only; all parallax-killing handled above */
+  .cmp-split{padding:64px 0 56px !important}
+  .cmp-split-pin{padding:0 18px !important}
   .cmp-split-head{transform:none !important;opacity:1 !important;margin:0 auto 28px}
   .cmp-split-head h2{font-size:28px;line-height:1.1}
   .cmp-split-head h2 em.cmp-strike::after{transform:scaleX(1) !important}
@@ -4813,14 +4874,31 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   obs.observe(mockup);
 })();
 
-/* ─── Chip cloud fade-in on mobile ──────────────────────────────────── */
+/* ─── Chip cloud cascade-in reveal (all viewports) ──────────────── */
 (function(){
   const cloud = document.querySelector('.chip-cloud');
   if(!cloud) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if(reduce.matches){ cloud.classList.add('in'); return; }
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => { if(e.isIntersecting){ cloud.classList.add('in'); io.disconnect(); }});
-  }, { threshold:0.2 });
+  }, { threshold:0.1, rootMargin:'0px 0px -10% 0px' });
   io.observe(cloud);
+  // Belt-and-braces fallback: reveal after 2.5s no matter what, so chips
+  // are never stuck invisible because the observer somehow didn't fire.
+  setTimeout(() => cloud.classList.add('in'), 2500);
+})();
+/* Comparison rows cascade-in (simple IntersectionObserver) */
+(function(){
+  const rows = document.querySelector('.cmp-split-rows');
+  if(!rows) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if(reduce.matches){ rows.classList.add('in'); return; }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ rows.classList.add('in'); io.disconnect(); }});
+  }, { threshold:0.1, rootMargin:'0px 0px -10% 0px' });
+  io.observe(rows);
+  setTimeout(() => rows.classList.add('in'), 2500);
 })();
 
 /* ─── Intent chip sticky-pin scroll driver ─────────────────────────────
