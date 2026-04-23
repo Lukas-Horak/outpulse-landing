@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Outpulse — Start for free</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<style>
+/* ═══════════════════════════════════════════════════════════════════════
+   Outpulse — Signup / Login
+   ----------------------------------------------------------------------
+   Split-screen: form left, social-proof right. Tab switches between
+   sign-up and sign-in inside the same card to keep the signup path
+   obvious and the sign-in path one click away. The right column is a
+   conversion tool — testimonial + stats + trust strip — not decoration.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root{
+  --ink:#14120f;--ink-2:#3a342c;--ink-3:#514a40;
+  --muted:#6c6458;--muted-2:#a8a097;
+  --line:#ececea;--line-2:#f4f3f0;--line-3:#e2dfd8;
+  --bg:#ffffff;--bg-panel:#fbfaf7;--bg-subtle:#f6f4f0;
+  --orange:#ff5b1f;--orange-soft:#fff4ec;--orange-ink:#c24518;
+  --violet:#8a76b8;--violet-soft:#f2edf8;--violet-ink:#6a5594;
+  --green:#1a7c4b;--green-soft:#eaf4ee;--green-ink:#166440;
+  --red:#b53b1c;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"Inter","Helvetica Neue",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;min-height:100vh}
+body{font-family:var(--sans);font-size:14.5px;line-height:1.6;color:var(--ink-2);background:var(--bg);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+
+/* ═════════════ LAYOUT ═════════════ */
+.shell{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:100vh}
+
+/* Left — form side */
+.form-side{
+  background:var(--bg);
+  padding:40px clamp(32px,5vw,80px) 56px;
+  display:flex;flex-direction:column;
+}
+.brand{
+  display:inline-flex;align-items:center;gap:10px;
+  text-decoration:none;color:var(--ink);width:fit-content;
+  margin-bottom:auto;
+}
+.brand img{width:30px;height:30px;display:block}
+.brand-name{font-family:var(--serif);font-weight:500;font-size:22px;letter-spacing:-.015em;line-height:1}
+.brand-beta{
+  display:inline-flex;align-items:center;gap:5px;
+  margin-left:4px;padding:2.5px 8px;border-radius:999px;
+  background:var(--orange-soft);border:1px solid rgba(255,91,31,.22);
+  color:var(--orange-ink);
+  font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;line-height:1;
+}
+.brand-beta .d{width:5px;height:5px;border-radius:50%;background:var(--orange)}
+
+.form-card{
+  max-width:420px;width:100%;margin:56px auto 0;
+  display:flex;flex-direction:column;
+}
+.form-title{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(40px,3.6vw,54px);line-height:1.02;letter-spacing:-.02em;
+  color:var(--ink);margin:0 0 14px;
+}
+.form-title em{font-style:italic;color:var(--orange)}
+.form-sub{font-size:16px;line-height:1.55;color:var(--muted);margin:0 0 32px;max-width:34ch}
+
+/* Mode toggle */
+.mode-tabs{
+  display:flex;align-items:center;gap:4px;padding:4px;
+  background:var(--bg-subtle);border-radius:10px;
+  margin-bottom:24px;max-width:fit-content;
+}
+.mode-tabs button{
+  background:transparent;border:none;padding:7px 16px;border-radius:7px;
+  font-family:var(--sans);font-size:13px;font-weight:500;
+  color:var(--muted);cursor:pointer;
+  transition:background .18s ease,color .18s ease;
+}
+.mode-tabs button:hover{color:var(--ink-2)}
+.mode-tabs button.on{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(14,13,12,.06)}
+
+/* OAuth button — Google is the primary path for most SaaS signups */
+.oauth-btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;height:46px;border-radius:10px;
+  background:#fff;border:1px solid var(--line);
+  font-family:var(--sans);font-size:14px;font-weight:500;color:var(--ink-2);
+  cursor:pointer;
+  transition:background .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.oauth-btn:hover{background:var(--bg-subtle);border-color:var(--line-3);box-shadow:0 1px 3px rgba(14,13,12,.04)}
+.oauth-btn svg{width:18px;height:18px;flex-shrink:0}
+
+.divider{display:flex;align-items:center;gap:14px;margin:22px 0;color:var(--muted-2);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* Form */
+.form{display:flex;flex-direction:column;gap:12px}
+.field{display:flex;flex-direction:column;gap:6px}
+.label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.input-wrap{position:relative;display:flex;align-items:center}
+.input{
+  width:100%;padding:12px 14px;height:46px;border-radius:10px;
+  background:#fff;border:1px solid var(--line);
+  font-family:var(--sans);font-size:14.5px;color:var(--ink);
+  transition:border-color .18s ease,box-shadow .18s ease;
+}
+.input:hover{border-color:var(--line-3)}
+.input:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 4px rgba(255,91,31,.14)}
+.input::placeholder{color:var(--muted-2)}
+.input.err{border-color:var(--red)}
+.input.err:focus{box-shadow:0 0 0 4px rgba(181,59,28,.14)}
+.pw-toggle{
+  position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  width:30px;height:30px;border-radius:7px;
+  background:transparent;border:none;color:var(--muted-2);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+  transition:background .12s ease,color .12s ease;
+}
+.pw-toggle:hover{background:var(--bg-subtle);color:var(--ink-2)}
+.pw-toggle svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.help{font-size:12px;color:var(--muted);line-height:1.5;margin-top:2px}
+.help.err{color:var(--red)}
+
+.cta{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  width:100%;height:48px;border-radius:10px;
+  background:var(--ink);color:#fff;border:none;
+  font-family:var(--sans);font-size:14.5px;font-weight:500;letter-spacing:-.005em;
+  cursor:pointer;margin-top:6px;
+  transition:background .18s ease,transform .1s ease;
+}
+.cta:hover{background:var(--orange)}
+.cta:active{transform:translateY(1px)}
+.cta svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.forgot{
+  font-size:13px;color:var(--muted);text-align:right;
+  text-decoration:none;margin-top:-4px;
+}
+.forgot:hover{color:var(--orange);text-decoration:underline}
+
+.legal{font-size:12px;color:var(--muted-2);line-height:1.6;margin-top:14px;text-align:center;max-width:38ch;margin-left:auto;margin-right:auto}
+.legal a{color:var(--ink-3);text-decoration:underline;text-underline-offset:2px}
+.legal a:hover{color:var(--orange)}
+
+.alt{font-size:13.5px;color:var(--muted);margin-top:26px;text-align:center}
+.alt a{color:var(--ink);font-weight:500;text-decoration:none;border-bottom:1px solid var(--line-3)}
+.alt a:hover{color:var(--orange);border-color:var(--orange)}
+
+/* ═════════════ RIGHT — social proof ═════════════ */
+.proof-side{
+  position:relative;overflow:hidden;
+  background:
+    radial-gradient(60% 80% at 85% 20%,rgba(255,138,76,.05),transparent 60%),
+    radial-gradient(50% 70% at 15% 90%,rgba(138,118,184,.04),transparent 60%),
+    var(--bg-panel);
+  padding:56px clamp(40px,5vw,80px);
+  display:flex;flex-direction:column;justify-content:space-between;gap:36px;
+}
+
+/* Outcome — the hero promise */
+.outcome{display:flex;flex-direction:column;gap:24px;max-width:520px}
+.outcome-eye{
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--muted);
+  display:inline-flex;align-items:center;gap:10px;
+}
+.outcome-eye::before{content:"";width:28px;height:1px;background:var(--muted-2)}
+.outcome h2{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(34px,3.4vw,54px);line-height:1.04;letter-spacing:-.02em;
+  margin:0;color:var(--ink);
+}
+.outcome h2 em{font-style:italic;color:var(--orange)}
+.outcome p{font-size:16px;line-height:1.65;color:var(--ink-3);max-width:46ch;margin:0}
+
+/* Stats row */
+.stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:14px;
+  overflow:hidden;max-width:520px;
+}
+.stat{
+  background:#fff;padding:18px 20px;
+  display:flex;flex-direction:column;gap:4px;
+}
+.stat-val{
+  font-family:var(--serif);font-weight:400;font-size:28px;line-height:1;letter-spacing:-.015em;
+  color:var(--ink);font-variant-numeric:lining-nums;
+}
+.stat-lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--muted);margin-top:2px}
+
+/* Testimonial */
+.tm{
+  position:relative;max-width:520px;padding:28px 30px;
+  background:#fff;border:1px solid var(--line);border-radius:16px;
+  box-shadow:0 8px 28px -14px rgba(14,13,12,.08);
+}
+.tm::before{
+  content:"";position:absolute;top:-14px;left:24px;
+  width:28px;height:28px;border-radius:50%;
+  background:var(--orange);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:24px;line-height:1;font-weight:400;
+  box-shadow:0 4px 10px -2px rgba(255,91,31,.28);
+}
+.tm::after{content:"“";position:absolute;top:-19px;left:31px;font-family:var(--serif);font-size:30px;line-height:1;color:#fff;font-style:italic}
+.tm-quote{
+  font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.55;
+  color:var(--ink);margin:0 0 18px;letter-spacing:-.005em;
+}
+.tm-quote em{font-style:italic;color:var(--orange-ink)}
+.tm-who{display:flex;align-items:center;gap:12px}
+.tm-av{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--green-soft);color:var(--green-ink);
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:12.5px;font-weight:600;flex-shrink:0;
+}
+.tm-name{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.3}
+.tm-role{font-size:12.5px;color:var(--muted);line-height:1.3}
+
+/* Trust strip */
+.trust{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  font-size:12px;color:var(--muted);
+}
+.trust-item{display:inline-flex;align-items:center;gap:6px}
+.trust-item svg{width:13px;height:13px;color:var(--green);stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.trust-sep{color:var(--muted-2)}
+
+/* Responsive */
+@media(max-width:960px){
+  .shell{grid-template-columns:1fr}
+  .proof-side{order:-1;padding:36px 28px 28px}
+  .outcome h2{font-size:30px}
+  .form-side{padding:28px 28px 48px}
+  .form-card{margin-top:28px}
+  .stats{grid-template-columns:1fr 1fr 1fr}
+}
+@media(max-width:480px){
+  .outcome{gap:14px}
+  .stats{grid-template-columns:1fr;gap:1px}
+  .tm{padding:22px 24px}
+  .form-title{font-size:34px}
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- ═════════════ FORM SIDE ═════════════ -->
+  <div class="form-side">
+    <a href="/" class="brand" aria-label="Outpulse home">
+      <img src="outpulse-logo-dusk.svg" alt="" />
+      <span class="brand-name">Outpulse</span>
+      <span class="brand-beta"><span class="d"></span>Beta</span>
+    </a>
+
+    <div class="form-card">
+      <h1 class="form-title">Start your <em>first pipeline</em> today.</h1>
+      <p class="form-sub">Connect your website, get your first 40 verified prospects, and book meetings in under two minutes.</p>
+
+      <!-- Signup / Sign-in toggle -->
+      <div class="mode-tabs" role="tablist">
+        <button class="on" data-mode="signup" role="tab" aria-selected="true">Create account</button>
+        <button data-mode="signin" role="tab" aria-selected="false">Sign in</button>
+      </div>
+
+      <!-- ─── SIGNUP mode (default) ─── -->
+      <div data-mode-panel="signup">
+        <button class="oauth-btn" type="button">
+          <svg viewBox="0 0 18 18" aria-hidden="true">
+            <path d="M17.64 9.2c0-.64-.06-1.25-.17-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.79 2.72v2.26h2.9c1.71-1.57 2.69-3.88 2.69-6.62Z" fill="#4285F4"/>
+            <path d="M9 18c2.43 0 4.47-.81 5.95-2.18l-2.9-2.26c-.81.54-1.84.86-3.05.86-2.35 0-4.33-1.59-5.04-3.72H.96v2.33A9 9 0 0 0 9 18Z" fill="#34A853"/>
+            <path d="M3.96 10.7A5.4 5.4 0 0 1 3.68 9c0-.59.1-1.17.28-1.7V4.97H.96A9 9 0 0 0 0 9c0 1.45.35 2.83.96 4.04l3-2.33Z" fill="#FBBC05"/>
+            <path d="M9 3.58c1.32 0 2.51.46 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0A9 9 0 0 0 .96 4.96l3 2.33C4.67 5.16 6.65 3.58 9 3.58Z" fill="#EA4335"/>
+          </svg>
+          Continue with Google
+        </button>
+
+        <div class="divider"><span>or with email</span></div>
+
+        <form class="form" novalidate>
+          <div class="field">
+            <input class="input" type="text" name="name" placeholder="Full name" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <input class="input" type="email" name="email" placeholder="Work email" autocomplete="email" required />
+          </div>
+          <div class="field">
+            <div class="input-wrap">
+              <input class="input" type="password" name="password" placeholder="Password · 8+ characters" autocomplete="new-password" minlength="8" required style="padding-right:44px" />
+              <button class="pw-toggle" type="button" aria-label="Show password">
+                <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+          <button class="cta" type="submit">
+            Create account
+            <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg>
+          </button>
+
+          <p class="legal">By creating an account you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>. We'll never email you without a reason.</p>
+        </form>
+
+        <p class="alt">Already have an account? <a href="#" data-switch-to="signin">Sign in</a></p>
+      </div>
+
+      <!-- ─── SIGNIN mode (hidden by default) ─── -->
+      <div data-mode-panel="signin" hidden>
+        <button class="oauth-btn" type="button">
+          <svg viewBox="0 0 18 18" aria-hidden="true">
+            <path d="M17.64 9.2c0-.64-.06-1.25-.17-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.79 2.72v2.26h2.9c1.71-1.57 2.69-3.88 2.69-6.62Z" fill="#4285F4"/>
+            <path d="M9 18c2.43 0 4.47-.81 5.95-2.18l-2.9-2.26c-.81.54-1.84.86-3.05.86-2.35 0-4.33-1.59-5.04-3.72H.96v2.33A9 9 0 0 0 9 18Z" fill="#34A853"/>
+            <path d="M3.96 10.7A5.4 5.4 0 0 1 3.68 9c0-.59.1-1.17.28-1.7V4.97H.96A9 9 0 0 0 0 9c0 1.45.35 2.83.96 4.04l3-2.33Z" fill="#FBBC05"/>
+            <path d="M9 3.58c1.32 0 2.51.46 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0A9 9 0 0 0 .96 4.96l3 2.33C4.67 5.16 6.65 3.58 9 3.58Z" fill="#EA4335"/>
+          </svg>
+          Continue with Google
+        </button>
+
+        <div class="divider"><span>or with email</span></div>
+
+        <form class="form" novalidate>
+          <div class="field">
+            <input class="input" type="email" name="email" placeholder="Work email" autocomplete="email" required />
+          </div>
+          <div class="field">
+            <div class="input-wrap">
+              <input class="input" type="password" name="password" placeholder="Password" autocomplete="current-password" required style="padding-right:44px" />
+              <button class="pw-toggle" type="button" aria-label="Show password">
+                <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <a href="#" class="forgot">Forgot password?</a>
+          </div>
+          <button class="cta" type="submit">
+            Sign in
+            <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg>
+          </button>
+        </form>
+
+        <p class="alt">Need an account? <a href="#" data-switch-to="signup">Create one free</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═════════════ SOCIAL PROOF SIDE ═════════════ -->
+  <aside class="proof-side">
+    <div class="outcome">
+      <span class="outcome-eye">Ready in 2 minutes</span>
+      <h2>Meetings on autopilot. <em>While you sleep.</em></h2>
+      <p>Outpulse finds your ideal prospects, writes personalised emails, and runs your outreach — completely hands-free. The first 40 prospects are on the house.</p>
+    </div>
+
+    <!-- Testimonial — the social proof that lands the click -->
+    <div class="tm">
+      <p class="tm-quote">"Within three weeks we went from 5 meetings a month to <em>over 40</em>. The email quality is the part competitors can't match."</p>
+      <div class="tm-who">
+        <span class="tm-av">SC</span>
+        <div>
+          <div class="tm-name">Sarah Chen</div>
+          <div class="tm-role">Founder, Metric Labs</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Aggregate stats -->
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-val">1,284</span>
+        <span class="stat-lbl">Meetings booked</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val">14.2%</span>
+        <span class="stat-lbl">Avg reply rate</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val">47</span>
+        <span class="stat-lbl">Teams in beta</span>
+      </div>
+    </div>
+
+    <!-- Trust strip -->
+    <div class="trust">
+      <span class="trust-item">
+        <svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg>
+        Free to start
+      </span>
+      <span class="trust-sep">·</span>
+      <span class="trust-item">
+        <svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg>
+        No credit card
+      </span>
+      <span class="trust-sep">·</span>
+      <span class="trust-item">
+        <svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg>
+        GDPR compliant
+      </span>
+      <span class="trust-sep">·</span>
+      <span class="trust-item">
+        <svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg>
+        Cancel anytime
+      </span>
+    </div>
+  </aside>
+
+</div>
+
+<script>
+/* Mode tabs — switch between signup and signin without route change. */
+(function(){
+  const tabs = document.querySelectorAll('.mode-tabs button');
+  const panels = document.querySelectorAll('[data-mode-panel]');
+  const title = document.querySelector('.form-title');
+  const sub = document.querySelector('.form-sub');
+  const titles = {
+    signup: { h: 'Start your <em>first pipeline</em> today.', p: "Connect your website, get your first 40 verified prospects, and book meetings in under two minutes." },
+    signin: { h: 'Welcome <em>back</em>.', p: "Pick up where you left off. Your workspaces, campaigns, and pulse are right where you closed the tab." }
+  };
+  function setMode(mode){
+    tabs.forEach(t => {
+      const on = t.dataset.mode === mode;
+      t.classList.toggle('on', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    panels.forEach(p => p.hidden = p.dataset.modePanel !== mode);
+    if (title && titles[mode]){
+      title.innerHTML = titles[mode].h;
+      sub.textContent = titles[mode].p;
+    }
+  }
+  tabs.forEach(t => t.addEventListener('click', () => setMode(t.dataset.mode)));
+  document.querySelectorAll('[data-switch-to]').forEach(a => {
+    a.addEventListener('click', e => { e.preventDefault(); setMode(a.dataset.switchTo); });
+  });
+
+  /* Password toggle */
+  document.querySelectorAll('.pw-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const input = btn.previousElementSibling;
+      if (!input) return;
+      input.type = input.type === 'password' ? 'text' : 'password';
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

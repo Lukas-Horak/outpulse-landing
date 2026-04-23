@@ -1,0 +1,748 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Outpulse — Set up in 2 minutes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* ═══════════════════════════════════════════════════════════════════════
+   Outpulse — Onboarding
+   ----------------------------------------------------------------------
+   Four steps, each a single focus. Horizontal stepper at top, 2-min
+   promise as a progress ring in the header. Step content is
+   celebratory — colour + scale increase as the user makes progress.
+   Logic mirrors the existing app (website scan → AI persona → matched
+   prospects → email connect) but with the new design language.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root{
+  --ink:#14120f;--ink-2:#3a342c;--ink-3:#514a40;
+  --muted:#6c6458;--muted-2:#a8a097;
+  --line:#ececea;--line-2:#f4f3f0;--line-3:#e2dfd8;
+  --bg:#ffffff;--bg-panel:#fbfaf7;--bg-subtle:#f6f4f0;
+  --orange:#ff5b1f;--orange-soft:#fff4ec;--orange-ink:#c24518;
+  --violet:#8a76b8;--violet-soft:#f2edf8;--violet-ink:#6a5594;
+  --blue:#3866a6;--blue-soft:#eef3fa;--blue-ink:#2d5488;
+  --green:#1a7c4b;--green-soft:#eaf4ee;--green-ink:#166440;
+  --red:#b53b1c;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"Inter","Helvetica Neue",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;min-height:100vh}
+body{
+  font-family:var(--sans);font-size:14.5px;line-height:1.6;color:var(--ink-2);
+  background:
+    radial-gradient(80% 60% at 50% -10%,rgba(255,138,76,.05),transparent 55%),
+    radial-gradient(60% 50% at 20% 110%,rgba(138,118,184,.04),transparent 55%),
+    var(--bg);
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+
+/* ═════════════ TOP BAR ═════════════ */
+.topbar{
+  position:sticky;top:0;z-index:20;
+  padding:18px clamp(24px,4vw,56px);
+  background:rgba(255,255,255,.85);
+  backdrop-filter:saturate(140%) blur(10px);
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:20px;
+}
+.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.brand img{width:28px;height:28px;display:block}
+.brand-name{font-family:var(--serif);font-weight:500;font-size:20px;letter-spacing:-.015em;line-height:1}
+.brand-beta{
+  display:inline-flex;align-items:center;gap:5px;margin-left:4px;
+  padding:2.5px 8px;border-radius:999px;
+  background:var(--orange-soft);border:1px solid rgba(255,91,31,.22);
+  color:var(--orange-ink);
+  font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;line-height:1;
+}
+.brand-beta .d{width:5px;height:5px;border-radius:50%;background:var(--orange)}
+
+/* ─── Stepper — 4 steps with a progress connector ─── */
+.stepper{
+  margin-left:auto;margin-right:auto;
+  display:flex;align-items:center;gap:0;max-width:600px;flex:1;
+}
+.stp{
+  display:flex;align-items:center;gap:10px;flex:1;min-width:0;
+  position:relative;
+}
+.stp-dot{
+  width:24px;height:24px;border-radius:50%;
+  background:#fff;border:1.5px solid var(--line-3);color:var(--muted-2);
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  flex-shrink:0;transition:background .3s var(--ease),border-color .3s var(--ease),color .3s var(--ease);
+}
+.stp-dot svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.stp-lbl{
+  font-size:12.5px;font-weight:500;color:var(--muted);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  transition:color .3s var(--ease);
+}
+.stp.done .stp-dot{background:var(--green);border-color:var(--green);color:#fff}
+.stp.done .stp-lbl{color:var(--ink-2)}
+.stp.on .stp-dot{background:var(--ink);border-color:var(--ink);color:#fff;box-shadow:0 0 0 4px rgba(14,13,12,.08)}
+.stp.on .stp-lbl{color:var(--ink);font-weight:600}
+.stp:not(:last-child)::after{
+  content:"";flex:1;height:1.5px;background:var(--line);margin:0 10px;min-width:14px;border-radius:1px;
+  transition:background .3s var(--ease);
+}
+.stp.done:not(:last-child)::after{background:var(--green)}
+
+/* Right-side timer ring */
+.timer{display:inline-flex;align-items:center;gap:10px;flex-shrink:0}
+.timer-ring{
+  width:36px;height:36px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(#fff 60%,transparent 61%),
+    conic-gradient(var(--orange) var(--p,0%),var(--line) 0);
+  font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--ink);
+  position:relative;
+}
+.timer-ring::before{content:"";position:absolute;inset:4px;border-radius:50%;background:#fff}
+.timer-ring span{position:relative;z-index:1}
+.timer-lbl{font-size:12px;color:var(--muted);line-height:1.4}
+.timer-lbl b{color:var(--ink);font-weight:500;display:block;font-size:13px}
+
+/* ═════════════ STAGE ═════════════ */
+.stage{
+  min-height:calc(100vh - 80px);
+  padding:clamp(32px,5vh,64px) clamp(24px,5vw,56px) 96px;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+}
+.step{
+  width:100%;max-width:720px;
+  display:flex;flex-direction:column;
+  animation:stepIn .5s var(--ease);
+}
+@keyframes stepIn{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:none}
+}
+.step-eye{
+  font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  margin-bottom:14px;display:inline-flex;align-items:center;gap:10px;
+}
+.step-eye::before{content:"";width:28px;height:1px;background:var(--muted-2)}
+.step h1{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(36px,4vw,60px);line-height:1.02;letter-spacing:-.022em;
+  margin:0 0 18px;color:var(--ink);
+}
+.step h1 em{font-style:italic;color:var(--orange)}
+.step-sub{font-size:17px;line-height:1.6;color:var(--muted);margin:0 0 40px;max-width:52ch}
+.step-sub b{color:var(--ink-2);font-weight:500}
+
+/* ─── Form building blocks ─── */
+.field{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px}
+.label .hint{font-size:10.5px;color:var(--muted-2);font-weight:500;letter-spacing:.02em;text-transform:none}
+.input{
+  width:100%;padding:14px 16px;height:52px;border-radius:12px;
+  background:#fff;border:1px solid var(--line);
+  font-family:var(--sans);font-size:15px;color:var(--ink);
+  transition:border-color .18s var(--ease),box-shadow .18s var(--ease);
+}
+.input:hover{border-color:var(--line-3)}
+.input:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 4px rgba(255,91,31,.14)}
+.input::placeholder{color:var(--muted-2)}
+.textarea{height:auto;min-height:100px;resize:vertical;line-height:1.55}
+
+/* URL input with inline favicon + scan status */
+.url-wrap{position:relative;display:flex;align-items:center}
+.url-wrap .input{padding-left:52px}
+.url-favicon{
+  position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:26px;height:26px;border-radius:6px;background:#fff;
+  border:1px solid var(--line);display:inline-flex;align-items:center;justify-content:center;
+  overflow:hidden;flex-shrink:0;
+  transition:border-color .3s var(--ease);
+}
+.url-favicon img{width:100%;height:100%;object-fit:contain;padding:3px;display:block}
+.url-favicon.empty{background:var(--bg-subtle)}
+.url-favicon.empty::after{content:"";display:block;width:10px;height:10px;border-radius:50%;background:var(--muted-2);opacity:.3}
+.url-status{
+  position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:12px;font-weight:600;color:var(--muted);
+}
+.url-status .d{width:7px;height:7px;border-radius:50%;background:var(--muted-2)}
+.url-status.scanning .d{background:var(--blue);animation:pulseDot 1.2s ease-in-out infinite}
+.url-status.scanning{color:var(--blue-ink)}
+@keyframes pulseDot{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.35)}}
+.url-status.done .d{background:var(--green)}
+.url-status.done{color:var(--green-ink)}
+.url-status.done svg{width:13px;height:13px;stroke:var(--green);fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+
+/* Scan tags — auto-detected keywords from website */
+.tags{
+  display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;
+  animation:fadeIn .6s var(--ease);
+}
+.tags.hidden{display:none}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.tag{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 10px;border-radius:999px;
+  background:var(--bg-subtle);border:1px solid var(--line);
+  font-size:12px;font-weight:500;color:var(--ink-2);
+}
+.tag .d{width:5px;height:5px;border-radius:50%;background:var(--muted-2)}
+.tag.on .d{background:var(--orange)}
+
+/* Tone chips — multi-select like chips */
+.tones{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.tone{
+  padding:8px 14px;border-radius:999px;
+  background:#fff;border:1px solid var(--line);
+  font-family:var(--sans);font-size:13px;font-weight:500;color:var(--ink-2);
+  cursor:pointer;
+  transition:background .15s var(--ease),border-color .15s var(--ease),color .15s var(--ease);
+}
+.tone:hover{background:var(--bg-subtle);border-color:var(--line-3)}
+.tone.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* ─── AI-filled fields (Buyer Persona step) ─── */
+.ai-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:3px 10px;border-radius:999px;
+  background:linear-gradient(95deg,#f6f1fb 0%,#f8f4fd 100%);
+  border:1px solid rgba(138,118,184,.28);
+  color:var(--violet-ink);
+  font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;line-height:1;
+  margin-left:auto;
+}
+.ai-badge svg{width:11px;height:11px;fill:var(--violet);stroke:none}
+
+.persona-card{
+  background:#fff;border:1px solid var(--line);border-radius:14px;
+  padding:28px 30px;box-shadow:0 1px 2px rgba(14,13,12,.03);
+  margin-bottom:20px;
+}
+.persona-head{
+  display:flex;align-items:center;gap:12px;padding-bottom:18px;border-bottom:1px solid var(--line-2);margin-bottom:22px;
+}
+.persona-ic{
+  width:40px;height:40px;border-radius:10px;
+  background:var(--violet-soft);color:var(--violet-ink);
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.persona-ic svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.persona-title{font-family:var(--serif);font-weight:400;font-size:26px;line-height:1.1;letter-spacing:-.015em;color:var(--ink);margin:0}
+.persona-sub{font-size:13px;color:var(--muted);margin-top:4px}
+
+.persona-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 22px}
+.persona-grid .field{margin-bottom:0}
+.persona-grid .field.col-2{grid-column:1 / -1}
+.input.ai-filled{background:linear-gradient(180deg,rgba(138,118,184,.06) 0%,rgba(255,255,255,1) 100%);border-color:rgba(138,118,184,.22)}
+.input.ai-filled:focus{border-color:var(--violet);box-shadow:0 0 0 4px rgba(138,118,184,.18)}
+
+/* ─── Prospects preview (step 3) ─── */
+.match-summary{
+  display:flex;align-items:center;gap:16px;
+  padding:18px 22px;border-radius:14px;
+  background:linear-gradient(95deg,var(--green-soft) 0%,#f5fbf7 60%,#fff 100%);
+  border:1px solid rgba(26,124,75,.22);
+  margin-bottom:24px;
+}
+.match-ic{
+  width:44px;height:44px;border-radius:50%;
+  background:var(--green);color:#fff;
+  display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;
+  box-shadow:0 4px 12px -2px rgba(26,124,75,.32);
+}
+.match-ic svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.match-text{flex:1;min-width:0}
+.match-text b{display:block;font-family:var(--serif);font-weight:400;font-size:26px;line-height:1;letter-spacing:-.015em;color:var(--ink)}
+.match-text span{font-size:13.5px;color:var(--ink-3);line-height:1.5}
+
+.prospect-list{
+  background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  margin-bottom:26px;
+}
+.prow{
+  display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;
+  padding:14px 20px;border-bottom:1px solid var(--line-2);
+}
+.prow:last-child{border-bottom:none}
+.prow-av{
+  width:32px;height:32px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:11.5px;font-weight:600;flex-shrink:0;
+  background:var(--violet-soft);color:var(--violet-ink);
+}
+.prow-av.blue{background:var(--blue-soft);color:var(--blue-ink)}
+.prow-av.orange{background:var(--orange-soft);color:var(--orange-ink)}
+.prow-av.green{background:var(--green-soft);color:var(--green-ink)}
+.prow-body{min-width:0;line-height:1.3}
+.prow-name{font-size:14px;font-weight:600;color:var(--ink)}
+.prow-role{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:40ch}
+.prow-tag{
+  font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--muted);
+  display:inline-flex;align-items:center;gap:5px;
+}
+.prow-tag .d{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.prow-more{padding:10px 20px;font-size:12.5px;color:var(--muted);background:var(--bg-panel)}
+
+/* ─── Success screen (step 4) ─── */
+.done{text-align:center;padding:20px 0}
+.done-mark{
+  width:96px;height:96px;border-radius:50%;
+  background:linear-gradient(135deg,var(--green) 0%,#2fa368 100%);
+  color:#fff;margin:0 auto 28px;
+  display:inline-flex;align-items:center;justify-content:center;
+  box-shadow:0 20px 40px -12px rgba(26,124,75,.35),0 6px 14px -4px rgba(26,124,75,.2);
+  animation:doneMark .6s var(--ease);
+}
+.done-mark svg{width:48px;height:48px;stroke:#fff;fill:none;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+@keyframes doneMark{
+  from{transform:scale(0.4);opacity:0}
+  50%{transform:scale(1.06);opacity:1}
+  to{transform:scale(1);opacity:1}
+}
+.done h1{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(40px,4.4vw,64px);line-height:1.02;letter-spacing:-.022em;
+  margin:0 auto 18px;max-width:20ch;color:var(--ink);
+}
+.done h1 em{font-style:italic;color:var(--orange)}
+.done p{font-size:16px;color:var(--muted);margin:0 auto 36px;max-width:52ch;line-height:1.65}
+.done-actions{display:inline-flex;gap:10px;flex-wrap:wrap;justify-content:center}
+
+/* Email connect · cards for Gmail, Outlook, SMTP */
+.mail-opts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px}
+.mail-opt{
+  display:flex;flex-direction:column;align-items:flex-start;gap:10px;
+  padding:20px 22px;border-radius:14px;
+  background:#fff;border:1px solid var(--line);
+  cursor:pointer;text-align:left;font-family:var(--sans);
+  transition:border-color .18s var(--ease),box-shadow .18s var(--ease),transform .12s var(--ease);
+}
+.mail-opt:hover{border-color:var(--line-3);box-shadow:0 4px 14px -6px rgba(14,13,12,.1);transform:translateY(-1px)}
+.mail-opt.on{border-color:var(--ink);box-shadow:0 0 0 3px rgba(14,13,12,.06)}
+.mail-opt-ic{width:32px;height:32px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:var(--bg-subtle);border:1px solid var(--line-2)}
+.mail-opt-ic svg{width:18px;height:18px}
+.mail-opt b{font-size:14px;color:var(--ink);font-weight:600;display:block}
+.mail-opt span{font-size:12px;color:var(--muted);line-height:1.5}
+.mail-opt .soon{margin-top:auto;align-self:flex-start;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--muted);padding:2px 7px;border-radius:999px;background:var(--bg-subtle);border:1px solid var(--line)}
+
+/* ─── Footer buttons ─── */
+.step-foot{
+  margin-top:32px;padding-top:24px;border-top:1px solid var(--line-2);
+  display:flex;align-items:center;gap:12px;justify-content:space-between;
+}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:0 20px;height:48px;border-radius:11px;
+  font-family:var(--sans);font-size:14.5px;font-weight:500;letter-spacing:-.005em;
+  border:1px solid transparent;cursor:pointer;text-decoration:none;
+  transition:background .18s var(--ease),border-color .18s var(--ease),color .18s var(--ease),transform .1s var(--ease);
+}
+.btn:active{transform:translateY(1px)}
+.btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.btn-primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn-primary:hover{background:var(--orange);border-color:var(--orange)}
+.btn-primary:disabled{background:var(--muted-2);border-color:var(--muted-2);cursor:not-allowed;opacity:.6}
+.btn-ghost{background:transparent;color:var(--muted);border:none}
+.btn-ghost:hover{color:var(--ink-2)}
+
+/* Welcome (step 0) — full hero moment */
+.welcome{text-align:center;padding:40px 0 20px}
+.welcome-wave{font-size:44px;line-height:1;margin-bottom:10px}
+.welcome h1{font-family:var(--serif);font-weight:400;font-size:clamp(40px,4.6vw,64px);line-height:1.02;letter-spacing:-.022em;margin:0 auto 20px;max-width:20ch;color:var(--ink)}
+.welcome h1 em{font-style:italic;color:var(--orange)}
+.welcome p{font-size:17px;color:var(--muted);margin:0 auto 36px;max-width:54ch;line-height:1.65}
+.welcome-stats{display:inline-flex;gap:30px;flex-wrap:wrap;justify-content:center;margin-bottom:40px;font-size:12.5px;color:var(--muted-2);letter-spacing:.02em}
+.welcome-stats b{display:block;font-family:var(--serif);font-weight:400;font-size:22px;line-height:1;letter-spacing:-.015em;color:var(--ink);margin-bottom:3px}
+
+/* Responsive */
+@media(max-width:780px){
+  .topbar{padding:14px 20px;flex-wrap:wrap;gap:12px}
+  .stepper{order:3;width:100%;margin:0}
+  .stp-lbl{display:none}
+  .stp:not(:last-child)::after{margin:0 6px}
+  .stage{padding:24px 20px 80px}
+  .persona-grid{grid-template-columns:1fr}
+  .mail-opts{grid-template-columns:1fr}
+  .step-foot{flex-direction:column-reverse;align-items:stretch}
+  .step-foot .btn{width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- ═════════════ TOP BAR ═════════════ -->
+<header class="topbar">
+  <a class="brand" href="#" aria-label="Outpulse home">
+    <img src="outpulse-logo-dusk.svg" alt="" />
+    <span class="brand-name">Outpulse</span>
+    <span class="brand-beta"><span class="d"></span>Beta</span>
+  </a>
+
+  <!-- Stepper -->
+  <nav class="stepper" aria-label="Onboarding progress">
+    <div class="stp on" data-step="1"><span class="stp-dot">1</span><span class="stp-lbl">Company</span></div>
+    <div class="stp" data-step="2"><span class="stp-dot">2</span><span class="stp-lbl">Buyer Persona</span></div>
+    <div class="stp" data-step="3"><span class="stp-dot">3</span><span class="stp-lbl">Prospects</span></div>
+    <div class="stp" data-step="4"><span class="stp-dot">4</span><span class="stp-lbl">Mailbox</span></div>
+  </nav>
+
+  <!-- Timer -->
+  <div class="timer" title="2-minute setup promise">
+    <div class="timer-ring" id="timer-ring" style="--p:0%"><span id="timer-txt">2:00</span></div>
+    <div class="timer-lbl"><b>Ready in 2 min</b><span>Your first pipeline is minutes away</span></div>
+  </div>
+</header>
+
+<!-- ═════════════ STAGE ═════════════ -->
+<main class="stage">
+
+  <!-- ─── STEP 1 · COMPANY (default visible) ─── -->
+  <section class="step" data-panel="1">
+    <span class="step-eye">Step 1 of 4 · Company</span>
+    <h1>Tell us about your <em>company.</em></h1>
+    <p class="step-sub">Drop your website — we'll scan it and auto-generate your buyer persona in the next step. <b>Takes about 20 seconds.</b></p>
+
+    <div class="field">
+      <div class="label">Company name</div>
+      <input class="input" type="text" id="company-name" placeholder="Platform" value="Platform" />
+    </div>
+
+    <div class="field">
+      <div class="label">
+        Website
+        <span class="hint">HTTPS recommended · we'll scan the homepage + top 4 pages</span>
+      </div>
+      <div class="url-wrap">
+        <span class="url-favicon" id="url-favicon">
+          <img src="https://www.google.com/s2/favicons?domain=plat4m.com&sz=128" alt="" />
+        </span>
+        <input class="input" type="url" id="company-url" placeholder="www.yourcompany.com" value="www.plat4m.com" />
+        <span class="url-status done" id="url-status">
+          <svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg>
+          Scanned
+        </span>
+      </div>
+      <div class="tags" id="scan-tags">
+        <span class="tag on"><span class="d"></span>SaaS</span>
+        <span class="tag on"><span class="d"></span>Web + mobile apps</span>
+        <span class="tag on"><span class="d"></span>Series B–D</span>
+        <span class="tag on"><span class="d"></span>50–500 employees</span>
+        <span class="tag on"><span class="d"></span>EU + US</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="label">What do you sell? <span class="hint">One or two sentences</span></div>
+      <textarea class="input textarea" id="offer" placeholder="We build web and mobile apps for SaaS, fintech, and e-commerce teams. Helping engineering and digital leads ship faster."></textarea>
+    </div>
+
+    <div class="field">
+      <div class="label">Tone of voice <span class="hint">Pick up to 3</span></div>
+      <div class="tones" id="tone-picker">
+        <button type="button" class="tone on">Direct</button>
+        <button type="button" class="tone on">Confident</button>
+        <button type="button" class="tone">Friendly</button>
+        <button type="button" class="tone">Professional</button>
+        <button type="button" class="tone">Witty</button>
+        <button type="button" class="tone">Warm</button>
+        <button type="button" class="tone">Playful</button>
+        <button type="button" class="tone">Provocative</button>
+        <button type="button" class="tone">Visionary</button>
+      </div>
+    </div>
+
+    <div class="step-foot">
+      <button class="btn btn-ghost" type="button">Skip scan</button>
+      <button class="btn btn-primary" type="button" data-next="2">
+        Generate persona
+        <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ─── STEP 2 · BUYER PERSONA ─── -->
+  <section class="step" data-panel="2" hidden>
+    <span class="step-eye">Step 2 of 4 · Buyer persona</span>
+    <h1>Here's who you should <em>reach.</em></h1>
+    <p class="step-sub">AI-generated from your website in <b>3.2 seconds</b>. Edit anything — this is the ICP we'll use to find your first 40 prospects.</p>
+
+    <div class="persona-card">
+      <div class="persona-head">
+        <span class="persona-ic">
+          <svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="3"/><path d="M2 20v-1a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v1"/><circle cx="17" cy="9" r="3"/><path d="M16 14a5 5 0 0 1 5 5v1"/></svg>
+        </span>
+        <div style="flex:1;min-width:0">
+          <h3 class="persona-title">Technical decision-makers</h3>
+          <div class="persona-sub">Auto-matched from your website copy + positioning</div>
+        </div>
+        <span class="ai-badge">
+          <svg viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+          AI-generated
+        </span>
+      </div>
+
+      <div class="persona-grid">
+        <div class="field">
+          <div class="label">Job titles</div>
+          <input class="input ai-filled" type="text" value="CTO · VP Engineering · Head of Digital · Product Lead" />
+        </div>
+        <div class="field">
+          <div class="label">Industry</div>
+          <input class="input ai-filled" type="text" value="SaaS · Fintech · E-commerce" />
+        </div>
+        <div class="field">
+          <div class="label">Company size</div>
+          <input class="input ai-filled" type="text" value="50–500 employees" />
+        </div>
+        <div class="field">
+          <div class="label">Location</div>
+          <input class="input ai-filled" type="text" value="EU · North America" />
+        </div>
+        <div class="field col-2">
+          <div class="label">Description <span class="hint">What you know about them</span></div>
+          <textarea class="input textarea ai-filled">Engineering and digital leads at 50–500 person SaaS, fintech, and e-commerce companies. Usually post-Series-B, hiring 3–10 engineers, often mid-cloud-migration or shipping new product lines. Time-poor, bias toward direct outreach that respects their calendar.</textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-foot">
+      <button class="btn btn-ghost" type="button" data-prev="1">
+        <svg viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m11 19-7-7 7-7"/></svg>
+        Back
+      </button>
+      <button class="btn btn-primary" type="button" data-next="3">
+        Match prospects
+        <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ─── STEP 3 · PROSPECTS ─── -->
+  <section class="step" data-panel="3" hidden>
+    <span class="step-eye">Step 3 of 4 · Prospects</span>
+    <h1>We found <em>1,428</em> people who fit.</h1>
+    <p class="step-sub">Here's the first 40 — verified, enriched, and ready. The rest will be pulled in as you launch campaigns.</p>
+
+    <div class="match-summary">
+      <span class="match-ic">
+        <svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg>
+      </span>
+      <div class="match-text">
+        <b>40 prospects · 100% verified</b>
+        <span>Drawn from multiple data sources, enriched with intent signals, emails cross-checked.</span>
+      </div>
+    </div>
+
+    <div class="prospect-list">
+      <div class="prow">
+        <span class="prow-av">SC</span>
+        <div class="prow-body">
+          <div class="prow-name">Sarah Chen</div>
+          <div class="prow-role">VP Engineering · Vercel · Hiring 12 engineers</div>
+        </div>
+        <span class="prow-tag"><span class="d"></span>Verified</span>
+      </div>
+      <div class="prow">
+        <span class="prow-av blue">MW</span>
+        <div class="prow-body">
+          <div class="prow-name">Marcus Webb</div>
+          <div class="prow-role">CTO · Linear · New CTO, 2 weeks ago</div>
+        </div>
+        <span class="prow-tag"><span class="d"></span>Verified</span>
+      </div>
+      <div class="prow">
+        <span class="prow-av orange">AK</span>
+        <div class="prow-body">
+          <div class="prow-name">Anna Kovacs</div>
+          <div class="prow-role">Head of Product · Stripe · Opened EU HQ</div>
+        </div>
+        <span class="prow-tag"><span class="d"></span>Verified</span>
+      </div>
+      <div class="prow">
+        <span class="prow-av green">RP</span>
+        <div class="prow-body">
+          <div class="prow-name">Rachel Park</div>
+          <div class="prow-role">VP Sales · Ramp · Series D · $100M</div>
+        </div>
+        <span class="prow-tag"><span class="d"></span>Verified</span>
+      </div>
+      <div class="prow">
+        <span class="prow-av">DK</span>
+        <div class="prow-body">
+          <div class="prow-name">David Kim</div>
+          <div class="prow-role">CTO · Webflow · Migrating to AWS</div>
+        </div>
+        <span class="prow-tag"><span class="d"></span>Verified</span>
+      </div>
+      <div class="prow-more">+ 35 more · Nina Garcia, Tom Heller, Omar Patel, and 32 others</div>
+    </div>
+
+    <div class="step-foot">
+      <button class="btn btn-ghost" type="button" data-prev="2">
+        <svg viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m11 19-7-7 7-7"/></svg>
+        Back
+      </button>
+      <button class="btn btn-primary" type="button" data-next="4">
+        Connect your mailbox
+        <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ─── STEP 4 · CONNECT MAILBOX ─── -->
+  <section class="step" data-panel="4" hidden>
+    <span class="step-eye">Step 4 of 4 · Mailbox</span>
+    <h1>One last thing — <em>connect</em> your mailbox.</h1>
+    <p class="step-sub">We send from your inbox so replies land back there naturally. <b>OAuth-based</b> — we never see your password.</p>
+
+    <div class="mail-opts">
+      <div class="mail-opt on">
+        <span class="mail-opt-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+        </span>
+        <b>Gmail</b>
+        <span>Google Workspace · personal Gmail</span>
+      </div>
+      <div class="mail-opt">
+        <span class="mail-opt-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 5 10-5"/></svg>
+        </span>
+        <b>Outlook</b>
+        <span>Microsoft 365 · Exchange</span>
+        <span class="soon">Coming soon</span>
+      </div>
+      <div class="mail-opt">
+        <span class="mail-opt-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </span>
+        <b>Custom SMTP</b>
+        <span>Any mailbox with SMTP + IMAP</span>
+        <span class="soon">Coming soon</span>
+      </div>
+    </div>
+
+    <div class="step-foot">
+      <button class="btn btn-ghost" type="button" data-prev="3">
+        <svg viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m11 19-7-7 7-7"/></svg>
+        Back
+      </button>
+      <button class="btn btn-primary" type="button" data-next="done">
+        Connect Gmail + finish
+        <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ─── DONE ─── -->
+  <section class="step" data-panel="done" hidden>
+    <div class="done">
+      <span class="done-mark">
+        <svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg>
+      </span>
+      <h1>You're in. <em>Pipeline's live.</em></h1>
+      <p>Your first prospects are enriched. Your buyer persona is live. Your mailbox is connected. The only thing left is pressing <b>"Start outreach"</b> — and even that can wait until tomorrow.</p>
+      <div class="done-actions">
+        <a class="btn btn-primary" href="prototype-minimal.html">
+          Open dashboard
+          <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="prototype-campaigns.html">
+          Start your first campaign
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+/* Onboarding state: step transitions, timer ring, stepper indicators. */
+(function(){
+  const panels = document.querySelectorAll('[data-panel]');
+  const steps = document.querySelectorAll('.stp');
+  let current = 1;
+
+  function show(step){
+    current = step;
+    panels.forEach(p => p.hidden = p.dataset.panel !== String(step));
+    steps.forEach(s => {
+      const n = parseInt(s.dataset.step, 10);
+      s.classList.toggle('on', n === step);
+      s.classList.toggle('done', n < step);
+      if (n === step){
+        s.querySelector('.stp-dot').innerHTML = n;
+      } else if (n < step){
+        s.querySelector('.stp-dot').innerHTML = '<svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg>';
+      } else {
+        s.querySelector('.stp-dot').innerHTML = n;
+      }
+    });
+    // Scroll to top on transition
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  document.querySelectorAll('[data-next]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const next = btn.dataset.next;
+      if (next === 'done'){
+        panels.forEach(p => p.hidden = p.dataset.panel !== 'done');
+        steps.forEach(s => s.classList.add('done'));
+      } else {
+        show(parseInt(next, 10));
+      }
+    });
+  });
+  document.querySelectorAll('[data-prev]').forEach(btn => {
+    btn.addEventListener('click', () => show(parseInt(btn.dataset.prev, 10)));
+  });
+
+  /* Timer ring — counts down from 2 minutes, the pill of the ring fills as time passes. */
+  let secs = 120;
+  const ring = document.getElementById('timer-ring');
+  const txt = document.getElementById('timer-txt');
+  setInterval(() => {
+    if (secs <= 0) return;
+    secs -= 1;
+    const m = Math.floor(secs / 60);
+    const s = secs % 60;
+    txt.textContent = m + ':' + (s < 10 ? '0' + s : s);
+    const pct = ((120 - secs) / 120) * 100;
+    ring.style.setProperty('--p', pct + '%');
+    if (secs === 0) txt.textContent = 'Ready';
+  }, 1000);
+
+  /* Tone picker — limit to 3 selected */
+  document.querySelectorAll('.tone').forEach(t => {
+    t.addEventListener('click', () => {
+      const selected = document.querySelectorAll('.tone.on').length;
+      if (t.classList.contains('on')){
+        t.classList.remove('on');
+      } else if (selected < 3){
+        t.classList.add('on');
+      }
+    });
+  });
+
+  /* Mailbox provider pick */
+  document.querySelectorAll('.mail-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      if (opt.querySelector('.soon')) return; // coming-soon, not selectable
+      document.querySelectorAll('.mail-opt.on').forEach(o => o.classList.remove('on'));
+      opt.classList.add('on');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
