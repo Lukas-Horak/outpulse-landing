@@ -424,54 +424,85 @@ body{
 }
 .mbox-skip a{color:var(--ink-3);text-decoration:underline;text-underline-offset:3px}
 
-/* ═════════════ PLAN CARDS (step 4) ═════════════ */
+/* ═════════════ PLAN CARDS (step 4) — landing-page style ═════════════ */
+.step--wide{max-width:900px !important}
 .plan-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+  align-items:stretch;
 }
 .plan-card{
-  position:relative;text-align:left;
-  display:flex;flex-direction:column;gap:10px;
-  padding:20px 18px 18px;min-height:230px;
-  border:1.5px solid var(--line);border-radius:14px;
+  position:relative;overflow:hidden;text-align:left;
+  display:flex;flex-direction:column;gap:0;
+  padding:24px 22px 20px;
+  border:1px solid var(--line);border-radius:18px;
   background:#fff;cursor:pointer;
   font-family:var(--sans);
-  transition:border-color .15s var(--ease),background .15s var(--ease),transform .1s var(--ease),box-shadow .15s var(--ease);
+  transition:border-color .25s var(--ease),transform .25s var(--ease);
 }
-.plan-card:hover{
-  border-color:var(--ink);
-  box-shadow:0 8px 30px -20px rgba(20,18,15,.25);
+.plan-card::before{
+  content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(135deg,
+    rgba(255,91,31,.08) 0%,
+    rgba(255,91,31,.03) 28%,
+    rgba(255,91,31,0) 55%);
+  opacity:0;transition:opacity .35s var(--ease);
 }
-.plan-card:active{transform:translateY(1px)}
-.plan-card--popular{
-  border-color:var(--ink);background:var(--bg-panel);
+.plan-card > *{position:relative;z-index:1}
+.plan-card:hover{border-color:rgba(14,13,12,.18)}
+.plan-card:hover::before{opacity:1}
+.plan-grid:hover .plan-card:not(:hover){opacity:.5;transform:scale(.985)}
+
+/* Peach pill tag (in-flow, not absolute — no overlap with price) */
+.plan-tag{
+  align-self:flex-start;
+  font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  background:var(--orange-soft);color:var(--orange-ink);
+  padding:4px 10px;border-radius:999px;margin-bottom:16px;
 }
-.plan-badge{
-  position:absolute;top:-10px;left:50%;transform:translateX(-50%);
-  padding:3px 10px;border-radius:999px;
-  background:var(--ink);color:#fff;
-  font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;
+.plan-card--popular .plan-tag{background:var(--orange);color:#fff}
+
+.plan-name{
+  font-family:var(--serif);font-size:26px;font-weight:400;line-height:1;
+  color:var(--ink);margin:0 0 5px;letter-spacing:-.01em;
 }
-.plan-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
-.plan-name{font-size:13px;font-weight:600;color:var(--ink);text-transform:uppercase;letter-spacing:.04em}
-.plan-price{display:inline-flex;align-items:baseline;gap:2px}
-.plan-amount{font-family:var(--serif);font-size:26px;color:var(--ink);line-height:1}
+.plan-desc{font-size:12.5px;color:var(--muted);margin:0 0 18px;line-height:1.4}
+.plan-price{display:flex;align-items:baseline;gap:5px;margin-bottom:18px}
+.plan-amount{
+  font-family:var(--serif);font-size:44px;font-weight:400;line-height:1;color:var(--ink);
+}
+.plan-card--popular .plan-amount{
+  background:linear-gradient(95deg,#ff5b1f,#ff8a4c);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
 .plan-period{font-size:12px;color:var(--muted)}
-.plan-desc{font-size:12.5px;color:var(--muted);margin:0;line-height:1.45}
 .plan-feats{
-  list-style:none;padding:0;margin:6px 0 0;
-  display:flex;flex-direction:column;gap:5px;
-  font-size:12.5px;color:var(--ink-3);
+  list-style:none;padding:0;margin:0 0 20px;
+  display:flex;flex-direction:column;gap:9px;flex:1;
+  font-size:13px;line-height:1.4;color:var(--ink-2);
 }
-.plan-feats li{
-  position:relative;padding-left:16px;line-height:1.45;
+.plan-feat{display:flex;align-items:flex-start;gap:9px}
+.plan-feat::before{
+  content:"";width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:3px;
+  background:radial-gradient(circle,#fff 0 28%,transparent 28%),var(--orange);
 }
-.plan-feats li::before{
-  content:"";position:absolute;left:0;top:7px;width:10px;height:2px;
-  background:var(--ink-3);border-radius:1px;opacity:.35;
+.plan-cta{
+  width:100%;padding:13px 14px;border-radius:999px;
+  background:var(--ink);color:#fff;border:none;
+  font-family:var(--sans);font-size:13.5px;font-weight:500;
+  cursor:pointer;
+  transition:background .2s var(--ease),box-shadow .2s var(--ease);
 }
+.plan-cta:hover{background:#000}
+.plan-card--popular .plan-cta{
+  background:var(--orange);
+  box-shadow:0 10px 24px -10px rgba(255,91,31,.45);
+}
+.plan-card--popular .plan-cta:hover{background:var(--orange-ink);box-shadow:0 14px 30px -10px rgba(255,91,31,.55)}
+.plan-foot{font-size:11.5px;color:var(--muted);text-align:center;margin-top:8px}
+
 .plan-trust{
   display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;
-  margin-top:22px;font-size:12.5px;color:var(--muted);
+  margin-top:26px;font-size:12.5px;color:var(--muted);
 }
 .plan-trust-item{display:inline-flex;align-items:center;gap:5px}
 .plan-trust-item svg{color:var(--green)}
@@ -745,51 +776,59 @@ body{
   </section>
 
   <!-- ─── STEP 4 · CHOOSE PLAN ─── -->
-  <section class="step" data-step="4">
+  <section class="step step--wide" data-step="4">
     <div class="step-eyebrow">Almost there</div>
     <h1>Pick a plan. <em>Try it free.</em></h1>
     <p class="step-sub">Every plan starts with a 7-day free trial. Cancel anytime — no charge until the trial ends.</p>
 
     <div class="plan-grid">
-      <button class="plan-card" type="button" data-plan="starter">
-        <div class="plan-head">
-          <span class="plan-name">Starter</span>
-          <span class="plan-price"><span class="plan-amount">$49</span><span class="plan-period">/mo</span></span>
-        </div>
+      <div class="plan-card">
+        <span class="plan-tag">Starter</span>
+        <h3 class="plan-name">Starter</h3>
         <p class="plan-desc">For founders testing cold outreach</p>
+        <div class="plan-price"><span class="plan-amount">$49</span><span class="plan-period">/mo</span></div>
         <ul class="plan-feats">
-          <li>100 prospects / month</li>
-          <li>2 active campaigns</li>
-          <li>1 sending mailbox</li>
+          <li class="plan-feat">100 prospects per month</li>
+          <li class="plan-feat">2 active campaigns</li>
+          <li class="plan-feat">AI-personalized emails</li>
+          <li class="plan-feat">1 sending mailbox</li>
+          <li class="plan-feat">Email warm-up included</li>
         </ul>
-      </button>
+        <button class="plan-cta" type="button" data-plan="starter">Start free trial</button>
+        <p class="plan-foot">No charge for 7 days</p>
+      </div>
 
-      <button class="plan-card plan-card--popular" type="button" data-plan="growth">
-        <span class="plan-badge">Most popular</span>
-        <div class="plan-head">
-          <span class="plan-name">Growth</span>
-          <span class="plan-price"><span class="plan-amount">$149</span><span class="plan-period">/mo</span></span>
-        </div>
+      <div class="plan-card plan-card--popular">
+        <span class="plan-tag">Most popular</span>
+        <h3 class="plan-name">Growth</h3>
         <p class="plan-desc">For teams scaling outbound pipeline</p>
+        <div class="plan-price"><span class="plan-amount">$149</span><span class="plan-period">/mo</span></div>
         <ul class="plan-feats">
-          <li>500 prospects / month</li>
-          <li>Unlimited campaigns</li>
-          <li>3 sending mailboxes · AI copy optimization</li>
+          <li class="plan-feat">500 prospects per month</li>
+          <li class="plan-feat">Unlimited campaigns</li>
+          <li class="plan-feat">Open, click &amp; reply tracking</li>
+          <li class="plan-feat">3 sending mailboxes</li>
+          <li class="plan-feat">AI copy optimization</li>
         </ul>
-      </button>
+        <button class="plan-cta" type="button" data-plan="growth">Start free trial</button>
+        <p class="plan-foot">No charge for 7 days</p>
+      </div>
 
-      <button class="plan-card" type="button" data-plan="agency">
-        <div class="plan-head">
-          <span class="plan-name">Agency</span>
-          <span class="plan-price"><span class="plan-amount">$499</span><span class="plan-period">/mo</span></span>
-        </div>
+      <div class="plan-card">
+        <span class="plan-tag">Agency</span>
+        <h3 class="plan-name">Agency</h3>
         <p class="plan-desc">For agencies managing multiple clients</p>
+        <div class="plan-price"><span class="plan-amount">$499</span><span class="plan-period">/mo</span></div>
         <ul class="plan-feats">
-          <li>2,500 prospects / month</li>
-          <li>10 sending mailboxes · A/B testing</li>
-          <li>Dedicated account manager</li>
+          <li class="plan-feat">2,500 prospects per month</li>
+          <li class="plan-feat">Full analytics + A/B testing</li>
+          <li class="plan-feat">10 sending mailboxes</li>
+          <li class="plan-feat">Dedicated account manager</li>
+          <li class="plan-feat">Custom integrations</li>
         </ul>
-      </button>
+        <button class="plan-cta" type="button" data-plan="agency">Start free trial</button>
+        <p class="plan-foot">No charge for 7 days</p>
+      </div>
     </div>
 
     <div class="plan-trust">
@@ -1048,8 +1087,8 @@ body{
     btn.addEventListener('click', ()=>go(parseInt(btn.dataset.back,10)));
   });
 
-  // Plan buttons → done (simulates Stripe checkout completion)
-  document.querySelectorAll('.plan-card[data-plan]').forEach(btn=>{
+  // Plan CTA → done (simulates Stripe checkout completion)
+  document.querySelectorAll('.plan-cta[data-plan]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       // In production: POST /api/stripe/checkout { plan } → redirect
       // Prototype jumps straight to the trial-started state.
