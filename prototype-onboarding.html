@@ -249,6 +249,104 @@ body{
   display:flex;align-items:center;gap:6px;
 }
 .pitch-hint .sparkle{color:var(--orange)}
+.pitch-field input.input-line{
+  width:100%;
+  font-family:var(--sans);font-size:15px;
+  padding:13px 15px;
+  border:1.5px solid var(--line-3);border-radius:12px;
+  background:#fff;color:var(--ink);outline:none;
+  transition:border-color .15s var(--ease);
+}
+.pitch-field input.input-line:focus{border-color:var(--ink)}
+.field-ai-hint{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:11px;font-weight:500;color:var(--violet-ink);
+  text-transform:none;letter-spacing:0;margin-left:6px;
+}
+.field-ai-hint svg{color:var(--violet)}
+
+/* ─── Detected tags (AI scan result) ─── */
+.detected-block{
+  margin-top:14px;padding:14px 16px;
+  border-radius:12px;
+  background:linear-gradient(135deg,rgba(138,118,184,.06),rgba(255,91,31,.035));
+  border:1px solid rgba(138,118,184,.18);
+}
+.detected-label{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--violet-ink);margin-bottom:10px;
+}
+.detected-label svg{color:var(--violet)}
+.detected-chips{display:flex;flex-wrap:wrap;gap:6px}
+.detected-chip{
+  padding:5px 10px;border-radius:999px;
+  background:#fff;border:1px solid rgba(138,118,184,.22);
+  font-size:12px;color:var(--ink-3);
+  animation:chipIn .35s var(--ease) both;
+}
+.detected-chip:nth-child(1){animation-delay:.05s}
+.detected-chip:nth-child(2){animation-delay:.1s}
+.detected-chip:nth-child(3){animation-delay:.15s}
+.detected-chip:nth-child(4){animation-delay:.2s}
+.detected-chip:nth-child(5){animation-delay:.25s}
+.detected-chip:nth-child(6){animation-delay:.3s}
+@keyframes chipIn{
+  from{opacity:0;transform:translateY(4px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ─── Tone chips ─── */
+.tone-chips{display:flex;flex-wrap:wrap;gap:6px}
+.tone-chip{
+  padding:7px 13px;border-radius:999px;
+  background:#fff;border:1.5px solid var(--line-3);
+  font-family:var(--sans);font-size:13px;color:var(--ink-3);
+  cursor:pointer;
+  transition:all .15s var(--ease);
+  display:inline-flex;align-items:center;gap:5px;
+}
+.tone-chip:hover{border-color:var(--ink-3);color:var(--ink)}
+.tone-chip.active{
+  background:var(--ink);border-color:var(--ink);color:#fff;
+}
+.tone-chip.ai-picked{
+  background:var(--violet-soft);border-color:rgba(138,118,184,.35);color:var(--violet-ink);
+}
+.tone-chip.ai-picked::before{
+  content:"";width:6px;height:6px;border-radius:50%;background:var(--violet);
+  display:inline-block;
+}
+.tone-chip.active.ai-picked{
+  background:var(--ink);border-color:var(--ink);color:#fff;
+}
+.tone-chip.active.ai-picked::before{background:#fff}
+
+/* ─── "No website" link on step 1 ─── */
+.no-website-link{
+  margin-top:18px;text-align:center;
+  font-size:13px;color:var(--muted);
+}
+.no-website-link a{
+  color:var(--ink-3);text-decoration:underline;text-underline-offset:3px;
+  transition:color .12s var(--ease);
+}
+.no-website-link a:hover{color:var(--ink)}
+
+/* ─── Manual company card (no-website path) ─── */
+.manual-head{
+  display:flex;align-items:center;gap:14px;
+  padding:16px 18px;border:1.5px dashed var(--line-3);border-radius:14px;
+  background:var(--bg-panel);margin-bottom:18px;
+}
+.manual-head-icon{
+  width:40px;height:40px;border-radius:10px;
+  background:#fff;border:1px solid var(--line);
+  display:grid;place-items:center;color:var(--muted);flex-shrink:0;
+}
+.manual-head-text{flex:1;min-width:0}
+.manual-head-title{font-size:14px;font-weight:500;color:var(--ink);margin:0 0 2px}
+.manual-head-desc{font-size:12.5px;color:var(--muted);margin:0}
 
 /* ═════════════ PERSONA CARD (step 3) ═════════════ */
 .persona-card{
@@ -447,7 +545,7 @@ body{
 <!-- ═════════════ TOP BAR ═════════════ -->
 <header class="topbar">
   <a href="#" class="brand" aria-label="Outpulse home">
-    <img src="outpulse-logo-green.svg" alt="" />
+    <img src="outpulse-logo-dusk.svg" alt="" />
     <span class="brand-name">Outpulse</span>
     <span class="brand-beta">
       <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="3" fill="currentColor"/></svg>
@@ -502,32 +600,93 @@ body{
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </button>
     </div>
+
+    <p class="no-website-link">
+      <a href="#" id="noWebsiteLink">No website yet? Tell us about your company manually</a>
+    </p>
   </section>
 
   <!-- ─── STEP 2 · COMPANY ─── -->
   <section class="step" data-step="2">
-    <div class="step-eyebrow">Here's what we found</div>
-    <h1>Is this <em>you?</em></h1>
-    <p class="step-sub">We've pre-filled everything from your site. Tweak the one-liner if you want — or keep going.</p>
+    <div class="step-eyebrow" id="step2Eyebrow">Here's what we found</div>
+    <h1 id="step2Title">Is this <em>you?</em></h1>
+    <p class="step-sub" id="step2Sub">We've pre-filled everything from your site. Tweak anything that's off — or keep going.</p>
 
-    <div class="company-card">
-      <div class="company-avatar" id="companyAvatar">A</div>
-      <div class="company-meta">
-        <h3 class="company-name" id="companyName">Your company</h3>
-        <p class="company-url" id="companyUrl">yourcompany.com</p>
+    <!-- Scanned variant: head = company card + detected chips -->
+    <div data-variant="scanned">
+      <div class="company-card">
+        <div class="company-avatar" id="companyAvatar">A</div>
+        <div class="company-meta">
+          <h3 class="company-name" id="companyName">Your company</h3>
+          <p class="company-url" id="companyUrl">yourcompany.com</p>
+        </div>
+        <button class="company-edit" type="button">Edit</button>
       </div>
-      <button class="company-edit" type="button">Edit</button>
+
+      <div class="detected-block">
+        <div class="detected-label">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+          Detected on your site
+        </div>
+        <div class="detected-chips" id="detectedChips">
+          <span class="detected-chip">Digital Transformation</span>
+          <span class="detected-chip">UX/UI Design</span>
+          <span class="detected-chip">Mobile Development</span>
+          <span class="detected-chip">Web Development</span>
+          <span class="detected-chip">Business Automation</span>
+        </div>
+      </div>
     </div>
 
+    <!-- Manual variant: head = friendly blank state + company name input -->
+    <div data-variant="manual" hidden>
+      <div class="manual-head">
+        <div class="manual-head-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7h-4v7H5a2 2 0 0 1-2-2z"/></svg>
+        </div>
+        <div class="manual-head-text">
+          <p class="manual-head-title">No website yet</p>
+          <p class="manual-head-desc">That's fine — just tell us the basics and we'll take it from there.</p>
+        </div>
+      </div>
+
+      <div class="pitch-field">
+        <label for="manualCompanyName">Company name</label>
+        <input type="text" class="input-line" id="manualCompanyName" placeholder="Acme Inc" />
+      </div>
+    </div>
+
+    <!-- One-liner (shared) -->
     <div class="pitch-field">
-      <label for="pitch">Your one-liner</label>
-      <textarea id="pitch" placeholder="What you do in one sentence…">We help B2B sales teams book more qualified meetings with AI-written outreach that actually sounds human.</textarea>
-      <p class="pitch-hint">
-        <span class="sparkle">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+      <label for="pitch">
+        What do you sell / offer?
+        <span class="field-ai-hint" data-variant-hint="scanned">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+          Auto-filled from your site
         </span>
-        Auto-drafted from your site. Edit if you like — Pulse learns from every campaign.
-      </p>
+      </label>
+      <textarea id="pitch" placeholder="What you do in one sentence…">We help B2B sales teams book more qualified meetings with AI-written outreach that actually sounds human.</textarea>
+    </div>
+
+    <!-- Tone of voice (shared, AI pre-picked in scanned mode) -->
+    <div class="pitch-field">
+      <label>
+        Tone of voice
+        <span class="field-ai-hint" data-variant-hint="scanned">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+          AI picked from your writing
+        </span>
+      </label>
+      <div class="tone-chips" id="toneChips">
+        <button type="button" class="tone-chip" data-tone="Professional">Professional</button>
+        <button type="button" class="tone-chip" data-tone="Warm">Warm</button>
+        <button type="button" class="tone-chip" data-tone="Friendly">Friendly</button>
+        <button type="button" class="tone-chip" data-tone="Direct">Direct</button>
+        <button type="button" class="tone-chip" data-tone="Witty">Witty</button>
+        <button type="button" class="tone-chip" data-tone="Visionary">Visionary</button>
+        <button type="button" class="tone-chip" data-tone="Provocative">Provocative</button>
+        <button type="button" class="tone-chip" data-tone="Playful">Playful</button>
+      </div>
     </div>
 
     <div class="action-row">
@@ -706,7 +865,16 @@ body{
   const companyName = document.getElementById('companyName');
   const companyUrl  = document.getElementById('companyUrl');
   const companyAvatar = document.getElementById('companyAvatar');
+  const noWebsiteLink = document.getElementById('noWebsiteLink');
+  const step2Eyebrow= document.getElementById('step2Eyebrow');
+  const step2Title  = document.getElementById('step2Title');
+  const step2Sub    = document.getElementById('step2Sub');
+  const pitchInput  = document.getElementById('pitch');
+  const toneChipsEl = document.getElementById('toneChips');
   const gotoDash    = document.getElementById('gotoDashboard');
+
+  // Default AI-picked tones for scanned mode
+  const AI_PICKED_TONES = ['Professional','Warm'];
 
   let currentStep = 1;
   const TOTAL = 4;
@@ -783,20 +951,65 @@ body{
     }
   });
 
-  // URL → scan animation → step 2
+  // ─── Mode switching (scanned vs manual)
+  function setVariant(mode){
+    // Step-2 variants
+    document.querySelectorAll('[data-variant]').forEach(el=>{
+      el.hidden = (el.dataset.variant !== mode);
+    });
+    // AI hints next to labels
+    document.querySelectorAll('[data-variant-hint]').forEach(el=>{
+      el.style.display = (el.dataset.variantHint === mode) ? '' : 'none';
+    });
+    // Copy adjustments
+    if(mode === 'manual'){
+      step2Eyebrow.textContent = 'Tell us about your company';
+      step2Title.innerHTML = 'The <em>basics.</em>';
+      step2Sub.textContent = "A few quick details — we'll use these to write your first outreach.";
+      pitchInput.value = '';
+      pitchInput.placeholder = 'What do you sell, and who do you sell it to?';
+      // Clear AI-picked tones
+      toneChipsEl.querySelectorAll('.tone-chip').forEach(c=>{
+        c.classList.remove('ai-picked');
+        c.classList.remove('active');
+      });
+    } else {
+      step2Eyebrow.textContent = "Here's what we found";
+      step2Title.innerHTML = 'Is this <em>you?</em>';
+      step2Sub.textContent = "We've pre-filled everything from your site. Tweak anything that's off — or keep going.";
+      // Pre-select AI-picked tones
+      toneChipsEl.querySelectorAll('.tone-chip').forEach(c=>{
+        const picked = AI_PICKED_TONES.includes(c.dataset.tone);
+        c.classList.toggle('ai-picked', picked);
+        c.classList.toggle('active', picked);
+      });
+    }
+  }
+
+  // ─── Tone chips toggle (multi-select)
+  toneChipsEl.addEventListener('click', (e)=>{
+    const chip = e.target.closest('.tone-chip');
+    if(!chip) return;
+    chip.classList.toggle('active');
+  });
+
+  // ─── URL → scan animation → step 2 (scanned mode)
   scanBtn.addEventListener('click', ()=>{
     let url = urlInput.value.trim().replace(/^https?:\/\//,'').replace(/\/$/,'');
     if(!url) return;
     step1Actions.style.display = 'none';
+    document.querySelector('.no-website-link').style.display = 'none';
     scanning.classList.add('active');
 
     const messages = [
       'Fetching homepage…',
       'Reading your pitch…',
+      'Detecting your categories…',
       'Matching your audience…',
       'Drafting personas…',
     ];
     let i = 0;
+    scanStatus.textContent = messages[0];
     const tick = setInterval(()=>{
       i++;
       if(i >= messages.length){
@@ -807,15 +1020,25 @@ body{
         const pretty = name.charAt(0).toUpperCase() + name.slice(1);
         companyName.textContent = pretty;
         companyUrl.textContent = host;
-        // Favicon avatar
         const faviconUrl = `https://www.google.com/s2/favicons?domain=${host}&sz=128`;
         companyAvatar.innerHTML = `<img src="${faviconUrl}" alt="" onerror="this.parentNode.textContent='${pretty.charAt(0)}'"/>`;
+        setVariant('scanned');
         setTimeout(()=>go(2), 350);
         return;
       }
       scanStatus.textContent = messages[i];
-    }, 700);
+    }, 650);
   });
+
+  // ─── "No website" → jump straight to step 2 manual
+  noWebsiteLink.addEventListener('click', (e)=>{
+    e.preventDefault();
+    setVariant('manual');
+    go(2);
+  });
+
+  // Initialise step 2 variant in scanned mode by default
+  setVariant('scanned');
 
   // Wire next/back buttons
   document.querySelectorAll('[data-next]').forEach(btn=>{
