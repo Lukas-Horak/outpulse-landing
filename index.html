@@ -2600,7 +2600,9 @@ h1.display em{
    chips are in view. */
 .chip-pin{
   position:relative;
-  height:220vh;            /* 120vh of scroll to reveal chips */
+  height:140vh;            /* 40vh of scroll past the initial viewport is
+                              enough time for 12 chips to cascade in
+                              without leaving empty white after. */
   background:#fff;
   border-top:1px solid var(--line);
   border-bottom:1px solid var(--line);
@@ -2746,7 +2748,7 @@ h1.display em{
 .chip[data-tip]:hover::after,.chip[data-tip]:hover::before{opacity:1}
 
 @media(max-height:900px){
-  .chip-pin{height:200vh}
+  .chip-pin{height:130vh}
   .chip-cloud{height:clamp(360px,58vh,540px)}
   .chip.xxl{font-size:18px;padding:11px 26px}
   .chip.xl{font-size:17px;padding:10px 24px}
