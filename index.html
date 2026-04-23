@@ -1634,6 +1634,95 @@ h1.display em{
 /* Legacy .email-grid kept just in case an older section still uses it */
 .email-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:20px}
 
+/* ══════════════════ LOOP ENGINE — full automation story ══════════════════
+   A dedicated section that shows the whole pipeline before we dive into
+   any one step. Built on design-system-ui tokens. */
+.loop-engine{
+  list-style:none;padding:0;margin:0;
+  display:grid;grid-template-columns:repeat(5,1fr);gap:14px;
+  max-width:1180px;margin:0 auto;
+}
+.loop-stage{
+  position:relative;
+  padding:26px 22px 22px;
+  background:#fff;border:1px solid var(--line);border-radius:16px;
+  box-shadow:0 1px 2px rgba(14,13,12,.03);
+  display:flex;flex-direction:column;gap:10px;
+  transition:transform var(--motion-base),box-shadow var(--motion-base),border-color var(--motion-base);
+}
+.loop-stage:hover{
+  transform:translateY(-2px);
+  box-shadow:0 16px 40px -20px rgba(14,13,12,.18);
+  border-color:var(--line-2);
+}
+/* Connector chevron between stages — disappears on mobile */
+.loop-stage::after{
+  content:"";position:absolute;
+  top:48px;right:-9px;width:16px;height:16px;
+  background:#fff;border:1px solid var(--line);border-left:none;border-bottom:none;
+  transform:rotate(45deg);z-index:2;
+}
+.loop-stage:last-child::after{display:none}
+
+.loop-ic{
+  width:40px;height:40px;border-radius:12px;
+  display:grid;place-items:center;
+  background:var(--bg-subtle);border:1px solid var(--line);color:var(--muted);
+  margin-bottom:4px;
+}
+.loop-ic svg{width:18px;height:18px}
+.loop-ic--match{background:var(--orange-soft);border-color:rgba(255,91,31,.22);color:var(--orange-ink)}
+.loop-ic--write{background:var(--violet-soft);border-color:rgba(138,118,184,.28);color:var(--violet-ink)}
+.loop-ic--send {background:var(--blue-soft); border-color:rgba(56,102,166,.22); color:var(--blue-ink)}
+.loop-ic--track{background:var(--green-soft);border-color:rgba(26,124,75,.22); color:var(--green-ink)}
+.loop-ic--book {background:#fdf6e3;         border-color:rgba(184,134,43,.22); color:#b8862b}
+
+.loop-n{
+  font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.1em;
+  color:var(--muted-2);font-feature-settings:"tnum";
+}
+.loop-h{
+  font-family:var(--serif);font-weight:400;font-size:22px;line-height:1.2;letter-spacing:-.012em;
+  color:var(--ink);margin:0;
+}
+.loop-d{
+  font-size:13.5px;line-height:1.55;color:var(--muted);
+  margin:0;
+}
+.loop-d strong{color:var(--ink-2);font-weight:600}
+.loop-d em{font-style:italic;color:var(--orange-ink);font-weight:500}
+
+.loop-foot{
+  max-width:1180px;margin:34px auto 0;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  padding-top:22px;border-top:1px solid var(--line);
+}
+.loop-foot-meta{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--serif);font-style:italic;font-size:16px;color:var(--ink-2);
+  letter-spacing:-.005em;
+}
+.loop-foot-meta svg{color:var(--muted);flex-shrink:0}
+.loop-cta{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:10px 18px;border-radius:999px;
+  background:var(--ink);color:#fff;text-decoration:none;
+  font-size:13.5px;font-weight:500;
+  transition:background var(--motion-base);
+}
+.loop-cta:hover{background:var(--orange)}
+
+@media(max-width:1080px){
+  .loop-engine{grid-template-columns:repeat(3,1fr)}
+  .loop-stage::after{display:none}
+}
+@media(max-width:720px){
+  .loop-engine{grid-template-columns:1fr;gap:10px}
+  .loop-stage{padding:22px 20px 18px}
+  .loop-h{font-size:20px}
+  .loop-foot{flex-direction:column;align-items:flex-start;gap:14px}
+}
+
 /* ══════════════════ TRACK & OPTIMISE DEMO ══════════════════
    Built on top of the design-system-ui tokens (.kpi / .pill / .goal
    / .progress) so the mockup reads as a real screen from the app. */
@@ -3072,10 +3161,74 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   </div>
 </section>
 
+<!-- ═══════════════════ STAGE 1.5 — The full automation loop ═══════════════════ -->
+<section class="gradient-stage peach" id="loop">
+  <div class="stage-head">
+    <span class="eyebrow">The whole loop</span>
+    <h2>Outpulse is the pipeline, <em>not just the email</em>.</h2>
+    <p>Match the right people. Write to them as individuals. Send on the right day. Track what lands. Route replies to your inbox, book the meeting. One continuous loop &mdash; while you sleep.</p>
+  </div>
+
+  <div class="container">
+    <ol class="loop-engine">
+      <li class="loop-stage">
+        <span class="loop-ic loop-ic--match">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        </span>
+        <span class="loop-n">01</span>
+        <h3 class="loop-h">Match prospects</h3>
+        <p class="loop-d">AI maps your ICP to <strong>275M+ verified contacts</strong>, filtered by fresh intent &mdash; hiring, funding, new roles, tech stack.</p>
+      </li>
+      <li class="loop-stage">
+        <span class="loop-ic loop-ic--write">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        </span>
+        <span class="loop-n">02</span>
+        <h3 class="loop-h">Write each email</h3>
+        <p class="loop-d">Every message is one&#8209;of&#8209;one, drafted from <strong>their</strong> real data &mdash; role, company, funding, signals. <em>Zero templates.</em></p>
+      </li>
+      <li class="loop-stage">
+        <span class="loop-ic loop-ic--send">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        </span>
+        <span class="loop-n">03</span>
+        <h3 class="loop-h">Send on schedule</h3>
+        <p class="loop-d">Drips at the right time, paces to protect deliverability, auto&#8209;follows up until someone replies &mdash; <strong>even while you sleep</strong>.</p>
+      </li>
+      <li class="loop-stage">
+        <span class="loop-ic loop-ic--track">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></svg>
+        </span>
+        <span class="loop-n">04</span>
+        <h3 class="loop-h">Track &amp; optimise</h3>
+        <p class="loop-d">Opens, clicks, replies, bounces &mdash; all tracked in real time. Copy is <strong>auto&#8209;tuned</strong> based on what&rsquo;s working.</p>
+      </li>
+      <li class="loop-stage">
+        <span class="loop-ic loop-ic--book">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><path d="M3 10h18"/><polyline points="9 16 11 18 15 14"/></svg>
+        </span>
+        <span class="loop-n">05</span>
+        <h3 class="loop-h">Book the meeting</h3>
+        <p class="loop-d">Positive replies route to your inbox, the calendar handoff happens automatically, <strong>the meeting lands in your week</strong>.</p>
+      </li>
+    </ol>
+
+    <div class="loop-foot">
+      <span class="loop-foot-meta">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Set it once. It runs every day without you.
+      </span>
+      <a href="#email" class="loop-cta">See how it writes each email
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- ═══════════════════ STAGE 2 — Email mockup (unified peach gradient) ═══════════════════ -->
 <section class="gradient-stage peach" id="email">
   <div class="stage-head">
-    <span class="eyebrow">Engage</span>
+    <span class="eyebrow">Stage 02 &middot; Write</span>
     <h2>Every email is <em>unique</em>, not a template.</h2>
     <p>AI analyzes each prospect's role, company, and buying signals to write emails that feel completely hand-crafted.</p>
   </div>
