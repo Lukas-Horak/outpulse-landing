@@ -2834,11 +2834,9 @@ h1.display em{
 .cmp-split-head{
   text-align:center;
   max-width:920px;margin:0 auto 36px;
-  /* Lifts & dims subtly as rows take focus */
-  transform:translateY(calc(var(--cp) * -1.5vh));
-  opacity:calc(1 - var(--cp) * 0.35);
-  will-change:transform,opacity;
-  z-index:3;
+  /* No more scroll-driven dim/lift — the head is just a static
+     headline now that the sticky pin is gone. */
+  position:relative;z-index:3;
 }
 .cmp-split-head .eyebrow{
   font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
@@ -2853,6 +2851,10 @@ h1.display em{
   background:linear-gradient(95deg,#ff5b1f 0%,#ff7a3d 60%,#ffa06a 100%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
   position:relative;display:inline-block;
+  /* Italic + inline-block tends to hug the preceding word — guarantee
+     a visible gap on both sides so "costs $7,500" reads with air
+     between "costs" and the price. */
+  margin:0 .12em;
 }
 /* The struck-out $7,500 is muted grey to match the pricing board
    treatment below — not orange. A scroll-linked grey bar draws
@@ -2864,12 +2866,11 @@ h1.display em{
 }
 .cmp-split-head h2 em.cmp-strike::after{
   content:"";position:absolute;
-  left:-4%;right:-4%;top:56%;height:.1em;
+  left:-2%;right:-2%;top:56%;height:.1em;
   background:linear-gradient(90deg,#ff5b1f 0%,#ff7a3d 60%,#ffa06a 100%);
   border-radius:2px;
   transform-origin:left center;
-  transform:scaleX(clamp(0,calc((var(--cp) - 0.06) / 0.26),1));
-  will-change:transform;
+  transform:scaleX(1);
   box-shadow:0 1px 8px rgba(255,100,40,.3);
   pointer-events:none;
 }
@@ -2922,8 +2923,7 @@ h1.display em{
   background:linear-gradient(90deg,#ff5b1f 0%,#ff7a3d 55%,#ffa06a 100%);
   border-radius:3px;
   transform-origin:left center;
-  transform:scaleX(clamp(0,calc((var(--cp) - 0.06) / 0.26),1));
-  will-change:transform;
+  transform:scaleX(1);
   box-shadow:0 1px 8px rgba(255,100,40,.35);
   pointer-events:none;
 }
