@@ -759,27 +759,50 @@ img{max-width:100%;display:block}
 }
 .mk-cell-name{display:flex;align-items:center;gap:10px;min-width:0}
 .mk-cell-name .av{
-  width:30px;height:30px;border-radius:8px;flex-shrink:0;
-  background:#fff5ec;color:var(--orange);
+  width:32px;height:32px;border-radius:50%;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:600;
+  font-family:var(--serif);font-size:12.5px;font-weight:400;color:var(--ink);
+  letter-spacing:.01em;
+  background:linear-gradient(135deg,#e8dfd4,#d3c6b4);
 }
-.mk-cell-name strong{display:block;font-weight:600;color:var(--ink);font-size:13px;line-height:1.15}
+/* Deterministic palette rotation — every 5 rows cycles through the 5
+   tints, so each viewing of the list feels varied without being noisy.
+   Matches the colour families from prototype-preview.html. */
+.mk-cell-name .av{--av-a:#c9d9e8;--av-b:#a3bcd8;--av-c:#3866a6}
+.mk-db-rows .prow:nth-child(5n+1) .av{--av-a:#cee8d7;--av-b:#a3cbb3;--av-c:#1a7c4b;background:linear-gradient(135deg,var(--av-a),var(--av-b));color:var(--av-c)}
+.mk-db-rows .prow:nth-child(5n+2) .av{--av-a:#dfd3ea;--av-b:#bfa8d0;--av-c:#6a5594;background:linear-gradient(135deg,var(--av-a),var(--av-b));color:var(--av-c)}
+.mk-db-rows .prow:nth-child(5n+3) .av{--av-a:#f0e2bf;--av-b:#d9c180;--av-c:#b8862b;background:linear-gradient(135deg,var(--av-a),var(--av-b));color:var(--av-c)}
+.mk-db-rows .prow:nth-child(5n+4) .av{--av-a:#c9d9e8;--av-b:#a3bcd8;--av-c:#2d5488;background:linear-gradient(135deg,var(--av-a),var(--av-b));color:var(--av-c)}
+.mk-db-rows .prow:nth-child(5n+5) .av{--av-a:#e8dfd4;--av-b:#c9b8a3;--av-c:#514a40;background:linear-gradient(135deg,var(--av-a),var(--av-b));color:var(--av-c)}
+
+.mk-cell-name strong{display:block;font-weight:500;color:var(--ink);font-size:13px;line-height:1.15;letter-spacing:-.002em}
 .mk-cell-name em{display:block;font-style:normal;color:var(--muted);font-size:11.5px;line-height:1.25;margin-top:2px}
-.mk-email{color:var(--muted);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mk-email{
+  color:var(--muted);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;letter-spacing:-.01em;
+}
+
+/* Signal pill — colour-coded to the type of intent, restrained pastel
+   palette matching the prospects prototype. No neon orange default. */
 .mk-sig{
-  display:inline-flex;align-items:center;
-  padding:5px 11px;border-radius:999px;
-  background:#fbfaf7;
-  border:1px solid var(--line-2);
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 10px;border-radius:999px;
+  background:#fff;border:1px solid var(--line);
   color:var(--ink-2);
   font-size:11.5px;font-weight:500;
   justify-self:start;white-space:nowrap;
+  letter-spacing:-.005em;
 }
+.mk-sig::before{
+  content:"";width:5px;height:5px;border-radius:50%;
+  background:currentColor;opacity:.75;flex-shrink:0;
+}
+/* 'warm' = attention-worthy intent (hiring, funding, expansion,
+   launch). Green tint for positive signals. */
 .mk-sig.warm{
-  background:#fff5ec;
-  border-color:#ffd9b8;
-  color:#d04c14;
+  background:rgba(26,124,75,.08);
+  border-color:rgba(26,124,75,.2);
+  color:#1a7c4b;
 }
 
 .mk-f-field{position:relative;display:flex;flex-direction:column;gap:6px}
