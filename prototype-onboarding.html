@@ -112,11 +112,31 @@ body{
 
 /* ═════════════ INPUT (big, single) ═════════════ */
 .big-input-wrap{position:relative}
+.url-favicon{
+  position:absolute;left:18px;top:50%;transform:translateY(-50%);
+  width:26px;height:26px;border-radius:6px;
+  display:grid;place-items:center;
+  background:var(--bg-subtle);
+  color:var(--muted);
+  overflow:hidden;
+  transition:background .2s var(--ease),color .2s var(--ease),transform .25s var(--ease);
+  pointer-events:none;
+}
+.url-favicon svg{transition:opacity .2s var(--ease)}
+.url-favicon img{
+  width:20px;height:20px;object-fit:contain;display:block;
+  animation:faviconPop .35s var(--ease);
+}
+@keyframes faviconPop{
+  from{transform:scale(.4);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+.url-favicon.has-favicon{background:#fff;border:1px solid var(--line);color:transparent}
 .big-input{
   width:100%;
   font-family:var(--sans);font-size:18px;font-weight:500;
   color:var(--ink);
-  padding:20px 22px;
+  padding:20px 22px 20px 58px;
   border:1.5px solid var(--line-3);border-radius:14px;
   background:#fff;
   outline:none;
@@ -306,6 +326,59 @@ body{
 }
 .mbox-skip a{color:var(--ink-3);text-decoration:underline;text-underline-offset:3px}
 
+/* ═════════════ PLAN CARDS (step 4) ═════════════ */
+.plan-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+}
+.plan-card{
+  position:relative;text-align:left;
+  display:flex;flex-direction:column;gap:10px;
+  padding:20px 18px 18px;min-height:230px;
+  border:1.5px solid var(--line);border-radius:14px;
+  background:#fff;cursor:pointer;
+  font-family:var(--sans);
+  transition:border-color .15s var(--ease),background .15s var(--ease),transform .1s var(--ease),box-shadow .15s var(--ease);
+}
+.plan-card:hover{
+  border-color:var(--ink);
+  box-shadow:0 8px 30px -20px rgba(20,18,15,.25);
+}
+.plan-card:active{transform:translateY(1px)}
+.plan-card--popular{
+  border-color:var(--ink);background:var(--bg-panel);
+}
+.plan-badge{
+  position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+  padding:3px 10px;border-radius:999px;
+  background:var(--ink);color:#fff;
+  font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;
+}
+.plan-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.plan-name{font-size:13px;font-weight:600;color:var(--ink);text-transform:uppercase;letter-spacing:.04em}
+.plan-price{display:inline-flex;align-items:baseline;gap:2px}
+.plan-amount{font-family:var(--serif);font-size:26px;color:var(--ink);line-height:1}
+.plan-period{font-size:12px;color:var(--muted)}
+.plan-desc{font-size:12.5px;color:var(--muted);margin:0;line-height:1.45}
+.plan-feats{
+  list-style:none;padding:0;margin:6px 0 0;
+  display:flex;flex-direction:column;gap:5px;
+  font-size:12.5px;color:var(--ink-3);
+}
+.plan-feats li{
+  position:relative;padding-left:16px;line-height:1.45;
+}
+.plan-feats li::before{
+  content:"";position:absolute;left:0;top:7px;width:10px;height:2px;
+  background:var(--ink-3);border-radius:1px;opacity:.35;
+}
+.plan-trust{
+  display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;
+  margin-top:22px;font-size:12.5px;color:var(--muted);
+}
+.plan-trust-item{display:inline-flex;align-items:center;gap:5px}
+.plan-trust-item svg{color:var(--green)}
+.plan-trust-sep{color:var(--muted-2)}
+
 /* ═════════════ DONE (step 5) ═════════════ */
 .done-check{
   width:72px;height:72px;border-radius:50%;
@@ -362,6 +435,10 @@ body{
   .done-kpi-row{grid-template-columns:1fr;gap:8px}
   .done-kpi{padding:12px;display:flex;align-items:baseline;justify-content:space-between}
   .done-kpi-num{font-size:22px;margin:0}
+  .plan-grid{grid-template-columns:1fr;gap:10px}
+  .plan-card{min-height:auto;padding:18px}
+  .plan-trust{flex-direction:column;gap:6px}
+  .plan-trust-sep{display:none}
 }
 </style>
 </head>
@@ -397,6 +474,9 @@ body{
     <p class="step-sub">Paste the URL and we'll scan it — your pitch, your audience, your pricing. You won't retype any of it.</p>
 
     <div class="big-input-wrap">
+      <span class="url-favicon" id="urlFavicon" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a13.5 13.5 0 0 1 0 18"/><path d="M12 3a13.5 13.5 0 0 0 0 18"/></svg>
+      </span>
       <input
         id="urlInput"
         class="big-input"
@@ -505,58 +585,70 @@ body{
     </div>
   </section>
 
-  <!-- ─── STEP 4 · MAILBOX ─── -->
+  <!-- ─── STEP 4 · CHOOSE PLAN ─── -->
   <section class="step" data-step="4">
-    <div class="step-eyebrow">One last thing</div>
-    <h1>Connect your <em>mailbox.</em></h1>
-    <p class="step-sub">So we can send on your behalf, track opens, and route replies to your real inbox. Takes ten seconds.</p>
+    <div class="step-eyebrow">Almost there</div>
+    <h1>Pick a plan. <em>Try it free.</em></h1>
+    <p class="step-sub">Every plan starts with a 7-day free trial. Cancel anytime — no charge until the trial ends.</p>
 
-    <div class="mbox-grid">
-      <button class="mbox-btn" type="button" data-mailbox="google">
-        <span class="mbox-icon">
-          <svg width="20" height="20" viewBox="0 0 18 18">
-            <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615Z" fill="#4285F4"/>
-            <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18Z" fill="#34A853"/>
-            <path d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.997 8.997 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332Z" fill="#FBBC05"/>
-            <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58Z" fill="#EA4335"/>
-          </svg>
-        </span>
-        <span class="mbox-text">
-          <p class="mbox-name">Connect Gmail</p>
-          <p class="mbox-desc">Google Workspace & personal Gmail</p>
-        </span>
-        <svg class="mbox-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    <div class="plan-grid">
+      <button class="plan-card" type="button" data-plan="starter">
+        <div class="plan-head">
+          <span class="plan-name">Starter</span>
+          <span class="plan-price"><span class="plan-amount">$49</span><span class="plan-period">/mo</span></span>
+        </div>
+        <p class="plan-desc">For founders testing cold outreach</p>
+        <ul class="plan-feats">
+          <li>100 prospects / month</li>
+          <li>2 active campaigns</li>
+          <li>1 sending mailbox</li>
+        </ul>
       </button>
 
-      <button class="mbox-btn" type="button" disabled>
-        <span class="mbox-icon">
-          <svg width="20" height="20" viewBox="0 0 48 48">
-            <path fill="#0078D4" d="M24 4 8 9v30l16 5 16-5V9L24 4Z"/>
-            <path fill="#fff" d="M26 16h8v16h-8zM14 20h10v8H14z"/>
-          </svg>
-        </span>
-        <span class="mbox-text">
-          <p class="mbox-name">Connect Outlook</p>
-          <p class="mbox-desc">Microsoft 365 & Outlook.com</p>
-        </span>
-        <span class="mbox-soon">Soon</span>
+      <button class="plan-card plan-card--popular" type="button" data-plan="growth">
+        <span class="plan-badge">Most popular</span>
+        <div class="plan-head">
+          <span class="plan-name">Growth</span>
+          <span class="plan-price"><span class="plan-amount">$149</span><span class="plan-period">/mo</span></span>
+        </div>
+        <p class="plan-desc">For teams scaling outbound pipeline</p>
+        <ul class="plan-feats">
+          <li>500 prospects / month</li>
+          <li>Unlimited campaigns</li>
+          <li>3 sending mailboxes · AI copy optimization</li>
+        </ul>
       </button>
 
-      <button class="mbox-btn" type="button" disabled>
-        <span class="mbox-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6c6458" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
-        </span>
-        <span class="mbox-text">
-          <p class="mbox-name">Custom SMTP / IMAP</p>
-          <p class="mbox-desc">Any other email provider</p>
-        </span>
-        <span class="mbox-soon">Soon</span>
+      <button class="plan-card" type="button" data-plan="agency">
+        <div class="plan-head">
+          <span class="plan-name">Agency</span>
+          <span class="plan-price"><span class="plan-amount">$499</span><span class="plan-period">/mo</span></span>
+        </div>
+        <p class="plan-desc">For agencies managing multiple clients</p>
+        <ul class="plan-feats">
+          <li>2,500 prospects / month</li>
+          <li>10 sending mailboxes · A/B testing</li>
+          <li>Dedicated account manager</li>
+        </ul>
       </button>
     </div>
 
-    <p class="mbox-skip">
-      <a href="#" id="skipMailbox">Skip for now — I'll connect later</a>
-    </p>
+    <div class="plan-trust">
+      <span class="plan-trust-item">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        7-day free trial
+      </span>
+      <span class="plan-trust-sep">·</span>
+      <span class="plan-trust-item">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Cancel anytime
+      </span>
+      <span class="plan-trust-sep">·</span>
+      <span class="plan-trust-item">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Secure checkout via Stripe
+      </span>
+    </div>
 
     <div class="back-link">
       <button type="button" data-back="3">
@@ -572,11 +664,15 @@ body{
       <div class="done-check">
         <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1a7c4b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
-      <div class="step-eyebrow">You're in</div>
+      <div class="step-eyebrow">Trial started</div>
       <h1>Pulse is <em>warming up.</em></h1>
-      <p class="step-sub">We're indexing your audience and drafting your first sequence. You'll see your pipeline come alive in the next few minutes.</p>
+      <p class="step-sub">Your 7-day free trial has begun. We're indexing your audience and drafting your first sequence — you'll see your pipeline come alive in the next few minutes.</p>
 
       <div class="done-kpi-row">
+        <div class="done-kpi">
+          <div class="done-kpi-num">7</div>
+          <div class="done-kpi-lbl">Free trial days</div>
+        </div>
         <div class="done-kpi">
           <div class="done-kpi-num">~14.2k</div>
           <div class="done-kpi-lbl">Matching prospects</div>
@@ -584,10 +680,6 @@ body{
         <div class="done-kpi">
           <div class="done-kpi-num">3</div>
           <div class="done-kpi-lbl">Campaign drafts</div>
-        </div>
-        <div class="done-kpi">
-          <div class="done-kpi-num">40</div>
-          <div class="done-kpi-lbl">Free prospects</div>
         </div>
       </div>
 
@@ -606,6 +698,7 @@ body{
   const progressFill= document.getElementById('progressFill');
   const stepCount   = document.getElementById('stepCount');
   const urlInput    = document.getElementById('urlInput');
+  const urlFavicon  = document.getElementById('urlFavicon');
   const scanBtn     = document.getElementById('scanBtn');
   const scanning    = document.getElementById('scanning');
   const scanStatus  = document.getElementById('scanStatus');
@@ -613,7 +706,6 @@ body{
   const companyName = document.getElementById('companyName');
   const companyUrl  = document.getElementById('companyUrl');
   const companyAvatar = document.getElementById('companyAvatar');
-  const skipMailbox = document.getElementById('skipMailbox');
   const gotoDash    = document.getElementById('gotoDashboard');
 
   let currentStep = 1;
@@ -636,9 +728,53 @@ body{
     window.scrollTo({top:0,behavior:'smooth'});
   }
 
-  // Enable continue when URL has some text
+  // ─── Globe → live favicon preview as user types
+  const globeSvg = urlFavicon.innerHTML;
+  let faviconTimer = null;
+  let faviconReqId = 0;
+
+  function resetFavicon(){
+    urlFavicon.classList.remove('has-favicon');
+    urlFavicon.innerHTML = globeSvg;
+  }
+
+  function extractHost(raw){
+    // Accept 'acme.com', 'www.acme.com', 'https://acme.com/foo', etc.
+    const s = raw.trim().replace(/^https?:\/\//i, '').replace(/^www\./i,'').split(/[\/\?#]/)[0];
+    // Must look like a domain: has a dot, and TLD is ≥ 2 chars.
+    if(!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(s)) return null;
+    return s.toLowerCase();
+  }
+
+  function loadFaviconFor(host){
+    const reqId = ++faviconReqId;
+    const img = new Image();
+    img.decoding = 'async';
+    img.alt = '';
+    img.onload = ()=>{
+      if(reqId !== faviconReqId) return; // stale
+      urlFavicon.classList.add('has-favicon');
+      urlFavicon.innerHTML = '';
+      urlFavicon.appendChild(img);
+    };
+    img.onerror = ()=>{
+      if(reqId !== faviconReqId) return;
+      resetFavicon();
+    };
+    img.src = `https://www.google.com/s2/favicons?domain=${host}&sz=64`;
+  }
+
+  // Enable continue when URL has some text + live favicon preview
   urlInput.addEventListener('input', ()=>{
     scanBtn.disabled = urlInput.value.trim().length < 3;
+    clearTimeout(faviconTimer);
+    const host = extractHost(urlInput.value);
+    if(!host){
+      faviconReqId++;
+      resetFavicon();
+      return;
+    }
+    faviconTimer = setTimeout(()=>loadFaviconFor(host), 280);
   });
   urlInput.addEventListener('keydown', (e)=>{
     if(e.key === 'Enter' && !scanBtn.disabled){
@@ -689,16 +825,13 @@ body{
     btn.addEventListener('click', ()=>go(parseInt(btn.dataset.back,10)));
   });
 
-  // Mailbox buttons → done
-  document.querySelectorAll('.mbox-btn[data-mailbox]').forEach(btn=>{
+  // Plan buttons → done (simulates Stripe checkout completion)
+  document.querySelectorAll('.plan-card[data-plan]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
-      // Simulate OAuth confirmation → done
+      // In production: POST /api/stripe/checkout { plan } → redirect
+      // Prototype jumps straight to the trial-started state.
       go(5);
     });
-  });
-  skipMailbox.addEventListener('click', (e)=>{
-    e.preventDefault();
-    go(5);
   });
   gotoDash.addEventListener('click', ()=>{
     window.location.href = 'prototype-minimal.html';
