@@ -760,9 +760,7 @@ body{
 .pv-create-cta{
   margin-top:14px;
   border:1px dashed var(--line-3,#e2dfd8);border-radius:18px;
-  background:
-    radial-gradient(80% 120% at 50% 0%,rgba(255,91,31,.06),transparent 60%),
-    var(--bg-panel,#fbfaf7);
+  background:var(--bg-panel,#fbfaf7);
   padding:40px 32px;
 }
 .pv-create-cta-inner{max-width:520px;margin:0 auto;text-align:center}
@@ -774,7 +772,7 @@ body{
   font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.1;letter-spacing:-.015em;
   color:var(--ink,#14120f);margin:0 0 10px;
 }
-.pv-create-cta h3 em{font-style:italic;color:var(--orange,#ff5b1f)}
+.pv-create-cta h3 em{font-style:italic;color:var(--ink,#14120f)}
 .pv-create-cta p{
   font-size:14px;color:var(--muted,#6c6458);line-height:1.55;margin:0 0 22px;
   max-width:42ch;margin-left:auto;margin-right:auto;
@@ -995,6 +993,7 @@ body{
       <div class="m-head-text">
         <span class="m-greet">Your outreach</span>
         <h1>Campaigns</h1>
+        <p style="font-size:14.5px;color:var(--muted);margin:8px 0 0;max-width:60ch;line-height:1.5">Pulse drafted one for you based on Platform&rsquo;s site and buyer persona. Launch it to see live numbers, then spin up as many more as you need.</p>
       </div>
       <div class="m-actions">
         <button class="btn-ghost">
@@ -1011,77 +1010,11 @@ body{
       </div>
     </div>
 
-    <!-- ─── Summary KPIs — Active campaigns first (meta-level), then
-             volume, then outcomes split by funnel type ─── -->
-    <div class="csum">
-      <div class="csum-card orange">
-        <div class="csum-top"><span class="csum-dot"></span><span class="csum-lbl">Active campaigns</span></div>
-        <div class="csum-val">4<span style="font-size:.5em;color:var(--muted-2);margin-left:2px">/7</span></div>
-        <div class="csum-sub">5 services · 2 product · 2 drafts</div>
-      </div>
-      <div class="csum-card blue">
-        <div class="csum-top"><span class="csum-dot"></span><span class="csum-lbl">Sent this week</span></div>
-        <div class="csum-val">2,284</div>
-        <div class="csum-sub"><span class="arr">↑ 18%</span>vs last week</div>
-      </div>
-      <div class="csum-card green">
-        <div class="csum-top"><span class="csum-dot"></span><span class="csum-lbl">Meetings booked</span></div>
-        <div class="csum-val">75</div>
-        <div class="csum-sub"><span class="arr">↑ 14</span>this week · 10.7% reply</div>
-      </div>
-      <div class="csum-card violet">
-        <div class="csum-top"><span class="csum-dot"></span><span class="csum-lbl">Trials + conversions</span></div>
-        <div class="csum-val">42<span style="font-size:.5em;color:var(--muted-2);margin-left:3px">+7 paid</span></div>
-        <div class="csum-sub"><span class="arr">$12.8k</span>MRR attributed</div>
-      </div>
-    </div>
-
-    <!-- ─── AI insight banner ─── -->
-    <div class="ai-insight" role="note">
-      <span class="ai-insight-mark">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
-      </span>
-      <div class="ai-insight-body">
-        Your two funnels are both pulling weight — <b>Series B CTOs</b> booking <em>6 meetings this week</em> and <b>Outpulse self-serve</b> converting <em>$12.8k MRR</em>. Want to clone each winner onto a new audience?
-      </div>
-      <button class="ai-insight-action">
-        Clone winners
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </button>
-      <span class="ai-insight-dismiss" aria-label="Dismiss">×</span>
-    </div>
-
-    <!-- ─── Status tabs + toolbar ─── -->
-    <div class="cbar">
-      <div class="cbar-tabs">
-        <button class="cbar-tab on">All <span class="n">7</span></button>
-        <button class="cbar-tab">Running <span class="n">4</span></button>
-        <button class="cbar-tab">Paused <span class="n">1</span></button>
-        <button class="cbar-tab">Draft <span class="n">2</span></button>
-        <button class="cbar-tab">Services <span class="n">5</span></button>
-        <button class="cbar-tab">Product <span class="n">2</span></button>
-      </div>
-      <div class="cbar-sort">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg>
-        Sort: Most active
-      </div>
-      <div class="cbar-view">
-        <button class="on" title="Cards view">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="7" rx="2"/><rect x="3" y="14" width="18" height="7" rx="2"/></svg>
-          Cards
-        </button>
-        <button title="Table view">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
-          Table
-        </button>
-      </div>
-    </div>
-
     <!-- ─── CAMPAIGN CARDS (preview mode — first card is AI-drafted for Platform) ─── -->
     <div class="ccards">
 
       <!-- 0 · Preview: Platform AI-drafted first campaign -->
-      <div class="ccard draft" style="border:1px solid rgba(255,91,31,.22);box-shadow:0 16px 40px -24px rgba(255,91,31,.2);position:relative">
+      <div class="ccard draft">
         <div class="ccard-head">
           <span class="ccard-status"><span class="d"></span>Draft &middot; not launched</span>
           <div class="ccard-title-wrap">

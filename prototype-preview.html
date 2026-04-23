@@ -1177,7 +1177,7 @@ html[data-ws="book"]     [data-workspace="product"]{display:none}
   font-family:var(--serif);font-weight:400;font-size:clamp(32px,3.6vw,44px);
   line-height:1.06;letter-spacing:-.02em;color:var(--ink);margin:0 0 10px;
 }
-.pv-greeting h1 em{font-style:italic;color:var(--orange)}
+.pv-greeting h1 em{font-style:italic;color:var(--ink)}
 .pv-greeting-sub{font-size:15px;color:var(--muted);margin:0;max-width:56ch;line-height:1.55}
 
 .pv-checklist{
@@ -1318,12 +1318,73 @@ html[data-ws="book"]     [data-workspace="product"]{display:none}
 .pv-modal-cta:hover{transform:translateY(-1px);box-shadow:0 20px 44px -12px rgba(255,91,31,.65)}
 .pv-modal-foot{font-size:12px;color:var(--muted);text-align:center;margin:0}
 
-/* Hide the right panel on preview pages — collapse the grid column
-   rather than span .main across it (which would overlap the sidebar). */
-.pv-hide-right .app{grid-template-columns:240px 1fr !important}
-.pv-hide-right .right{display:none}
-.pv-hide-right .skeleton-page{grid-template-columns:240px 1fr !important}
-.pv-hide-right .skeleton-page .sk-right{display:none}
+/* ─── Right sidebar blocks (preview-mode content) ─── */
+.rp-upgrade{
+  position:relative;overflow:hidden;
+  padding:22px 20px 20px;
+  border:1px solid var(--line);border-radius:14px;
+  background:#0f0d0a;color:#fff;
+  margin-bottom:14px;
+}
+.rp-upgrade::before{
+  content:"";position:absolute;top:-40%;right:-30%;width:160%;height:200%;
+  background:radial-gradient(circle at center,rgba(255,91,31,.28),transparent 55%);
+  pointer-events:none;
+}
+.rp-upgrade > *{position:relative;z-index:1}
+.rp-upgrade-eyebrow{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono,ui-monospace,Menlo,monospace);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:#ff8a4c;margin-bottom:10px;
+}
+.rp-upgrade-title{
+  font-family:var(--serif);font-weight:400;font-size:22px;line-height:1.15;letter-spacing:-.01em;
+  color:#fff;margin:0 0 6px;
+}
+.rp-upgrade-title em{font-style:italic;color:#ff8a4c}
+.rp-upgrade-sub{
+  font-size:12.5px;line-height:1.5;color:rgba(255,255,255,.65);margin:0 0 14px;
+}
+.rp-upgrade-list{
+  list-style:none;padding:0;margin:0 0 16px;
+  display:flex;flex-direction:column;gap:6px;
+  font-size:12px;color:rgba(255,255,255,.82);
+}
+.rp-upgrade-list li{display:flex;align-items:center;gap:7px}
+.rp-upgrade-list svg{color:#6fbf8e;flex-shrink:0}
+.rp-upgrade-btn{
+  width:100%;display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:11px 14px;border-radius:999px;border:none;cursor:pointer;
+  background:linear-gradient(95deg,#ff5b1f,#ff8a4c);color:#fff;
+  font-family:var(--sans);font-size:13px;font-weight:500;
+  box-shadow:0 14px 28px -10px rgba(255,91,31,.55);
+  transition:transform .1s ease,box-shadow .2s ease;
+}
+.rp-upgrade-btn:hover{transform:translateY(-1px);box-shadow:0 18px 34px -10px rgba(255,91,31,.7)}
+.rp-upgrade-foot{
+  margin:10px 0 0;text-align:center;
+  font-size:10.5px;color:rgba(255,255,255,.45);
+}
+
+/* Testimonial in the right rail */
+.rp-quote{position:relative}
+.rp-quote-mark{position:absolute;top:14px;right:14px;color:var(--muted-2)}
+.rp-quote-text{
+  font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.35;
+  color:var(--ink-2);margin:0 0 14px;letter-spacing:-.005em;
+}
+.rp-quote-text em{font-style:italic;color:var(--orange)}
+.rp-quote-who{display:flex;align-items:center;gap:10px}
+.rp-quote-av{
+  width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(135deg,#c9d9e8,#a3bcd8);
+  display:grid;place-items:center;
+  font-family:var(--serif);font-size:13px;color:var(--blue-ink,#2d5488);
+  flex-shrink:0;
+}
+.rp-quote-who > div{display:flex;flex-direction:column;line-height:1.25}
+.rp-quote-name{font-size:12.5px;font-weight:500;color:var(--ink)}
+.rp-quote-role{font-size:11.5px;color:var(--muted)}
 
 /* Tighten main canvas padding on preview pages */
 .pv-mode .main{padding:0}
@@ -1350,8 +1411,8 @@ html[data-ws="book"]     [data-workspace="product"]{display:none}
   position:relative;overflow:hidden;
 }
 .pv-letter::before{
-  content:"";position:absolute;top:0;left:0;right:0;height:3px;
-  background:linear-gradient(90deg,var(--orange),var(--violet));opacity:.6;
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--line);
 }
 .pv-letter-meta{
   display:flex;flex-direction:column;gap:3px;
@@ -1411,7 +1472,7 @@ html[data-ws="book"]     [data-workspace="product"]{display:none}
 }
 </style>
 </head>
-<body class="pv-mode pv-hide-right">
+<body class="pv-mode">
 
 <!-- ══════════════════ SKELETON LOADER (shown on initial paint) ══════════════════ -->
 <div class="skeleton-page" aria-hidden="true">
@@ -1760,76 +1821,75 @@ html[data-ws="book"]     [data-workspace="product"]{display:none}
   <!-- ══════════════════ RIGHT PANEL ══════════════════ -->
   <aside class="right">
 
-    <!-- Setup checklist — orange-tinted because it's the nudge card. -->
+    <!-- ── Upgrade card (primary CTA in the rail) ── -->
+    <div class="rp-upgrade">
+      <div class="rp-upgrade-eyebrow">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+        Preview mode
+      </div>
+      <h3 class="rp-upgrade-title">Unlock the <em>real</em> thing.</h3>
+      <p class="rp-upgrade-sub">Send your drafted campaign, reach 14,205 more prospects, and see live reply tracking.</p>
+      <ul class="rp-upgrade-list">
+        <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>7-day free trial</li>
+        <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>No charge until day 8</li>
+        <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Cancel in one click</li>
+      </ul>
+      <button class="rp-upgrade-btn" data-open-trial>
+        Start 7-day free trial
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+      <p class="rp-upgrade-foot">Secure checkout via Stripe</p>
+    </div>
+
+    <!-- ── Setup guide — 4 steps matching the main-canvas checklist ── -->
     <div class="rp-block rp-setup">
       <div class="rp-h">
-        <span class="rp-h-title">Setup guide</span>
-        <span class="rp-h-chev">⌄</span>
+        <span class="rp-h-title">Your setup</span>
       </div>
-      <div class="rp-setup-bar"><span class="fill"></span></div>
-      <div class="rp-setup-count">3 of 5 complete</div>
+      <div class="rp-setup-bar"><span class="fill" style="width:50%"></span></div>
+      <div class="rp-setup-count">2 of 4 complete</div>
       <div class="rp-list">
         <div class="rp-step done">
           <span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
-          Connect your website
+          Define your buyer persona
         </div>
         <div class="rp-step done">
           <span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
-          Generate buyer persona
-        </div>
-        <div class="rp-step done">
-          <span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
-          Enrich your first 40 prospects
+          Match your first prospects
         </div>
         <div class="rp-step now">
           <span class="ck"></span>
-          Create your first campaign
+          Connect your mailbox
         </div>
         <div class="rp-step">
           <span class="ck"></span>
-          Connect your mailbox
+          Launch your first campaign
         </div>
       </div>
     </div>
 
-    <!-- Quota / account -->
+    <!-- ── What's in your preview ── -->
     <div class="rp-block">
       <div class="rp-h">
-        <span class="rp-h-title">This month</span>
-        <span class="rp-h-chev">⌄</span>
+        <span class="rp-h-title">In your preview</span>
       </div>
-      <div class="rp-kv"><span class="k">Prospects</span><span class="v">40 / 1,000</span></div>
-      <div class="rp-kv"><span class="k">Emails</span><span class="v">0 / 5,000</span></div>
-      <div class="rp-kv"><span class="k">Active campaigns</span><span class="v">2 / 10</span></div>
-      <div class="rp-kv"><span class="k">Plan</span><span class="v">Growth</span></div>
-      <div class="rp-kv"><span class="k">Renews</span><span class="v">14 May</span></div>
+      <div class="rp-kv"><span class="k">AI-drafted emails</span><span class="v">3 <span style="color:var(--muted-2)">/ ready</span></span></div>
+      <div class="rp-kv"><span class="k">Matched prospects</span><span class="v">5 <span style="color:var(--muted-2)">(demo)</span></span></div>
+      <div class="rp-kv"><span class="k">Prospects available</span><span class="v">14,210 <span style="color:var(--amber)">with trial</span></span></div>
+      <div class="rp-kv"><span class="k">Emails sent</span><span class="v">— <span style="color:var(--muted-2)">locked</span></span></div>
+      <div class="rp-kv"><span class="k">Replies</span><span class="v">— <span style="color:var(--muted-2)">locked</span></span></div>
     </div>
 
-    <!-- Connectors — real state: Gmail live, the rest coming soon -->
-    <div class="rp-block">
-      <div class="rp-h">
-        <span class="rp-h-title">Connectors</span>
-        <span class="rp-h-chev">⌄</span>
-      </div>
-      <div class="rp-connector">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 6 8 7 8-7"/></svg>
-        <span class="name">Gmail</span>
-        <span class="live"><span class="d"></span>Live</span>
-      </div>
-      <div class="rp-connector">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-        <span class="name">Google Calendar</span>
-        <span class="soon">Coming soon</span>
-      </div>
-      <div class="rp-connector">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <span class="name">Slack</span>
-        <span class="soon">Coming soon</span>
-      </div>
-      <div class="rp-connector">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.56c0-1.33 0-3.04-1.85-3.04s-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56z"/></svg>
-        <span class="name">LinkedIn</span>
-        <span class="soon">Coming soon</span>
+    <!-- ── Testimonial at the bottom — social proof without being loud ── -->
+    <div class="rp-block rp-quote">
+      <svg class="rp-quote-mark" width="22" height="18" viewBox="0 0 22 18" fill="none"><path d="M0 18V11.5C0 7 1 3.5 3 1L6.5 2.5C5.5 4.5 5 7 5 9.5H8V18H0ZM13 18V11.5C13 7 14 3.5 16 1L19.5 2.5C18.5 4.5 18 7 18 9.5H21V18H13Z" fill="currentColor" opacity=".3"/></svg>
+      <p class="rp-quote-text">Within three weeks we went from 5 meetings a month to <em>over 40</em>.</p>
+      <div class="rp-quote-who">
+        <span class="rp-quote-av">SC</span>
+        <div>
+          <span class="rp-quote-name">Sarah Chen</span>
+          <span class="rp-quote-role">Founder · Metric Labs</span>
+        </div>
       </div>
     </div>
 
