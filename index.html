@@ -1494,7 +1494,118 @@ h1.display em{
 .hero-mockup.dashboard-in .icp-h-r::before{background:#1a7c4b}
 .proscount .small{font-size:11.5px;color:var(--muted);font-weight:500}
 
-/* Email mockup — editorial letter style matching prototype-preview */
+/* ══════════════════ EMAIL DEMO — animated editorial letter ══════════════════
+   Replaces the old static .email-card layout. An email writes itself line
+   by line; AI callouts fan out on the right as each line is finished. */
+.em-demo{
+  display:grid;grid-template-columns:1.55fr 1fr;gap:24px;
+  padding:32px clamp(24px,3vw,44px);
+  background:#fff;
+  min-height:420px;
+}
+.em-letter{
+  position:relative;overflow:hidden;
+  border:1px solid var(--line);border-radius:18px;background:#fff;
+  padding:28px clamp(22px,3vw,36px) 22px;
+  box-shadow:0 20px 50px -30px rgba(20,18,15,.1);
+}
+.em-letter::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--line);
+}
+.em-letter-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-bottom:14px;
+}
+.em-letter-eyebrow{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--violet-ink,#6a5594);
+}
+.em-letter-eyebrow svg{color:var(--violet,#8a76b8)}
+.em-letter-progress{
+  font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  font-size:11px;color:var(--muted);
+}
+.em-letter-meta{
+  display:flex;flex-direction:column;gap:3px;
+  padding-bottom:14px;margin-bottom:14px;
+  border-bottom:1px solid var(--line-2);
+  font-size:13px;
+}
+.em-letter-row{display:flex;align-items:baseline;gap:12px}
+.em-letter-label{
+  flex-shrink:0;width:40px;
+  font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;
+}
+.em-letter-val{color:var(--ink-2);font-size:13px}
+.em-letter-val strong{color:var(--ink);font-weight:500}
+.em-letter-subject{
+  font-family:var(--serif);font-weight:400;font-size:22px;line-height:1.25;letter-spacing:-.012em;
+  color:var(--ink);margin:0 0 14px;min-height:1.4em;
+}
+.em-letter-body{
+  font-size:14.5px;line-height:1.7;color:var(--ink-2);
+  min-height:180px;
+}
+.em-letter-body p{margin:0 0 10px;min-height:1em}
+.em-letter-body p:last-child{margin-bottom:0}
+.em-letter-sig{color:var(--muted-2);font-size:13.5px}
+.em-letter-foot{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  margin-top:16px;padding-top:12px;border-top:1px dashed var(--line-3);
+  font-size:12px;color:var(--muted);
+}
+.em-letter-foot-meta{display:inline-flex;align-items:center;gap:6px}
+.em-letter-foot-meta svg{color:var(--violet,#8a76b8)}
+.em-letter-foot-dot{color:var(--muted-2)}
+.em-letter-foot strong{color:var(--ink);font-weight:500}
+
+/* Typewriter caret on the line currently being written */
+[data-em-line].typing::after{
+  content:"";display:inline-block;
+  width:2px;height:1em;background:var(--orange);margin-left:2px;
+  vertical-align:-.12em;
+  animation:emCaret .9s step-end infinite;
+}
+@keyframes emCaret{50%{opacity:0}}
+
+/* Callouts column — cards pop in one at a time, anchored to a specific line */
+.em-callouts{
+  display:flex;flex-direction:column;gap:10px;align-self:start;
+}
+.em-callout{
+  position:relative;
+  padding:14px 16px 14px 18px;
+  border:1px solid var(--line);border-radius:12px;background:#fff;
+  opacity:0;transform:translateX(12px);
+  transition:opacity .45s var(--ease,cubic-bezier(.4,0,.2,1)),transform .45s var(--ease,cubic-bezier(.4,0,.2,1));
+}
+.em-callout.in{opacity:1;transform:translateX(0)}
+.em-callout::before{
+  content:"";position:absolute;left:0;top:14px;bottom:14px;width:2px;
+  background:var(--ink);border-radius:2px;
+}
+.em-callout-tag{
+  display:inline-block;
+  font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:6px;
+}
+.em-callout-h{
+  font-size:13.5px;font-weight:500;color:var(--ink);
+  margin:0 0 3px;line-height:1.4;letter-spacing:-.004em;
+}
+.em-callout-p{font-size:12px;color:var(--muted);margin:0;line-height:1.45}
+
+@media(max-width:900px){
+  .em-demo{grid-template-columns:1fr;gap:16px;padding:24px 18px}
+  .em-letter{padding:22px 20px 18px}
+  .em-letter-subject{font-size:18px}
+}
+
+/* Legacy .email-grid kept just in case an older section still uses it */
 .email-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:20px}
 .email-card{
   border:1px solid var(--line);border-radius:16px;padding:28px 32px 24px;background:#fff;
@@ -2578,54 +2689,60 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
         <div style="width:60px"></div>
       </div>
 
-      <div class="app">
-        <aside class="app-side">
-          <div class="grp">
-            <div class="grp-h">Find clients</div>
-            <div class="item">Buyer personas</div>
-            <div class="item">Prospects</div>
+      <div class="em-demo" data-email-demo>
+        <!-- Left: the AI-written email as an editorial letter that types itself -->
+        <article class="em-letter">
+          <header class="em-letter-head">
+            <span class="em-letter-eyebrow">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+              Outpulse drafting &middot; live
+            </span>
+            <span class="em-letter-progress" data-em-progress>Step 1 of 3 &middot; 0% written</span>
+          </header>
+          <div class="em-letter-meta">
+            <span class="em-letter-row"><span class="em-letter-label">To</span><span class="em-letter-val"><strong>Sarah Chen</strong> &middot; CEO, Vercel &middot; just raised $150M &middot; hiring 12</span></span>
+            <span class="em-letter-row"><span class="em-letter-label">From</span><span class="em-letter-val">Lukas Horak &middot; lukas@plat4m.com</span></span>
           </div>
-          <div class="grp">
-            <div class="grp-h">Engage</div>
-            <div class="item active">Campaigns</div>
-            <div class="item">Messages</div>
+          <h3 class="em-letter-subject" data-em-line="0"></h3>
+          <div class="em-letter-body">
+            <p data-em-line="1"></p>
+            <p data-em-line="2"></p>
+            <p data-em-line="3"></p>
+            <p class="em-letter-sig" data-em-line="4"></p>
           </div>
-          <div class="grp">
-            <div class="grp-h">Insights</div>
-            <div class="item">Pulse</div>
-            <div class="item">Settings</div>
+          <footer class="em-letter-foot">
+            <span class="em-letter-foot-meta">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+              Personalised from Sarah&rsquo;s LinkedIn + Crunchbase
+            </span>
+            <span class="em-letter-foot-dot">&middot;</span>
+            <span>142 tokens &middot; est. reply <strong>14&ndash;18%</strong></span>
+          </footer>
+        </article>
+
+        <!-- Right: AI callouts popping in as each line is written -->
+        <aside class="em-callouts">
+          <div class="em-callout" data-em-callout="0">
+            <span class="em-callout-tag">Subject</span>
+            <p class="em-callout-h">Names a concrete outcome, not a product.</p>
+            <p class="em-callout-p">Passes inbox scan in 1.4 seconds.</p>
+          </div>
+          <div class="em-callout" data-em-callout="1">
+            <span class="em-callout-tag">Pattern interrupt</span>
+            <p class="em-callout-h">No &ldquo;Hi&rdquo;, leads with their funding.</p>
+            <p class="em-callout-p">Earns the read before asking anything.</p>
+          </div>
+          <div class="em-callout" data-em-callout="2">
+            <span class="em-callout-tag">Tension</span>
+            <p class="em-callout-h">A real pain point they already feel.</p>
+            <p class="em-callout-p">&ldquo;Team will double before pipeline catches up.&rdquo;</p>
+          </div>
+          <div class="em-callout" data-em-callout="3">
+            <span class="em-callout-tag">Outcome</span>
+            <p class="em-callout-h">Books calls while your team focuses on closing.</p>
+            <p class="em-callout-p">Specific, not feature soup.</p>
           </div>
         </aside>
-
-        <div class="app-main">
-          <div class="app-top">
-            <h3>To: sarah@vercel.com · Subject preview</h3>
-            <span class="app-pill" style="background:#fff5ec;color:var(--orange)"><span class="blink" style="background:var(--orange)"></span>AI personalized</span>
-          </div>
-
-          <div class="email-grid">
-            <div class="email-card">
-              <div class="email-from">
-                <div class="av" style="width:28px;height:28px;border-radius:8px;background:#fff5ec;color:var(--orange);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:11px">SC</div>
-                Sarah Chen · CEO at Vercel · 180 emp · Raised $150M · Hiring 12 roles
-              </div>
-              <div class="email-subject">Vercel's next 50 customers?</div>
-              <div class="email-body">
-                <p>Sarah, saw you just closed $150M. That's a big bet on growth.</p>
-                <p>With 12 roles open, your team's going to double before the pipeline catches up.</p>
-                <p>We built something that finds your exact ICP, writes emails using their real data (stack, funding, hiring), and books calls while your team focuses on closing.</p>
-                <p class="sig">— Lukas, Outpulse</p>
-              </div>
-            </div>
-
-            <div class="struct">
-              <div class="item"><strong>Pattern interrupt</strong>No "Hi", leads with their funding news, earns the read.</div>
-              <div class="item"><strong>Tension</strong>Team will double before pipeline catches up — a real pain point.</div>
-              <div class="item"><strong>Proof of relevance</strong>Mentions their stack, funding, hiring. Feels hand-written.</div>
-              <div class="item"><strong>Outcome, not feature</strong>"Books calls while your team focuses on closing."</div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -3603,6 +3720,92 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   window.addEventListener('scroll', onScroll, { passive:true });
   window.addEventListener('resize', onScroll, { passive:true });
   update();
+})();
+</script>
+
+<script>
+/* ═══════════════ Email demo sequencer ═══════════════
+   Types five lines (subject + 3 body paragraphs + signature) one after
+   another, popping callouts on the right as each line completes.
+   Fires once, when the demo scrolls into view. */
+(function(){
+  const demo = document.querySelector('[data-email-demo]');
+  if(!demo) return;
+  const lines = [
+    'Vercel\u2019s next 50 customers?',
+    'Sarah, saw you just closed $150M. That\u2019s a big bet on growth.',
+    'With 12 roles open, your team is going to double before the pipeline catches up.',
+    'Outpulse finds your exact ICP, writes each email from their real data (stack, funding, hiring), and books the call while your team focuses on closing.',
+    '\u2014 Lukas, Outpulse',
+  ];
+  const lineEls  = Array.from(demo.querySelectorAll('[data-em-line]'));
+  const callouts = Array.from(demo.querySelectorAll('[data-em-callout]'));
+  const progress = demo.querySelector('[data-em-progress]');
+  const reduce   = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let started = false;
+
+  function setFinal(){
+    lineEls.forEach((el, i) => { el.textContent = lines[i] || ''; });
+    callouts.forEach(c => c.classList.add('in'));
+    if(progress) progress.textContent = 'Step 1 of 3 \u00b7 ready to send';
+  }
+
+  function typewrite(el, text, perChar){
+    return new Promise(resolve => {
+      el.classList.add('typing');
+      el.textContent = '';
+      let i = 0;
+      (function step(){
+        el.textContent = text.slice(0, ++i);
+        if(i < text.length) setTimeout(step, perChar);
+        else { el.classList.remove('typing'); resolve(); }
+      })();
+    });
+  }
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+  async function run(){
+    if(started) return;
+    started = true;
+    if(reduce.matches){ setFinal(); return; }
+    const totalChars = lines.reduce((s,l) => s + l.length, 0);
+    let typedChars = 0;
+    function updateProgress(){
+      if(!progress) return;
+      const pct = Math.round((typedChars/totalChars)*100);
+      progress.textContent = pct >= 100 ? 'Step 1 of 3 \u00b7 ready to send' : `Step 1 of 3 \u00b7 ${pct}% written`;
+    }
+    for(let i = 0; i < lineEls.length; i++){
+      const text = lines[i] || '';
+      // Subject typed quickest, signature too, paragraphs slightly slower.
+      const perChar = (i === 0 || i === 4) ? 18 : 12;
+      // Live progress ticks as characters are typed
+      const el = lineEls[i];
+      el.classList.add('typing');
+      el.textContent = '';
+      for(let c = 0; c < text.length; c++){
+        el.textContent = text.slice(0, c+1);
+        typedChars += 1;
+        if(c % 3 === 0) updateProgress();
+        await sleep(perChar);
+      }
+      el.classList.remove('typing');
+      updateProgress();
+      // Pop the matching callout (subject=0, body paragraphs map to 1/2/3, sig has no callout).
+      const cb = callouts[i];
+      if(cb){
+        await sleep(240);
+        cb.classList.add('in');
+      }
+      await sleep(300);
+    }
+    updateProgress();
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) run(); });
+  }, { threshold:0.35 });
+  io.observe(demo);
 })();
 </script>
 
