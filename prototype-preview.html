@@ -1433,12 +1433,13 @@ html[data-ws="book"]     [data-workspace="product"]{display:none}
   display:flex;flex-direction:column;gap:8px;
   transition:background .2s var(--ease),border-color .2s var(--ease),transform .2s var(--ease);
 }
-/* Connecting arrow between stages */
+/* Connecting arrow between stages — dashed, same colour as the
+   locked card border, so the row reads as one continuous shape */
 .pv-pipe-stage::after{
   content:"";position:absolute;
   top:50%;right:-8px;width:14px;height:14px;
   background:var(--bg);transform:translateY(-50%) rotate(45deg);
-  border-top:1px solid var(--line);border-right:1px solid var(--line);
+  border-top:1px dashed var(--line-3);border-right:1px dashed var(--line-3);
   z-index:2;
 }
 .pv-pipe-stage:last-child::after{display:none}
