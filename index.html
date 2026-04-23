@@ -17,15 +17,40 @@
   --bg:#fafaf7;
   --ink:#0e0d0c;
   --ink-2:#3a342e;
+  --ink-3:#514a40;
   --muted:#7a7269;
   --muted-2:#9a9289;
   --line:rgba(14,13,12,0.08);
   --line-2:rgba(14,13,12,0.14);
+  --line-3:#e2dfd8;
 
+  /* Surface tokens — match design-system-ui */
+  --bg-panel:#fbfaf7;
+  --bg-subtle:#f6f4f0;
+  --bg-code:#f8f6f2;
+
+  /* Colour families — match design-system-ui exactly */
   --orange:#ff5b1f;
   --orange-2:#ff7a3d;
   --orange-3:#ffa06a;
+  --orange-soft:#fff4ec;
+  --orange-ink:#c24518;
   --peach:#ffd9b8;
+
+  --violet:#8a76b8;
+  --violet-soft:#f2edf8;
+  --violet-ink:#6a5594;
+
+  --blue:#3866a6;
+  --blue-soft:#eef3fa;
+  --blue-ink:#2d5488;
+
+  --green:#1a7c4b;
+  --green-soft:#eaf4ee;
+  --green-ink:#166440;
+
+  --red:#b53b1c;
+  --red-soft:#fdebe4;
 
   /* Gradient palettes */
   --grad-warm:linear-gradient(135deg,#ff5b1f 0%,#ff8649 35%,#ffba85 70%,#ffd9b8 100%);
@@ -34,6 +59,11 @@
 
   --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   --serif:'Instrument Serif','Times New Roman',Georgia,serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+
+  --motion-fast:.12s cubic-bezier(.4,0,.2,1);
+  --motion-base:.2s cubic-bezier(.4,0,.2,1);
+  --motion-slow:.35s cubic-bezier(.4,0,.2,1);
 }
 
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
@@ -3234,26 +3264,10 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
 
         <!-- Animated KPI strip — each number ticks up on viewport entry -->
         <div class="tr-kpis">
-          <div class="tr-kpi">
-            <span class="tr-kpi-lbl">Sequences sent</span>
-            <span class="tr-kpi-val" data-tr-count="3303">0</span>
-            <span class="tr-kpi-delta"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>+156 this week</span>
-          </div>
-          <div class="tr-kpi">
-            <span class="tr-kpi-lbl">Opens</span>
-            <span class="tr-kpi-val" data-tr-count="1027">0</span>
-            <span class="tr-kpi-delta"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>31% open rate</span>
-          </div>
-          <div class="tr-kpi">
-            <span class="tr-kpi-lbl">Replies</span>
-            <span class="tr-kpi-val" data-tr-count="178">0</span>
-            <span class="tr-kpi-delta"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>5.4% reply rate</span>
-          </div>
-          <div class="tr-kpi">
-            <span class="tr-kpi-lbl">Meetings booked</span>
-            <span class="tr-kpi-val" data-tr-count="62">0</span>
-            <span class="tr-kpi-delta"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>+5 this week</span>
-          </div>
+          <div class="tr-kpi"><div class="tr-kpi-top"><span class="tr-kpi-dot"></span><span class="tr-kpi-lbl">Sequences sent</span></div><span class="tr-kpi-val" data-tr-count="3303">0</span><span class="tr-kpi-delta"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>+156 this week</span></div>
+          <div class="tr-kpi"><div class="tr-kpi-top"><span class="tr-kpi-dot"></span><span class="tr-kpi-lbl">Opens</span></div><span class="tr-kpi-val" data-tr-count="1027">0</span><span class="tr-kpi-delta"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>31% open rate</span></div>
+          <div class="tr-kpi"><div class="tr-kpi-top"><span class="tr-kpi-dot"></span><span class="tr-kpi-lbl">Replies</span></div><span class="tr-kpi-val" data-tr-count="178">0</span><span class="tr-kpi-delta"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>5.4% reply rate</span></div>
+          <div class="tr-kpi"><div class="tr-kpi-top"><span class="tr-kpi-dot"></span><span class="tr-kpi-lbl">Meetings booked</span></div><span class="tr-kpi-val" data-tr-count="62">0</span><span class="tr-kpi-delta"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>+5 this week</span></div>
         </div>
 
         <!-- Campaign card — matches prototype-campaigns ccard style -->
@@ -3414,26 +3428,10 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
 
         <!-- KPI strip — 4 count-up numbers -->
         <div class="pl-kpis">
-          <div class="pl-kpi">
-            <span class="pl-kpi-lbl">Prospects in play</span>
-            <span class="pl-kpi-val" data-pl-count="860">0</span>
-            <span class="pl-kpi-delta"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>+720 enriched</span>
-          </div>
-          <div class="pl-kpi">
-            <span class="pl-kpi-lbl">Emails sent</span>
-            <span class="pl-kpi-val" data-pl-count="1548">0</span>
-            <span class="pl-kpi-delta"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>485 opened</span>
-          </div>
-          <div class="pl-kpi">
-            <span class="pl-kpi-lbl">Replies</span>
-            <span class="pl-kpi-val" data-pl-count="84">0</span>
-            <span class="pl-kpi-delta"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>5.4% reply rate</span>
-          </div>
-          <div class="pl-kpi">
-            <span class="pl-kpi-lbl">Meetings</span>
-            <span class="pl-kpi-val" data-pl-count="62">0</span>
-            <span class="pl-kpi-delta"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>+5 this week</span>
-          </div>
+          <div class="pl-kpi"><div class="pl-kpi-top"><span class="pl-kpi-dot"></span><span class="pl-kpi-lbl">Prospects in play</span></div><span class="pl-kpi-val" data-pl-count="860">0</span><span class="pl-kpi-delta"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>+720 enriched</span></div>
+          <div class="pl-kpi"><div class="pl-kpi-top"><span class="pl-kpi-dot"></span><span class="pl-kpi-lbl">Emails sent</span></div><span class="pl-kpi-val" data-pl-count="1548">0</span><span class="pl-kpi-delta"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>485 opened</span></div>
+          <div class="pl-kpi"><div class="pl-kpi-top"><span class="pl-kpi-dot"></span><span class="pl-kpi-lbl">Replies</span></div><span class="pl-kpi-val" data-pl-count="84">0</span><span class="pl-kpi-delta"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>5.4% reply rate</span></div>
+          <div class="pl-kpi"><div class="pl-kpi-top"><span class="pl-kpi-dot"></span><span class="pl-kpi-lbl">Meetings</span></div><span class="pl-kpi-val" data-pl-count="62">0</span><span class="pl-kpi-delta"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>+5 this week</span></div>
         </div>
 
         <!-- Activity feed — streams in -->
