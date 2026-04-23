@@ -1,0 +1,15 @@
+<svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Mask that carves a thin crescent gap out of the right disc
+         along the outer edge of the left ring. The black stroke inside
+         this mask defines where the right circle becomes transparent. -->
+    <mask id="outpulseGap" maskUnits="userSpaceOnUse">
+      <rect width="1000" height="1000" fill="white"/>
+      <circle cx="391" cy="500" r="248" fill="none" stroke="black" stroke-width="48"/>
+    </mask>
+  </defs>
+  <!-- Left: hollow ring -->
+  <circle cx="391" cy="500" r="200" fill="none" stroke="#111111" stroke-width="48"/>
+  <!-- Right: solid disc with the crescent gap cut out -->
+  <circle cx="601" cy="500" r="200" fill="#111111" mask="url(#outpulseGap)"/>
+</svg>

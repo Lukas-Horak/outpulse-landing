@@ -1,0 +1,1104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Outpulse — Set up in 2 minutes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* ═══════════════════════════════════════════════════════════════════════
+   Outpulse — Onboarding (simplified)
+   ----------------------------------------------------------------------
+   Four steps. Each step = ONE decision, nothing else on screen.
+   Copy is warm, calm, minimal. Progress bar whispers instead of shouts.
+   Flow: URL → confirm company → confirm persona → connect mailbox → done.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root{
+  --ink:#14120f;--ink-2:#3a342c;--ink-3:#514a40;
+  --muted:#6c6458;--muted-2:#a8a097;
+  --line:#ececea;--line-2:#f4f3f0;--line-3:#e2dfd8;
+  --bg:#ffffff;--bg-panel:#fbfaf7;--bg-subtle:#f6f4f0;
+  --orange:#ff5b1f;--orange-soft:#fff4ec;--orange-ink:#c24518;
+  --violet:#8a76b8;--violet-soft:#f2edf8;--violet-ink:#6a5594;
+  --green:#1a7c4b;--green-soft:#eaf4ee;--green-ink:#166440;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"Inter","Helvetica Neue",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;min-height:100vh}
+body{
+  font-family:var(--sans);font-size:15px;line-height:1.55;color:var(--ink-2);
+  background:
+    radial-gradient(70% 55% at 50% -10%,rgba(255,138,76,.045),transparent 60%),
+    var(--bg);
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+
+/* ═════════════ HEADER ═════════════ */
+.topbar{
+  position:sticky;top:0;z-index:20;
+  padding:20px clamp(24px,4vw,48px);
+  background:rgba(255,255,255,.88);
+  backdrop-filter:saturate(140%) blur(10px);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  border-bottom:1px solid var(--line-2);
+}
+.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.brand img{width:26px;height:26px;display:block}
+.brand-name{font-family:var(--serif);font-weight:500;font-size:20px;letter-spacing:-.015em;line-height:1}
+.brand-beta{
+  display:inline-flex;align-items:center;gap:5px;margin-left:4px;
+  padding:2.5px 8px;border-radius:999px;
+  font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--violet-ink);
+  background:var(--violet-soft);border:1px solid rgba(138,118,184,.28);
+}
+.top-right{display:flex;align-items:center;gap:18px}
+.step-count{
+  font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);
+}
+.exit{
+  font-size:13px;color:var(--muted);text-decoration:none;
+  display:inline-flex;align-items:center;gap:6px;
+  transition:color .12s var(--ease);
+}
+.exit:hover{color:var(--ink)}
+
+/* ═════════════ PROGRESS ═════════════ */
+.progress{
+  height:2px;background:var(--line-2);position:relative;
+}
+.progress-fill{
+  height:100%;background:var(--ink);
+  transition:width .5s var(--ease);
+  width:25%;
+}
+
+/* ═════════════ STAGE ═════════════ */
+.stage{
+  min-height:calc(100vh - 63px);
+  display:grid;place-items:center;
+  padding:40px 24px 80px;
+}
+.step{
+  width:100%;max-width:520px;
+  display:none;animation:fadeIn .5s var(--ease) both;
+}
+.step.active{display:block}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.step-eyebrow{
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--orange-ink);margin-bottom:14px;
+}
+.step h1{
+  font-family:var(--serif);font-weight:400;font-size:clamp(34px,5vw,44px);
+  line-height:1.1;letter-spacing:-.02em;color:var(--ink);
+  margin:0 0 10px;
+}
+.step h1 em{font-style:italic}
+.step-sub{
+  font-size:15.5px;color:var(--muted);line-height:1.5;
+  margin:0 0 32px;max-width:440px;
+}
+
+/* ═════════════ INPUT (big, single) ═════════════ */
+.big-input-wrap{position:relative}
+.url-favicon{
+  position:absolute;left:18px;top:50%;transform:translateY(-50%);
+  width:26px;height:26px;border-radius:6px;
+  display:grid;place-items:center;
+  background:var(--bg-subtle);
+  color:var(--muted);
+  overflow:hidden;
+  transition:background .2s var(--ease),color .2s var(--ease),transform .25s var(--ease);
+  pointer-events:none;
+}
+.url-favicon svg{transition:opacity .2s var(--ease)}
+.url-favicon img{
+  width:20px;height:20px;object-fit:contain;display:block;
+  animation:faviconPop .35s var(--ease);
+}
+@keyframes faviconPop{
+  from{transform:scale(.4);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+.url-favicon.has-favicon{background:#fff;border:1px solid var(--line);color:transparent}
+.big-input{
+  width:100%;
+  font-family:var(--sans);font-size:18px;font-weight:500;
+  color:var(--ink);
+  padding:20px 22px 20px 58px;
+  border:1.5px solid var(--line-3);border-radius:14px;
+  background:#fff;
+  outline:none;
+  transition:border-color .15s var(--ease),box-shadow .15s var(--ease);
+}
+.big-input::placeholder{color:var(--muted-2);font-weight:400}
+.big-input:focus{
+  border-color:var(--ink);
+  box-shadow:0 0 0 4px rgba(20,18,15,.05);
+}
+.input-hint{
+  margin-top:10px;font-size:13px;color:var(--muted);
+  display:flex;align-items:center;gap:8px;
+}
+.input-hint svg{color:var(--muted-2);flex-shrink:0}
+
+/* ═════════════ ACTION ROW ═════════════ */
+.action-row{
+  display:flex;align-items:center;gap:12px;margin-top:28px;
+}
+.btn-primary{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:15px 24px;min-height:52px;
+  background:var(--ink);color:#fff;
+  border:none;border-radius:12px;
+  font-family:var(--sans);font-size:15px;font-weight:500;
+  cursor:pointer;
+  transition:background .15s var(--ease),transform .1s var(--ease);
+}
+.btn-primary:hover:not(:disabled){background:#000}
+.btn-primary:active:not(:disabled){transform:translateY(1px)}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+.btn-primary.grow{width:100%}
+.btn-ghost{
+  background:none;border:none;padding:15px 16px;
+  font-family:var(--sans);font-size:14px;color:var(--muted);
+  cursor:pointer;
+  transition:color .12s var(--ease);
+}
+.btn-ghost:hover{color:var(--ink)}
+
+/* ═════════════ SCAN ANIMATION (between step 1 and 2) ═════════════ */
+.scanning{
+  display:none;flex-direction:column;align-items:center;gap:20px;
+  padding:40px 0;
+}
+.scanning.active{display:flex;animation:fadeIn .4s var(--ease)}
+.scan-dot{
+  width:10px;height:10px;border-radius:50%;background:var(--orange);
+  box-shadow:0 0 0 0 rgba(255,91,31,.5);
+  animation:pulse 1.2s infinite;
+}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(255,91,31,.4)}
+  100%{box-shadow:0 0 0 24px rgba(255,91,31,0)}
+}
+.scan-status{
+  font-family:var(--mono);font-size:12px;letter-spacing:.04em;
+  color:var(--muted);text-align:center;
+  min-height:18px;
+}
+
+/* ═════════════ COMPANY CARD (step 2) ═════════════ */
+.company-card{
+  border:1.5px solid var(--line);border-radius:14px;
+  padding:22px;background:#fff;
+  display:flex;align-items:center;gap:16px;
+  transition:border-color .15s var(--ease);
+}
+.company-card:hover{border-color:var(--line-3)}
+.company-avatar{
+  width:56px;height:56px;border-radius:12px;
+  background:var(--bg-subtle);
+  display:grid;place-items:center;
+  font-family:var(--serif);font-size:26px;color:var(--ink);
+  flex-shrink:0;
+  overflow:hidden;
+}
+.company-avatar img{width:100%;height:100%;object-fit:cover}
+.company-meta{flex:1;min-width:0}
+.company-name{font-size:17px;font-weight:600;color:var(--ink);margin:0 0 3px;letter-spacing:-.01em}
+.company-url{font-family:var(--mono);font-size:12px;color:var(--muted);margin:0}
+.company-edit{
+  background:none;border:none;padding:6px 8px;
+  font-size:13px;color:var(--muted);cursor:pointer;
+  border-radius:6px;
+  transition:background .12s var(--ease),color .12s var(--ease);
+}
+.company-edit:hover{background:var(--bg-subtle);color:var(--ink)}
+
+.pitch-field{
+  margin-top:16px;
+}
+.pitch-field label{
+  display:block;font-size:12px;font-weight:500;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;
+}
+.pitch-field textarea{
+  width:100%;min-height:90px;resize:vertical;
+  font-family:var(--sans);font-size:14.5px;line-height:1.55;color:var(--ink);
+  padding:14px 16px;
+  border:1.5px solid var(--line-3);border-radius:12px;
+  background:#fff;
+  outline:none;
+  transition:border-color .15s var(--ease);
+}
+.pitch-field textarea:focus{border-color:var(--ink)}
+.pitch-hint{
+  margin-top:8px;font-size:12.5px;color:var(--muted);
+  display:flex;align-items:center;gap:6px;
+}
+.pitch-hint .sparkle{color:var(--orange)}
+.pitch-field input.input-line{
+  width:100%;
+  font-family:var(--sans);font-size:15px;
+  padding:13px 15px;
+  border:1.5px solid var(--line-3);border-radius:12px;
+  background:#fff;color:var(--ink);outline:none;
+  transition:border-color .15s var(--ease);
+}
+.pitch-field input.input-line:focus{border-color:var(--ink)}
+.field-ai-hint{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:11px;font-weight:500;color:var(--violet-ink);
+  text-transform:none;letter-spacing:0;margin-left:6px;
+}
+.field-ai-hint svg{color:var(--violet)}
+
+/* ─── Detected tags (AI scan result) ─── */
+.detected-block{
+  margin-top:14px;padding:14px 16px;
+  border-radius:12px;
+  background:linear-gradient(135deg,rgba(138,118,184,.06),rgba(255,91,31,.035));
+  border:1px solid rgba(138,118,184,.18);
+}
+.detected-label{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--violet-ink);margin-bottom:10px;
+}
+.detected-label svg{color:var(--violet)}
+.detected-chips{display:flex;flex-wrap:wrap;gap:6px}
+.detected-chip{
+  padding:5px 10px;border-radius:999px;
+  background:#fff;border:1px solid rgba(138,118,184,.22);
+  font-size:12px;color:var(--ink-3);
+  animation:chipIn .35s var(--ease) both;
+}
+.detected-chip:nth-child(1){animation-delay:.05s}
+.detected-chip:nth-child(2){animation-delay:.1s}
+.detected-chip:nth-child(3){animation-delay:.15s}
+.detected-chip:nth-child(4){animation-delay:.2s}
+.detected-chip:nth-child(5){animation-delay:.25s}
+.detected-chip:nth-child(6){animation-delay:.3s}
+@keyframes chipIn{
+  from{opacity:0;transform:translateY(4px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ─── Tone chips ─── */
+.tone-chips{display:flex;flex-wrap:wrap;gap:6px}
+.tone-chip{
+  padding:7px 13px;border-radius:999px;
+  background:#fff;border:1.5px solid var(--line-3);
+  font-family:var(--sans);font-size:13px;color:var(--ink-3);
+  cursor:pointer;
+  transition:all .15s var(--ease);
+  display:inline-flex;align-items:center;gap:5px;
+}
+.tone-chip:hover{border-color:var(--ink-3);color:var(--ink)}
+.tone-chip.active{
+  background:var(--ink);border-color:var(--ink);color:#fff;
+}
+.tone-chip.ai-picked{
+  background:var(--violet-soft);border-color:rgba(138,118,184,.35);color:var(--violet-ink);
+}
+.tone-chip.ai-picked::before{
+  content:"";width:6px;height:6px;border-radius:50%;background:var(--violet);
+  display:inline-block;
+}
+.tone-chip.active.ai-picked{
+  background:var(--ink);border-color:var(--ink);color:#fff;
+}
+.tone-chip.active.ai-picked::before{background:#fff}
+
+/* ─── "No website" link on step 1 ─── */
+.no-website-link{
+  margin-top:18px;text-align:center;
+  font-size:13px;color:var(--muted);
+}
+.no-website-link a{
+  color:var(--ink-3);text-decoration:underline;text-underline-offset:3px;
+  transition:color .12s var(--ease);
+}
+.no-website-link a:hover{color:var(--ink)}
+
+/* ─── Manual company card (no-website path) ─── */
+.manual-head{
+  display:flex;align-items:center;gap:14px;
+  padding:16px 18px;border:1.5px dashed var(--line-3);border-radius:14px;
+  background:var(--bg-panel);margin-bottom:18px;
+}
+.manual-head-icon{
+  width:40px;height:40px;border-radius:10px;
+  background:#fff;border:1px solid var(--line);
+  display:grid;place-items:center;color:var(--muted);flex-shrink:0;
+}
+.manual-head-text{flex:1;min-width:0}
+.manual-head-title{font-size:14px;font-weight:500;color:var(--ink);margin:0 0 2px}
+.manual-head-desc{font-size:12.5px;color:var(--muted);margin:0}
+
+/* ═════════════ PERSONA CARD (step 3) ═════════════ */
+.persona-card{
+  border:1.5px solid var(--line);border-radius:14px;
+  padding:24px;background:#fff;
+  position:relative;
+}
+.persona-card::before{
+  content:"";position:absolute;inset:0;border-radius:14px;
+  background:linear-gradient(135deg,rgba(138,118,184,.04),transparent 60%);
+  pointer-events:none;
+}
+.persona-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 9px;border-radius:999px;
+  font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--violet-ink);
+  background:var(--violet-soft);border:1px solid rgba(138,118,184,.25);
+  margin-bottom:14px;
+}
+.persona-title{
+  font-family:var(--serif);font-weight:400;font-size:24px;
+  line-height:1.2;color:var(--ink);margin:0 0 14px;letter-spacing:-.01em;
+}
+.persona-tags{
+  display:flex;flex-wrap:wrap;gap:6px;margin:0 0 18px;
+}
+.persona-tag{
+  padding:4px 10px;border-radius:999px;
+  background:var(--bg-subtle);border:1px solid var(--line);
+  font-size:12px;color:var(--ink-3);
+}
+.persona-stat{
+  padding:14px 16px;border-radius:10px;
+  background:var(--orange-soft);
+  display:flex;align-items:baseline;gap:10px;
+}
+.persona-stat-num{
+  font-family:var(--serif);font-size:28px;line-height:1;color:var(--orange-ink);
+  font-weight:400;
+}
+.persona-stat-label{font-size:13px;color:var(--ink-3)}
+
+/* ═════════════ MAILBOX OPTIONS (step 4) ═════════════ */
+.mbox-grid{display:grid;gap:10px}
+.mbox-btn{
+  display:flex;align-items:center;gap:14px;
+  width:100%;padding:18px 20px;
+  border:1.5px solid var(--line-3);border-radius:12px;
+  background:#fff;cursor:pointer;text-align:left;
+  font-family:var(--sans);
+  transition:border-color .15s var(--ease),background .15s var(--ease),transform .1s var(--ease);
+}
+.mbox-btn:hover:not(:disabled){border-color:var(--ink);background:var(--bg-panel)}
+.mbox-btn:active:not(:disabled){transform:translateY(1px)}
+.mbox-btn:disabled{opacity:.5;cursor:not-allowed}
+.mbox-icon{
+  width:40px;height:40px;border-radius:10px;
+  display:grid;place-items:center;
+  background:#fff;border:1px solid var(--line);
+  flex-shrink:0;
+}
+.mbox-icon svg{display:block}
+.mbox-text{flex:1;min-width:0}
+.mbox-name{font-size:15px;font-weight:500;color:var(--ink);margin:0 0 2px}
+.mbox-desc{font-size:12.5px;color:var(--muted);margin:0}
+.mbox-soon{
+  font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted-2);padding:3px 7px;border-radius:6px;background:var(--bg-subtle);
+}
+.mbox-chev{color:var(--muted-2);flex-shrink:0}
+.mbox-skip{
+  text-align:center;margin-top:18px;
+  font-size:13px;color:var(--muted);
+}
+.mbox-skip a{color:var(--ink-3);text-decoration:underline;text-underline-offset:3px}
+
+/* ═════════════ PLAN CARDS (step 4) — landing-page style ═════════════ */
+.step--wide{max-width:900px !important}
+.plan-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+  align-items:stretch;
+}
+.plan-card{
+  position:relative;overflow:hidden;text-align:left;
+  display:flex;flex-direction:column;gap:0;
+  padding:24px 22px 20px;
+  border:1px solid var(--line);border-radius:18px;
+  background:#fff;cursor:pointer;
+  font-family:var(--sans);
+  transition:border-color .25s var(--ease),transform .25s var(--ease);
+}
+.plan-card::before{
+  content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(135deg,
+    rgba(255,91,31,.08) 0%,
+    rgba(255,91,31,.03) 28%,
+    rgba(255,91,31,0) 55%);
+  opacity:0;transition:opacity .35s var(--ease);
+}
+.plan-card > *{position:relative;z-index:1}
+.plan-card:hover{border-color:rgba(14,13,12,.18)}
+.plan-card:hover::before{opacity:1}
+.plan-grid:hover .plan-card:not(:hover){opacity:.5;transform:scale(.985)}
+
+/* Peach pill tag (in-flow, not absolute — no overlap with price) */
+.plan-tag{
+  align-self:flex-start;
+  font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  background:var(--orange-soft);color:var(--orange-ink);
+  padding:4px 10px;border-radius:999px;margin-bottom:16px;
+}
+.plan-card--popular .plan-tag{background:var(--orange);color:#fff}
+
+.plan-name{
+  font-family:var(--serif);font-size:26px;font-weight:400;line-height:1;
+  color:var(--ink);margin:0 0 5px;letter-spacing:-.01em;
+}
+.plan-desc{font-size:12.5px;color:var(--muted);margin:0 0 18px;line-height:1.4}
+.plan-price{display:flex;align-items:baseline;gap:5px;margin-bottom:18px}
+.plan-amount{
+  font-family:var(--serif);font-size:44px;font-weight:400;line-height:1;color:var(--ink);
+}
+.plan-card--popular .plan-amount{
+  background:linear-gradient(95deg,#ff5b1f,#ff8a4c);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.plan-period{font-size:12px;color:var(--muted)}
+.plan-feats{
+  list-style:none;padding:0;margin:0 0 20px;
+  display:flex;flex-direction:column;gap:9px;flex:1;
+  font-size:13px;line-height:1.4;color:var(--ink-2);
+}
+.plan-feat{display:flex;align-items:flex-start;gap:9px}
+.plan-feat::before{
+  content:"";width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:3px;
+  background:radial-gradient(circle,#fff 0 28%,transparent 28%),var(--orange);
+}
+.plan-cta{
+  width:100%;padding:13px 14px;border-radius:999px;
+  background:var(--ink);color:#fff;border:none;
+  font-family:var(--sans);font-size:13.5px;font-weight:500;
+  cursor:pointer;
+  transition:background .2s var(--ease),box-shadow .2s var(--ease);
+}
+.plan-cta:hover{background:#000}
+.plan-card--popular .plan-cta{
+  background:var(--orange);
+  box-shadow:0 10px 24px -10px rgba(255,91,31,.45);
+}
+.plan-card--popular .plan-cta:hover{background:var(--orange-ink);box-shadow:0 14px 30px -10px rgba(255,91,31,.55)}
+.plan-foot{font-size:11.5px;color:var(--muted);text-align:center;margin-top:8px}
+
+.plan-trust{
+  display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;
+  margin-top:26px;font-size:12.5px;color:var(--muted);
+}
+.plan-trust-item{display:inline-flex;align-items:center;gap:5px}
+.plan-trust-item svg{color:var(--green)}
+.plan-trust-sep{color:var(--muted-2)}
+
+/* ═════════════ DONE (step 5) ═════════════ */
+.done-check{
+  width:72px;height:72px;border-radius:50%;
+  background:var(--green-soft);
+  display:grid;place-items:center;
+  margin:0 auto 22px;
+  animation:popIn .5s var(--ease);
+}
+@keyframes popIn{
+  from{transform:scale(.4);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+.done-center{text-align:center}
+.done-center h1{margin-bottom:14px}
+.done-center .step-sub{margin-left:auto;margin-right:auto}
+.done-kpi-row{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+  margin:24px 0 28px;
+}
+.done-kpi{
+  padding:16px 12px;border:1.5px solid var(--line);border-radius:12px;
+  text-align:center;background:#fff;
+}
+.done-kpi-num{
+  font-family:var(--serif);font-size:26px;color:var(--ink);line-height:1;margin-bottom:4px;
+}
+.done-kpi-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+
+/* ═════════════ BACK LINK ═════════════ */
+.back-link{
+  margin-top:22px;text-align:center;
+  font-size:13px;color:var(--muted);
+}
+.back-link button{
+  background:none;border:none;padding:0;cursor:pointer;
+  font:inherit;color:inherit;
+  display:inline-flex;align-items:center;gap:6px;
+  transition:color .12s var(--ease);
+}
+.back-link button:hover{color:var(--ink)}
+
+/* ═════════════ MOBILE ═════════════ */
+@media (max-width:640px){
+  .topbar{padding:14px 18px}
+  .brand-name{font-size:18px}
+  .top-right{gap:12px}
+  .step-count{font-size:10px}
+  .stage{padding:28px 18px 60px;min-height:calc(100vh - 53px)}
+  .step-sub{font-size:14.5px;margin-bottom:24px}
+  .big-input{font-size:16px;padding:17px 18px}
+  .btn-primary{width:100%;padding:14px 20px}
+  .action-row{flex-direction:column-reverse;gap:4px}
+  .action-row .btn-ghost{width:100%}
+  .done-kpi-row{grid-template-columns:1fr;gap:8px}
+  .done-kpi{padding:12px;display:flex;align-items:baseline;justify-content:space-between}
+  .done-kpi-num{font-size:22px;margin:0}
+  .plan-grid{grid-template-columns:1fr;gap:10px}
+  .plan-card{min-height:auto;padding:18px}
+  .plan-trust{flex-direction:column;gap:6px}
+  .plan-trust-sep{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ═════════════ TOP BAR ═════════════ -->
+<header class="topbar">
+  <a href="#" class="brand" aria-label="Outpulse home">
+    <img src="outpulse-logo-dusk.svg" alt="" />
+    <span class="brand-name">Outpulse</span>
+    <span class="brand-beta">
+      <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="3" fill="currentColor"/></svg>
+      Beta
+    </span>
+  </a>
+  <div class="top-right">
+    <span class="step-count" id="stepCount">Step 1 of 4</span>
+    <a href="#" class="exit" aria-label="Save and exit">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Save & exit
+    </a>
+  </div>
+</header>
+<div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+
+<!-- ═════════════ STAGE ═════════════ -->
+<main class="stage">
+
+  <!-- ─── STEP 1 · WEBSITE ─── -->
+  <section class="step active" data-step="1">
+    <div class="step-eyebrow">Let's start simple</div>
+    <h1>What's your <em>website?</em></h1>
+    <p class="step-sub">Paste the URL and we'll scan it — your pitch, your audience, your pricing. You won't retype any of it.</p>
+
+    <div class="big-input-wrap">
+      <span class="url-favicon" id="urlFavicon" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a13.5 13.5 0 0 1 0 18"/><path d="M12 3a13.5 13.5 0 0 0 0 18"/></svg>
+      </span>
+      <input
+        id="urlInput"
+        class="big-input"
+        type="url"
+        placeholder="yourcompany.com"
+        autocomplete="url"
+        autofocus
+      />
+    </div>
+    <p class="input-hint">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      We don't store anything until you finish setup.
+    </p>
+
+    <div class="scanning" id="scanning">
+      <div class="scan-dot"></div>
+      <div class="scan-status" id="scanStatus">Fetching homepage…</div>
+    </div>
+
+    <div class="action-row" id="step1Actions">
+      <button class="btn-primary grow" id="scanBtn" disabled>
+        Continue
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+
+    <p class="no-website-link">
+      <a href="#" id="noWebsiteLink">No website yet? Tell us about your company manually</a>
+    </p>
+  </section>
+
+  <!-- ─── STEP 2 · COMPANY ─── -->
+  <section class="step" data-step="2">
+    <div class="step-eyebrow" id="step2Eyebrow">Here's what we found</div>
+    <h1 id="step2Title">Is this <em>you?</em></h1>
+    <p class="step-sub" id="step2Sub">We've pre-filled everything from your site. Tweak anything that's off — or keep going.</p>
+
+    <!-- Scanned variant: head = company card + detected chips -->
+    <div data-variant="scanned">
+      <div class="company-card">
+        <div class="company-avatar" id="companyAvatar">A</div>
+        <div class="company-meta">
+          <h3 class="company-name" id="companyName">Your company</h3>
+          <p class="company-url" id="companyUrl">yourcompany.com</p>
+        </div>
+        <button class="company-edit" type="button">Edit</button>
+      </div>
+
+      <div class="detected-block">
+        <div class="detected-label">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+          Detected on your site
+        </div>
+        <div class="detected-chips" id="detectedChips">
+          <span class="detected-chip">Digital Transformation</span>
+          <span class="detected-chip">UX/UI Design</span>
+          <span class="detected-chip">Mobile Development</span>
+          <span class="detected-chip">Web Development</span>
+          <span class="detected-chip">Business Automation</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Manual variant: head = friendly blank state + company name input -->
+    <div data-variant="manual" hidden>
+      <div class="manual-head">
+        <div class="manual-head-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7h-4v7H5a2 2 0 0 1-2-2z"/></svg>
+        </div>
+        <div class="manual-head-text">
+          <p class="manual-head-title">No website yet</p>
+          <p class="manual-head-desc">That's fine — just tell us the basics and we'll take it from there.</p>
+        </div>
+      </div>
+
+      <div class="pitch-field">
+        <label for="manualCompanyName">Company name</label>
+        <input type="text" class="input-line" id="manualCompanyName" placeholder="Acme Inc" />
+      </div>
+    </div>
+
+    <!-- One-liner (shared) -->
+    <div class="pitch-field">
+      <label for="pitch">
+        What do you sell / offer?
+        <span class="field-ai-hint" data-variant-hint="scanned">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+          Auto-filled from your site
+        </span>
+      </label>
+      <textarea id="pitch" placeholder="What you do in one sentence…">We help B2B sales teams book more qualified meetings with AI-written outreach that actually sounds human.</textarea>
+    </div>
+
+    <!-- Tone of voice (shared, AI pre-picked in scanned mode) -->
+    <div class="pitch-field">
+      <label>
+        Tone of voice
+        <span class="field-ai-hint" data-variant-hint="scanned">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+          AI picked from your writing
+        </span>
+      </label>
+      <div class="tone-chips" id="toneChips">
+        <button type="button" class="tone-chip" data-tone="Professional">Professional</button>
+        <button type="button" class="tone-chip" data-tone="Warm">Warm</button>
+        <button type="button" class="tone-chip" data-tone="Friendly">Friendly</button>
+        <button type="button" class="tone-chip" data-tone="Direct">Direct</button>
+        <button type="button" class="tone-chip" data-tone="Witty">Witty</button>
+        <button type="button" class="tone-chip" data-tone="Visionary">Visionary</button>
+        <button type="button" class="tone-chip" data-tone="Provocative">Provocative</button>
+        <button type="button" class="tone-chip" data-tone="Playful">Playful</button>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-primary grow" data-next="3">
+        Looks right
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+
+    <div class="back-link">
+      <button type="button" data-back="1">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+    </div>
+  </section>
+
+  <!-- ─── STEP 3 · PERSONA ─── -->
+  <section class="step" data-step="3">
+    <div class="step-eyebrow">Your ideal buyer</div>
+    <h1>Who should we <em>reach out to?</em></h1>
+    <p class="step-sub">Based on your site, this is who we think would buy. You can add more personas later.</p>
+
+    <div class="persona-card">
+      <div class="persona-badge">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+        AI-drafted
+      </div>
+      <h3 class="persona-title">Head of Sales at B2B SaaS, 20–200 employees</h3>
+      <div class="persona-tags">
+        <span class="persona-tag">VP / Head of Sales</span>
+        <span class="persona-tag">SaaS</span>
+        <span class="persona-tag">20–200 employees</span>
+        <span class="persona-tag">Series A–B</span>
+        <span class="persona-tag">North America + EU</span>
+      </div>
+      <div class="persona-stat">
+        <span class="persona-stat-num">~14,200</span>
+        <span class="persona-stat-label">matching prospects in our network</span>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-primary grow" data-next="4">
+        Looks good
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+
+    <div class="back-link">
+      <button type="button" data-back="2">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+    </div>
+  </section>
+
+  <!-- ─── STEP 4 · CHOOSE PLAN ─── -->
+  <section class="step step--wide" data-step="4">
+    <div class="step-eyebrow">Almost there</div>
+    <h1>Pick a plan. <em>Try it free.</em></h1>
+    <p class="step-sub">Every plan starts with a 7-day free trial. Cancel anytime — no charge until the trial ends.</p>
+
+    <div class="plan-grid">
+      <div class="plan-card">
+        <span class="plan-tag">Starter</span>
+        <h3 class="plan-name">Starter</h3>
+        <p class="plan-desc">For founders testing cold outreach</p>
+        <div class="plan-price"><span class="plan-amount">$49</span><span class="plan-period">/mo</span></div>
+        <ul class="plan-feats">
+          <li class="plan-feat">100 prospects per month</li>
+          <li class="plan-feat">2 active campaigns</li>
+          <li class="plan-feat">AI-personalized emails</li>
+          <li class="plan-feat">1 sending mailbox</li>
+          <li class="plan-feat">Email warm-up included</li>
+        </ul>
+        <button class="plan-cta" type="button" data-plan="starter">Start free trial</button>
+        <p class="plan-foot">No charge for 7 days</p>
+      </div>
+
+      <div class="plan-card plan-card--popular">
+        <span class="plan-tag">Most popular</span>
+        <h3 class="plan-name">Growth</h3>
+        <p class="plan-desc">For teams scaling outbound pipeline</p>
+        <div class="plan-price"><span class="plan-amount">$149</span><span class="plan-period">/mo</span></div>
+        <ul class="plan-feats">
+          <li class="plan-feat">500 prospects per month</li>
+          <li class="plan-feat">Unlimited campaigns</li>
+          <li class="plan-feat">Open, click &amp; reply tracking</li>
+          <li class="plan-feat">3 sending mailboxes</li>
+          <li class="plan-feat">AI copy optimization</li>
+        </ul>
+        <button class="plan-cta" type="button" data-plan="growth">Start free trial</button>
+        <p class="plan-foot">No charge for 7 days</p>
+      </div>
+
+      <div class="plan-card">
+        <span class="plan-tag">Agency</span>
+        <h3 class="plan-name">Agency</h3>
+        <p class="plan-desc">For agencies managing multiple clients</p>
+        <div class="plan-price"><span class="plan-amount">$499</span><span class="plan-period">/mo</span></div>
+        <ul class="plan-feats">
+          <li class="plan-feat">2,500 prospects per month</li>
+          <li class="plan-feat">Full analytics + A/B testing</li>
+          <li class="plan-feat">10 sending mailboxes</li>
+          <li class="plan-feat">Dedicated account manager</li>
+          <li class="plan-feat">Custom integrations</li>
+        </ul>
+        <button class="plan-cta" type="button" data-plan="agency">Start free trial</button>
+        <p class="plan-foot">No charge for 7 days</p>
+      </div>
+    </div>
+
+    <div class="plan-trust">
+      <span class="plan-trust-item">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        7-day free trial
+      </span>
+      <span class="plan-trust-sep">·</span>
+      <span class="plan-trust-item">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Cancel anytime
+      </span>
+      <span class="plan-trust-sep">·</span>
+      <span class="plan-trust-item">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Secure checkout via Stripe
+      </span>
+    </div>
+
+    <div class="back-link">
+      <button type="button" data-back="3">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+    </div>
+  </section>
+
+  <!-- ─── STEP 5 · DONE ─── -->
+  <section class="step" data-step="5">
+    <div class="done-center">
+      <div class="done-check">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1a7c4b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="step-eyebrow">Trial started</div>
+      <h1>Pulse is <em>warming up.</em></h1>
+      <p class="step-sub">Your 7-day free trial has begun. We're indexing your audience and drafting your first sequence — you'll see your pipeline come alive in the next few minutes.</p>
+
+      <div class="done-kpi-row">
+        <div class="done-kpi">
+          <div class="done-kpi-num">7</div>
+          <div class="done-kpi-lbl">Free trial days</div>
+        </div>
+        <div class="done-kpi">
+          <div class="done-kpi-num">~14.2k</div>
+          <div class="done-kpi-lbl">Matching prospects</div>
+        </div>
+        <div class="done-kpi">
+          <div class="done-kpi-num">3</div>
+          <div class="done-kpi-lbl">Campaign drafts</div>
+        </div>
+      </div>
+
+      <button class="btn-primary grow" id="gotoDashboard">
+        Go to your dashboard
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  const steps       = document.querySelectorAll('.step');
+  const progressFill= document.getElementById('progressFill');
+  const stepCount   = document.getElementById('stepCount');
+  const urlInput    = document.getElementById('urlInput');
+  const urlFavicon  = document.getElementById('urlFavicon');
+  const scanBtn     = document.getElementById('scanBtn');
+  const scanning    = document.getElementById('scanning');
+  const scanStatus  = document.getElementById('scanStatus');
+  const step1Actions= document.getElementById('step1Actions');
+  const companyName = document.getElementById('companyName');
+  const companyUrl  = document.getElementById('companyUrl');
+  const companyAvatar = document.getElementById('companyAvatar');
+  const noWebsiteLink = document.getElementById('noWebsiteLink');
+  const step2Eyebrow= document.getElementById('step2Eyebrow');
+  const step2Title  = document.getElementById('step2Title');
+  const step2Sub    = document.getElementById('step2Sub');
+  const pitchInput  = document.getElementById('pitch');
+  const toneChipsEl = document.getElementById('toneChips');
+  const gotoDash    = document.getElementById('gotoDashboard');
+
+  // Default AI-picked tones for scanned mode
+  const AI_PICKED_TONES = ['Professional','Warm'];
+
+  let currentStep = 1;
+  const TOTAL = 4;
+
+  function go(n){
+    currentStep = n;
+    steps.forEach(s=>{
+      s.classList.toggle('active', parseInt(s.dataset.step,10)===n);
+    });
+    // Progress: step 5 = complete
+    const display = Math.min(n, TOTAL);
+    const pct = Math.min(100, (n/TOTAL)*100);
+    progressFill.style.width = pct + '%';
+    if(n > TOTAL){
+      stepCount.textContent = 'All set';
+    } else {
+      stepCount.textContent = `Step ${display} of ${TOTAL}`;
+    }
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  // ─── Globe → live favicon preview as user types
+  const globeSvg = urlFavicon.innerHTML;
+  let faviconTimer = null;
+  let faviconReqId = 0;
+
+  function resetFavicon(){
+    urlFavicon.classList.remove('has-favicon');
+    urlFavicon.innerHTML = globeSvg;
+  }
+
+  function extractHost(raw){
+    // Accept 'acme.com', 'www.acme.com', 'https://acme.com/foo', etc.
+    const s = raw.trim().replace(/^https?:\/\//i, '').replace(/^www\./i,'').split(/[\/\?#]/)[0];
+    // Must look like a domain: has a dot, and TLD is ≥ 2 chars.
+    if(!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(s)) return null;
+    return s.toLowerCase();
+  }
+
+  function loadFaviconFor(host){
+    const reqId = ++faviconReqId;
+    const img = new Image();
+    img.decoding = 'async';
+    img.alt = '';
+    img.onload = ()=>{
+      if(reqId !== faviconReqId) return; // stale
+      urlFavicon.classList.add('has-favicon');
+      urlFavicon.innerHTML = '';
+      urlFavicon.appendChild(img);
+    };
+    img.onerror = ()=>{
+      if(reqId !== faviconReqId) return;
+      resetFavicon();
+    };
+    img.src = `https://www.google.com/s2/favicons?domain=${host}&sz=64`;
+  }
+
+  // Enable continue when URL has some text + live favicon preview
+  urlInput.addEventListener('input', ()=>{
+    scanBtn.disabled = urlInput.value.trim().length < 3;
+    clearTimeout(faviconTimer);
+    const host = extractHost(urlInput.value);
+    if(!host){
+      faviconReqId++;
+      resetFavicon();
+      return;
+    }
+    faviconTimer = setTimeout(()=>loadFaviconFor(host), 280);
+  });
+  urlInput.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter' && !scanBtn.disabled){
+      e.preventDefault();
+      scanBtn.click();
+    }
+  });
+
+  // ─── Mode switching (scanned vs manual)
+  function setVariant(mode){
+    // Step-2 variants
+    document.querySelectorAll('[data-variant]').forEach(el=>{
+      el.hidden = (el.dataset.variant !== mode);
+    });
+    // AI hints next to labels
+    document.querySelectorAll('[data-variant-hint]').forEach(el=>{
+      el.style.display = (el.dataset.variantHint === mode) ? '' : 'none';
+    });
+    // Copy adjustments
+    if(mode === 'manual'){
+      step2Eyebrow.textContent = 'Tell us about your company';
+      step2Title.innerHTML = 'The <em>basics.</em>';
+      step2Sub.textContent = "A few quick details — we'll use these to write your first outreach.";
+      pitchInput.value = '';
+      pitchInput.placeholder = 'What do you sell, and who do you sell it to?';
+      // Clear AI-picked tones
+      toneChipsEl.querySelectorAll('.tone-chip').forEach(c=>{
+        c.classList.remove('ai-picked');
+        c.classList.remove('active');
+      });
+    } else {
+      step2Eyebrow.textContent = "Here's what we found";
+      step2Title.innerHTML = 'Is this <em>you?</em>';
+      step2Sub.textContent = "We've pre-filled everything from your site. Tweak anything that's off — or keep going.";
+      // Pre-select AI-picked tones
+      toneChipsEl.querySelectorAll('.tone-chip').forEach(c=>{
+        const picked = AI_PICKED_TONES.includes(c.dataset.tone);
+        c.classList.toggle('ai-picked', picked);
+        c.classList.toggle('active', picked);
+      });
+    }
+  }
+
+  // ─── Tone chips toggle (multi-select)
+  toneChipsEl.addEventListener('click', (e)=>{
+    const chip = e.target.closest('.tone-chip');
+    if(!chip) return;
+    chip.classList.toggle('active');
+  });
+
+  // ─── URL → scan animation → step 2 (scanned mode)
+  scanBtn.addEventListener('click', ()=>{
+    let url = urlInput.value.trim().replace(/^https?:\/\//,'').replace(/\/$/,'');
+    if(!url) return;
+    step1Actions.style.display = 'none';
+    document.querySelector('.no-website-link').style.display = 'none';
+    scanning.classList.add('active');
+
+    const messages = [
+      'Fetching homepage…',
+      'Reading your pitch…',
+      'Detecting your categories…',
+      'Matching your audience…',
+      'Drafting personas…',
+    ];
+    let i = 0;
+    scanStatus.textContent = messages[0];
+    const tick = setInterval(()=>{
+      i++;
+      if(i >= messages.length){
+        clearInterval(tick);
+        // Populate company card from URL
+        const host = url.split('/')[0];
+        const name = host.replace(/\.(com|io|co|ai|app|dev|tech|net|org)$/i,'').split('.').pop();
+        const pretty = name.charAt(0).toUpperCase() + name.slice(1);
+        companyName.textContent = pretty;
+        companyUrl.textContent = host;
+        const faviconUrl = `https://www.google.com/s2/favicons?domain=${host}&sz=128`;
+        companyAvatar.innerHTML = `<img src="${faviconUrl}" alt="" onerror="this.parentNode.textContent='${pretty.charAt(0)}'"/>`;
+        setVariant('scanned');
+        setTimeout(()=>go(2), 350);
+        return;
+      }
+      scanStatus.textContent = messages[i];
+    }, 650);
+  });
+
+  // ─── "No website" → jump straight to step 2 manual
+  noWebsiteLink.addEventListener('click', (e)=>{
+    e.preventDefault();
+    setVariant('manual');
+    go(2);
+  });
+
+  // Initialise step 2 variant in scanned mode by default
+  setVariant('scanned');
+
+  // Wire next/back buttons
+  document.querySelectorAll('[data-next]').forEach(btn=>{
+    btn.addEventListener('click', ()=>go(parseInt(btn.dataset.next,10)));
+  });
+  document.querySelectorAll('[data-back]').forEach(btn=>{
+    btn.addEventListener('click', ()=>go(parseInt(btn.dataset.back,10)));
+  });
+
+  // Plan CTA → done (simulates Stripe checkout completion)
+  document.querySelectorAll('.plan-cta[data-plan]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      // In production: POST /api/stripe/checkout { plan } → redirect
+      // Prototype jumps straight to the trial-started state.
+      go(5);
+    });
+  });
+  gotoDash.addEventListener('click', ()=>{
+    window.location.href = 'prototype-minimal.html';
+  });
+})();
+</script>
+</body>
+</html>

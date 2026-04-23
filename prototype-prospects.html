@@ -1,0 +1,1536 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Outpulse — Prospects (prototype)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<style>
+/* Same base tokens + shell as the dashboard prototype — sidebars,
+   skeleton, responsive, toggle buttons all shared. Prospects-specific
+   styles start at ★ PROSPECTS ★. */
+
+:root{
+  --ink:#14120f;
+  --ink-2:#3a342c;
+  --muted:#6c6458;
+  --muted-2:#a8a097;
+  --line:#ececeaee;
+  --line-2:#f4f3f0;
+  --bg:#ffffff;
+  --bg-panel:#fbfaf7;
+  --bg-subtle:#f6f4f0;
+
+  --orange:#ff5b1f;
+  --orange-soft:#fff4ec;
+  --orange-ink:#c24518;
+  --violet:#8a76b8;
+  --violet-soft:#f2edf8;
+  --violet-ink:#6a5594;
+  --blue:#3866a6;
+  --blue-soft:#eef3fa;
+  --blue-ink:#2d5488;
+  --green:#1a7c4b;
+  --green-soft:#eaf4ee;
+  --green-ink:#166440;
+  --warn:#c97a10;
+
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"Inter","Helvetica Neue",system-ui,sans-serif;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--sans);
+  font-size:14px;line-height:1.55;
+  color:var(--ink);
+  background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* ═════════ SKELETON LOADER ════════════════════════════════════════════ */
+.skeleton-page{
+  position:fixed;inset:0;z-index:500;
+  display:grid;grid-template-columns:240px 1fr 300px;
+  background:#ffffff;
+  transition:opacity .45s ease;
+  opacity:1;
+}
+.skeleton-page.done{opacity:0;pointer-events:none}
+.skeleton-page .sk-col{
+  padding:22px 22px;min-width:0;
+  display:flex;flex-direction:column;gap:12px;
+}
+.skeleton-page .sk-col.sk-left{
+  background:var(--bg-panel);border-right:1px solid var(--line);
+  padding:18px 14px;
+}
+.skeleton-page .sk-col.sk-right{
+  background:var(--bg-panel);border-left:1px solid var(--line);
+  padding:22px 18px;
+}
+.skeleton-page .sk-col.sk-main{padding:28px 36px}
+.sk{
+  background:linear-gradient(90deg,#ececea 0%,#f7f5f1 50%,#ececea 100%);
+  background-size:200% 100%;
+  animation:skShimmer 1.3s ease-in-out infinite;
+  border-radius:8px;
+}
+@keyframes skShimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
+.sk-brand{height:34px;width:70%;border-radius:10px}
+.sk-row{height:34px;width:100%;border-radius:9px}
+.sk-row-sm{height:28px;width:80%;border-radius:8px}
+.sk-label{height:11px;width:60%;margin:10px 6px 2px;border-radius:5px}
+.sk-user{height:46px;width:100%;margin-top:auto;border-radius:9px}
+.sk-head{height:16px;width:32%;border-radius:5px}
+.sk-head-h1{height:40px;width:40%;border-radius:8px;margin-top:4px}
+.sk-toolbar{height:52px;width:100%;border-radius:12px}
+.sk-table-row{height:58px;width:100%;border-radius:10px}
+.sk-panel{height:180px;width:100%;border-radius:12px}
+@media(max-width:1400px){
+  .skeleton-page{grid-template-columns:240px 1fr}
+  .skeleton-page .sk-col.sk-right{display:none}
+}
+@media(max-width:1160px){
+  .skeleton-page{grid-template-columns:64px 1fr}
+  .skeleton-page .sk-col.sk-left{padding:16px 10px;align-items:center}
+  .sk-brand{width:30px;height:30px;border-radius:50%}
+  .sk-row,.sk-row-sm{width:44px;height:40px;margin:0 auto;border-radius:10px}
+  .sk-label{display:none}
+  .sk-user{width:36px;height:36px;border-radius:50%}
+}
+@media(max-width:640px){
+  .skeleton-page{grid-template-columns:1fr}
+  .skeleton-page .sk-col.sk-left{display:none}
+  .skeleton-page .sk-col.sk-main{padding:18px 16px}
+}
+
+/* ═════════ APP LAYOUT (shared with dashboard) ═════════════════════════ */
+.app{
+  display:grid;
+  grid-template-columns:240px 1fr 300px;
+  min-height:100vh;
+  background:var(--bg);
+}
+
+/* ═════════ LEFT SIDEBAR (shared) ══════════════════════════════════════ */
+.sidebar{
+  border-right:1px solid var(--line);
+  background:var(--bg-panel);
+  padding:20px 14px 18px;
+  display:flex;flex-direction:column;gap:14px;
+  position:sticky;top:0;height:100vh;overflow-y:auto;
+}
+.sb-brand{
+  display:flex;align-items:center;gap:6px;padding:4px 8px 14px;
+  position:relative;
+}
+.sb-brand-mark{
+  width:34px;height:34px;
+  display:inline-flex;align-items:center;justify-content:center;
+  color:var(--ink);flex-shrink:0;
+}
+.sb-brand-mark svg{width:100%;height:100%;display:block}
+.sb-brand-name{
+  font-family:var(--serif);font-weight:500;font-size:22px;
+  letter-spacing:-.02em;line-height:1;
+}
+.sb-toggle{
+  margin-left:auto;
+  width:26px;height:26px;border-radius:7px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:transparent;border:1px solid transparent;
+  color:var(--muted);cursor:pointer;flex-shrink:0;
+  transition:background .15s ease,color .15s ease,transform .2s ease;
+}
+.sb-toggle:hover{background:#eeece8;color:var(--ink)}
+.sb-toggle svg{width:14px;height:14px}
+.app.left-collapsed .sb-toggle svg{transform:scaleX(-1)}
+.sb-search{
+  display:flex;align-items:center;gap:8px;
+  padding:7px 10px;border-radius:8px;
+  background:#fff;border:1px solid var(--line);
+  color:var(--muted-2);font-size:13px;cursor:text;
+  transition:border-color .15s ease;
+}
+.sb-search:hover{border-color:#dcd8d1}
+.sb-search svg{width:14px;height:14px;flex-shrink:0;color:var(--muted-2)}
+.sb-search-label{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-search .kbd{
+  flex-shrink:0;font-size:10.5px;color:var(--muted-2);
+  padding:1px 5px;border:1px solid var(--line);border-radius:4px;
+  background:var(--bg-subtle);font-family:var(--sans);
+}
+.sb-new{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  padding:9px 14px;border-radius:9px;
+  background:var(--ink);color:#fff;border:1px solid var(--ink);
+  font-family:var(--sans);font-size:13px;font-weight:500;
+  cursor:pointer;width:100%;
+  transition:background .15s ease,border-color .15s ease;
+}
+.sb-new:hover{background:var(--orange);border-color:var(--orange)}
+.sb-new svg{width:14px;height:14px}
+.sb-new-label{white-space:nowrap}
+
+.sb-section{display:flex;flex-direction:column;gap:1px}
+.sb-label{
+  font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted-2);padding:12px 10px 6px;
+}
+.sb-item{
+  display:flex;align-items:center;gap:10px;
+  padding:7px 10px;border-radius:7px;
+  font-size:13px;color:var(--ink-2);font-weight:400;cursor:pointer;
+  transition:background .15s ease;
+}
+.sb-item:hover{background:#eeece8}
+.sb-item.active{background:#fff;color:var(--ink);font-weight:500;box-shadow:0 1px 2px rgba(0,0,0,.04),inset 0 0 0 1px var(--line)}
+.sb-item svg{width:15px;height:15px;flex-shrink:0;color:var(--muted)}
+.sb-item.active svg{color:var(--ink)}
+.sb-item .count{margin-left:auto;font-size:11px;color:var(--muted-2)}
+.sb-item .count.warn{color:var(--warn);font-weight:600}
+.sb-user{
+  margin-top:auto;
+  display:flex;align-items:center;gap:10px;
+  padding:10px 10px;border-top:1px solid var(--line);
+}
+.sb-user-av{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--green-soft);color:var(--green-ink);
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:600;flex-shrink:0;
+}
+.sb-user-meta{display:flex;flex-direction:column;line-height:1.25;min-width:0;flex:1}
+.sb-user-name{font-size:13px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-user-plan{font-size:11px;color:var(--muted)}
+.sb-user-more{color:var(--muted-2);cursor:pointer;padding:0 4px}
+
+/* ═════════ MAIN CANVAS ════════════════════════════════════════════════ */
+.main{padding:28px 36px 80px;width:100%;min-width:0}
+
+.m-head{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:32px;
+  margin-bottom:24px;flex-wrap:wrap;
+}
+.m-head-text{display:flex;flex-direction:column;gap:4px;min-width:0}
+.m-greet{font-size:13px;color:var(--muted)}
+.m-head h1{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(30px,2.6vw,42px);
+  line-height:1.05;letter-spacing:-.015em;margin:0;
+}
+.m-head h1 em{font-style:italic;color:var(--orange);padding-bottom:.08em}
+.m-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:8px 14px;border-radius:9px;
+  background:#fff;border:1px solid var(--line);
+  font-size:13px;font-weight:500;color:var(--ink-2);cursor:pointer;
+}
+.btn-ghost:hover{background:var(--bg-subtle)}
+.btn-ghost svg{width:14px;height:14px;color:var(--muted)}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:8px 14px;border-radius:9px;
+  background:var(--ink);border:1px solid var(--ink);
+  font-size:13px;font-weight:500;color:#fff;cursor:pointer;
+}
+.btn-primary:hover{background:#0e0c09}
+.btn-primary svg{width:14px;height:14px}
+.btn-icon{
+  width:36px;height:36px;border-radius:9px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:#fff;border:1px solid var(--line);color:var(--muted);cursor:pointer;flex-shrink:0;
+}
+.btn-icon:hover{background:var(--bg-subtle);color:var(--ink)}
+.btn-icon svg{width:16px;height:16px}
+
+/* ═════════ ★ PROSPECTS ★ ═════════════════════════════════════════════ */
+
+/* Summary line under the heading — count + enrichment status */
+.m-sub{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  font-size:13px;color:var(--muted);
+  margin:0 0 24px;
+}
+.m-sub .pill{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:2px 9px;border-radius:999px;
+  background:var(--bg-subtle);border:1px solid var(--line);
+  color:var(--ink-2);font-size:12px;font-weight:500;
+}
+.m-sub .pill .d{width:6px;height:6px;border-radius:50%;background:var(--green)}
+
+/* ── Toolbar row: search + filter chips + view toggle ──────────────── */
+.toolbar{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:10px 12px;border:1px solid var(--line);border-radius:12px;
+  background:#fff;margin-bottom:18px;
+}
+.tb-search{
+  display:flex;align-items:center;gap:8px;
+  flex:1 1 240px;min-width:200px;
+  padding:6px 10px;border-radius:9px;
+  background:var(--bg-subtle);border:1px solid transparent;
+  color:var(--ink-2);font-size:13px;
+}
+.tb-search:focus-within{background:#fff;border-color:var(--line)}
+.tb-search svg{width:14px;height:14px;color:var(--muted)}
+.tb-search input{
+  flex:1;border:none;background:transparent;outline:none;
+  font-family:var(--sans);font-size:13px;color:var(--ink-2);
+}
+.tb-search .kbd{
+  font-size:11px;color:var(--muted-2);
+  padding:1px 5px;border:1px solid var(--line);border-radius:4px;
+  background:#fff;
+}
+
+.chips{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 10px;border-radius:999px;
+  background:#fff;border:1px solid var(--line);
+  font-size:12.5px;font-weight:500;color:var(--ink-2);cursor:pointer;
+  transition:background .15s ease,border-color .15s ease;
+}
+.chip:hover{background:var(--bg-subtle)}
+.chip svg{width:12px;height:12px;color:var(--muted)}
+.chip.has-v{background:var(--bg-subtle)}
+.chip.has-v .dot{width:6px;height:6px;border-radius:50%;background:var(--blue)}
+.chip .x{color:var(--muted-2);margin-left:2px;font-size:13px;line-height:1}
+.chip .x:hover{color:var(--ink)}
+
+.tb-spacer{flex:1}
+
+.view-switch{
+  display:inline-flex;background:var(--bg-subtle);border:1px solid var(--line);
+  border-radius:8px;padding:2px;
+}
+.view-switch button{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 10px;border-radius:6px;
+  background:transparent;border:none;cursor:pointer;
+  color:var(--muted);font-size:12px;font-weight:500;
+}
+.view-switch button.on{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.view-switch button svg{width:13px;height:13px}
+
+/* ── Selection bar — appears when 1+ prospects checked ─────────────── */
+.sel-bar{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;border-radius:10px;
+  background:linear-gradient(180deg,#fff6ed 0%,#fffaf3 100%);
+  border:1px solid #f2e0cf;
+  margin-bottom:12px;
+  font-size:13px;
+}
+.sel-bar .count{font-weight:600;color:var(--orange-ink)}
+.sel-bar-actions{margin-left:auto;display:flex;gap:6px}
+.sel-bar-actions button{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 10px;border-radius:7px;
+  background:#fff;border:1px solid var(--line);
+  font-size:12.5px;font-weight:500;color:var(--ink-2);cursor:pointer;
+}
+.sel-bar-actions button:hover{background:var(--bg-subtle)}
+.sel-bar-actions button svg{width:13px;height:13px;color:var(--muted)}
+.sel-bar-actions button.primary{
+  background:var(--orange);border-color:var(--orange);color:#fff;
+}
+.sel-bar-actions button.primary:hover{background:#e84b15}
+.sel-bar-actions button.primary svg{color:#fff}
+.sel-bar-clear{color:var(--muted);font-size:12.5px;padding:4px 6px;cursor:pointer}
+.sel-bar-clear:hover{color:var(--ink)}
+
+/* ── Prospect table ────────────────────────────────────────────────── */
+.ptable{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#fff;
+  overflow:hidden;
+}
+.ptbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.ptbl thead th{
+  text-align:left;
+  padding:12px 14px;
+  font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:700;color:var(--muted-2);
+  border-bottom:1px solid var(--line);
+  background:var(--bg-panel);
+  position:sticky;top:0;z-index:1;
+}
+.ptbl thead th.col-check{width:40px;padding-right:0}
+.ptbl thead th.col-added{width:90px;text-align:right}
+.ptbl thead th.col-more{width:40px;padding-left:0}
+
+.ptbl tbody td{
+  padding:14px 14px;
+  border-bottom:1px solid var(--line-2);
+  color:var(--ink-2);
+  vertical-align:middle;
+}
+.ptbl tbody tr:last-child td{border-bottom:none}
+.ptbl tbody tr{cursor:pointer;transition:background .15s ease}
+.ptbl tbody tr:hover{background:var(--bg-subtle)}
+.ptbl tbody tr.checked{background:#fff8ef}
+
+/* Checkbox */
+.ck{
+  width:16px;height:16px;border-radius:4px;
+  border:1.5px solid var(--muted-2);background:#fff;
+  display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+}
+tr.checked .ck{background:var(--orange);border-color:var(--orange)}
+tr.checked .ck svg{display:inline-block;width:10px;height:10px;stroke:#fff;stroke-width:3;fill:none}
+.ck svg{display:none}
+
+/* Who cell: avatar + name/role */
+.pc-who{display:flex;align-items:center;gap:10px;min-width:0}
+.pc-av{
+  width:30px;height:30px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:600;flex-shrink:0;
+  background:var(--violet-soft);color:var(--violet-ink);
+}
+.pc-av.blue{background:var(--blue-soft);color:var(--blue-ink)}
+.pc-av.orange{background:var(--orange-soft);color:var(--orange-ink)}
+.pc-av.green{background:var(--green-soft);color:var(--green-ink)}
+.pc-who-text{display:flex;flex-direction:column;min-width:0;line-height:1.3}
+.pc-name{font-weight:600;color:var(--ink);font-size:14px}
+.pc-role{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:32ch}
+
+/* Email status */
+.em{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12.5px;color:var(--ink-2);
+}
+.em-addr{color:var(--ink-2);font-family:var(--sans);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:22ch}
+.em-tag{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;
+}
+.em-tag .d{width:5px;height:5px;border-radius:50%}
+.em-tag.verified{color:var(--green-ink)}
+.em-tag.verified .d{background:var(--green)}
+.em-tag.pending{color:var(--warn)}
+.em-tag.pending .d{background:var(--warn)}
+.em-tag.bounced{color:#b53b1c}
+.em-tag.bounced .d{background:#b53b1c}
+
+/* Intent signals */
+.ints{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.int{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 8px;border-radius:999px;
+  font-size:11.5px;font-weight:500;
+  background:var(--bg-subtle);border:1px solid var(--line);color:var(--ink-2);
+}
+.int .d{width:5px;height:5px;border-radius:50%;background:var(--muted-2)}
+.int.orange .d{background:var(--orange)}
+.int.blue .d{background:var(--blue)}
+.int.green .d{background:var(--green)}
+.int.violet .d{background:var(--violet)}
+.int.warm{background:var(--orange-soft);border-color:#f3dec9;color:var(--orange-ink)}
+.int.cool{background:var(--blue-soft);border-color:#dbe6f1;color:var(--blue-ink)}
+
+/* Persona + source + meta */
+.meta-col{font-size:12.5px;color:var(--muted);line-height:1.4}
+.meta-col b{display:block;color:var(--ink-2);font-weight:500;font-size:13px}
+
+.col-added{text-align:right;font-size:12.5px;color:var(--muted-2);white-space:nowrap}
+.col-more{text-align:right}
+.kebab{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:28px;height:28px;border-radius:6px;cursor:pointer;color:var(--muted);
+}
+.kebab:hover{background:var(--bg-subtle);color:var(--ink)}
+.kebab svg{width:14px;height:14px}
+
+/* Footer row: pagination */
+.pgn{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px 16px;border-top:1px solid var(--line);
+  background:var(--bg-panel);font-size:12.5px;color:var(--muted);
+}
+.pgn-ctrls{display:flex;align-items:center;gap:4px}
+.pgn-btn{
+  width:28px;height:28px;border-radius:7px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:#fff;border:1px solid var(--line);color:var(--muted);
+  font-size:12.5px;cursor:pointer;
+}
+.pgn-btn:hover{background:var(--bg-subtle);color:var(--ink)}
+.pgn-btn.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.pgn-btn[disabled]{opacity:.4;cursor:not-allowed}
+.pgn-btn svg{width:14px;height:14px}
+.pgn-size{
+  display:inline-flex;align-items:center;gap:6px;font-size:12.5px;
+}
+.pgn-size select{
+  padding:4px 8px;border-radius:6px;border:1px solid var(--line);
+  font-family:var(--sans);font-size:12.5px;color:var(--ink-2);background:#fff;cursor:pointer;
+}
+
+/* ═════════ RIGHT PANEL — FILTER FACETS ═══════════════════════════════ */
+.right{
+  border-left:1px solid var(--line);
+  background:var(--bg-panel);
+  padding:22px 18px 24px;
+  display:flex;flex-direction:column;gap:16px;
+  position:sticky;top:0;height:100vh;overflow-y:auto;
+}
+.rp-block{
+  border:1px solid var(--line);border-radius:12px;background:#fff;padding:14px 16px;
+}
+.rp-h{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:2px 0 12px;
+}
+.rp-h-title{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.rp-h-chev{color:var(--muted-2);font-size:13px;cursor:pointer}
+.rp-clear{
+  font-size:11.5px;color:var(--muted);cursor:pointer;
+}
+.rp-clear:hover{color:var(--ink)}
+
+/* Saved filter list */
+.rp-saved .rp-sf{
+  display:flex;align-items:center;gap:10px;
+  padding:7px 8px;border-radius:8px;
+  font-size:13px;color:var(--ink-2);cursor:pointer;
+  transition:background .15s ease;
+}
+.rp-saved .rp-sf:hover{background:var(--bg-subtle)}
+.rp-saved .rp-sf .d{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.rp-saved .rp-sf .d.orange{background:var(--orange)}
+.rp-saved .rp-sf .d.blue  {background:var(--blue)}
+.rp-saved .rp-sf .d.violet{background:var(--violet)}
+.rp-saved .rp-sf .d.green {background:var(--green)}
+.rp-saved .rp-sf .n{margin-left:auto;font-size:11.5px;color:var(--muted-2)}
+
+/* Facet list (checkboxes with counts) */
+.rp-facet{display:flex;flex-direction:column;gap:2px}
+.rp-fr{
+  display:flex;align-items:center;gap:10px;
+  padding:6px 8px;border-radius:6px;
+  font-size:13px;color:var(--ink-2);cursor:pointer;
+  transition:background .15s ease;
+}
+.rp-fr:hover{background:var(--bg-subtle)}
+.rp-fr .ck{width:14px;height:14px;border-radius:3px;border-width:1.5px}
+.rp-fr.on .ck{background:var(--ink);border-color:var(--ink)}
+.rp-fr.on .ck svg{display:inline-block;width:9px;height:9px;stroke:#fff;stroke-width:3;fill:none}
+.rp-fr .n{margin-left:auto;font-size:11.5px;color:var(--muted-2);font-variant-numeric:tabular-nums}
+.rp-fr.on .n{color:var(--ink-2)}
+
+.rp-facet-more{
+  font-size:12px;color:var(--muted);margin:6px 8px 0;cursor:pointer;
+}
+.rp-facet-more:hover{color:var(--ink)}
+
+/* ═════════ RESPONSIVE — same progressive collapse as dashboard ══════ */
+.app.right-hidden{grid-template-columns:240px 1fr}
+.app.right-hidden .right{display:none}
+
+.app.left-collapsed{grid-template-columns:64px 1fr 300px}
+.app.left-collapsed.right-hidden{grid-template-columns:64px 1fr}
+.app.left-collapsed .sidebar{padding:16px 8px 14px;align-items:center;gap:8px}
+.app.left-collapsed .sb-brand{padding:2px 0 12px;gap:0;justify-content:center;width:100%;flex-direction:column}
+.app.left-collapsed .sb-brand-name{display:none}
+.app.left-collapsed .sb-brand-mark{width:28px;height:28px}
+.app.left-collapsed .sb-toggle{margin-left:0;margin-top:10px}
+.app.left-collapsed .sb-section{width:100%;align-items:center}
+.app.left-collapsed .sb-label{display:none}
+.app.left-collapsed .sb-section + .sb-section{margin-top:2px}
+.app.left-collapsed .sb-item{justify-content:center;padding:9px 0;width:44px;margin:0 auto;border-radius:8px;gap:0}
+.app.left-collapsed .sb-item-label{display:none}
+.app.left-collapsed .sb-item .count{display:none}
+.app.left-collapsed .sb-search{width:44px;padding:0;height:36px;justify-content:center;margin:0 auto}
+.app.left-collapsed .sb-search-label,
+.app.left-collapsed .sb-search .kbd{display:none}
+.app.left-collapsed .sb-new{width:44px;padding:0;height:36px;margin:0 auto}
+.app.left-collapsed .sb-new-label{display:none}
+.app.left-collapsed .sb-user{padding:10px 0;margin-top:auto;justify-content:center;gap:0;width:100%}
+.app.left-collapsed .sb-user-meta{display:none}
+.app.left-collapsed .sb-user-more{display:none}
+
+/* Mobile — same native-app treatment as the dashboard */
+.app.is-mobile{grid-template-columns:1fr}
+.app.is-mobile .sidebar,
+.app.is-mobile .right{display:none}
+.app.is-mobile .main{padding:18px 16px 104px}
+.app.is-mobile .m-head{flex-direction:column;align-items:flex-start;gap:10px;margin-bottom:16px}
+.app.is-mobile .m-actions{display:none}
+.app.is-mobile .m-head h1{font-size:28px;line-height:1.05}
+.app.is-mobile .m-greet{font-size:12.5px}
+.app.is-mobile .toolbar{padding:10px;gap:8px}
+.app.is-mobile .tb-search{flex:1 1 100%}
+.app.is-mobile .ptbl thead th.col-signals,
+.app.is-mobile .ptbl tbody td.col-signals,
+.app.is-mobile .ptbl thead th.col-persona,
+.app.is-mobile .ptbl tbody td.col-persona{display:none}
+.app.is-mobile .view-switch,
+.app.is-mobile .tb-spacer{display:none}
+
+/* Beta badge — shown in both the desktop sidebar brand and mobile top bar. */
+.beta-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  margin-left:6px;padding:2.5px 8px;border-radius:999px;
+  background:var(--orange-soft);border:1px solid rgba(255,91,31,.22);
+  color:var(--orange-ink);
+  font-family:var(--sans);font-size:9.5px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;
+  line-height:1;white-space:nowrap;
+}
+.beta-badge .d{width:5px;height:5px;border-radius:50%;background:var(--orange)}
+.app.left-collapsed .beta-badge{display:none}
+
+/* ── Mobile top bar + tabs + FAB ─────────────────────────────────────── */
+.m-topbar{display:none}
+.app.is-mobile .m-topbar{
+  display:flex;position:sticky;top:0;z-index:50;
+  background:var(--bg-panel);border-bottom:1px solid var(--line);
+  height:54px;padding:0 14px;align-items:center;gap:10px;
+}
+.m-tb-brand{display:flex;align-items:center;gap:7px;flex:1;min-width:0}
+.m-tb-brand img{width:26px;height:26px;display:block}
+.m-tb-brand span{font-family:var(--serif);font-weight:500;font-size:21px;letter-spacing:-.02em;line-height:1}
+.m-tb-btn{
+  width:38px;height:38px;border-radius:9px;
+  background:#fff;border:1px solid var(--line);color:var(--ink-2);
+  display:inline-flex;align-items:center;justify-content:center;
+  cursor:pointer;position:relative;flex-shrink:0;
+}
+.m-tb-btn:hover{background:var(--bg-subtle)}
+.m-tb-btn svg{width:17px;height:17px}
+.m-tb-btn .dot{
+  position:absolute;top:7px;right:7px;
+  width:7px;height:7px;border-radius:50%;background:var(--orange);
+  border:2px solid var(--bg-panel);
+}
+.m-tb-av{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--green-soft);color:var(--green-ink);
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:600;flex-shrink:0;cursor:pointer;
+}
+
+.m-tabs{display:none}
+.app.is-mobile .m-tabs{
+  display:flex;position:fixed;bottom:0;left:0;right:0;z-index:60;
+  background:#fff;border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom,0);
+  height:64px;
+  align-items:center;justify-content:space-around;
+  box-shadow:0 -1px 3px rgba(14,13,12,.04);
+}
+.m-tab{
+  flex:1 1 0;height:64px;min-width:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  color:var(--muted-2);
+  font-size:10.5px;font-weight:500;letter-spacing:.01em;
+  padding:8px 4px 10px;text-decoration:none;position:relative;
+  transition:color .15s ease;
+}
+.m-tab svg{width:22px;height:22px;stroke-width:2}
+.m-tab.active{color:var(--ink)}
+.m-tab.active svg{stroke-width:2.4}
+.m-tab .badge{
+  position:absolute;top:6px;left:50%;margin-left:3px;
+  background:var(--orange);color:#fff;
+  font-size:9.5px;font-weight:700;
+  min-width:16px;height:16px;padding:0 4px;border-radius:999px;
+  display:inline-flex;align-items:center;justify-content:center;
+  border:2px solid #fff;
+}
+.m-fab-slot{flex:0 0 64px;height:64px;position:relative}
+.m-fab{
+  position:absolute;left:50%;top:-8px;transform:translateX(-50%);
+  width:56px;height:56px;border-radius:50%;
+  background:var(--ink);color:#fff;border:none;
+  display:inline-flex;align-items:center;justify-content:center;
+  box-shadow:0 10px 22px -4px rgba(14,13,12,.28),0 2px 4px rgba(14,13,12,.12);
+  cursor:pointer;
+  transition:background .15s ease,transform .15s ease;
+}
+.m-fab:hover{background:var(--orange)}
+.m-fab:active{transform:translateX(-50%) scale(.96)}
+.m-fab svg{width:22px;height:22px;stroke-width:2.6}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ SKELETON LOADER ══════════════════ -->
+<div class="skeleton-page" aria-hidden="true">
+  <div class="sk-col sk-left">
+    <div class="sk sk-brand"></div>
+    <div class="sk sk-row"></div>
+    <div class="sk sk-label"></div>
+    <div class="sk sk-row-sm"></div>
+    <div class="sk sk-row-sm"></div>
+    <div class="sk sk-label"></div>
+    <div class="sk sk-row-sm"></div>
+    <div class="sk sk-row-sm"></div>
+    <div class="sk sk-row-sm"></div>
+    <div class="sk sk-label"></div>
+    <div class="sk sk-row-sm"></div>
+    <div class="sk sk-user"></div>
+  </div>
+  <div class="sk-col sk-main">
+    <div class="sk sk-head"></div>
+    <div class="sk sk-head-h1"></div>
+    <div class="sk sk-toolbar"></div>
+    <div class="sk sk-table-row"></div>
+    <div class="sk sk-table-row"></div>
+    <div class="sk sk-table-row"></div>
+    <div class="sk sk-table-row"></div>
+    <div class="sk sk-table-row"></div>
+    <div class="sk sk-table-row"></div>
+    <div class="sk sk-table-row"></div>
+    <div class="sk sk-table-row"></div>
+  </div>
+  <div class="sk-col sk-right">
+    <div class="sk sk-panel"></div>
+    <div class="sk sk-panel" style="height:220px"></div>
+    <div class="sk sk-panel" style="height:180px"></div>
+  </div>
+</div>
+
+<div class="app">
+
+  <header class="m-topbar">
+    <div class="m-tb-brand">
+      <img src="outpulse-logo-dusk.svg" alt="" />
+      <span>Outpulse</span>
+      <span class="beta-badge"><span class="d"></span>Beta</span>
+    </div>
+    <button class="m-tb-btn" aria-label="Notifications">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+      <span class="dot"></span>
+    </button>
+    <span class="m-tb-av" title="Lukas Horak">LH</span>
+  </header>
+
+  <!-- ══════════════════ LEFT SIDEBAR ══════════════════ -->
+  <aside class="sidebar">
+
+    <div class="sb-brand">
+      <span class="sb-brand-mark">
+        <svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <mask id="outpulseGap" maskUnits="userSpaceOnUse">
+              <rect width="1000" height="1000" fill="white"/>
+              <circle cx="391" cy="500" r="248" fill="none" stroke="black" stroke-width="48"/>
+            </mask>
+          </defs>
+          <circle cx="391" cy="500" r="200" fill="none" stroke="currentColor" stroke-width="48"/>
+          <circle cx="601" cy="500" r="200" fill="currentColor" mask="url(#outpulseGap)"/>
+        </svg>
+      </span>
+      <span class="sb-brand-name">Outpulse</span>
+      <span class="beta-badge" title="Public beta · April 2026"><span class="d"></span>Beta</span>
+      <button class="sb-toggle" data-toggle="left" aria-label="Toggle sidebar" title="Collapse sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18 9 12l6-6"/></svg>
+      </button>
+    </div>
+
+    <div class="sb-search" title="Search (⌘K)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <span class="sb-search-label">Search everything</span>
+      <span class="kbd">⌘K</span>
+    </div>
+
+    <button class="sb-new" title="Start outreach">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+      <span class="sb-new-label">Start outreach</span>
+    </button>
+
+    <div class="sb-section">
+      <div class="sb-label">Workspace</div>
+      <a class="sb-item" href="prototype-minimal.html" title="Dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 4l9 8"/><path d="M5 10v10h14V10"/></svg>
+        <span class="sb-item-label">Dashboard</span>
+      </a>
+      <div class="sb-item" title="Pulse">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+        <span class="sb-item-label">Pulse</span>
+      </div>
+      <div class="sb-item" title="Inbox">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 6 8 7 8-7"/></svg>
+        <span class="sb-item-label">Inbox</span>
+        <span class="count warn">12</span>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-label">Audience</div>
+      <div class="sb-item" title="Buyer Personas">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="9" r="3"/><path d="M2 20v-1a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v1"/><circle cx="17" cy="9" r="3"/><path d="M16 14a5 5 0 0 1 5 5v1"/></svg>
+        <span class="sb-item-label">Buyer Personas</span>
+      </div>
+      <div class="sb-item active" title="Prospects">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
+        <span class="sb-item-label">Prospects</span>
+        <span class="count">1,428</span>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-label">Outreach</div>
+      <a class="sb-item" href="prototype-campaigns.html" title="Campaigns">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 22 2l-6.5 18-3-9z"/><path d="M3 11l9 3"/></svg>
+        <span class="sb-item-label">Campaigns</span>
+        <span class="count">7</span>
+      </a>
+      <a class="sb-item" href="prototype-linkedin.html" title="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.56c0-1.33 0-3.04-1.85-3.04s-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56z"/></svg>
+        <span class="sb-item-label">LinkedIn</span>
+      </a>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-label">Setup</div>
+      <div class="sb-item" title="Integrations">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="2" width="8" height="8" rx="2"/><rect x="2" y="14" width="8" height="8" rx="2"/><rect x="14" y="14" width="8" height="8" rx="2"/><path d="M10 6H6a2 2 0 0 0-2 2v4"/></svg>
+        <span class="sb-item-label">Integrations</span>
+      </div>
+      <div class="sb-item" title="Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
+        <span class="sb-item-label">Settings</span>
+      </div>
+    </div>
+
+    <div class="sb-user">
+      <span class="sb-user-av">LH</span>
+      <div class="sb-user-meta">
+        <span class="sb-user-name">Lukas Horak</span>
+        <span class="sb-user-plan">Growth Plan</span>
+      </div>
+      <span class="sb-user-more">⋮</span>
+    </div>
+  </aside>
+
+  <!-- ══════════════════ MAIN CANVAS ══════════════════ -->
+  <main class="main">
+
+    <div class="m-head">
+      <div class="m-head-text">
+        <span class="m-greet">Your audience</span>
+        <h1>Prospects</h1>
+      </div>
+      <div class="m-actions">
+        <button class="btn-ghost">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export CSV
+        </button>
+        <button class="btn-ghost">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Import
+        </button>
+        <button class="btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+          Add prospect
+        </button>
+        <button class="btn-icon" data-toggle="right" aria-label="Toggle filter panel" title="Toggle filters">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18l-7 8v8l-4-2v-6z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="m-sub">
+      <span>Showing 12 of <b style="color:var(--ink)">1,428</b> prospects</span>
+      <span class="pill"><span class="d"></span>1,404 enriched</span>
+      <span class="pill"><span class="d" style="background:var(--warn)"></span>24 pending enrichment</span>
+    </div>
+
+    <!-- ─── TOOLBAR ─── -->
+    <div class="toolbar">
+      <div class="tb-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input placeholder="Search by name, company, email…" />
+        <span class="kbd">⌘K</span>
+      </div>
+
+      <div class="chips">
+        <span class="chip has-v">
+          <span class="dot"></span>
+          Persona: CTO · VP Eng
+          <span class="x">×</span>
+        </span>
+        <span class="chip has-v">
+          <span class="dot" style="background:var(--violet)"></span>
+          Company size: 50–500
+          <span class="x">×</span>
+        </span>
+        <span class="chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg>
+          Filter
+        </span>
+      </div>
+
+      <div class="tb-spacer"></div>
+    </div>
+
+    <!-- ─── SELECTION BAR ─── -->
+    <div class="sel-bar">
+      <span class="count">3 selected</span>
+      <span class="sel-bar-clear" style="margin-left:8px">Clear</span>
+      <div class="sel-bar-actions">
+        <button>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export
+        </button>
+        <button>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 2"/></svg>
+          Enrich
+        </button>
+        <button class="primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>
+          Add to campaign
+        </button>
+      </div>
+    </div>
+
+    <!-- ─── PROSPECT TABLE ─── -->
+    <div class="ptable">
+      <table class="ptbl">
+        <thead>
+          <tr>
+            <th class="col-check"><span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span></th>
+            <th>Name</th>
+            <th>Email</th>
+            <th class="col-signals">Intent signals</th>
+            <th class="col-persona">Persona · Source</th>
+            <th class="col-added">Added</th>
+            <th class="col-more"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="checked">
+            <td class="col-check"><span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span></td>
+            <td>
+              <div class="pc-who">
+                <span class="pc-av">SC</span>
+                <div class="pc-who-text">
+                  <span class="pc-name">Sarah Chen</span>
+                  <span class="pc-role">VP Engineering · Vercel</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="em">
+                <span class="em-addr">s.chen@vercel.com</span>
+                <span class="em-tag verified"><span class="d"></span>Verified</span>
+              </div>
+            </td>
+            <td class="col-signals">
+              <div class="ints">
+                <span class="int orange"><span class="d"></span>Hiring 12 engineers</span>
+                <span class="int warm">Series C · $120M</span>
+              </div>
+            </td>
+            <td class="col-persona"><div class="meta-col"><b>CTO · VP Eng</b>Website scan</div></td>
+            <td class="col-added">today</td>
+            <td class="col-more"><span class="kebab"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></span></td>
+          </tr>
+
+          <tr class="checked">
+            <td class="col-check"><span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span></td>
+            <td>
+              <div class="pc-who">
+                <span class="pc-av blue">MW</span>
+                <div class="pc-who-text">
+                  <span class="pc-name">Marcus Webb</span>
+                  <span class="pc-role">CTO · Linear</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="em">
+                <span class="em-addr">marcus@linear.app</span>
+                <span class="em-tag verified"><span class="d"></span>Verified</span>
+              </div>
+            </td>
+            <td class="col-signals">
+              <div class="ints">
+                <span class="int blue"><span class="d"></span>New CTO · 2 weeks</span>
+                <span class="int">Raised $35M</span>
+              </div>
+            </td>
+            <td class="col-persona"><div class="meta-col"><b>CTO · VP Eng</b>LinkedIn</div></td>
+            <td class="col-added">today</td>
+            <td class="col-more"><span class="kebab"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></span></td>
+          </tr>
+
+          <tr class="checked">
+            <td class="col-check"><span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span></td>
+            <td>
+              <div class="pc-who">
+                <span class="pc-av orange">AK</span>
+                <div class="pc-who-text">
+                  <span class="pc-name">Anna Kovacs</span>
+                  <span class="pc-role">Head of Product · Stripe</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="em">
+                <span class="em-addr">a.kovacs@stripe.com</span>
+                <span class="em-tag verified"><span class="d"></span>Verified</span>
+              </div>
+            </td>
+            <td class="col-signals">
+              <div class="ints">
+                <span class="int green"><span class="d"></span>Opened EU HQ</span>
+                <span class="int cool">Growing 140% YoY</span>
+              </div>
+            </td>
+            <td class="col-persona"><div class="meta-col"><b>Heads of Product</b>Website scan</div></td>
+            <td class="col-added">today</td>
+            <td class="col-more"><span class="kebab"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></span></td>
+          </tr>
+
+          <tr>
+            <td class="col-check"><span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span></td>
+            <td>
+              <div class="pc-who">
+                <span class="pc-av green">RP</span>
+                <div class="pc-who-text">
+                  <span class="pc-name">Rachel Park</span>
+                  <span class="pc-role">VP Sales · Ramp</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="em">
+                <span class="em-addr">rachel@ramp.com</span>
+                <span class="em-tag verified"><span class="d"></span>Verified</span>
+              </div>
+            </td>
+            <td class="col-signals">
+              <div class="ints">
+                <span class="int orange"><span class="d"></span>Raised $100M · Series D</span>
+                <span class="int">Hiring 8 roles</span>
+              </div>
+            </td>
+            <td class="col-persona"><div class="meta-col"><b>VP Sales</b>Imported</div></td>
+            <td class="col-added">yesterday</td>
+            <td class="col-more"><span class="kebab"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></span></td>
+          </tr>
+
+          <tr>
+            <td class="col-check"><span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span></td>
+            <td>
+              <div class="pc-who">
+                <span class="pc-av">DK</span>
+                <div class="pc-who-text">
+                  <span class="pc-name">David Kim</span>
+                  <span class="pc-role">CTO · Webflow</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="em">
+                <span class="em-addr">david@webflow.com</span>
+                <span class="em-tag verified"><span class="d"></span>Verified</span>
+              </div>
+            </td>
+            <td class="col-signals">
+              <div class="ints">
+                <span class="int blue"><span class="d"></span>Migrating to AWS</span>
+                <span class="int">Hiring 8 engineers</span>
+              </div>
+            </td>
+            <td class="col-persona"><div class="meta-col"><b>CTO · VP Eng</b>Website scan</div></td>
+            <td class="col-added">yesterday</td>
+            <td class="col-more"><span class="kebab"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></span></td>
+          </tr>
+
+          <tr>
+            <td class="col-check"><span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span></td>
+            <td>
+              <div class="pc-who">
+                <span class="pc-av blue">NG</span>
+                <div class="pc-who-text">
+                  <span class="pc-name">Nina Garcia</span>
+                  <span class="pc-role">Head of Growth · Supabase</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="em">
+                <span class="em-addr">nina@supabase.io</span>
+                <span class="em-tag pending"><span class="d"></span>Pending</span>
+              </div>
+            </td>
+            <td class="col-signals">
+              <div class="ints">
+                <span class="int orange"><span class="d"></span>Growing 180% YoY</span>
+                <span class="int">Series B · $80M</span>
+              </div>
+            </td>
+            <td class="col-persona"><div class="meta-col"><b>Growth leads</b>LinkedIn</div></td>
+            <td class="col-added">2 days ago</td>
+            <td class="col-more"><span class="kebab"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></span></td>
+          </tr>
+
+          <tr>
+            <td class="col-check"><span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span></td>
+            <td>
+              <div class="pc-who">
+                <span class="pc-av orange">TH</span>
+                <div class="pc-who-text">
+                  <span class="pc-name">Tom Heller</span>
+                  <span class="pc-role">VP Engineering · Replit</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="em">
+                <span class="em-addr">tom@replit.com</span>
+                <span class="em-tag verified"><span class="d"></span>Verified</span>
+              </div>
+            </td>
+            <td class="col-signals">
+              <div class="ints">
+                <span class="int green"><span class="d"></span>Shipped GenAI tools</span>
+                <span class="int">Hiring AI team</span>
+              </div>
+            </td>
+            <td class="col-persona"><div class="meta-col"><b>CTO · VP Eng</b>Website scan</div></td>
+            <td class="col-added">2 days ago</td>
+            <td class="col-more"><span class="kebab"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></span></td>
+          </tr>
+
+          <tr>
+            <td class="col-check"><span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span></td>
+            <td>
+              <div class="pc-who">
+                <span class="pc-av">OP</span>
+                <div class="pc-who-text">
+                  <span class="pc-name">Omar Patel</span>
+                  <span class="pc-role">VP Marketing · Raycast</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="em">
+                <span class="em-addr">omar@raycast.com</span>
+                <span class="em-tag verified"><span class="d"></span>Verified</span>
+              </div>
+            </td>
+            <td class="col-signals">
+              <div class="ints">
+                <span class="int blue"><span class="d"></span>Expanding APAC</span>
+                <span class="int">Raised $45M</span>
+              </div>
+            </td>
+            <td class="col-persona"><div class="meta-col"><b>Marketing leads</b>LinkedIn</div></td>
+            <td class="col-added">3 days ago</td>
+            <td class="col-more"><span class="kebab"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></span></td>
+          </tr>
+
+          <tr>
+            <td class="col-check"><span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span></td>
+            <td>
+              <div class="pc-who">
+                <span class="pc-av violet" style="background:var(--violet-soft);color:var(--violet-ink)">AN</span>
+                <div class="pc-who-text">
+                  <span class="pc-name">Andrew Ng</span>
+                  <span class="pc-role">CEO / CTO · Phoenix Fortunes</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="em">
+                <span class="em-addr">andrew@phoenixfortunes.co</span>
+                <span class="em-tag pending"><span class="d"></span>Pending</span>
+              </div>
+            </td>
+            <td class="col-signals">
+              <div class="ints">
+                <span class="int violet"><span class="d"></span>Fintech · emerging</span>
+              </div>
+            </td>
+            <td class="col-persona"><div class="meta-col"><b>Founders</b>Imported</div></td>
+            <td class="col-added">Apr 13</td>
+            <td class="col-more"><span class="kebab"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></span></td>
+          </tr>
+
+          <tr>
+            <td class="col-check"><span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span></td>
+            <td>
+              <div class="pc-who">
+                <span class="pc-av blue">BR</span>
+                <div class="pc-who-text">
+                  <span class="pc-name">Bruno Ricci</span>
+                  <span class="pc-role">CEO / CTO · newSales Software</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="em">
+                <span class="em-addr">bruno@newsales.io</span>
+                <span class="em-tag bounced"><span class="d"></span>Bounced</span>
+              </div>
+            </td>
+            <td class="col-signals">
+              <div class="ints">
+                <span class="int"><span class="d"></span>SaaS · bootstrapped</span>
+              </div>
+            </td>
+            <td class="col-persona"><div class="meta-col"><b>Founders</b>Imported</div></td>
+            <td class="col-added">Apr 13</td>
+            <td class="col-more"><span class="kebab"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></span></td>
+          </tr>
+
+          <tr>
+            <td class="col-check"><span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span></td>
+            <td>
+              <div class="pc-who">
+                <span class="pc-av orange">MP</span>
+                <div class="pc-who-text">
+                  <span class="pc-name">Mahesh Patel</span>
+                  <span class="pc-role">CTO / CEO · SoftTechies</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="em">
+                <span class="em-addr">mahesh@softtechies.com</span>
+                <span class="em-tag verified"><span class="d"></span>Verified</span>
+              </div>
+            </td>
+            <td class="col-signals">
+              <div class="ints">
+                <span class="int"><span class="d"></span>Remote-first agency</span>
+              </div>
+            </td>
+            <td class="col-persona"><div class="meta-col"><b>Founders</b>Imported</div></td>
+            <td class="col-added">Apr 13</td>
+            <td class="col-more"><span class="kebab"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></span></td>
+          </tr>
+
+          <tr>
+            <td class="col-check"><span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span></td>
+            <td>
+              <div class="pc-who">
+                <span class="pc-av green">OL</span>
+                <div class="pc-who-text">
+                  <span class="pc-name">Oleg Volkov</span>
+                  <span class="pc-role">CEO / CTO · Everlabs</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="em">
+                <span class="em-addr">oleg@everlabs.ai</span>
+                <span class="em-tag verified"><span class="d"></span>Verified</span>
+              </div>
+            </td>
+            <td class="col-signals">
+              <div class="ints">
+                <span class="int violet"><span class="d"></span>AI lab · stealth</span>
+              </div>
+            </td>
+            <td class="col-persona"><div class="meta-col"><b>Founders</b>Imported</div></td>
+            <td class="col-added">Apr 13</td>
+            <td class="col-more"><span class="kebab"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Pagination -->
+      <div class="pgn">
+        <span>1 – 12 of <b style="color:var(--ink-2)">1,428</b></span>
+        <div class="pgn-ctrls">
+          <button class="pgn-btn" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="pgn-btn on">1</button>
+          <button class="pgn-btn">2</button>
+          <button class="pgn-btn">3</button>
+          <button class="pgn-btn">4</button>
+          <span style="color:var(--muted-2)">…</span>
+          <button class="pgn-btn">119</button>
+          <button class="pgn-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+        <div class="pgn-size">
+          Per page
+          <select>
+            <option>12</option>
+            <option>24</option>
+            <option>50</option>
+            <option>100</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ══════════════════ RIGHT PANEL — FILTER FACETS ══════════════════ -->
+  <aside class="right">
+
+    <!-- Saved filters -->
+    <div class="rp-block">
+      <div class="rp-h">
+        <span class="rp-h-title">Saved filters</span>
+        <span class="rp-h-chev">⌄</span>
+      </div>
+      <div class="rp-saved">
+        <div class="rp-sf"><span class="d orange"></span>Series B CTOs<span class="n">418</span></div>
+        <div class="rp-sf"><span class="d blue"></span>SaaS · EU 50–200<span class="n">312</span></div>
+        <div class="rp-sf"><span class="d violet"></span>Fintech · Growth<span class="n">196</span></div>
+        <div class="rp-sf"><span class="d green"></span>Warm replies<span class="n">38</span></div>
+      </div>
+    </div>
+
+    <!-- Status facet -->
+    <div class="rp-block">
+      <div class="rp-h">
+        <span class="rp-h-title">Email status</span>
+        <span class="rp-clear">Clear</span>
+      </div>
+      <div class="rp-facet">
+        <div class="rp-fr on">
+          <span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+          Verified<span class="n">1,186</span>
+        </div>
+        <div class="rp-fr">
+          <span class="ck"></span>
+          Pending<span class="n">218</span>
+        </div>
+        <div class="rp-fr">
+          <span class="ck"></span>
+          Bounced<span class="n">24</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Persona -->
+    <div class="rp-block">
+      <div class="rp-h">
+        <span class="rp-h-title">Persona</span>
+        <span class="rp-clear">Clear</span>
+      </div>
+      <div class="rp-facet">
+        <div class="rp-fr on">
+          <span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+          CTO · VP Engineering<span class="n">428</span>
+        </div>
+        <div class="rp-fr">
+          <span class="ck"></span>
+          Heads of Product<span class="n">284</span>
+        </div>
+        <div class="rp-fr">
+          <span class="ck"></span>
+          VP Sales<span class="n">192</span>
+        </div>
+        <div class="rp-fr">
+          <span class="ck"></span>
+          Growth leads<span class="n">154</span>
+        </div>
+        <div class="rp-fr">
+          <span class="ck"></span>
+          Founders<span class="n">96</span>
+        </div>
+        <div class="rp-facet-more">+ 4 more</div>
+      </div>
+    </div>
+
+    <!-- Source -->
+    <div class="rp-block">
+      <div class="rp-h">
+        <span class="rp-h-title">Source</span>
+        <span class="rp-clear">Clear</span>
+      </div>
+      <div class="rp-facet">
+        <div class="rp-fr">
+          <span class="ck"></span>
+          Website scan<span class="n">648</span>
+        </div>
+        <div class="rp-fr">
+          <span class="ck"></span>
+          LinkedIn<span class="n">412</span>
+        </div>
+        <div class="rp-fr">
+          <span class="ck"></span>
+          Imported CSV<span class="n">368</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Company size + location -->
+    <div class="rp-block">
+      <div class="rp-h">
+        <span class="rp-h-title">Company size</span>
+        <span class="rp-clear">Clear</span>
+      </div>
+      <div class="rp-facet">
+        <div class="rp-fr">
+          <span class="ck"></span>
+          1–49<span class="n">212</span>
+        </div>
+        <div class="rp-fr on">
+          <span class="ck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+          50–500<span class="n">796</span>
+        </div>
+        <div class="rp-fr">
+          <span class="ck"></span>
+          500+<span class="n">420</span>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ══════════════════ MOBILE BOTTOM TAB BAR ══════════════════ -->
+  <nav class="m-tabs" aria-label="Primary">
+    <a class="m-tab" href="prototype-minimal.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 4l9 8"/><path d="M5 10v10h14V10"/></svg>
+      Home
+    </a>
+    <a class="m-tab active" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
+      Prospects
+    </a>
+    <div class="m-fab-slot">
+      <button class="m-fab" aria-label="Start outreach">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+    </div>
+    <a class="m-tab" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 6 8 7 8-7"/></svg>
+      Inbox
+      <span class="badge">12</span>
+    </a>
+    <a class="m-tab" href="prototype-campaigns.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 22 2l-6.5 18-3-9z"/><path d="M3 11l9 3"/></svg>
+      Campaigns
+    </a>
+  </nav>
+
+</div>
+
+<script>
+/* Skeleton loader fade-out (same pattern as dashboard). */
+(function(){
+  const skel = document.querySelector('.skeleton-page');
+  if (!skel) return;
+  function finish(){
+    skel.classList.add('done');
+    setTimeout(() => skel.remove(), 500);
+  }
+  const start = performance.now();
+  window.addEventListener('load', () => {
+    const elapsed = performance.now() - start;
+    const hold = Math.max(0, 750 - elapsed);
+    setTimeout(finish, hold);
+  });
+  setTimeout(finish, 2500);
+})();
+</script>
+
+<script>
+/* Sidebar layout + manual toggles (same as dashboard). */
+(function(){
+  const app = document.querySelector('.app');
+  if (!app) return;
+  let leftUserSet = false;
+  let rightUserSet = false;
+  let lastBucket = null;
+
+  function bucketFor(w){
+    if (w <= 640) return 'mobile';
+    if (w <= 1160) return 'compact';
+    if (w <= 1400) return 'medium';
+    return 'wide';
+  }
+  function applyResponsive(){
+    const w = window.innerWidth;
+    const bucket = bucketFor(w);
+    if (lastBucket !== null && bucket !== lastBucket){
+      leftUserSet = false;
+      rightUserSet = false;
+    }
+    lastBucket = bucket;
+    app.classList.toggle('is-mobile', bucket === 'mobile');
+    if (!leftUserSet){
+      app.classList.toggle('left-collapsed', bucket === 'compact');
+    }
+    if (!rightUserSet){
+      app.classList.toggle('right-hidden', bucket !== 'wide' && bucket !== 'mobile');
+    }
+  }
+  window.addEventListener('resize', applyResponsive);
+  applyResponsive();
+
+  document.querySelectorAll('[data-toggle]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const side = btn.dataset.toggle;
+      if (side === 'left'){
+        leftUserSet = true;
+        app.classList.toggle('left-collapsed');
+      } else if (side === 'right'){
+        rightUserSet = true;
+        app.classList.toggle('right-hidden');
+      }
+    });
+  });
+})();
+</script>
+
+<script>
+/* Row selection: clicking a row toggles .checked, and the selection bar
+   stays accurate. Demo-only — no real state. */
+(function(){
+  const rows = document.querySelectorAll('.ptbl tbody tr');
+  const selBar = document.querySelector('.sel-bar');
+  const selCount = selBar ? selBar.querySelector('.count') : null;
+  const selClear = selBar ? selBar.querySelector('.sel-bar-clear') : null;
+
+  function updateBar(){
+    const n = document.querySelectorAll('.ptbl tbody tr.checked').length;
+    if (!selBar) return;
+    if (n === 0){
+      selBar.style.display = 'none';
+    } else {
+      selBar.style.display = '';
+      if (selCount) selCount.textContent = n + ' selected';
+    }
+  }
+  rows.forEach(r => {
+    const ck = r.querySelector('.col-check .ck');
+    if (ck){
+      ck.addEventListener('click', e => {
+        e.stopPropagation();
+        r.classList.toggle('checked');
+        updateBar();
+      });
+    }
+    r.addEventListener('click', () => {
+      /* Row body click — would normally open the prospect detail.
+         No navigation in the prototype, just a visual toggle. */
+    });
+  });
+  if (selClear){
+    selClear.addEventListener('click', () => {
+      rows.forEach(r => r.classList.remove('checked'));
+      updateBar();
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

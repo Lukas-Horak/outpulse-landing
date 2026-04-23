@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Outpulse — Start for free</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<style>
+/* ═══════════════════════════════════════════════════════════════════════
+   Outpulse — Signup / Login · minimalist conversion page
+   ----------------------------------------------------------------------
+   Single column, centred. One dominant CTA (Google SSO), one quiet
+   secondary path (email magic link). Everything above the fold; trust
+   strip + tiny testimonial below. No social proof side, no tabs —
+   signup vs sign-in is a one-word link at the bottom.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root{
+  --ink:#14120f;--ink-2:#3a342c;--ink-3:#514a40;
+  --muted:#6c6458;--muted-2:#a8a097;
+  --line:#ececea;--line-2:#f4f3f0;--line-3:#e2dfd8;
+  --bg:#ffffff;--bg-panel:#fbfaf7;--bg-subtle:#f6f4f0;
+  --orange:#ff5b1f;--orange-soft:#fff4ec;--orange-ink:#c24518;
+  --violet:#8a76b8;--violet-soft:#f2edf8;--violet-ink:#6a5594;
+  --green:#1a7c4b;--green-soft:#eaf4ee;--green-ink:#166440;
+  --red:#b53b1c;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"Inter","Helvetica Neue",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;min-height:100vh}
+body{
+  font-family:var(--sans);font-size:14.5px;line-height:1.6;color:var(--ink-2);
+  background:
+    radial-gradient(55% 70% at 50% 0%,rgba(255,138,76,.04),transparent 65%),
+    radial-gradient(45% 55% at 50% 100%,rgba(138,118,184,.035),transparent 65%),
+    var(--bg);
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  display:flex;flex-direction:column;
+}
+
+/* ─── Top brand row ─── */
+.top{
+  padding:24px clamp(24px,5vw,48px) 0;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.brand img{width:30px;height:30px;display:block}
+.brand-name{font-family:var(--serif);font-weight:500;font-size:22px;letter-spacing:-.015em;line-height:1}
+.brand-beta{
+  display:inline-flex;align-items:center;gap:5px;margin-left:4px;
+  padding:2.5px 8px;border-radius:999px;
+  background:var(--orange-soft);border:1px solid rgba(255,91,31,.22);
+  color:var(--orange-ink);
+  font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;line-height:1;
+}
+.brand-beta .d{width:5px;height:5px;border-radius:50%;background:var(--orange)}
+.top-alt{font-size:13.5px;color:var(--muted)}
+.top-alt a{color:var(--ink);font-weight:500;text-decoration:none;border-bottom:1px solid var(--line-3);padding-bottom:1px}
+.top-alt a:hover{color:var(--orange);border-color:var(--orange)}
+
+/* ─── Card (centred) ─── */
+.card{
+  margin:auto;padding:56px clamp(24px,5vw,48px) 48px;
+  width:100%;max-width:440px;
+  display:flex;flex-direction:column;align-items:stretch;
+}
+.title{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(38px,3.8vw,52px);line-height:1.02;letter-spacing:-.02em;
+  color:var(--ink);margin:0 0 14px;text-align:center;
+}
+.title em{font-style:italic;color:var(--orange)}
+.sub{
+  font-size:15.5px;line-height:1.55;color:var(--muted);
+  margin:0 auto 36px;max-width:36ch;text-align:center;
+}
+
+/* ─── Google SSO (primary path) ─── */
+.oauth{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;height:52px;border-radius:12px;
+  background:#fff;border:1px solid var(--line);
+  font-family:var(--sans);font-size:14.5px;font-weight:500;color:var(--ink-2);
+  cursor:pointer;
+  transition:background .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.oauth:hover{background:var(--bg-panel);border-color:var(--line-3);box-shadow:0 2px 8px -2px rgba(14,13,12,.06)}
+.oauth svg{width:18px;height:18px;flex-shrink:0}
+
+.divider{
+  display:flex;align-items:center;gap:12px;margin:22px 0;
+  font-size:11px;color:var(--muted-2);letter-spacing:.12em;text-transform:uppercase;font-weight:600;
+}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* ─── Email input + submit ─── */
+.form{display:flex;flex-direction:column;gap:10px}
+.input{
+  width:100%;padding:14px 16px;height:52px;border-radius:12px;
+  background:#fff;border:1px solid var(--line);
+  font-family:var(--sans);font-size:15px;color:var(--ink);
+  transition:border-color .18s ease,box-shadow .18s ease;
+}
+.input:hover{border-color:var(--line-3)}
+.input:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 4px rgba(255,91,31,.14)}
+.input::placeholder{color:var(--muted-2)}
+
+.cta{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;height:52px;border-radius:12px;
+  background:var(--ink);color:#fff;border:none;
+  font-family:var(--sans);font-size:14.5px;font-weight:500;letter-spacing:-.005em;
+  cursor:pointer;
+  transition:background .18s ease,transform .1s ease;
+}
+.cta:hover{background:var(--orange)}
+.cta:active{transform:translateY(1px)}
+.cta svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.legal{font-size:12px;color:var(--muted-2);line-height:1.6;margin-top:22px;text-align:center;max-width:34ch;margin-left:auto;margin-right:auto}
+.legal a{color:var(--ink-3);text-decoration:underline;text-underline-offset:2px}
+.legal a:hover{color:var(--orange)}
+
+/* ─── Footer trust + tiny testimonial ─── */
+.foot{
+  padding:32px clamp(24px,5vw,48px) 48px;
+  display:flex;flex-direction:column;align-items:center;gap:20px;
+  border-top:1px solid var(--line-2);
+  background:var(--bg-panel);
+}
+.trust{
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center;
+  font-size:12.5px;color:var(--muted);
+}
+.trust-item{display:inline-flex;align-items:center;gap:6px}
+.trust-item svg{width:12px;height:12px;stroke:var(--green);fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.trust-sep{color:var(--muted-2)}
+
+.tm{
+  max-width:560px;text-align:center;font-family:var(--serif);
+  font-size:17px;line-height:1.55;color:var(--ink-3);
+  letter-spacing:-.005em;
+}
+.tm em{font-style:italic;color:var(--orange-ink)}
+.tm-who{display:block;margin-top:10px;font-family:var(--sans);font-size:12.5px;color:var(--muted);font-weight:500;letter-spacing:0}
+
+/* ─── Success state (email sent) ─── */
+.success{display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px;padding:8px 0}
+.success-mark{
+  width:64px;height:64px;border-radius:50%;
+  background:var(--green-soft);color:var(--green-ink);
+  display:inline-flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 20px -6px rgba(26,124,75,.2);
+}
+.success-mark svg{width:28px;height:28px;stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.success h2{font-family:var(--serif);font-weight:400;font-size:32px;line-height:1.1;letter-spacing:-.015em;margin:0;color:var(--ink)}
+.success p{font-size:15px;color:var(--muted);max-width:38ch;margin:0;line-height:1.6}
+.success p b{color:var(--ink);font-weight:500}
+
+@media(max-width:520px){
+  .top{padding-top:18px}
+  .card{padding:36px 24px 36px}
+  .title{font-size:34px}
+  .sub{font-size:15px;margin-bottom:28px}
+  .foot{padding:24px 24px 36px}
+}
+</style>
+</head>
+<body>
+
+<!-- Top brand + switch-mode link -->
+<div class="top">
+  <a href="/" class="brand">
+    <img src="outpulse-logo-dusk.svg" alt="" />
+    <span class="brand-name">Outpulse</span>
+    <span class="brand-beta"><span class="d"></span>Beta</span>
+  </a>
+  <div class="top-alt">
+    <span data-mode-label="signup">Already using Outpulse? </span><span data-mode-label="signin">New here? </span>
+    <a href="#" data-toggle-mode data-mode-label="signup">Sign in</a>
+    <a href="#" data-toggle-mode data-mode-label="signin">Create account</a>
+  </div>
+</div>
+
+<!-- Centred card -->
+<div class="card" data-view="form">
+  <h1 class="title" data-mode-title>Start your <em>first pipeline.</em></h1>
+  <p class="sub" data-mode-sub>Two-minute setup, then a 7-day free trial. Cancel anytime — no charge until the trial ends.</p>
+
+  <!-- Google SSO — primary -->
+  <button class="oauth" type="button">
+    <svg viewBox="0 0 18 18" aria-hidden="true">
+      <path d="M17.64 9.2c0-.64-.06-1.25-.17-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.79 2.72v2.26h2.9c1.71-1.57 2.69-3.88 2.69-6.62Z" fill="#4285F4"/>
+      <path d="M9 18c2.43 0 4.47-.81 5.95-2.18l-2.9-2.26c-.81.54-1.84.86-3.05.86-2.35 0-4.33-1.59-5.04-3.72H.96v2.33A9 9 0 0 0 9 18Z" fill="#34A853"/>
+      <path d="M3.96 10.7A5.4 5.4 0 0 1 3.68 9c0-.59.1-1.17.28-1.7V4.97H.96A9 9 0 0 0 0 9c0 1.45.35 2.83.96 4.04l3-2.33Z" fill="#FBBC05"/>
+      <path d="M9 3.58c1.32 0 2.51.46 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0A9 9 0 0 0 .96 4.96l3 2.33C4.67 5.16 6.65 3.58 9 3.58Z" fill="#EA4335"/>
+    </svg>
+    <span data-mode-btn>Continue with Google</span>
+  </button>
+
+  <div class="divider"><span>or with email</span></div>
+
+  <!-- Magic-link email path -->
+  <form class="form" novalidate data-form>
+    <input class="input" type="email" name="email" placeholder="Work email" autocomplete="email" required />
+    <button class="cta" type="submit">
+      <span data-mode-cta>Send me a magic link</span>
+      <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg>
+    </button>
+  </form>
+
+  <p class="legal" data-mode-legal>By continuing, you agree to our <a href="prototype-terms.html">Terms</a> and <a href="prototype-privacy.html">Privacy Policy</a>. We'll never email you without a reason.</p>
+</div>
+
+<!-- Success view (hidden by default) -->
+<div class="card" data-view="sent" hidden>
+  <div class="success">
+    <span class="success-mark">
+      <svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg>
+    </span>
+    <h2>Check your email</h2>
+    <p>We sent a magic link to <b data-sent-email>your inbox</b>. Click it and you'll be signed in — no password to remember.</p>
+    <button class="oauth" type="button" style="max-width:320px" data-resend>
+      Didn't get it? Resend
+    </button>
+  </div>
+</div>
+
+<!-- Quiet trust + testimonial -->
+<div class="foot">
+  <div class="trust">
+    <span class="trust-item"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg>7-day free trial</span>
+    <span class="trust-sep">·</span>
+    <span class="trust-item"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg>Cancel anytime</span>
+    <span class="trust-sep">·</span>
+    <span class="trust-item"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg>Secure checkout via Stripe</span>
+  </div>
+  <p class="tm">"Within three weeks we went from 5 meetings a month to <em>over 40</em>."<span class="tm-who">Sarah Chen · Founder, Metric Labs</span></p>
+</div>
+
+<script>
+/* ─── Mode (signup/signin) toggle + success state ─── */
+(function(){
+  let mode = 'signup';
+  const view = document.querySelector('[data-view="form"]');
+  const sentView = document.querySelector('[data-view="sent"]');
+  const copy = {
+    signup:{
+      title:'Start your <em>first pipeline.</em>',
+      sub:"Two-minute setup, then a 7-day free trial. Cancel anytime — no charge until the trial ends.",
+      btn:'Continue with Google',
+      cta:'Send me a magic link',
+      legal:"By continuing, you agree to our <a href=\"prototype-terms.html\">Terms</a> and <a href=\"prototype-privacy.html\">Privacy Policy</a>. We'll never email you without a reason."
+    },
+    signin:{
+      title:'Welcome <em>back.</em>',
+      sub:"Your workspaces, campaigns, and pulse are where you left them.",
+      btn:'Continue with Google',
+      cta:'Email me a login link',
+      legal:"By continuing, you agree to our <a href=\"prototype-terms.html\">Terms</a> and <a href=\"prototype-privacy.html\">Privacy Policy</a>."
+    }
+  };
+  function applyMode(){
+    const c = copy[mode];
+    document.querySelector('[data-mode-title]').innerHTML = c.title;
+    document.querySelector('[data-mode-sub]').textContent = c.sub;
+    document.querySelector('[data-mode-btn]').textContent = c.btn;
+    document.querySelector('[data-mode-cta]').textContent = c.cta;
+    document.querySelector('[data-mode-legal]').innerHTML = c.legal;
+    // Top-right switcher — show opposite mode link
+    document.querySelectorAll('[data-mode-label]').forEach(el => {
+      el.style.display = el.dataset.modeLabel === mode ? '' : 'none';
+    });
+  }
+  applyMode();
+  document.querySelectorAll('[data-toggle-mode]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      mode = mode === 'signup' ? 'signin' : 'signup';
+      applyMode();
+    });
+  });
+
+  /* Submit → success view with the email filled in */
+  const form = document.querySelector('[data-form]');
+  if (form){
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const email = form.email.value.trim() || 'your inbox';
+      document.querySelector('[data-sent-email]').textContent = email;
+      view.hidden = true;
+      sentView.hidden = false;
+    });
+  }
+  const resend = document.querySelector('[data-resend]');
+  if (resend){
+    resend.addEventListener('click', () => {
+      resend.textContent = 'Sent — check again';
+      setTimeout(() => { resend.textContent = "Didn't get it? Resend"; }, 3000);
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

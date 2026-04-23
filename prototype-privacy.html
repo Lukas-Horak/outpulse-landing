@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Privacy Policy — Outpulse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --ink:#14120f;--ink-2:#3a342c;--ink-3:#514a40;
+  --muted:#6c6458;--muted-2:#a8a097;
+  --line:#ececea;--line-2:#f4f3f0;--line-3:#e2dfd8;
+  --bg:#ffffff;--bg-panel:#fbfaf7;--bg-subtle:#f6f4f0;
+  --orange:#ff5b1f;--orange-soft:#fff4ec;--orange-ink:#c24518;
+  --violet:#8a76b8;--violet-soft:#f2edf8;
+  --green:#1a7c4b;--green-soft:#eaf4ee;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"Inter","Helvetica Neue",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--sans);font-size:15.5px;line-height:1.65;color:var(--ink-2);
+  background:var(--bg);
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+a{color:var(--ink);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line-3)}
+a:hover{text-decoration-color:var(--orange);color:var(--orange)}
+
+/* ─── top bar ─── */
+.topbar{
+  position:sticky;top:0;z-index:20;
+  padding:18px clamp(20px,4vw,48px);
+  background:rgba(255,255,255,.88);backdrop-filter:saturate(140%) blur(10px);
+  border-bottom:1px solid var(--line-2);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.brand img{width:26px;height:26px;display:block}
+.brand-name{font-family:var(--serif);font-weight:500;font-size:20px;letter-spacing:-.015em;line-height:1;text-decoration:none}
+.brand:hover{color:var(--ink)}
+.brand:hover .brand-name{color:var(--orange)}
+.top-link{font-size:13px;color:var(--muted);text-decoration:none}
+.top-link:hover{color:var(--ink);text-decoration:none}
+
+/* ─── layout ─── */
+.shell{
+  max-width:1100px;margin:0 auto;padding:56px clamp(20px,4vw,48px) 96px;
+  display:grid;grid-template-columns:minmax(0,720px) 240px;gap:72px;
+  align-items:start;
+}
+.doc{min-width:0}
+.doc-head{margin-bottom:48px;padding-bottom:28px;border-bottom:1px solid var(--line)}
+.doc-eyebrow{
+  font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--orange-ink);margin-bottom:14px;
+}
+.doc h1{
+  font-family:var(--serif);font-weight:400;font-size:clamp(44px,5.6vw,64px);line-height:1.04;letter-spacing:-.02em;
+  color:var(--ink);margin:0 0 18px;
+}
+.doc-meta{font-size:13.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 18px}
+.doc-meta span{display:inline-flex;align-items:center;gap:6px}
+.doc-meta svg{color:var(--muted-2)}
+
+.lead{
+  padding:18px 20px;border-radius:14px;
+  background:var(--bg-subtle);border:1px solid var(--line);
+  font-size:14.5px;line-height:1.6;color:var(--ink-3);
+  margin:28px 0 44px;
+}
+.lead strong{color:var(--ink)}
+
+.doc h2{
+  font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.2;letter-spacing:-.01em;
+  color:var(--ink);margin:48px 0 14px;scroll-margin-top:84px;
+}
+.doc h2 .n{color:var(--muted-2);font-family:var(--sans);font-size:14px;font-weight:500;letter-spacing:.02em;margin-right:10px;vertical-align:middle}
+.doc h3{
+  font-family:var(--sans);font-weight:600;font-size:16px;color:var(--ink);
+  margin:28px 0 10px;letter-spacing:-.005em;
+}
+.doc p{margin:0 0 16px}
+.doc ul,.doc ol{margin:0 0 18px;padding-left:22px}
+.doc li{margin-bottom:8px}
+.doc strong{color:var(--ink);font-weight:600}
+.doc hr{border:none;border-top:1px solid var(--line);margin:48px 0}
+
+/* Data table for sub-processors / categories */
+.data-table{
+  width:100%;border-collapse:collapse;margin:16px 0 24px;
+  font-size:14px;border:1px solid var(--line);border-radius:12px;overflow:hidden;
+}
+.data-table th,.data-table td{
+  padding:12px 14px;text-align:left;border-bottom:1px solid var(--line-2);vertical-align:top;
+}
+.data-table tr:last-child td{border-bottom:none}
+.data-table th{
+  background:var(--bg-panel);
+  font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);
+}
+.data-table td code{
+  font-family:var(--mono);font-size:12px;color:var(--ink-3);
+  background:var(--bg-subtle);padding:1px 6px;border-radius:4px;
+}
+
+.note{
+  padding:16px 18px;border-left:3px solid var(--violet);
+  background:var(--violet-soft);border-radius:0 10px 10px 0;
+  font-size:14px;color:var(--ink-2);margin:20px 0;
+}
+.note.note-green{border-left-color:var(--green);background:var(--green-soft)}
+
+/* ─── TOC ─── */
+.toc{position:sticky;top:92px;font-size:13px;align-self:start}
+.toc-title{
+  font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 14px;
+}
+.toc ol{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:4px;counter-reset:toc}
+.toc li{counter-increment:toc}
+.toc a{
+  display:flex;gap:10px;align-items:baseline;
+  padding:7px 0;
+  color:var(--muted);text-decoration:none;line-height:1.4;
+  border-left:2px solid transparent;padding-left:12px;margin-left:-14px;
+  transition:color .12s ease,border-color .12s ease;
+}
+.toc a::before{
+  content:counter(toc,decimal-leading-zero);
+  font-family:var(--sans);font-size:10.5px;color:var(--muted-2);letter-spacing:.04em;
+  flex-shrink:0;font-feature-settings:"tnum";
+}
+.toc a:hover{color:var(--ink);border-left-color:var(--line-3)}
+.toc a.active{color:var(--ink);border-left-color:var(--orange)}
+
+/* ─── footer ─── */
+.doc-foot{
+  margin-top:72px;padding-top:28px;border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  font-size:13px;color:var(--muted);flex-wrap:wrap;
+}
+.doc-foot a{color:var(--ink-3)}
+
+@media (max-width:960px){
+  .shell{grid-template-columns:1fr;gap:32px;padding:32px 20px 72px}
+  .toc{position:static;order:-1;padding:14px 16px;background:var(--bg-subtle);border:1px solid var(--line);border-radius:12px}
+  .doc h1{font-size:clamp(34px,8vw,48px)}
+  .doc h2{font-size:24px;margin-top:40px}
+  .data-table{font-size:13px}
+  .data-table th,.data-table td{padding:10px 12px}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index-redesign.html" class="brand">
+    <img src="outpulse-logo-dusk.svg" alt="" />
+    <span class="brand-name">Outpulse</span>
+  </a>
+  <a href="prototype-signup.html" class="top-link">
+    &larr; Back to sign up
+  </a>
+</header>
+
+<div class="shell">
+
+  <article class="doc">
+    <div class="doc-head">
+      <div class="doc-eyebrow">Privacy</div>
+      <h1>Privacy Policy</h1>
+      <div class="doc-meta">
+        <span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Last updated April 23, 2026
+        </span>
+        <span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Version 1.0
+        </span>
+        <span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-10 8-14a8 8 0 0 0-16 0c0 4 8 14 8 14z"/><circle cx="12" cy="8" r="3"/></svg>
+          California, USA
+        </span>
+      </div>
+    </div>
+
+    <div class="lead">
+      This Privacy Policy explains how <strong>PLATFORM GLOBAL LLC</strong>, a California limited liability company with its principal place of business at Silicon Valley Center, 2570 N. First Street, 2nd Floor, San Jose, CA 95131, United States (EIN 38-4027473) (&ldquo;<strong>Outpulse</strong>&rdquo;, &ldquo;<strong>we</strong>&rdquo;, &ldquo;<strong>our</strong>&rdquo;, or &ldquo;<strong>us</strong>&rdquo;), collects, uses, discloses, and protects personal data in connection with the Outpulse service (the &ldquo;<strong>Service</strong>&rdquo;). It applies to customers of the Service, prospective customers who visit our website, and end users whose personal data is processed through the Service.
+    </div>
+
+    <h2 id="s1"><span class="n">01</span>Our roles</h2>
+    <p>Depending on the context, we act either as a <strong>controller</strong> or as a <strong>processor</strong> under the EU and UK General Data Protection Regulation (&ldquo;<strong>GDPR</strong>&rdquo;):</p>
+    <ul>
+      <li>We are the <strong>controller</strong> of personal data we collect directly from you when you visit our website, create an account, subscribe to a plan, or contact support.</li>
+      <li>We act as a <strong>processor</strong> of personal data that you (our customer) import into, or instruct us to obtain for, the Service — for example prospect contact details, email drafts, reply content, and analytics from your outreach campaigns. In those cases you are the controller and our processing is governed by our Data Processing Addendum (&ldquo;DPA&rdquo;).</li>
+    </ul>
+
+    <h2 id="s2"><span class="n">02</span>Data we collect</h2>
+
+    <h3>Account data</h3>
+    <p>When you sign up, we collect your name, business email address, company name, and hashed credentials. If you sign in with Google or Microsoft, we receive your verified email and basic profile details from those providers. We store the last sign-in time and IP address for security.</p>
+
+    <h3>Company &amp; campaign data</h3>
+    <p>During onboarding, you provide information about your company (website URL, one-liner, buyer persona, tone of voice). We also fetch and analyse the contents of your public website to pre-fill fields and to help our AI generate more relevant outreach. You can edit or remove this information from your settings at any time.</p>
+
+    <h3>Prospect data</h3>
+    <p>The Service allows you to build lists of prospects for your campaigns. Prospect records typically include business contact information — name, job title, company, business email address, LinkedIn URL, and firmographic or enrichment attributes — obtained from our data partner Apollo.io or imported by you. We do not knowingly collect special-category data (for example health, political, religious, or biometric data) as prospect information.</p>
+
+    <h3>Mailbox &amp; campaign content</h3>
+    <p>When you connect a sending mailbox (Gmail, Microsoft 365, or a custom SMTP/IMAP server), we access only the scopes necessary to send on your behalf and to detect replies. We store the emails we send through the Service, any replies routed back, and associated metadata (opens, clicks, bounces, unsubscribes) for analytics and reply detection. We do not read unrelated messages in your inbox.</p>
+
+    <h3>Payment data</h3>
+    <p>Payments are processed by Stripe, Inc. We do not receive or store full payment-card numbers. Stripe provides us with the last four digits, card brand, and an opaque customer token that we use to manage your subscription.</p>
+
+    <h3>Device &amp; usage data</h3>
+    <p>We collect standard web-server logs (IP address, user agent, referrer, pages viewed, timestamps) and product-analytics events (features used, error reports). We use minimal cookies — see Section <a href="#s9">09 Cookies &amp; tracking</a>.</p>
+
+    <h2 id="s3"><span class="n">03</span>How we use personal data</h2>
+    <p>We process personal data for the purposes below, each associated with a GDPR legal basis:</p>
+    <ul>
+      <li><strong>Providing the Service</strong> — to create and maintain your account, authenticate sessions, generate AI drafts, send emails on your behalf, detect replies, and display analytics. Basis: performance of a contract (Art. 6(1)(b)).</li>
+      <li><strong>Billing</strong> — to process subscriptions, invoices, refunds, and tax compliance. Basis: performance of a contract and legal obligations (Art. 6(1)(b), (c)).</li>
+      <li><strong>Product analytics &amp; improvement</strong> — to understand how features are used and to fix issues. Basis: our legitimate interest in improving the Service (Art. 6(1)(f)), balanced against your rights.</li>
+      <li><strong>Security &amp; fraud prevention</strong> — to detect, investigate, and prevent abuse, unauthorised access, or policy violations. Basis: legitimate interest and legal obligations.</li>
+      <li><strong>Customer support</strong> — to respond to your questions, bug reports, and feedback. Basis: performance of a contract and legitimate interest.</li>
+      <li><strong>Marketing communications</strong> — to send you product updates, tips, or occasional offers. Basis: legitimate interest for existing customers; consent (Art. 6(1)(a)) where required. You can opt out at any time via the unsubscribe link.</li>
+      <li><strong>Legal &amp; compliance</strong> — to comply with applicable laws, respond to lawful requests, and enforce our terms. Basis: legal obligation and legitimate interest.</li>
+    </ul>
+
+    <h2 id="s4"><span class="n">04</span>AI processing</h2>
+    <p>Our AI features draft email copy, classify replies, and make recommendations. To do this, we send relevant portions of your company information, prospect attributes, and prior email exchanges to our AI sub-processor (currently Anthropic, PBC). These calls are transmitted over TLS, and content is not used to train generally available foundation models. You can review, edit, or reject AI-generated content before it is sent to any recipient.</p>
+    <p>You are responsible for reviewing AI-generated output for accuracy, tone, and compliance with applicable law before it is transmitted to any prospect.</p>
+
+    <h2 id="s5" class="h-anchor"><span class="n">05</span>Sharing &amp; sub-processors</h2>
+    <p id="subprocessors">We share personal data only with the sub-processors listed below, with recipients of the emails you send through the Service, and where required by law. We do not sell personal data.</p>
+    <table class="data-table">
+      <thead>
+        <tr><th>Sub-processor</th><th>Purpose</th><th>Region</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Supabase, Inc.</strong></td><td>Authentication, database, file storage</td><td>United States / EU</td></tr>
+        <tr><td><strong>Anthropic, PBC</strong></td><td>AI model inference (drafting, classification)</td><td>United States</td></tr>
+        <tr><td><strong>Apollo.io</strong></td><td>Prospect discovery &amp; enrichment</td><td>United States</td></tr>
+        <tr><td><strong>Google LLC</strong></td><td>Mailbox API (Gmail, Workspace)</td><td>United States / global</td></tr>
+        <tr><td><strong>Microsoft Corporation</strong></td><td>Mailbox API (Microsoft 365, Outlook)</td><td>United States / global</td></tr>
+        <tr><td><strong>Stripe, Inc.</strong></td><td>Payment processing</td><td>United States / Ireland</td></tr>
+        <tr><td><strong>Vercel, Inc.</strong></td><td>Application hosting, edge delivery</td><td>United States / global edge</td></tr>
+        <tr><td><strong>Cloudflare, Inc.</strong></td><td>Content delivery, DDoS protection</td><td>Global edge</td></tr>
+        <tr><td><strong>PostHog, Inc.</strong></td><td>Product analytics</td><td>United States / EU</td></tr>
+        <tr><td><strong>Sentry (Functional Software, Inc.)</strong></td><td>Error monitoring</td><td>United States</td></tr>
+      </tbody>
+    </table>
+    <p>We select sub-processors for their security and privacy posture, put written data-processing terms in place with each, and review them periodically. We will notify you via email or in-app at least thirty (30) days before adding a new sub-processor that materially changes how we handle your data, and you may object on reasonable grounds.</p>
+
+    <h2 id="s6"><span class="n">06</span>International transfers</h2>
+    <p>Because we and our sub-processors operate internationally, personal data may be transferred to and processed in countries outside your country of residence, including the United States. Where we transfer personal data from the European Economic Area, the United Kingdom, or Switzerland to a country that has not been deemed adequate, we rely on the European Commission&rsquo;s Standard Contractual Clauses (2021/914/EU), the UK International Data Transfer Addendum, and supplementary safeguards as appropriate.</p>
+
+    <h2 id="s7"><span class="n">07</span>Data retention</h2>
+    <p>We retain personal data only for as long as it is necessary to fulfil the purposes for which it was collected, to comply with our legal obligations, to resolve disputes, and to enforce our agreements.</p>
+    <ul>
+      <li><strong>Account data</strong> — for as long as your account is active, plus up to twelve (12) months after closure for archival, legal, and tax purposes.</li>
+      <li><strong>Campaign &amp; prospect data</strong> — for the duration of your subscription; you can delete specific records or entire workspaces at any time. After account closure, we permanently delete or anonymise this data within ninety (90) days, except where retention is legally required.</li>
+      <li><strong>Invoice &amp; tax records</strong> — retained for the period required by applicable tax law (typically seven (7) years in the US, ten (10) years in several EU member states).</li>
+      <li><strong>Server logs</strong> — retained for up to ninety (90) days for security and debugging.</li>
+    </ul>
+
+    <h2 id="s8"><span class="n">08</span>Your rights</h2>
+    <p>Subject to applicable law, you have the right to:</p>
+    <ul>
+      <li><strong>Access</strong> — receive a copy of the personal data we hold about you;</li>
+      <li><strong>Rectify</strong> — correct inaccurate or incomplete data;</li>
+      <li><strong>Erase</strong> — request deletion (&ldquo;right to be forgotten&rdquo;), subject to legal exceptions;</li>
+      <li><strong>Restrict</strong> — request that we pause processing in certain circumstances;</li>
+      <li><strong>Object</strong> — object to processing based on legitimate interests, including direct marketing;</li>
+      <li><strong>Portability</strong> — receive your data in a structured, machine-readable format;</li>
+      <li><strong>Withdraw consent</strong> — where processing is based on consent, withdraw it at any time;</li>
+      <li><strong>Lodge a complaint</strong> — with your local data-protection authority; in the EU this may be your national supervisory authority.</li>
+    </ul>
+    <p>California residents have additional rights under the CCPA/CPRA, including the right to know the categories of personal information collected, sold, or shared, and the right to opt out of &ldquo;sale&rdquo; or &ldquo;sharing&rdquo; of personal information. We do not sell personal information as defined under California law.</p>
+    <p>To exercise any of these rights, email <a href="mailto:privacy@outpulse.ai">privacy@outpulse.ai</a>. We respond within the timeframes required by applicable law (typically thirty (30) days).</p>
+
+    <h2 id="s9"><span class="n">09</span>Cookies &amp; tracking</h2>
+    <p>We use a small number of first-party cookies and comparable technologies:</p>
+    <ul>
+      <li><strong>Essential cookies</strong> — required for authentication, session management, and CSRF protection. These cannot be disabled.</li>
+      <li><strong>Preference cookies</strong> — remember your UI preferences (for example light/dark mode).</li>
+      <li><strong>Analytics cookies</strong> — used by PostHog to measure feature usage. Aggregated and anonymised; we do not allow third-party advertising networks on our application.</li>
+    </ul>
+    <p>We do not use advertising cookies or cross-site trackers. Where required by law, we present a cookie banner allowing you to accept or decline non-essential cookies.</p>
+
+    <h2 id="s10"><span class="n">10</span>Security</h2>
+    <p>We take the security of personal data seriously and apply administrative, technical, and physical safeguards appropriate to the risk, including:</p>
+    <ul>
+      <li>TLS 1.2+ for all data in transit;</li>
+      <li>encryption at rest for databases and backups;</li>
+      <li>role-based access control and multi-factor authentication for employee accounts;</li>
+      <li>least-privilege sub-processor scopes (for example, read-only Apollo API keys, minimum Gmail scopes);</li>
+      <li>periodic vulnerability scanning and external penetration testing;</li>
+      <li>an incident-response process and breach-notification procedures consistent with applicable law.</li>
+    </ul>
+    <p>No system is completely secure. You are responsible for keeping your account credentials safe and using a strong, unique password (or SSO where offered).</p>
+
+    <h2 id="s11"><span class="n">11</span>Children&rsquo;s privacy</h2>
+    <p>The Service is intended for business use and is not directed to children under sixteen (16). We do not knowingly collect personal data from children. If you believe a child has provided us with personal data, please contact us and we will promptly delete it.</p>
+
+    <h2 id="s12"><span class="n">12</span>Prospects &amp; recipients of your emails</h2>
+    <p>If you are a prospect whose data has been processed through Outpulse on behalf of one of our customers, that customer — not Outpulse — is the controller of your personal data. We act as their processor. You may exercise your rights by contacting the customer who sent you the email (their identity and contact details appear in the message footer), or by contacting us at <a href="mailto:privacy@outpulse.ai">privacy@outpulse.ai</a> and we will forward your request to the customer.</p>
+
+    <h2 id="s13"><span class="n">13</span>Changes to this policy</h2>
+    <p>We may update this Privacy Policy from time to time. When we make material changes, we will notify you by email or through the Service at least thirty (30) days before the change takes effect. The &ldquo;Last updated&rdquo; date at the top of this page always reflects the current version.</p>
+
+    <h2 id="s14"><span class="n">14</span>Contact us</h2>
+    <p>If you have questions about this Privacy Policy or our data practices, please contact:</p>
+    <p>
+      <strong>PLATFORM GLOBAL LLC</strong><br />
+      Silicon Valley Center<br />
+      2570 N. First Street, 2nd Floor<br />
+      San Jose, CA 95131, United States<br />
+      EIN: 38-4027473<br />
+      Attn: Privacy &middot; <a href="mailto:privacy@outpulse.ai">privacy@outpulse.ai</a>
+    </p>
+    <p>For GDPR matters concerning customers or prospects in the EU/EEA, our <strong>EU Representative</strong> can be appointed on request — contact us at the email above to obtain the current designation.</p>
+
+    <div class="note">
+      <strong>Note to operators.</strong> This Privacy Policy is a template covering the main disclosures expected by GDPR, UK GDPR, and CCPA/CPRA for a B2B SaaS outbound product. Before going live, please verify: (a) the sub-processor list matches your production stack, (b) the retention periods match your back-end implementation, (c) you have executed a DPA with each sub-processor, (d) you have a designated EU Representative if required under GDPR Article 27, and (e) a qualified privacy lawyer has reviewed the document for your specific use cases and jurisdictions.
+    </div>
+
+    <div class="doc-foot">
+      <span>&copy; 2026 PLATFORM GLOBAL LLC. All rights reserved.</span>
+      <span><a href="prototype-terms.html">Terms of Service</a> &middot; <a href="index-redesign.html">Outpulse</a></span>
+    </div>
+  </article>
+
+  <aside class="toc" aria-label="Table of contents">
+    <p class="toc-title">On this page</p>
+    <ol>
+      <li><a href="#s1">Our roles</a></li>
+      <li><a href="#s2">Data we collect</a></li>
+      <li><a href="#s3">How we use data</a></li>
+      <li><a href="#s4">AI processing</a></li>
+      <li><a href="#s5">Sharing &amp; sub-processors</a></li>
+      <li><a href="#s6">International transfers</a></li>
+      <li><a href="#s7">Data retention</a></li>
+      <li><a href="#s8">Your rights</a></li>
+      <li><a href="#s9">Cookies &amp; tracking</a></li>
+      <li><a href="#s10">Security</a></li>
+      <li><a href="#s11">Children&rsquo;s privacy</a></li>
+      <li><a href="#s12">Prospects &amp; recipients</a></li>
+      <li><a href="#s13">Changes</a></li>
+      <li><a href="#s14">Contact</a></li>
+    </ol>
+  </aside>
+
+</div>
+
+<script>
+(function(){
+  const links = Array.from(document.querySelectorAll('.toc a'));
+  const map = new Map();
+  links.forEach(a => {
+    const id = a.getAttribute('href').slice(1);
+    const sec = document.getElementById(id);
+    if(sec) map.set(sec, a);
+  });
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        links.forEach(l => l.classList.remove('active'));
+        map.get(e.target).classList.add('active');
+      }
+    });
+  }, { rootMargin:'-80px 0px -70% 0px', threshold:0 });
+  map.forEach((_, sec) => io.observe(sec));
+})();
+</script>
+</body>
+</html>

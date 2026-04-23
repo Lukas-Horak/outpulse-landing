@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Terms of Service — Outpulse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --ink:#14120f;--ink-2:#3a342c;--ink-3:#514a40;
+  --muted:#6c6458;--muted-2:#a8a097;
+  --line:#ececea;--line-2:#f4f3f0;--line-3:#e2dfd8;
+  --bg:#ffffff;--bg-panel:#fbfaf7;--bg-subtle:#f6f4f0;
+  --orange:#ff5b1f;--orange-soft:#fff4ec;--orange-ink:#c24518;
+  --violet:#8a76b8;--violet-soft:#f2edf8;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"Inter","Helvetica Neue",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--sans);font-size:15.5px;line-height:1.65;color:var(--ink-2);
+  background:var(--bg);
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+a{color:var(--ink);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line-3)}
+a:hover{text-decoration-color:var(--orange);color:var(--orange)}
+
+/* ─── top bar ─── */
+.topbar{
+  position:sticky;top:0;z-index:20;
+  padding:18px clamp(20px,4vw,48px);
+  background:rgba(255,255,255,.88);backdrop-filter:saturate(140%) blur(10px);
+  border-bottom:1px solid var(--line-2);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.brand img{width:26px;height:26px;display:block}
+.brand-name{font-family:var(--serif);font-weight:500;font-size:20px;letter-spacing:-.015em;line-height:1;text-decoration:none}
+.brand:hover{color:var(--ink)}
+.brand:hover .brand-name{color:var(--orange)}
+.top-link{font-size:13px;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.top-link:hover{color:var(--ink);text-decoration:none}
+
+/* ─── layout ─── */
+.shell{
+  max-width:1100px;margin:0 auto;padding:56px clamp(20px,4vw,48px) 96px;
+  display:grid;grid-template-columns:minmax(0,720px) 240px;gap:72px;
+  align-items:start;
+}
+.doc{min-width:0}
+.doc-head{margin-bottom:48px;padding-bottom:28px;border-bottom:1px solid var(--line)}
+.doc-eyebrow{
+  font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--orange-ink);margin-bottom:14px;
+}
+.doc h1{
+  font-family:var(--serif);font-weight:400;font-size:clamp(44px,5.6vw,64px);line-height:1.04;letter-spacing:-.02em;
+  color:var(--ink);margin:0 0 18px;
+}
+.doc-meta{font-size:13.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 18px}
+.doc-meta span{display:inline-flex;align-items:center;gap:6px}
+.doc-meta svg{color:var(--muted-2)}
+
+.lead{
+  padding:18px 20px;border-radius:14px;
+  background:var(--bg-subtle);border:1px solid var(--line);
+  font-size:14.5px;line-height:1.6;color:var(--ink-3);
+  margin:28px 0 44px;
+}
+.lead strong{color:var(--ink)}
+
+.doc h2{
+  font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.2;letter-spacing:-.01em;
+  color:var(--ink);margin:48px 0 14px;scroll-margin-top:84px;
+}
+.doc h2 .n{color:var(--muted-2);font-family:var(--sans);font-size:14px;font-weight:500;letter-spacing:.02em;margin-right:10px;vertical-align:middle}
+.doc h3{
+  font-family:var(--sans);font-weight:600;font-size:16px;color:var(--ink);
+  margin:28px 0 10px;letter-spacing:-.005em;
+}
+.doc p{margin:0 0 16px}
+.doc ul,.doc ol{margin:0 0 18px;padding-left:22px}
+.doc li{margin-bottom:8px}
+.doc strong{color:var(--ink);font-weight:600}
+.doc hr{border:none;border-top:1px solid var(--line);margin:48px 0}
+
+.note{
+  padding:16px 18px;border-left:3px solid var(--violet);
+  background:var(--violet-soft);border-radius:0 10px 10px 0;
+  font-size:14px;color:var(--ink-2);margin:20px 0;
+}
+
+/* ─── TOC (right rail) ─── */
+.toc{
+  position:sticky;top:92px;
+  font-size:13px;
+  align-self:start;
+}
+.toc-title{
+  font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 14px;
+}
+.toc ol{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:4px;counter-reset:toc}
+.toc li{counter-increment:toc}
+.toc a{
+  display:flex;gap:10px;align-items:baseline;
+  padding:7px 0;
+  color:var(--muted);text-decoration:none;line-height:1.4;
+  border-left:2px solid transparent;padding-left:12px;margin-left:-14px;
+  transition:color .12s ease,border-color .12s ease;
+}
+.toc a::before{
+  content:counter(toc,decimal-leading-zero);
+  font-family:var(--sans);font-size:10.5px;color:var(--muted-2);letter-spacing:.04em;
+  flex-shrink:0;font-feature-settings:"tnum";
+}
+.toc a:hover{color:var(--ink);border-left-color:var(--line-3)}
+.toc a.active{color:var(--ink);border-left-color:var(--orange)}
+
+/* ─── footer ─── */
+.doc-foot{
+  margin-top:72px;padding-top:28px;border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  font-size:13px;color:var(--muted);flex-wrap:wrap;
+}
+.doc-foot a{color:var(--ink-3)}
+
+/* ─── mobile ─── */
+@media (max-width:960px){
+  .shell{grid-template-columns:1fr;gap:32px;padding:32px 20px 72px}
+  .toc{position:static;order:-1;padding:14px 16px;background:var(--bg-subtle);border:1px solid var(--line);border-radius:12px}
+  .doc h1{font-size:clamp(34px,8vw,48px)}
+  .doc h2{font-size:24px;margin-top:40px}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index-redesign.html" class="brand">
+    <img src="outpulse-logo-dusk.svg" alt="" />
+    <span class="brand-name">Outpulse</span>
+  </a>
+  <a href="prototype-signup.html" class="top-link">
+    &larr; Back to sign up
+  </a>
+</header>
+
+<div class="shell">
+
+  <article class="doc">
+    <div class="doc-head">
+      <div class="doc-eyebrow">Legal</div>
+      <h1>Terms of Service</h1>
+      <div class="doc-meta">
+        <span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Last updated April 23, 2026
+        </span>
+        <span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Version 1.0
+        </span>
+        <span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          California, USA
+        </span>
+      </div>
+    </div>
+
+    <div class="lead">
+      These Terms of Service (&ldquo;<strong>Terms</strong>&rdquo;) govern your access to and use of the Outpulse service (the &ldquo;<strong>Service</strong>&rdquo;) operated by <strong>PLATFORM GLOBAL LLC</strong>, a California limited liability company with its principal place of business at Silicon Valley Center, 2570 N. First Street, 2nd Floor, San Jose, CA 95131, United States (EIN 38-4027473) (&ldquo;<strong>Outpulse</strong>&rdquo;, &ldquo;<strong>we</strong>&rdquo;, &ldquo;<strong>our</strong>&rdquo;, or &ldquo;<strong>us</strong>&rdquo;). By creating an account, signing in, or otherwise using the Service, you agree to be bound by these Terms.
+    </div>
+
+    <h2 id="s1"><span class="n">01</span>Agreement to terms</h2>
+    <p>These Terms form a binding legal agreement between you (&ldquo;<strong>you</strong>&rdquo; or &ldquo;<strong>Customer</strong>&rdquo;) and Outpulse. If you are entering into these Terms on behalf of a company or other legal entity, you represent that you have the authority to bind that entity to these Terms, in which case &ldquo;you&rdquo; refers to that entity. If you do not have such authority, or if you do not agree with these Terms, you must not accept them and may not use the Service.</p>
+    <p>We may update these Terms from time to time. When we make material changes, we will notify you by email or through the Service at least thirty (30) days before the change takes effect. Your continued use of the Service after the effective date constitutes your acceptance of the revised Terms.</p>
+
+    <h2 id="s2"><span class="n">02</span>The service</h2>
+    <p>Outpulse provides a software-as-a-service platform that helps businesses run AI-assisted outbound sales campaigns. The Service includes, among other features, AI-generated email drafting, prospect discovery and enrichment via integrated third-party data sources, sending mailbox connections, campaign orchestration, reply detection, and analytics. We may add, modify, or remove features at our discretion, and will provide reasonable notice for any change that materially reduces the functionality of a paid plan you subscribe to.</p>
+
+    <h2 id="s3"><span class="n">03</span>Account eligibility &amp; registration</h2>
+    <p>To use the Service, you must (a) be at least eighteen (18) years old, (b) be capable of forming a binding contract under applicable law, and (c) not be barred from receiving the Service under the laws of the United States, the European Union, or any other applicable jurisdiction.</p>
+    <p>You agree to provide accurate, current, and complete information during registration and to keep that information up to date. You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You must notify us immediately of any unauthorised use of your account.</p>
+
+    <h2 id="s4"><span class="n">04</span>Subscription plans, trials &amp; billing</h2>
+    <h3>Plans and trials</h3>
+    <p>The Service is offered under several subscription plans, each with specific usage limits and features described at the point of purchase. Every paid plan starts with a <strong>seven (7) day free trial</strong> during which no charge is made. To begin a trial, you must provide a valid payment method. If you do not cancel before the trial ends, your payment method will be charged automatically for the first billing period of the plan you selected.</p>
+
+    <h3>Recurring charges</h3>
+    <p>Subscriptions renew automatically at the end of each billing period (monthly, unless otherwise stated) until cancelled. You authorise us, and our payment processor Stripe, Inc., to charge your payment method on file for all fees owed.</p>
+
+    <h3>Taxes</h3>
+    <p>Fees are exclusive of applicable sales, use, value-added, withholding, and similar taxes, which are your responsibility. Where we are required to collect such taxes, they will be added to your invoice.</p>
+
+    <h3>Price changes</h3>
+    <p>We may change our prices from time to time. If we change the price of your subscription, we will provide you with at least thirty (30) days&rsquo; prior notice. If you do not agree to the new price, you may cancel your subscription before the change takes effect.</p>
+
+    <h2 id="s5"><span class="n">05</span>Cancellation &amp; refunds</h2>
+    <p>You may cancel your subscription at any time from your account settings. Cancellation takes effect at the end of the current billing period; you will retain access to paid features until then.</p>
+    <p>Except where required by applicable law, fees already paid are non-refundable. We may offer pro-rated refunds at our sole discretion, for example in cases of extended Service unavailability attributable to us.</p>
+
+    <h2 id="s6"><span class="n">06</span>Acceptable use</h2>
+    <p>You may use the Service only for lawful business purposes and in compliance with these Terms, our documentation, and all applicable laws. You will not, and will not permit any third party to:</p>
+    <ul>
+      <li>send unsolicited commercial messages in violation of applicable anti-spam laws (including the CAN-SPAM Act of 2003, Canada&rsquo;s Anti-Spam Legislation, the ePrivacy Directive, the UK&rsquo;s PECR, and the GDPR);</li>
+      <li>send messages that are fraudulent, deceptive, harassing, defamatory, obscene, or that infringe any third party&rsquo;s intellectual-property or privacy rights;</li>
+      <li>use the Service to promote illegal goods or services, high-risk financial schemes, adult content, malware, or content that violates our list of prohibited categories;</li>
+      <li>attempt to probe, scan, or test the vulnerability of our systems, or to circumvent any security or usage-metering feature;</li>
+      <li>resell, sublicense, or otherwise make the Service available to any third party outside your organisation without our prior written consent;</li>
+      <li>reverse-engineer, decompile, or otherwise attempt to derive the source code of the Service, except to the extent expressly permitted by applicable law;</li>
+      <li>use the Service to build a competing product or to benchmark its performance for publication without our consent.</li>
+    </ul>
+
+    <h2 id="s7"><span class="n">07</span>Anti-spam &amp; email-sending obligations</h2>
+    <p>Because the Service sends emails on your behalf, you must comply with all applicable anti-spam and privacy laws. In particular, you confirm that for every recipient of a campaign:</p>
+    <ul>
+      <li>you have a lawful basis to contact that recipient (for example a legitimate-interest assessment under GDPR Article 6(1)(f), where applicable);</li>
+      <li>the recipient is a business contact and your outreach relates to their professional role;</li>
+      <li>each message clearly identifies the sender, includes a valid physical postal address, and provides a functioning one-click unsubscribe mechanism;</li>
+      <li>you will honour unsubscribe requests within ten (10) business days and will not contact recipients who have opted out;</li>
+      <li>you will not forge headers, misrepresent the origin of a message, or use the Service to send bulk messages to scraped or purchased personal-email lists (Gmail, Yahoo, Outlook.com, etc.) without recipient consent.</li>
+    </ul>
+    <p>We may suspend or terminate your account if we have reasonable grounds to believe that your use of the Service violates this section, including where bounce, complaint, or spam-trap rates exceed industry-standard thresholds.</p>
+
+    <h2 id="s8"><span class="n">08</span>Your content &amp; licence</h2>
+    <p>You retain all rights in and to the content you upload to, generate in, or send through the Service, including email copy, prospect lists, and company information (&ldquo;<strong>Customer Content</strong>&rdquo;). You grant Outpulse a worldwide, non-exclusive, royalty-free licence to host, copy, transmit, display, and process Customer Content solely as necessary to provide the Service, to train and operate AI features on a per-account basis, and to enforce these Terms.</p>
+    <p>We do not use your Customer Content to train foundation models that are made available to other customers. We do not sell your Customer Content.</p>
+
+    <h2 id="s9"><span class="n">09</span>Intellectual property</h2>
+    <p>The Service, including its software, user interfaces, documentation, trademarks, and the &ldquo;Outpulse&rdquo; name and logo, is owned by PLATFORM GLOBAL, LLC and its licensors and is protected by copyright, trademark, and other laws. Except for the limited right to use the Service granted under these Terms, no rights are transferred to you.</p>
+    <p>We welcome feedback and suggestions. If you send us any feedback, you grant us a perpetual, worldwide, royalty-free licence to use it without restriction.</p>
+
+    <h2 id="s10"><span class="n">10</span>Third-party services</h2>
+    <p>The Service integrates with a number of third-party providers, including but not limited to Apollo.io (prospect data), Anthropic, PBC (AI model inference), Google LLC and Microsoft Corporation (mailbox APIs), Stripe, Inc. (payments), and Supabase, Inc. (authentication and storage). Your use of those third-party services may be subject to their own terms, and we are not responsible for their acts or omissions. We will use commercially reasonable efforts to select reputable sub-processors; an up-to-date list is maintained in our <a href="prototype-privacy.html#subprocessors">Privacy Policy</a>.</p>
+
+    <h2 id="s11"><span class="n">11</span>Disclaimers</h2>
+    <p>The Service is provided on an &ldquo;<strong>as is</strong>&rdquo; and &ldquo;<strong>as available</strong>&rdquo; basis. To the maximum extent permitted by applicable law, Outpulse disclaims all warranties, express or implied, including warranties of merchantability, fitness for a particular purpose, non-infringement, and accuracy of data.</p>
+    <p>AI-generated output may be inaccurate, incomplete, or biased. You are responsible for reviewing all AI-generated content before it is sent to any recipient, and for ensuring that your use of such content complies with applicable law.</p>
+
+    <h2 id="s12"><span class="n">12</span>Limitation of liability</h2>
+    <p>To the maximum extent permitted by applicable law, neither party will be liable to the other for any indirect, incidental, special, consequential, or punitive damages, or for any loss of profits, revenue, goodwill, or data, arising out of or in connection with these Terms or the Service, even if advised of the possibility of such damages.</p>
+    <p>Except for (a) amounts owed under Section 13 (Indemnification), (b) breaches of confidentiality, or (c) a party&rsquo;s gross negligence or wilful misconduct, each party&rsquo;s aggregate liability arising from or related to these Terms will not exceed the greater of (i) the fees you paid to Outpulse in the twelve (12) months preceding the event giving rise to liability and (ii) one hundred U.S. dollars ($100).</p>
+
+    <h2 id="s13"><span class="n">13</span>Indemnification</h2>
+    <p>You will defend, indemnify, and hold harmless Outpulse, its affiliates, and their respective officers, directors, employees, and agents from and against any third-party claims, damages, liabilities, costs, and expenses (including reasonable attorneys&rsquo; fees) arising out of or relating to (a) Customer Content, (b) your breach of these Terms or applicable law, or (c) your use of the Service in violation of the acceptable-use or anti-spam sections.</p>
+
+    <h2 id="s14"><span class="n">14</span>Termination</h2>
+    <p>You may stop using the Service at any time by cancelling your subscription and deleting your account. We may suspend or terminate your access if you materially breach these Terms, if required by law, or to protect the security or integrity of the Service, with notice where reasonably practicable.</p>
+    <p>Sections that by their nature should survive termination (including Sections 8, 9, 11, 12, 13, and 16) will survive.</p>
+
+    <h2 id="s15"><span class="n">15</span>Changes to the service</h2>
+    <p>We are continuously improving the Service. We may add, change, or remove features, and we may change the technology that powers it, at any time. Where a change materially reduces core functionality of a paid plan, we will give you reasonable advance notice and, if the change is adverse, a reasonable period to cancel and receive a pro-rated refund for the unused portion of your subscription.</p>
+
+    <h2 id="s16"><span class="n">16</span>Governing law &amp; disputes</h2>
+    <p>These Terms are governed by the laws of the State of California, United States, without regard to its conflict-of-laws rules. Any dispute arising out of or in connection with these Terms will be resolved first through good-faith negotiation, and failing that, in the state or federal courts located in Santa Clara County, California, to whose exclusive jurisdiction the parties submit.</p>
+    <p>Nothing in this section prevents either party from seeking injunctive or equitable relief in any court of competent jurisdiction to protect its intellectual-property rights or confidential information.</p>
+
+    <h2 id="s17"><span class="n">17</span>Contact</h2>
+    <p>Questions about these Terms? Write to us:</p>
+    <p>
+      <strong>PLATFORM GLOBAL LLC</strong><br />
+      Silicon Valley Center<br />
+      2570 N. First Street, 2nd Floor<br />
+      San Jose, CA 95131, United States<br />
+      EIN: 38-4027473<br />
+      Attn: Legal &middot; <a href="mailto:legal@outpulse.ai">legal@outpulse.ai</a>
+    </p>
+
+    <div class="note">
+      <strong>Note to operators.</strong> This document is a well-structured template covering the standard issues for a B2B SaaS outbound-sales product. Before publishing it at a production URL, please have it reviewed by qualified counsel. Items likely to require attention: final sub-processor list, a Data Processing Addendum (DPA) with SCCs for EU customers, consumer-protection language for EU/UK end-users, and any industry-specific compliance (e.g. healthcare, financial services).
+    </div>
+
+    <div class="doc-foot">
+      <span>&copy; 2026 PLATFORM GLOBAL LLC. All rights reserved.</span>
+      <span><a href="prototype-privacy.html">Privacy Policy</a> &middot; <a href="index-redesign.html">Outpulse</a></span>
+    </div>
+  </article>
+
+  <aside class="toc" aria-label="Table of contents">
+    <p class="toc-title">On this page</p>
+    <ol>
+      <li><a href="#s1">Agreement to terms</a></li>
+      <li><a href="#s2">The service</a></li>
+      <li><a href="#s3">Account eligibility</a></li>
+      <li><a href="#s4">Subscription &amp; billing</a></li>
+      <li><a href="#s5">Cancellation &amp; refunds</a></li>
+      <li><a href="#s6">Acceptable use</a></li>
+      <li><a href="#s7">Anti-spam obligations</a></li>
+      <li><a href="#s8">Your content &amp; licence</a></li>
+      <li><a href="#s9">Intellectual property</a></li>
+      <li><a href="#s10">Third-party services</a></li>
+      <li><a href="#s11">Disclaimers</a></li>
+      <li><a href="#s12">Limitation of liability</a></li>
+      <li><a href="#s13">Indemnification</a></li>
+      <li><a href="#s14">Termination</a></li>
+      <li><a href="#s15">Changes to the service</a></li>
+      <li><a href="#s16">Governing law</a></li>
+      <li><a href="#s17">Contact</a></li>
+    </ol>
+  </aside>
+
+</div>
+
+<script>
+// Scroll-spy for TOC
+(function(){
+  const links = Array.from(document.querySelectorAll('.toc a'));
+  const map = new Map();
+  links.forEach(a => {
+    const id = a.getAttribute('href').slice(1);
+    const sec = document.getElementById(id);
+    if(sec) map.set(sec, a);
+  });
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        links.forEach(l => l.classList.remove('active'));
+        map.get(e.target).classList.add('active');
+      }
+    });
+  }, { rootMargin:'-80px 0px -70% 0px', threshold:0 });
+  map.forEach((_, sec) => io.observe(sec));
+})();
+</script>
+</body>
+</html>
