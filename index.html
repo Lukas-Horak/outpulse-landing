@@ -2600,28 +2600,20 @@ h1.display em{
    chips are in view. */
 .chip-pin{
   position:relative;
-  /* 30vh of scroll past initial viewport — just enough for the 12
-     chips to cascade in. Kept tight to avoid empty-white tail after
-     animation completes. */
-  height:130vh;
+  /* No sticky pin — natural-height section. The chips animate on
+     viewport-enter via IntersectionObserver, no scroll-driven pin,
+     no empty viewport below the cloud. */
   background:#fff;
   border-top:1px solid var(--line);
   border-bottom:1px solid var(--line);
+  padding:96px 0 72px;
 }
 .chip-pin-inner{
-  position:sticky;top:0;
-  height:100vh;
+  position:relative;
   width:100%;
-  overflow:hidden;
-  /* Center the whole block (headline + cloud) vertically in the pinned
-     viewport. This is the fix for the "gap under chips" — with
-     flex-start the cloud hugged the top and left a ~30vh empty band
-     below. Centered, any remaining space is split top/bottom and
-     reads as intentional negative space. Padding-top reserves nav
-     clearance so the headline doesn't slip under the overlay nav. */
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:96px 28px 40px;
-  --pp:0;
+  display:flex;flex-direction:column;align-items:center;
+  padding:0 28px;
+  --pp:1;
 }
 .chip-pin-inner::before{
   content:"";position:absolute;inset:auto 0 -20% 0;height:60%;
@@ -2699,9 +2691,10 @@ h1.display em{
   font-family:var(--sans);background:#fff;color:var(--ink-2);
   border:1px solid var(--line-2);border-radius:999px;
   white-space:nowrap;
-  /* Chips appear "from behind": small scale-up + opacity + blur-clear,
-     no large translate. --sp (0→1) is set per-chip by the scroll
-     driver; hardcoded positions are the chip's final resting place. */
+  /* Chips appear "from behind": small scale-up + opacity + blur-clear.
+     --sp (0→1) is flipped to 1 on a staggered timer by the
+     IntersectionObserver in the reveal script. CSS transitions
+     smooth the 0→1 flip so each chip animates in. */
   --sp:0;
   opacity:var(--sp);
   transform:
@@ -2710,7 +2703,7 @@ h1.display em{
   filter:blur(calc((1 - var(--sp)) * 5px));
   transform-origin:center center;
   will-change:transform,opacity,filter;
-  transition:box-shadow .25s ease,border-color .25s ease;
+  transition:opacity .6s ease,transform .6s ease,filter .6s ease,box-shadow .25s ease,border-color .25s ease;
 }
 .chip .dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
 /* Size spread kept narrower so no single chip dominates the cloud. */
@@ -2753,8 +2746,7 @@ h1.display em{
 .chip[data-tip]:hover::after,.chip[data-tip]:hover::before{opacity:1}
 
 @media(max-height:900px){
-  .chip-pin{height:120vh}
-  .chip-pin-inner{padding:84px 28px 32px}
+  .chip-pin{padding:72px 0 56px}
   .chip-cloud{height:clamp(340px,56vh,500px)}
   .chip.xxl{font-size:18px;padding:11px 26px}
   .chip.xl{font-size:17px;padding:10px 24px}
@@ -2769,8 +2761,8 @@ h1.display em{
    static flex-wrap cascade. */
 
 @media(max-width:820px){
-  .chip-pin{height:auto}
-  .chip-pin-inner{position:relative;height:auto;padding:72px 18px 56px;overflow:visible}
+  .chip-pin{padding:64px 0 48px}
+  .chip-pin-inner{padding:0 18px}
   .chip-cloud-bg{display:none}
   .chip-cloud{
     position:static;width:auto;height:auto;max-width:100%;
@@ -2802,8 +2794,6 @@ h1.display em{
   .chip[data-tip]::after,.chip[data-tip]::before{display:none}
 }
 @media(prefers-reduced-motion:reduce){
-  .chip-pin{height:auto}
-  .chip-pin-inner{position:relative;height:auto}
   .chip{--sp:1 !important}
 }
 
@@ -2827,23 +2817,18 @@ h1.display em{
    locks it into place. Headline stays pinned while rows slot in. */
 .cmp-split{
   position:relative;
-  /* 120vh of scroll past initial viewport is enough for 5 rows to
-     cascade in. Was 260vh, which left 60-80vh of empty white below
-     the final state — tightening to 220vh closes the gap. */
-  height:220vh;
+  /* No sticky pin — natural-height section. Rows cascade in via
+     IntersectionObserver when the section enters the viewport. No
+     forced 100vh inner → no empty white below the last row. */
   background:#fff;
+  padding:96px 0 96px;
 }
 .cmp-split-pin{
-  position:sticky;top:0;
-  height:100vh;
+  position:relative;
   width:100%;
-  overflow:hidden;
-  /* Center the comparison board vertically in the pinned viewport so
-     no empty white sits below the final row. Padding-top reserves
-     nav-overlay clearance (72px nav + small breathing room). */
-  display:flex;flex-direction:column;justify-content:center;
-  padding:96px 24px 32px;
-  --cp:0;
+  display:flex;flex-direction:column;
+  padding:0 24px;
+  --cp:1;
 }
 
 .cmp-split-head{
@@ -2892,10 +2877,10 @@ h1.display em{
 /* Vertical divider — full-height from start (so split is obvious),
    slightly stronger as rows fill in. */
 .cmp-split-divider{
-  position:absolute;left:50%;top:140px;bottom:40px;
+  position:absolute;left:50%;top:120px;bottom:20px;
   width:1px;
   background:linear-gradient(180deg,transparent 0%,var(--line-2) 8%,var(--line-2) 92%,transparent 100%);
-  opacity:calc(0.55 + var(--cp) * 0.45);
+  opacity:1;
   z-index:1;
 }
 
@@ -2966,10 +2951,16 @@ h1.display em{
   border-bottom:1px solid var(--line);
   --rp:0;
   opacity:var(--rp);
-  transform:translateY(calc((1 - var(--rp)) * 22vh)) scale(calc(0.94 + var(--rp) * 0.06));
-  transform-origin:50% 50%;
+  transform:translateY(calc((1 - var(--rp)) * 40px));
+  transition:opacity .55s ease,transform .55s ease;
   will-change:transform,opacity;
 }
+.cmp-split-rows.in .cmp-split-row{--rp:1}
+.cmp-split-rows.in .cmp-split-row:nth-child(1){transition-delay:.05s}
+.cmp-split-rows.in .cmp-split-row:nth-child(2){transition-delay:.15s}
+.cmp-split-rows.in .cmp-split-row:nth-child(3){transition-delay:.25s}
+.cmp-split-rows.in .cmp-split-row:nth-child(4){transition-delay:.35s}
+.cmp-split-rows.in .cmp-split-row:nth-child(5){transition-delay:.45s}
 .cmp-split-row:last-child{border-bottom:none}
 .cmp-row-cell{
   font-size:clamp(14px,min(1.35vw,1.85vh),20px);
@@ -3011,10 +3002,8 @@ h1.display em{
 
 /* Mobile: stack left/right, collapse to single column */
 @media(max-width:820px){
-  /* Kill the parallax pin on mobile — it doesn't work on touch. Show
-     the whole comparison as a natural, scrollable page fragment. */
-  .cmp-split{height:auto !important;padding:64px 0 56px}
-  .cmp-split-pin{position:relative !important;height:auto !important;padding:0 18px;overflow:visible;--cp:1 !important}
+  .cmp-split{padding:64px 0 56px}
+  .cmp-split-pin{padding:0 18px;--cp:1 !important}
   .cmp-split-head{transform:none !important;opacity:1 !important;margin:0 auto 28px}
   .cmp-split-head h2{font-size:28px;line-height:1.1}
   .cmp-split-head h2 em.cmp-strike::after{transform:scaleX(1) !important}
@@ -3066,8 +3055,6 @@ h1.display em{
 }
 
 @media(prefers-reduced-motion:reduce){
-  .cmp-split{height:auto}
-  .cmp-split-pin{position:relative;height:auto}
   .cmp-split-head,.cmp-split-col,.cmp-split-row{transform:none!important;opacity:1!important}
   .cmp-split-divider{transform:scaleY(1)!important;opacity:1!important}
   /* Snap the orange strikethroughs to their final "drawn" state */
@@ -3080,33 +3067,17 @@ h1.display em{
    stay full-size because the mockup is parked completely below the fold
    until the user scrolls. */
 @media(min-width:821px) and (max-height:900px){
-  /* ─ Comparison pin — maintain the 60px-from-nav rhythm. */
-  .cmp-split-pin{padding:132px 24px 20px}
-  .cmp-split-head{margin:0 auto 18px}
+  .cmp-split{padding:72px 0 72px}
+  .cmp-split-head{margin:0 auto 22px}
   .cmp-split-head .eyebrow{margin-bottom:12px}
   .cmp-split-board{padding:0 24px 18px;margin:0 auto 10px;gap:36px}
   .cmp-split-col{min-height:130px;padding:6px 16px 10px}
-  .cmp-split-divider{top:110px;bottom:28px}
   .cmp-split-rows{padding:0 24px}
   .cmp-split-row{padding:10px 0}
   .cmp-row-cell{padding:4px 20px}
 
-  /* ─ CTA card — don't consume 100vh on its own. */
   .final{padding:80px 24px}
   .final-card{padding:72px 40px}
-}
-
-/* Short height with plenty of width (≤750) — squeeze comparison further. */
-@media(min-width:821px) and (max-height:750px){
-  .cmp-split-pin{padding:116px 24px 16px}
-  .cmp-split-head{margin:0 auto 12px}
-  .cmp-split-head .eyebrow{font-size:10px;margin-bottom:8px}
-  .cmp-split-board{padding:0 24px 14px;gap:28px}
-  .cmp-split-col{min-height:110px;padding:4px 12px 8px}
-  .cmp-split-title{margin-bottom:8px}
-  .cmp-split-price{margin:2px 0 4px}
-  .cmp-split-row{padding:7px 0}
-  .cmp-row-cell{padding:2px 16px}
 }
 
 /* ─────────────────────────────────────── LEGACY COMPARISON (kept for other pages) */
@@ -4845,113 +4816,81 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   setTimeout(() => rows.classList.add('in'), 2500);
 })();
 
-/* ─── Intent chip sticky-pin scroll driver ─────────────────────────────
-   Chips are absolutely positioned in the cloud (hand-placed into a plus/X
-   constellation). Reveal order = DOM order (centre first, then cross arms,
-   then scatter). Each chip reveals from behind — scale 0.78 → 1, opacity
-   0 → 1, blur 5px → 0 — no wild horizontal travel. */
+/* ─── Intent chip cascade reveal (IntersectionObserver) ─────────────────
+   Section has natural height (no sticky pin). When it enters the
+   viewport, each chip reveals on a staggered timer — same visual
+   (scale 0.78 → 1, opacity 0 → 1, blur 5px → 0) as before but
+   driven by time rather than scroll progress, so there's no empty
+   viewport below the cloud. */
 (function(){
   const section = document.querySelector('[data-chip-pin]');
   if (!section) return;
-  const pin   = section.querySelector('.chip-pin-inner');
   const chips = Array.from(section.querySelectorAll('.chip'));
-  if (!pin || chips.length === 0) return;
+  if (chips.length === 0) return;
 
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (reduce.matches){
     chips.forEach(c => c.style.setProperty('--sp', '1'));
+    section.classList.add('bg-in');
     return;
   }
 
-  const endAt      = 0.9;
-  const stepWidth  = endAt / chips.length;
-  const windowSize = Math.min(stepWidth * 2.2, 0.18);
-
-  let ticking = false;
-  function update(){
-    ticking = false;
-    const rect  = section.getBoundingClientRect();
-    const total = section.offsetHeight - window.innerHeight;
-    if (total <= 0) return;
-    let pp = -rect.top / total;
-    pp = Math.max(0, Math.min(1, pp));
-    pin.style.setProperty('--pp', pp.toFixed(4));
+  function revealAll(){
     chips.forEach((c, i) => {
-      const start = i * stepWidth;
-      const end   = Math.min(1, start + windowSize);
-      const range = end - start;
-      let sp = range <= 0 ? (pp >= start ? 1 : 0) : (pp - start) / range;
-      sp = Math.max(0, Math.min(1, sp));
-      const eased = 1 - Math.pow(1 - sp, 3);
-      c.style.setProperty('--sp', eased.toFixed(4));
+      setTimeout(() => c.style.setProperty('--sp', '1'), 60 + i * 85);
     });
   }
-  function onScroll(){
-    if (!ticking){ requestAnimationFrame(update); ticking = true; }
-  }
-  window.addEventListener('scroll', onScroll, { passive:true });
-  window.addEventListener('resize', onScroll, { passive:true });
-  update();
 
-  /* Background blurred chips fade in once the pin approaches view.
-     Simple IntersectionObserver — they don't need scroll-linked
-     precision, they're ambient depth. */
-  const bgObs = new IntersectionObserver(entries => {
+  const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting){
         section.classList.add('bg-in');
-        bgObs.disconnect();
+        revealAll();
+        io.disconnect();
       }
     });
-  }, { threshold: 0.12 });
-  bgObs.observe(section);
+  }, { threshold: 0.15 });
+  io.observe(section);
+
+  /* Safety fallback — if the observer never fires (rare), reveal on
+     a short timer so chips don't stay invisible forever. */
+  setTimeout(() => {
+    if (!section.classList.contains('bg-in')){
+      section.classList.add('bg-in');
+      revealAll();
+    }
+  }, 2500);
 })();
 
-/* ─── Comparison split-screen scroll driver ─── */
+/* ─── Comparison cascade reveal (IntersectionObserver) ─── */
 (function(){
   const section = document.querySelector('[data-cmp-pin]');
   if (!section) return;
-  const pin = section.querySelector('.cmp-split-pin');
-  const rows = Array.from(section.querySelectorAll('.cmp-split-row'));
-  if (!pin || rows.length === 0) return;
+  const pin  = section.querySelector('.cmp-split-pin');
+  const rows = section.querySelector('.cmp-split-rows');
+  if (!pin || !rows) return;
+
+  // Snap --cp to 1 so the strike-through draws straight away when the
+  // section enters view. Rows cascade via the .in class.
+  pin.style.setProperty('--cp', '1');
 
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (reduce.matches) {
-    pin.style.setProperty('--cp', '1');
-    rows.forEach(r => r.style.setProperty('--rp', '1'));
+    rows.classList.add('in');
     return;
   }
 
-  let ticking = false;
-  function update(){
-    ticking = false;
-    const rect = section.getBoundingClientRect();
-    const total = section.offsetHeight - window.innerHeight;
-    if (total <= 0) return;
-    let cp = -rect.top / total;
-    cp = Math.max(0, Math.min(1, cp));
-    pin.style.setProperty('--cp', cp.toFixed(4));
-
-    // Row stagger — first 5% breath, rest distributed among rows with
-    // slight overlap so they feel interlocked, not queued.
-    const N = rows.length;
-    const headPortion = 0.05;
-    const rowSlice = (1 - headPortion - 0.05) / N; // small tail breath too
-    const overlap = rowSlice * 0.35;
-    rows.forEach((row, i) => {
-      const start = headPortion + i * rowSlice - (i ? overlap : 0);
-      const end   = start + rowSlice + overlap;
-      let rp = (cp - start) / (end - start);
-      rp = Math.max(0, Math.min(1, rp));
-      // Ease out cubic — snappy settle
-      rp = 1 - Math.pow(1 - rp, 2.6);
-      row.style.setProperty('--rp', rp.toFixed(4));
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting){
+        rows.classList.add('in');
+        io.disconnect();
+      }
     });
-  }
-  function onScroll(){ if (!ticking){ requestAnimationFrame(update); ticking = true; } }
-  window.addEventListener('scroll', onScroll, { passive:true });
-  window.addEventListener('resize', onScroll, { passive:true });
-  update();
+  }, { threshold: 0.15 });
+  io.observe(section);
+
+  setTimeout(() => rows.classList.add('in'), 2500);
 })();
 </script>
 
