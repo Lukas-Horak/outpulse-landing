@@ -1796,6 +1796,183 @@ h1.display em{
   .tr-feed-row{grid-template-columns:24px 1fr auto;padding:12px 18px}
   .tr-feed-tag{display:none}
 }
+
+/* ══════════════════ PULSE DEMO ══════════════════
+   Revenue target dashboard matching the prototype-minimal Pulse
+   widget + reverse-funnel plan + KPIs + activity feed. */
+.pl-demo{
+  display:flex;flex-direction:column;gap:18px;
+  padding:28px clamp(24px,3vw,36px);
+  background:#fff;
+}
+.pl-greet{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+.pl-greet-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  font-size:10.5px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;font-weight:500;
+  margin-bottom:4px;
+}
+.pl-greet-dot{
+  width:7px;height:7px;border-radius:50%;background:#1a7c4b;flex-shrink:0;
+  box-shadow:0 0 0 0 rgba(26,124,75,.5);animation:trPulse 2s ease-out infinite;
+}
+.pl-greet-h{
+  font-family:var(--serif);font-weight:400;font-size:26px;line-height:1.15;letter-spacing:-.014em;
+  color:var(--ink);margin:0;
+}
+.pl-greet-sub{font-size:13px;color:var(--muted);margin:4px 0 0}
+.pl-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  font-size:10.5px;letter-spacing:.04em;color:#1a7c4b;font-weight:500;
+  padding:5px 10px;border-radius:999px;
+  background:rgba(26,124,75,.08);border:1px solid rgba(26,124,75,.2);
+}
+.pl-pill-dot{width:6px;height:6px;border-radius:50%;background:#1a7c4b;animation:trPulse 2s ease-out infinite}
+
+/* Revenue target card */
+.pl-goal{
+  border:1px solid var(--line);border-radius:18px;background:#fff;
+  padding:22px 24px 20px;
+  display:flex;flex-direction:column;gap:14px;
+  box-shadow:0 4px 20px -16px rgba(20,18,15,.1);
+}
+.pl-goal-head{
+  display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;
+}
+.pl-goal-lbl{
+  font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  font-size:10.5px;letter-spacing:.08em;color:var(--muted);font-weight:500;text-transform:uppercase;
+}
+.pl-goal-meta{font-size:12px;color:var(--muted)}
+.pl-goal-meta b{color:var(--ink);font-weight:500}
+.pl-goal-row{
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+}
+.pl-goal-val{
+  font-family:var(--serif);font-size:40px;font-weight:400;line-height:1;letter-spacing:-.015em;
+  color:var(--ink);display:inline-flex;align-items:baseline;gap:10px;
+}
+.pl-goal-val em{font-style:italic;color:var(--ink);font-feature-settings:"tnum"}
+.pl-goal-of{font-size:13px;color:var(--muted-2);font-family:var(--sans)}
+.pl-goal-bar{
+  flex:1;min-width:200px;height:6px;border-radius:999px;
+  background:var(--line-2);overflow:hidden;position:relative;
+}
+.pl-goal-fill{
+  display:block;height:100%;width:0;
+  background:var(--ink);border-radius:999px;
+  transition:width 1.6s cubic-bezier(.2,.8,.2,1);
+}
+.pl-goal-fill.in{width:var(--w)}
+
+/* Reverse funnel — 3 steps below target */
+.pl-rev{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+  padding-top:14px;border-top:1px dashed var(--line-3);
+}
+.pl-rev-step{
+  position:relative;
+  display:flex;flex-direction:column;gap:3px;
+  padding:10px 12px 10px 38px;
+  border-radius:10px;background:var(--bg-panel,#fbfaf7);
+}
+.pl-rev-step::before{
+  content:"";position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:16px;height:16px;border-radius:50%;
+  background:#fff;border:1px solid var(--line);
+}
+.pl-rev-n{
+  position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:16px;margin-left:14px;text-align:center;
+  font-family:var(--serif);font-size:11px;color:var(--ink);line-height:16px;
+  z-index:1;pointer-events:none;
+}
+.pl-rev-h{font-size:13px;font-weight:500;color:var(--ink);line-height:1.3;letter-spacing:-.004em}
+.pl-rev-d{font-size:11.5px;color:var(--muted)}
+
+/* KPI strip reuses .tr-kpi pattern */
+.pl-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.pl-kpi{
+  border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:#fff;
+  display:flex;flex-direction:column;gap:4px;
+}
+.pl-kpi-lbl{
+  font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  font-size:10.5px;letter-spacing:.08em;color:var(--muted);font-weight:500;text-transform:uppercase;
+}
+.pl-kpi-val{
+  font-family:var(--serif);font-size:30px;line-height:1;color:var(--ink);
+  letter-spacing:-.012em;margin:4px 0 2px;font-feature-settings:"tnum";
+}
+.pl-kpi-delta{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:12px;color:#1a7c4b;font-weight:500;
+}
+
+/* Feed styles — same family as .tr-feed */
+.pl-feed{
+  border:1px solid var(--line);border-radius:18px;background:#fff;overflow:hidden;
+}
+.pl-feed-head{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:14px 22px;border-bottom:1px solid var(--line-2);background:var(--bg-panel,#fbfaf7);
+}
+.pl-feed-title{font-size:13px;font-weight:500;color:var(--ink)}
+.pl-feed-streaming{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  font-size:10.5px;letter-spacing:.06em;color:#c24518;
+}
+.pl-feed-dot{width:6px;height:6px;border-radius:50%;background:var(--orange,#ff5b1f);animation:trPulse 1.6s ease-out infinite}
+.pl-feed-list{display:flex;flex-direction:column}
+.pl-feed-row{
+  display:grid;grid-template-columns:28px 1fr auto auto;gap:14px;align-items:center;
+  padding:14px 22px;border-top:1px solid var(--line-2);
+  opacity:0;transform:translateY(10px);
+  transition:opacity .5s ease,transform .5s ease;
+}
+.pl-feed-row:first-child{border-top:none}
+[data-pl-feed].in .pl-feed-row{opacity:1;transform:none}
+[data-pl-feed].in .pl-feed-row:nth-child(1){transition-delay:0s}
+[data-pl-feed].in .pl-feed-row:nth-child(2){transition-delay:.14s}
+[data-pl-feed].in .pl-feed-row:nth-child(3){transition-delay:.28s}
+[data-pl-feed].in .pl-feed-row:nth-child(4){transition-delay:.42s}
+.pl-feed-ic{
+  width:28px;height:28px;border-radius:8px;
+  display:grid;place-items:center;
+  background:var(--bg-panel,#fbfaf7);border:1px solid var(--line);color:var(--muted);flex-shrink:0;
+}
+.pl-feed-ic--meeting{background:rgba(255,91,31,.08);border-color:rgba(255,91,31,.22);color:#c24518}
+.pl-feed-ic--reply  {background:rgba(26,124,75,.08);border-color:rgba(26,124,75,.22);color:#1a7c4b}
+.pl-feed-ic--open   {background:rgba(56,102,166,.08);border-color:rgba(56,102,166,.22);color:#2d5488}
+.pl-feed-ic--enrich {background:rgba(138,118,184,.08);border-color:rgba(138,118,184,.22);color:#6a5594}
+.pl-feed-body{display:flex;flex-direction:column;gap:2px;min-width:0}
+.pl-feed-action{font-size:13px;color:var(--ink-2);line-height:1.35}
+.pl-feed-action strong{color:var(--ink);font-weight:500}
+.pl-feed-meta{font-size:11.5px;color:var(--muted);line-height:1.3}
+.pl-feed-tag{
+  display:inline-flex;align-items:center;
+  padding:3px 10px;border-radius:999px;
+  background:var(--bg-panel,#fbfaf7);border:1px solid var(--line);color:var(--ink-2);
+  font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;
+}
+.pl-feed-when{
+  font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  font-size:11.5px;color:var(--muted);font-feature-settings:"tnum";
+}
+
+@media(max-width:900px){
+  .pl-demo{padding:20px 18px}
+  .pl-goal-val{font-size:32px}
+  .pl-rev{grid-template-columns:1fr;gap:8px}
+  .pl-kpis{grid-template-columns:repeat(2,1fr)}
+  .pl-feed-row{grid-template-columns:24px 1fr auto;padding:12px 18px}
+  .pl-feed-tag{display:none}
+}
 .email-card{
   border:1px solid var(--line);border-radius:16px;padding:28px 32px 24px;background:#fff;
   position:relative;overflow:hidden;
@@ -3184,62 +3361,109 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
         <div style="width:60px"></div>
       </div>
 
-      <div class="app">
-        <aside class="app-side">
-          <div class="grp">
-            <div class="grp-h">Find clients</div>
-            <div class="item">Buyer personas</div>
-            <div class="item">Prospects</div>
-          </div>
-          <div class="grp">
-            <div class="grp-h">Engage</div>
-            <div class="item">Campaigns</div>
-            <div class="item">Messages</div>
-          </div>
-          <div class="grp">
-            <div class="grp-h">Insights</div>
-            <div class="item active">Pulse</div>
-            <div class="item">Settings</div>
-          </div>
-        </aside>
+      <div class="pl-demo" data-pulse-demo>
 
-        <div class="app-main">
-          <div class="app-top">
-            <div>
-              <h3>Good afternoon, Lukas</h3>
-              <div style="font-size:12.5px;color:var(--muted);margin-top:3px">Almost there — keep going</div>
+        <!-- Header with greeting + status -->
+        <header class="pl-greet">
+          <div>
+            <span class="pl-greet-eyebrow">
+              <span class="pl-greet-dot"></span>
+              Pulse &middot; Services
+            </span>
+            <h3 class="pl-greet-h">Good afternoon, Lukas</h3>
+            <p class="pl-greet-sub">Your funnel is running. Here is today&rsquo;s picture.</p>
+          </div>
+          <span class="pl-pill"><span class="pl-pill-dot"></span>On track</span>
+        </header>
+
+        <!-- Revenue target — big hero tile -->
+        <div class="pl-goal">
+          <div class="pl-goal-head">
+            <span class="pl-goal-lbl">Revenue target &middot; this month</span>
+            <span class="pl-goal-meta">12 days left &middot; <b>78% complete</b></span>
+          </div>
+          <div class="pl-goal-row">
+            <div class="pl-goal-val">$<em data-pl-count="10132">0</em><span class="pl-goal-of">of $13,000</span></div>
+            <div class="pl-goal-bar"><span class="pl-goal-fill" data-pl-fill style="--w:78%"></span></div>
+          </div>
+          <!-- Reverse funnel — what it takes to hit the goal -->
+          <div class="pl-rev">
+            <div class="pl-rev-step">
+              <span class="pl-rev-n">1</span>
+              <span class="pl-rev-h">3 deals to close</span>
+              <span class="pl-rev-d">avg $4.3k each</span>
             </div>
-            <span class="app-pill"><span class="blink"></span>On track</span>
-          </div>
-
-          <div class="proscount">
-            <div class="left">
-              <div class="icon">$</div>
-              <div>
-                <div class="label">Revenue target</div>
-                <div class="num">$<em>10,132</em></div>
-              </div>
+            <div class="pl-rev-step">
+              <span class="pl-rev-n">2</span>
+              <span class="pl-rev-h">12 meetings to book</span>
+              <span class="pl-rev-d">24% close rate</span>
             </div>
-            <div class="progress"><div class="bar" style="animation:fillBar 2s ease-out forwards;animation-delay:.4s"></div></div>
-            <div class="small">12 days left · 78% complete</div>
+            <div class="pl-rev-step">
+              <span class="pl-rev-n">3</span>
+              <span class="pl-rev-h">340 prospects to email</span>
+              <span class="pl-rev-d">3.5% meeting rate</span>
+            </div>
           </div>
-
-          <div class="kpis">
-            <div class="k"><div class="k-l">Prospects found</div><div class="k-v">860</div><div class="k-d">+720 enriched</div></div>
-            <div class="k"><div class="k-l">Emails sent</div><div class="k-v">1,548</div><div class="k-d">+485 opened</div></div>
-            <div class="k"><div class="k-l">Open rate</div><div class="k-v">31%</div><div class="k-d">Above avg</div></div>
-            <div class="k"><div class="k-l">Meetings</div><div class="k-v">62</div><div class="k-d">+5 this week</div></div>
-          </div>
-
-          <div class="proslist">
-            <div class="head"><span></span><span>Recent activity</span><span>Source</span><span>Status</span><span style="text-align:right">When</span></div>
-            <div class="prow"><div class="av">M</div><div><div class="name">Meeting booked · Sarah Chen</div><div class="sub">Vercel</div></div><span class="badge">Q1 Outbound</span><span>Replied</span><span class="match">2m</span></div>
-            <div class="prow"><div class="av">R</div><div><div class="name">Reply received · Marcus Webb</div><div class="sub">Linear</div></div><span class="badge">Q1 Outbound</span><span>Positive</span><span class="match">14m</span></div>
-            <div class="prow"><div class="av">O</div><div><div class="name">Email opened · Anna Kovacs</div><div class="sub">Stripe</div></div><span class="badge">Q1 Outbound</span><span>Step 2</span><span class="match">28m</span></div>
-            <div class="prow"><div class="av">S</div><div><div class="name">127 prospects added</div><div class="sub">Buyer persona "VP Eng · SaaS"</div></div><span class="badge">Auto-discovery</span><span>Enriched</span><span class="match">1h</span></div>
-          </div>
-
         </div>
+
+        <!-- KPI strip — 4 count-up numbers -->
+        <div class="pl-kpis">
+          <div class="pl-kpi">
+            <span class="pl-kpi-lbl">Prospects in play</span>
+            <span class="pl-kpi-val" data-pl-count="860">0</span>
+            <span class="pl-kpi-delta"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>+720 enriched</span>
+          </div>
+          <div class="pl-kpi">
+            <span class="pl-kpi-lbl">Emails sent</span>
+            <span class="pl-kpi-val" data-pl-count="1548">0</span>
+            <span class="pl-kpi-delta"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>485 opened</span>
+          </div>
+          <div class="pl-kpi">
+            <span class="pl-kpi-lbl">Replies</span>
+            <span class="pl-kpi-val" data-pl-count="84">0</span>
+            <span class="pl-kpi-delta"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>5.4% reply rate</span>
+          </div>
+          <div class="pl-kpi">
+            <span class="pl-kpi-lbl">Meetings</span>
+            <span class="pl-kpi-val" data-pl-count="62">0</span>
+            <span class="pl-kpi-delta"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>+5 this week</span>
+          </div>
+        </div>
+
+        <!-- Activity feed — streams in -->
+        <section class="pl-feed">
+          <header class="pl-feed-head">
+            <span class="pl-feed-title">Today so far</span>
+            <span class="pl-feed-streaming"><span class="pl-feed-dot"></span>Live</span>
+          </header>
+          <div class="pl-feed-list" data-pl-feed>
+            <div class="pl-feed-row">
+              <span class="pl-feed-ic pl-feed-ic--meeting"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><path d="M3 10h18"/><polyline points="9 16 11 18 15 14"/></svg></span>
+              <div class="pl-feed-body"><span class="pl-feed-action"><strong>Meeting booked</strong> &middot; Sarah Chen</span><span class="pl-feed-meta">Vercel &middot; Thu 14:00</span></div>
+              <span class="pl-feed-tag">Q1 Outbound</span>
+              <span class="pl-feed-when">2m</span>
+            </div>
+            <div class="pl-feed-row">
+              <span class="pl-feed-ic pl-feed-ic--reply"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17l-5-5 5-5"/><path d="M4 12h12a4 4 0 0 1 4 4v4"/></svg></span>
+              <div class="pl-feed-body"><span class="pl-feed-action"><strong>Reply</strong> from Marcus Webb</span><span class="pl-feed-meta">Linear &middot; positive intent</span></div>
+              <span class="pl-feed-tag">Q1 Outbound</span>
+              <span class="pl-feed-when">14m</span>
+            </div>
+            <div class="pl-feed-row">
+              <span class="pl-feed-ic pl-feed-ic--open"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg></span>
+              <div class="pl-feed-body"><span class="pl-feed-action"><strong>Email opened</strong> &middot; Anna Kovacs</span><span class="pl-feed-meta">Stripe &middot; step 2 of 3</span></div>
+              <span class="pl-feed-tag">Q1 Outbound</span>
+              <span class="pl-feed-when">28m</span>
+            </div>
+            <div class="pl-feed-row">
+              <span class="pl-feed-ic pl-feed-ic--enrich"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg></span>
+              <div class="pl-feed-body"><span class="pl-feed-action"><strong>127 new prospects</strong> auto-matched</span><span class="pl-feed-meta">Persona &middot; VP Sales at SaaS</span></div>
+              <span class="pl-feed-tag">Auto-discovery</span>
+              <span class="pl-feed-when">1h</span>
+            </div>
+          </div>
+        </section>
+
       </div>
     </div>
   </div>
@@ -4088,6 +4312,63 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
       const feed = demo.querySelector('[data-tr-feed]');
       if(feed) feed.classList.add('in');
     }, 650);
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) run(); });
+  }, { threshold:0.3 });
+  io.observe(demo);
+})();
+</script>
+
+<script>
+/* ═══════════════ Pulse dashboard demo sequencer ═══════════════
+   Counts up revenue target + KPIs, fills the target bar, streams
+   the activity feed in. */
+(function(){
+  const demo = document.querySelector('[data-pulse-demo]');
+  if(!demo) return;
+  const fmt = n => n.toLocaleString('en-US');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let started = false;
+
+  function countUp(el, to, duration){
+    const start = performance.now();
+    (function step(now){
+      const t = Math.min(1, (now - start)/duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = fmt(Math.round(to * eased));
+      if(t < 1) requestAnimationFrame(step);
+    })(performance.now());
+  }
+
+  function setFinal(){
+    demo.querySelectorAll('[data-pl-count]').forEach(el => {
+      el.textContent = fmt(parseInt(el.dataset.plCount,10));
+    });
+    const fill = demo.querySelector('[data-pl-fill]');
+    if(fill) fill.classList.add('in');
+    const feed = demo.querySelector('[data-pl-feed]');
+    if(feed) feed.classList.add('in');
+  }
+
+  function run(){
+    if(started) return;
+    started = true;
+    if(reduce.matches){ setFinal(); return; }
+
+    demo.querySelectorAll('[data-pl-count]').forEach(el => {
+      const to = parseInt(el.dataset.plCount, 10);
+      countUp(el, to, 1700);
+    });
+    setTimeout(() => {
+      const fill = demo.querySelector('[data-pl-fill]');
+      if(fill) fill.classList.add('in');
+    }, 200);
+    setTimeout(() => {
+      const feed = demo.querySelector('[data-pl-feed]');
+      if(feed) feed.classList.add('in');
+    }, 700);
   }
 
   const io = new IntersectionObserver((entries) => {
