@@ -70,7 +70,9 @@ html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:op
 body{
   font-family:var(--sans);background:var(--paper);color:var(--ink);
   font-size:16px;line-height:1.55;overflow-x:hidden;
+  -webkit-tap-highlight-color:transparent;
 }
+*,*::before,*::after{-webkit-tap-highlight-color:transparent}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 
@@ -837,6 +839,76 @@ img{max-width:100%;display:block}
   border-color:rgba(26,124,75,.2);
   color:#1a7c4b;
 }
+
+/* ─── New simplified onboarding mockup (one URL → AI found everything) ─── */
+.mk-onb-eyebrow{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--orange-ink);font-weight:700;margin-bottom:4px;
+}
+.mk-onb-sub{
+  font-size:13.5px;color:var(--muted);line-height:1.55;margin:4px 0 18px;max-width:34ch;
+}
+
+/* Single URL input — big, with live favicon/globe icon */
+.mk-url-wrap{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 14px;border-radius:12px;
+  background:#fff;border:1.5px solid var(--line-3,#e2dfd8);
+  transition:border-color .2s ease,box-shadow .2s ease;
+}
+.mk-url-wrap.focus{border-color:var(--ink);box-shadow:0 0 0 3px rgba(14,13,12,.05)}
+.mk-url-icon{
+  width:24px;height:24px;border-radius:6px;flex-shrink:0;
+  display:grid;place-items:center;overflow:hidden;
+  background:var(--bg-subtle);color:var(--muted);
+  transition:background .25s ease,color .25s ease;
+}
+.mk-url-icon.has-favicon{background:#fff;border:1px solid var(--line)}
+.mk-url-icon img{width:18px;height:18px;object-fit:contain;display:block;animation:mkFav .35s ease}
+@keyframes mkFav{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.mk-f-input-url{
+  flex:1;min-width:0;
+  font-size:16px;font-weight:500;color:var(--ink);
+  line-height:1.2;
+}
+.mk-url-text{color:var(--ink)}
+
+/* AI-found card — fades in as one clean block after scan */
+.mk-found{
+  margin-top:18px;padding:16px 18px 14px;
+  border:1px solid var(--line);border-radius:14px;
+  background:var(--bg-panel);
+  opacity:0;transform:translateY(6px);
+  transition:opacity .5s ease,transform .5s ease;
+}
+.mk-found.in{opacity:1;transform:translateY(0)}
+.mk-found-head{margin-bottom:10px}
+.mk-found-eyebrow{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--violet-ink);font-weight:500;
+}
+.mk-found-eyebrow svg{color:var(--violet)}
+.mk-found-sect{
+  padding-top:10px;margin-top:10px;border-top:1px solid var(--line-2);
+}
+.mk-found-sect:first-of-type{border-top:none;margin-top:0;padding-top:0}
+.mk-found-label{
+  font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted-2);margin-bottom:6px;
+}
+.mk-found-company{display:flex;align-items:center;gap:10px}
+.mk-found-fav{
+  width:28px;height:28px;border-radius:7px;object-fit:contain;
+  background:#fff;border:1px solid var(--line);padding:3px;
+}
+.mk-found-name{display:block;font-size:14px;font-weight:600;color:var(--ink);line-height:1.2}
+.mk-found-sub{display:block;font-size:12px;color:var(--muted);line-height:1.3;margin-top:1px}
+.mk-found-pitch{
+  font-size:12.5px;line-height:1.55;color:var(--ink-2);margin:0 0 8px;
+}
+.mk-found-persona{font-size:12.5px;line-height:1.55;color:var(--muted);margin:0}
+.mk-found-persona strong{color:var(--ink);font-weight:600}
 
 .mk-f-field{position:relative;display:flex;flex-direction:column;gap:6px}
 .mk-f-field label{
@@ -1958,8 +2030,13 @@ h1.display em{
   .tr-camp-audience{font-size:12px}
   /* Funnel: stack label / bar / value vertically, no width clipping */
   .tr-funnel{padding:14px 18px 16px;gap:14px}
-  .tr-stage{grid-template-columns:1fr;gap:5px}
-  .tr-stage-val{text-align:left;justify-content:flex-start;white-space:normal}
+  .tr-stage{display:flex !important;flex-direction:column;gap:6px}
+  .tr-stage-val{
+    text-align:left !important;justify-content:flex-start !important;
+    display:flex !important;flex-wrap:wrap;white-space:normal;
+    font-size:14px;
+  }
+  .tr-stage-rate{white-space:normal}
   .tr-feed-head,.pl-feed-head{padding:12px 18px}
   .tr-feed-row,.pl-feed-row{padding:11px 18px;gap:12px;grid-template-columns:26px 1fr auto}
   .tr-feed-tag,.pl-feed-tag{display:none}
@@ -3260,59 +3337,61 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
           <div class="mk-app">
             <!-- Left: company info form (fills first) -->
             <aside class="mk-sidebar">
-              <h3 class="mk-f-title">Tell us about your company</h3>
+              <div class="mk-onb-eyebrow">Start here</div>
+              <h3 class="mk-f-title">Drop your website.</h3>
+              <p class="mk-onb-sub">Outpulse reads what you sell, who you sell to, and starts matching prospects in seconds.</p>
 
-              <div class="mk-f-field">
-                <label>COMPANY NAME</label>
-                <div class="mk-f-input" data-type-idx="0" data-type="PLATFORM"></div>
-              </div>
-
-              <div class="mk-f-field">
-                <label>WEBSITE</label>
-                <div class="mk-f-input mk-f-input-url" data-type-idx="1" data-type="www.plat4m.com">
-                  <img class="mk-url-favicon" data-url-favicon
-                       src="https://www.google.com/s2/favicons?domain=plat4m.com&sz=64"
-                       alt="" width="16" height="16">
+              <!-- Single input — the one thing the user actually types -->
+              <div class="mk-url-wrap">
+                <span class="mk-url-icon" data-url-icon>
+                  <!-- Globe (planet) by default; replaced by favicon when host is typed -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a13 13 0 0 1 0 18"/><path d="M12 3a13 13 0 0 0 0 18"/></svg>
+                </span>
+                <div class="mk-f-input-url" data-type-idx="1" data-type="www.plat4m.com">
                   <span class="mk-url-text"></span>
                 </div>
-                <div class="mk-f-status" data-status>
-                  <svg class="mk-f-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5l3 3 5-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  <span class="mk-f-status-dot"></span>
-                  <span class="mk-f-status-text">Analyzing…</span>
+              </div>
+              <div class="mk-f-status" data-status>
+                <svg class="mk-f-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5l3 3 5-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="mk-f-status-dot"></span>
+                <span class="mk-f-status-text">Scanning your website…</span>
+              </div>
+
+              <!-- AI-found card — appears after scan, all populated in one frame -->
+              <div class="mk-found" data-mk-found>
+                <div class="mk-found-head">
+                  <span class="mk-found-eyebrow">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+                    Outpulse found
+                  </span>
                 </div>
-              </div>
 
-              <div class="mk-f-field mk-f-ai">
-                <label>WHAT DO YOU SELL? <span class="mk-f-ai-badge mk-f-ai-badge--scan" data-ai-badge="sell"><svg class="ab-check" viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg><span class="ab-text">From your website</span></span></label>
-                <div class="mk-f-area" data-type-idx="2" data-type="We build web and mobile apps for SaaS, fintech and e-commerce teams — helping engineering and digital leads at 50-to-500-person companies automate workflows and scale faster."></div>
-                <div class="mk-f-chips" data-chips>
-                  <span class="mk-f-chip c-green">Digital Transformation</span>
-                  <span class="mk-f-chip c-blue">UX/UI Design</span>
-                  <span class="mk-f-chip c-orange">Mobile Development</span>
-                  <span class="mk-f-chip c-purple">Web Development</span>
+                <div class="mk-found-sect">
+                  <div class="mk-found-label">Company</div>
+                  <div class="mk-found-company">
+                    <img src="https://www.google.com/s2/favicons?domain=plat4m.com&sz=128" alt="" class="mk-found-fav"/>
+                    <div>
+                      <span class="mk-found-name">Platform</span>
+                      <span class="mk-found-sub">Services &middot; SF &middot; 24 employees</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              <h3 class="mk-f-title mk-f-title-sub">Buyer Persona <span class="mk-f-ai-badge" data-ai-badge="persona"><span class="ab-dot"></span><svg class="ab-check" viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg><span class="ab-text">Generating…</span></span></h3>
+                <div class="mk-found-sect">
+                  <div class="mk-found-label">What you sell</div>
+                  <p class="mk-found-pitch">Web and mobile apps for SaaS, fintech &amp; e-commerce. Helping product + engineering leads at 50-to-500-person companies ship faster.</p>
+                  <div class="mk-f-chips" data-chips>
+                    <span class="mk-f-chip c-green">Digital Transformation</span>
+                    <span class="mk-f-chip c-blue">UX/UI Design</span>
+                    <span class="mk-f-chip c-orange">Mobile Dev</span>
+                    <span class="mk-f-chip c-purple">Web Dev</span>
+                  </div>
+                </div>
 
-              <div class="mk-f-field mk-f-ai">
-                <label>JOB TITLES</label>
-                <div class="mk-f-input" data-type-idx="3" data-type="CTO · VP Engineering · Head of Digital"></div>
-              </div>
-
-              <div class="mk-f-field mk-f-ai">
-                <label>INDUSTRY</label>
-                <div class="mk-f-input" data-type-idx="4" data-type="SaaS · Fintech · E-commerce"></div>
-              </div>
-
-              <div class="mk-f-field mk-f-ai">
-                <label>COMPANY SIZE</label>
-                <div class="mk-f-input" data-type-idx="5" data-type="50–500 employees"></div>
-              </div>
-
-              <div class="mk-f-field mk-f-ai">
-                <label>LOCATION</label>
-                <div class="mk-f-input" data-type-idx="6" data-type="Europe · North America"></div>
+                <div class="mk-found-sect">
+                  <div class="mk-found-label">Buyer persona</div>
+                  <p class="mk-found-persona"><strong>CTO &middot; VP Engineering &middot; Head of Digital</strong><br/>SaaS, Fintech &middot; 50&ndash;500 employees &middot; EU &amp; NA</p>
+                </div>
               </div>
             </aside>
 
@@ -4404,13 +4483,11 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   });
 })();
 
-/* ─── Hero mockup sequencer v2 ────────────────────────────────────────
-   Drives the split dark form (left) + dashboard (right) hero mockup:
-     1. Type company name ("PLATFORM")
-     2. Type website URL, "Analyzing…" → dot turns green + "Analyzed"
-     3. In parallel: counter 0 → 2,847, filters activate, rows fade in
-     4. Type "What do you sell?" paragraph
-     5. Type job titles + industry under Buyer Persona                  */
+/* ─── How-it-works sequencer v3 ────────────────────────────────────
+   Simplified onboarding flow: user types ONE URL, Outpulse scans it,
+   then a single 'Outpulse found' card fades in with company,
+   pitch, categories and persona all populated at once. Meanwhile
+   prospects stream into the right pane.                           */
 (function(){
   const mockup = document.querySelector('.hero-mockup');
   if (!mockup) return;
@@ -4420,31 +4497,46 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   const countEl   = mockup.querySelector('[data-count]');
   const statusEl  = mockup.querySelector('[data-status]');
   const urlText   = mockup.querySelector('.mk-url-text');
+  const urlWrap   = mockup.querySelector('.mk-url-wrap');
+  const urlIcon   = mockup.querySelector('[data-url-icon]');
+  const found     = mockup.querySelector('[data-mk-found]');
   const chipsWrap = mockup.querySelector('[data-chips]');
   const filts     = Array.from(mockup.querySelectorAll('.mk-db-filters .filt'));
   const rows      = Array.from(mockup.querySelectorAll('.mk-db-rows .prow'));
-  const field = idx => mockup.querySelector(`[data-type-idx="${idx}"]`);
+  const urlField  = mockup.querySelector('.mk-f-input-url[data-type]');
+  const urlTarget = urlField ? urlField.dataset.type : 'www.plat4m.com';
+
+  function setFavicon(domain){
+    if (!urlIcon) return;
+    const img = new Image();
+    img.src = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+    img.alt = '';
+    img.onload = () => {
+      urlIcon.innerHTML = '';
+      urlIcon.appendChild(img);
+      urlIcon.classList.add('has-favicon');
+    };
+  }
 
   function setFinal(){
-    mockup.querySelectorAll('[data-type]').forEach(el => {
-      const t = el.dataset.type;
-      if (el === field(1) && urlText) urlText.textContent = t;
-      else if (!el.classList.contains('mk-f-input-url')) el.textContent = t;
-    });
-    if (countEl) countEl.textContent = fmt(parseInt(countEl.dataset.count, 10));
+    if (urlText) urlText.textContent = urlTarget;
+    setFavicon('plat4m.com');
     if (statusEl){
       const txt = statusEl.querySelector('.mk-f-status-text');
       if (txt) txt.textContent = 'Analyzed';
       statusEl.classList.add('visible','done');
     }
+    if (found) found.classList.add('in');
     if (chipsWrap) chipsWrap.classList.add('in');
+    if (countEl) countEl.textContent = fmt(parseInt(countEl.dataset.count, 10));
     filts.forEach(f => f.classList.add('active'));
     rows.forEach(r => r.classList.add('in'));
+    mockup.classList.add('rows-in');
   }
 
   if (reduce.matches){ setFinal(); return; }
 
-  function typewrite(el, text, perChar = 22){
+  function typewrite(el, text, perChar){
     return new Promise(resolve => {
       el.classList.add('typing');
       el.textContent = '';
@@ -4456,11 +4548,11 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
       })();
     });
   }
-  function countUp(el, to, duration = 1800){
+  function countUp(el, to, duration){
     return new Promise(resolve => {
       const start = performance.now();
       (function step(now){
-        const t = Math.min(1, (now - start) / duration);
+        const t = Math.min(1, (now - start)/duration);
         const eased = 1 - Math.pow(1 - t, 3);
         el.textContent = fmt(Math.round(to * eased));
         if (t < 1) requestAnimationFrame(step);
@@ -4471,97 +4563,47 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   const sleep = ms => new Promise(r => setTimeout(r, ms));
 
   let started = false;
-  // AI auto-fill: drops the full text in at once with a purple glow
-  // instead of typing character-by-character. Visually distinguishes
-  // "Outpulse generated this" from "user typed this".
-  function aiFill(el, text){
-    if (!el) return;
-    el.textContent = text;
-    el.classList.add('ai-filling');
-    setTimeout(function(){ el.classList.remove('ai-filling'); }, 700);
-  }
-
-  // Badge state transitions:
-  //   hidden → badgeShow() → Generating… (pulse dot)
-  //   → badgeDone() → AI generated (check mark)
-  //   → fades out automatically 1.4s later
-  function badge(name){ return mockup.querySelector('[data-ai-badge="'+name+'"]'); }
-  function badgeShow(name){
-    const b = badge(name);
-    if (b) b.classList.add('visible');
-  }
-  function badgeDone(name){
-    const b = badge(name);
-    if (!b) return;
-    const t = b.querySelector('.ab-text');
-    if (t) t.textContent = 'AI generated';
-    b.classList.add('done');
-    setTimeout(function(){ b.classList.add('fade'); }, 1400);
-  }
-
   async function run(){
     if (started) return;
     started = true;
 
-    const company  = field(0);
-    const sell     = field(2);
-    const jobs     = field(3);
-    const industry = field(4);
+    // 1 — Focus the URL input
+    if (urlWrap) urlWrap.classList.add('focus');
+    await sleep(220);
 
-    // 1 — COMPANY NAME (user-typed — the only things the visitor fills in)
-    if (company) await typewrite(company, company.dataset.type, 75);
-    await sleep(380);
-
-    // 2 — WEBSITE (user-typed, then Outpulse scans it). The website
-    // scan is what fills the 'What do you sell' field — it's extracted
-    // from the site copy, not generated from nothing. So the sell
-    // field populates at the moment the status pill flips to 'Analyzed',
-    // same moment the scan result lands.
-    const urlWrap = field(1);
-    const statusText = statusEl ? statusEl.querySelector('.mk-f-status-text') : null;
-    if (urlText && urlWrap){
-      await typewrite(urlText, urlWrap.dataset.type, 55);
-      if (statusEl){
-        statusEl.classList.add('visible');
-        if (statusText) statusText.textContent = 'Scanning your website…';
+    // 2 — Type the URL. After ~3 chars, swap globe for favicon.
+    if (urlText && urlField){
+      const txt = urlTarget;
+      urlText.classList.add('typing');
+      urlText.textContent = '';
+      for (let i = 0; i < txt.length; i++){
+        urlText.textContent = txt.slice(0, i+1);
+        if (i === Math.min(9, txt.length-1)) setFavicon('plat4m.com');
+        await sleep(55);
       }
-      await sleep(1400);
-      if (statusEl){
-        if (statusText) statusText.textContent = 'Analyzed';
-        statusEl.classList.add('done');
-      }
-      // Scan complete — drop the extracted pitch into the sell field
-      // at the exact moment of 'Analyzed', and reveal the 'From your
-      // website' tag next to the label.
-      if (sell) aiFill(sell, sell.dataset.type);
-      badgeShow('sell');
-      if (chipsWrap) chipsWrap.classList.add('in');
+      urlText.classList.remove('typing');
     }
-    await sleep(1400);
-    // Scan tag fades out once the user has had a moment to see it.
-    const sellBadge = badge('sell');
-    if (sellBadge) sellBadge.classList.add('fade');
 
-    // 3+ — Persona section is AI-GENERATED from the scan result.
-    // Reveal the 'Generating…' pill right before the first persona
-    // field starts populating.
-    badgeShow('persona');
-    await sleep(300);
-    if (jobs)     aiFill(jobs, jobs.dataset.type);
-    await sleep(220);
-    if (industry) aiFill(industry, industry.dataset.type);
-    await sleep(220);
-    const size = field(5);
-    if (size)     aiFill(size, size.dataset.type);
-    await sleep(220);
-    const location = field(6);
-    if (location) aiFill(location, location.dataset.type);
-    // All four persona fields populated — flip the persona badge.
-    await sleep(450);
-    badgeDone('persona');
+    // 3 — Scanning status
+    const statusText = statusEl ? statusEl.querySelector('.mk-f-status-text') : null;
+    if (statusEl){
+      statusEl.classList.add('visible');
+      if (statusText) statusText.textContent = 'Scanning your website…';
+    }
+    await sleep(1600);
 
-    // 5 — form complete: hand over from skeleton to real prospects
-    await sleep(300);
+    // 4 — Analyzed + reveal found card all-at-once
+    if (statusEl){
+      if (statusText) statusText.textContent = 'Analyzed';
+      statusEl.classList.add('done');
+    }
+    if (urlWrap) urlWrap.classList.remove('focus');
+    await sleep(240);
+    if (found) found.classList.add('in');
+    if (chipsWrap) chipsWrap.classList.add('in');
+
+    // 5 — Prospects stream in on the right
+    await sleep(400);
     mockup.classList.add('rows-in');
     (async () => {
       if (countEl) countUp(countEl, parseInt(countEl.dataset.count, 10), 1800);
