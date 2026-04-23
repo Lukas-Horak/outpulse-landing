@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+Disallow: /prototype-
+Disallow: /demo-
+Disallow: /design-system
+Disallow: /design-system-ui
+Disallow: /brand
+Disallow: /empty-states
+Disallow: /logo-
+Disallow: /outpulse-og-image
+Disallow: /outpulse-share-card
+Disallow: /outpulse-branding
+Disallow: /outpulse-logo-new
+Disallow: /voice-demo
+Disallow: /email-signature
+Disallow: /figma-
+
+Sitemap: https://outpulse.ai/sitemap.xml

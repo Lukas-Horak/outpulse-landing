@@ -1,0 +1,6 @@
+Contact: mailto:security@outpulse.ai
+Contact: mailto:lukas@plat4m.com
+Expires: 2027-01-01T00:00:00.000Z
+Preferred-Languages: en, sk, cs
+Canonical: https://outpulse.ai/.well-known/security.txt
+Policy: https://outpulse.ai/privacy
