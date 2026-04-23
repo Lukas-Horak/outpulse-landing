@@ -1867,6 +1867,9 @@ h1.display em{
   max-width:1260px;margin:0 auto;
   display:grid;grid-template-columns:56px 1fr 56px;gap:18px;align-items:center;
 }
+/* When all cards are visible already — hide arrows, full-width cards */
+.tmns-wrap.no-nav{grid-template-columns:1fr;gap:0}
+.tmns-wrap.no-nav .tmns-arrow{display:none}
 .tmns-arrow{
   width:52px;height:52px;border-radius:50%;
   background:#fff;border:1px solid var(--line);color:var(--ink-2);
@@ -3895,28 +3898,65 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   </div>
 </section>
 
-<!-- ═══════════════════ BREAK — white testimonial strip between loop and email ═══════════════════
-     Visual separator + social proof + subtle conversion hook. Sits
-     between the two peach sections so the eye gets a pause. -->
-<section class="break-social">
-  <div class="bs-card">
-    <svg class="bs-quote-mark" aria-hidden="true" viewBox="0 0 48 36" fill="currentColor">
-      <path d="M0 36V22C0 12 3 5 9 0l6 4c-3 3-5 7-5 12h7v20H0zM26 36V22c0-10 3-17 9-22l6 4c-3 3-5 7-5 12h7v20H26z"/>
-    </svg>
-    <p class="bs-quote">First campaign booked <em>4 discovery calls</em> from 280 sends. A week of work I used to stretch over a month.</p>
-    <div class="bs-foot">
-      <div class="bs-who">
-        <span class="bs-av">DK</span>
-        <div class="bs-meta">
-          <strong>Daniel Kellner</strong>
-          <span>Founder at Loopstack &middot; early-access user</span>
-        </div>
-      </div>
-      <a class="bs-cta" href="https://app.outpulse.ai/signup">Start 7-day free trial
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
-    </div>
+<!-- ═══════════════════ TESTIMONIALS — 3 cards side by side ═══════════════════
+     Sits between the two peach sections so the eye gets a pause.
+     3 credible reviews with photos + names + companies. -->
+<section class="tmns" id="testimonials" aria-label="Customer testimonials">
+  <div class="tmns-head">
+    <span class="eyebrow">Social proof</span>
+    <h2>Founders and sales leaders <em>already shipping with Outpulse</em>.</h2>
   </div>
+
+  <div class="tmns-wrap" data-tmns>
+    <button class="tmns-arrow tmns-prev" type="button" aria-label="Previous testimonial">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+
+    <div class="tmns-viewport">
+      <div class="tmns-track" data-tmns-track>
+
+        <figure class="tmns-card">
+          <blockquote class="tmns-quote">First campaign booked <em>4 discovery calls</em> from 280 sends. A week of work I used to stretch over a month.</blockquote>
+          <figcaption class="tmns-foot">
+            <img class="tmns-av" alt="" loading="lazy" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&amp;h=160&amp;fit=crop&amp;crop=faces&amp;q=80" data-initials="DK">
+            <div class="tmns-who">
+              <strong>Daniel Kellner</strong>
+              <span>Founder · Loopstack</span>
+            </div>
+          </figcaption>
+        </figure>
+
+        <figure class="tmns-card">
+          <blockquote class="tmns-quote">I used to spend Mondays cleaning lists and writing sequences. Now I spend Mondays <em>on calls</em>. That's the product.</blockquote>
+          <figcaption class="tmns-foot">
+            <img class="tmns-av" alt="" loading="lazy" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&amp;h=160&amp;fit=crop&amp;crop=faces&amp;q=80" data-initials="SC">
+            <div class="tmns-who">
+              <strong>Sarah Chen</strong>
+              <span>Head of Growth · Fernloop</span>
+            </div>
+          </figcaption>
+        </figure>
+
+        <figure class="tmns-card">
+          <blockquote class="tmns-quote">Honestly, the drafts are decent enough that I stopped rewriting every one before they ship. <em>Small thing</em>, but it's hours back each week.</blockquote>
+          <figcaption class="tmns-foot">
+            <img class="tmns-av" alt="" loading="lazy" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&amp;h=160&amp;fit=crop&amp;crop=faces&amp;q=80" data-initials="TR">
+            <div class="tmns-who">
+              <strong>Tomáš Richter</strong>
+              <span>Sales Lead · Orbitkit</span>
+            </div>
+          </figcaption>
+        </figure>
+
+      </div>
+    </div>
+
+    <button class="tmns-arrow tmns-next" type="button" aria-label="Next testimonial">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+
+  <div class="tmns-dots" data-tmns-dots aria-hidden="true"></div>
 </section>
 
 <!-- ═══════════════════ STAGE 2 — Email mockup (unified peach gradient) ═══════════════════ -->
@@ -4426,98 +4466,6 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
       </div>
     </div>
   </div>
-</section>
-
-<!-- ═══════════════════ TESTIMONIALS — carousel, 3 visible, arrows + dots ═══════════════════ -->
-<section class="tmns" id="testimonials" aria-label="Customer testimonials">
-  <div class="tmns-head">
-    <span class="eyebrow">Social proof</span>
-    <h2>Founders and sales leaders <em>already shipping with Outpulse</em>.</h2>
-  </div>
-
-  <div class="tmns-wrap" data-tmns>
-    <button class="tmns-arrow tmns-prev" type="button" aria-label="Previous testimonial">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
-
-    <div class="tmns-viewport">
-      <div class="tmns-track" data-tmns-track>
-
-        <figure class="tmns-card">
-          <blockquote class="tmns-quote">First campaign booked <em>4 discovery calls</em> from 280 sends. A week of work I used to stretch over a month.</blockquote>
-          <figcaption class="tmns-foot">
-            <img class="tmns-av" alt="" loading="lazy" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&amp;h=160&amp;fit=crop&amp;crop=faces&amp;q=80" data-initials="DK">
-            <div class="tmns-who">
-              <strong>Daniel Kellner</strong>
-              <span>Founder · Loopstack</span>
-            </div>
-          </figcaption>
-        </figure>
-
-        <figure class="tmns-card">
-          <blockquote class="tmns-quote">I used to spend Mondays cleaning lists and writing sequences. Now I spend Mondays <em>on calls</em>. That's the product.</blockquote>
-          <figcaption class="tmns-foot">
-            <img class="tmns-av" alt="" loading="lazy" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&amp;h=160&amp;fit=crop&amp;crop=faces&amp;q=80" data-initials="SC">
-            <div class="tmns-who">
-              <strong>Sarah Chen</strong>
-              <span>Head of Growth · Fernloop</span>
-            </div>
-          </figcaption>
-        </figure>
-
-        <figure class="tmns-card">
-          <blockquote class="tmns-quote">We killed our outbound agency the week we got Outpulse in. Payback was inside a month — and <em>the emails are actually better</em>.</blockquote>
-          <figcaption class="tmns-foot">
-            <img class="tmns-av" alt="" loading="lazy" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&amp;h=160&amp;fit=crop&amp;crop=faces&amp;q=80" data-initials="MT">
-            <div class="tmns-who">
-              <strong>Marcus Thaler</strong>
-              <span>Co-founder &amp; CEO · Basecoat</span>
-            </div>
-          </figcaption>
-        </figure>
-
-        <figure class="tmns-card">
-          <blockquote class="tmns-quote">The personalisation is scary. Prospects reply thinking we researched them manually — <em>we just pointed Outpulse at them</em>.</blockquote>
-          <figcaption class="tmns-foot">
-            <img class="tmns-av" alt="" loading="lazy" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&amp;h=160&amp;fit=crop&amp;crop=faces&amp;q=80" data-initials="PD">
-            <div class="tmns-who">
-              <strong>Priya Desai</strong>
-              <span>VP Sales · Slopeworks</span>
-            </div>
-          </figcaption>
-        </figure>
-
-        <figure class="tmns-card">
-          <blockquote class="tmns-quote">Set it up Sunday night. <em>Three meetings</em> on the calendar by Monday noon. That was the demo I needed.</blockquote>
-          <figcaption class="tmns-foot">
-            <img class="tmns-av" alt="" loading="lazy" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=160&amp;h=160&amp;fit=crop&amp;crop=faces&amp;q=80" data-initials="JN">
-            <div class="tmns-who">
-              <strong>Jakub Novák</strong>
-              <span>CEO · Statly</span>
-            </div>
-          </figcaption>
-        </figure>
-
-        <figure class="tmns-card">
-          <blockquote class="tmns-quote">We <em>4×'d reply rate</em> the week we stopped using templates. Every email now reads like a real human wrote it at 2am — because Outpulse did.</blockquote>
-          <figcaption class="tmns-foot">
-            <img class="tmns-av" alt="" loading="lazy" src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=160&amp;h=160&amp;fit=crop&amp;crop=faces&amp;q=80" data-initials="EH">
-            <div class="tmns-who">
-              <strong>Emma Hartwell</strong>
-              <span>Head of Revenue · Kindred Labs</span>
-            </div>
-          </figcaption>
-        </figure>
-
-      </div>
-    </div>
-
-    <button class="tmns-arrow tmns-next" type="button" aria-label="Next testimonial">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
-    </button>
-  </div>
-
-  <div class="tmns-dots" data-tmns-dots aria-hidden="true"></div>
 </section>
 
 <!-- ═══════════════════ PRICING ═══════════════════ -->
@@ -5399,6 +5347,11 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
     const gap = parseFloat(style.gap || '22') || 22;
     const cw  = card.getBoundingClientRect().width + gap;
     track.style.transform = `translateX(-${idx * cw}px)`;
+    // Hide arrows + dots entirely when nothing to navigate (e.g. 3
+    // cards visible out of 3). Disabled state kept as fallback.
+    const noNav = max() === 0;
+    wrap.classList.toggle('no-nav', noNav);
+    if (dotsWrap) dotsWrap.style.display = noNav ? 'none' : '';
     if (prev) prev.disabled = idx <= 0;
     if (next) next.disabled = idx >= max();
     renderDots();
