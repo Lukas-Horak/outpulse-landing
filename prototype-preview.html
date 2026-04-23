@@ -1163,8 +1163,8 @@ html[data-ws="book"]     [data-workspace="product"]{display:none}
 
 /* ─── Setup checklist (primary element on preview dashboard) ─── */
 .pv-canvas{
-  padding:44px clamp(20px,3vw,44px);
-  max-width:720px;margin:0 auto;
+  padding:40px clamp(24px,3vw,44px) 80px;
+  max-width:none;
 }
 .pv-greeting{
   margin-bottom:36px;
@@ -1385,86 +1385,220 @@ html[data-ws="book"]     [data-workspace="product"]{display:none}
 /* Tighten main canvas padding on preview pages */
 .pv-mode .main{padding:0}
 
-/* ─── Hero: AI email preview as an editorial letter ─── */
-.pv-hero{margin-bottom:28px}
-.pv-hero-head{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-  margin-bottom:12px;
+/* ═════════════════════════ PULSE ENGINE ═════════════════════════
+   The centerpiece of the preview dashboard. Shows the 5-stage
+   automation loop horizontally with clear done / locked states. */
+.pv-engine{
+  margin-bottom:28px;
+  border:1px solid var(--line);border-radius:20px;background:#fff;
+  box-shadow:0 4px 20px -12px rgba(20,18,15,.06);
+  overflow:hidden;
 }
-.pv-hero-eyebrow{
-  display:inline-flex;align-items:center;gap:6px;
-  font-family:var(--mono,ui-monospace,Menlo,monospace);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--violet-ink);
+.pv-engine-head{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  padding:22px 28px 18px;border-bottom:1px solid var(--line-2);
 }
-.pv-hero-eyebrow svg{color:var(--violet)}
-.pv-hero-step{
-  font-family:var(--mono,ui-monospace,Menlo,monospace);font-size:11px;color:var(--muted);
+.pv-engine-head-text{min-width:0}
+.pv-engine-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:6px;
 }
-.pv-letter{
-  border:1px solid var(--line);border-radius:18px;background:#fff;
-  padding:32px clamp(22px,3vw,40px) 28px;
-  box-shadow:0 20px 50px -30px rgba(20,18,15,.12);
-  position:relative;overflow:hidden;
+.pv-engine-dot{
+  width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;
+  box-shadow:0 0 0 0 rgba(26,124,75,.5);animation:pvEngineDot 2s ease-out infinite;
 }
-.pv-letter::before{
-  content:"";position:absolute;top:0;left:0;right:0;height:2px;
-  background:var(--line);
+@keyframes pvEngineDot{
+  0%,100%{box-shadow:0 0 0 0 rgba(26,124,75,.4)}
+  50%{box-shadow:0 0 0 6px rgba(26,124,75,0)}
 }
-.pv-letter-meta{
-  display:flex;flex-direction:column;gap:3px;
-  padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--line-2);
-  font-size:13px;
+.pv-engine-title{
+  font-family:var(--serif);font-weight:400;font-size:24px;line-height:1.15;letter-spacing:-.01em;
+  color:var(--ink);margin:0;
 }
-.pv-letter-row{display:flex;align-items:baseline;gap:12px}
-.pv-letter-label{
-  flex-shrink:0;width:40px;
-  font-family:var(--mono,ui-monospace,Menlo,monospace);font-size:10.5px;color:var(--muted);
-  text-transform:uppercase;letter-spacing:.06em;
+.pv-engine-kpi{display:flex;align-items:baseline;gap:10px}
+.pv-engine-kpi-num{
+  font-family:var(--serif);font-size:38px;line-height:1;color:var(--ink);
+  letter-spacing:-.015em;margin-right:4px;
 }
-.pv-letter-val{color:var(--ink-2)}
-.pv-letter-val strong{color:var(--ink);font-weight:500}
-.pv-letter-subject{
-  font-family:var(--serif);font-weight:400;font-size:22px;line-height:1.25;letter-spacing:-.01em;
-  color:var(--ink);margin:0 0 16px;
+.pv-engine-kpi-lbl{font-size:11.5px;color:var(--muted);line-height:1.3}
+
+/* Horizontal 5-stage pipeline */
+.pv-pipe{
+  list-style:none;margin:0;padding:22px 28px 24px;
+  display:grid;grid-template-columns:repeat(5,1fr);gap:10px;
+  counter-reset:pipe;
+  position:relative;
 }
-.pv-letter-body{font-size:14.5px;line-height:1.7;color:var(--ink-2);max-width:64ch}
-.pv-letter-body p{margin:0 0 12px}
-.pv-letter-body p:last-child{margin-bottom:0}
-.pv-letter-sig{color:var(--muted-2);font-size:13.5px}
-.pv-letter-foot{
-  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-  margin-top:18px;padding-top:14px;border-top:1px dashed var(--line-3);
+.pv-pipe-stage{
+  position:relative;padding:14px 14px 14px 16px;border-radius:12px;
+  background:var(--bg-subtle);border:1px solid var(--line);
+  display:flex;flex-direction:column;gap:8px;
+  transition:background .2s var(--ease),border-color .2s var(--ease),transform .2s var(--ease);
+}
+/* Connecting arrow between stages */
+.pv-pipe-stage::after{
+  content:"";position:absolute;
+  top:50%;right:-8px;width:14px;height:14px;
+  background:var(--bg);transform:translateY(-50%) rotate(45deg);
+  border-top:1px solid var(--line);border-right:1px solid var(--line);
+  z-index:2;
+}
+.pv-pipe-stage:last-child::after{display:none}
+.pv-pipe-ic{
+  width:30px;height:30px;border-radius:8px;
+  background:#fff;border:1px solid var(--line);
+  display:grid;place-items:center;color:var(--muted);flex-shrink:0;
+}
+.pv-pipe-ic svg{width:15px;height:15px}
+.pv-pipe-meta{display:flex;flex-direction:column;gap:2px;min-width:0}
+.pv-pipe-n{
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted-2);font-feature-settings:"tnum";
+}
+.pv-pipe-h{font-size:13px;font-weight:500;color:var(--ink);line-height:1.25;letter-spacing:-.003em}
+.pv-pipe-d{font-size:11.5px;color:var(--muted);line-height:1.35}
+.pv-pipe-d strong{color:var(--ink);font-weight:500}
+
+/* Done state — green tint, check-like vibe */
+.pv-pipe-stage.done{
+  background:#fff;border-color:rgba(26,124,75,.28);
+  box-shadow:0 1px 2px rgba(26,124,75,.04);
+}
+.pv-pipe-stage.done .pv-pipe-ic{
+  background:var(--green-soft);border-color:rgba(26,124,75,.22);color:var(--green);
+}
+.pv-pipe-stage.done .pv-pipe-n{color:var(--green)}
+
+/* Locked state — dimmed with amber accent */
+.pv-pipe-stage.locked{
+  background:var(--bg-panel);border-style:dashed;border-color:var(--line-3);
+}
+.pv-pipe-stage.locked .pv-pipe-ic{color:var(--muted-2)}
+.pv-pipe-stage.locked .pv-pipe-h{color:var(--ink-2)}
+.pv-pipe-stage.locked .pv-pipe-n{color:var(--muted-2)}
+.pv-pipe-stage.locked .pv-pipe-ic::after{
+  content:"";position:absolute;top:-4px;right:-4px;width:10px;height:10px;border-radius:50%;
+  background:var(--amber);border:2px solid #fff;
+}
+
+/* Engine footer */
+.pv-engine-foot{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  padding:14px 28px 20px;
+}
+.pv-engine-foot-meta{
+  display:inline-flex;align-items:center;gap:7px;
   font-size:12px;color:var(--muted);
 }
-.pv-letter-foot-meta{display:inline-flex;align-items:center;gap:6px}
-.pv-letter-foot-meta svg{color:var(--violet)}
-.pv-letter-foot-dot{color:var(--muted-2)}
-.pv-letter-foot strong{color:var(--ink);font-weight:500}
-
-.pv-hero-actions{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
-  margin-top:16px;
-}
-.pv-hero-actions .btn-primary{
+.pv-engine-foot-meta svg{color:var(--amber);flex-shrink:0}
+.pv-engine-cta{
   display:inline-flex;align-items:center;gap:7px;
-  padding:11px 18px;border-radius:999px;
-  background:var(--ink);color:#fff;
-  font-family:var(--sans);font-size:13.5px;font-weight:500;text-decoration:none;
-  transition:background .15s var(--ease);border:none;cursor:pointer;
+  padding:10px 18px;border-radius:999px;border:none;cursor:pointer;
+  background:linear-gradient(95deg,var(--orange),var(--orange-2));color:#fff;
+  font-family:var(--sans);font-size:13px;font-weight:500;
+  box-shadow:0 10px 24px -10px rgba(255,91,31,.5);
+  transition:transform .1s var(--ease),box-shadow .2s var(--ease);
 }
-.pv-hero-actions .btn-primary:hover{background:#000}
-.pv-hero-actions .btn-primary svg{width:14px;height:14px}
-.pv-hero-hint{font-size:12.5px;color:var(--muted)}
+.pv-engine-cta:hover{transform:translateY(-1px);box-shadow:0 14px 30px -10px rgba(255,91,31,.6)}
 
+/* ═════════════════════════ TWO-COL: timeline + email sample ═════════════════════════ */
+.pv-two-col{
+  display:grid;grid-template-columns:1.3fr 1fr;gap:20px;margin-bottom:28px;
+}
+
+/* Automation timeline */
+.pv-timeline{
+  border:1px solid var(--line);border-radius:16px;background:#fff;
+  padding:20px 24px 22px;
+}
+.pv-timeline-head{margin-bottom:18px}
+.pv-timeline-title{font-size:14px;font-weight:500;color:var(--ink);margin:0 0 4px}
+.pv-timeline-sub{font-size:12.5px;color:var(--muted);margin:0}
+.pv-timeline-list{
+  list-style:none;padding:0;margin:0;
+  display:flex;flex-direction:column;gap:0;
+  position:relative;
+}
+.pv-timeline-list::before{
+  content:"";position:absolute;left:42px;top:8px;bottom:8px;width:1px;background:var(--line);
+}
+.pv-timeline-item{
+  display:grid;grid-template-columns:32px 14px 1fr;gap:12px;align-items:flex-start;
+  padding:10px 0;
+  position:relative;
+}
+.pv-timeline-day{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;
+  padding-top:4px;font-feature-settings:"tnum";
+}
+.pv-timeline-dot{
+  width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:4px;
+  background:#fff;border:2px solid var(--line-3);
+  position:relative;z-index:1;
+}
+.pv-timeline-dot--reply{background:var(--green-soft);border-color:var(--green)}
+.pv-timeline-dot--meeting{background:var(--orange-soft);border-color:var(--orange)}
+.pv-timeline-dot--summary{background:var(--violet-soft);border-color:var(--violet)}
+.pv-timeline-body{display:flex;flex-direction:column;gap:2px;min-width:0}
+.pv-timeline-action{font-size:13px;color:var(--ink-2);line-height:1.4}
+.pv-timeline-action strong{color:var(--ink);font-weight:500}
+.pv-timeline-meta{font-size:11.5px;color:var(--muted-2);line-height:1.35}
+.pv-timeline-item--summary .pv-timeline-action{color:var(--violet-ink)}
+.pv-timeline-item--summary .pv-timeline-action strong{color:var(--violet-ink)}
+
+/* Email sample — compact side card */
+.pv-email-sample{
+  border:1px solid var(--line);border-radius:16px;background:#fff;
+  padding:22px 24px 20px;display:flex;flex-direction:column;gap:10px;
+}
+.pv-email-sample-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding-bottom:10px;border-bottom:1px solid var(--line-2);
+}
+.pv-email-sample-eyebrow{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--violet-ink);
+}
+.pv-email-sample-eyebrow svg{color:var(--violet)}
+.pv-email-sample-step{font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+.pv-email-sample-meta{font-size:12px;color:var(--ink-2);line-height:1.4}
+.pv-email-sample-label{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-right:4px;
+}
+.pv-email-sample-meta strong{color:var(--ink);font-weight:500}
+.pv-email-sample-subject{
+  font-family:var(--serif);font-weight:400;font-size:18px;line-height:1.25;letter-spacing:-.008em;
+  color:var(--ink);margin:4px 0 4px;
+}
+.pv-email-sample-body{
+  font-size:13px;line-height:1.6;color:var(--ink-2);margin:0 0 8px;
+  display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;
+}
+.pv-email-sample-link{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:12.5px;color:var(--ink);text-decoration:none;font-weight:500;
+  transition:color .12s var(--ease);
+}
+.pv-email-sample-link:hover{color:var(--orange)}
+
+/* Mobile */
+@media (max-width:1100px){
+  .pv-two-col{grid-template-columns:1fr}
+  .pv-pipe{grid-template-columns:repeat(2,1fr)}
+  .pv-pipe-stage::after{display:none}
+}
 @media (max-width:720px){
   .pv-canvas{padding:28px 18px}
-  .pv-hero-head{flex-wrap:wrap}
-  .pv-letter{padding:24px 20px 22px}
-  .pv-letter-subject{font-size:18px}
+  .pv-engine-head{padding:18px 20px 14px;flex-direction:column;align-items:flex-start}
+  .pv-pipe{grid-template-columns:1fr;padding:16px 20px 18px;gap:8px}
+  .pv-engine-foot{padding:12px 20px 16px}
+  .pv-engine-cta{width:100%;justify-content:center}
   .pv-cl-head{padding:18px 20px;flex-wrap:wrap;gap:14px}
   .pv-cl-progress{width:100%}
   .pv-cl-item{padding:14px 20px;gap:12px}
   .pv-cl-label{font-size:13.5px}
+  .pv-email-sample{padding:18px 18px 16px}
 }
 </style>
 </head>
@@ -1707,54 +1841,167 @@ html[data-ws="book"]     [data-workspace="product"]{display:none}
   <!-- ══════════════════ MAIN CANVAS — FULL WIDTH ══════════════════ -->
   <main class="main pv-main">
 
-    <!-- ───────── GREETING (small, quiet) ───────── -->
     <div class="pv-canvas">
+
+      <!-- ───────── GREETING ───────── -->
       <div class="pv-greeting">
         <div class="pv-greet">Welcome to Outpulse</div>
-        <h1>Your first pipeline is <em>drafted.</em></h1>
-        <p class="pv-greeting-sub">Pulse has already matched prospects and written a 3-step sequence for Platform. Review it below — the last two steps unlock your 7-day trial.</p>
+        <h1>Pulse is ready to <em>run your pipeline</em>.</h1>
+        <p class="pv-greeting-sub">Your autopilot for outbound. Pulse finds ideal prospects, writes personal emails, sends them on the right day, tracks replies, and books meetings &mdash; while you sleep. Below is the loop, already set up for Platform.</p>
       </div>
 
-      <!-- ───────── PRIMARY VALUE: AI-drafted email as an editorial letter ───────── -->
-      <section class="pv-hero">
-        <header class="pv-hero-head">
-          <span class="pv-hero-eyebrow">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
-            Pulse drafted your first email
-          </span>
-          <span class="pv-hero-step">Step 1 of 3</span>
+      <!-- ───────── PULSE ENGINE — the automation loop ───────── -->
+      <section class="pv-engine">
+        <header class="pv-engine-head">
+          <div class="pv-engine-head-text">
+            <div class="pv-engine-eyebrow">
+              <span class="pv-engine-dot"></span>
+              Your Pulse &middot; Preview
+            </div>
+            <h2 class="pv-engine-title">Five stages. One continuous loop.</h2>
+          </div>
+          <div class="pv-engine-kpi">
+            <div><span class="pv-engine-kpi-num">3&ndash;5</span><span class="pv-engine-kpi-lbl">meetings expected<br/>in the first 14 days</span></div>
+          </div>
         </header>
 
-        <div class="pv-letter">
-          <div class="pv-letter-meta">
-            <span class="pv-letter-row"><span class="pv-letter-label">To</span><span class="pv-letter-val"><strong>Nina Garcia</strong> &middot; Head of Growth at Supabase</span></span>
-            <span class="pv-letter-row"><span class="pv-letter-label">From</span><span class="pv-letter-val">Lukas Horak &middot; lukas@plat4m.com</span></span>
-          </div>
-          <h2 class="pv-letter-subject">Nina, a thought on Supabase at 180% YoY</h2>
-          <div class="pv-letter-body">
-            <p>Hi Nina,</p>
-            <p>Hypergrowth breaks process long before it breaks people. Teams scaling that fast usually realise in week 2 &mdash; not Q2 &mdash; that rev-ops needs to be automated, not documented.</p>
-            <p>We built Platform for exactly that window. Worth a short call next week to compare notes on what worked for two other Series-B teams?</p>
-            <p class="pv-letter-sig">&mdash; Lukas</p>
-          </div>
-          <footer class="pv-letter-foot">
-            <span class="pv-letter-foot-meta">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
-              Personalised from Nina&rsquo;s LinkedIn signals
-            </span>
-            <span class="pv-letter-foot-dot">&middot;</span>
-            <span>Estimated reply rate <strong>14&ndash;18%</strong></span>
-          </footer>
-        </div>
+        <!-- Horizontal pipeline of 5 stages -->
+        <ol class="pv-pipe">
+          <li class="pv-pipe-stage done">
+            <span class="pv-pipe-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
+            <div class="pv-pipe-meta">
+              <span class="pv-pipe-n">01</span>
+              <span class="pv-pipe-h">Match prospects</span>
+              <span class="pv-pipe-d"><strong>5 matched</strong> &middot; 14,210 available</span>
+            </div>
+          </li>
+          <li class="pv-pipe-stage done">
+            <span class="pv-pipe-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>
+            <div class="pv-pipe-meta">
+              <span class="pv-pipe-n">02</span>
+              <span class="pv-pipe-h">Write emails</span>
+              <span class="pv-pipe-d"><strong>3 drafted</strong> &middot; personalised per prospect</span>
+            </div>
+          </li>
+          <li class="pv-pipe-stage locked">
+            <span class="pv-pipe-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></span>
+            <div class="pv-pipe-meta">
+              <span class="pv-pipe-n">03</span>
+              <span class="pv-pipe-h">Send on schedule</span>
+              <span class="pv-pipe-d">Drip over 9 days &middot; even while you sleep</span>
+            </div>
+          </li>
+          <li class="pv-pipe-stage locked">
+            <span class="pv-pipe-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></svg></span>
+            <div class="pv-pipe-meta">
+              <span class="pv-pipe-n">04</span>
+              <span class="pv-pipe-h">Track &amp; optimise</span>
+              <span class="pv-pipe-d">Opens, clicks, replies &middot; auto&#8209;tuned copy</span>
+            </div>
+          </li>
+          <li class="pv-pipe-stage locked">
+            <span class="pv-pipe-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><polyline points="9 16 11 18 15 14"/></svg></span>
+            <div class="pv-pipe-meta">
+              <span class="pv-pipe-n">05</span>
+              <span class="pv-pipe-h">Book the meeting</span>
+              <span class="pv-pipe-d">Calendar handoff &middot; reply routed to your inbox</span>
+            </div>
+          </li>
+        </ol>
 
-        <div class="pv-hero-actions">
-          <a href="prototype-preview-campaigns.html" class="btn-primary">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-            Review the draft
-          </a>
-          <span class="pv-hero-hint">3 emails in total &middot; 5 matched prospects</span>
-        </div>
+        <footer class="pv-engine-foot">
+          <span class="pv-engine-foot-meta">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Stages 3&ndash;5 unlock when you start the trial
+          </span>
+          <button class="pv-engine-cta" data-open-trial>
+            Flip the switch &middot; Start 7-day trial
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </footer>
       </section>
+
+      <!-- ───────── TWO-COLUMN: automation preview timeline + email sample ───────── -->
+      <div class="pv-two-col">
+
+        <!-- Automation timeline — what Pulse will do once launched -->
+        <section class="pv-timeline">
+          <header class="pv-timeline-head">
+            <p class="pv-timeline-title">What your first week looks like</p>
+            <p class="pv-timeline-sub">Projected activity once you launch &middot; based on your persona</p>
+          </header>
+          <ol class="pv-timeline-list">
+            <li class="pv-timeline-item">
+              <span class="pv-timeline-day">Mon</span>
+              <span class="pv-timeline-dot"></span>
+              <div class="pv-timeline-body">
+                <span class="pv-timeline-action">Pulse sends email #1 to <strong>5 prospects</strong></span>
+                <span class="pv-timeline-meta">9:14 AM &middot; 1 per mailbox per 12 min</span>
+              </div>
+            </li>
+            <li class="pv-timeline-item">
+              <span class="pv-timeline-day">Tue</span>
+              <span class="pv-timeline-dot"></span>
+              <div class="pv-timeline-body">
+                <span class="pv-timeline-action"><strong>2 opens</strong> &middot; <strong>1 click</strong> on Nina's email</span>
+                <span class="pv-timeline-meta">Hot lead flagged &middot; tracked automatically</span>
+              </div>
+            </li>
+            <li class="pv-timeline-item">
+              <span class="pv-timeline-day">Wed</span>
+              <span class="pv-timeline-dot pv-timeline-dot--reply"></span>
+              <div class="pv-timeline-body">
+                <span class="pv-timeline-action">Reply from <strong>Nina Garcia</strong> &middot; &ldquo;interested, send time&rdquo;</span>
+                <span class="pv-timeline-meta">Routed to your inbox &middot; Pulse paused her sequence</span>
+              </div>
+            </li>
+            <li class="pv-timeline-item">
+              <span class="pv-timeline-day">Thu</span>
+              <span class="pv-timeline-dot"></span>
+              <div class="pv-timeline-body">
+                <span class="pv-timeline-action">Email #2 auto-sent to <strong>3 un-replied</strong> prospects</span>
+                <span class="pv-timeline-meta">Pulse adapted the follow-up based on signals</span>
+              </div>
+            </li>
+            <li class="pv-timeline-item">
+              <span class="pv-timeline-day">Fri</span>
+              <span class="pv-timeline-dot pv-timeline-dot--meeting"></span>
+              <div class="pv-timeline-body">
+                <span class="pv-timeline-action"><strong>Meeting booked</strong> with Nina Garcia &middot; Thu 2:00 PM</span>
+                <span class="pv-timeline-meta">Calendar sync &middot; calendar invite sent</span>
+              </div>
+            </li>
+            <li class="pv-timeline-item pv-timeline-item--summary">
+              <span class="pv-timeline-day">&nbsp;</span>
+              <span class="pv-timeline-dot pv-timeline-dot--summary"></span>
+              <div class="pv-timeline-body">
+                <span class="pv-timeline-action">Pulse summarised the week &middot; suggested subject-line A/B</span>
+                <span class="pv-timeline-meta">Applied to next batch automatically</span>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <!-- Email sample — compact -->
+        <section class="pv-email-sample">
+          <header class="pv-email-sample-head">
+            <span class="pv-email-sample-eyebrow">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+              Sample draft
+            </span>
+            <span class="pv-email-sample-step">1 of 3</span>
+          </header>
+          <div class="pv-email-sample-meta">
+            <span><span class="pv-email-sample-label">To</span> <strong>Nina Garcia</strong> &middot; Head of Growth, Supabase</span>
+          </div>
+          <h3 class="pv-email-sample-subject">Nina, a thought on Supabase at 180% YoY</h3>
+          <p class="pv-email-sample-body">Hypergrowth breaks process long before it breaks people. Teams scaling that fast usually realise in week 2 &mdash; not Q2 &mdash; that rev-ops needs to be automated, not documented. We built Platform for exactly that window&hellip;</p>
+          <a href="prototype-preview-campaigns.html" class="pv-email-sample-link">
+            Read the full 3-step sequence
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </section>
+      </div>
 
       <!-- ───────── CHECKLIST ───────── -->
       <section class="pv-checklist">
