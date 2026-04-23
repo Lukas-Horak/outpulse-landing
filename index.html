@@ -1598,32 +1598,74 @@ h1.display em{
 }
 @keyframes emCaret{50%{opacity:0}}
 
-/* Callouts column — cards pop in one at a time, anchored to a specific line */
-.em-callouts{
-  display:flex;flex-direction:column;gap:10px;align-self:start;
+/* Signals panel — what Outpulse found about the prospect before writing */
+.em-signals{
+  align-self:start;
+  border:1px solid var(--line);border-radius:16px;background:#fff;
+  overflow:hidden;
+  box-shadow:0 1px 2px rgba(14,13,12,.02);
 }
-.em-callout{
-  position:relative;
-  padding:14px 16px 14px 18px;
-  border:1px solid var(--line);border-radius:12px;background:#fff;
-  opacity:0;transform:translateX(12px);
-  transition:opacity .45s var(--ease,cubic-bezier(.4,0,.2,1)),transform .45s var(--ease,cubic-bezier(.4,0,.2,1));
+.em-signals-head{
+  display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:center;
+  padding:16px 18px;border-bottom:1px solid var(--line-2);background:var(--bg-panel);
 }
-.em-callout.in{opacity:1;transform:translateX(0)}
-.em-callout::before{
-  content:"";position:absolute;left:0;top:14px;bottom:14px;width:2px;
-  background:var(--ink);border-radius:2px;
+.em-signals-av{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,#cee8d7,#a3cbb3);
+  display:grid;place-items:center;
+  font-family:var(--serif);font-size:14px;color:var(--green-ink);
 }
-.em-callout-tag{
-  display:inline-block;
-  font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--muted);margin-bottom:6px;
+.em-signals-who{display:flex;flex-direction:column;gap:1px;min-width:0}
+.em-signals-name{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.2}
+.em-signals-role{font-size:11.5px;color:var(--muted);line-height:1.2}
+.em-signals-count{
+  display:inline-flex;align-items:center;
+  padding:3px 10px;border-radius:999px;
+  background:var(--violet-soft);border:1px solid rgba(138,118,184,.22);color:var(--violet-ink);
+  font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.04em;
+  font-feature-settings:"tnum";
 }
-.em-callout-h{
-  font-size:13.5px;font-weight:500;color:var(--ink);
-  margin:0 0 3px;line-height:1.4;letter-spacing:-.004em;
+.em-signals-count b{font-weight:600;margin-right:3px}
+
+.em-signals-list{display:flex;flex-direction:column}
+.em-sig{
+  display:grid;grid-template-columns:26px 1fr auto;gap:12px;align-items:center;
+  padding:12px 18px;border-top:1px solid var(--line-2);
+  opacity:0;transform:translateX(8px);
+  transition:opacity .45s var(--motion-base),transform .45s var(--motion-base);
 }
-.em-callout-p{font-size:12px;color:var(--muted);margin:0;line-height:1.45}
+.em-sig:first-child{border-top:none}
+.em-sig.in{opacity:1;transform:translateX(0)}
+.em-sig-ic{
+  width:26px;height:26px;border-radius:7px;
+  display:grid;place-items:center;flex-shrink:0;
+  background:var(--bg-subtle);border:1px solid var(--line);color:var(--muted);
+}
+.em-sig-ic svg{width:13px;height:13px}
+.em-sig-ic--li{background:var(--blue-soft);border-color:rgba(56,102,166,.22);color:var(--blue)}
+.em-sig-ic--cb{background:var(--green-soft);border-color:rgba(26,124,75,.22);color:var(--green-ink)}
+.em-sig-ic--jobs{background:var(--orange-soft);border-color:rgba(255,91,31,.22);color:var(--orange-ink)}
+.em-sig-ic--site{background:var(--bg-subtle);border-color:var(--line);color:var(--ink-3)}
+.em-sig-ic--stack{background:var(--violet-soft);border-color:rgba(138,118,184,.22);color:var(--violet-ink)}
+.em-sig-ic--intent{background:var(--orange-soft);border-color:rgba(255,91,31,.25);color:var(--orange-ink)}
+.em-sig-body{display:flex;flex-direction:column;gap:1px;min-width:0}
+.em-sig-source{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;
+  color:var(--muted-2);text-transform:uppercase;font-weight:500;
+}
+.em-sig-text{font-size:13px;color:var(--ink-2);line-height:1.35;letter-spacing:-.003em}
+.em-sig-text b{color:var(--ink);font-weight:600}
+.em-sig-when{
+  font-family:var(--mono);font-size:10.5px;color:var(--muted-2);font-variant-numeric:tabular-nums;
+}
+.em-sig:first-child .em-sig-when{color:var(--green);font-weight:500}
+
+.em-signals-foot{
+  padding:12px 18px;border-top:1px solid var(--line-2);
+  background:var(--bg-panel);
+  font-family:var(--serif);font-style:italic;font-size:13px;color:var(--muted);line-height:1.5;
+  letter-spacing:-.005em;
+}
 
 @media(max-width:900px){
   .em-demo{grid-template-columns:1fr;gap:16px;padding:24px 18px}
@@ -1644,16 +1686,11 @@ h1.display em{
 }
 .loop-stage{
   position:relative;
-  padding:26px 22px 22px;
+  padding:22px 22px 20px;
   background:#fff;border:1px solid var(--line);border-radius:16px;
   box-shadow:0 1px 2px rgba(14,13,12,.03);
   display:flex;flex-direction:column;gap:10px;
-  transition:transform var(--motion-base),box-shadow var(--motion-base),border-color var(--motion-base);
-}
-.loop-stage:hover{
-  transform:translateY(-2px);
-  box-shadow:0 16px 40px -20px rgba(14,13,12,.18);
-  border-color:var(--line-2);
+  overflow:hidden;
 }
 /* Connector chevron between stages — disappears on mobile */
 .loop-stage::after{
@@ -1712,13 +1749,156 @@ h1.display em{
 }
 .loop-cta:hover{background:var(--orange)}
 
+/* ─── Per-stage viz animations — each card has its own live micro-story ─── */
+.loop-viz{
+  position:relative;height:56px;margin:6px -4px 6px;
+  overflow:hidden;border-radius:10px;
+  background:var(--bg-subtle);
+}
+
+/* 01 · MATCH — radar pings, pins drop in */
+.loop-viz--match{background:radial-gradient(circle at center,#fff 0%,var(--bg-subtle) 70%)}
+.m-ring{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:16px;height:16px;border-radius:50%;
+  border:1.5px solid var(--orange);opacity:0;
+  animation:mRing 2.2s cubic-bezier(.2,.7,.4,1) infinite;
+}
+.m-ring-2{animation-delay:1.1s}
+@keyframes mRing{
+  0%{width:10px;height:10px;opacity:.9}
+  100%{width:80px;height:80px;opacity:0}
+}
+.m-pin{
+  position:absolute;width:5px;height:5px;border-radius:50%;
+  background:var(--ink);opacity:0;
+  animation:mPin 3.6s ease-in-out infinite;
+}
+.m-pin-1{top:22%;left:18%;animation-delay:.2s}
+.m-pin-2{top:60%;left:24%;animation-delay:.6s;background:var(--green)}
+.m-pin-3{top:30%;left:52%;animation-delay:1.0s}
+.m-pin-4{top:70%;left:62%;animation-delay:1.4s;background:var(--orange)}
+.m-pin-5{top:40%;left:82%;animation-delay:1.8s}
+@keyframes mPin{
+  0%,10%{opacity:0;transform:scale(.3)}
+  25%,75%{opacity:1;transform:scale(1)}
+  90%,100%{opacity:0;transform:scale(.3)}
+}
+
+/* 02 · WRITE — typing text with caret */
+.loop-viz--write{background:#fff;border:1px solid var(--line);padding:16px 14px;display:flex;align-items:center}
+.w-line{
+  display:inline-flex;align-items:center;
+  font-family:var(--serif);font-size:15px;color:var(--ink);line-height:1.2;letter-spacing:-.005em;
+  white-space:nowrap;max-width:100%;overflow:hidden;
+}
+.w-text::before{
+  content:"Sarah, saw you just closed $150M";
+  display:inline-block;
+  animation:wType 9s steps(32,end) infinite;
+  overflow:hidden;white-space:nowrap;max-width:32ch;
+  width:0ch;
+}
+@keyframes wType{
+  0%,5%{width:0ch}
+  40%{width:32ch}
+  70%{width:32ch}
+  85%{width:0ch}
+  100%{width:0ch}
+}
+.w-caret{
+  display:inline-block;width:2px;height:1em;background:var(--orange);margin-left:2px;vertical-align:-.12em;
+  animation:wBlink .9s step-end infinite;
+}
+@keyframes wBlink{50%{opacity:0}}
+
+/* 03 · SEND — paper plane glides along a dotted trail */
+.loop-viz--send{background:#fff;border:1px solid var(--line)}
+.s-trail{
+  position:absolute;top:50%;left:10%;right:10%;height:1px;transform:translateY(-50%);
+  background-image:linear-gradient(90deg,var(--muted-2) 50%,transparent 0);
+  background-size:6px 1px;background-repeat:repeat-x;opacity:.5;
+}
+.s-plane{
+  position:absolute;top:50%;left:10%;
+  width:18px;height:18px;transform:translate(-50%,-50%);
+  color:var(--blue);
+  animation:sGlide 4.2s cubic-bezier(.55,.06,.35,1) infinite;
+}
+.s-plane svg{width:100%;height:100%}
+@keyframes sGlide{
+  0%  {left:-8%;opacity:0;transform:translate(-50%,-50%) rotate(-8deg)}
+  8%  {opacity:1}
+  60% {transform:translate(-50%,-50%) rotate(-2deg)}
+  92% {opacity:1}
+  100%{left:108%;opacity:0;transform:translate(-50%,-50%) rotate(0deg)}
+}
+
+/* 04 · TRACK — breathing bars */
+.loop-viz--track{
+  background:#fff;border:1px solid var(--line);
+  display:flex;align-items:flex-end;justify-content:center;gap:5px;padding:10px 14px;
+}
+.t-bar{
+  flex:1;max-width:8px;border-radius:2px 2px 0 0;background:var(--green);
+  transform-origin:bottom;
+  animation:tBar 1.8s ease-in-out infinite;
+}
+.t-bar-1{animation-delay:.00s;background:var(--green);height:40%}
+.t-bar-2{animation-delay:.15s;background:var(--green);height:55%;opacity:.85}
+.t-bar-3{animation-delay:.30s;background:var(--green);height:35%;opacity:.7}
+.t-bar-4{animation-delay:.45s;background:var(--green);height:70%;opacity:.85}
+.t-bar-5{animation-delay:.60s;background:var(--green);height:50%;opacity:.7}
+.t-bar-6{animation-delay:.75s;background:var(--green);height:80%;opacity:.9}
+.t-bar-7{animation-delay:.90s;background:var(--green);height:45%;opacity:.6}
+@keyframes tBar{
+  0%,100%{transform:scaleY(.55)}
+  50%   {transform:scaleY(1.15)}
+}
+
+/* 05 · BOOK — calendar slots, one flashes 'booked' */
+.loop-viz--book{
+  background:#fff;border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;
+}
+.b-slot{
+  flex:0 0 auto;width:28px;height:34px;border-radius:6px;
+  background:var(--bg-subtle);border:1px solid var(--line);
+  display:grid;place-items:center;color:#fff;
+  position:relative;
+}
+.b-slot::before{
+  content:"";position:absolute;top:6px;left:5px;right:5px;height:3px;border-radius:999px;
+  background:var(--muted-2);opacity:.35;
+}
+.b-slot-hit{
+  background:var(--green-soft);border-color:rgba(26,124,75,.3);color:var(--green);
+  animation:bFlash 3.6s ease-in-out infinite;
+}
+.b-slot-hit svg{width:14px;height:14px;opacity:0;animation:bCheck 3.6s ease-in-out infinite}
+.b-slot-hit::before{background:var(--green);opacity:0;animation:bCheck 3.6s ease-in-out infinite}
+@keyframes bFlash{
+  0%,10%  {background:var(--bg-subtle);border-color:var(--line)}
+  30%,70% {background:var(--green-soft);border-color:rgba(26,124,75,.3);box-shadow:0 0 0 3px rgba(26,124,75,.12)}
+  90%,100%{background:var(--bg-subtle);border-color:var(--line);box-shadow:none}
+}
+@keyframes bCheck{
+  0%,20% {opacity:0;transform:scale(.4)}
+  35%,75%{opacity:1;transform:scale(1)}
+  90%,100%{opacity:0;transform:scale(.4)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .m-ring,.m-pin,.w-text::before,.w-caret,.s-plane,.t-bar,.b-slot-hit,.b-slot-hit svg,.b-slot-hit::before{animation:none!important}
+}
+
 @media(max-width:1080px){
   .loop-engine{grid-template-columns:repeat(3,1fr)}
   .loop-stage::after{display:none}
 }
 @media(max-width:720px){
   .loop-engine{grid-template-columns:1fr;gap:10px}
-  .loop-stage{padding:22px 20px 18px}
+  .loop-stage{padding:18px 20px 16px}
   .loop-h{font-size:20px}
   .loop-foot{flex-direction:column;align-items:flex-start;gap:14px}
 }
@@ -3171,46 +3351,93 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
 
   <div class="container">
     <ol class="loop-engine">
+
       <li class="loop-stage">
         <span class="loop-ic loop-ic--match">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
         </span>
+        <!-- Viz: radar scan pulsing out -->
+        <div class="loop-viz loop-viz--match" aria-hidden="true">
+          <span class="m-pin m-pin-1"></span>
+          <span class="m-pin m-pin-2"></span>
+          <span class="m-pin m-pin-3"></span>
+          <span class="m-pin m-pin-4"></span>
+          <span class="m-pin m-pin-5"></span>
+          <span class="m-ring"></span>
+          <span class="m-ring m-ring-2"></span>
+        </div>
         <span class="loop-n">01</span>
         <h3 class="loop-h">Match prospects</h3>
-        <p class="loop-d">AI maps your ICP to <strong>275M+ verified contacts</strong>, filtered by fresh intent &mdash; hiring, funding, new roles, tech stack.</p>
+        <p class="loop-d">Maps your ICP to <strong>275M+ verified contacts</strong>. Filtered by fresh intent: hiring, funding, new roles.</p>
       </li>
+
       <li class="loop-stage">
         <span class="loop-ic loop-ic--write">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
         </span>
+        <!-- Viz: typing caret on a rolling line of text -->
+        <div class="loop-viz loop-viz--write" aria-hidden="true">
+          <span class="w-line"><span class="w-text"></span><span class="w-caret"></span></span>
+        </div>
         <span class="loop-n">02</span>
         <h3 class="loop-h">Write each email</h3>
-        <p class="loop-d">Every message is one&#8209;of&#8209;one, drafted from <strong>their</strong> real data &mdash; role, company, funding, signals. <em>Zero templates.</em></p>
+        <p class="loop-d">One-of-one drafts built from their role, company, funding, signals. <em>Zero templates.</em></p>
       </li>
+
       <li class="loop-stage">
         <span class="loop-ic loop-ic--send">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
         </span>
+        <!-- Viz: paper plane gliding along a dotted trail -->
+        <div class="loop-viz loop-viz--send" aria-hidden="true">
+          <span class="s-trail"></span>
+          <span class="s-plane">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </span>
+        </div>
         <span class="loop-n">03</span>
         <h3 class="loop-h">Send on schedule</h3>
-        <p class="loop-d">Drips at the right time, paces to protect deliverability, auto&#8209;follows up until someone replies &mdash; <strong>even while you sleep</strong>.</p>
+        <p class="loop-d">Paced for deliverability. Auto follow-ups until someone replies. <strong>Even while you sleep.</strong></p>
       </li>
+
       <li class="loop-stage">
         <span class="loop-ic loop-ic--track">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></svg>
         </span>
+        <!-- Viz: breathing bars -->
+        <div class="loop-viz loop-viz--track" aria-hidden="true">
+          <span class="t-bar t-bar-1"></span>
+          <span class="t-bar t-bar-2"></span>
+          <span class="t-bar t-bar-3"></span>
+          <span class="t-bar t-bar-4"></span>
+          <span class="t-bar t-bar-5"></span>
+          <span class="t-bar t-bar-6"></span>
+          <span class="t-bar t-bar-7"></span>
+        </div>
         <span class="loop-n">04</span>
         <h3 class="loop-h">Track &amp; optimise</h3>
-        <p class="loop-d">Opens, clicks, replies, bounces &mdash; all tracked in real time. Copy is <strong>auto&#8209;tuned</strong> based on what&rsquo;s working.</p>
+        <p class="loop-d">Opens, clicks, replies tracked live. Copy <strong>auto-tunes</strong> to what&rsquo;s working.</p>
       </li>
+
       <li class="loop-stage">
         <span class="loop-ic loop-ic--book">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><path d="M3 10h18"/><polyline points="9 16 11 18 15 14"/></svg>
         </span>
+        <!-- Viz: calendar grid with a slot flashing 'booked' -->
+        <div class="loop-viz loop-viz--book" aria-hidden="true">
+          <span class="b-slot"></span>
+          <span class="b-slot"></span>
+          <span class="b-slot b-slot-hit">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </span>
+          <span class="b-slot"></span>
+          <span class="b-slot"></span>
+        </div>
         <span class="loop-n">05</span>
         <h3 class="loop-h">Book the meeting</h3>
-        <p class="loop-d">Positive replies route to your inbox, the calendar handoff happens automatically, <strong>the meeting lands in your week</strong>.</p>
+        <p class="loop-d">Positive replies route to your inbox. Calendar handoff is automatic. <strong>Meeting lands in your week.</strong></p>
       </li>
+
     </ol>
 
     <div class="loop-foot">
@@ -3275,28 +3502,88 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
           </footer>
         </article>
 
-        <!-- Right: AI callouts popping in as each line is written -->
-        <aside class="em-callouts">
-          <div class="em-callout" data-em-callout="0">
-            <span class="em-callout-tag">Subject</span>
-            <p class="em-callout-h">Names a concrete outcome, not a product.</p>
-            <p class="em-callout-p">Passes inbox scan in 1.4 seconds.</p>
+        <!-- Right: the signals Outpulse pulled together before writing a word -->
+        <aside class="em-signals">
+          <header class="em-signals-head">
+            <span class="em-signals-av">SC</span>
+            <div class="em-signals-who">
+              <span class="em-signals-name">Sarah Chen</span>
+              <span class="em-signals-role">CEO at Vercel &middot; SF</span>
+            </div>
+            <span class="em-signals-count"><b data-em-sig-count>0</b> signals</span>
+          </header>
+
+          <div class="em-signals-list" data-em-signals>
+            <div class="em-sig" data-em-sig="0">
+              <span class="em-sig-ic em-sig-ic--li">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.56c0-1.33 0-3.04-1.85-3.04s-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56z"/></svg>
+              </span>
+              <div class="em-sig-body">
+                <span class="em-sig-source">LinkedIn</span>
+                <span class="em-sig-text"><b>180 employees</b>, grew 3x in 18 months</span>
+              </div>
+              <span class="em-sig-when">just now</span>
+            </div>
+
+            <div class="em-sig" data-em-sig="1">
+              <span class="em-sig-ic em-sig-ic--cb">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </span>
+              <div class="em-sig-body">
+                <span class="em-sig-source">Crunchbase</span>
+                <span class="em-sig-text">Raised <b>$150M Series D</b> 2 weeks ago</span>
+              </div>
+              <span class="em-sig-when">&middot;</span>
+            </div>
+
+            <div class="em-sig" data-em-sig="2">
+              <span class="em-sig-ic em-sig-ic--jobs">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+              </span>
+              <div class="em-sig-body">
+                <span class="em-sig-source">Hiring</span>
+                <span class="em-sig-text"><b>12 open roles</b>: Platform, GTM, DevRel</span>
+              </div>
+              <span class="em-sig-when">&middot;</span>
+            </div>
+
+            <div class="em-sig" data-em-sig="3">
+              <span class="em-sig-ic em-sig-ic--site">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15 15 0 0 1 0 20"/><path d="M12 2a15 15 0 0 0 0 20"/></svg>
+              </span>
+              <div class="em-sig-body">
+                <span class="em-sig-source">Blog</span>
+                <span class="em-sig-text">&ldquo;Our next 50 customers&rdquo; &middot; 4 days ago</span>
+              </div>
+              <span class="em-sig-when">&middot;</span>
+            </div>
+
+            <div class="em-sig" data-em-sig="4">
+              <span class="em-sig-ic em-sig-ic--stack">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+              </span>
+              <div class="em-sig-body">
+                <span class="em-sig-source">Stack</span>
+                <span class="em-sig-text">Next.js &middot; Stripe &middot; Segment &middot; Loops</span>
+              </div>
+              <span class="em-sig-when">&middot;</span>
+            </div>
+
+            <div class="em-sig" data-em-sig="5">
+              <span class="em-sig-ic em-sig-ic--intent">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+              </span>
+              <div class="em-sig-body">
+                <span class="em-sig-source">Intent</span>
+                <span class="em-sig-text"><b>Funding + hiring</b> &rarr; high-value window open now</span>
+              </div>
+              <span class="em-sig-when">&middot;</span>
+            </div>
           </div>
-          <div class="em-callout" data-em-callout="1">
-            <span class="em-callout-tag">Pattern interrupt</span>
-            <p class="em-callout-h">No &ldquo;Hi&rdquo;, leads with their funding.</p>
-            <p class="em-callout-p">Earns the read before asking anything.</p>
-          </div>
-          <div class="em-callout" data-em-callout="2">
-            <span class="em-callout-tag">Tension</span>
-            <p class="em-callout-h">A real pain point they already feel.</p>
-            <p class="em-callout-p">&ldquo;Team will double before pipeline catches up.&rdquo;</p>
-          </div>
-          <div class="em-callout" data-em-callout="3">
-            <span class="em-callout-tag">Outcome</span>
-            <p class="em-callout-h">Books calls while your team focuses on closing.</p>
-            <p class="em-callout-p">Specific, not feature soup.</p>
-          </div>
+
+          <footer class="em-signals-foot">
+            Every signal above shaped the email on the left.
+          </footer>
         </aside>
       </div>
     </div>
@@ -4346,47 +4633,53 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
     '\u2014 Lukas, Outpulse',
   ];
   const lineEls  = Array.from(demo.querySelectorAll('[data-em-line]'));
-  const callouts = Array.from(demo.querySelectorAll('[data-em-callout]'));
+  const signals  = Array.from(demo.querySelectorAll('[data-em-sig]'));
+  const sigCount = demo.querySelector('[data-em-sig-count]');
   const progress = demo.querySelector('[data-em-progress]');
   const reduce   = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const FINAL_SIG_COUNT = 42;
   let started = false;
 
   function setFinal(){
     lineEls.forEach((el, i) => { el.textContent = lines[i] || ''; });
-    callouts.forEach(c => c.classList.add('in'));
-    if(progress) progress.textContent = 'Step 1 of 3 \u00b7 ready to send';
+    signals.forEach(s => s.classList.add('in'));
+    if(sigCount) sigCount.textContent = FINAL_SIG_COUNT;
+    if(progress) progress.textContent = 'ready to send';
   }
 
-  function typewrite(el, text, perChar){
-    return new Promise(resolve => {
-      el.classList.add('typing');
-      el.textContent = '';
-      let i = 0;
-      (function step(){
-        el.textContent = text.slice(0, ++i);
-        if(i < text.length) setTimeout(step, perChar);
-        else { el.classList.remove('typing'); resolve(); }
-      })();
-    });
-  }
   const sleep = ms => new Promise(r => setTimeout(r, ms));
 
   async function run(){
     if(started) return;
     started = true;
     if(reduce.matches){ setFinal(); return; }
+
+    // Phase 1 — signals cascade in first (Outpulse is 'learning about Sarah').
+    let shown = 0;
+    for(const s of signals){
+      s.classList.add('in');
+      shown += 1;
+      // Count ticks up non-linearly toward 42 as more signals land.
+      if(sigCount){
+        const projected = Math.round((shown/signals.length) * FINAL_SIG_COUNT);
+        sigCount.textContent = projected;
+      }
+      await sleep(180);
+    }
+    if(sigCount) sigCount.textContent = FINAL_SIG_COUNT;
+
+    // Phase 2 — now it writes the email using those signals.
+    await sleep(300);
     const totalChars = lines.reduce((s,l) => s + l.length, 0);
     let typedChars = 0;
     function updateProgress(){
       if(!progress) return;
       const pct = Math.round((typedChars/totalChars)*100);
-      progress.textContent = pct >= 100 ? 'Step 1 of 3 \u00b7 ready to send' : `Step 1 of 3 \u00b7 ${pct}% written`;
+      progress.textContent = pct >= 100 ? 'ready to send' : `${pct}% written`;
     }
     for(let i = 0; i < lineEls.length; i++){
       const text = lines[i] || '';
-      // Subject typed quickest, signature too, paragraphs slightly slower.
       const perChar = (i === 0 || i === 4) ? 18 : 12;
-      // Live progress ticks as characters are typed
       const el = lineEls[i];
       el.classList.add('typing');
       el.textContent = '';
@@ -4398,13 +4691,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
       }
       el.classList.remove('typing');
       updateProgress();
-      // Pop the matching callout (subject=0, body paragraphs map to 1/2/3, sig has no callout).
-      const cb = callouts[i];
-      if(cb){
-        await sleep(240);
-        cb.classList.add('in');
-      }
-      await sleep(300);
+      await sleep(200);
     }
     updateProgress();
   }
