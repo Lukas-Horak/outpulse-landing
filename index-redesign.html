@@ -1908,8 +1908,55 @@ h1.display em{
 @media(max-width:720px){
   .loop-engine{grid-template-columns:1fr;gap:10px}
   .loop-stage{padding:18px 20px 16px}
-  .loop-h{font-size:20px}
-  .loop-foot{flex-direction:column;align-items:flex-start;gap:14px}
+  .loop-h{font-size:19px}
+  .loop-d{font-size:13.5px;line-height:1.55}
+  .loop-viz{height:60px}
+  .loop-foot{flex-direction:column;align-items:stretch;gap:14px;margin-top:22px}
+  .loop-foot-meta{font-size:14.5px;line-height:1.45}
+  .loop-cta{justify-content:center}
+}
+
+/* ─── Mobile pass: email demo stacks cleanly ─── */
+@media(max-width:900px){
+  .em-demo{grid-template-columns:1fr;gap:16px;padding:24px 18px}
+  .em-letter{padding:22px 20px 18px}
+  .em-letter-head{gap:8px}
+  .em-letter-subject{font-size:18px}
+  .em-letter-foot{font-size:11.5px}
+  .em-signals-head{padding:14px 16px}
+  .em-sig{padding:11px 16px;gap:10px}
+  .em-sig-text{font-size:12.5px}
+  .em-signals-foot{padding:11px 16px;font-size:12.5px}
+}
+
+/* ─── Mobile pass: track & pulse compact grids ─── */
+@media(max-width:720px){
+  .tr-demo,.pl-demo{padding:22px 18px;gap:14px}
+  .tr-kpi,.pl-kpi{padding:14px 16px 14px}
+  .tr-kpi-val,.pl-kpi-val{font-size:28px}
+  .tr-kpi-delta,.pl-kpi-delta{font-size:11px;padding:2px 8px}
+  .tr-camp-head{padding:14px 18px 12px}
+  .tr-camp-title{font-size:18px}
+  .tr-camp-audience{font-size:12px}
+  .tr-funnel{padding:14px 18px 16px}
+  .tr-stage{grid-template-columns:1fr;gap:4px}
+  .tr-stage-val{text-align:left}
+  .tr-feed-head,.pl-feed-head{padding:12px 18px}
+  .tr-feed-row,.pl-feed-row{padding:11px 18px;gap:12px;grid-template-columns:26px 1fr auto}
+  .tr-feed-tag,.pl-feed-tag{display:none}
+  .pl-goal{padding:18px 20px 16px}
+  .pl-goal-val{font-size:34px}
+  .pl-goal-row{gap:14px}
+  .pl-goal-bar{min-width:140px}
+  .pl-rev{grid-template-columns:1fr;gap:8px}
+}
+
+/* Browser chrome collapses on narrow viewports */
+@media(max-width:720px){
+  .browser{border-radius:14px}
+  .browser-bar{padding:9px 12px;gap:8px}
+  .browser-bar .browser-dots span{width:9px;height:9px}
+  .browser-url{font-size:10.5px;padding:5px 10px}
 }
 
 /* ══════════════════ TRACK & OPTIMISE DEMO ══════════════════
@@ -3125,8 +3172,8 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
       <a href="#faq" class="nav-link">FAQ</a>
     </div>
     <div class="nav-right">
-      <a href="/login" class="nav-login">Log in</a>
-      <a href="#cta" class="btn btn-dark">Get Started</a>
+      <a href="https://app.outpulse.ai/login" class="nav-login">Log in</a>
+      <a href="https://app.outpulse.ai/signup" class="btn btn-dark">Get Started</a>
     </div>
   </div>
 </nav>
@@ -3152,7 +3199,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
         emails, and runs your outreach campaigns — completely hands-free.
       </p>
       <div class="hero-cta-row">
-        <a href="#cta" class="btn btn-orange">Start 7-day free trial</a>
+        <a href="https://app.outpulse.ai/signup" class="btn btn-orange">Start 7-day free trial</a>
         <a href="#how" class="btn btn-ghost">See how it works →</a>
       </div>
       <div class="hero-trust-row">
@@ -3993,7 +4040,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
           <li class="p-feat">Email warm-up included</li>
           <li class="p-feat">Community support</li>
         </ul>
-        <a href="#cta" class="btn">Start free trial</a>
+        <a href="https://app.outpulse.ai/signup" class="btn">Start free trial</a>
         <div class="p-foot">No charge for 7 days</div>
       </div>
 
@@ -4010,7 +4057,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
           <li class="p-feat">AI copy optimization</li>
           <li class="p-feat">Priority support</li>
         </ul>
-        <a href="#cta" class="btn">Start free trial</a>
+        <a href="https://app.outpulse.ai/signup" class="btn">Start free trial</a>
         <div class="p-foot" style="color:rgba(255,255,255,.6)">No charge for 7 days</div>
       </div>
 
@@ -4026,7 +4073,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
           <li class="p-feat">Dedicated account manager</li>
           <li class="p-feat">Custom integrations</li>
         </ul>
-        <a href="#cta" class="btn">Start free trial</a>
+        <a href="https://app.outpulse.ai/signup" class="btn">Start free trial</a>
         <div class="p-foot">No charge for 7 days</div>
       </div>
 
