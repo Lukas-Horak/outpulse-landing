@@ -91,7 +91,7 @@ img{max-width:100%;display:block}
 
 /* ─────────────────────────────────────── NAV */
 .nav{
-  position:sticky;top:0;z-index:50;
+  position:sticky;top:0;z-index:100;
   background:rgba(255,255,255,.78);
   backdrop-filter:blur(18px) saturate(1.4);
   -webkit-backdrop-filter:blur(18px) saturate(1.4);
@@ -2600,9 +2600,10 @@ h1.display em{
    chips are in view. */
 .chip-pin{
   position:relative;
-  height:140vh;            /* 40vh of scroll past the initial viewport is
-                              enough time for 12 chips to cascade in
-                              without leaving empty white after. */
+  /* 30vh of scroll past initial viewport — just enough for the 12
+     chips to cascade in. Kept tight to avoid empty-white tail after
+     animation completes. */
+  height:130vh;
   background:#fff;
   border-top:1px solid var(--line);
   border-bottom:1px solid var(--line);
@@ -2612,10 +2613,14 @@ h1.display em{
   height:100vh;
   width:100%;
   overflow:hidden;
-  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
-  /* Same rhythm as the comparison pin — 60px gap between nav bottom
-     and the 'Intent signals' eyebrow. */
-  padding:132px 28px clamp(48px,6vh,80px);
+  /* Center the whole block (headline + cloud) vertically in the pinned
+     viewport. This is the fix for the "gap under chips" — with
+     flex-start the cloud hugged the top and left a ~30vh empty band
+     below. Centered, any remaining space is split top/bottom and
+     reads as intentional negative space. Padding-top reserves nav
+     clearance so the headline doesn't slip under the overlay nav. */
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:96px 28px 40px;
   --pp:0;
 }
 .chip-pin-inner::before{
@@ -2748,8 +2753,9 @@ h1.display em{
 .chip[data-tip]:hover::after,.chip[data-tip]:hover::before{opacity:1}
 
 @media(max-height:900px){
-  .chip-pin{height:130vh}
-  .chip-cloud{height:clamp(360px,58vh,540px)}
+  .chip-pin{height:120vh}
+  .chip-pin-inner{padding:84px 28px 32px}
+  .chip-cloud{height:clamp(340px,56vh,500px)}
   .chip.xxl{font-size:18px;padding:11px 26px}
   .chip.xl{font-size:17px;padding:10px 24px}
 }
@@ -2821,7 +2827,10 @@ h1.display em{
    locks it into place. Headline stays pinned while rows slot in. */
 .cmp-split{
   position:relative;
-  height:260vh;
+  /* 120vh of scroll past initial viewport is enough for 5 rows to
+     cascade in. Was 260vh, which left 60-80vh of empty white below
+     the final state — tightening to 220vh closes the gap. */
+  height:220vh;
   background:#fff;
 }
 .cmp-split-pin{
@@ -2829,11 +2838,11 @@ h1.display em{
   height:100vh;
   width:100%;
   overflow:hidden;
-  display:flex;flex-direction:column;
-  /* Pin sticks at viewport top, nav overlays the first 72px.
-     Padding-top 132 gives exactly 60px of breathing room between the
-     nav bottom and the eyebrow. */
-  padding:132px 24px clamp(24px,4vh,40px);
+  /* Center the comparison board vertically in the pinned viewport so
+     no empty white sits below the final row. Padding-top reserves
+     nav-overlay clearance (72px nav + small breathing room). */
+  display:flex;flex-direction:column;justify-content:center;
+  padding:96px 24px 32px;
   --cp:0;
 }
 
