@@ -91,8 +91,11 @@ img{max-width:100%;display:block}
 .nav-row .brand{justify-self:start}
 .nav-row .nav-links{justify-self:center}
 .nav-row .nav-right{justify-self:end;display:flex;align-items:center;gap:10px}
-.nav-login{font-size:14px;color:var(--ink-2);font-weight:500;padding:8px 14px;border-radius:10px;transition:color .2s}
+.nav-login{font-size:14px;color:var(--ink-2);font-weight:500;padding:8px 14px;border-radius:10px;transition:color .2s;white-space:nowrap}
 .nav-login:hover{color:var(--ink)}
+@media(max-width:520px){
+  .nav-login{padding:8px 10px}
+}
 /* Brand mark + wordmark. Sans bold with tight kerning reads as a real
    brand next to the geometric circle mark (the serif version felt
    delicate and disconnected). Mark and wordmark are tucked close so
@@ -1920,27 +1923,43 @@ h1.display em{
 @media(max-width:900px){
   .em-demo{grid-template-columns:1fr;gap:16px;padding:24px 18px}
   .em-letter{padding:22px 20px 18px}
-  .em-letter-head{gap:8px}
   .em-letter-subject{font-size:18px}
-  .em-letter-foot{font-size:11.5px}
+  .em-letter-foot{font-size:11.5px;gap:6px}
   .em-signals-head{padding:14px 16px}
   .em-sig{padding:11px 16px;gap:10px}
   .em-sig-text{font-size:12.5px}
   .em-signals-foot{padding:11px 16px;font-size:12.5px}
 }
+@media(max-width:560px){
+  /* Email head: eyebrow full width, progress below — no more side-by-side cram */
+  .em-letter-head{flex-direction:column;align-items:flex-start;gap:4px}
+  .em-letter-progress{font-size:10px}
+  .em-letter-label{width:32px;font-size:9.5px}
+  .em-letter-val{font-size:12.5px}
+  .em-letter-body{font-size:13.5px;line-height:1.65}
+  /* Signals: show all content without crushing */
+  .em-signals-count{font-size:10px;padding:3px 8px}
+  .em-sig{grid-template-columns:24px 1fr;gap:10px;padding:11px 14px}
+  .em-sig-when{display:none}
+  .em-sig-ic{width:24px;height:24px;border-radius:6px}
+  .em-sig-ic svg{width:12px;height:12px}
+}
 
 /* ─── Mobile pass: track & pulse compact grids ─── */
 @media(max-width:720px){
-  .tr-demo,.pl-demo{padding:22px 18px;gap:14px}
+  .tr-demo,.pl-demo{padding:22px 16px;gap:14px}
   .tr-kpi,.pl-kpi{padding:14px 16px 14px}
   .tr-kpi-val,.pl-kpi-val{font-size:28px}
   .tr-kpi-delta,.pl-kpi-delta{font-size:11px;padding:2px 8px}
-  .tr-camp-head{padding:14px 18px 12px}
+  /* Campaign head: flip to 1-col so status, title, flag stack cleanly */
+  .tr-camp-head{padding:14px 18px 12px;grid-template-columns:1fr;gap:10px}
+  .tr-camp-status,.tr-camp-flag{justify-self:start}
   .tr-camp-title{font-size:18px}
   .tr-camp-audience{font-size:12px}
-  .tr-funnel{padding:14px 18px 16px}
-  .tr-stage{grid-template-columns:1fr;gap:4px}
-  .tr-stage-val{text-align:left}
+  /* Funnel: stack label / bar / value vertically, no width clipping */
+  .tr-funnel{padding:14px 18px 16px;gap:14px}
+  .tr-stage{grid-template-columns:1fr;gap:5px}
+  .tr-stage-val{text-align:left;justify-content:flex-start;white-space:normal}
   .tr-feed-head,.pl-feed-head{padding:12px 18px}
   .tr-feed-row,.pl-feed-row{padding:11px 18px;gap:12px;grid-template-columns:26px 1fr auto}
   .tr-feed-tag,.pl-feed-tag{display:none}
