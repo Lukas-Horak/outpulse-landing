@@ -1318,48 +1318,45 @@ html[data-ws="book"]     [data-workspace="product"]{display:none}
 .pv-modal-cta:hover{transform:translateY(-1px);box-shadow:0 20px 44px -12px rgba(255,91,31,.65)}
 .pv-modal-foot{font-size:12px;color:var(--muted);text-align:center;margin:0}
 
-/* ─── Right sidebar blocks (preview-mode content) ─── */
+/* ─── Right-rail upgrade card — light, calm, matches the page ─── */
 .rp-upgrade{
-  position:relative;overflow:hidden;
-  padding:22px 20px 20px;
+  padding:18px 18px 16px;
   border:1px solid var(--line);border-radius:14px;
-  background:#0f0d0a;color:#fff;
+  background:#fff;color:var(--ink);
   margin-bottom:14px;
 }
-.rp-upgrade::before{content:none}
-.rp-upgrade > *{position:relative;z-index:1}
 .rp-upgrade-eyebrow{
   display:inline-flex;align-items:center;gap:5px;
-  font-family:var(--mono,ui-monospace,Menlo,monospace);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
-  color:#ff8a4c;margin-bottom:10px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:8px;
 }
+.rp-upgrade-eyebrow svg{color:var(--muted-2)}
 .rp-upgrade-title{
-  font-family:var(--serif);font-weight:400;font-size:22px;line-height:1.15;letter-spacing:-.01em;
-  color:#fff;margin:0 0 6px;
+  font-family:var(--serif);font-weight:400;font-size:20px;line-height:1.15;letter-spacing:-.01em;
+  color:var(--ink);margin:0 0 4px;
 }
-.rp-upgrade-title em{font-style:italic;color:#ff8a4c}
+.rp-upgrade-title em{font-style:italic;color:var(--ink)}
 .rp-upgrade-sub{
-  font-size:12.5px;line-height:1.5;color:rgba(255,255,255,.65);margin:0 0 14px;
+  font-size:12.5px;line-height:1.5;color:var(--muted);margin:0 0 14px;
 }
 .rp-upgrade-list{
-  list-style:none;padding:0;margin:0 0 16px;
-  display:flex;flex-direction:column;gap:6px;
-  font-size:12px;color:rgba(255,255,255,.82);
+  list-style:none;padding:0;margin:0 0 14px;
+  display:flex;flex-direction:column;gap:5px;
+  font-size:12px;color:var(--ink-2);
 }
 .rp-upgrade-list li{display:flex;align-items:center;gap:7px}
-.rp-upgrade-list svg{color:#6fbf8e;flex-shrink:0}
+.rp-upgrade-list svg{color:var(--green);flex-shrink:0}
 .rp-upgrade-btn{
   width:100%;display:inline-flex;align-items:center;justify-content:center;gap:7px;
-  padding:11px 14px;border-radius:999px;border:none;cursor:pointer;
-  background:linear-gradient(95deg,#ff5b1f,#ff8a4c);color:#fff;
+  padding:11px 14px;border-radius:8px;border:none;cursor:pointer;
+  background:var(--ink);color:#fff;
   font-family:var(--sans);font-size:13px;font-weight:500;
-  box-shadow:0 14px 28px -10px rgba(255,91,31,.55);
-  transition:transform .1s ease,box-shadow .2s ease;
+  transition:background .15s var(--ease);
 }
-.rp-upgrade-btn:hover{transform:translateY(-1px);box-shadow:0 18px 34px -10px rgba(255,91,31,.7)}
+.rp-upgrade-btn:hover{background:#000}
 .rp-upgrade-foot{
-  margin:10px 0 0;text-align:center;
-  font-size:10.5px;color:rgba(255,255,255,.45);
+  margin:8px 0 0;text-align:center;
+  font-size:10.5px;color:var(--muted-2);
 }
 
 /* Testimonial in the right rail */
@@ -1469,17 +1466,22 @@ html[data-ws="book"]     [data-workspace="product"]{display:none}
 }
 .pv-pipe-stage.done .pv-pipe-n{color:var(--green)}
 
-/* Locked state — dimmed with amber accent */
+/* Locked state — dimmed with dashed border + inline 'Trial' pill */
 .pv-pipe-stage.locked{
   background:var(--bg-panel);border-style:dashed;border-color:var(--line-3);
 }
 .pv-pipe-stage.locked .pv-pipe-ic{color:var(--muted-2)}
 .pv-pipe-stage.locked .pv-pipe-h{color:var(--ink-2)}
 .pv-pipe-stage.locked .pv-pipe-n{color:var(--muted-2)}
-.pv-pipe-stage.locked .pv-pipe-ic::after{
-  content:"";position:absolute;top:-4px;right:-4px;width:10px;height:10px;border-radius:50%;
-  background:var(--amber);border:2px solid #fff;
+.pv-pipe-lock{
+  display:inline-flex;align-items:center;gap:4px;
+  margin-left:8px;padding:1px 7px;border-radius:4px;
+  background:#fff;border:1px solid var(--line);
+  font-family:var(--mono);font-size:9px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--amber);vertical-align:middle;
 }
+.pv-pipe-lock svg{width:8px;height:8px;color:var(--amber)}
+.pv-pipe-stage:not(.locked) .pv-pipe-lock{display:none}
 
 /* Engine footer */
 .pv-engine-foot{
@@ -1846,8 +1848,8 @@ html[data-ws="book"]     [data-workspace="product"]{display:none}
       <!-- ───────── GREETING ───────── -->
       <div class="pv-greeting">
         <div class="pv-greet">Welcome to Outpulse</div>
-        <h1>Pulse is ready to <em>run your pipeline</em>.</h1>
-        <p class="pv-greeting-sub">Your autopilot for outbound. Pulse finds ideal prospects, writes personal emails, sends them on the right day, tracks replies, and books meetings &mdash; while you sleep. Below is the loop, already set up for Platform.</p>
+        <h1>Outpulse is ready to <em>run your pipeline</em>.</h1>
+        <p class="pv-greeting-sub">Your autopilot for outbound. It finds ideal prospects, writes personal emails, sends them on the right day, tracks replies, and books meetings &mdash; while you sleep. Below is the loop, already set up for Platform.</p>
       </div>
 
       <!-- ───────── PULSE ENGINE — the automation loop ───────── -->
@@ -1856,7 +1858,7 @@ html[data-ws="book"]     [data-workspace="product"]{display:none}
           <div class="pv-engine-head-text">
             <div class="pv-engine-eyebrow">
               <span class="pv-engine-dot"></span>
-              Your Pulse &middot; Preview
+              Your autopilot &middot; Preview
             </div>
             <h2 class="pv-engine-title">Five stages. One continuous loop.</h2>
           </div>
@@ -1886,7 +1888,7 @@ html[data-ws="book"]     [data-workspace="product"]{display:none}
           <li class="pv-pipe-stage locked">
             <span class="pv-pipe-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></span>
             <div class="pv-pipe-meta">
-              <span class="pv-pipe-n">03</span>
+              <span class="pv-pipe-n">03 <span class="pv-pipe-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Trial</span></span>
               <span class="pv-pipe-h">Send on schedule</span>
               <span class="pv-pipe-d">Drip over 9 days &middot; even while you sleep</span>
             </div>
@@ -1894,7 +1896,7 @@ html[data-ws="book"]     [data-workspace="product"]{display:none}
           <li class="pv-pipe-stage locked">
             <span class="pv-pipe-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></svg></span>
             <div class="pv-pipe-meta">
-              <span class="pv-pipe-n">04</span>
+              <span class="pv-pipe-n">04 <span class="pv-pipe-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Trial</span></span>
               <span class="pv-pipe-h">Track &amp; optimise</span>
               <span class="pv-pipe-d">Opens, clicks, replies &middot; auto&#8209;tuned copy</span>
             </div>
@@ -1902,7 +1904,7 @@ html[data-ws="book"]     [data-workspace="product"]{display:none}
           <li class="pv-pipe-stage locked">
             <span class="pv-pipe-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><polyline points="9 16 11 18 15 14"/></svg></span>
             <div class="pv-pipe-meta">
-              <span class="pv-pipe-n">05</span>
+              <span class="pv-pipe-n">05 <span class="pv-pipe-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Trial</span></span>
               <span class="pv-pipe-h">Book the meeting</span>
               <span class="pv-pipe-d">Calendar handoff &middot; reply routed to your inbox</span>
             </div>
@@ -1924,7 +1926,7 @@ html[data-ws="book"]     [data-workspace="product"]{display:none}
       <!-- ───────── TWO-COLUMN: automation preview timeline + email sample ───────── -->
       <div class="pv-two-col">
 
-        <!-- Automation timeline — what Pulse will do once launched -->
+        <!-- Automation timeline — what Outpulse will do once launched -->
         <section class="pv-timeline">
           <header class="pv-timeline-head">
             <p class="pv-timeline-title">What your first week looks like</p>
@@ -1935,7 +1937,7 @@ html[data-ws="book"]     [data-workspace="product"]{display:none}
               <span class="pv-timeline-day">Mon</span>
               <span class="pv-timeline-dot"></span>
               <div class="pv-timeline-body">
-                <span class="pv-timeline-action">Pulse sends email #1 to <strong>5 prospects</strong></span>
+                <span class="pv-timeline-action">Outpulse sends email #1 to <strong>5 prospects</strong></span>
                 <span class="pv-timeline-meta">9:14 AM &middot; 1 per mailbox per 12 min</span>
               </div>
             </li>
@@ -1952,7 +1954,7 @@ html[data-ws="book"]     [data-workspace="product"]{display:none}
               <span class="pv-timeline-dot pv-timeline-dot--reply"></span>
               <div class="pv-timeline-body">
                 <span class="pv-timeline-action">Reply from <strong>Nina Garcia</strong> &middot; &ldquo;interested, send time&rdquo;</span>
-                <span class="pv-timeline-meta">Routed to your inbox &middot; Pulse paused her sequence</span>
+                <span class="pv-timeline-meta">Routed to your inbox &middot; sequence auto-paused for her</span>
               </div>
             </li>
             <li class="pv-timeline-item">
@@ -1960,7 +1962,7 @@ html[data-ws="book"]     [data-workspace="product"]{display:none}
               <span class="pv-timeline-dot"></span>
               <div class="pv-timeline-body">
                 <span class="pv-timeline-action">Email #2 auto-sent to <strong>3 un-replied</strong> prospects</span>
-                <span class="pv-timeline-meta">Pulse adapted the follow-up based on signals</span>
+                <span class="pv-timeline-meta">Outpulse adapted the follow-up based on signals</span>
               </div>
             </li>
             <li class="pv-timeline-item">
@@ -1975,7 +1977,7 @@ html[data-ws="book"]     [data-workspace="product"]{display:none}
               <span class="pv-timeline-day">&nbsp;</span>
               <span class="pv-timeline-dot pv-timeline-dot--summary"></span>
               <div class="pv-timeline-body">
-                <span class="pv-timeline-action">Pulse summarised the week &middot; suggested subject-line A/B</span>
+                <span class="pv-timeline-action">Outpulse summarised the week &middot; suggested subject-line A/B</span>
                 <span class="pv-timeline-meta">Applied to next batch automatically</span>
               </div>
             </li>
