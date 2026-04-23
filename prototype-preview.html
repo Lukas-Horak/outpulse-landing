@@ -1318,9 +1318,12 @@ html[data-ws="book"]     [data-workspace="product"]{display:none}
 .pv-modal-cta:hover{transform:translateY(-1px);box-shadow:0 20px 44px -12px rgba(255,91,31,.65)}
 .pv-modal-foot{font-size:12px;color:var(--muted);text-align:center;margin:0}
 
-/* Hide the right panel on preview pages — it's too much on top of everything else */
+/* Hide the right panel on preview pages — collapse the grid column
+   rather than span .main across it (which would overlap the sidebar). */
+.pv-hide-right .app{grid-template-columns:240px 1fr !important}
 .pv-hide-right .right{display:none}
-.pv-hide-right .main{grid-column:1 / -1}
+.pv-hide-right .skeleton-page{grid-template-columns:240px 1fr !important}
+.pv-hide-right .skeleton-page .sk-right{display:none}
 
 /* Tighten main canvas padding on preview pages */
 .pv-mode .main{padding:0}

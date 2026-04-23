@@ -756,6 +756,39 @@ body{
 }
 .btn-locked .lock-ic{color:var(--amber);flex-shrink:0;width:13px;height:13px}
 
+/* ─── Large "Create another campaign" CTA beneath the single demo card ─── */
+.pv-create-cta{
+  margin-top:14px;
+  border:1px dashed var(--line-3,#e2dfd8);border-radius:18px;
+  background:
+    radial-gradient(80% 120% at 50% 0%,rgba(255,91,31,.06),transparent 60%),
+    var(--bg-panel,#fbfaf7);
+  padding:40px 32px;
+}
+.pv-create-cta-inner{max-width:520px;margin:0 auto;text-align:center}
+.pv-create-cta-eyebrow{
+  font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted,#6c6458);margin-bottom:10px;display:inline-block;
+}
+.pv-create-cta h3{
+  font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.1;letter-spacing:-.015em;
+  color:var(--ink,#14120f);margin:0 0 10px;
+}
+.pv-create-cta h3 em{font-style:italic;color:var(--orange,#ff5b1f)}
+.pv-create-cta p{
+  font-size:14px;color:var(--muted,#6c6458);line-height:1.55;margin:0 0 22px;
+  max-width:42ch;margin-left:auto;margin-right:auto;
+}
+.pv-create-cta-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 22px;border-radius:999px;
+  font-family:var(--sans,"Inter",system-ui,sans-serif);font-size:14px;font-weight:500;
+  cursor:pointer;
+}
+.pv-create-cta-foot{
+  font-size:12px;color:var(--muted-2,#a8a097);margin:14px 0 0!important;
+}
+
 /* ─── Trial modal ─── */
 .pv-modal-backdrop{
   display:none;position:fixed;inset:0;z-index:200;
@@ -1045,7 +1078,7 @@ body{
     </div>
 
     <!-- ─── CAMPAIGN CARDS (preview mode — first card is AI-drafted for Platform) ─── -->
-    <div class="ccards pv-fade-wrap">
+    <div class="ccards">
 
       <!-- 0 · Preview: Platform AI-drafted first campaign -->
       <div class="ccard draft" style="border:1px solid rgba(255,91,31,.22);box-shadow:0 16px 40px -24px rgba(255,91,31,.2);position:relative">
@@ -1094,552 +1127,19 @@ body{
         </div>
       </div>
 
-      <!-- 1 · Services · Running + winning -->
-      <div class="ccard running">
-        <div class="ccard-head">
-          <span class="ccard-status"><span class="d"></span>Running · 14 days</span>
-          <div class="ccard-title-wrap">
-            <h3 class="ccard-title">Series B CTOs · Q2 push</h3>
-            <div class="ccard-meta-row">
-              <span class="ccard-goal services">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                Book meetings
-              </span>
-              <div class="ccard-audience"><b>418 prospects</b> · CTOs / VP Engineering at SaaS Series B+ · EU + US</div>
-            </div>
-          </div>
-          <span class="ccard-flag winning"><span class="d"></span>Winning</span>
-          <span class="ccard-kebab" aria-label="More actions">
-            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>
-          </span>
-        </div>
 
-        <div class="ccard-signals">
-          <span class="ccard-signals-label">Watching</span>
-          <span class="sig hiring"><span class="d"></span>Hiring engineers</span>
-          <span class="sig raise"><span class="d"></span>Recent raise</span>
-          <span class="sig cxo"><span class="d"></span>New CxO</span>
-          <span class="sig migrate"><span class="d"></span>Stack migration</span>
+      <!-- ─── Big CTA under the one demo card (preview) ─── -->
+      <div class="pv-create-cta">
+        <div class="pv-create-cta-inner">
+          <span class="pv-create-cta-eyebrow">One card, one idea.</span>
+          <h3>Ready for <em>more?</em></h3>
+          <p>Your first campaign is above &mdash; we drafted it for you. Launch it to see live numbers, then set up as many more as you need.</p>
+          <button class="btn-locked pv-create-cta-btn" data-open-trial>
+            <svg class="lock-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Create new campaign &middot; starts 7-day trial
+          </button>
+          <p class="pv-create-cta-foot">No charge for 7 days &middot; cancel anytime &middot; secure via Stripe</p>
         </div>
-
-        <div class="ccard-body">
-          <div class="ccard-prog">
-            <div class="ccard-prog-top">
-              <span class="ccard-prog-lbl">Progress · 14-day send</span>
-              <span class="ccard-prog-val">1,284<span class="of"> / 1,672 sent</span></span>
-            </div>
-            <div class="ccard-prog-bar"><span class="fill" style="width:77%"></span></div>
-
-            <div class="ccard-funnel">
-              <div class="ccard-fstage">
-                <span class="ccard-fstage-lbl">Sent</span>
-                <div class="ccard-fstage-bar"><span class="fill" style="width:100%"></span></div>
-                <span class="ccard-fstage-val">1,284</span>
-              </div>
-              <div class="ccard-fstage">
-                <span class="ccard-fstage-lbl">Opens</span>
-                <div class="ccard-fstage-bar"><span class="fill" style="width:66%"></span></div>
-                <span class="ccard-fstage-val">840 <span class="rate">66%</span></span>
-              </div>
-              <div class="ccard-fstage">
-                <span class="ccard-fstage-lbl">Replies</span>
-                <div class="ccard-fstage-bar"><span class="fill" style="width:11%"></span></div>
-                <span class="ccard-fstage-val">144 <span class="rate">11.2%</span></span>
-              </div>
-              <div class="ccard-fstage">
-                <span class="ccard-fstage-lbl">Meetings</span>
-                <div class="ccard-fstage-bar"><span class="fill" style="width:2.1%"></span></div>
-                <span class="ccard-fstage-val">27 <span class="rate">2.1%</span></span>
-              </div>
-            </div>
-          </div>
-          <div class="ccard-metrics-row">
-            <div class="ccard-metric">
-              <div class="ccard-m-lbl">Reply rate</div>
-              <div class="ccard-m-val">11.2%</div>
-              <div class="ccard-m-sub"><span class="up">↑ 2.4 pts</span></div>
-            </div>
-            <div class="ccard-metric">
-              <div class="ccard-m-lbl">Meetings</div>
-              <div class="ccard-m-val">27</div>
-              <div class="ccard-m-sub">6 this week</div>
-            </div>
-            <div class="ccard-metric">
-              <div class="ccard-m-lbl">Last sent</div>
-              <div class="ccard-m-val small">2 min ago</div>
-              <div class="ccard-m-sub">Batch of 42</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="ccard-next">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          <span><b>3 prospects</b> waiting on a reply · <b>8 follow-ups</b> scheduled for tomorrow</span>
-          <span class="spacer"></span>
-          <a class="ccard-next-link">Open campaign →</a>
-        </div>
-      </div>
-
-      <!-- 2 · Services · Sending (heavy volume) -->
-      <div class="ccard sending">
-        <div class="ccard-head">
-          <span class="ccard-status"><span class="d"></span>Sending · 6 days</span>
-          <div class="ccard-title-wrap">
-            <h3 class="ccard-title">SaaS · EU 50–200</h3>
-            <div class="ccard-meta-row">
-              <span class="ccard-goal services">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                Book meetings
-              </span>
-              <div class="ccard-audience"><b>612 prospects</b> · Heads of Growth at 50–200 person SaaS · Series A+</div>
-            </div>
-          </div>
-          <span class="ccard-kebab" aria-label="More actions">
-            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>
-          </span>
-        </div>
-        <div class="ccard-signals">
-          <span class="ccard-signals-label">Watching</span>
-          <span class="sig growth"><span class="d"></span>Growth stage</span>
-          <span class="sig hiring"><span class="d"></span>Hiring sales</span>
-          <span class="sig raise"><span class="d"></span>Raised Series A+</span>
-        </div>
-        <div class="ccard-body">
-          <div class="ccard-prog">
-            <div class="ccard-prog-top">
-              <span class="ccard-prog-lbl">Progress · 30-day plan</span>
-              <span class="ccard-prog-val">612<span class="of"> / 2,448 sent</span></span>
-            </div>
-            <div class="ccard-prog-bar"><span class="fill" style="width:25%"></span></div>
-
-            <div class="ccard-funnel">
-              <div class="ccard-fstage">
-                <span class="ccard-fstage-lbl">Sent</span>
-                <div class="ccard-fstage-bar"><span class="fill" style="width:100%"></span></div>
-                <span class="ccard-fstage-val">612</span>
-              </div>
-              <div class="ccard-fstage">
-                <span class="ccard-fstage-lbl">Opens</span>
-                <div class="ccard-fstage-bar"><span class="fill" style="width:58%"></span></div>
-                <span class="ccard-fstage-val">355 <span class="rate">58%</span></span>
-              </div>
-              <div class="ccard-fstage">
-                <span class="ccard-fstage-lbl">Replies</span>
-                <div class="ccard-fstage-bar"><span class="fill" style="width:9.4%"></span></div>
-                <span class="ccard-fstage-val">58 <span class="rate">9.4%</span></span>
-              </div>
-              <div class="ccard-fstage">
-                <span class="ccard-fstage-lbl">Meetings</span>
-                <div class="ccard-fstage-bar"><span class="fill" style="width:2%"></span></div>
-                <span class="ccard-fstage-val">12 <span class="rate">2.0%</span></span>
-              </div>
-            </div>
-          </div>
-          <div class="ccard-metrics-row">
-            <div class="ccard-metric">
-              <div class="ccard-m-lbl">Reply rate</div>
-              <div class="ccard-m-val">9.4%</div>
-              <div class="ccard-m-sub"><span class="up">↑ 1.1 pts</span></div>
-            </div>
-            <div class="ccard-metric">
-              <div class="ccard-m-lbl">Meetings</div>
-              <div class="ccard-m-val">12</div>
-              <div class="ccard-m-sub">4 this week</div>
-            </div>
-            <div class="ccard-metric">
-              <div class="ccard-m-lbl">Last sent</div>
-              <div class="ccard-m-val small">8 min ago</div>
-              <div class="ccard-m-sub">Batch of 28</div>
-            </div>
-          </div>
-        </div>
-        <div class="ccard-next">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>
-          <span><b>1,836 prospects</b> still to send — ~18 days at current pace</span>
-          <span class="spacer"></span>
-          <a class="ccard-next-link">Open campaign →</a>
-        </div>
-      </div>
-
-      <!-- 3 · Services · Warm follow-up (winning) -->
-      <div class="ccard running">
-        <div class="ccard-head">
-          <span class="ccard-status"><span class="d"></span>Running · ongoing</span>
-          <div class="ccard-title-wrap">
-            <h3 class="ccard-title">Warm replies · follow-up</h3>
-            <div class="ccard-meta-row">
-              <span class="ccard-goal services">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                Book meetings
-              </span>
-              <div class="ccard-audience"><b>38 prospects</b> · replied warm · awaiting second touch</div>
-            </div>
-          </div>
-          <span class="ccard-flag winning"><span class="d"></span>Winning</span>
-          <span class="ccard-kebab" aria-label="More actions">
-            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>
-          </span>
-        </div>
-        <div class="ccard-signals">
-          <span class="ccard-signals-label">Watching</span>
-          <span class="sig reply"><span class="d"></span>Recent warm reply</span>
-          <span class="sig"><span class="d"></span>Meeting not booked</span>
-        </div>
-        <div class="ccard-body">
-          <div class="ccard-prog">
-            <div class="ccard-prog-top">
-              <span class="ccard-prog-lbl">Progress · ongoing</span>
-              <span class="ccard-prog-val">38<span class="of"> / 38 sent</span></span>
-            </div>
-            <div class="ccard-prog-bar"><span class="fill" style="width:100%"></span></div>
-
-            <div class="ccard-funnel">
-              <div class="ccard-fstage">
-                <span class="ccard-fstage-lbl">Sent</span>
-                <div class="ccard-fstage-bar"><span class="fill" style="width:100%"></span></div>
-                <span class="ccard-fstage-val">38</span>
-              </div>
-              <div class="ccard-fstage">
-                <span class="ccard-fstage-lbl">Opens</span>
-                <div class="ccard-fstage-bar"><span class="fill" style="width:95%"></span></div>
-                <span class="ccard-fstage-val">36 <span class="rate">95%</span></span>
-              </div>
-              <div class="ccard-fstage">
-                <span class="ccard-fstage-lbl">Replies</span>
-                <div class="ccard-fstage-bar"><span class="fill" style="width:86%"></span></div>
-                <span class="ccard-fstage-val">33 <span class="rate">86%</span></span>
-              </div>
-              <div class="ccard-fstage">
-                <span class="ccard-fstage-lbl">Meetings</span>
-                <div class="ccard-fstage-bar"><span class="fill" style="width:47%"></span></div>
-                <span class="ccard-fstage-val">18 <span class="rate">47%</span></span>
-              </div>
-            </div>
-          </div>
-          <div class="ccard-metrics-row">
-            <div class="ccard-metric">
-              <div class="ccard-m-lbl">Reply rate</div>
-              <div class="ccard-m-val">86%</div>
-              <div class="ccard-m-sub"><span class="up">↑ 62 pts</span>vs cold</div>
-            </div>
-            <div class="ccard-metric">
-              <div class="ccard-m-lbl">Meetings</div>
-              <div class="ccard-m-val">18</div>
-              <div class="ccard-m-sub">4 this week</div>
-            </div>
-            <div class="ccard-metric">
-              <div class="ccard-m-lbl">Last sent</div>
-              <div class="ccard-m-val small">5 min ago</div>
-              <div class="ccard-m-sub">Batch of 6</div>
-            </div>
-          </div>
-        </div>
-        <div class="ccard-next">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg>
-          <span><b>All prospects contacted</b> — 6 new warm replies in the last 24 hours</span>
-          <span class="spacer"></span>
-          <a class="ccard-next-link">Open campaign →</a>
-        </div>
-      </div>
-
-      <!-- 4 · Services · Paused, cooling -->
-      <div class="ccard paused">
-        <div class="ccard-head">
-          <span class="ccard-status"><span class="d"></span>Paused · 3 days ago</span>
-          <div class="ccard-title-wrap">
-            <h3 class="ccard-title">Fintech · Heads of Growth</h3>
-            <div class="ccard-meta-row">
-              <span class="ccard-goal services">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                Book meetings
-              </span>
-              <div class="ccard-audience"><b>320 prospects</b> · Growth leads at regulated fintech · Series C+</div>
-            </div>
-          </div>
-          <span class="ccard-flag cooling"><span class="d"></span>Bounce rate · 8.4%</span>
-          <span class="ccard-kebab" aria-label="More actions">
-            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>
-          </span>
-        </div>
-        <div class="ccard-signals">
-          <span class="ccard-signals-label">Watching</span>
-          <span class="sig launch"><span class="d"></span>Product launch</span>
-          <span class="sig raise"><span class="d"></span>Series C+</span>
-        </div>
-        <div class="ccard-body">
-          <div class="ccard-prog">
-            <div class="ccard-prog-top">
-              <span class="ccard-prog-lbl">Progress · stalled</span>
-              <span class="ccard-prog-val">74<span class="of"> / 1,280 sent</span></span>
-            </div>
-            <div class="ccard-prog-bar"><span class="fill" style="width:6%"></span></div>
-
-            <div class="ccard-funnel">
-              <div class="ccard-fstage">
-                <span class="ccard-fstage-lbl">Sent</span>
-                <div class="ccard-fstage-bar"><span class="fill" style="width:100%"></span></div>
-                <span class="ccard-fstage-val">74</span>
-              </div>
-              <div class="ccard-fstage">
-                <span class="ccard-fstage-lbl">Opens</span>
-                <div class="ccard-fstage-bar"><span class="fill" style="width:43%"></span></div>
-                <span class="ccard-fstage-val">32 <span class="rate">43%</span></span>
-              </div>
-              <div class="ccard-fstage">
-                <span class="ccard-fstage-lbl">Replies</span>
-                <div class="ccard-fstage-bar"><span class="fill" style="width:4.1%"></span></div>
-                <span class="ccard-fstage-val">3 <span class="rate">4.1%</span></span>
-              </div>
-              <div class="ccard-fstage">
-                <span class="ccard-fstage-lbl">Meetings</span>
-                <div class="ccard-fstage-bar"><span class="fill" style="width:4.1%"></span></div>
-                <span class="ccard-fstage-val">3 <span class="rate">4.1%</span></span>
-              </div>
-            </div>
-          </div>
-          <div class="ccard-metrics-row">
-            <div class="ccard-metric">
-              <div class="ccard-m-lbl">Reply rate</div>
-              <div class="ccard-m-val">4.1%</div>
-              <div class="ccard-m-sub"><span class="down">↓ 1.8 pts</span></div>
-            </div>
-            <div class="ccard-metric">
-              <div class="ccard-m-lbl">Meetings</div>
-              <div class="ccard-m-val">3</div>
-              <div class="ccard-m-sub">0 this week</div>
-            </div>
-            <div class="ccard-metric">
-              <div class="ccard-m-lbl">Last sent</div>
-              <div class="ccard-m-val small">3 days ago</div>
-              <div class="ccard-m-sub">Manual pause</div>
-            </div>
-          </div>
-        </div>
-        <div class="ccard-next">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
-          <span><b>Suggested fix:</b> enrichment found 14 better-verified emails · try refreshing and resuming</span>
-          <span class="spacer"></span>
-          <a class="ccard-next-link">Resume with fix →</a>
-        </div>
-      </div>
-
-      <!-- 5 · PRODUCT · Running · self-serve sign-ups
-           Different funnel, different metrics: Click → Trial → Paid
-           (instead of Reply → Meeting). Goal chip flips to 'Drive trials'. -->
-      <div class="ccard running">
-        <div class="ccard-head">
-          <span class="ccard-status"><span class="d"></span>Running · 9 days</span>
-          <div class="ccard-title-wrap">
-            <h3 class="ccard-title">Outpulse self-serve · scaling sales teams</h3>
-            <div class="ccard-meta-row">
-              <span class="ccard-goal product">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
-                Drive trials
-              </span>
-              <div class="ccard-audience"><b>520 prospects</b> · VP Sales at 20–100 person B2B SaaS · self-serve target</div>
-            </div>
-          </div>
-          <span class="ccard-flag winning"><span class="d"></span>Converting</span>
-          <span class="ccard-kebab" aria-label="More actions">
-            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>
-          </span>
-        </div>
-        <div class="ccard-signals">
-          <span class="ccard-signals-label">Watching</span>
-          <span class="sig hiring"><span class="d"></span>Hiring SDRs</span>
-          <span class="sig growth"><span class="d"></span>Outbound expansion</span>
-          <span class="sig raise"><span class="d"></span>Recent funding</span>
-        </div>
-        <div class="ccard-body">
-          <div class="ccard-prog">
-            <div class="ccard-prog-top">
-              <span class="ccard-prog-lbl">Progress · funnel · Sent → Click → Trial → Paid</span>
-              <span class="ccard-prog-val">1,340<span class="of"> / 2,600 touches sent</span></span>
-            </div>
-            <div class="ccard-prog-bar"><span class="fill" style="width:51%"></span></div>
-
-            <!-- Product funnel: Sent → Click → Trial → Paid -->
-            <div class="ccard-funnel">
-              <div class="ccard-fstage">
-                <span class="ccard-fstage-lbl">Sent</span>
-                <div class="ccard-fstage-bar"><span class="fill" style="width:100%"></span></div>
-                <span class="ccard-fstage-val">1,340</span>
-              </div>
-              <div class="ccard-fstage">
-                <span class="ccard-fstage-lbl">Clicks</span>
-                <div class="ccard-fstage-bar"><span class="fill" style="width:6.8%"></span></div>
-                <span class="ccard-fstage-val">91 <span class="rate">6.8%</span></span>
-              </div>
-              <div class="ccard-fstage">
-                <span class="ccard-fstage-lbl">Trials</span>
-                <div class="ccard-fstage-bar"><span class="fill" style="width:3.1%"></span></div>
-                <span class="ccard-fstage-val">42 <span class="rate">3.1%</span></span>
-              </div>
-              <div class="ccard-fstage">
-                <span class="ccard-fstage-lbl">Paid</span>
-                <div class="ccard-fstage-bar"><span class="fill" style="width:0.5%"></span></div>
-                <span class="ccard-fstage-val">7 <span class="rate">0.5%</span></span>
-              </div>
-            </div>
-          </div>
-          <!-- Product metrics: Click-thru · Trials · Conversions -->
-          <div class="ccard-metrics-row">
-            <div class="ccard-metric">
-              <div class="ccard-m-lbl">Click rate</div>
-              <div class="ccard-m-val">6.8%</div>
-              <div class="ccard-m-sub"><span class="up">↑ 1.4 pts</span></div>
-            </div>
-            <div class="ccard-metric">
-              <div class="ccard-m-lbl">Trials started</div>
-              <div class="ccard-m-val">42</div>
-              <div class="ccard-m-sub">11 this week</div>
-            </div>
-            <div class="ccard-metric">
-              <div class="ccard-m-lbl">Paid conversions</div>
-              <div class="ccard-m-val">7</div>
-              <div class="ccard-m-sub"><span class="up">$12.8k</span>MRR attributed</div>
-            </div>
-          </div>
-        </div>
-        <div class="ccard-next">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>
-          <span>Trial → Paid conversion rate is <b>16.7%</b>, 2× higher than the landing-page benchmark</span>
-          <span class="spacer"></span>
-          <a class="ccard-next-link">Open campaign →</a>
-        </div>
-      </div>
-
-      <!-- 6 · Services · Draft (sales-first, same pattern as card 1) -->
-      <div class="ccard draft">
-        <div class="ccard-head">
-          <span class="ccard-status"><span class="d"></span>Draft</span>
-          <div class="ccard-title-wrap">
-            <h3 class="ccard-title">Digital Transformation · F1000 IT</h3>
-            <div class="ccard-meta-row">
-              <span class="ccard-goal services">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                Book meetings
-              </span>
-              <div class="ccard-audience"><b>512 prospects planned</b> · Heads of IT at F1000 undergoing cloud migration</div>
-            </div>
-          </div>
-          <span class="ccard-kebab" aria-label="More actions">
-            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>
-          </span>
-        </div>
-        <div class="ccard-signals">
-          <span class="ccard-signals-label">Watching</span>
-          <span class="sig migrate"><span class="d"></span>Cloud migration</span>
-          <span class="sig"><span class="d"></span>AI adoption</span>
-        </div>
-        <div class="ccard-body">
-          <div class="ccard-prog">
-            <div class="ccard-prog-top">
-              <span class="ccard-prog-lbl">Progress · not started</span>
-              <span class="ccard-prog-val">0<span class="of"> / 512 planned</span></span>
-            </div>
-            <div class="ccard-prog-bar"><span class="fill" style="width:0"></span></div>
-          </div>
-          <div class="ccard-metrics-row">
-            <div class="ccard-metric">
-              <div class="ccard-m-lbl">Sequence</div>
-              <div class="ccard-m-val small">4 touches</div>
-              <div class="ccard-m-sub">~ 14 days</div>
-            </div>
-            <div class="ccard-metric">
-              <div class="ccard-m-lbl">Est. reply</div>
-              <div class="ccard-m-val">8%</div>
-              <div class="ccard-m-sub">Based on similar</div>
-            </div>
-            <div class="ccard-metric">
-              <div class="ccard-m-lbl">Est. meetings</div>
-              <div class="ccard-m-val">20–28</div>
-              <div class="ccard-m-sub">If you launch today</div>
-            </div>
-          </div>
-        </div>
-        <div class="ccard-next">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
-          <span>Ready to review · sequence and audience are set, awaiting final approval</span>
-          <span class="spacer"></span>
-          <a class="ccard-next-link">Finish setup →</a>
-        </div>
-      </div>
-
-      <!-- 7 · PRODUCT · Draft — shows how the draft-state looks for
-           a product-sale campaign (estimates are Click→Trial→Paid). -->
-      <div class="ccard draft">
-        <div class="ccard-head">
-          <span class="ccard-status"><span class="d"></span>Draft</span>
-          <div class="ccard-title-wrap">
-            <h3 class="ccard-title">Free-trial nudge · growth agencies</h3>
-            <div class="ccard-meta-row">
-              <span class="ccard-goal product">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
-                Drive trials
-              </span>
-              <div class="ccard-audience"><b>340 prospects planned</b> · Agency founders · 5–30 employees</div>
-            </div>
-          </div>
-          <span class="ccard-kebab" aria-label="More actions">
-            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>
-          </span>
-        </div>
-        <div class="ccard-signals">
-          <span class="ccard-signals-label">Watching</span>
-          <span class="sig growth"><span class="d"></span>New client pipeline</span>
-          <span class="sig launch"><span class="d"></span>Built own outbound</span>
-        </div>
-        <div class="ccard-body">
-          <div class="ccard-prog">
-            <div class="ccard-prog-top">
-              <span class="ccard-prog-lbl">Progress · not started</span>
-              <span class="ccard-prog-val">0<span class="of"> / 1,020 touches planned</span></span>
-            </div>
-            <div class="ccard-prog-bar"><span class="fill" style="width:0"></span></div>
-          </div>
-          <div class="ccard-metrics-row">
-            <div class="ccard-metric">
-              <div class="ccard-m-lbl">Est. click rate</div>
-              <div class="ccard-m-val">5.4%</div>
-              <div class="ccard-m-sub">Similar prod-sale</div>
-            </div>
-            <div class="ccard-metric">
-              <div class="ccard-m-lbl">Est. trials</div>
-              <div class="ccard-m-val">22–28</div>
-              <div class="ccard-m-sub">Based on funnel</div>
-            </div>
-            <div class="ccard-metric">
-              <div class="ccard-m-lbl">Est. paid</div>
-              <div class="ccard-m-val">3–5</div>
-              <div class="ccard-m-sub"><span class="up">~$6–10k</span>MRR potential</div>
-            </div>
-          </div>
-        </div>
-        <div class="ccard-next">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
-          <span>Connect Outpulse landing URL to track clicks → trial conversion · <b>ready to launch</b></span>
-          <span class="spacer"></span>
-          <a class="ccard-next-link">Finish setup →</a>
-        </div>
-      </div>
-
-      <!-- + Start another -->
-      <div class="ccard empty">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-        <span>Start another outreach</span>
-      </div>
-
-      <!-- Preview-mode fade + paywall — the cards above are what other teams' campaigns look like -->
-      <div class="pv-fade-mask"></div>
-      <div class="pv-paywall">
-        <span class="pv-paywall-eyebrow">Preview</span>
-        <h3 class="pv-paywall-title">These are <em>running campaigns</em> from live teams</h3>
-        <p class="pv-paywall-sub">Your first campaign is drafted and ready at the top. Start your 7-day trial to launch it and run unlimited campaigns of your own.</p>
-        <a href="#trialModal" class="pv-paywall-cta" data-open-trial>
-          Launch your campaign &middot; Start 7-day trial
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
       </div>
 
     </div>
