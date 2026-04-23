@@ -1769,6 +1769,71 @@ h1.display em{
 /* Legacy .email-grid kept just in case an older section still uses it */
 .email-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:20px}
 
+/* ══════════════════ TESTIMONIAL BREAK STRIP ══════════════════
+   White section between two peach stages. Serves three jobs:
+   1. Visual pause between peach gradients.
+   2. Social proof (real quote, real role, real company).
+   3. A soft CTA so the scroll doesn't have to reach pricing before
+      a convertible moment appears. */
+.break-social{
+  padding:64px 24px;
+  background:#fff;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.bs-card{
+  max-width:820px;margin:0 auto;
+  padding:40px clamp(28px,4vw,48px) 32px;
+  background:#fff;
+  border:1px solid var(--line);border-radius:20px;
+  box-shadow:0 24px 60px -30px rgba(14,13,12,.15),0 1px 2px rgba(14,13,12,.03);
+  position:relative;
+}
+.bs-quote-mark{
+  position:absolute;top:22px;left:28px;
+  width:32px;height:24px;color:var(--muted-2);opacity:.35;
+}
+.bs-quote{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(22px,3vw,32px);line-height:1.22;letter-spacing:-.01em;
+  color:var(--ink);margin:0 0 28px;text-align:center;
+  padding-top:14px;
+}
+.bs-quote em{font-style:italic;color:var(--orange-ink)}
+.bs-foot{
+  display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  padding-top:22px;border-top:1px solid var(--line-2);
+}
+.bs-who{display:flex;align-items:center;gap:12px}
+.bs-av{
+  width:40px;height:40px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,#cee8d7,#a3cbb3);
+  display:grid;place-items:center;
+  font-family:var(--serif);font-size:15px;color:var(--green-ink,#166440);
+}
+.bs-meta{display:flex;flex-direction:column;line-height:1.3}
+.bs-meta strong{font-size:14px;font-weight:600;color:var(--ink)}
+.bs-meta span{font-size:12.5px;color:var(--muted)}
+.bs-cta{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:11px 20px;border-radius:999px;
+  background:var(--ink);color:#fff;text-decoration:none;
+  font-size:13.5px;font-weight:500;
+  transition:background .2s ease,transform .1s ease;
+  white-space:nowrap;
+}
+.bs-cta:hover{background:var(--orange)}
+.bs-cta:active{transform:translateY(1px)}
+
+@media(max-width:640px){
+  .break-social{padding:48px 16px}
+  .bs-card{padding:28px 22px 22px}
+  .bs-quote{font-size:20px;padding-top:10px}
+  .bs-quote-mark{top:16px;left:20px;width:24px;height:18px}
+  .bs-foot{flex-direction:column;align-items:stretch;gap:16px}
+  .bs-cta{justify-content:center}
+}
+
 /* ══════════════════ LOOP ENGINE — full automation story ══════════════════
    A dedicated section that shows the whole pipeline before we dive into
    any one step. Built on design-system-ui tokens. */
@@ -3688,6 +3753,30 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
         Set it once. It runs every day without you.
       </span>
       <a href="#email" class="loop-cta">See how it writes each email
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ BREAK — white testimonial strip between loop and email ═══════════════════
+     Visual separator + social proof + subtle conversion hook. Sits
+     between the two peach sections so the eye gets a pause. -->
+<section class="break-social">
+  <div class="bs-card">
+    <svg class="bs-quote-mark" aria-hidden="true" viewBox="0 0 48 36" fill="currentColor">
+      <path d="M0 36V22C0 12 3 5 9 0l6 4c-3 3-5 7-5 12h7v20H0zM26 36V22c0-10 3-17 9-22l6 4c-3 3-5 7-5 12h7v20H26z"/>
+    </svg>
+    <p class="bs-quote">Within three weeks we went from <em>5 meetings</em> a month to <em>over 40</em>.</p>
+    <div class="bs-foot">
+      <div class="bs-who">
+        <span class="bs-av">SC</span>
+        <div class="bs-meta">
+          <strong>Sarah Chen</strong>
+          <span>Founder at Metric Labs &middot; Series B SaaS</span>
+        </div>
+      </div>
+      <a class="bs-cta" href="https://app.outpulse.ai/signup">Start 7-day free trial
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </a>
     </div>
