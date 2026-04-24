@@ -2939,6 +2939,8 @@ h1.display em{
   display:grid;grid-template-columns:1fr 1fr;
   gap:48px;
   padding:18px 0;
+  min-height:64px;
+  align-items:center;
   border-bottom:1px solid var(--line);
   --rp:0;
   opacity:var(--rp);
@@ -2958,6 +2960,8 @@ h1.display em{
   line-height:1.4;
   display:flex;align-items:center;gap:12px;
   padding:8px 24px;
+  white-space:nowrap;
+  min-width:0;
   /* Sans for readability — the decorative serif was hard to scan at
      the small sizes this row uses. Keep the weight light so the row
      still reads as supporting content, not a headline. */
@@ -2969,9 +2973,9 @@ h1.display em{
   padding-right:36px;
 }
 .cmp-row-cell.left::before{
-  content:"";width:16px;height:16px;border-radius:50%;
+  content:"";width:18px;height:18px;border-radius:50%;
   border:1.5px solid var(--muted-2);flex-shrink:0;
-  order:2;margin-left:8px;
+  order:2;
   position:relative;
 }
 .cmp-row-cell.left::after{
@@ -3027,6 +3031,7 @@ h1.display em{
     font-size:15px;line-height:1.4;padding:6px 0 !important;
     background:none !important;
     justify-content:flex-start !important;text-align:left !important;
+    white-space:normal !important;
   }
   .cmp-row-cell.left{color:var(--muted-2);text-decoration:line-through;text-decoration-color:var(--muted-2)}
   .cmp-row-cell.left::before{
