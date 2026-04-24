@@ -140,19 +140,19 @@ body{font-family:var(--sans);font-size:14px;line-height:1.55;color:var(--ink);ba
 }
 .link-inline:hover{color:var(--orange);text-decoration-color:var(--orange-soft)}
 
-/* ═════════ TIER 2 — HERO FUNNEL ═════════
-   Cream panel (var(--bg-panel)). No white-card chrome, no borders
-   between stages — just generous whitespace and thin arrows between
-   them. Serif numbers are large (48px) so this block clearly reads
-   as THE data block of the page. Sparkline per stage in the stage
-   colour. Leak stage picks up a soft red tint. */
+/* ═════════ TIER 2 — HERO FUNNEL (dashboard-minimal) ═════════
+   Lifted from the Pulse dashboard pattern: interlocking chevron
+   cards where each stage visually 'fits into' the next. Each card
+   carries only two things — a big serif number and an uppercase
+   label. Nothing else lives inside the chevron. Conversion rates
+   and benchmarks sit as one quiet caption below the row. */
 .hero-funnel{
   background:var(--bg-panel);border:1px solid var(--line);border-radius:18px;
-  padding:28px 28px 26px;
+  padding:26px 28px 24px;
 }
 .hero-funnel-head{
   display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
-  margin-bottom:22px;
+  margin-bottom:18px;
 }
 .hero-funnel-title{display:flex;flex-direction:column;gap:4px}
 .hf-eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
@@ -167,73 +167,105 @@ body{font-family:var(--sans);font-size:14px;line-height:1.55;color:var(--ink);ba
 }
 .hf-period button.on{background:var(--ink);color:#fff}
 
-.hf-stages{
-  display:grid;
-  grid-template-columns:1fr 32px 1fr 32px 1fr 32px 1fr 32px 1fr;
-  gap:0;align-items:stretch;
+/* ── Interlocking chevron cards ──
+   Outer .pf has --line background + 1px padding = the 1px stroke
+   around each chevron. Inner .pf-inner is white. Each pair
+   overlaps by --chev so the point of card N fits into the notch
+   of card N+1 without a visible seam gap. */
+.pf-row{
+  display:flex;
+  margin:0 0 14px;
+  --chev:22px;
 }
-.hf-stage{
-  display:flex;flex-direction:column;gap:6px;min-width:0;padding:4px 2px;
+.pf{
+  flex:1 1 0;min-width:0;position:relative;
+  background:var(--line);padding:1px;box-sizing:border-box;
+  clip-path:polygon(
+    0 0,
+    calc(100% - var(--chev)) 0,
+    100% 50%,
+    calc(100% - var(--chev)) 100%,
+    0 100%,
+    var(--chev) 50%
+  );
+  margin-right:calc(var(--chev) * -1);
+  z-index:1;
+  filter:drop-shadow(0 2px 4px rgba(14,13,12,.05));
 }
-.hf-label{
-  font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--muted);display:flex;align-items:center;gap:7px;
+.pf-inner{
+  position:relative;background:#fff;width:100%;height:100%;box-sizing:border-box;
+  padding:18px 28px 16px 42px;
+  display:flex;flex-direction:column;gap:8px;min-height:88px;
+  clip-path:polygon(
+    0 0,
+    calc(100% - var(--chev)) 0,
+    100% 50%,
+    calc(100% - var(--chev)) 100%,
+    0 100%,
+    var(--chev) 50%
+  );
 }
-.hf-label::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.7}
-.hf-stage[data-st=sent]  .hf-label{color:var(--ink-2)}
-.hf-stage[data-st=open]  .hf-label{color:var(--green)}
-.hf-stage[data-st=click] .hf-label{color:var(--blue)}
-.hf-stage[data-st=reply] .hf-label{color:var(--violet)}
-.hf-stage[data-st=book]  .hf-label{color:var(--orange)}
-.hf-stage.leak .hf-label{color:var(--red)}
-.hf-stage.muted .hf-label{color:var(--muted-2)}
-.hf-big{
-  font-family:var(--serif);font-weight:400;font-size:48px;line-height:1;
-  letter-spacing:-.02em;color:var(--ink);font-variant-numeric:lining-nums;
+/* First card — flat left edge (no notch) */
+.pf:first-child{
+  clip-path:polygon(0 0,calc(100% - var(--chev)) 0,100% 50%,calc(100% - var(--chev)) 100%,0 100%);
 }
-.hf-stage.leak .hf-big{color:var(--red-ink)}
-.hf-stage.muted .hf-big{color:var(--muted-2)}
-.hf-sub{font-size:12.5px;color:var(--muted)}
-.hf-spark{margin-top:6px;height:24px;display:block;width:100%}
-.hf-stage[data-st=sent]  .hf-spark{color:var(--muted-2)}
-.hf-stage[data-st=open]  .hf-spark{color:var(--green)}
-.hf-stage[data-st=click] .hf-spark{color:var(--blue)}
-.hf-stage[data-st=reply] .hf-spark{color:var(--red)}
-.hf-stage[data-st=book]  .hf-spark{color:var(--muted-2)}
-.hf-bench{
-  margin-top:6px;display:inline-flex;align-items:center;gap:5px;
-  font-size:11.5px;font-weight:500;
-  padding:3px 8px;border-radius:999px;align-self:flex-start;
-  background:#fff;border:1px solid var(--line);
+.pf:first-child .pf-inner{
+  padding-left:22px;
+  clip-path:polygon(0 0,calc(100% - var(--chev)) 0,100% 50%,calc(100% - var(--chev)) 100%,0 100%);
 }
-.hf-bench.ok{color:var(--green-ink);border-color:rgba(26,124,75,.2)}
-.hf-bench.bad{color:var(--red-ink);border-color:rgba(192,58,43,.22)}
-.hf-bench.muted{color:var(--muted-2)}
+/* Last card — flat right edge (no point) */
+.pf:last-child{
+  margin-right:0;
+  clip-path:polygon(0 0,100% 0,100% 100%,0 100%,var(--chev) 50%);
+}
+.pf:last-child .pf-inner{
+  padding-right:22px;
+  clip-path:polygon(0 0,100% 0,100% 100%,0 100%,var(--chev) 50%);
+}
+/* Stagger z-index so each point sits OVER the next notch */
+.pf:nth-child(1){z-index:5}
+.pf:nth-child(2){z-index:4}
+.pf:nth-child(3){z-index:3}
+.pf:nth-child(4){z-index:2}
+.pf:nth-child(5){z-index:1}
 
-/* Arrows between stages — thin, with the between-stage conversion % on top */
-.hf-arrow{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:4px;color:var(--muted-2);position:relative;
+.pf-val{
+  font-family:var(--serif);font-weight:400;
+  font-size:34px;line-height:1;letter-spacing:-.015em;
+  color:var(--ink);font-variant-numeric:lining-nums;
 }
-.hf-conv{
-  font-family:var(--serif);font-style:italic;
-  font-size:16px;line-height:1;color:var(--ink);font-variant-numeric:lining-nums;
+.pf-val .frac{font-size:.44em;color:var(--muted-2);margin-left:2px}
+.pf-lbl{
+  font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);font-weight:600;
 }
-.hf-conv.bad{color:var(--red-ink)}
-.hf-conv.muted{color:var(--muted-2)}
-.hf-arrow svg{width:34px;height:10px;color:var(--muted-2)}
-.hf-arrow.leak svg{color:var(--red)}
-.hf-arrow.muted svg{opacity:.4}
-.hf-leak-tag{
-  position:absolute;top:-24px;left:50%;transform:translateX(-50%);
-  font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--red-ink);white-space:nowrap;
+/* Leak stage — red tint on number only, card stays white. */
+.pf.leak .pf-val{color:var(--red-ink)}
+.pf.leak .pf-lbl{color:var(--red)}
+.pf.muted .pf-val{color:var(--muted-2)}
+.pf.muted .pf-lbl{color:var(--muted-2)}
+
+/* Single caption below funnel — conversion rates + leak note. */
+.pf-caption{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:0;
+  padding:8px 4px 0;
+  font-size:12.5px;color:var(--muted);line-height:1.5;
 }
+.pf-caption > span{padding:0 10px}
+.pf-caption > span:first-child{padding-left:0}
+.pf-caption > span + span{border-left:1px solid var(--line-2)}
+.pf-caption b{color:var(--ink-2);font-weight:600}
+.pf-caption .bad b{color:var(--red-ink)}
+.pf-caption .bad{color:var(--red-ink)}
 
 @media(max-width:1080px){
-  .hf-stages{grid-template-columns:1fr;gap:16px}
-  .hf-arrow{flex-direction:row;justify-content:flex-start;transform:rotate(90deg);margin:4px 0;height:20px}
-  .hf-leak-tag{display:none}
+  .pf-row{flex-direction:column;gap:8px;--chev:0px}
+  .pf{margin-right:0;filter:none}
+  .pf,.pf .pf-inner{clip-path:none!important}
+  .pf-inner{border-radius:12px;padding:16px 20px!important;min-height:0}
+  .pf-caption{flex-direction:column;gap:4px}
+  .pf-caption > span + span{border-left:none}
+  .pf-caption > span{padding:0}
 }
 
 /* ═════════ TIER 3 — TWO COLUMNS: sequence + recs ═════════
@@ -510,81 +542,35 @@ body{font-family:var(--sans);font-size:14px;line-height:1.55;color:var(--ink);ba
             <button>7d</button><button class="on">30d</button><button>All</button>
           </div>
         </div>
-        <div class="hf-stages">
+        <div class="pf-row">
+          <div class="pf"><div class="pf-inner">
+            <span class="pf-val">310<span class="frac">/333</span></span>
+            <span class="pf-lbl">Sent</span>
+          </div></div>
+          <div class="pf"><div class="pf-inner">
+            <span class="pf-val">105</span>
+            <span class="pf-lbl">Opened</span>
+          </div></div>
+          <div class="pf"><div class="pf-inner">
+            <span class="pf-val">49</span>
+            <span class="pf-lbl">Clicked</span>
+          </div></div>
+          <div class="pf leak"><div class="pf-inner">
+            <span class="pf-val">0</span>
+            <span class="pf-lbl">Replied</span>
+          </div></div>
+          <div class="pf muted"><div class="pf-inner">
+            <span class="pf-val">—</span>
+            <span class="pf-lbl">Booked</span>
+          </div></div>
+        </div>
 
-          <div class="hf-stage" data-st="sent">
-            <div class="hf-label">Sent</div>
-            <div class="hf-big">310</div>
-            <div class="hf-sub">93% of 333 prospects</div>
-            <svg class="hf-spark" viewBox="0 0 120 24" preserveAspectRatio="none" aria-hidden="true">
-              <polyline fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" points="0,20 12,18 24,16 36,14 48,12 60,10 72,9 84,7 96,5 108,4 120,3"/>
-            </svg>
-            <div class="hf-bench ok">↑ +12% vs prev</div>
-          </div>
-
-          <div class="hf-arrow">
-            <span class="hf-conv">34%</span>
-            <svg viewBox="0 0 40 12" aria-hidden="true"><path d="M2 6h32M30 2l6 4-6 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-
-          <div class="hf-stage" data-st="open">
-            <div class="hf-label">Opened</div>
-            <div class="hf-big">105</div>
-            <div class="hf-sub">34% open rate</div>
-            <svg class="hf-spark" viewBox="0 0 120 24" preserveAspectRatio="none" aria-hidden="true">
-              <polyline fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" points="0,18 12,16 24,14 36,12 48,11 60,9 72,10 84,8 96,6 108,5 120,4"/>
-              <circle cx="120" cy="4" r="2.2" fill="currentColor"/>
-            </svg>
-            <div class="hf-bench ok">above 25%</div>
-          </div>
-
-          <div class="hf-arrow">
-            <span class="hf-conv">47%</span>
-            <svg viewBox="0 0 40 12" aria-hidden="true"><path d="M2 6h32M30 2l6 4-6 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-
-          <div class="hf-stage" data-st="click">
-            <div class="hf-label">Clicked</div>
-            <div class="hf-big">49</div>
-            <div class="hf-sub">16% click rate</div>
-            <svg class="hf-spark" viewBox="0 0 120 24" preserveAspectRatio="none" aria-hidden="true">
-              <polyline fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" points="0,22 12,20 24,20 36,16 48,15 60,12 72,11 84,8 96,7 108,5 120,5"/>
-              <circle cx="120" cy="5" r="2.2" fill="currentColor"/>
-            </svg>
-            <div class="hf-bench ok">above 8%</div>
-          </div>
-
-          <div class="hf-arrow leak">
-            <span class="hf-conv bad">0%</span>
-            <svg viewBox="0 0 40 12" aria-hidden="true"><path d="M2 6h32M30 2l6 4-6 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span class="hf-leak-tag">biggest drop</span>
-          </div>
-
-          <div class="hf-stage leak" data-st="reply">
-            <div class="hf-label">Replied</div>
-            <div class="hf-big">0</div>
-            <div class="hf-sub">target: ≥ 3%</div>
-            <svg class="hf-spark flat" viewBox="0 0 120 24" preserveAspectRatio="none" aria-hidden="true">
-              <line x1="0" y1="20" x2="120" y2="20" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3" stroke-linecap="round"/>
-            </svg>
-            <div class="hf-bench bad">below target</div>
-          </div>
-
-          <div class="hf-arrow muted">
-            <span class="hf-conv muted">—</span>
-            <svg viewBox="0 0 40 12" aria-hidden="true"><path d="M2 6h32M30 2l6 4-6 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-
-          <div class="hf-stage muted" data-st="book">
-            <div class="hf-label">Booked</div>
-            <div class="hf-big">—</div>
-            <div class="hf-sub">requires reply</div>
-            <svg class="hf-spark flat" viewBox="0 0 120 24" preserveAspectRatio="none" aria-hidden="true">
-              <line x1="0" y1="20" x2="120" y2="20" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3" stroke-linecap="round"/>
-            </svg>
-            <div class="hf-bench muted">awaiting</div>
-          </div>
-
+        <div class="pf-caption">
+          <span><b>93%</b> delivered</span>
+          <span><b>34%</b> open rate</span>
+          <span><b>47%</b> of opens click</span>
+          <span class="bad"><b>0%</b> reply — biggest drop</span>
+          <span>booking awaits</span>
         </div>
       </section>
 
