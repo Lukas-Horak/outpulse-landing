@@ -361,6 +361,261 @@ body{font-family:var(--sans);font-size:14px;line-height:1.55;color:var(--ink);ba
 .mini-btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
 .mini-btn.primary:hover{background:var(--orange);border-color:var(--orange)}
 
+/* ═════════ PANEL SWITCHING + SHARED PANEL HEAD ═════════
+   All tabs share the same <div class="grid" data-panel="..."> shell.
+   .panel-hidden drops inactive ones from the flow. Each panel opens
+   with a single <panel-head> block so the top of every tab reads
+   the same way. */
+.grid.panel-hidden{display:none}
+.panel-head{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:24px;
+  padding:4px 0 14px;border-bottom:1px solid var(--line);margin-bottom:16px;
+}
+.panel-eyebrow{
+  display:block;font-size:10.5px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:6px;
+}
+.panel-title{
+  font-family:var(--serif);font-weight:400;font-size:26px;line-height:1.1;
+  letter-spacing:-.01em;color:var(--ink);margin:0 0 4px;
+}
+.panel-sub{font-size:13px;color:var(--muted);line-height:1.55;max-width:640px;margin:0}
+.panel-head-actions{display:flex;gap:8px;flex-shrink:0}
+
+/* ═════════ SEQUENCE PANEL ═════════
+   Vertical flow of 3 step cards connected by a 'Wait 2 days' pill.
+   Each step has a numbered circle, status chip, subject, preview
+   body (italic serif-feeling), and metric row. Style intentionally
+   similar to an email thread — it IS the thread. */
+.seq-flow{
+  position:relative;display:flex;flex-direction:column;gap:0;
+}
+.seq-step{
+  position:relative;display:grid;grid-template-columns:56px 1fr;gap:18px;
+  padding:22px 22px 22px 0;
+}
+.seq-num{
+  width:36px;height:36px;border-radius:50%;
+  background:#fff;border:1px solid var(--line);
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:14px;font-weight:600;color:var(--ink-2);
+  margin:2px auto 0;position:relative;z-index:2;
+}
+.seq-num.on{background:var(--orange);color:#fff;border-color:var(--orange)}
+.seq-num.muted{color:var(--muted-2);background:var(--bg-subtle)}
+/* Vertical connector line between steps — subtle dashed */
+.seq-flow::before{
+  content:'';position:absolute;
+  left:28px;top:46px;bottom:46px;
+  width:1px;background:repeating-linear-gradient(180deg,var(--line-2) 0 4px,transparent 4px 8px);
+  z-index:1;
+}
+.seq-body{
+  background:#fff;border:1px solid var(--line);border-radius:12px;
+  padding:16px 18px;display:flex;flex-direction:column;gap:8px;
+}
+.seq-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.seq-status{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:2px 10px;border-radius:999px;
+  font-size:11.5px;font-weight:500;
+}
+.seq-status::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
+.seq-status.sent{background:var(--green-soft);color:var(--green-ink)}
+.seq-status.sending{background:var(--blue-soft);color:var(--blue-ink)}
+.seq-status.pending{background:var(--bg-subtle);color:var(--muted-2)}
+.seq-when{font-size:12px;color:var(--muted-2)}
+.seq-tag{
+  display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;
+  background:var(--orange);color:#fff;
+  font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+}
+.seq-subj{font-size:16px;font-weight:600;color:var(--ink);letter-spacing:-.005em}
+.seq-preview{
+  font-size:13.5px;line-height:1.55;color:var(--muted);
+  padding:4px 0 2px;border-left:2px solid var(--line-2);padding-left:12px;
+  font-style:italic;
+}
+.seq-metrics{
+  display:flex;align-items:center;gap:4px;font-size:12.5px;color:var(--muted);
+  padding-top:6px;border-top:1px solid var(--line-2);
+}
+.seq-metrics b{color:var(--ink);font-weight:600}
+.seq-metrics .good b{color:var(--green-ink)}
+.seq-metrics .bad  b{color:var(--red-ink)}
+.seq-metrics .sep{width:1px;height:12px;background:var(--line);margin:0 10px}
+.seq-metrics.muted{color:var(--muted-2)}
+.seq-actions{display:flex;gap:6px;flex-wrap:wrap}
+.seq-step.pending .seq-body{background:var(--bg-panel);border-style:dashed}
+/* Gap between steps with the 'Wait 2 days' pill */
+.seq-gap{
+  margin-left:18px;padding:4px 0 4px 20px;
+  font-size:11.5px;color:var(--muted-2);font-weight:500;letter-spacing:.03em;
+  position:relative;
+}
+
+/* Rules list (used in Sequence & Settings) */
+.rules-list{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.rule-row{
+  display:grid;grid-template-columns:200px 1fr auto;gap:16px;align-items:center;
+  padding:14px 18px;border-bottom:1px solid var(--line-2);
+}
+.rule-row:last-child{border-bottom:none}
+.rule-row b{font-size:13.5px;font-weight:600;color:var(--ink)}
+.rule-row span{font-size:13px;color:var(--muted)}
+.rule-state{
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 9px;border-radius:999px;
+}
+.rule-state.on{background:var(--green-soft);color:var(--green-ink)}
+.rule-state.off{background:var(--bg-subtle);color:var(--muted-2)}
+
+/* ═════════ PROSPECTS PANEL ═════════ */
+.pr-filters{display:flex;gap:4px;background:var(--bg-subtle);padding:4px;border-radius:10px;align-self:flex-start;flex-wrap:wrap}
+.pr-filters button{
+  padding:6px 12px;border-radius:7px;border:none;background:transparent;
+  font-family:var(--sans);font-size:12.5px;color:var(--muted);font-weight:500;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.pr-filters button.on{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.pr-filters button.muted{opacity:.55}
+.pr-filters .n{font-size:10.5px;color:var(--muted-2);background:var(--bg-subtle);padding:1px 6px;border-radius:999px}
+.pr-filters button.on .n{background:var(--bg-subtle)}
+
+.pr-toolbar{display:flex;align-items:center;gap:12px}
+.pr-search{
+  flex:1;display:flex;align-items:center;gap:8px;
+  padding:9px 14px;border-radius:10px;background:#fff;border:1px solid var(--line);
+}
+.pr-search svg{width:14px;height:14px;color:var(--muted-2)}
+.pr-search input{flex:1;border:none;outline:none;background:transparent;font-family:var(--sans);font-size:13.5px;color:var(--ink)}
+.pr-search input::placeholder{color:var(--muted-2)}
+.pr-sort{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+.pr-sort select{
+  border:1px solid var(--line);background:#fff;padding:8px 12px;border-radius:10px;
+  font-family:var(--sans);font-size:13px;color:var(--ink);cursor:pointer;
+}
+
+.pr-table{
+  width:100%;border-collapse:collapse;
+  background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;
+}
+.pr-table th,.pr-table td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line-2);vertical-align:middle}
+.pr-table th{
+  font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted-2);background:var(--bg-panel);
+}
+.pr-table tr:last-child td{border-bottom:none}
+.pr-table tr:hover td{background:var(--bg-panel)}
+.pr-table tr.muted td{opacity:.7}
+.pr-table .cb{width:34px}
+.pr-table .cb input{accent-color:var(--orange)}
+.pr-table td.num{text-align:right}
+.pr-person{display:flex;align-items:center;gap:10px}
+.pr-av{
+  width:30px;height:30px;border-radius:50%;flex-shrink:0;
+  display:inline-flex;align-items:center;justify-content:center;
+  color:#fff;font-family:var(--sans);font-weight:600;font-size:11px;letter-spacing:.02em;
+}
+.pr-person div{display:flex;flex-direction:column;line-height:1.2;min-width:0}
+.pr-person b{font-size:13.5px;font-weight:500;color:var(--ink)}
+.pr-person em{font-style:normal;font-size:12px;color:var(--muted)}
+.pr-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:2px 10px;border-radius:999px;font-size:11.5px;font-weight:500;
+  background:var(--bg-subtle);color:var(--muted-2);
+}
+.pr-pill::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
+.pr-pill.sent{background:var(--bg-subtle);color:var(--muted)}
+.pr-pill.open{background:var(--green-soft);color:var(--green-ink)}
+.pr-pill.click{background:var(--blue-soft);color:var(--blue-ink)}
+.pr-pill.reply{background:var(--violet-soft);color:var(--violet-ink)}
+.pr-pill.bounced{background:var(--red-soft);color:var(--red-ink)}
+.pr-match{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:3px 10px;border-radius:6px;
+  font-family:var(--serif);font-size:15px;color:var(--ink-2);font-variant-numeric:lining-nums;
+  background:var(--bg-subtle);
+}
+.pr-match.hi{background:var(--orange-soft);color:var(--orange-ink);font-weight:500}
+.pr-match.lo{color:var(--muted-2)}
+.pr-foot{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:4px 2px;font-size:13px;color:var(--muted);
+}
+.pr-page{display:flex;gap:6px}
+
+/* ═════════ INBOX PANEL ═════════ */
+.inbox-split{
+  display:grid;grid-template-columns:320px 1fr;gap:18px;
+  background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  min-height:480px;
+}
+@media(max-width:980px){.inbox-split{grid-template-columns:1fr}}
+.inbox-list{
+  border-right:1px solid var(--line);background:var(--bg-panel);
+  display:flex;flex-direction:column;gap:12px;padding:16px;
+}
+.inbox-filter{display:flex;gap:3px;background:#fff;padding:3px;border-radius:9px;border:1px solid var(--line)}
+.inbox-filter button{
+  flex:1;padding:5px 8px;border-radius:6px;border:none;background:transparent;cursor:pointer;
+  font-family:var(--sans);font-size:11.5px;color:var(--muted);font-weight:500;
+  display:inline-flex;align-items:center;justify-content:center;gap:5px;
+}
+.inbox-filter button.on{background:var(--ink);color:#fff}
+.inbox-filter .n{font-size:10.5px}
+.inbox-empty{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:24px 12px;text-align:center;gap:10px;
+}
+.inbox-empty-ill{width:60px;height:60px;color:var(--muted-2);opacity:.55}
+.inbox-empty-title{margin:0;font-family:var(--serif);font-size:20px;color:var(--ink);line-height:1.15}
+.inbox-empty-body{margin:0;font-size:13px;color:var(--muted);line-height:1.55;max-width:240px}
+.inbox-empty-hint{
+  margin:8px 0 0;padding:10px 12px;border-radius:9px;
+  background:#fff;border:1px solid var(--line);
+  font-size:12px;color:var(--muted);line-height:1.5;max-width:260px;
+}
+.inbox-empty-hint b{color:var(--ink-2);font-weight:600}
+
+.inbox-pane{
+  display:flex;align-items:center;justify-content:center;background:#fff;padding:32px;
+}
+.inbox-pane-empty{text-align:center;max-width:320px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.inbox-pane-ill{width:80px;height:80px;color:var(--muted-2)}
+.inbox-pane-title{margin:0;font-family:var(--serif);font-size:22px;color:var(--ink)}
+.inbox-pane-body{margin:0;font-size:13.5px;color:var(--muted)}
+
+/* ═════════ SETTINGS PANEL ═════════ */
+.set-sec{
+  background:#fff;border:1px solid var(--line);border-radius:14px;
+  padding:22px 24px;
+}
+.set-sec h3{
+  font-family:var(--serif);font-weight:400;font-size:20px;line-height:1;
+  color:var(--ink);margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid var(--line-2);
+}
+.set-sec.danger{border-color:rgba(192,58,43,.25)}
+.set-sec.danger h3{color:var(--red-ink)}
+.set-rows{display:flex;flex-direction:column;gap:14px}
+.set-row{
+  display:grid;grid-template-columns:160px 1fr;gap:16px;align-items:center;
+  padding:8px 0;
+}
+.set-row label{font-size:13px;color:var(--muted);font-weight:500}
+.set-row input[type=text]{
+  padding:8px 12px;border-radius:9px;border:1px solid var(--line);background:#fff;
+  font-family:var(--sans);font-size:13.5px;color:var(--ink);width:100%;max-width:420px;
+  outline:none;transition:border-color .15s ease;
+}
+.set-row input[type=text]:focus{border-color:var(--ink)}
+.set-val{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--ink);flex-wrap:wrap}
+.set-val.muted{color:var(--muted)}
+.set-val .muted{color:var(--muted);font-size:13px}
+.set-val b{font-weight:600}
+.mini-btn.danger-btn{background:var(--red-soft);border-color:rgba(192,58,43,.3);color:var(--red-ink)}
+.mini-btn.danger-btn:hover{background:#fbddd8;border-color:var(--red)}
+
 /* ═════════ TIER 4 — LOG (plain list, bottom) ═════════
    No card chrome. Just a header + a vertical list of hairline rows.
    Tucks under everything else visually. */
@@ -500,14 +755,14 @@ body{font-family:var(--sans);font-size:14px;line-height:1.55;color:var(--ink);ba
 
     <!-- Tabs -->
     <nav class="tabs" role="tablist">
-      <button class="tab on" role="tab" aria-selected="true">Overview</button>
-      <button class="tab" role="tab">Sequence <span class="n">3</span></button>
-      <button class="tab" role="tab">Prospects <span class="n">333</span></button>
-      <button class="tab" role="tab">Inbox <span class="n">2</span></button>
-      <button class="tab" role="tab">Settings</button>
+      <button class="tab on" role="tab" aria-selected="true" data-tab="overview">Overview</button>
+      <button class="tab" role="tab" data-tab="sequence">Sequence <span class="n">3</span></button>
+      <button class="tab" role="tab" data-tab="prospects">Prospects <span class="n">333</span></button>
+      <button class="tab" role="tab" data-tab="inbox">Inbox <span class="n">2</span></button>
+      <button class="tab" role="tab" data-tab="settings">Settings</button>
     </nav>
 
-    <div class="grid">
+    <div class="grid" data-panel="overview">
 
       <!-- ═══ Tier 1 — ORIENT ═══
            Tiny status line + single-line goal. Both one-row, no card
@@ -694,6 +949,382 @@ body{font-family:var(--sans);font-size:14px;line-height:1.55;color:var(--ink);ba
       </section>
 
     </div>
+
+    <!-- ═══════════════════ SEQUENCE PANEL ═══════════════════ -->
+    <div class="grid panel-hidden" data-panel="sequence">
+      <div class="panel-head">
+        <div>
+          <span class="panel-eyebrow">Sequence</span>
+          <h2 class="panel-title">3 steps, 2-day delay between each</h2>
+          <p class="panel-sub">Each email is written from scratch per prospect. Edit a template to influence tone — Outpulse personalises the rest.</p>
+        </div>
+        <div class="panel-head-actions">
+          <button class="btn-ghost">Test send to me</button>
+          <button class="btn-primary">+ Add step</button>
+        </div>
+      </div>
+
+      <div class="seq-flow">
+
+        <div class="seq-step">
+          <div class="seq-num">1</div>
+          <div class="seq-body">
+            <div class="seq-head">
+              <span class="seq-status sent">Sent to all · 310</span>
+              <span class="seq-when">Sent 3 days ago</span>
+            </div>
+            <div class="seq-subj">Vercel's next 50 customers?</div>
+            <div class="seq-preview">Sarah, saw you just closed $150M. With 12 roles open, your team is going to double before the pipeline catches up. Outpulse finds your exact ICP…</div>
+            <div class="seq-metrics">
+              <span><b>34%</b> open</span><span class="sep"></span>
+              <span><b>16%</b> click</span><span class="sep"></span>
+              <span class="bad"><b>0%</b> reply</span>
+            </div>
+            <div class="seq-actions">
+              <button class="mini-btn">Edit</button>
+              <button class="mini-btn">A/B test</button>
+              <button class="mini-btn">Variables</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="seq-gap">Wait 2 days</div>
+
+        <div class="seq-step">
+          <div class="seq-num on">2</div>
+          <div class="seq-body">
+            <div class="seq-head">
+              <span class="seq-status sending">Sending · 245 so far</span>
+              <span class="seq-tag">Best performer</span>
+            </div>
+            <div class="seq-subj">Quick question about hiring</div>
+            <div class="seq-preview">{firstName}, noticed you posted 8 senior eng roles on Greenhouse. Before you hit send on another Series B round, want me to show you how 3 of your competitors cut outbound time by 80%?</div>
+            <div class="seq-metrics">
+              <span><b>28%</b> open</span><span class="sep"></span>
+              <span><b>11%</b> click</span><span class="sep"></span>
+              <span class="good"><b>2.4%</b> reply</span>
+            </div>
+            <div class="seq-actions">
+              <button class="mini-btn">Edit</button>
+              <button class="mini-btn">A/B test</button>
+              <button class="mini-btn">Variables</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="seq-gap">Wait 2 days</div>
+
+        <div class="seq-step pending">
+          <div class="seq-num muted">3</div>
+          <div class="seq-body">
+            <div class="seq-head">
+              <span class="seq-status pending">Pending · queued</span>
+              <span class="seq-when">Starts tomorrow, 9:00</span>
+            </div>
+            <div class="seq-subj">Last try — 3-min read before you go</div>
+            <div class="seq-preview">{firstName}, last email on this. If you have 3 minutes this week, here's the one-pager on how we'd approach your Q2 pipeline…</div>
+            <div class="seq-metrics muted">
+              <span>Not sent yet</span>
+            </div>
+            <div class="seq-actions">
+              <button class="mini-btn">Edit</button>
+              <button class="mini-btn">Skip this step</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <section class="plain">
+        <div class="plain-head">
+          <h3>Sequence rules</h3>
+        </div>
+        <div class="rules-list">
+          <div class="rule-row"><b>Stop on reply</b><span>Remove prospects from all remaining steps once they respond.</span><span class="rule-state on">On</span></div>
+          <div class="rule-row"><b>Skip weekends</b><span>Don't send Saturday or Sunday.</span><span class="rule-state on">On</span></div>
+          <div class="rule-row"><b>Max 1 email per prospect per 48h</b><span>Hard throttle regardless of step schedule.</span><span class="rule-state on">On</span></div>
+          <div class="rule-row"><b>Unsubscribe footer</b><span>Auto-added in every email.</span><span class="rule-state on">On</span></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ═══════════════════ PROSPECTS PANEL ═══════════════════ -->
+    <div class="grid panel-hidden" data-panel="prospects">
+      <div class="panel-head">
+        <div>
+          <span class="panel-eyebrow">Prospects</span>
+          <h2 class="panel-title">333 in this campaign</h2>
+          <p class="panel-sub">Filter by status to find people at each stage. Select rows to run bulk actions.</p>
+        </div>
+        <div class="panel-head-actions">
+          <button class="btn-ghost">Import CSV</button>
+          <button class="btn-primary">+ Find more like these</button>
+        </div>
+      </div>
+
+      <div class="pr-filters">
+        <button class="on">All <span class="n">333</span></button>
+        <button>Not sent yet <span class="n">23</span></button>
+        <button>Sent <span class="n">310</span></button>
+        <button>Opened <span class="n">105</span></button>
+        <button>Clicked <span class="n">49</span></button>
+        <button class="muted">Replied <span class="n">0</span></button>
+        <button>Bounced <span class="n">3</span></button>
+      </div>
+
+      <div class="pr-toolbar">
+        <label class="pr-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input placeholder="Search name, company, email…" />
+        </label>
+        <div class="pr-sort">
+          <span>Sort:</span>
+          <select><option>Last activity</option><option>Match %</option><option>Name A–Z</option><option>Company</option></select>
+        </div>
+      </div>
+
+      <table class="pr-table">
+        <thead>
+          <tr>
+            <th class="cb"><input type="checkbox" /></th>
+            <th>Name · Company</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Last activity</th>
+            <th class="num">Match</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cb"><input type="checkbox" /></td>
+            <td><div class="pr-person"><span class="pr-av" style="background:linear-gradient(135deg,#ff8a4c,#ff5b1f)">SC</span><div><b>Sarah Chen</b><em>Vercel</em></div></div></td>
+            <td>VP Engineering</td>
+            <td><span class="pr-pill click">Clicked</span></td>
+            <td>20h ago · opened 3×</td>
+            <td class="num"><span class="pr-match hi">97</span></td>
+          </tr>
+          <tr>
+            <td class="cb"><input type="checkbox" /></td>
+            <td><div class="pr-person"><span class="pr-av" style="background:linear-gradient(135deg,#6c5bb0,#3866a6)">TH</span><div><b>Tom Herdify</b><em>Herdify</em></div></div></td>
+            <td>Co-founder</td>
+            <td><span class="pr-pill click">Clicked</span></td>
+            <td>20h ago · clicked book-a-call</td>
+            <td class="num"><span class="pr-match hi">94</span></td>
+          </tr>
+          <tr>
+            <td class="cb"><input type="checkbox" /></td>
+            <td><div class="pr-person"><span class="pr-av" style="background:linear-gradient(135deg,#c46a7a,#8a76b8)">MN</span><div><b>Martin Nováček</b><em>nuom</em></div></div></td>
+            <td>CTO</td>
+            <td><span class="pr-pill open">Opened</span></td>
+            <td>20h ago · 3 opens</td>
+            <td class="num"><span class="pr-match hi">91</span></td>
+          </tr>
+          <tr>
+            <td class="cb"><input type="checkbox" /></td>
+            <td><div class="pr-person"><span class="pr-av" style="background:linear-gradient(135deg,#3a9d76,#268360)">AK</span><div><b>Alex Kellerman</b><em>Cinder</em></div></div></td>
+            <td>Head of Growth</td>
+            <td><span class="pr-pill click">Clicked</span></td>
+            <td>1d ago · bounced after 4s</td>
+            <td class="num"><span class="pr-match">86</span></td>
+          </tr>
+          <tr>
+            <td class="cb"><input type="checkbox" /></td>
+            <td><div class="pr-person"><span class="pr-av" style="background:linear-gradient(135deg,#ff7a3d,#c46a7a)">SK</span><div><b>Suleyman Karim</b><em>CloudHospital Inc.</em></div></div></td>
+            <td>VP Sales</td>
+            <td><span class="pr-pill open">Opened</span></td>
+            <td>1d ago</td>
+            <td class="num"><span class="pr-match">82</span></td>
+          </tr>
+          <tr>
+            <td class="cb"><input type="checkbox" /></td>
+            <td><div class="pr-person"><span class="pr-av" style="background:linear-gradient(135deg,#3866a6,#6c5bb0)">RC</span><div><b>Rob Carver</b><em>XOMAD</em></div></div></td>
+            <td>Director of Sales</td>
+            <td><span class="pr-pill sent">Sent</span></td>
+            <td>1d ago</td>
+            <td class="num"><span class="pr-match">78</span></td>
+          </tr>
+          <tr>
+            <td class="cb"><input type="checkbox" /></td>
+            <td><div class="pr-person"><span class="pr-av" style="background:linear-gradient(135deg,#1a7c4b,#166440)">KV</span><div><b>Ken Varga</b><em>Konexial</em></div></div></td>
+            <td>Founder</td>
+            <td><span class="pr-pill sent">Sent</span></td>
+            <td>1d ago</td>
+            <td class="num"><span class="pr-match">75</span></td>
+          </tr>
+          <tr class="muted">
+            <td class="cb"><input type="checkbox" /></td>
+            <td><div class="pr-person"><span class="pr-av" style="background:linear-gradient(135deg,#a8a097,#6c6458)">AR</span><div><b>Ana Rodriguez</b><em>DropShip Inc.</em></div></div></td>
+            <td>CEO</td>
+            <td><span class="pr-pill bounced">Bounced</span></td>
+            <td>2d ago · invalid address</td>
+            <td class="num"><span class="pr-match lo">42</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pr-foot">
+        <span>Showing 1–8 of 333</span>
+        <div class="pr-page">
+          <button class="mini-btn" disabled>‹ Prev</button>
+          <button class="mini-btn">Next ›</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════ INBOX PANEL ═══════════════════ -->
+    <div class="grid panel-hidden" data-panel="inbox">
+      <div class="panel-head">
+        <div>
+          <span class="panel-eyebrow">Inbox</span>
+          <h2 class="panel-title">Replies &amp; conversations</h2>
+          <p class="panel-sub">Prospects who've replied to this campaign. Outpulse pauses the sequence automatically for anyone who responds.</p>
+        </div>
+        <div class="panel-head-actions">
+          <button class="btn-ghost">Mark all read</button>
+          <button class="btn-ghost">Settings</button>
+        </div>
+      </div>
+
+      <div class="inbox-split">
+        <aside class="inbox-list">
+          <div class="inbox-filter">
+            <button class="on">All <span class="n">2</span></button>
+            <button>Unread <span class="n">2</span></button>
+            <button>Positive <span class="n">0</span></button>
+            <button>Needs reply <span class="n">2</span></button>
+          </div>
+          <div class="inbox-empty">
+            <div class="inbox-empty-ill">
+              <svg viewBox="0 0 60 60" fill="none" aria-hidden="true">
+                <rect x="6" y="14" width="48" height="34" rx="3" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M6 16l24 20 24-20" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <circle cx="46" cy="16" r="6" fill="#fff" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="46" cy="16" r="2.5" fill="currentColor"/>
+              </svg>
+            </div>
+            <p class="inbox-empty-title">No replies yet</p>
+            <p class="inbox-empty-body">Your clicks look healthy — when prospects reply, their threads will appear here.</p>
+            <p class="inbox-empty-hint">Check out the <b>Recommendations</b> in Overview — landing page conversion is likely the bottleneck, not email copy.</p>
+          </div>
+        </aside>
+
+        <main class="inbox-pane">
+          <div class="inbox-pane-empty">
+            <div class="inbox-pane-ill">
+              <svg viewBox="0 0 80 80" fill="none" aria-hidden="true">
+                <circle cx="40" cy="40" r="32" stroke="currentColor" stroke-width="1.5" opacity=".3"/>
+                <circle cx="40" cy="40" r="18" stroke="currentColor" stroke-width="1.5" opacity=".5"/>
+                <circle cx="40" cy="40" r="6" fill="currentColor"/>
+              </svg>
+            </div>
+            <p class="inbox-pane-title">Select a thread to reply</p>
+            <p class="inbox-pane-body">Threads appear on the left as prospects respond.</p>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- ═══════════════════ SETTINGS PANEL ═══════════════════ -->
+    <div class="grid panel-hidden" data-panel="settings">
+      <div class="panel-head">
+        <div>
+          <span class="panel-eyebrow">Settings</span>
+          <h2 class="panel-title">Campaign configuration</h2>
+          <p class="panel-sub">Name, sending identity, schedule, and safety rules. Changes take effect on the next send batch.</p>
+        </div>
+        <div class="panel-head-actions">
+          <button class="btn-ghost">View audit log</button>
+        </div>
+      </div>
+
+      <section class="set-sec">
+        <h3>General</h3>
+        <div class="set-rows">
+          <div class="set-row">
+            <label>Name</label>
+            <input type="text" value="Dogfood campaign V2 (plat4m)" />
+          </div>
+          <div class="set-row">
+            <label>Status</label>
+            <div class="set-val"><span class="chip-status live">Active</span><button class="mini-btn">Pause campaign</button></div>
+          </div>
+          <div class="set-row">
+            <label>Owner</label>
+            <div class="set-val"><span class="sb-user-av" style="width:22px;height:22px;font-size:11px">L</span> Lukas Horak · <span class="muted">admin</span></div>
+          </div>
+          <div class="set-row">
+            <label>Goal</label>
+            <div class="set-val">25 discovery calls this month · <button class="link-inline">Edit</button></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="set-sec">
+        <h3>Sending</h3>
+        <div class="set-rows">
+          <div class="set-row">
+            <label>From</label>
+            <div class="set-val"><b>Lukas Horak</b> &lt;lukas@plat4m.com&gt; · warm-up 94/100</div>
+          </div>
+          <div class="set-row">
+            <label>Schedule</label>
+            <div class="set-val">Mon–Fri · 9:00–17:00 Europe/Bratislava · skip weekends</div>
+          </div>
+          <div class="set-row">
+            <label>Daily cap</label>
+            <div class="set-val">50 emails/day · currently at 23 today</div>
+          </div>
+          <div class="set-row">
+            <label>Signature</label>
+            <div class="set-val muted">— Lukas, Outpulse<br/>plat4m.com · LinkedIn</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="set-sec">
+        <h3>Rules</h3>
+        <div class="rules-list">
+          <div class="rule-row"><b>Stop on reply</b><span>Remove from remaining steps once they respond.</span><span class="rule-state on">On</span></div>
+          <div class="rule-row"><b>Stop on meeting booked</b><span>Remove when prospect books via calendar link.</span><span class="rule-state on">On</span></div>
+          <div class="rule-row"><b>Skip weekends</b><span>Don't send Saturday or Sunday.</span><span class="rule-state on">On</span></div>
+          <div class="rule-row"><b>Bounce threshold</b><span>Auto-pause campaign if bounce rate {'>'}  5%.</span><span class="rule-state on">On</span></div>
+          <div class="rule-row"><b>Domain throttle</b><span>Max 2 prospects per company domain per week.</span><span class="rule-state off">Off</span></div>
+        </div>
+      </section>
+
+      <section class="set-sec">
+        <h3>Integrations</h3>
+        <div class="set-rows">
+          <div class="set-row">
+            <label>CRM</label>
+            <div class="set-val"><b>HubSpot</b> · syncing replies &amp; meetings · <button class="link-inline">Manage</button></div>
+          </div>
+          <div class="set-row">
+            <label>Calendar</label>
+            <div class="set-val"><b>Google</b> · book-a-call link in every email</div>
+          </div>
+          <div class="set-row">
+            <label>Slack</label>
+            <div class="set-val muted">Not connected · <button class="link-inline">Connect</button></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="set-sec danger">
+        <h3>Danger zone</h3>
+        <div class="set-rows">
+          <div class="set-row">
+            <label>Archive</label>
+            <div class="set-val"><span class="muted">Campaign data preserved, prospects freed for other campaigns.</span><button class="mini-btn">Archive</button></div>
+          </div>
+          <div class="set-row">
+            <label>Delete</label>
+            <div class="set-val"><span class="muted">Permanently removes the campaign and all its data.</span><button class="mini-btn danger-btn">Delete campaign</button></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
   </main>
 
   <!-- ═══════════════════ RAIL ═══════════════════ -->
@@ -745,11 +1376,21 @@ body{font-family:var(--sans);font-size:14px;line-height:1.55;color:var(--ink);ba
 </div>
 
 <script>
-// Minimal tab toggle (visual only — non-Overview tabs don't render content in this prototype)
+// Tab switching — toggles .on on the tab button and flips panel visibility
+// based on matching data-tab / data-panel attributes.
 document.querySelectorAll('.tab').forEach(t => {
   t.addEventListener('click', () => {
+    const target = t.dataset.tab;
+    if (!target) return;
     document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
     t.classList.add('on');
+    document.querySelectorAll('[data-panel]').forEach(p => {
+      p.classList.toggle('panel-hidden', p.dataset.panel !== target);
+    });
+    // Scroll back to top of main when switching tabs — feels snappier
+    const main = document.querySelector('.main');
+    if (main) main.scrollTop = 0;
+    window.scrollTo(0, Math.max(0, main ? main.offsetTop - 20 : 0));
   });
 });
 // Activity filter toggle (visual only)
