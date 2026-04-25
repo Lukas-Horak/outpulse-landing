@@ -399,8 +399,11 @@ img{max-width:100%;display:block}
 .pcard-hero[data-slot="0"]{transform:translateY(0) scale(1);opacity:1;z-index:4}
 .pcard-hero[data-slot="1"]{transform:translateY(330px) scale(.98);opacity:.5;z-index:3}
 .pcard-hero[data-slot="2"]{transform:translateY(475px) scale(.95);opacity:.22;z-index:2}
-.pcard-hero[data-slot="-1"]{transform:translateY(-320px) scale(.94);opacity:0;z-index:0}
-.pcard-hero[data-slot="3"]{transform:translateY(660px) scale(.92);opacity:0;z-index:0}
+/* Off-screen / invisible card states must not capture taps. On phones
+   the leaving-slot card was invisibly hovering above the hero CTAs and
+   eating clicks for "See how it works". */
+.pcard-hero[data-slot="-1"]{transform:translateY(-320px) scale(.94);opacity:0;z-index:0;pointer-events:none}
+.pcard-hero[data-slot="3"]{transform:translateY(660px) scale(.92);opacity:0;z-index:0;pointer-events:none}
 .pch-top{display:flex;align-items:center;gap:12px}
 .pch-av{
   width:44px;height:44px;border-radius:12px;flex-shrink:0;
@@ -3403,6 +3406,13 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
    the stack never causes a horizontal scrollbar at <380px. ───────── */
 @media(max-width:520px){
   .hero-pin{padding:80px 18px 48px;gap:32px}
+  /* CTAs in hero-content must always win pointer-events over the
+     absolutely-positioned prospect cards. The card cycler renders
+     invisible (opacity:0) "queued" / "leaving" slots that — without
+     pointer-events:none — silently captured taps on the "See how it
+     works" button on phones. Bump hero-content above the cards. */
+  .hero-content{position:relative;z-index:5}
+  .hero-cta-row .btn{position:relative;z-index:6}
   .hero-cards{
     width:100%;
     max-width:min(440px, calc(100vw - 36px));
