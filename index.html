@@ -3486,16 +3486,26 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
    pill on the narrowest screens.
    ════════════════════════════════════════════════════════════════════ */
 @media(max-width:720px){
-  /* Force shared horizontal margin so all mockups line up */
+  /* ── Mobile padding standardization ──
+     Every horizontal gutter on the page lands on 16px on phones, so
+     headings, mockups, testimonials, footer and nav all line up to the
+     same vertical edge. Previously .container used 28px desktop with no
+     mobile override (felt cramped), .how-head had no padding (headline
+     touched edges), and mockups used 16px via this unification block —
+     three different gutters within scroll distance. */
+  .container{padding:0 16px}
+  .how-it-works{padding:clamp(56px,8vh,96px) 0}
+  .how-head{padding:0 16px}
+  .how-mockup-wrap{padding:0;max-width:none}
+  .gradient-stage{padding:56px 0}
+
+  /* Force shared horizontal margin so all mockups line up with text. */
   .browser,
   .mk-browser{
     margin:0 16px;
     max-width:calc(100vw - 32px);
     border-radius:14px;
   }
-  .how-it-works{padding:clamp(56px,8vh,96px) 0}
-  .how-mockup-wrap{padding:0;max-width:none}
-  .gradient-stage{padding:56px 0}
 
   /* Compact browser chrome — same metrics across both shells */
   .browser-bar,
