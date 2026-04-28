@@ -3240,25 +3240,128 @@ h1.display em{
 .aui-st-num.good{color:var(--green-ink);font-weight:600}
 .aui-st-num.bad{color:var(--red);font-weight:500}
 
-/* ── Mobile ───────────────────────────────────────────────────── */
+/* ── Mobile (≤900px) — collapse sidebar, stack everything ─── */
 @media(max-width:900px){
-  .aui-shell{grid-template-columns:1fr}
+  .aui-shell{
+    grid-template-columns:1fr;
+    min-height:auto;
+    overflow:hidden;
+  }
   .aui-side{display:none}
-  .aui-main{padding:18px 16px 22px;gap:14px}
-  .aui-pulse-hero{grid-template-columns:1fr}
-  .aui-pulse-funnel{grid-template-columns:repeat(2,1fr);row-gap:14px}
-  .aui-pulse-funnel .aui-pf-step:nth-child(3){border-left:none}
-  .aui-kpis{grid-template-columns:repeat(2,1fr)}
-  .aui-row2{grid-template-columns:1fr}
-  .aui-tabs{overflow-x:auto;flex-wrap:nowrap}
+  .aui-main{padding:16px 14px 20px;gap:14px}
+
+  /* Topbar: greeting + actions wrap, actions below title on narrow */
+  .aui-top{flex-direction:column;align-items:stretch;gap:10px}
+  .aui-actions{flex-wrap:wrap}
+  .aui-title{font-size:24px}
+
+  /* Pulse Widget */
+  .aui-pulse{padding:18px 18px 14px;gap:14px;border-radius:14px}
+  .aui-pulse-hero{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+  .aui-ph-divider{
+    display:block;width:100%;height:1px;
+  }
+  .aui-ph-val{font-size:42px}
+
+  /* Funnel — stack vertically, rotate chevrons 90° to point down */
+  .aui-pulse-funnel{
+    grid-template-columns:1fr;
+    grid-auto-rows:auto;
+    gap:8px;
+    justify-items:stretch;
+  }
+  .aui-fa{
+    width:18px;height:18px;
+    margin:2px auto;
+    justify-self:center;
+    transform:rotate(90deg);
+  }
+  .aui-fa svg{width:14px;height:14px}
+  .aui-mb{padding:14px 16px}
+  .aui-mb-val{font-size:30px}
+
+  /* TODAY row — 3-col grid wrapping; first 3 in row, last 2 in row 2 */
+  .aui-pulse-today{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    row-gap:12px;column-gap:6px;
+    padding-top:12px;
+  }
+  .aui-tt{padding:0 8px}
+  .aui-tt+.aui-tt::before{display:none}
+  .aui-tt-lbl{font-size:9px;letter-spacing:.1em}
+  .aui-tt-val{font-size:22px}
+
+  /* KPI strip → 2 cols */
+  .aui-kpis{grid-template-columns:repeat(2,1fr);gap:8px}
+  .aui-kpi{padding:12px 14px 10px}
+  .aui-kpi-val{font-size:26px}
+
+  /* Campaign detail header */
+  .aui-cd-head{flex-direction:column;align-items:stretch;gap:10px}
+  .aui-cd-title{font-size:22px}
+  .aui-cd-meta{gap:8px}
+  .aui-cd-meta-time{font-size:11.5px;flex-basis:100%}
+  .aui-actions .aui-btn{flex:1 1 auto;justify-content:center}
+
+  /* Tabs scroll horizontally */
+  .aui-tabs{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch}
   .aui-tab{flex-shrink:0}
+  .aui-tabs::-webkit-scrollbar{display:none}
+
+  /* Chevron funnel — stack vertically */
   .aui-chev{--chev:0;flex-direction:column;gap:6px}
   .aui-pf{margin-right:0;clip-path:none;border-radius:10px}
   .aui-pf:first-child,.aui-pf:last-child{clip-path:none}
-  .aui-pf-inner{padding:12px 14px;clip-path:none}
-  .aui-st-row{grid-template-columns:32px 1fr 60px 60px;gap:8px;padding:9px 12px;font-size:12px}
-  .aui-st-row .aui-st-rep{display:none}
+  .aui-pf-inner{padding:14px 16px;clip-path:none}
+  .aui-pf-val{font-size:24px}
+
+  /* Funnel head — period buttons drop below title */
+  .aui-funnel{padding:16px 16px 14px;border-radius:12px}
+  .aui-funnel-head{flex-direction:column;align-items:flex-start;gap:8px}
+  .aui-funnel-cap{font-size:11px}
+  .aui-funnel-cap span{padding:0 8px}
+
+  /* Per-step table */
+  .aui-st-row{
+    grid-template-columns:32px 1fr 56px 56px;
+    gap:6px;padding:9px 10px;font-size:11.5px;
+  }
+  .aui-st-row .aui-st-rep,
   .aui-st-row .aui-st-clk{display:none}
+  .aui-st-step{width:22px;height:22px;font-size:10px}
+
+  /* Orient + goal rows wrap cleanly */
+  .aui-orient,.aui-goalrow{font-size:12.5px;gap:8px}
+  .aui-orient-jump{margin-left:0}
+  .aui-goal-bar{width:100%;flex:1 1 100%}
+}
+
+/* ── Very narrow (≤480px) — extra compaction ───────────────── */
+@media(max-width:480px){
+  .aui-main{padding:14px 12px 18px}
+  .aui-title{font-size:21px}
+  .aui-cd-title{font-size:19px;line-height:1.15}
+  .aui-pulse{padding:16px 14px 12px}
+  .aui-ph-val{font-size:36px}
+  .aui-mb-val{font-size:26px}
+
+  /* Today: 2 columns instead of 3 so labels never truncate */
+  .aui-pulse-today{grid-template-columns:repeat(2,1fr)}
+  .aui-tt-val{font-size:20px}
+
+  /* KPI cards: full width single column */
+  .aui-kpis{grid-template-columns:1fr}
+
+  /* Header actions: condense Add prospects → just "Add" with icon */
+  .aui-cd-head .aui-actions{gap:6px}
+  .aui-cd-head .aui-btn{padding:8px 10px;font-size:12px}
+
+  /* Per-step table: drop subject column, show step + sent + open only */
+  .aui-st-row{grid-template-columns:28px 1fr 52px 52px;gap:6px;padding:8px}
+  .aui-st-subj{font-size:11.5px}
 }
 
 .email-card{
