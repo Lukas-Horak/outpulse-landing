@@ -122,6 +122,10 @@ img{max-width:100%;display:block}
   /* Guarantee breathing room on phones — nav never hugs the edges */
   .nav .container{padding:0 18px}
   .nav-row{gap:10px;padding:12px 0}
+  /* Kill the empty centre-pill that .nav-links leaves behind once its
+     link children are display:none'd. Without this, the rgba grey
+     background still paints a tiny dot in the middle of the header. */
+  .nav-row .nav-links{display:none}
 }
 @media(max-width:520px){
   .nav-login{padding:8px 8px;font-size:13px}
@@ -557,6 +561,11 @@ img{max-width:100%;display:block}
   .hero-content{text-align:center;align-items:center;max-width:720px;margin:0 auto;flex:0 0 auto}
   .hero-content h1.display,
   .hero-content .hero-sub{margin:0 auto 24px}
+  /* Force center on the subheadline — the desktop rule has
+     text-align:left at higher specificity, which would otherwise leak
+     onto mobile and leave the paragraph hugging the left edge. */
+  .hero-content h1.display{text-align:center}
+  .hero-content .hero-sub{text-align:center}
   .hero-content .hero-cta-row,
   .hero-content .hero-trust-row{justify-content:center}
   .hero-cards{max-width:520px;margin:0 auto;width:100%;flex:0 0 auto}
