@@ -381,8 +381,15 @@ img { max-width: 100%; display: block; }
   align-items: center;
   gap: 12px;
   padding: 11px 14px;
-  background: var(--bg-panel);
-  border-bottom: 1px solid var(--line);
+  background: rgba(248, 246, 242, 0.55);
+  backdrop-filter: blur(28px) saturate(1.8);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8);
+  border-bottom: 1px solid rgba(14, 13, 12, 0.06);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 1px 0 rgba(14, 13, 12, 0.03);
+  position: relative;
+  z-index: 5;
 }
 .app-frame-bar .dots { display: flex; gap: 6px; flex-shrink: 0; }
 .app-frame-bar .dots span {
@@ -400,12 +407,17 @@ img { max-width: 100%; display: block; }
   gap: 7px;
   font-family: 'SF Mono', Consolas, Menlo, monospace;
   font-size: 11.5px;
-  color: var(--muted);
-  background: var(--paper);
+  color: var(--ink-2);
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px) saturate(1.4);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
   padding: 5px 12px;
   border-radius: var(--r-pill);
-  border: 1px solid var(--line);
-  max-width: 280px;
+  border: 1px solid rgba(14, 13, 12, 0.07);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 1px 2px rgba(14, 13, 12, 0.04);
+  max-width: 320px;
   margin: 0 auto;
 }
 .app-frame-bar .url-pill svg {
@@ -937,6 +949,10 @@ img { max-width: 100%; display: block; }
   font-size: 13px;
 }
 .tour-prospect-row:first-child { border-top: none; }
+/* Last 3 rows fade progressively — "more below" trail effect */
+.tour-prospect-row:nth-last-child(3) { opacity: 0.6; }
+.tour-prospect-row:nth-last-child(2) { opacity: 0.35; }
+.tour-prospect-row:nth-last-child(1) { opacity: 0.18; }
 .tour-prospect-who {
   display: flex;
   align-items: center;
@@ -3454,6 +3470,57 @@ footer.site {
               <span class="tour-signal warm">Seed · $5M</span>
             </div>
             <div class="tour-prospect-added">1w ago</div>
+          </div>
+          <div class="tour-prospect-row">
+            <div class="tour-prospect-who">
+              <span class="av">OS</span>
+              <div class="text">
+                <span class="name">Olivia Stewart</span>
+                <span class="role">Co-founder · Linear</span>
+              </div>
+            </div>
+            <div class="tour-prospect-email">
+              <span class="addr">olivia@linear.app</span>
+              <span class="verified"><span class="d"></span>Verified</span>
+            </div>
+            <div class="tour-prospect-signals">
+              <span class="tour-signal"><span class="d"></span>Hiring 6 engineers</span>
+            </div>
+            <div class="tour-prospect-added">1w ago</div>
+          </div>
+          <div class="tour-prospect-row">
+            <div class="tour-prospect-who">
+              <span class="av">JH</span>
+              <div class="text">
+                <span class="name">Jakub Hájek</span>
+                <span class="role">CTO · Productboard</span>
+              </div>
+            </div>
+            <div class="tour-prospect-email">
+              <span class="addr">jakub@productboard.com</span>
+              <span class="verified"><span class="d"></span>Verified</span>
+            </div>
+            <div class="tour-prospect-signals">
+              <span class="tour-signal warm">Series C · $58M</span>
+            </div>
+            <div class="tour-prospect-added">2w ago</div>
+          </div>
+          <div class="tour-prospect-row">
+            <div class="tour-prospect-who">
+              <span class="av">HS</span>
+              <div class="text">
+                <span class="name">Hugo Sanchez</span>
+                <span class="role">Founder · Fathom</span>
+              </div>
+            </div>
+            <div class="tour-prospect-email">
+              <span class="addr">hugo@fathom.video</span>
+              <span class="verified"><span class="d"></span>Verified</span>
+            </div>
+            <div class="tour-prospect-signals">
+              <span class="tour-signal cool"><span class="d"></span>Intent: pricing</span>
+            </div>
+            <div class="tour-prospect-added">2w ago</div>
           </div>
         </div>
         </div><!-- /.tour-prospects-table -->
