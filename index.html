@@ -57,14 +57,30 @@
   --blue-3: #8db8d8;
   --ice: #bcd6e8;
 
+  /* Brand — middle (AI / signal — per brand book §6) */
+  --violet: #8a76b8;
+  --violet-2: #a594c6;
+  --violet-soft: #c9b8db;
+
   /* Status */
   --green: #1a7c4b;
   --green-soft: #eaf4ee;
 
-  /* Gradients (storytelling: cold → warm) */
-  --grad-spectrum: linear-gradient(95deg, #3866a6 0%, #5b8ec8 18%, #8db8d8 33%, #bcd6e8 45%, #e8d4cc 55%, #ffba85 68%, #ff8649 82%, #ff5b1f 100%);
+  /* Gradient (storytelling: cold → violet → warm).
+     Violet is the AI/signal middle — between the prospect (blue) and
+     the customer (orange). Brand book §6 calls it Amethyst. */
+  --grad-spectrum: linear-gradient(95deg,
+    #3866a6 0%,
+    #5b8ec8 14%,
+    #7c83bf 28%,
+    #8a76b8 40%,
+    #b694c4 50%,
+    #d6a0a8 60%,
+    #ff8649 76%,
+    #ff5b1f 100%);
   --grad-warm: linear-gradient(135deg, #ff5b1f 0%, #ff8649 35%, #ffba85 70%, #ffd9b8 100%);
   --grad-cold: linear-gradient(135deg, #3866a6 0%, #5b8ec8 35%, #8db8d8 70%, #bcd6e8 100%);
+  --grad-violet: linear-gradient(135deg, #3866a6 0%, #8a76b8 50%, #ff5b1f 100%);
 
   /* Type */
   --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -214,10 +230,35 @@ img { max-width: 100%; display: block; }
 .hero {
   padding: clamp(72px, 12vh, 140px) 0 clamp(56px, 8vh, 96px);
   background:
-    radial-gradient(60% 80% at 20% 100%, rgba(255, 138, 76, 0.06), transparent 60%),
-    radial-gradient(50% 70% at 100% 20%, rgba(138, 118, 184, 0.05), transparent 60%),
+    radial-gradient(60% 80% at 20% 100%, rgba(255, 138, 76, 0.07), transparent 60%),
+    radial-gradient(50% 70% at 100% 20%, rgba(138, 118, 184, 0.08), transparent 60%),
     var(--paper);
 }
+
+/* Hero brand lockup — large mark + wordmark above the headline.
+   The mark IS the brand (per brand book §2: "Two circles. One pulse.")
+   so it gets prominence here, not just a 36px nav glyph. */
+.hero-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 36px;
+}
+.hero-lockup .mark {
+  width: 64px;
+  height: 64px;
+  background: url('outpulse-logo-dusk.svg') center/contain no-repeat;
+  flex-shrink: 0;
+}
+.hero-lockup .wordmark {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 48px;
+  line-height: 1;
+  letter-spacing: -.025em;
+  color: var(--ink);
+}
+
 .hero-eyebrow {
   font-size: 11px;
   font-weight: 600;
@@ -225,7 +266,7 @@ img { max-width: 100%; display: block; }
   text-transform: uppercase;
   color: var(--orange);
   display: inline-block;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 .hero h1 {
   font-family: var(--serif);
@@ -282,6 +323,83 @@ img { max-width: 100%; display: block; }
 }
 .hero-spectrum-labels b { color: var(--blue); font-weight: 600; }
 .hero-spectrum-labels i { font-style: normal; color: var(--orange); }
+.hero-spectrum-labels .mid {
+  color: var(--violet);
+  font-style: italic;
+  font-family: var(--serif);
+  font-weight: 400;
+  letter-spacing: .04em;
+  text-transform: none;
+  font-size: 12px;
+}
+
+/* ── Hero mockup — single browser-framed product shot.
+   One real visual, not a wall of inline prototypes. The PNG is a
+   3010×2130 export so it stays crisp on retina. Design system
+   radius (r-lg = 20px), violet→orange shadow to anchor it on the
+   page without competing with the hero gradient stripe. */
+.hero-mockup {
+  margin-top: 64px;
+  position: relative;
+}
+.browser-frame {
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-lg);
+  background: var(--paper);
+  overflow: hidden;
+  box-shadow:
+    0 40px 80px -32px rgba(60, 30, 80, 0.22),
+    0 16px 32px -16px rgba(255, 91, 31, 0.12),
+    0 4px 12px -4px rgba(14, 13, 12, 0.08);
+}
+.browser-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--sans);
+}
+.browser-dots {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.browser-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--line-2);
+}
+.browser-dots span:nth-child(1) { background: #f56565; }
+.browser-dots span:nth-child(2) { background: #ecc94b; }
+.browser-dots span:nth-child(3) { background: #48bb78; }
+.browser-url {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--muted);
+  background: var(--paper);
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  font-family: 'SF Mono', Consolas, Menlo, monospace;
+  max-width: 320px;
+  margin: 0 auto;
+}
+.browser-url svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+.browser-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
 
 /* ── Section shell ─────────────────────────────────────────────── */
 section.band {
@@ -591,8 +709,16 @@ footer.site {
   .nav-row { padding: 14px 0; }
   .nav-right .nav-login { display: none; }
   .hero { padding: 56px 0 48px; }
+  .hero-lockup { margin-bottom: 28px; }
+  .hero-lockup .mark { width: 48px; height: 48px; }
+  .hero-lockup .wordmark { font-size: 36px; }
   .hero-spectrum { margin-top: 36px; }
   .hero-spectrum-labels { font-size: 9.5px; }
+  .hero-spectrum-labels .mid { display: none; }
+  .hero-mockup { margin-top: 40px; }
+  .browser-bar { padding: 8px 12px; }
+  .browser-url { font-size: 11px; padding: 5px 10px; max-width: 180px; }
+  .browser-dots span { width: 8px; height: 8px; }
 }
 </style>
 </head>
@@ -620,6 +746,10 @@ footer.site {
 <!-- ─── HERO ────────────────────────────────────────────────────── -->
 <section class="hero">
   <div class="container">
+    <div class="hero-lockup">
+      <span class="mark" aria-hidden="true"></span>
+      <span class="wordmark">Outpulse</span>
+    </div>
     <span class="hero-eyebrow">AI sales agent</span>
     <h1>From cold list to <em>booked meeting</em>.</h1>
     <p class="hero-lead">
@@ -636,10 +766,29 @@ footer.site {
       <span class="sep">·</span>
       <span>GDPR compliant</span>
     </div>
-    <div class="hero-spectrum" role="img" aria-label="Cold-to-warm brand spectrum"></div>
+
+    <!-- Cold → AI signal → Warm spectrum (per design-system §02 + brand §6) -->
+    <div class="hero-spectrum" role="img" aria-label="Cold to warm brand spectrum, with AI signal in the middle"></div>
     <div class="hero-spectrum-labels">
       <span><b>Cold · prospect · unknown</b></span>
+      <span class="mid">AI · signal · intelligence</span>
       <span><i>Warm · meeting · customer</i></span>
+    </div>
+
+    <!-- Single product visual — the dashboard mockup. One real shot
+         beats four stacked inline prototypes for impact. -->
+    <div class="hero-mockup">
+      <div class="browser-frame">
+        <div class="browser-bar">
+          <div class="browser-dots"><span></span><span></span><span></span></div>
+          <div class="browser-url">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1a4 4 0 014 4v3h1a3 3 0 013 3v9a3 3 0 01-3 3H7a3 3 0 01-3-3v-9a3 3 0 013-3h1V5a4 4 0 014-4zm0 2a2 2 0 00-2 2v3h4V5a2 2 0 00-2-2z"/></svg>
+            app.outpulse.ai/dashboard
+          </div>
+          <div style="width:60px"></div>
+        </div>
+        <img src="dashboard-mockup.png" alt="Outpulse dashboard — revenue target, KPIs, and live prospect activity" loading="eager" fetchpriority="high" width="3010" height="2130">
+      </div>
     </div>
   </div>
 </section>
