@@ -211,8 +211,8 @@ img { max-width: 100%; display: block; }
 }
 .nav-login:hover { color: var(--ink); }
 
-/* ── Hero — Linear-style. Light ground, big display headline,
-   ONE short subhead, mockup top peeks from below. */
+/* ── Hero — light ground, centered, big serif display headline.
+   ONE short subhead. Mockup top peeks from below. */
 .hero {
   padding: clamp(112px, 16vh, 200px) 0 clamp(40px, 5vh, 72px);
   background: var(--paper);
@@ -225,6 +225,7 @@ img { max-width: 100%; display: block; }
 }
 .hero-text {
   max-width: 100%;
+  text-align: center;
 }
 .hero-eyebrow {
   font-size: 12px;
@@ -238,10 +239,10 @@ img { max-width: 100%; display: block; }
 .hero h1 {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(40px, 5vw, 80px);
+  font-size: clamp(52px, 6.6vw, 112px);
   line-height: 1.0;
-  letter-spacing: -.025em;
-  margin: 0 0 24px;
+  letter-spacing: -.028em;
+  margin: 0 0 28px;
   color: var(--ink);
 }
 .hero h1 em {
@@ -253,7 +254,7 @@ img { max-width: 100%; display: block; }
   line-height: 1.4;
   color: var(--muted);
   max-width: 56ch;
-  margin: 0 0 32px;
+  margin: 0 auto 32px;
 }
 .hero-lead strong {
   color: var(--ink-2);
@@ -267,7 +268,7 @@ img { max-width: 100%; display: block; }
   display: flex;
   gap: 10px;
   max-width: 520px;
-  margin: 0 0 14px;
+  margin: 0 auto 14px;
 }
 .hero-signup-input {
   flex: 1;
@@ -309,7 +310,7 @@ img { max-width: 100%; display: block; }
   align-items: center;
   gap: 14px;
   max-width: 520px;
-  margin: 0 0 14px;
+  margin: 0 auto 14px;
   font-size: 12px;
   color: var(--muted-2);
   letter-spacing: .14em;
@@ -329,6 +330,7 @@ img { max-width: 100%; display: block; }
   justify-content: center;
   gap: 12px;
   height: 56px;
+  width: 100%;
   max-width: 520px;
   padding: 0 26px;
   background: var(--paper);
@@ -341,7 +343,7 @@ img { max-width: 100%; display: block; }
   text-decoration: none;
   transition: background .15s ease, border-color .15s ease;
   cursor: pointer;
-  margin-bottom: 18px;
+  margin: 0 auto 18px;
 }
 .hero-google:hover { background: var(--bg-subtle); border-color: var(--ink); }
 .hero-google svg { width: 18px; height: 18px; flex-shrink: 0; }
@@ -350,6 +352,7 @@ img { max-width: 100%; display: block; }
   gap: 16px;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   color: var(--muted);
   font-size: 13px;
 }
@@ -2670,7 +2673,7 @@ footer.site {
   <div class="container">
     <div class="hero-text">
       <span class="hero-eyebrow">AI sales agent · for founders</span>
-      <h1>The pipeline that <em>fills itself</em>.</h1>
+      <h1>The pipeline that <em>fills itself.</em></h1>
       <p class="hero-lead">
         The cold outbound system for founders who'd rather build than sell.
       </p>
@@ -3470,7 +3473,7 @@ footer.site {
 
       <div class="dark-band-text">
         <span class="eyebrow">Why this exists</span>
-        <h2>Outbound shouldn't <em>own your afternoons</em>.</h2>
+        <h2>Outbound shouldn't <em>own your afternoons.</em></h2>
         <p>Cold outreach is the most leveraged thing a founder can do — and the easiest to do badly. SDRs cost $7,500/mo and still need scripts. Agencies cost more and deliver less. Lemlist + Apollo + a VA is three subscriptions, two tabs, and one person to manage.</p>
         <p>So we built an agent that does the whole loop. The way a senior salesperson would. At the cost of a SaaS subscription. Type one sentence; then go build something else.</p>
         <div class="dark-band-quote">
@@ -3488,7 +3491,7 @@ footer.site {
   <div class="container">
     <div class="band-head">
       <span class="eyebrow">Pricing</span>
-      <h2>Cheap, <em>compared to the alternative</em>.</h2>
+      <h2>Cheap, <em>compared to the alternative.</em></h2>
       <p>An SDR costs $7,500/mo. Plus tooling. Plus management. Outpulse starts at $49. Every plan opens with seven free days — no card, cancel in one click.</p>
     </div>
 
