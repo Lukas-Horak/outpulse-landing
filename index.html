@@ -1852,10 +1852,17 @@ img { max-width: 100%; display: block; }
 .mockup-frame > .app-frame-bar { flex-shrink: 0; }
 
 /* ── First-mockup — sits flush against the hero so the dashboard
-   top edge reads as the immediate scroll reveal. */
+   top edge reads as the immediate scroll reveal. Background is
+   the lavender→peach soft gradient from the live redesign-v2
+   landing, applied so the mockup frame appears to float on a
+   brand-coloured cloud. */
 .first-mockup {
-  background: var(--paper);
-  padding: 0 0 clamp(120px, 14vh, 200px);
+  background:
+    radial-gradient(70% 60% at 100% 100%, rgba(255, 138, 76, 0.42), transparent 65%),
+    radial-gradient(60% 60% at 0% 30%, rgba(138, 118, 184, 0.38), transparent 60%),
+    radial-gradient(50% 80% at 50% 0%, rgba(206, 192, 220, 0.45), transparent 70%),
+    linear-gradient(125deg, #cdc1cd 0%, #c2b6cc 25%, #b8b2c8 45%, #c8b2bc 65%, #e0baa6 100%);
+  padding: 64px 0 clamp(120px, 14vh, 200px);
   position: relative;
 }
 .first-mockup-inner {
