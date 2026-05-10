@@ -1452,16 +1452,19 @@ img { max-width: 100%; display: block; }
   color: rgba(255, 255, 255, 0.78);
 }
 .dark-band-sign .av {
-  width: 28px; height: 28px;
+  width: 36px; height: 36px;
   border-radius: 50%;
-  background: var(--orange);
-  color: #fff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 700;
+  background: var(--ink);
+  display: inline-block;
   flex-shrink: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.dark-band-sign .av img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 .dark-band-sign b {
   color: #fff;
@@ -3728,8 +3731,8 @@ footer.site {
 
     <div class="dark-band-story">
       <p><strong>Founders don't want a sales tool. They want the time back.</strong></p>
-      <p>I was burning eight hours a week writing cold emails by hand. Apollo open in one tab, Lemlist in another, a spreadsheet of prospects, a doc of templates I kept tweaking. Every Monday I'd look up and realise I'd been an SDR all weekend instead of shipping the thing I was supposed to be building.</p>
-      <p>So we built the agent that does the whole loop the way a senior salesperson would. Plain English in. Meetings on the calendar out. <strong>Outpulse runs the part of the work nobody wanted to do — so makers can spend their day making.</strong></p>
+      <p>I was burning eight hours a week on cold outreach instead of shipping. So we built the agent that does the whole loop — plain English in, meetings on the calendar out.</p>
+      <p><strong>Outpulse runs the part nobody wanted to do — so makers can spend their day making.</strong></p>
     </div>
 
     <div class="dark-band-stats">
@@ -3748,7 +3751,7 @@ footer.site {
     </div>
 
     <div class="dark-band-sign">
-      <span class="av">LH</span>
+      <span class="av"><img src="lukas-avatar.png" alt="Lukas Horak"></span>
       <span><b>Lukas Horak</b> · Founder, Outpulse · dogfooding it right now</span>
     </div>
   </div>
