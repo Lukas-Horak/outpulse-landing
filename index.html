@@ -151,20 +151,15 @@ img { max-width: 100%; display: block; }
   color: var(--muted);
 }
 
-/* ── Topbar / nav — dark over the hero, light over content.
-   Stays transparent at top of the page so the dark hero reads
-   as full-bleed. The .scrolled class flips it once the hero
-   ends — we approximate that with a sticky-light treatment via
-   :has + the scroll position. Simpler: just dark always; nav
-   text adapts. */
+/* ── Topbar / nav — sticky light, blurred. */
 .nav {
-  position: absolute;
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
   z-index: 20;
-  background: transparent;
-  border-bottom: none;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  border-bottom: 1px solid var(--line);
 }
 .nav-row {
   display: flex;
@@ -178,7 +173,7 @@ img { max-width: 100%; display: block; }
   align-items: center;
   gap: 12px;
   text-decoration: none;
-  color: #fff;
+  color: var(--ink);
   font-weight: 600;
   font-size: 17px;
   letter-spacing: -.01em;
@@ -188,7 +183,6 @@ img { max-width: 100%; display: block; }
   width: 32px;
   height: 32px;
   background: url('outpulse-logo-dusk.svg') center/contain no-repeat;
-  filter: invert(1);
 }
 .nav-links {
   display: flex;
@@ -197,12 +191,12 @@ img { max-width: 100%; display: block; }
 }
 .nav-links a {
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--ink-2);
   font-size: 14px;
   font-weight: 500;
   transition: color .15s ease;
 }
-.nav-links a:hover { color: #fff; }
+.nav-links a:hover { color: var(--ink); }
 .nav-right {
   display: flex;
   align-items: center;
@@ -211,26 +205,20 @@ img { max-width: 100%; display: block; }
 }
 .nav-login {
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--ink-2);
   font-size: 14px;
   font-weight: 500;
 }
-.nav-login:hover { color: #fff; }
-/* Nav button gets a light treatment on the dark hero ground */
-.nav-right .btn-dark {
-  background: #fff;
-  color: var(--ink);
-  border: none;
-}
-.nav-right .btn-dark:hover { background: rgba(255, 255, 255, 0.88); color: var(--ink); }
+.nav-login:hover { color: var(--ink); }
 
-/* ── Hero — Linear-style. Ink ground, big white display type,
-   text-only. The mockup pulls in on first scroll in its own
-   section below — the hero itself stays minimal. */
+/* ── Hero — light ground, app-style. Big serif headline,
+   short subhead, text-only. The mockup reveals in the section
+   right below. Per design-system: Inter sans / Instrument Serif
+   display, ink on paper. */
 .hero {
-  padding: clamp(120px, 18vh, 220px) 0 clamp(120px, 18vh, 220px);
-  background: var(--ink);
-  color: #fff;
+  padding: clamp(112px, 16vh, 200px) 0 clamp(96px, 14vh, 180px);
+  background: var(--paper);
+  color: var(--ink);
   border-bottom: none;
   position: relative;
 }
@@ -238,39 +226,39 @@ img { max-width: 100%; display: block; }
   max-width: 1280px;
 }
 .hero-text {
-  max-width: 18ch;
+  max-width: 22ch;
 }
 .hero-eyebrow {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: .26em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--muted);
   display: inline-block;
   margin-bottom: 32px;
 }
 .hero h1 {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(56px, 8vw, 120px);
-  line-height: .98;
+  font-size: clamp(64px, 8.5vw, 128px);
+  line-height: .96;
   letter-spacing: -.03em;
   margin: 0 0 40px;
-  color: #fff;
+  color: var(--ink);
 }
 .hero h1 em {
   font-style: italic;
   color: var(--orange);
 }
 .hero-lead {
-  font-size: clamp(18px, 1.5vw, 22px);
+  font-size: clamp(19px, 1.5vw, 22px);
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--ink-2);
   max-width: 56ch;
   margin: 0 0 40px;
 }
 .hero-lead strong {
-  color: #fff;
+  color: var(--ink);
   font-weight: 500;
 }
 .hero-cta-row {
@@ -285,19 +273,10 @@ img { max-width: 100%; display: block; }
   gap: 16px;
   flex-wrap: wrap;
   align-items: center;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--muted);
   font-size: 13px;
 }
-.hero-trust .sep { color: rgba(255, 255, 255, 0.28); }
-.hero .btn-ghost {
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.22);
-  background: transparent;
-}
-.hero .btn-ghost:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.4);
-}
+.hero-trust .sep { color: var(--muted-2); }
 
 
 /* ── Inline Outpulse dashboard — current-design replica.
@@ -731,97 +710,45 @@ img { max-width: 100%; display: block; }
    panel shows. Apollo's tabbed feature showcase, applied to
    Outpulse's three real product surfaces (Dashboard / Prospects /
    Campaigns). */
-.tour {
-  position: relative;
+/* Mockup-section interior tweaks — make Prospects + Campaigns
+   surfaces sit right inside .mockup-frame at fullscreen scale. */
+.mockup-frame .app-mockup,
+.mockup-frame .tour-prospects-table,
+.mockup-frame .tour-campaigns {
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
 }
-.tour input[name="tour"] {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-.tour-tabs {
-  display: inline-flex;
-  background: var(--bg-panel);
-  border: 1px solid var(--line);
-  border-radius: var(--r-pill);
-  padding: 5px;
-  margin-bottom: 28px;
-  gap: 2px;
-}
-.tour-tabs label {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 8px 18px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--muted);
-  cursor: pointer;
-  border-radius: var(--r-pill);
-  transition: background .15s ease, color .15s ease;
-  user-select: none;
-}
-.tour-tabs label:hover { color: var(--ink-2); }
-.tour-tabs label svg {
-  width: 13px; height: 13px;
-  opacity: .8;
-}
-#tour-dashboard:checked ~ .tour-tabs label[for="tour-dashboard"],
-#tour-prospects:checked ~ .tour-tabs label[for="tour-prospects"],
-#tour-campaigns:checked ~ .tour-tabs label[for="tour-campaigns"] {
-  background: var(--paper);
-  color: var(--ink);
-  box-shadow: 0 1px 2px rgba(14, 13, 12, 0.05);
-}
-.tour-panels {
-  position: relative;
-}
-.tour-panel { display: none; }
-#tour-dashboard:checked ~ .tour-panels .tour-panel-dashboard,
-#tour-prospects:checked ~ .tour-panels .tour-panel-prospects,
-#tour-campaigns:checked ~ .tour-panels .tour-panel-campaigns {
-  display: block;
-}
-/* Enlarge tour mockups — Linear-style nearly fullscreen feel.
-   Each panel renders bigger than the band container would suggest;
-   the surrounding container-tour bumps to 1360px. */
-.tour-panel .app-mockup,
-.tour-panel .tour-prospects-table,
-.tour-panel .tour-campaigns {
-  border-radius: var(--r-xl);
-  box-shadow:
-    0 60px 120px -32px rgba(14, 13, 12, 0.32),
-    0 24px 48px -12px rgba(14, 13, 12, 0.14);
-}
-.tour-panel .app-mockup .app-frame-bar,
-.tour-panel .tour-prospects-table .tour-prospects-bar {
+.mockup-frame .app-frame-bar,
+.mockup-frame .tour-prospects-bar {
   padding: 14px 22px;
 }
-.tour-panel .app-mockup .app-body { padding: 32px 36px 36px; }
-.tour-panel .app-mockup .app-title { font-size: 30px; }
-.tour-panel .pulse-card { padding: 26px 28px 24px; gap: 22px; }
-.tour-panel .pulse-col-n { font-size: 40px; }
-.tour-panel .pulse-funnel .stage { padding: 14px 16px; }
-.tour-panel .pulse-funnel .stage-val { font-size: 24px; }
-.tour-panel .tour-prospect-row { padding: 18px 24px; }
-.tour-panel .tour-prospects-bar h3 { font-size: 22px; }
-.tour-panel .tour-csum-card { padding: 18px 20px; }
-.tour-panel .tour-csum-card .val { font-size: 36px; }
-.tour-panel .tour-ccard { padding: 26px 28px; gap: 18px; }
-.tour-panel .tour-ccard-title { font-size: 26px; }
-.tour-panel .tour-ccard-funnel .f .val { font-size: 26px; }
-.tour-panel-caption {
-  margin-top: 22px;
+.mockup-frame .app-body { padding: 32px 36px 40px; }
+.mockup-frame .app-title { font-size: 32px; }
+.mockup-frame .pulse-card { padding: 26px 28px 24px; gap: 22px; border-radius: var(--r-lg); }
+.mockup-frame .pulse-col-n { font-size: 40px; }
+.mockup-frame .pulse-funnel .stage { padding: 14px 16px; }
+.mockup-frame .pulse-funnel .stage-val { font-size: 24px; }
+.mockup-frame .tour-prospect-row { padding: 18px 24px; }
+.mockup-frame .tour-prospects-bar h3 { font-size: 22px; }
+.mockup-frame .tour-csum-card { padding: 18px 20px; border-radius: var(--r-md); }
+.mockup-frame .tour-csum-card .val { font-size: 36px; }
+.mockup-frame .tour-ccard { padding: 26px 28px; gap: 18px; border-radius: var(--r-lg); }
+.mockup-frame .tour-ccard-title { font-size: 26px; }
+.mockup-frame .tour-ccard-funnel .f .val { font-size: 26px; }
+.mockup-frame .tour-campaigns { padding: 32px 36px; gap: 18px; }
+.mockup-section-caption {
+  margin-top: 28px;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 28px;
   flex-wrap: wrap;
 }
-.tour-panel-caption .text {
+.mockup-section-caption .text {
   max-width: 60ch;
 }
-.tour-panel-caption h3 {
+.mockup-section-caption h3 {
   font-family: var(--serif);
   font-weight: 400;
   font-size: 24px;
@@ -830,17 +757,17 @@ img { max-width: 100%; display: block; }
   color: var(--ink);
   margin: 0 0 6px;
 }
-.tour-panel-caption h3 em {
+.mockup-section-caption h3 em {
   font-style: italic;
   color: var(--ink);
 }
-.tour-panel-caption p {
+.mockup-section-caption p {
   font-size: 15px;
   line-height: 1.55;
   color: var(--muted);
   margin: 0;
 }
-.tour-panel-caption .meta {
+.mockup-section-caption .meta {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -849,7 +776,7 @@ img { max-width: 100%; display: block; }
   text-align: right;
   white-space: nowrap;
 }
-.tour-panel-caption .meta b {
+.mockup-section-caption .meta b {
   font-weight: 600;
   color: var(--ink-2);
 }
@@ -1365,14 +1292,65 @@ img { max-width: 100%; display: block; }
   font-weight: 600;
 }
 
-/* ── First-scroll mockup — Linear-style. Big nearly-full-width
-   browser-frame containing the dashboard, pulled up over the
-   hero/section seam so it reads as "the product reveal".
-   The negative top margin lifts the frame into the dark hero,
-   creating that "pulled in on first scroll" feel without JS. */
+/* ── Mockup section — generic full-width browser-frame block.
+   Used for the 3 standalone product-surface showcases below
+   the hero (Dashboard, Prospects, Campaigns). Each one has its
+   own band-head above and a big mockup below, Linear-style. */
+.mockup-section {
+  background: var(--paper);
+  padding: clamp(96px, 12vh, 160px) 0 clamp(96px, 12vh, 160px);
+  border-top: 1px solid var(--line);
+}
+.mockup-section.bg-panel { background: var(--bg-panel); }
+.mockup-inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.mockup-head {
+  max-width: 720px;
+  margin: 0 auto clamp(48px, 6vh, 80px);
+  text-align: center;
+}
+.mockup-head .eyebrow {
+  display: inline-block;
+  margin-bottom: 14px;
+}
+.mockup-head h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(44px, 5vw, 72px);
+  line-height: 1.04;
+  letter-spacing: -.02em;
+  margin: 0 0 18px;
+  color: var(--ink);
+}
+.mockup-head h2 em {
+  font-style: italic;
+  color: var(--ink);
+}
+.mockup-head p {
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.55;
+  max-width: 56ch;
+  margin: 0 auto;
+}
+.mockup-frame {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  box-shadow:
+    0 60px 120px -30px rgba(14, 13, 12, 0.18),
+    0 24px 48px -12px rgba(14, 13, 12, 0.08);
+}
+
+/* ── First-mockup compatibility — reuses the new mockup-section
+   pattern. The hero is light now so no negative margin lift. */
 .first-mockup {
-  background: var(--bg);
-  padding: 0 0 clamp(80px, 10vh, 140px);
+  background: var(--paper);
+  padding: 0 0 clamp(96px, 12vh, 160px);
   position: relative;
 }
 .first-mockup-inner {
@@ -1381,14 +1359,14 @@ img { max-width: 100%; display: block; }
   padding: 0 32px;
 }
 .first-mockup .browser-frame {
-  margin-top: clamp(-200px, -16vh, -120px);
+  margin-top: clamp(-72px, -6vh, -32px);
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--r-xl);
   overflow: hidden;
   box-shadow:
-    0 60px 120px -30px rgba(14, 13, 12, 0.45),
-    0 24px 48px -12px rgba(14, 13, 12, 0.18);
+    0 60px 120px -30px rgba(14, 13, 12, 0.18),
+    0 24px 48px -12px rgba(14, 13, 12, 0.08);
 }
 .first-mockup .app-frame-bar {
   padding: 14px 20px;
@@ -1436,10 +1414,10 @@ section.band.bg-panel { background: var(--bg-panel); }
 .band-head h2 {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(36px, 4.4vw, 60px);
-  line-height: 1.04;
-  letter-spacing: -.02em;
-  margin: 14px 0 20px;
+  font-size: clamp(48px, 5.5vw, 80px);
+  line-height: 1.02;
+  letter-spacing: -.025em;
+  margin: 14px 0 24px;
   color: var(--ink);
 }
 .band-head h2 em {
@@ -2066,9 +2044,9 @@ footer.site {
   .tour-ccard-title { font-size: 18px; }
   .tour-ccard-funnel { grid-template-columns: repeat(2, 1fr); gap: 8px; padding-top: 12px; }
   .tour-ccard-funnel .f .val { font-size: 18px; }
-  .tour-panel-caption h3 { font-size: 19px; }
-  .tour-panel-caption p { font-size: 14px; }
-  .tour-panel-caption .meta { text-align: left; }
+  .mockup-section-caption h3 { font-size: 19px; }
+  .mockup-section-caption p { font-size: 14px; }
+  .mockup-section-caption .meta { text-align: left; }
 
   /* Section heads */
   .band-head h2 { font-size: clamp(28px, 7vw, 40px); }
@@ -2270,272 +2248,168 @@ footer.site {
   </div>
 </section>
 
-<!-- ─── PRODUCT TOUR — Linear-style tabbed showcase.
-     Three faithful inline mockups of the actual product surfaces
-     (Dashboard / Prospects / Campaigns), switchable via radio-input
-     labels (pure CSS, no JS). Each tab swaps the whole big surface.
-     Same pattern Apollo uses for its product showcase, applied to
-     the three real Outpulse views the prospects in the email will
-     see after signup. -->
-<section class="band bg-panel tour-section" id="tour">
-  <div class="container container-tour">
-    <div class="band-head">
-      <span class="eyebrow">The actual product</span>
-      <h2>One app. <em>Every step of outbound.</em></h2>
-      <p>Discover the people. Send the email. Watch what happens. The whole loop on one screen — exactly what you'd build if you weren't trying to also ship a product.</p>
+<!-- ─── PROSPECTS MOCKUP — full-width section, Linear-style.
+     Real prospects table with avatar pills, intent signal chips,
+     verified email badges. One of three standalone mockup
+     sections; the Dashboard mockup is already shown above as
+     first-mockup, the Campaigns mockup follows next. -->
+<section class="mockup-section" id="tour-prospects">
+  <div class="mockup-inner">
+    <div class="mockup-head">
+      <span class="eyebrow">Prospects</span>
+      <h2>Not a list. <em>A live signal feed.</em></h2>
+      <p>275M verified contacts filtered by your one-sentence ICP, decorated with what's actually happening at the company — hiring, raising, migrating. Every row is a reason to email.</p>
     </div>
 
-    <div class="tour">
-      <input type="radio" name="tour" id="tour-dashboard" checked>
-      <input type="radio" name="tour" id="tour-prospects">
-      <input type="radio" name="tour" id="tour-campaigns">
-
-      <div class="tour-tabs" role="tablist">
-        <label for="tour-dashboard">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
-          Dashboard
-        </label>
-        <label for="tour-prospects">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2M16 3.13a4 4 0 0 1 0 7.75M22 21v-2a4 4 0 0 0-3-3.85"/></svg>
-          Prospects
-        </label>
-        <label for="tour-campaigns">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v12H5l-2 4z"/><path d="M7 8h10M7 12h6"/></svg>
-          Campaigns
-        </label>
+    <div class="mockup-frame">
+      <div class="tour-prospects-table">
+        <div class="tour-prospects-bar">
+          <div class="title">
+            <h3>Prospects</h3>
+            <span class="count-pill">1,428 enriched</span>
+          </div>
+          <div class="tour-prospects-chips">
+            <span class="tour-chip"><span class="dot"></span>Persona: CTO · VP Eng</span>
+            <span class="tour-chip violet"><span class="dot"></span>Size: 50–500</span>
+          </div>
+        </div>
+        <div class="tour-prospects-rows">
+          <div class="tour-prospect-row">
+            <div class="tour-prospect-who">
+              <span class="av">SC</span>
+              <div class="text">
+                <span class="name">Sarah Chen</span>
+                <span class="role">VP Engineering · Vercel</span>
+              </div>
+            </div>
+            <div class="tour-prospect-email">
+              <span class="addr">s.chen@vercel.com</span>
+              <span class="verified"><span class="d"></span>Verified</span>
+            </div>
+            <div class="tour-prospect-signals">
+              <span class="tour-signal"><span class="d"></span>Hiring 12 engineers</span>
+              <span class="tour-signal warm">Series C · $120M</span>
+            </div>
+            <div class="tour-prospect-added">today</div>
+          </div>
+          <div class="tour-prospect-row">
+            <div class="tour-prospect-who">
+              <span class="av">MW</span>
+              <div class="text">
+                <span class="name">Marcus Webb</span>
+                <span class="role">CEO · Linear</span>
+              </div>
+            </div>
+            <div class="tour-prospect-email">
+              <span class="addr">marcus@linear.app</span>
+              <span class="verified"><span class="d"></span>Verified</span>
+            </div>
+            <div class="tour-prospect-signals">
+              <span class="tour-signal cool"><span class="d"></span>New product launch</span>
+              <span class="tour-signal">Hiring sales</span>
+            </div>
+            <div class="tour-prospect-added">2d ago</div>
+          </div>
+          <div class="tour-prospect-row">
+            <div class="tour-prospect-who">
+              <span class="av">AK</span>
+              <div class="text">
+                <span class="name">Anna Kovacs</span>
+                <span class="role">CTO · Stripe</span>
+              </div>
+            </div>
+            <div class="tour-prospect-email">
+              <span class="addr">a.kovacs@stripe.com</span>
+              <span class="verified"><span class="d"></span>Verified</span>
+            </div>
+            <div class="tour-prospect-signals">
+              <span class="tour-signal"><span class="d"></span>Stack migration</span>
+              <span class="tour-signal warm">Series D</span>
+            </div>
+            <div class="tour-prospect-added">2d ago</div>
+          </div>
+          <div class="tour-prospect-row">
+            <div class="tour-prospect-who">
+              <span class="av">DP</span>
+              <div class="text">
+                <span class="name">David Park</span>
+                <span class="role">Founder · Plausible</span>
+              </div>
+            </div>
+            <div class="tour-prospect-email">
+              <span class="addr">david@plausible.io</span>
+              <span class="verified"><span class="d"></span>Verified</span>
+            </div>
+            <div class="tour-prospect-signals">
+              <span class="tour-signal cool"><span class="d"></span>Intent: pricing page</span>
+            </div>
+            <div class="tour-prospect-added">3d ago</div>
+          </div>
+        </div>
       </div>
+    </div>
+  </div>
+</section>
 
-      <div class="tour-panels">
+<!-- ─── CAMPAIGNS MOCKUP — full-width section, Linear-style.
+     Real campaign analytics card with KPI strip, status flag,
+     14-day progress, full funnel from sent to meeting. -->
+<section class="mockup-section bg-panel" id="tour-campaigns">
+  <div class="mockup-inner">
+    <div class="mockup-head">
+      <span class="eyebrow">Campaigns</span>
+      <h2>Every campaign, every step. <em>One screen.</em></h2>
+      <p>Status, audience, daily send progress, full funnel from sent to meeting. Watch the winners pull ahead and clone them in one click.</p>
+    </div>
 
-        <!-- TOUR · DASHBOARD ─────────────────────────────── -->
-        <div class="tour-panel tour-panel-dashboard">
-          <div class="app-mockup">
-            <div class="app-frame-bar">
-              <div class="dots"><span></span><span></span><span></span></div>
-              <div class="url-pill">
-                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1a4 4 0 014 4v3h1a3 3 0 013 3v9a3 3 0 01-3 3H7a3 3 0 01-3-3v-9a3 3 0 013-3h1V5a4 4 0 014-4zm0 2a2 2 0 00-2 2v3h4V5a2 2 0 00-2-2z"/></svg>
-                app.outpulse.ai/dashboard
-              </div>
-              <div style="width:48px"></div>
-            </div>
-            <div class="app-body">
-              <div class="app-topbar">
-                <div class="app-topbar-left">
-                  <span class="app-greeting">Good evening, Lukas</span>
-                  <h3 class="app-title">Strong week — <em>two more to close.</em></h3>
-                </div>
-                <div class="app-actions">
-                  <span class="app-btn-ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>Discover</span>
-                  <span class="app-btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Start outreach</span>
-                </div>
-              </div>
-              <div class="pulse-card">
-                <div class="pulse-top">
-                  <span class="pulse-eyebrow"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>Your Pulse</span>
-                  <span class="pulse-status"><span class="d"></span>On pace</span>
-                </div>
-                <div class="pulse-grid">
-                  <div class="col">
-                    <span class="pulse-col-lbl">Closed deals</span>
-                    <span class="pulse-col-n">3<span class="frac">/5</span></span>
-                    <span class="pulse-col-sub">2 to go this quarter</span>
-                  </div>
-                  <div class="rule"></div>
-                  <div class="col">
-                    <span class="pulse-col-lbl">Revenue booked</span>
-                    <span class="pulse-col-n">$54k<span class="frac"> /$90k</span></span>
-                    <span class="pulse-col-sub">Q2 revenue target</span>
-                  </div>
-                </div>
-                <div class="pulse-bar"><span class="fill" style="width:60%"></span></div>
-                <div class="pulse-progress">
-                  <span>60% complete</span>
-                  <span>14 days left · ends 14 May</span>
-                </div>
-                <div class="pulse-funnel">
-                  <div class="stage"><span class="stage-val">1,842<span class="frac">/1,200</span></span><span class="stage-lbl">Visits</span></div>
-                  <div class="stage"><span class="stage-val">142</span><span class="stage-lbl">Inquiries</span></div>
-                  <div class="stage"><span class="stage-val">38</span><span class="stage-lbl">Calls</span></div>
-                  <div class="stage"><span class="stage-val">3<span class="frac">/5</span></span><span class="stage-lbl">Closed</span></div>
-                </div>
-              </div>
-            </div>
+    <div class="mockup-frame">
+      <div class="tour-campaigns">
+        <div class="tour-csum">
+          <div class="tour-csum-card orange">
+            <span class="lbl">Active campaigns</span>
+            <span class="val">4<span class="frac">/7</span></span>
+            <span class="sub">5 services · 2 product</span>
           </div>
-          <div class="tour-panel-caption">
-            <div class="text">
-              <h3>One number — <em>the only one you wanted</em>.</h3>
-              <p>Set a revenue target. Watch your funnel fill itself. The Pulse card shows you exactly where the gap closes — and how many days you have left to close it.</p>
-            </div>
-            <div class="meta">
-              <span><b>Real-time</b></span>
-              <span>Updates on every signal</span>
-            </div>
+          <div class="tour-csum-card blue">
+            <span class="lbl">Sent this week</span>
+            <span class="val">2,284</span>
+            <span class="sub"><span class="arr">↑ 18%</span>vs last week</span>
+          </div>
+          <div class="tour-csum-card green">
+            <span class="lbl">Meetings booked</span>
+            <span class="val">75</span>
+            <span class="sub"><span class="arr">↑ 14</span>this week · 10.7% reply</span>
+          </div>
+          <div class="tour-csum-card violet">
+            <span class="lbl">Trials + paid</span>
+            <span class="val">42<span class="frac"> +7</span></span>
+            <span class="sub"><span class="arr">$12.8k</span>MRR attributed</span>
           </div>
         </div>
 
-        <!-- TOUR · PROSPECTS ─────────────────────────────── -->
-        <div class="tour-panel tour-panel-prospects">
-          <div class="tour-prospects-table">
-            <div class="tour-prospects-bar">
-              <div class="title">
-                <h3>Prospects</h3>
-                <span class="count-pill">1,428 enriched</span>
-              </div>
-              <div class="tour-prospects-chips">
-                <span class="tour-chip"><span class="dot"></span>Persona: CTO · VP Eng</span>
-                <span class="tour-chip violet"><span class="dot"></span>Size: 50–500</span>
-              </div>
+        <div class="tour-ccard">
+          <div class="tour-ccard-head">
+            <div class="tour-ccard-meta">
+              <span class="tour-ccard-status"><span class="d"></span>Running · 14 days</span>
+              <h3 class="tour-ccard-title">Series B CTOs · Q2 push</h3>
+              <span class="tour-ccard-aud"><b>418 prospects</b> · CTOs / VP Engineering at SaaS Series B+ · EU + US</span>
             </div>
-            <div class="tour-prospects-rows">
-              <div class="tour-prospect-row">
-                <div class="tour-prospect-who">
-                  <span class="av">SC</span>
-                  <div class="text">
-                    <span class="name">Sarah Chen</span>
-                    <span class="role">VP Engineering · Vercel</span>
-                  </div>
-                </div>
-                <div class="tour-prospect-email">
-                  <span class="addr">s.chen@vercel.com</span>
-                  <span class="verified"><span class="d"></span>Verified</span>
-                </div>
-                <div class="tour-prospect-signals">
-                  <span class="tour-signal"><span class="d"></span>Hiring 12 engineers</span>
-                  <span class="tour-signal warm">Series C · $120M</span>
-                </div>
-                <div class="tour-prospect-added">today</div>
-              </div>
-              <div class="tour-prospect-row">
-                <div class="tour-prospect-who">
-                  <span class="av" style="background:linear-gradient(135deg,#3866a6,#5b8ec8)">MW</span>
-                  <div class="text">
-                    <span class="name">Marcus Webb</span>
-                    <span class="role">CEO · Linear</span>
-                  </div>
-                </div>
-                <div class="tour-prospect-email">
-                  <span class="addr">marcus@linear.app</span>
-                  <span class="verified"><span class="d"></span>Verified</span>
-                </div>
-                <div class="tour-prospect-signals">
-                  <span class="tour-signal cool"><span class="d"></span>New product launch</span>
-                  <span class="tour-signal">Hiring sales</span>
-                </div>
-                <div class="tour-prospect-added">2d ago</div>
-              </div>
-              <div class="tour-prospect-row">
-                <div class="tour-prospect-who">
-                  <span class="av" style="background:linear-gradient(135deg,#ff5b1f,#ff8649)">AK</span>
-                  <div class="text">
-                    <span class="name">Anna Kovacs</span>
-                    <span class="role">CTO · Stripe</span>
-                  </div>
-                </div>
-                <div class="tour-prospect-email">
-                  <span class="addr">a.kovacs@stripe.com</span>
-                  <span class="verified"><span class="d"></span>Verified</span>
-                </div>
-                <div class="tour-prospect-signals">
-                  <span class="tour-signal"><span class="d"></span>Stack migration</span>
-                  <span class="tour-signal warm">Series D</span>
-                </div>
-                <div class="tour-prospect-added">2d ago</div>
-              </div>
-              <div class="tour-prospect-row">
-                <div class="tour-prospect-who">
-                  <span class="av" style="background:linear-gradient(135deg,#8a76b8,#a594c6)">DP</span>
-                  <div class="text">
-                    <span class="name">David Park</span>
-                    <span class="role">Founder · Plausible</span>
-                  </div>
-                </div>
-                <div class="tour-prospect-email">
-                  <span class="addr">david@plausible.io</span>
-                  <span class="verified"><span class="d"></span>Verified</span>
-                </div>
-                <div class="tour-prospect-signals">
-                  <span class="tour-signal cool"><span class="d"></span>Intent: pricing page</span>
-                </div>
-                <div class="tour-prospect-added">3d ago</div>
-              </div>
-            </div>
+            <span class="tour-ccard-flag"><span class="d"></span>Winning</span>
           </div>
-          <div class="tour-panel-caption">
-            <div class="text">
-              <h3>Not a list. <em>A live signal feed.</em></h3>
-              <p>275M verified contacts, filtered by your one-sentence ICP and decorated with what's actually happening at their company — hiring, raising, migrating, browsing. Every row is a reason to email.</p>
+          <div class="tour-ccard-progress">
+            <div class="top">
+              <span>14-day send</span>
+              <span><b>1,284</b> / 1,672 sent</span>
             </div>
-            <div class="meta">
-              <span><b>275M</b></span>
-              <span>Verified contacts</span>
-            </div>
+            <div class="bar"><span class="fill"></span></div>
+          </div>
+          <div class="tour-ccard-funnel">
+            <div class="f up"><span class="lbl">Sent</span><span class="val">1,284</span><span class="delta">on pace</span></div>
+            <div class="f up"><span class="lbl">Opens</span><span class="val">812</span><span class="delta">63.2%</span></div>
+            <div class="f up"><span class="lbl">Replies</span><span class="val">138</span><span class="delta">10.7%</span></div>
+            <div class="f up"><span class="lbl">Meetings</span><span class="val">42</span><span class="delta">+6 this week</span></div>
           </div>
         </div>
-
-        <!-- TOUR · CAMPAIGNS ─────────────────────────────── -->
-        <div class="tour-panel tour-panel-campaigns">
-          <div class="tour-campaigns">
-
-            <div class="tour-csum">
-              <div class="tour-csum-card orange">
-                <span class="lbl">Active campaigns</span>
-                <span class="val">4<span class="frac">/7</span></span>
-                <span class="sub">5 services · 2 product</span>
-              </div>
-              <div class="tour-csum-card blue">
-                <span class="lbl">Sent this week</span>
-                <span class="val">2,284</span>
-                <span class="sub"><span class="arr">↑ 18%</span>vs last week</span>
-              </div>
-              <div class="tour-csum-card green">
-                <span class="lbl">Meetings booked</span>
-                <span class="val">75</span>
-                <span class="sub"><span class="arr">↑ 14</span>this week · 10.7% reply</span>
-              </div>
-              <div class="tour-csum-card violet">
-                <span class="lbl">Trials + paid</span>
-                <span class="val">42<span class="frac"> +7</span></span>
-                <span class="sub"><span class="arr">$12.8k</span>MRR attributed</span>
-              </div>
-            </div>
-
-            <div class="tour-ccard">
-              <div class="tour-ccard-head">
-                <div class="tour-ccard-meta">
-                  <span class="tour-ccard-status"><span class="d"></span>Running · 14 days</span>
-                  <h3 class="tour-ccard-title">Series B CTOs · Q2 push</h3>
-                  <span class="tour-ccard-aud"><b>418 prospects</b> · CTOs / VP Engineering at SaaS Series B+ · EU + US</span>
-                </div>
-                <span class="tour-ccard-flag"><span class="d"></span>Winning</span>
-              </div>
-              <div class="tour-ccard-progress">
-                <div class="top">
-                  <span>14-day send</span>
-                  <span><b>1,284</b> / 1,672 sent</span>
-                </div>
-                <div class="bar"><span class="fill"></span></div>
-              </div>
-              <div class="tour-ccard-funnel">
-                <div class="f up"><span class="lbl">Sent</span><span class="val">1,284</span><span class="delta">on pace</span></div>
-                <div class="f up"><span class="lbl">Opens</span><span class="val">812</span><span class="delta">63.2%</span></div>
-                <div class="f up"><span class="lbl">Replies</span><span class="val">138</span><span class="delta">10.7%</span></div>
-                <div class="f up"><span class="lbl">Meetings</span><span class="val">42</span><span class="delta">+6 this week</span></div>
-              </div>
-            </div>
-
-          </div>
-          <div class="tour-panel-caption">
-            <div class="text">
-              <h3>Every campaign, every step. <em>One screen.</em></h3>
-              <p>Each campaign reads as a card: status, audience, daily send progress, full funnel from sent to meeting. Watch the winners pull ahead and clone them in one click.</p>
-            </div>
-            <div class="meta">
-              <span><b>Auto-optimizing</b></span>
-              <span>AI rewrites losing copy every 6h</span>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
   </div>
