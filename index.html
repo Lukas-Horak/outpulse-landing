@@ -57,41 +57,25 @@
   --blue-3: #8db8d8;
   --ice: #bcd6e8;
 
-  /* Brand — middle (AI / signal — per brand book §6) */
+  /* Brand — middle (AI / signal — per brand book §6, used sparingly) */
   --violet: #8a76b8;
-  --violet-2: #a594c6;
-  --violet-soft: #c9b8db;
+  --violet-soft: #f2edf8;
 
   /* Status */
   --green: #1a7c4b;
   --green-soft: #eaf4ee;
 
-  /* Gradient (storytelling: cold → violet → warm).
-     Violet is the AI/signal middle — between the prospect (blue) and
-     the customer (orange). Brand book §6 calls it Amethyst. */
-  --grad-spectrum: linear-gradient(95deg,
-    #3866a6 0%,
-    #5b8ec8 14%,
-    #7c83bf 28%,
-    #8a76b8 40%,
-    #b694c4 50%,
-    #d6a0a8 60%,
-    #ff8649 76%,
-    #ff5b1f 100%);
-  --grad-warm: linear-gradient(135deg, #ff5b1f 0%, #ff8649 35%, #ffba85 70%, #ffd9b8 100%);
-  --grad-cold: linear-gradient(135deg, #3866a6 0%, #5b8ec8 35%, #8db8d8 70%, #bcd6e8 100%);
-  --grad-violet: linear-gradient(135deg, #3866a6 0%, #8a76b8 50%, #ff5b1f 100%);
-
   /* Type */
   --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --serif: 'Instrument Serif', 'Times New Roman', Georgia, serif;
 
-  /* Spacing — 8-point grid */
+  /* Spacing — 8-point grid, generous at the top so sections breathe */
   --s-xs: 8px;
   --s-sm: 16px;
   --s-md: 24px;
   --s-lg: 48px;
   --s-xl: 96px;
+  --s-2xl: 160px;
 
   /* Radii */
   --r-sm: 8px;
@@ -226,25 +210,18 @@ img { max-width: 100%; display: block; }
 }
 .nav-login:hover { color: var(--ink); }
 
-/* ── Hero — Apollo-style 2-col composition.
-   Text occupies the left column, a faithful inline replica of the
-   current Outpulse dashboard occupies the right. Below the grid:
-   a full-width cold→violet→warm spectrum bar separating the hero
-   from the section flow. The spectrum stays — that's the brand
-   narrative device — but it sits BELOW the lead row so it doesn't
-   compete with the product mockup for attention. */
+/* ── Hero — Apollo/Linear 2-col, minimalist.
+   Plain paper background — no radial glows, no spectrum bar.
+   One thing per screen: the headline and the mockup. */
 .hero {
-  padding: clamp(56px, 9vh, 112px) 0 clamp(48px, 7vh, 88px);
-  background:
-    radial-gradient(60% 80% at 100% 100%, rgba(255, 138, 76, 0.06), transparent 60%),
-    radial-gradient(50% 70% at 0% 30%, rgba(138, 118, 184, 0.06), transparent 60%),
-    var(--paper);
+  padding: clamp(80px, 12vh, 160px) 0 clamp(80px, 12vh, 160px);
+  background: var(--paper);
   border-bottom: 1px solid var(--line);
 }
 .hero-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-  gap: clamp(32px, 5vw, 64px);
+  gap: clamp(48px, 6vw, 96px);
   align-items: center;
 }
 .hero-text {
@@ -255,9 +232,9 @@ img { max-width: 100%; display: block; }
   font-weight: 600;
   letter-spacing: .26em;
   text-transform: uppercase;
-  color: var(--orange);
+  color: var(--muted);
   display: inline-block;
-  margin-bottom: 22px;
+  margin-bottom: 28px;
 }
 .hero h1 {
   font-family: var(--serif);
@@ -294,37 +271,6 @@ img { max-width: 100%; display: block; }
 }
 .hero-trust .sep { color: var(--muted-2); }
 
-/* Spectrum — full-width below the hero grid */
-.hero-spectrum-wrap {
-  margin-top: clamp(48px, 6vh, 80px);
-}
-.hero-spectrum {
-  height: 12px;
-  border-radius: var(--r-pill);
-  background: var(--grad-spectrum);
-  box-shadow: 0 12px 36px -14px rgba(60, 30, 50, 0.3);
-}
-.hero-spectrum-labels {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 12px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.hero-spectrum-labels b { color: var(--blue); font-weight: 600; }
-.hero-spectrum-labels i { font-style: normal; color: var(--orange); }
-.hero-spectrum-labels .mid {
-  color: var(--violet);
-  font-style: italic;
-  font-family: var(--serif);
-  font-weight: 400;
-  letter-spacing: .04em;
-  text-transform: none;
-  font-size: 12px;
-}
 
 /* ── Inline Outpulse dashboard — current-design replica.
    Faithful to /app/(dashboard)/dashboard — same topbar greeting +
@@ -410,7 +356,7 @@ img { max-width: 100%; display: block; }
 }
 .app-title em {
   font-style: italic;
-  color: var(--orange);
+  color: var(--ink);
 }
 .app-actions {
   display: flex;
@@ -445,7 +391,7 @@ img { max-width: 100%; display: block; }
 
 /* App Pulse goal widget */
 .app-pulse {
-  background: linear-gradient(135deg, rgba(255, 91, 31, 0.04), rgba(138, 118, 184, 0.04));
+  background: var(--bg-panel);
   border: 1px solid var(--line);
   border-radius: var(--r-md);
   padding: 14px 16px;
@@ -472,7 +418,7 @@ img { max-width: 100%; display: block; }
   letter-spacing: -.015em;
   color: var(--ink);
 }
-.app-pulse .val em { font-style: italic; color: var(--orange); }
+.app-pulse .val em { font-style: italic; color: var(--ink); }
 .app-pulse .bar {
   position: relative;
   height: 8px;
@@ -484,7 +430,7 @@ img { max-width: 100%; display: block; }
 .app-pulse .bar-fill {
   position: absolute;
   inset: 0 22% 0 0;
-  background: var(--grad-spectrum);
+  background: var(--ink);
   border-radius: var(--r-pill);
 }
 .app-pulse .badge {
@@ -568,14 +514,12 @@ img { max-width: 100%; display: block; }
   align-self: flex-start;
   white-space: nowrap;
 }
+/* KPI accent — dots stay colored as small semantic markers,
+   chips stay neutral (less color noise across the page). */
 .app-kpi.green .dot { background: var(--green); }
-.app-kpi.green .chip { background: #eef6f1; border-color: #dbeae2; color: var(--green); }
 .app-kpi.orange .dot { background: var(--orange); }
-.app-kpi.orange .chip { background: #fdf1e7; border-color: #f3dec9; color: var(--orange); }
 .app-kpi.blue .dot { background: var(--blue); }
-.app-kpi.blue .chip { background: #ecf1f8; border-color: #d8e3ef; color: var(--blue); }
 .app-kpi.violet .dot { background: var(--violet); }
-.app-kpi.violet .chip { background: #f0ecf5; border-color: #ded4ea; color: var(--violet); }
 
 /* ── Pulse hero card — faithful to prototype-minimal.html.
    The richer composition that the flat 4-KPI row was trying to be.
@@ -589,18 +533,7 @@ img { max-width: 100%; display: block; }
   display: flex;
   flex-direction: column;
   gap: 18px;
-  position: relative;
-  overflow: hidden;
 }
-.pulse-card::before {
-  content: '';
-  position: absolute;
-  top: 0; right: 0;
-  width: 240px; height: 240px;
-  background: radial-gradient(circle at 100% 0%, rgba(255, 91, 31, 0.06), transparent 65%);
-  pointer-events: none;
-}
-.pulse-card > * { position: relative; z-index: 1; }
 .pulse-top {
   display: flex;
   align-items: center;
@@ -619,7 +552,7 @@ img { max-width: 100%; display: block; }
 }
 .pulse-eyebrow svg {
   width: 12px; height: 12px;
-  color: var(--orange);
+  color: var(--muted);
 }
 .pulse-status {
   display: inline-flex;
@@ -683,7 +616,7 @@ img { max-width: 100%; display: block; }
 .pulse-bar .fill {
   position: absolute;
   inset: 0;
-  background: var(--grad-spectrum);
+  background: var(--ink);
   border-radius: var(--r-pill);
 }
 .pulse-progress {
@@ -843,7 +776,7 @@ img { max-width: 100%; display: block; }
 }
 .tour-panel-caption h3 em {
   font-style: italic;
-  color: var(--orange);
+  color: var(--ink);
 }
 .tour-panel-caption p {
   font-size: 15px;
@@ -948,16 +881,17 @@ img { max-width: 100%; display: block; }
   min-width: 0;
 }
 .tour-prospect-who .av {
-  width: 30px; height: 30px;
+  width: 32px; height: 32px;
   border-radius: 50%;
-  background: var(--grad-violet);
-  color: #fff;
+  background: var(--bg-subtle);
+  color: var(--ink);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-size: 11px;
   font-weight: 600;
   flex-shrink: 0;
+  border: 1px solid var(--line);
 }
 .tour-prospect-who .text {
   display: flex;
@@ -1201,7 +1135,7 @@ img { max-width: 100%; display: block; }
 .tour-ccard-progress .bar .fill {
   position: absolute;
   inset: 0 23% 0 0;
-  background: var(--grad-spectrum);
+  background: var(--ink);
   border-radius: var(--r-pill);
 }
 .tour-ccard-funnel {
@@ -1262,14 +1196,14 @@ img { max-width: 100%; display: block; }
 .stat-num {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(48px, 5vw, 72px);
-  line-height: .98;
+  font-size: clamp(56px, 5.5vw, 80px);
+  line-height: .96;
   letter-spacing: -.025em;
   color: var(--ink);
 }
 .stat-num em {
   font-style: italic;
-  color: var(--orange);
+  color: var(--ink);
 }
 .stat-headline {
   font-family: var(--serif);
@@ -1287,29 +1221,16 @@ img { max-width: 100%; display: block; }
   margin-top: 2px;
 }
 
-/* ── Dark band — photo + text 2-col composition.
-   Editorial-magazine spread on ink ground. Lifestyle photograph
-   on the left says "this is what Outpulse customers' afternoons
-   look like — they're somewhere else, the agent is reaching
-   out". Text + founder quote on the right says it in words.
-   Brand voice §08: short, signal-first-line, no shouting. */
+/* ── Dark band — photo + text 2-col, minimalist ink ground.
+   No radial gradient overlays. No orange accents. Just flat ink,
+   one editorial photograph, and a quiet founder statement. */
 .dark-band {
-  padding: clamp(72px, 10vh, 140px) 0;
+  padding: clamp(120px, 14vh, 200px) 0;
   background: var(--ink);
   color: #fff;
   border-top: 1px solid var(--ink);
   border-bottom: 1px solid var(--ink);
   position: relative;
-  overflow: hidden;
-}
-.dark-band::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(60% 70% at 100% 0%, rgba(255, 91, 31, 0.16), transparent 60%),
-    radial-gradient(50% 60% at 0% 100%, rgba(138, 118, 184, 0.12), transparent 60%);
-  pointer-events: none;
 }
 .dark-band-inner {
   position: relative;
@@ -1325,31 +1246,16 @@ img { max-width: 100%; display: block; }
 }
 .dark-band-photo {
   position: relative;
-  border-radius: var(--r-lg);
+  border-radius: var(--r-md);
   overflow: hidden;
   aspect-ratio: 3 / 4;
   background: #1a1714;
-  box-shadow:
-    0 40px 80px -20px rgba(0, 0, 0, 0.4),
-    0 16px 32px -8px rgba(255, 91, 31, 0.06);
 }
 .dark-band-photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-}
-.dark-band-photo::after {
-  /* Subtle warm vignette so the ink ground bleeds into the photo
-     edges instead of cutting hard. Makes the spread read as one
-     composition, not "photo dropped on dark page". */
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(to top, rgba(14, 13, 12, 0.18), transparent 32%),
-    linear-gradient(to bottom right, transparent 65%, rgba(255, 91, 31, 0.08));
-  pointer-events: none;
 }
 .dark-band-text {
   min-width: 0;
@@ -1368,7 +1274,7 @@ img { max-width: 100%; display: block; }
 }
 .dark-band h2 em {
   font-style: italic;
-  color: var(--orange-3);
+  color: #fff;
 }
 .dark-band p {
   font-size: clamp(15px, 1.2vw, 18px);
@@ -1380,7 +1286,7 @@ img { max-width: 100%; display: block; }
 .dark-band-quote {
   margin-top: 32px;
   padding: 20px 24px;
-  border-left: 3px solid var(--orange);
+  border-left: 2px solid rgba(255, 255, 255, 0.4);
   background: rgba(255, 255, 255, 0.04);
   border-radius: 0 var(--r-md) var(--r-md) 0;
 }
@@ -1403,33 +1309,34 @@ img { max-width: 100%; display: block; }
   font-weight: 600;
 }
 
-/* ── Section shell ─────────────────────────────────────────────── */
+/* ── Section shell — generous whitespace, one idea per screen ──── */
 section.band {
-  padding: clamp(64px, 8vh, 112px) 0;
+  padding: clamp(120px, 14vh, 200px) 0;
   border-top: 1px solid var(--line);
 }
 section.band.bg-panel { background: var(--bg-panel); }
 .band-head {
-  margin-bottom: var(--s-lg);
+  margin-bottom: var(--s-xl);
   max-width: 720px;
 }
 .band-head h2 {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(34px, 4vw, 52px);
+  font-size: clamp(36px, 4.4vw, 60px);
   line-height: 1.04;
   letter-spacing: -.02em;
-  margin: 12px 0 16px;
+  margin: 14px 0 20px;
+  color: var(--ink);
 }
 .band-head h2 em {
   font-style: italic;
-  color: var(--orange);
+  color: var(--ink);
 }
 .band-head p {
   color: var(--muted);
-  font-size: 17px;
+  font-size: 18px;
   line-height: 1.55;
-  max-width: 60ch;
+  max-width: 56ch;
   margin: 0;
 }
 
@@ -1552,10 +1459,11 @@ section.band.bg-panel { background: var(--bg-panel); }
 .pcard-mini:nth-child(2) { top: 36px; transform: rotate(0.5deg); z-index: 2; }
 .pcard-mini:nth-child(3) { top: 72px; transform: rotate(-0.5deg); z-index: 1; opacity: .85; }
 .pcard-mini .avatar {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  background: var(--grad-violet);
+  background: var(--bg-subtle);
+  border: 1px solid var(--line);
   flex-shrink: 0;
 }
 .pcard-mini .meta {
@@ -1584,8 +1492,9 @@ section.band.bg-panel { background: var(--bg-panel); }
   font-weight: 600;
   padding: 3px 7px;
   border-radius: var(--r-pill);
-  background: rgba(255, 91, 31, 0.1);
-  color: var(--orange);
+  background: var(--bg-subtle);
+  color: var(--ink-2);
+  border: 1px solid var(--line);
   flex-shrink: 0;
 }
 
@@ -1639,7 +1548,7 @@ section.band.bg-panel { background: var(--bg-panel); }
 }
 .kpi-mini .kpi-val em {
   font-style: italic;
-  color: var(--orange);
+  color: var(--ink);
 }
 .kpi-mini .kpi-delta {
   font-size: 10px;
@@ -1647,23 +1556,20 @@ section.band.bg-panel { background: var(--bg-panel); }
   font-weight: 500;
   margin-top: 2px;
 }
-/* Colour families — same convention as the real app's KPI cards */
+/* Colour families — small semantic dots only. Deltas stay muted
+   so the cards don't compete with the headline copy. */
 .kpi-mini.green .dot { background: var(--green); }
-.kpi-mini.green .kpi-delta { color: var(--green); }
 .kpi-mini.orange .dot { background: var(--orange); }
-.kpi-mini.orange .kpi-delta { color: var(--orange); }
 .kpi-mini.blue .dot { background: var(--blue); }
-.kpi-mini.blue .kpi-delta { color: var(--blue); }
 .kpi-mini.violet .dot { background: var(--violet); }
-.kpi-mini.violet .kpi-delta { color: var(--violet); }
 
 .how-num {
   font-family: var(--serif);
   font-style: italic;
   font-size: 56px;
   line-height: 1;
-  color: var(--orange);
-  opacity: .85;
+  color: var(--muted-2);
+  opacity: 1;
 }
 .how-card h3 {
   font-family: var(--serif);
@@ -1706,7 +1612,7 @@ section.band.bg-panel { background: var(--bg-panel); }
 }
 .proof-num em {
   font-style: italic;
-  color: var(--orange);
+  color: var(--ink);
 }
 .proof-label {
   font-size: 13px;
@@ -1749,7 +1655,7 @@ section.band.bg-panel { background: var(--bg-panel); }
   color: var(--muted);
 }
 .pcard.featured .p-tag {
-  color: var(--orange);
+  color: var(--muted-2);
 }
 .p-name {
   font-family: var(--serif);
@@ -1844,17 +1750,17 @@ section.band.bg-panel { background: var(--bg-panel); }
 
 /* ── Final CTA ──────────────────────────────────────────────────── */
 .final {
-  padding: clamp(64px, 8vh, 112px) 0;
+  padding: clamp(120px, 14vh, 200px) 0;
   border-top: 1px solid var(--line);
+  background: var(--paper);
 }
 .final-card {
-  background: var(--grad-spectrum);
+  background: var(--ink);
   border-radius: var(--r-xl);
-  padding: clamp(48px, 6vw, 80px);
+  padding: clamp(64px, 8vw, 120px) clamp(40px, 5vw, 80px);
   text-align: center;
   color: #fff;
   position: relative;
-  overflow: hidden;
 }
 .final-card h2 {
   font-family: var(--serif);
@@ -2252,113 +2158,6 @@ footer.site {
       </div>
     </div>
 
-    <!-- Cold → AI signal → Warm spectrum, full-width below the grid -->
-    <div class="hero-spectrum-wrap">
-      <div class="hero-spectrum" role="img" aria-label="Cold to warm brand spectrum, with AI signal in the middle"></div>
-      <div class="hero-spectrum-labels">
-        <span><b>Cold · prospect · unknown</b></span>
-        <span class="mid">AI · signal · intelligence</span>
-        <span><i>Warm · meeting · customer</i></span>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ─── HOW IT WORKS ────────────────────────────────────────────── -->
-<section class="band" id="how">
-  <div class="container">
-    <div class="band-head">
-      <span class="eyebrow">How it works</span>
-      <h2>One sentence in. <em>Meetings out.</em></h2>
-      <p>You're the founder, not the SDR. Tell us who you sell to. We do the rest.</p>
-    </div>
-
-    <div class="how-grid">
-
-      <div class="how-card">
-        <div class="how-preview">
-          <div class="preview-persona">
-            <div class="pp-label">Who you sell to</div>
-            <div class="pp-input">Series A founders in vertical SaaS, US and EU<span class="pp-caret"></span></div>
-          </div>
-        </div>
-        <div class="how-text">
-          <span class="how-num">01</span>
-          <h3>Tell us, in one sentence.</h3>
-          <p>Plain English. No filters, no field grid, no checkboxes. "Series A founders in vertical SaaS, US and EU." That's the brief.</p>
-        </div>
-      </div>
-
-      <div class="how-card">
-        <div class="how-preview">
-          <div class="preview-prospects">
-            <div class="pcard-mini">
-              <span class="avatar"></span>
-              <div class="meta">
-                <span class="name">Sarah Chen</span>
-                <span class="role">Founder · Vercel</span>
-              </div>
-              <span class="pp-pill">Series C</span>
-            </div>
-            <div class="pcard-mini">
-              <span class="avatar"></span>
-              <div class="meta">
-                <span class="name">Marcus Webb</span>
-                <span class="role">CEO · Linear</span>
-              </div>
-              <span class="pp-pill">Hiring</span>
-            </div>
-            <div class="pcard-mini">
-              <span class="avatar"></span>
-              <div class="meta">
-                <span class="name">Anna Kovacs</span>
-                <span class="role">Founder · Stripe</span>
-              </div>
-              <span class="pp-pill">Intent</span>
-            </div>
-          </div>
-        </div>
-        <div class="how-text">
-          <span class="how-num">02</span>
-          <h3>We find them. We write them.</h3>
-          <p>One email, one prospect, one time. Their role, their funding round, what they hired last week. Senior-salesperson voice — never "I hope this finds you well".</p>
-        </div>
-      </div>
-
-      <div class="how-card">
-        <div class="how-preview">
-          <div class="preview-kpis">
-            <div class="kpi-mini orange">
-              <div class="kpi-mini-top"><span class="dot"></span><span class="kpi-label">Replies</span></div>
-              <div class="kpi-val"><em>84</em></div>
-              <div class="kpi-delta">+12 this week</div>
-            </div>
-            <div class="kpi-mini green">
-              <div class="kpi-mini-top"><span class="dot"></span><span class="kpi-label">Meetings</span></div>
-              <div class="kpi-val"><em>62</em></div>
-              <div class="kpi-delta">+5 this week</div>
-            </div>
-            <div class="kpi-mini blue">
-              <div class="kpi-mini-top"><span class="dot"></span><span class="kpi-label">Sent</span></div>
-              <div class="kpi-val">1,548</div>
-              <div class="kpi-delta">485 opened</div>
-            </div>
-            <div class="kpi-mini violet">
-              <div class="kpi-mini-top"><span class="dot"></span><span class="kpi-label">In play</span></div>
-              <div class="kpi-val">860</div>
-              <div class="kpi-delta">+720 enriched</div>
-            </div>
-          </div>
-        </div>
-        <div class="how-text">
-          <span class="how-num">03</span>
-          <h3>You open your inbox to <em>warm replies</em>.</h3>
-          <p>It sends. It follows up. It pauses when someone replies. The calendar fills itself. You just answer the people who want to talk.</p>
-        </div>
-      </div>
-
-    </div>
   </div>
 </section>
 
