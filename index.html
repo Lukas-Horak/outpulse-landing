@@ -395,10 +395,18 @@ img { max-width: 100%; display: block; }
   height: 12px;
   flex-shrink: 0;
 }
-.browser-frame img {
+.browser-frame img,
+.browser-frame video {
   width: 100%;
   height: auto;
   display: block;
+  background: var(--bg-panel);
+}
+.hero-video {
+  /* Avoid layout shift while the MP4 is loading by reserving the
+     intrinsic 3010×2130 aspect via the width/height attributes on
+     the element. The poster fills the same box until first frame. */
+  object-fit: cover;
 }
 
 /* ── Section shell ─────────────────────────────────────────────── */
@@ -431,7 +439,13 @@ section.band.bg-panel { background: var(--bg-panel); }
   margin: 0;
 }
 
-/* ── How — 3 numbered steps ────────────────────────────────────── */
+/* ── How — 3 numbered steps with mini-visuals.
+   Each card has a top "preview" pane that uses real product UI
+   atoms (persona input, prospect chip stack, KPI tile) so the page
+   shows the product, not just describes it. The previews are pure
+   HTML+CSS — no animation, no JS — so they don't reintroduce the
+   noise the simplification removed. Tokens come straight from the
+   design system (--bg-panel, --line, --r-md, --orange, etc.). */
 .how-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -440,13 +454,191 @@ section.band.bg-panel { background: var(--bg-panel); }
 .how-card {
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
-  padding: 32px;
   background: var(--paper);
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  min-height: 260px;
+  overflow: hidden;
+  min-height: 380px;
 }
+.how-preview {
+  position: relative;
+  height: 200px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+  overflow: hidden;
+}
+.how-preview::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(14, 13, 12, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(14, 13, 12, 0.025) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+.how-text {
+  padding: 28px 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Preview 01 — persona input card */
+.preview-persona {
+  width: 100%;
+  max-width: 280px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+  box-shadow: 0 8px 20px -10px rgba(60, 30, 80, 0.12);
+  position: relative;
+  z-index: 1;
+}
+.preview-persona .pp-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.preview-persona .pp-input {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ink);
+  font-family: var(--sans);
+}
+.preview-persona .pp-input em {
+  font-style: italic;
+  color: var(--ink-2);
+}
+.preview-persona .pp-caret {
+  display: inline-block;
+  width: 1.5px;
+  height: 13px;
+  background: var(--orange);
+  vertical-align: text-bottom;
+  margin-left: 1px;
+  animation: how-caret 1s steps(2, end) infinite;
+}
+@keyframes how-caret {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Preview 02 — prospect cards stack */
+.preview-prospects {
+  position: relative;
+  width: 100%;
+  max-width: 280px;
+  height: 140px;
+  z-index: 1;
+}
+.pcard-mini {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  box-shadow: 0 4px 12px -6px rgba(14, 13, 12, 0.1);
+}
+.pcard-mini:nth-child(1) { top: 0; transform: rotate(-1.5deg); }
+.pcard-mini:nth-child(2) { top: 36px; transform: rotate(0.5deg); z-index: 2; }
+.pcard-mini:nth-child(3) { top: 72px; transform: rotate(-0.5deg); z-index: 1; opacity: .85; }
+.pcard-mini .avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--grad-violet);
+  flex-shrink: 0;
+}
+.pcard-mini .meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+.pcard-mini .meta .name {
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pcard-mini .meta .role {
+  font-size: 10.5px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pcard-mini .pp-pill {
+  font-size: 9.5px;
+  font-weight: 600;
+  padding: 3px 7px;
+  border-radius: var(--r-pill);
+  background: rgba(255, 91, 31, 0.1);
+  color: var(--orange);
+  flex-shrink: 0;
+}
+
+/* Preview 03 — KPI fragment */
+.preview-kpis {
+  width: 100%;
+  max-width: 280px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  z-index: 1;
+  position: relative;
+}
+.kpi-mini {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 10px 12px;
+  box-shadow: 0 4px 12px -6px rgba(14, 13, 12, 0.06);
+}
+.kpi-mini .kpi-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+.kpi-mini .kpi-val {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1;
+  letter-spacing: -.015em;
+  color: var(--ink);
+}
+.kpi-mini .kpi-val em {
+  font-style: italic;
+  color: var(--orange);
+}
+.kpi-mini .kpi-delta {
+  font-size: 10px;
+  color: var(--green);
+  margin-top: 4px;
+  font-weight: 500;
+}
+
 .how-num {
   font-family: var(--serif);
   font-style: italic;
@@ -775,8 +967,12 @@ footer.site {
       <span><i>Warm · meeting · customer</i></span>
     </div>
 
-    <!-- Single product visual — the dashboard mockup. One real shot
-         beats four stacked inline prototypes for impact. -->
+    <!-- Hero product showcase — autoplay muted loop video of the
+         dashboard. PNG poster covers the slow-network / autoplay-
+         blocked case. preload=metadata so first paint isn't blocked
+         on the 2.2MB MP4. The browser frame is the same component
+         used elsewhere; it stays around the video so the surface
+         reads as "the product". -->
     <div class="hero-mockup">
       <div class="browser-frame">
         <div class="browser-bar">
@@ -787,7 +983,18 @@ footer.site {
           </div>
           <div style="width:60px"></div>
         </div>
-        <img src="dashboard-mockup.png" alt="Outpulse dashboard — revenue target, KPIs, and live prospect activity" loading="eager" fetchpriority="high" width="3010" height="2130">
+        <video
+          class="hero-video"
+          autoplay muted loop playsinline
+          preload="metadata"
+          poster="dashboard-mockup.png"
+          aria-label="Outpulse dashboard — revenue target, KPIs, and live prospect activity"
+          width="3010" height="2130">
+          <source src="saas-dashboard-web.mp4" type="video/mp4">
+          <!-- Fallback for clients without MP4 support — render the
+               poster as an img so the hero still has a product shot. -->
+          <img src="dashboard-mockup.png" alt="Outpulse dashboard" width="3010" height="2130">
+        </video>
       </div>
     </div>
   </div>
@@ -803,21 +1010,89 @@ footer.site {
     </div>
 
     <div class="how-grid">
+
       <div class="how-card">
-        <span class="how-num">01</span>
-        <h3>Describe your buyer.</h3>
-        <p>One sentence — "Series A founders in vertical SaaS, U.S. and Europe." Outpulse parses it, builds a 275M-contact filter, surfaces the right list.</p>
+        <div class="how-preview">
+          <div class="preview-persona">
+            <div class="pp-label">Who you sell to</div>
+            <div class="pp-input">Series A founders in vertical SaaS, US and EU<span class="pp-caret"></span></div>
+          </div>
+        </div>
+        <div class="how-text">
+          <span class="how-num">01</span>
+          <h3>Describe your buyer.</h3>
+          <p>One sentence in plain English. Outpulse parses it, builds a 275M-contact filter, and surfaces the right list — typically in under 90 seconds.</p>
+        </div>
       </div>
+
       <div class="how-card">
-        <span class="how-num">02</span>
-        <h3>We write the email.</h3>
-        <p>One-of-one for every prospect — their role, their company, their funding round, their stack. No mail-merge, no templates. Senior-salesperson voice.</p>
+        <div class="how-preview">
+          <div class="preview-prospects">
+            <div class="pcard-mini">
+              <span class="avatar"></span>
+              <div class="meta">
+                <span class="name">Sarah Chen</span>
+                <span class="role">Founder · Vercel</span>
+              </div>
+              <span class="pp-pill">Series C</span>
+            </div>
+            <div class="pcard-mini">
+              <span class="avatar"></span>
+              <div class="meta">
+                <span class="name">Marcus Webb</span>
+                <span class="role">CEO · Linear</span>
+              </div>
+              <span class="pp-pill">Hiring</span>
+            </div>
+            <div class="pcard-mini">
+              <span class="avatar"></span>
+              <div class="meta">
+                <span class="name">Anna Kovacs</span>
+                <span class="role">Founder · Stripe</span>
+              </div>
+              <span class="pp-pill">Intent</span>
+            </div>
+          </div>
+        </div>
+        <div class="how-text">
+          <span class="how-num">02</span>
+          <h3>We write the email.</h3>
+          <p>One-of-one for every prospect — their role, company, funding, stack. No mail-merge, no templates. Senior-salesperson voice in the first line.</p>
+        </div>
       </div>
+
       <div class="how-card">
-        <span class="how-num">03</span>
-        <h3>Replies show up.</h3>
-        <p>Outpulse sends, follows up, and pauses when someone replies. You open the inbox to a list of warm conversations and a calendar that fills itself.</p>
+        <div class="how-preview">
+          <div class="preview-kpis">
+            <div class="kpi-mini">
+              <div class="kpi-label">Replies</div>
+              <div class="kpi-val"><em>84</em></div>
+              <div class="kpi-delta">+12 this week</div>
+            </div>
+            <div class="kpi-mini">
+              <div class="kpi-label">Meetings</div>
+              <div class="kpi-val"><em>62</em></div>
+              <div class="kpi-delta">+5 this week</div>
+            </div>
+            <div class="kpi-mini">
+              <div class="kpi-label">Sent</div>
+              <div class="kpi-val">1,548</div>
+              <div class="kpi-delta">485 opened</div>
+            </div>
+            <div class="kpi-mini">
+              <div class="kpi-label">In play</div>
+              <div class="kpi-val">860</div>
+              <div class="kpi-delta">+720 enriched</div>
+            </div>
+          </div>
+        </div>
+        <div class="how-text">
+          <span class="how-num">03</span>
+          <h3>Replies show up.</h3>
+          <p>Outpulse sends, follows up, and pauses when someone replies. You open the inbox to warm conversations and a calendar that fills itself.</p>
+        </div>
       </div>
+
     </div>
   </div>
 </section>
