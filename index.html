@@ -627,13 +627,14 @@ img { max-width: 100%; display: block; }
   margin-top: 2px;
 }
 
-/* ── Dark band — the contrast surface Lukas asked for.
-   Single bold statement on ink ground, italic orange emphasis.
-   Sits between How-it-works (cream-panel) and Pricing (paper) so
-   the page actually breathes. Per brand book §08 voice: short
-   sentences, signal-first-line, no shouting. */
+/* ── Dark band — photo + text 2-col composition.
+   Editorial-magazine spread on ink ground. Lifestyle photograph
+   on the left says "this is what Outpulse customers' afternoons
+   look like — they're somewhere else, the agent is reaching
+   out". Text + founder quote on the right says it in words.
+   Brand voice §08: short, signal-first-line, no shouting. */
 .dark-band {
-  padding: clamp(80px, 11vh, 160px) 0;
+  padding: clamp(72px, 10vh, 140px) 0;
   background: var(--ink);
   color: #fff;
   border-top: 1px solid var(--ink);
@@ -646,15 +647,52 @@ img { max-width: 100%; display: block; }
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(60% 70% at 100% 0%, rgba(255, 91, 31, 0.18), transparent 60%),
-    radial-gradient(50% 60% at 0% 100%, rgba(138, 118, 184, 0.14), transparent 60%);
+    radial-gradient(60% 70% at 100% 0%, rgba(255, 91, 31, 0.16), transparent 60%),
+    radial-gradient(50% 60% at 0% 100%, rgba(138, 118, 184, 0.12), transparent 60%);
   pointer-events: none;
 }
 .dark-band-inner {
   position: relative;
-  max-width: 920px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 32px;
+}
+.dark-band-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: clamp(36px, 5vw, 72px);
+  align-items: center;
+}
+.dark-band-photo {
+  position: relative;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  background: #1a1714;
+  box-shadow:
+    0 40px 80px -20px rgba(0, 0, 0, 0.4),
+    0 16px 32px -8px rgba(255, 91, 31, 0.06);
+}
+.dark-band-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.dark-band-photo::after {
+  /* Subtle warm vignette so the ink ground bleeds into the photo
+     edges instead of cutting hard. Makes the spread read as one
+     composition, not "photo dropped on dark page". */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgba(14, 13, 12, 0.18), transparent 32%),
+    linear-gradient(to bottom right, transparent 65%, rgba(255, 91, 31, 0.08));
+  pointer-events: none;
+}
+.dark-band-text {
+  min-width: 0;
 }
 .dark-band .eyebrow {
   color: rgba(255, 255, 255, 0.55);
@@ -662,36 +700,35 @@ img { max-width: 100%; display: block; }
 .dark-band h2 {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(36px, 5vw, 64px);
+  font-size: clamp(34px, 4.4vw, 56px);
   line-height: 1.04;
   letter-spacing: -.022em;
   margin: 14px 0 20px;
-  max-width: 22ch;
+  max-width: 20ch;
 }
 .dark-band h2 em {
   font-style: italic;
   color: var(--orange-3);
 }
 .dark-band p {
-  font-size: clamp(16px, 1.3vw, 19px);
+  font-size: clamp(15px, 1.2vw, 18px);
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.72);
-  max-width: 56ch;
+  max-width: 52ch;
   margin: 0 0 28px;
 }
 .dark-band-quote {
-  margin-top: 36px;
-  padding: 22px 26px;
+  margin-top: 32px;
+  padding: 20px 24px;
   border-left: 3px solid var(--orange);
   background: rgba(255, 255, 255, 0.04);
   border-radius: 0 var(--r-md) var(--r-md) 0;
-  max-width: 64ch;
 }
 .dark-band-quote .q {
   font-family: var(--serif);
   font-weight: 400;
   font-style: italic;
-  font-size: 19px;
+  font-size: 18px;
   line-height: 1.45;
   color: #fff;
   margin: 0 0 10px;
@@ -1235,6 +1272,13 @@ footer.site {
     gap: 10px;
   }
   .app-pulse .badge { justify-self: flex-start; }
+  .dark-band-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .dark-band-photo { aspect-ratio: 4 / 5; }
 }
 @media (max-width: 600px) {
   /* Frame */
@@ -1318,6 +1362,7 @@ footer.site {
   .dark-band p { font-size: 15px; }
   .dark-band-quote { padding: 18px 20px; margin-top: 28px; }
   .dark-band-quote .q { font-size: 17px; }
+  .dark-band-photo { aspect-ratio: 4 / 5; }
 
   /* Pricing */
   .pcard { padding: 28px 24px; gap: 14px; }
@@ -1596,18 +1641,30 @@ footer.site {
   </div>
 </section>
 
-<!-- ─── DARK BAND — the contrasting surface, ink ground.
-     Single founder statement + a quote-style block. Sits between
-     the cream How-it-works and the white Pricing band so the page
-     actually breathes. -->
+<!-- ─── DARK BAND — editorial photo + founder statement.
+     Photo on the left captures the lifestyle moment Outpulse is
+     designed for: the agent is reaching out, you're somewhere
+     else. Text+quote on the right says it in words. The ink
+     ground gives the contrasting surface; the photo gives the
+     warmth that keeps the page from reading sterile. -->
 <section class="dark-band">
   <div class="dark-band-inner">
-    <span class="eyebrow">Why we built this</span>
-    <h2>Founder-led sales is broken. <em>We built the agent that fixes it.</em></h2>
-    <p>Outbound is the most leveraged thing a founder can do — and the easiest to outsource to mediocre work. So we built an agent that does it the way a senior salesperson would, at the cost of a SaaS subscription. No SDR hire, no agency retainer, no Lemlist tabs, no Apollo seat. One sentence, then it runs.</p>
-    <div class="dark-band-quote">
-      <p class="q">"I built Outpulse because I needed it. Now you can use it too — same tool, same results, none of the months I spent making it work."</p>
-      <span class="who"><b>Lukas Horak</b> · Founder, Outpulse</span>
+    <div class="dark-band-grid">
+
+      <div class="dark-band-photo">
+        <img src="lifestyle-couch.jpg" alt="A founder's afternoon — phone in hand, laptop open, the agent doing the cold outreach in the background" loading="lazy">
+      </div>
+
+      <div class="dark-band-text">
+        <span class="eyebrow">Why we built this</span>
+        <h2>Outbound shouldn't own your afternoons. <em>Outpulse runs while you don't.</em></h2>
+        <p>Outbound is the most leveraged thing a founder can do — and the easiest to outsource to mediocre work. So we built an agent that does it the way a senior salesperson would, at the cost of a SaaS subscription. No SDR hire, no agency retainer, no Lemlist tabs open. One sentence in plain English, then it runs.</p>
+        <div class="dark-band-quote">
+          <p class="q">"I built Outpulse because I needed it. Now you can use it too — same tool, same results, none of the months I spent making it work."</p>
+          <span class="who"><b>Lukas Horak</b> · Founder, Outpulse</span>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
