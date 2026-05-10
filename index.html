@@ -238,12 +238,11 @@ img { max-width: 100%; display: block; }
 .hero h1 {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(56px, 7vw, 104px);
+  font-size: clamp(40px, 5vw, 80px);
   line-height: 1.0;
   letter-spacing: -.025em;
-  margin: 0 0 28px;
+  margin: 0 0 24px;
   color: var(--ink);
-  max-width: 18ch;
 }
 .hero h1 em {
   font-style: italic;
@@ -441,7 +440,7 @@ img { max-width: 100%; display: block; }
 }
 .app-title em {
   font-style: italic;
-  color: var(--ink);
+  color: var(--orange);
 }
 .app-actions {
   display: flex;
@@ -503,7 +502,7 @@ img { max-width: 100%; display: block; }
   letter-spacing: -.015em;
   color: var(--ink);
 }
-.app-pulse .val em { font-style: italic; color: var(--ink); }
+.app-pulse .val em { font-style: italic; color: var(--orange); }
 .app-pulse .bar {
   position: relative;
   height: 8px;
@@ -837,7 +836,7 @@ img { max-width: 100%; display: block; }
 }
 .mockup-section-caption h3 em {
   font-style: italic;
-  color: var(--ink);
+  color: var(--orange);
 }
 .mockup-section-caption p {
   font-size: 15px;
@@ -1264,7 +1263,7 @@ img { max-width: 100%; display: block; }
 }
 .stat-num em {
   font-style: italic;
-  color: var(--ink);
+  color: var(--orange);
 }
 .stat-headline {
   font-family: var(--serif);
@@ -1335,7 +1334,7 @@ img { max-width: 100%; display: block; }
 }
 .dark-band h2 em {
   font-style: italic;
-  color: #fff;
+  color: var(--orange-3);
 }
 .dark-band p {
   font-size: clamp(15px, 1.2vw, 18px);
@@ -1611,7 +1610,149 @@ img { max-width: 100%; display: block; }
   padding: 22px 26px 26px;
   overflow: hidden;
   min-width: 0;
+  min-height: 0;
 }
+
+/* ── Post-Pulse content — KPI strip + Active campaigns table.
+   Mirrors prototype-minimal.html lines 1553-1697 (Outreach KPIs,
+   then a 2-col panel of Outreach activity + Active campaigns
+   table). Sits below the Pulse hero card so the dashboard mockup
+   reads as the full real surface, not just the goal widget. */
+.mk-sect-lbl {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 18px 2px 10px;
+}
+.mk-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.mk-kpi {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 12px 14px 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.mk-kpi .top { display: flex; align-items: center; gap: 7px; }
+.mk-kpi .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--muted-2);
+  flex-shrink: 0;
+}
+.mk-kpi .lbl {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mk-kpi .val {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1;
+  letter-spacing: -.015em;
+  color: var(--ink);
+}
+.mk-kpi .chip {
+  font-size: 10px;
+  color: var(--muted);
+  align-self: flex-start;
+  padding: 2px 7px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+}
+.mk-kpi.green .dot { background: var(--green); }
+.mk-kpi.orange .dot { background: var(--orange); }
+.mk-kpi.blue .dot { background: var(--blue); }
+.mk-kpi.violet .dot { background: var(--violet); }
+
+/* Active campaigns table */
+.mk-panel {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  margin-top: 18px;
+  overflow: hidden;
+}
+.mk-panel-h {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.mk-panel-h h4 {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--ink);
+  margin: 0;
+}
+.mk-panel-h .meta {
+  font-size: 11px;
+  color: var(--muted);
+}
+.mk-tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.mk-tbl th {
+  text-align: left;
+  font-weight: 600;
+  font-size: 9.5px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  padding: 9px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-panel);
+}
+.mk-tbl th.num { text-align: right; }
+.mk-tbl td {
+  padding: 10px 16px;
+  border-top: 1px solid var(--line);
+  color: var(--ink-2);
+}
+.mk-tbl td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.mk-tbl td.num.has { color: var(--ink); font-weight: 500; }
+.mk-tbl td.num.empty { color: var(--muted-2); }
+.mk-tbl tr:first-child td { border-top: none; }
+.mk-tbl .name { font-weight: 500; color: var(--ink); }
+.mk-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--r-pill);
+  background: var(--bg-subtle);
+  color: var(--muted);
+  border: 1px solid var(--line);
+}
+.mk-status .d { width: 5px; height: 5px; border-radius: 50%; background: var(--muted-2); }
+.mk-status.active { background: var(--green-soft); color: var(--green); border-color: rgba(26, 124, 75, 0.18); }
+.mk-status.active .d { background: var(--green); }
+.mk-status.sending { background: #ecf1f8; color: var(--blue); border-color: #d8e3ef; }
+.mk-status.sending .d { background: var(--blue); }
+.mk-status.paused { background: #fff5ec; color: var(--orange-ink); border-color: #f3dec9; }
+.mk-status.paused .d { background: var(--orange); }
+.mk-status.draft { background: var(--bg-subtle); color: var(--muted); border-color: var(--line); }
 
 /* ── Mockup section — generic full-width browser-frame block.
    Used for the 3 standalone product-surface showcases below
@@ -1648,7 +1789,7 @@ img { max-width: 100%; display: block; }
 }
 .mockup-head h2 em {
   font-style: italic;
-  color: var(--ink);
+  color: var(--orange);
 }
 .mockup-head p {
   color: var(--muted);
@@ -1753,7 +1894,7 @@ section.band.bg-panel { background: var(--bg-panel); }
 }
 .band-head h2 em {
   font-style: italic;
-  color: var(--ink);
+  color: var(--orange);
 }
 .band-head p {
   color: var(--muted);
@@ -1971,7 +2112,7 @@ section.band.bg-panel { background: var(--bg-panel); }
 }
 .kpi-mini .kpi-val em {
   font-style: italic;
-  color: var(--ink);
+  color: var(--orange);
 }
 .kpi-mini .kpi-delta {
   font-size: 10px;
@@ -2035,7 +2176,7 @@ section.band.bg-panel { background: var(--bg-panel); }
 }
 .proof-num em {
   font-style: italic;
-  color: var(--ink);
+  color: var(--orange);
 }
 .proof-label {
   font-size: 13px;
@@ -2196,7 +2337,7 @@ section.band.bg-panel { background: var(--bg-panel); }
   margin-left: auto;
   margin-right: auto;
 }
-.final-card h2 em { font-style: italic; }
+.final-card h2 em { font-style: italic; color: var(--orange-3); }
 .final-card p {
   font-size: 17px;
   line-height: 1.55;
@@ -2700,6 +2841,81 @@ footer.site {
             <div><span class="pm-lbl">Replies</span><span class="pm-val">14</span></div>
             <div><span class="pm-lbl">Meetings</span><span class="pm-val">3</span></div>
           </div>
+        </div>
+
+        <!-- Outreach KPI strip — faithful to prototype-minimal -->
+        <div class="mk-sect-lbl">Outreach</div>
+        <div class="mk-kpis">
+          <div class="mk-kpi green">
+            <div class="top"><span class="dot"></span><span class="lbl">Prospects found</span></div>
+            <span class="val">1,428</span>
+            <span class="chip">1,404 enriched</span>
+          </div>
+          <div class="mk-kpi orange">
+            <div class="top"><span class="dot"></span><span class="lbl">Emails sent</span></div>
+            <span class="val">2,284</span>
+            <span class="chip">↑ 18% this week</span>
+          </div>
+          <div class="mk-kpi blue">
+            <div class="top"><span class="dot"></span><span class="lbl">Reply rate</span></div>
+            <span class="val">10.7%</span>
+            <span class="chip">↑ 2.4 pts</span>
+          </div>
+          <div class="mk-kpi violet">
+            <div class="top"><span class="dot"></span><span class="lbl">Meetings booked</span></div>
+            <span class="val">75</span>
+            <span class="chip">↑ 14 this week</span>
+          </div>
+        </div>
+
+        <!-- Active campaigns table -->
+        <div class="mk-panel">
+          <div class="mk-panel-h">
+            <h4>Active campaigns</h4>
+            <span class="meta">6 total</span>
+          </div>
+          <table class="mk-tbl">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th class="num">Sent</th>
+                <th class="num">Opens</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name">Series B CTOs · Q2</td>
+                <td><span class="mk-status active"><span class="d"></span>Active</span></td>
+                <td class="num has">1,284</td>
+                <td class="num has">487</td>
+              </tr>
+              <tr>
+                <td class="name">SaaS · EU 50–200</td>
+                <td><span class="mk-status sending"><span class="d"></span>Sending</span></td>
+                <td class="num has">612</td>
+                <td class="num has">198</td>
+              </tr>
+              <tr>
+                <td class="name">Fintech · Heads of Growth</td>
+                <td><span class="mk-status paused"><span class="d"></span>Paused</span></td>
+                <td class="num has">74</td>
+                <td class="num has">22</td>
+              </tr>
+              <tr>
+                <td class="name">Warm replies · follow-up</td>
+                <td><span class="mk-status active"><span class="d"></span>Active</span></td>
+                <td class="num has">38</td>
+                <td class="num has">31</td>
+              </tr>
+              <tr>
+                <td class="name">Digital Transformation</td>
+                <td><span class="mk-status draft"><span class="d"></span>Draft</span></td>
+                <td class="num empty">—</td>
+                <td class="num empty">—</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         </div><!-- /.app-shell-main -->
       </div><!-- /.app-shell -->
