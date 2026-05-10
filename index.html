@@ -4910,6 +4910,12 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   var APP_HOST = 'app.outpulse.ai';
   var STORAGE_KEY = 'op_utm';
   var UTM_KEYS = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
+  // Non-UTM smuggle key — base64url(prospect.email) from the email
+  // link rewriter. /signup uses it to pre-fill the magic-link email
+  // field so the prospect signs up under their work email instead of
+  // a personal Gmail (which would break attribution downstream).
+  var SMUGGLE_KEYS = ['ph'];
+  var ALL_KEYS = UTM_KEYS.concat(SMUGGLE_KEYS);
 
   function readCaptured(){
     try{ var raw = sessionStorage.getItem(STORAGE_KEY); if(raw) return JSON.parse(raw); }catch(e){}
@@ -4921,7 +4927,7 @@ footer{padding:48px 0 32px;background:#fff;border-top:1px solid var(--line)}
   function captureFromUrl(){
     var p = new URLSearchParams(window.location.search);
     var captured = {}, any = false;
-    UTM_KEYS.forEach(function(k){ var v = p.get(k); if(v){ captured[k] = v; any = true; } });
+    ALL_KEYS.forEach(function(k){ var v = p.get(k); if(v){ captured[k] = v; any = true; } });
     if(!any) return null;
     try{ sessionStorage.setItem(STORAGE_KEY, JSON.stringify(captured)); }catch(e){}
     var exp = new Date(Date.now() + 90*86400000).toUTCString();
