@@ -235,30 +235,6 @@ img { max-width: 100%; display: block; }
     var(--paper);
 }
 
-/* Hero brand lockup — large mark + wordmark above the headline.
-   The mark IS the brand (per brand book §2: "Two circles. One pulse.")
-   so it gets prominence here, not just a 36px nav glyph. */
-.hero-lockup {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 36px;
-}
-.hero-lockup .mark {
-  width: 64px;
-  height: 64px;
-  background: url('outpulse-logo-dusk.svg') center/contain no-repeat;
-  flex-shrink: 0;
-}
-.hero-lockup .wordmark {
-  font-family: var(--serif);
-  font-weight: 400;
-  font-size: 48px;
-  line-height: 1;
-  letter-spacing: -.025em;
-  color: var(--ink);
-}
-
 .hero-eyebrow {
   font-size: 11px;
   font-weight: 600;
@@ -896,21 +872,85 @@ footer.site {
   .price-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 600px) {
-  .container, .container-narrow { padding: 0 20px; }
-  .proof-grid { grid-template-columns: 1fr; }
-  .nav-row { padding: 14px 0; }
+  /* Frame */
+  .container, .container-narrow { padding: 0 18px; }
+  .nav-row { padding: 12px 0; gap: 14px; }
   .nav-right .nav-login { display: none; }
-  .hero { padding: 56px 0 48px; }
-  .hero-lockup { margin-bottom: 28px; }
-  .hero-lockup .mark { width: 48px; height: 48px; }
-  .hero-lockup .wordmark { font-size: 36px; }
-  .hero-spectrum { margin-top: 36px; }
-  .hero-spectrum-labels { font-size: 9.5px; }
+  .nav-right .btn { padding: 9px 16px; font-size: 13px; }
+  .brand { font-size: 15px; }
+  .brand-mark { width: 30px; height: 30px; }
+
+  /* Hero — keep type from overflowing the viewport, tighten paddings */
+  .hero { padding: 48px 0 56px; }
+  .hero h1 {
+    font-size: clamp(34px, 9vw, 52px);
+    line-height: 1.02;
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+  .hero-lead {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 28px;
+  }
+  .hero-eyebrow { margin-bottom: 18px; }
+  .hero-cta-row { gap: 10px; flex-direction: column; align-items: stretch; }
+  .hero-cta-row .btn { width: 100%; padding: 14px 20px; font-size: 15px; }
+  .hero-cta-row .btn-xl { padding: 16px 20px; font-size: 16px; }
+  .hero-trust { gap: 10px; font-size: 12px; }
+
+  /* Spectrum */
+  .hero-spectrum { margin-top: 36px; height: 12px; }
+  .hero-spectrum-labels { font-size: 9.5px; gap: 8px; }
   .hero-spectrum-labels .mid { display: none; }
-  .hero-mockup { margin-top: 40px; }
-  .browser-bar { padding: 8px 12px; }
-  .browser-url { font-size: 11px; padding: 5px 10px; max-width: 180px; }
+
+  /* Mockup */
+  .hero-mockup { margin-top: 36px; }
+  .browser-bar { padding: 8px 10px; gap: 10px; }
+  .browser-url { font-size: 10.5px; padding: 5px 10px; max-width: none; flex: 1; min-width: 0; }
+  .browser-url svg { width: 11px; height: 11px; }
   .browser-dots span { width: 8px; height: 8px; }
+  .browser-frame { border-radius: 14px; }
+
+  /* Section heads — keep h2 from blowing out */
+  .band-head h2 { font-size: clamp(28px, 7vw, 40px); }
+  .band-head p { font-size: 15px; }
+  section.band { padding: 64px 0; }
+
+  /* How-it-works cards */
+  .how-card { min-height: 0; }
+  .how-preview { height: 180px; padding: 18px; }
+  .how-text { padding: 22px 22px 26px; }
+  .how-num { font-size: 44px; }
+  .how-card h3 { font-size: 22px; }
+  .preview-persona, .preview-prospects, .preview-kpis { max-width: 100%; }
+
+  /* Proof — single column, tighter padding */
+  .proof-grid { grid-template-columns: 1fr; gap: 12px; }
+  .proof-cell { padding: 22px 24px; }
+  .proof-num { font-size: 36px; }
+
+  /* Pricing — tighten the card so it fits a 320px viewport cleanly */
+  .pcard { padding: 28px 24px; gap: 14px; }
+  .pcard .p-name { font-size: 28px; }
+  .pcard .p-price .num { font-size: 44px; }
+  .pcard .p-cta-row .btn { padding: 12px 20px; font-size: 14px; }
+
+  /* FAQ */
+  .faq-list summary { font-size: 18px; gap: 12px; }
+  .faq-list .a { font-size: 15px; }
+
+  /* Final CTA */
+  .final { padding: 56px 0; }
+  .final-card { padding: 40px 24px; border-radius: 22px; }
+  .final-card h2 { font-size: clamp(28px, 7vw, 40px); margin-bottom: 14px; }
+  .final-card p { font-size: 15px; margin-bottom: 22px; }
+  .final-card .btn-xl { padding: 14px 24px; font-size: 15px; width: 100%; max-width: 320px; }
+
+  /* Footer */
+  footer.site { padding: 32px 0; font-size: 12px; }
+  .foot-row { gap: 12px; flex-direction: column; align-items: flex-start; }
+  .foot-links { gap: 18px; }
 }
 </style>
 </head>
@@ -938,10 +978,6 @@ footer.site {
 <!-- ─── HERO ────────────────────────────────────────────────────── -->
 <section class="hero">
   <div class="container">
-    <div class="hero-lockup">
-      <span class="mark" aria-hidden="true"></span>
-      <span class="wordmark">Outpulse</span>
-    </div>
     <span class="hero-eyebrow">AI sales agent</span>
     <h1>From cold list to <em>booked meeting</em>.</h1>
     <p class="hero-lead">
