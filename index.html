@@ -98,6 +98,7 @@ img { max-width: 100%; display: block; }
 
 .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
 .container-narrow { max-width: 920px; margin: 0 auto; padding: 0 32px; }
+.container-tour { max-width: 1360px; margin: 0 auto; padding: 0 32px; }
 
 /* ── Buttons (pill-only per design system) ─────────────────────── */
 .btn {
@@ -150,15 +151,20 @@ img { max-width: 100%; display: block; }
   color: var(--muted);
 }
 
-/* ── Topbar / nav ──────────────────────────────────────────────── */
+/* ── Topbar / nav — dark over the hero, light over content.
+   Stays transparent at top of the page so the dark hero reads
+   as full-bleed. The .scrolled class flips it once the hero
+   ends — we approximate that with a sticky-light treatment via
+   :has + the scroll position. Simpler: just dark always; nav
+   text adapts. */
 .nav {
-  position: sticky;
+  position: absolute;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 20;
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(18px) saturate(1.4);
-  -webkit-backdrop-filter: blur(18px) saturate(1.4);
-  border-bottom: 1px solid var(--line);
+  background: transparent;
+  border-bottom: none;
 }
 .nav-row {
   display: flex;
@@ -172,16 +178,17 @@ img { max-width: 100%; display: block; }
   align-items: center;
   gap: 12px;
   text-decoration: none;
-  color: var(--ink);
+  color: #fff;
   font-weight: 600;
   font-size: 17px;
   letter-spacing: -.01em;
   flex-shrink: 0;
 }
 .brand-mark {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   background: url('outpulse-logo-dusk.svg') center/contain no-repeat;
+  filter: invert(1);
 }
 .nav-links {
   display: flex;
@@ -190,12 +197,12 @@ img { max-width: 100%; display: block; }
 }
 .nav-links a {
   text-decoration: none;
-  color: var(--ink-2);
+  color: rgba(255, 255, 255, 0.62);
   font-size: 14px;
   font-weight: 500;
   transition: color .15s ease;
 }
-.nav-links a:hover { color: var(--ink); }
+.nav-links a:hover { color: #fff; }
 .nav-right {
   display: flex;
   align-items: center;
@@ -204,55 +211,67 @@ img { max-width: 100%; display: block; }
 }
 .nav-login {
   text-decoration: none;
-  color: var(--ink-2);
+  color: rgba(255, 255, 255, 0.62);
   font-size: 14px;
   font-weight: 500;
 }
-.nav-login:hover { color: var(--ink); }
-
-/* ── Hero — Apollo/Linear 2-col, minimalist.
-   Plain paper background — no radial glows, no spectrum bar.
-   One thing per screen: the headline and the mockup. */
-.hero {
-  padding: clamp(80px, 12vh, 160px) 0 clamp(80px, 12vh, 160px);
-  background: var(--paper);
-  border-bottom: 1px solid var(--line);
+.nav-login:hover { color: #fff; }
+/* Nav button gets a light treatment on the dark hero ground */
+.nav-right .btn-dark {
+  background: #fff;
+  color: var(--ink);
+  border: none;
 }
-.hero-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-  gap: clamp(48px, 6vw, 96px);
-  align-items: center;
+.nav-right .btn-dark:hover { background: rgba(255, 255, 255, 0.88); color: var(--ink); }
+
+/* ── Hero — Linear-style. Ink ground, big white display type,
+   text-only. The mockup pulls in on first scroll in its own
+   section below — the hero itself stays minimal. */
+.hero {
+  padding: clamp(120px, 18vh, 220px) 0 clamp(120px, 18vh, 220px);
+  background: var(--ink);
+  color: #fff;
+  border-bottom: none;
+  position: relative;
+}
+.hero .container {
+  max-width: 1280px;
 }
 .hero-text {
-  min-width: 0;
+  max-width: 18ch;
 }
 .hero-eyebrow {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: .26em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.45);
   display: inline-block;
-  margin-bottom: 28px;
+  margin-bottom: 32px;
 }
 .hero h1 {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(40px, 4.8vw, 72px);
-  line-height: 1.02;
-  letter-spacing: -.025em;
-  margin: 0 0 24px;
+  font-size: clamp(56px, 8vw, 120px);
+  line-height: .98;
+  letter-spacing: -.03em;
+  margin: 0 0 40px;
+  color: #fff;
 }
 .hero h1 em {
   font-style: italic;
   color: var(--orange);
 }
 .hero-lead {
-  font-size: clamp(17px, 1.3vw, 19px);
-  line-height: 1.55;
-  color: var(--ink-2);
-  margin: 0 0 32px;
+  font-size: clamp(18px, 1.5vw, 22px);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.62);
+  max-width: 56ch;
+  margin: 0 0 40px;
+}
+.hero-lead strong {
+  color: #fff;
+  font-weight: 500;
 }
 .hero-cta-row {
   display: flex;
@@ -266,10 +285,19 @@ img { max-width: 100%; display: block; }
   gap: 16px;
   flex-wrap: wrap;
   align-items: center;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.5);
   font-size: 13px;
 }
-.hero-trust .sep { color: var(--muted-2); }
+.hero-trust .sep { color: rgba(255, 255, 255, 0.28); }
+.hero .btn-ghost {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.22);
+  background: transparent;
+}
+.hero .btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.4);
+}
 
 
 /* ── Inline Outpulse dashboard — current-design replica.
@@ -754,6 +782,34 @@ img { max-width: 100%; display: block; }
 #tour-campaigns:checked ~ .tour-panels .tour-panel-campaigns {
   display: block;
 }
+/* Enlarge tour mockups — Linear-style nearly fullscreen feel.
+   Each panel renders bigger than the band container would suggest;
+   the surrounding container-tour bumps to 1360px. */
+.tour-panel .app-mockup,
+.tour-panel .tour-prospects-table,
+.tour-panel .tour-campaigns {
+  border-radius: var(--r-xl);
+  box-shadow:
+    0 60px 120px -32px rgba(14, 13, 12, 0.32),
+    0 24px 48px -12px rgba(14, 13, 12, 0.14);
+}
+.tour-panel .app-mockup .app-frame-bar,
+.tour-panel .tour-prospects-table .tour-prospects-bar {
+  padding: 14px 22px;
+}
+.tour-panel .app-mockup .app-body { padding: 32px 36px 36px; }
+.tour-panel .app-mockup .app-title { font-size: 30px; }
+.tour-panel .pulse-card { padding: 26px 28px 24px; gap: 22px; }
+.tour-panel .pulse-col-n { font-size: 40px; }
+.tour-panel .pulse-funnel .stage { padding: 14px 16px; }
+.tour-panel .pulse-funnel .stage-val { font-size: 24px; }
+.tour-panel .tour-prospect-row { padding: 18px 24px; }
+.tour-panel .tour-prospects-bar h3 { font-size: 22px; }
+.tour-panel .tour-csum-card { padding: 18px 20px; }
+.tour-panel .tour-csum-card .val { font-size: 36px; }
+.tour-panel .tour-ccard { padding: 26px 28px; gap: 18px; }
+.tour-panel .tour-ccard-title { font-size: 26px; }
+.tour-panel .tour-ccard-funnel .f .val { font-size: 26px; }
 .tour-panel-caption {
   margin-top: 22px;
   display: flex;
@@ -1309,6 +1365,64 @@ img { max-width: 100%; display: block; }
   font-weight: 600;
 }
 
+/* ── First-scroll mockup — Linear-style. Big nearly-full-width
+   browser-frame containing the dashboard, pulled up over the
+   hero/section seam so it reads as "the product reveal".
+   The negative top margin lifts the frame into the dark hero,
+   creating that "pulled in on first scroll" feel without JS. */
+.first-mockup {
+  background: var(--bg);
+  padding: 0 0 clamp(80px, 10vh, 140px);
+  position: relative;
+}
+.first-mockup-inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.first-mockup .browser-frame {
+  margin-top: clamp(-200px, -16vh, -120px);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  box-shadow:
+    0 60px 120px -30px rgba(14, 13, 12, 0.45),
+    0 24px 48px -12px rgba(14, 13, 12, 0.18);
+}
+.first-mockup .app-frame-bar {
+  padding: 14px 20px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.first-mockup .app-frame-bar .dots span {
+  width: 11px; height: 11px;
+}
+.first-mockup .app-frame-bar .url-pill {
+  font-size: 12.5px;
+  padding: 6px 14px;
+  max-width: 360px;
+}
+.first-mockup .app-body {
+  padding: 36px 40px 40px;
+}
+.first-mockup .app-topbar { margin-bottom: 28px; }
+.first-mockup .app-title { font-size: 32px; }
+.first-mockup .pulse-card {
+  padding: 28px 32px 26px;
+  gap: 22px;
+  border-radius: var(--r-lg);
+}
+.first-mockup .pulse-col-n { font-size: 44px; }
+.first-mockup .pulse-funnel { padding-top: 20px; gap: 10px; }
+.first-mockup .pulse-funnel .stage { padding: 14px 16px; }
+.first-mockup .pulse-funnel .stage-val { font-size: 26px; }
+.first-mockup .pulse-mini > div { padding: 10px 0; }
+.first-mockup .pulse-mini .pm-val { font-size: 22px; }
+
 /* ── Section shell — generous whitespace, one idea per screen ──── */
 section.band {
   padding: clamp(120px, 14vh, 200px) 0;
@@ -1782,11 +1896,11 @@ section.band.bg-panel { background: var(--bg-panel); }
   opacity: .92;
 }
 .final-card .btn-orange {
-  background: var(--ink);
+  background: var(--orange);
   color: #fff;
-  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 16px 40px -10px rgba(255, 91, 31, 0.45);
 }
-.final-card .btn-orange:hover { background: #000; }
+.final-card .btn-orange:hover { background: var(--orange-2); }
 .final-foot {
   margin-top: 18px;
   font-size: 13px;
@@ -1814,13 +1928,12 @@ footer.site {
 
 /* ── Responsive ─────────────────────────────────────────────────── */
 @media (max-width: 1100px) {
-  /* Hero stacks earlier than the rest because the inline app
-     mockup needs at least ~520px to keep the 4-up KPI row legible. */
-  .hero-grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-  .app-kpi-row { grid-template-columns: repeat(4, 1fr); }
+  .first-mockup .browser-frame { margin-top: clamp(-160px, -12vh, -100px); }
+  .first-mockup .app-body { padding: 28px 28px 30px; }
+  .first-mockup .app-title { font-size: 26px; }
+  .first-mockup .pulse-col-n { font-size: 36px; }
+  .first-mockup .pulse-funnel .stage-val { font-size: 22px; }
+  .first-mockup .pulse-mini .pm-val { font-size: 18px; }
 }
 @media (max-width: 920px) {
   .nav-links { display: none; }
@@ -1872,12 +1985,21 @@ footer.site {
   .brand-mark { width: 30px; height: 30px; }
 
   /* Hero — type, CTAs, trust */
-  .hero { padding: 48px 0 56px; }
+  .hero { padding: 100px 0 80px; }
+  .hero-text { max-width: 100%; }
   .hero h1 {
-    font-size: clamp(34px, 9vw, 48px);
-    line-height: 1.04;
-    margin-bottom: 18px;
+    font-size: clamp(40px, 10vw, 64px);
+    line-height: 1.0;
+    margin-bottom: 24px;
   }
+  /* First-scroll mockup — smaller pull-up so the dashboard fits */
+  .first-mockup .browser-frame { margin-top: -60px; border-radius: 14px; }
+  .first-mockup .app-body { padding: 18px 16px 20px; }
+  .first-mockup .app-title { font-size: 18px; }
+  .first-mockup .pulse-card { padding: 16px 16px 14px; gap: 12px; }
+  .first-mockup .pulse-col-n { font-size: 26px; }
+  .first-mockup .pulse-funnel { grid-template-columns: repeat(2, 1fr); padding-top: 14px; }
+  .first-mockup .pulse-mini { grid-template-columns: repeat(2, 1fr); }
   .hero-lead {
     font-size: 16px;
     line-height: 1.5;
@@ -2015,149 +2137,112 @@ footer.site {
   </div>
 </nav>
 
-<!-- ─── HERO ────────────────────────────────────────────────────── -->
+<!-- ─── HERO — Linear-style, ink ground, text-only.
+     Strong serif headline, short subhead, two CTAs. The mockup
+     reveals on first scroll in the section right below — the hero
+     itself stays minimal and lets the type carry. -->
 <section class="hero">
   <div class="container">
-
-    <div class="hero-grid">
-
-      <!-- LEFT: text + CTAs.
-           37signals voice: short, opinion-as-fact, no SaaS-speak,
-           benefit in line one. "We did the boring thing so you
-           don't have to." -->
-      <div class="hero-text">
-        <span class="hero-eyebrow">An AI sales rep · for founders</span>
-        <h1>Stop being<br>your own <em>SDR</em>.</h1>
-        <p class="hero-lead">
-          Outpulse is the agent that does cold outbound for you. You write one sentence about who you sell to. It finds them, writes them, sends, follows up, and pauses when they reply. <strong>That's the whole pitch.</strong>
-        </p>
-        <div class="hero-cta-row">
-          <a href="https://app.outpulse.ai/signup?utm_source=outpulse_landing&utm_campaign=launch&utm_medium=hero_cta" class="btn btn-orange btn-xl" data-cta="hero">Try it free for 7 days</a>
-          <a href="#how" class="btn btn-ghost">See how it works</a>
-        </div>
-        <div class="hero-trust">
-          <span>No card to start</span>
-          <span class="sep">·</span>
-          <span>Cancel anytime</span>
-          <span class="sep">·</span>
-          <span>GDPR-compliant by default</span>
-        </div>
+    <div class="hero-text">
+      <span class="hero-eyebrow">An AI sales agent · for founders</span>
+      <h1>Stop being<br>your own <em>SDR</em>.</h1>
+      <p class="hero-lead">
+        Outpulse runs cold outbound end-to-end. You write one sentence about who you sell to. It finds them, writes them, sends, follows up, pauses when they reply. <strong>That's the whole pitch.</strong>
+      </p>
+      <div class="hero-cta-row">
+        <a href="https://app.outpulse.ai/signup?utm_source=outpulse_landing&utm_campaign=launch&utm_medium=hero_cta" class="btn btn-orange btn-xl" data-cta="hero">Try it free for 7 days</a>
+        <a href="#tour" class="btn btn-ghost">See it in action</a>
       </div>
+      <div class="hero-trust">
+        <span>No card to start</span>
+        <span class="sep">·</span>
+        <span>Cancel in one click</span>
+        <span class="sep">·</span>
+        <span>GDPR-compliant</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <!-- RIGHT: faithful inline replica of the current Outpulse
-           dashboard (/app/(dashboard)/dashboard). Real HTML, no
-           video, no PNG — every element echoes the same selectors
-           used in dashboard.module.css so the visual matches what
-           a user actually sees after signup. -->
-      <div class="app-mockup" role="img" aria-label="Outpulse dashboard — current design">
-        <div class="app-frame-bar">
-          <div class="dots"><span></span><span></span><span></span></div>
-          <div class="url-pill">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1a4 4 0 014 4v3h1a3 3 0 013 3v9a3 3 0 01-3 3H7a3 3 0 01-3-3v-9a3 3 0 013-3h1V5a4 4 0 014-4zm0 2a2 2 0 00-2 2v3h4V5a2 2 0 00-2-2z"/></svg>
-            app.outpulse.ai/dashboard
+<!-- ─── FIRST-SCROLL MOCKUP — pulled up over the hero seam.
+     Big near-full-bleed dashboard preview. Real HTML replica of
+     the actual /dashboard surface — Pulse hero card with funnel
+     and mini-stats — rendered at landing scale, not a screenshot. -->
+<section class="first-mockup">
+  <div class="first-mockup-inner">
+    <div class="browser-frame" role="img" aria-label="Outpulse dashboard — Pulse goal, funnel, and live activity">
+      <div class="app-frame-bar">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="url-pill">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1a4 4 0 014 4v3h1a3 3 0 013 3v9a3 3 0 01-3 3H7a3 3 0 01-3-3v-9a3 3 0 013-3h1V5a4 4 0 014-4zm0 2a2 2 0 00-2 2v3h4V5a2 2 0 00-2-2z"/></svg>
+          app.outpulse.ai/dashboard
+        </div>
+        <div style="width:60px"></div>
+      </div>
+      <div class="app-body">
+        <div class="app-topbar">
+          <div class="app-topbar-left">
+            <span class="app-greeting">Good evening, Lukas</span>
+            <h2 class="app-title">Strong week — <em>two more to close.</em></h2>
           </div>
-          <div style="width:48px"></div>
+          <div class="app-actions">
+            <span class="app-btn-ghost">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+              Discover
+            </span>
+            <span class="app-btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+              Start outreach
+            </span>
+          </div>
         </div>
 
-        <div class="app-body">
-          <!-- Topbar — greeting + serif title with italic em + actions -->
-          <div class="app-topbar">
-            <div class="app-topbar-left">
-              <span class="app-greeting">Good evening, Lukas</span>
-              <h2 class="app-title">Strong week — <em>two more to close.</em></h2>
+        <div class="pulse-card">
+          <div class="pulse-top">
+            <span class="pulse-eyebrow">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+              Your Pulse
+            </span>
+            <span class="pulse-status"><span class="d"></span>On pace</span>
+          </div>
+
+          <div class="pulse-grid">
+            <div class="col">
+              <span class="pulse-col-lbl">Closed deals</span>
+              <span class="pulse-col-n">3<span class="frac">/5</span></span>
+              <span class="pulse-col-sub">2 to go this quarter</span>
             </div>
-            <div class="app-actions">
-              <span class="app-btn-ghost">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-                Discover
-              </span>
-              <span class="app-btn-primary">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-                Start outreach
-              </span>
+            <div class="rule"></div>
+            <div class="col">
+              <span class="pulse-col-lbl">Revenue booked</span>
+              <span class="pulse-col-n">$54k<span class="frac"> /$90k</span></span>
+              <span class="pulse-col-sub">Q2 revenue target</span>
             </div>
           </div>
 
-          <!-- Pulse hero card — the real composition from
-               prototype-minimal.html. Eyebrow + status, 2-col anchor
-               numbers, progress bar, 4-stage funnel, mini-stats. -->
-          <div class="pulse-card">
-            <div class="pulse-top">
-              <span class="pulse-eyebrow">
-                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
-                Your Pulse
-              </span>
-              <span class="pulse-status">
-                <span class="d"></span>On pace
-              </span>
-            </div>
+          <div class="pulse-bar"><span class="fill" style="width:60%"></span></div>
+          <div class="pulse-progress">
+            <span>60% complete</span>
+            <span>14 days left · ends 14 May</span>
+          </div>
 
-            <div class="pulse-grid">
-              <div class="col">
-                <span class="pulse-col-lbl">Closed deals</span>
-                <span class="pulse-col-n">3<span class="frac">/5</span></span>
-                <span class="pulse-col-sub">2 to go this quarter</span>
-              </div>
-              <div class="rule"></div>
-              <div class="col">
-                <span class="pulse-col-lbl">Revenue booked</span>
-                <span class="pulse-col-n">$54k<span class="frac"> /$90k</span></span>
-                <span class="pulse-col-sub">Q2 revenue target</span>
-              </div>
-            </div>
+          <div class="pulse-funnel">
+            <div class="stage"><span class="stage-val">1,842<span class="frac">/1,200</span></span><span class="stage-lbl">Visits</span></div>
+            <div class="stage"><span class="stage-val">142</span><span class="stage-lbl">Inquiries</span></div>
+            <div class="stage"><span class="stage-val">38</span><span class="stage-lbl">Calls</span></div>
+            <div class="stage"><span class="stage-val">3<span class="frac">/5</span></span><span class="stage-lbl">Closed</span></div>
+          </div>
 
-            <div class="pulse-bar"><span class="fill" style="width:60%"></span></div>
-            <div class="pulse-progress">
-              <span>60% complete</span>
-              <span>14 days left · ends 14 May</span>
-            </div>
-
-            <div class="pulse-funnel">
-              <div class="stage">
-                <span class="stage-val">1,842<span class="frac">/1,200</span></span>
-                <span class="stage-lbl">Visits</span>
-              </div>
-              <div class="stage">
-                <span class="stage-val">142</span>
-                <span class="stage-lbl">Inquiries</span>
-              </div>
-              <div class="stage">
-                <span class="stage-val">38</span>
-                <span class="stage-lbl">Calls</span>
-              </div>
-              <div class="stage">
-                <span class="stage-val">3<span class="frac">/5</span></span>
-                <span class="stage-lbl">Closed</span>
-              </div>
-            </div>
-
-            <div class="pulse-mini">
-              <div>
-                <span class="pm-lbl">Visits today</span>
-                <span class="pm-val">84<span class="frac">/40</span></span>
-              </div>
-              <div>
-                <span class="pm-lbl">Sent</span>
-                <span class="pm-val">124<span class="frac">/100</span></span>
-              </div>
-              <div>
-                <span class="pm-lbl">Opens</span>
-                <span class="pm-val">68</span>
-              </div>
-              <div>
-                <span class="pm-lbl">Replies</span>
-                <span class="pm-val">14</span>
-              </div>
-              <div>
-                <span class="pm-lbl">Meetings</span>
-                <span class="pm-val">3</span>
-              </div>
-            </div>
+          <div class="pulse-mini">
+            <div><span class="pm-lbl">Visits today</span><span class="pm-val">84<span class="frac">/40</span></span></div>
+            <div><span class="pm-lbl">Sent</span><span class="pm-val">124<span class="frac">/100</span></span></div>
+            <div><span class="pm-lbl">Opens</span><span class="pm-val">68</span></div>
+            <div><span class="pm-lbl">Replies</span><span class="pm-val">14</span></div>
+            <div><span class="pm-lbl">Meetings</span><span class="pm-val">3</span></div>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </section>
 
@@ -2192,8 +2277,8 @@ footer.site {
      Same pattern Apollo uses for its product showcase, applied to
      the three real Outpulse views the prospects in the email will
      see after signup. -->
-<section class="band bg-panel">
-  <div class="container">
+<section class="band bg-panel tour-section" id="tour">
+  <div class="container container-tour">
     <div class="band-head">
       <span class="eyebrow">The actual product</span>
       <h2>One app. <em>Every step of outbound.</em></h2>
