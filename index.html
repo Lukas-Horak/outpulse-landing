@@ -1139,6 +1139,40 @@ img { max-width: 100%; display: block; }
   width: 5px; height: 5px; border-radius: 50%;
   background: var(--green);
 }
+.tour-ccard-status.sending { color: var(--blue); }
+.tour-ccard-status.sending .d { background: var(--blue); }
+.tour-ccard-status.paused { color: var(--muted); }
+.tour-ccard-status.paused .d { background: var(--muted-2); }
+.tour-ccard-flag-neutral {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  background: var(--bg-subtle);
+  color: var(--muted);
+  border: 1px solid var(--line);
+  white-space: nowrap;
+}
+.tour-ccard-flag-warn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  background: #fff5ec;
+  color: var(--orange-ink);
+  border: 1px solid #f3dec9;
+  white-space: nowrap;
+}
+.tour-ccard-flag-warn .d {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--orange);
+}
 .tour-ccard-title {
   font-family: var(--serif);
   font-weight: 400;
@@ -3118,6 +3152,112 @@ footer.site {
             </div>
             <div class="tour-prospect-added">3d ago</div>
           </div>
+          <div class="tour-prospect-row">
+            <div class="tour-prospect-who">
+              <span class="av">ER</span>
+              <div class="text">
+                <span class="name">Emily Rodriguez</span>
+                <span class="role">Co-founder · Resend</span>
+              </div>
+            </div>
+            <div class="tour-prospect-email">
+              <span class="addr">emily@resend.com</span>
+              <span class="verified"><span class="d"></span>Verified</span>
+            </div>
+            <div class="tour-prospect-signals">
+              <span class="tour-signal"><span class="d"></span>Hiring 4 engineers</span>
+              <span class="tour-signal warm">Seed · $3M</span>
+            </div>
+            <div class="tour-prospect-added">3d ago</div>
+          </div>
+          <div class="tour-prospect-row">
+            <div class="tour-prospect-who">
+              <span class="av">TH</span>
+              <div class="text">
+                <span class="name">Tom Hartwell</span>
+                <span class="role">CTO · Cal.com</span>
+              </div>
+            </div>
+            <div class="tour-prospect-email">
+              <span class="addr">tom@cal.com</span>
+              <span class="verified"><span class="d"></span>Verified</span>
+            </div>
+            <div class="tour-prospect-signals">
+              <span class="tour-signal cool"><span class="d"></span>Stack: Next.js + Vercel</span>
+            </div>
+            <div class="tour-prospect-added">4d ago</div>
+          </div>
+          <div class="tour-prospect-row">
+            <div class="tour-prospect-who">
+              <span class="av">MK</span>
+              <div class="text">
+                <span class="name">Maya Krishnan</span>
+                <span class="role">Founder · Tally</span>
+              </div>
+            </div>
+            <div class="tour-prospect-email">
+              <span class="addr">maya@tally.so</span>
+              <span class="verified"><span class="d"></span>Verified</span>
+            </div>
+            <div class="tour-prospect-signals">
+              <span class="tour-signal"><span class="d"></span>Hiring sales lead</span>
+              <span class="tour-signal warm">Profitable</span>
+            </div>
+            <div class="tour-prospect-added">5d ago</div>
+          </div>
+          <div class="tour-prospect-row">
+            <div class="tour-prospect-who">
+              <span class="av">NT</span>
+              <div class="text">
+                <span class="name">Niko Tervaniemi</span>
+                <span class="role">CEO · Beehiiv</span>
+              </div>
+            </div>
+            <div class="tour-prospect-email">
+              <span class="addr">niko@beehiiv.com</span>
+              <span class="verified"><span class="d"></span>Verified</span>
+            </div>
+            <div class="tour-prospect-signals">
+              <span class="tour-signal warm">Series B · $33M</span>
+              <span class="tour-signal cool"><span class="d"></span>Product launch</span>
+            </div>
+            <div class="tour-prospect-added">6d ago</div>
+          </div>
+          <div class="tour-prospect-row">
+            <div class="tour-prospect-who">
+              <span class="av">FM</span>
+              <div class="text">
+                <span class="name">Felix Müller</span>
+                <span class="role">Founder · Sentry</span>
+              </div>
+            </div>
+            <div class="tour-prospect-email">
+              <span class="addr">felix@sentry.io</span>
+              <span class="verified"><span class="d"></span>Verified</span>
+            </div>
+            <div class="tour-prospect-signals">
+              <span class="tour-signal"><span class="d"></span>Hiring 8 engineers</span>
+            </div>
+            <div class="tour-prospect-added">1w ago</div>
+          </div>
+          <div class="tour-prospect-row">
+            <div class="tour-prospect-who">
+              <span class="av">JL</span>
+              <div class="text">
+                <span class="name">Jamie Lin</span>
+                <span class="role">Founder · Loops</span>
+              </div>
+            </div>
+            <div class="tour-prospect-email">
+              <span class="addr">jamie@loops.so</span>
+              <span class="verified"><span class="d"></span>Verified</span>
+            </div>
+            <div class="tour-prospect-signals">
+              <span class="tour-signal cool"><span class="d"></span>Intent: docs page</span>
+              <span class="tour-signal warm">Seed · $5M</span>
+            </div>
+            <div class="tour-prospect-added">1w ago</div>
+          </div>
         </div>
         </div><!-- /.tour-prospects-table -->
         </div><!-- /.app-shell-main -->
@@ -3257,6 +3397,54 @@ footer.site {
             <div class="f up"><span class="lbl">Opens</span><span class="val">812</span><span class="delta">63.2%</span></div>
             <div class="f up"><span class="lbl">Replies</span><span class="val">138</span><span class="delta">10.7%</span></div>
             <div class="f up"><span class="lbl">Meetings</span><span class="val">42</span><span class="delta">+6 this week</span></div>
+          </div>
+        </div>
+
+        <div class="tour-ccard">
+          <div class="tour-ccard-head">
+            <div class="tour-ccard-meta">
+              <span class="tour-ccard-status sending"><span class="d"></span>Sending · 6 days</span>
+              <h3 class="tour-ccard-title">SaaS founders · EU 50–200</h3>
+              <span class="tour-ccard-aud"><b>612 prospects</b> · Founders at vertical SaaS · Germany, NL, Nordics</span>
+            </div>
+            <span class="tour-ccard-flag-neutral">Testing copy v3</span>
+          </div>
+          <div class="tour-ccard-progress">
+            <div class="top">
+              <span>14-day send</span>
+              <span><b>612</b> / 1,420 sent</span>
+            </div>
+            <div class="bar"><span class="fill" style="inset: 0 57% 0 0"></span></div>
+          </div>
+          <div class="tour-ccard-funnel">
+            <div class="f"><span class="lbl">Sent</span><span class="val">612</span><span class="delta">day 6 of 14</span></div>
+            <div class="f up"><span class="lbl">Opens</span><span class="val">198</span><span class="delta">32.3%</span></div>
+            <div class="f"><span class="lbl">Replies</span><span class="val">19</span><span class="delta">3.1%</span></div>
+            <div class="f"><span class="lbl">Meetings</span><span class="val">4</span><span class="delta">early</span></div>
+          </div>
+        </div>
+
+        <div class="tour-ccard">
+          <div class="tour-ccard-head">
+            <div class="tour-ccard-meta">
+              <span class="tour-ccard-status paused"><span class="d"></span>Paused · awaiting copy</span>
+              <h3 class="tour-ccard-title">Fintech · Heads of Growth</h3>
+              <span class="tour-ccard-aud"><b>284 prospects</b> · Heads of Growth at fintech Series A–C · US + UK</span>
+            </div>
+            <span class="tour-ccard-flag-warn"><span class="d"></span>Reply rate low</span>
+          </div>
+          <div class="tour-ccard-progress">
+            <div class="top">
+              <span>14-day send</span>
+              <span><b>74</b> / 284 sent · paused</span>
+            </div>
+            <div class="bar"><span class="fill" style="inset: 0 74% 0 0; background: var(--muted-2)"></span></div>
+          </div>
+          <div class="tour-ccard-funnel">
+            <div class="f"><span class="lbl">Sent</span><span class="val">74</span><span class="delta">paused</span></div>
+            <div class="f"><span class="lbl">Opens</span><span class="val">22</span><span class="delta">29.7%</span></div>
+            <div class="f"><span class="lbl">Replies</span><span class="val">1</span><span class="delta">1.4%</span></div>
+            <div class="f"><span class="lbl">Meetings</span><span class="val">0</span><span class="delta">—</span></div>
           </div>
         </div>
         </div><!-- /.tour-campaigns -->
