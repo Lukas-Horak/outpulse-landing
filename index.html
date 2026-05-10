@@ -1451,6 +1451,8 @@ img { max-width: 100%; display: block; }
 .dark-band-creds img {
   height: 22px;
   width: auto;
+  max-width: 110px;
+  object-fit: contain;
   opacity: 0.72;
   filter: brightness(0) invert(1);
   transition: opacity .2s ease;
@@ -1487,6 +1489,8 @@ img { max-width: 100%; display: block; }
   color: #fff;
   font-weight: 600;
 }
+.dark-band-sign .who { display: inline; }
+.dark-band-sign .role::before { content: " · "; color: rgba(255, 255, 255, 0.45); }
 
 /* ── App-shell — faithful replica of prototype-minimal.html
    Real workspace switcher pill, real section labels, exact
@@ -2050,27 +2054,51 @@ img { max-width: 100%; display: block; }
   margin: 0 auto;
   padding: 0 32px;
 }
+/* Frame is INTENTIONALLY transparent so the top bar can pull a
+   real backdrop-filter blur on the gradient behind. .app-shell
+   below carries the solid white interior — the bar floats on top
+   of the gradient + the page-paper, blurring whichever side it
+   sits over. */
 .first-mockup .browser-frame {
-  background: var(--paper);
-  border: 1px solid var(--line);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: var(--r-xl);
   overflow: hidden;
   box-shadow:
-    0 60px 120px -30px rgba(14, 13, 12, 0.18),
-    0 24px 48px -12px rgba(14, 13, 12, 0.08);
+    0 60px 120px -30px rgba(14, 13, 12, 0.22),
+    0 24px 48px -12px rgba(14, 13, 12, 0.10);
   aspect-ratio: 4 / 3;
   display: flex;
   flex-direction: column;
+  isolation: isolate;
 }
 .first-mockup .browser-frame > .app-frame-bar { flex-shrink: 0; }
 .first-mockup .browser-frame > .app-shell { flex: 1; min-height: 0; }
+/* Override the global .app-frame-bar fake-glass with a REAL liquid
+   glass bar — minimal tint + actual blur sampling the gradient
+   behind the now-transparent frame. */
 .first-mockup .app-frame-bar {
   padding: 14px 20px;
-  background: var(--bg-panel);
-  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(180deg,
+      rgba(255, 255, 255, 0.34) 0%,
+      rgba(255, 255, 255, 0.18) 100%);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  backdrop-filter: blur(28px) saturate(1.6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.18);
   display: flex;
   align-items: center;
   gap: 16px;
+}
+.first-mockup .app-frame-bar .url-pill {
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  color: var(--ink-2);
 }
 .first-mockup .app-frame-bar .dots span {
   width: 11px; height: 11px;
@@ -2650,39 +2678,45 @@ footer.site {
   .app-shell-main { padding: 18px 22px 22px; }
 }
 @media (max-width: 760px) {
-  /* Drop the strict 4:3 frame ratio on narrow viewports — at
-     phone widths a 4:3 box is too tall with not enough content
-     visible. Let the inner content drive the frame height
-     instead. Same treatment for first-mockup browser-frame
-     and tour mockup-frame. */
+  /* Drop the strict 4:3 frame ratio on narrow viewports — at phone
+     widths a 4:3 box is too tall with not enough content visible.
+     Let the inner content drive the frame height instead. Same
+     treatment for first-mockup browser-frame and tour mockup-frame. */
   .mockup-frame,
   .first-mockup .browser-frame {
     aspect-ratio: auto;
   }
-  /* App shell — collapse sidebar to a 56px icon-rail so the
-     window still looks like a real app, not a content card */
-  .app-shell { grid-template-columns: 56px 1fr; }
-  .app-sidebar { padding: 12px 6px; gap: 10px; }
-  .app-sidebar-brand { font-size: 0; gap: 0; justify-content: center; padding: 6px 0 12px; }
-  .app-sidebar-brand .mk { width: 24px; height: 24px; }
-  .app-sidebar-workspace { display: none; }
-  .app-sidebar-section { display: none; }
-  .app-sidebar-nav .item {
-    padding: 8px 0;
-    justify-content: center;
-    font-size: 0;
-    border-radius: var(--r-sm);
+  /* App shell — sidebar is hidden entirely on phones. Trying to
+     squeeze a sidebar of any width into a 360-pixel viewport breaks
+     the layout; real apps hide the rail behind a hamburger and we
+     do the same in spirit. The main content gets the full frame. */
+  .app-shell { grid-template-columns: 1fr; }
+  .app-sidebar { display: none; }
+  .app-shell-main { padding: 18px 18px 22px; }
+  /* Tighten the top bar so the browser dots + url pill fit at
+     small widths without crowding. */
+  .first-mockup .app-frame-bar,
+  .mockup-frame .app-frame-bar {
+    padding: 10px 12px;
+    gap: 10px;
   }
-  .app-sidebar-nav .item svg { width: 16px; height: 16px; }
-  .app-sidebar-nav .item .count { display: none; }
-  .app-sidebar-foot {
-    flex-direction: column;
-    gap: 4px;
-    align-items: center;
-    padding-top: 10px;
+  .first-mockup .app-frame-bar .url-pill,
+  .mockup-frame .app-frame-bar .url-pill {
+    font-size: 10.5px;
+    padding: 4px 10px;
+    max-width: none;
+    flex: 1;
+    min-width: 0;
   }
-  .app-sidebar-foot .who { display: none; }
-  .app-shell-main { padding: 14px 16px 18px; }
+  .first-mockup .app-frame-bar .dots span,
+  .mockup-frame .app-frame-bar .dots span {
+    width: 9px; height: 9px;
+  }
+  /* First-mockup inner padding shrinks too so the dashboard breathes
+     within the narrower frame. */
+  .first-mockup-inner { padding: 0 16px; }
+  .first-mockup .app-body { padding: 20px 18px 22px; }
+  .first-mockup .app-title { font-size: 20px; }
 }
 @media (max-width: 920px) {
   .nav-links { display: none; }
@@ -2859,16 +2893,46 @@ footer.site {
   .dark-band-inner { padding: 0 22px; }
   .dark-band h2 { font-size: clamp(28px, 7.5vw, 42px); }
   .dark-band-story { font-size: 15px; }
+  /* Logo strip — switch to an even grid so each logo gets the same
+     cell width. Without this, SVGs with wildly different aspect
+     ratios (Samsung vs Apple) render at very different visual sizes
+     and the row looks broken. */
   .dark-band-creds { padding-top: 28px; }
-  .dark-band-creds .row { gap: 18px 24px; }
-  .dark-band-creds img { height: 18px; }
-  .dark-band-sign {
-    padding: 10px 16px;
-    font-size: 12px;
-    flex-direction: column;
-    gap: 8px;
-    text-align: center;
+  .dark-band-creds .row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px 12px;
+    justify-items: center;
+    align-items: center;
   }
+  .dark-band-creds img {
+    height: 18px;
+    max-width: 78px;
+    width: 100%;
+    object-fit: contain;
+  }
+  /* Avatar signature — pill becomes a stacked block on mobile.
+     Centered avatar, name on its own line, role+context smaller
+     below. The single-line wrap was breaking on small viewports. */
+  .dark-band-sign {
+    padding: 16px 18px;
+    font-size: 13px;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+    border-radius: 18px;
+    line-height: 1.45;
+    max-width: 320px;
+  }
+  .dark-band-sign .av { width: 44px; height: 44px; }
+  .dark-band-sign .who {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .dark-band-sign b { font-size: 14px; }
+  .dark-band-sign .role { font-size: 12.5px; color: rgba(255, 255, 255, 0.65); }
+  .dark-band-sign .role::before { content: none; }
 
   /* Pricing */
   .pcard { padding: 28px 24px; gap: 14px; }
@@ -3794,7 +3858,9 @@ footer.site {
 
     <div class="dark-band-sign">
       <span class="av"><img src="lukas-avatar.png" alt="Lukas Horak"></span>
-      <span><b>Lukas Horak</b> · Founder, Outpulse · dogfooding it right now</span>
+      <span class="who">
+        <b>Lukas Horak</b><span class="role">Founder, Outpulse · dogfooding it right now</span>
+      </span>
     </div>
   </div>
 </section>
