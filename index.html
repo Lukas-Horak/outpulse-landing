@@ -1405,40 +1405,39 @@ img { max-width: 100%; display: block; }
   background: rgba(255, 255, 255, 0.25);
   margin: 8px auto;
 }
-.dark-band-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
-  max-width: 560px;
+/* Credibility strip — eyebrow + client logos from plat4m.com.
+   The team behind Outpulse has shipped product to these brands;
+   on the dark photo ground it reads as quiet proof, not bragging. */
+.dark-band-creds {
   margin: 8px auto 32px;
-  padding-top: 32px;
+  padding-top: 36px;
   border-top: 1px solid rgba(255, 255, 255, 0.14);
+  max-width: 720px;
 }
-.dark-band-stats .stat {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  align-items: center;
-}
-.dark-band-stats .num {
-  font-family: var(--serif);
-  font-weight: 400;
-  font-size: clamp(28px, 3vw, 40px);
-  line-height: 1;
-  letter-spacing: -.015em;
-  color: #fff;
-}
-.dark-band-stats .num em {
-  font-style: italic;
-  color: var(--orange-3);
-}
-.dark-band-stats .lbl {
+.dark-band-creds .lbl {
   font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: .14em;
+  font-weight: 700;
+  letter-spacing: .22em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.45);
+  text-align: center;
+  margin-bottom: 24px;
 }
+.dark-band-creds .row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 4vw, 48px);
+}
+.dark-band-creds img {
+  height: 22px;
+  width: auto;
+  opacity: 0.72;
+  filter: brightness(0) invert(1);
+  transition: opacity .2s ease;
+}
+.dark-band-creds img:hover { opacity: 1; }
 .dark-band-sign {
   display: inline-flex;
   align-items: center;
@@ -2813,11 +2812,9 @@ footer.site {
   .dark-band-inner { padding: 0 22px; }
   .dark-band h2 { font-size: clamp(28px, 7.5vw, 42px); }
   .dark-band-story { font-size: 15px; }
-  .dark-band-stats {
-    grid-template-columns: 1fr;
-    gap: 18px;
-    padding-top: 24px;
-  }
+  .dark-band-creds { padding-top: 28px; }
+  .dark-band-creds .row { gap: 18px 24px; }
+  .dark-band-creds img { height: 18px; }
   .dark-band-sign {
     padding: 10px 16px;
     font-size: 12px;
@@ -3735,18 +3732,17 @@ footer.site {
       <p><strong>Outpulse runs the part nobody wanted to do — so makers can spend their day making.</strong></p>
     </div>
 
-    <div class="dark-band-stats">
-      <div class="stat">
-        <span class="num"><em>8h+</em></span>
-        <span class="lbl">Hours back / week</span>
-      </div>
-      <div class="stat">
-        <span class="num"><em>1-of-1</em></span>
-        <span class="lbl">Per prospect</span>
-      </div>
-      <div class="stat">
-        <span class="num"><em>2 min</em></span>
-        <span class="lbl">To launch</span>
+    <div class="dark-band-creds">
+      <div class="lbl">The team has shipped product for</div>
+      <div class="row">
+        <img src="https://www.plat4m.com/images/67f977063d937286ae57e537_Spotify_logo_with_text__1__1.svg" alt="Spotify" loading="lazy">
+        <img src="https://www.plat4m.com/images/apple-logo.svg" alt="Apple" loading="lazy">
+        <img src="https://www.plat4m.com/images/bmw-logo.svg" alt="BMW" loading="lazy">
+        <img src="https://www.plat4m.com/images/samsung-logo.svg" alt="Samsung" loading="lazy">
+        <img src="https://www.plat4m.com/images/henkel-logo.svg" alt="Henkel" loading="lazy">
+        <img src="https://www.plat4m.com/images/mattel-logo.svg" alt="Mattel" loading="lazy">
+        <img src="https://www.plat4m.com/images/67f976ab93b7742967fca3a0_royal.svg" alt="Royal Caribbean" loading="lazy">
+        <img src="https://www.plat4m.com/images/tatrabanka-logo-new.svg" alt="Tatra banka" loading="lazy">
       </div>
     </div>
 
