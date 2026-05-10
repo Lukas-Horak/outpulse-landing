@@ -226,15 +226,30 @@ img { max-width: 100%; display: block; }
 }
 .nav-login:hover { color: var(--ink); }
 
-/* ── Hero ───────────────────────────────────────────────────────── */
+/* ── Hero — Apollo-style 2-col composition.
+   Text occupies the left column, a faithful inline replica of the
+   current Outpulse dashboard occupies the right. Below the grid:
+   a full-width cold→violet→warm spectrum bar separating the hero
+   from the section flow. The spectrum stays — that's the brand
+   narrative device — but it sits BELOW the lead row so it doesn't
+   compete with the product mockup for attention. */
 .hero {
-  padding: clamp(72px, 12vh, 140px) 0 clamp(56px, 8vh, 96px);
+  padding: clamp(56px, 9vh, 112px) 0 clamp(48px, 7vh, 88px);
   background:
-    radial-gradient(60% 80% at 20% 100%, rgba(255, 138, 76, 0.07), transparent 60%),
-    radial-gradient(50% 70% at 100% 20%, rgba(138, 118, 184, 0.08), transparent 60%),
+    radial-gradient(60% 80% at 100% 100%, rgba(255, 138, 76, 0.06), transparent 60%),
+    radial-gradient(50% 70% at 0% 30%, rgba(138, 118, 184, 0.06), transparent 60%),
     var(--paper);
+  border-bottom: 1px solid var(--line);
 }
-
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: clamp(32px, 5vw, 64px);
+  align-items: center;
+}
+.hero-text {
+  min-width: 0;
+}
 .hero-eyebrow {
   font-size: 11px;
   font-weight: 600;
@@ -242,50 +257,52 @@ img { max-width: 100%; display: block; }
   text-transform: uppercase;
   color: var(--orange);
   display: inline-block;
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 }
 .hero h1 {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(48px, 6.4vw, 96px);
-  line-height: .98;
+  font-size: clamp(40px, 4.8vw, 72px);
+  line-height: 1.02;
   letter-spacing: -.025em;
-  margin: 0 0 28px;
-  max-width: 18ch;
+  margin: 0 0 24px;
 }
 .hero h1 em {
   font-style: italic;
   color: var(--orange);
 }
 .hero-lead {
-  font-size: clamp(18px, 1.6vw, 22px);
-  line-height: 1.5;
+  font-size: clamp(17px, 1.3vw, 19px);
+  line-height: 1.55;
   color: var(--ink-2);
-  max-width: 58ch;
-  margin: 0 0 40px;
+  margin: 0 0 32px;
 }
 .hero-cta-row {
   display: flex;
-  gap: 14px;
+  gap: 12px;
   flex-wrap: wrap;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 .hero-trust {
   display: flex;
-  gap: 18px;
+  gap: 16px;
   flex-wrap: wrap;
   align-items: center;
   color: var(--muted);
   font-size: 13px;
 }
 .hero-trust .sep { color: var(--muted-2); }
+
+/* Spectrum — full-width below the hero grid */
+.hero-spectrum-wrap {
+  margin-top: clamp(48px, 6vh, 80px);
+}
 .hero-spectrum {
-  margin-top: 56px;
-  height: 14px;
+  height: 12px;
   border-radius: var(--r-pill);
   background: var(--grad-spectrum);
-  box-shadow: 0 12px 36px -14px rgba(60, 30, 50, 0.35);
+  box-shadow: 0 12px 36px -14px rgba(60, 30, 50, 0.3);
 }
 .hero-spectrum-labels {
   display: flex;
@@ -309,80 +326,384 @@ img { max-width: 100%; display: block; }
   font-size: 12px;
 }
 
-/* ── Hero mockup — single browser-framed product shot.
-   One real visual, not a wall of inline prototypes. The PNG is a
-   3010×2130 export so it stays crisp on retina. Design system
-   radius (r-lg = 20px), violet→orange shadow to anchor it on the
-   page without competing with the hero gradient stripe. */
-.hero-mockup {
-  margin-top: 64px;
-  position: relative;
-}
-.browser-frame {
-  border: 1px solid var(--line-2);
-  border-radius: var(--r-lg);
+/* ── Inline Outpulse dashboard — current-design replica.
+   Faithful to /app/(dashboard)/dashboard — same topbar greeting +
+   serif italic-em title, same Discover/Start outreach button pair,
+   same Pulse goal card, same 4-up KPI row with green/orange/blue
+   colour family on the dot + chip. NOT a screenshot — real HTML so
+   it's crisp at every viewport. */
+.app-mockup {
   background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
   overflow: hidden;
   box-shadow:
-    0 40px 80px -32px rgba(60, 30, 80, 0.22),
-    0 16px 32px -16px rgba(255, 91, 31, 0.12),
-    0 4px 12px -4px rgba(14, 13, 12, 0.08);
-}
-.browser-bar {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 12px 16px;
-  background: var(--bg-panel);
-  border-bottom: 1px solid var(--line);
+    0 40px 80px -32px rgba(60, 30, 80, 0.18),
+    0 16px 32px -16px rgba(255, 91, 31, 0.08),
+    0 4px 12px -4px rgba(14, 13, 12, 0.06);
   font-family: var(--sans);
 }
-.browser-dots {
+.app-frame-bar {
   display: flex;
-  gap: 6px;
-  flex-shrink: 0;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--line);
 }
-.browser-dots span {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+.app-frame-bar .dots { display: flex; gap: 6px; flex-shrink: 0; }
+.app-frame-bar .dots span {
+  width: 9px; height: 9px; border-radius: 50%;
   background: var(--line-2);
 }
-.browser-dots span:nth-child(1) { background: #f56565; }
-.browser-dots span:nth-child(2) { background: #ecc94b; }
-.browser-dots span:nth-child(3) { background: #48bb78; }
-.browser-url {
+.app-frame-bar .dots span:nth-child(1) { background: #f56565; }
+.app-frame-bar .dots span:nth-child(2) { background: #ecc94b; }
+.app-frame-bar .dots span:nth-child(3) { background: #48bb78; }
+.app-frame-bar .url-pill {
   flex: 1;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-size: 12.5px;
+  justify-content: center;
+  gap: 7px;
+  font-family: 'SF Mono', Consolas, Menlo, monospace;
+  font-size: 11.5px;
   color: var(--muted);
   background: var(--paper);
-  padding: 6px 14px;
+  padding: 5px 12px;
   border-radius: var(--r-pill);
   border: 1px solid var(--line);
-  font-family: 'SF Mono', Consolas, Menlo, monospace;
-  max-width: 320px;
+  max-width: 280px;
   margin: 0 auto;
 }
-.browser-url svg {
-  width: 12px;
-  height: 12px;
+.app-frame-bar .url-pill svg {
+  width: 11px; height: 11px;
   flex-shrink: 0;
 }
-.browser-frame img,
-.browser-frame video {
-  width: 100%;
-  height: auto;
-  display: block;
-  background: var(--bg-panel);
+.app-body {
+  padding: 22px 24px 24px;
 }
-.hero-video {
-  /* Avoid layout shift while the MP4 is loading by reserving the
-     intrinsic 3010×2130 aspect via the width/height attributes on
-     the element. The poster fills the same box until first frame. */
-  object-fit: cover;
+
+/* App topbar — greeting + serif title + actions */
+.app-topbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.app-topbar-left { min-width: 0; }
+.app-greeting {
+  font-size: 11.5px;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 3px;
+}
+.app-title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.05;
+  letter-spacing: -.015em;
+  color: var(--ink);
+  margin: 0;
+}
+.app-title em {
+  font-style: italic;
+  color: var(--orange);
+}
+.app-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.app-btn-ghost,
+.app-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--sans);
+  cursor: default;
+}
+.app-btn-ghost {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  color: var(--ink-2);
+}
+.app-btn-ghost svg { width: 12px; height: 12px; color: var(--muted); }
+.app-btn-primary {
+  background: var(--ink);
+  color: #fff;
+  border: 1px solid var(--ink);
+}
+.app-btn-primary svg { width: 12px; height: 12px; }
+
+/* App Pulse goal widget */
+.app-pulse {
+  background: linear-gradient(135deg, rgba(255, 91, 31, 0.04), rgba(138, 118, 184, 0.04));
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 14px;
+  align-items: center;
+}
+.app-pulse .lbl {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+  display: block;
+}
+.app-pulse .val {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1;
+  letter-spacing: -.015em;
+  color: var(--ink);
+}
+.app-pulse .val em { font-style: italic; color: var(--orange); }
+.app-pulse .bar {
+  position: relative;
+  height: 8px;
+  background: rgba(14, 13, 12, 0.06);
+  border-radius: var(--r-pill);
+  overflow: hidden;
+  min-width: 80px;
+}
+.app-pulse .bar-fill {
+  position: absolute;
+  inset: 0 22% 0 0;
+  background: var(--grad-spectrum);
+  border-radius: var(--r-pill);
+}
+.app-pulse .badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 4px 9px;
+  border-radius: var(--r-pill);
+  background: var(--green-soft);
+  color: var(--green);
+  border: 1px solid rgba(26, 124, 75, 0.18);
+}
+.app-pulse .badge .dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--green);
+}
+
+/* App KPI row — 4 up, green/orange/blue/blue colour families */
+.app-kpi-section-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.app-kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.app-kpi {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 12px 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.app-kpi .top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.app-kpi .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--muted-2);
+  flex-shrink: 0;
+}
+.app-kpi .lbl {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.app-kpi .val {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: -.015em;
+  color: var(--ink);
+  font-variant-numeric: lining-nums;
+}
+.app-kpi .chip {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: var(--r-pill);
+  background: var(--bg-subtle);
+  color: var(--muted);
+  border: 1px solid var(--line);
+  align-self: flex-start;
+  white-space: nowrap;
+}
+.app-kpi.green .dot { background: var(--green); }
+.app-kpi.green .chip { background: #eef6f1; border-color: #dbeae2; color: var(--green); }
+.app-kpi.orange .dot { background: var(--orange); }
+.app-kpi.orange .chip { background: #fdf1e7; border-color: #f3dec9; color: var(--orange); }
+.app-kpi.blue .dot { background: var(--blue); }
+.app-kpi.blue .chip { background: #ecf1f8; border-color: #d8e3ef; color: var(--blue); }
+.app-kpi.violet .dot { background: var(--violet); }
+.app-kpi.violet .chip { background: #f0ecf5; border-color: #ded4ea; color: var(--violet); }
+
+/* ── Big-stat strip — Apollo-style three-up.
+   Replaces the old 4-cell proof grid. Each stat is one big number
+   in serif italic orange, then a one-line label. No card frames —
+   the stats sit on the band itself, so the eye reads them as
+   "this is the headline number", not as four UI cards. */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  background: var(--paper);
+  overflow: hidden;
+}
+.stat-cell {
+  padding: 40px 36px;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.stat-cell:last-child { border-right: none; }
+.stat-num {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(48px, 5vw, 72px);
+  line-height: .98;
+  letter-spacing: -.025em;
+  color: var(--ink);
+}
+.stat-num em {
+  font-style: italic;
+  color: var(--orange);
+}
+.stat-headline {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.3;
+  letter-spacing: -.005em;
+  color: var(--ink);
+  margin-top: 4px;
+}
+.stat-sub {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* ── Dark band — the contrast surface Lukas asked for.
+   Single bold statement on ink ground, italic orange emphasis.
+   Sits between How-it-works (cream-panel) and Pricing (paper) so
+   the page actually breathes. Per brand book §08 voice: short
+   sentences, signal-first-line, no shouting. */
+.dark-band {
+  padding: clamp(80px, 11vh, 160px) 0;
+  background: var(--ink);
+  color: #fff;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  position: relative;
+  overflow: hidden;
+}
+.dark-band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 70% at 100% 0%, rgba(255, 91, 31, 0.18), transparent 60%),
+    radial-gradient(50% 60% at 0% 100%, rgba(138, 118, 184, 0.14), transparent 60%);
+  pointer-events: none;
+}
+.dark-band-inner {
+  position: relative;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.dark-band .eyebrow {
+  color: rgba(255, 255, 255, 0.55);
+}
+.dark-band h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1.04;
+  letter-spacing: -.022em;
+  margin: 14px 0 20px;
+  max-width: 22ch;
+}
+.dark-band h2 em {
+  font-style: italic;
+  color: var(--orange-3);
+}
+.dark-band p {
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
+  max-width: 56ch;
+  margin: 0 0 28px;
+}
+.dark-band-quote {
+  margin-top: 36px;
+  padding: 22px 26px;
+  border-left: 3px solid var(--orange);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  max-width: 64ch;
+}
+.dark-band-quote .q {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-style: italic;
+  font-size: 19px;
+  line-height: 1.45;
+  color: #fff;
+  margin: 0 0 10px;
+}
+.dark-band-quote .who {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+}
+.dark-band-quote .who b {
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
 }
 
 /* ── Section shell ─────────────────────────────────────────────── */
@@ -587,14 +908,29 @@ section.band.bg-panel { background: var(--bg-panel); }
   border-radius: var(--r-md);
   padding: 10px 12px;
   box-shadow: 0 4px 12px -6px rgba(14, 13, 12, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.kpi-mini-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.kpi-mini-top .dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--muted-2);
+  flex-shrink: 0;
 }
 .kpi-mini .kpi-label {
-  font-size: 9.5px;
-  font-weight: 600;
+  font-size: 9px;
+  font-weight: 700;
   letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .kpi-mini .kpi-val {
   font-family: var(--serif);
@@ -610,10 +946,19 @@ section.band.bg-panel { background: var(--bg-panel); }
 }
 .kpi-mini .kpi-delta {
   font-size: 10px;
-  color: var(--green);
-  margin-top: 4px;
+  color: var(--muted);
   font-weight: 500;
+  margin-top: 2px;
 }
+/* Colour families — same convention as the real app's KPI cards */
+.kpi-mini.green .dot { background: var(--green); }
+.kpi-mini.green .kpi-delta { color: var(--green); }
+.kpi-mini.orange .dot { background: var(--orange); }
+.kpi-mini.orange .kpi-delta { color: var(--orange); }
+.kpi-mini.blue .dot { background: var(--blue); }
+.kpi-mini.blue .kpi-delta { color: var(--blue); }
+.kpi-mini.violet .dot { background: var(--violet); }
+.kpi-mini.violet .kpi-delta { color: var(--violet); }
 
 .how-num {
   font-family: var(--serif);
@@ -865,11 +1210,31 @@ footer.site {
 .foot-links { display: flex; gap: 24px; }
 
 /* ── Responsive ─────────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  /* Hero stacks earlier than the rest because the inline app
+     mockup needs at least ~520px to keep the 4-up KPI row legible. */
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .app-kpi-row { grid-template-columns: repeat(4, 1fr); }
+}
 @media (max-width: 920px) {
   .nav-links { display: none; }
   .how-grid { grid-template-columns: 1fr; }
-  .proof-grid { grid-template-columns: 1fr 1fr; }
+  .stats-grid { grid-template-columns: 1fr; border-radius: var(--r-lg); }
+  .stat-cell {
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    padding: 28px 24px;
+  }
+  .stat-cell:last-child { border-bottom: none; }
   .price-grid { grid-template-columns: 1fr; }
+  .app-pulse {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .app-pulse .badge { justify-self: flex-start; }
 }
 @media (max-width: 600px) {
   /* Frame */
@@ -880,44 +1245,65 @@ footer.site {
   .brand { font-size: 15px; }
   .brand-mark { width: 30px; height: 30px; }
 
-  /* Hero — keep type from overflowing the viewport, tighten paddings */
+  /* Hero — type, CTAs, trust */
   .hero { padding: 48px 0 56px; }
   .hero h1 {
-    font-size: clamp(34px, 9vw, 52px);
-    line-height: 1.02;
-    max-width: 100%;
-    margin-bottom: 20px;
+    font-size: clamp(34px, 9vw, 48px);
+    line-height: 1.04;
+    margin-bottom: 18px;
   }
   .hero-lead {
     font-size: 16px;
     line-height: 1.5;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
   }
-  .hero-eyebrow { margin-bottom: 18px; }
+  .hero-eyebrow { margin-bottom: 16px; }
   .hero-cta-row { gap: 10px; flex-direction: column; align-items: stretch; }
   .hero-cta-row .btn { width: 100%; padding: 14px 20px; font-size: 15px; }
   .hero-cta-row .btn-xl { padding: 16px 20px; font-size: 16px; }
   .hero-trust { gap: 10px; font-size: 12px; }
 
   /* Spectrum */
-  .hero-spectrum { margin-top: 36px; height: 12px; }
+  .hero-spectrum-wrap { margin-top: 40px; }
+  .hero-spectrum { height: 10px; }
   .hero-spectrum-labels { font-size: 9.5px; gap: 8px; }
   .hero-spectrum-labels .mid { display: none; }
 
-  /* Mockup */
-  .hero-mockup { margin-top: 36px; }
-  .browser-bar { padding: 8px 10px; gap: 10px; }
-  .browser-url { font-size: 10.5px; padding: 5px 10px; max-width: none; flex: 1; min-width: 0; }
-  .browser-url svg { width: 11px; height: 11px; }
-  .browser-dots span { width: 8px; height: 8px; }
-  .browser-frame { border-radius: 14px; }
+  /* App mockup — reflow KPIs to a 2x2 grid so each tile stays
+     legible (4-up at 320px = ~70px per KPI = unreadable). */
+  .app-mockup { border-radius: 14px; }
+  .app-frame-bar { padding: 8px 10px; gap: 8px; }
+  .app-frame-bar .url-pill { font-size: 10.5px; padding: 4px 10px; max-width: none; flex: 1; min-width: 0; }
+  .app-frame-bar .dots span { width: 8px; height: 8px; }
+  .app-body { padding: 16px 16px 18px; }
+  .app-topbar { gap: 10px; margin-bottom: 14px; }
+  .app-title { font-size: 20px; }
+  .app-actions { gap: 5px; flex-wrap: wrap; }
+  .app-btn-ghost,
+  .app-btn-primary { padding: 6px 10px; font-size: 11.5px; }
+  .app-pulse {
+    padding: 12px 14px;
+    margin-bottom: 12px;
+  }
+  .app-pulse .val { font-size: 19px; }
+  .app-kpi-row { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .app-kpi { padding: 10px 11px 9px; }
+  .app-kpi .val { font-size: 22px; }
+  .app-kpi .lbl { font-size: 8.5px; }
+  .app-kpi .chip { font-size: 9.5px; padding: 1px 6px; }
 
-  /* Section heads — keep h2 from blowing out */
+  /* Stats — already 1-col from 920 breakpoint; only padding tweak */
+  .stat-cell { padding: 24px 22px; }
+  .stat-num { font-size: 44px; }
+  .stat-headline { font-size: 16px; }
+  .stat-sub { font-size: 13px; }
+
+  /* Section heads */
   .band-head h2 { font-size: clamp(28px, 7vw, 40px); }
   .band-head p { font-size: 15px; }
   section.band { padding: 64px 0; }
 
-  /* How-it-works cards */
+  /* How-it-works */
   .how-card { min-height: 0; }
   .how-preview { height: 180px; padding: 18px; }
   .how-text { padding: 22px 22px 26px; }
@@ -925,12 +1311,15 @@ footer.site {
   .how-card h3 { font-size: 22px; }
   .preview-persona, .preview-prospects, .preview-kpis { max-width: 100%; }
 
-  /* Proof — single column, tighter padding */
-  .proof-grid { grid-template-columns: 1fr; gap: 12px; }
-  .proof-cell { padding: 22px 24px; }
-  .proof-num { font-size: 36px; }
+  /* Dark band */
+  .dark-band { padding: 64px 0; }
+  .dark-band-inner { padding: 0 22px; }
+  .dark-band h2 { font-size: clamp(28px, 7.5vw, 42px); }
+  .dark-band p { font-size: 15px; }
+  .dark-band-quote { padding: 18px 20px; margin-top: 28px; }
+  .dark-band-quote .q { font-size: 17px; }
 
-  /* Pricing — tighten the card so it fits a 320px viewport cleanly */
+  /* Pricing */
   .pcard { padding: 28px 24px; gap: 14px; }
   .pcard .p-name { font-size: 28px; }
   .pcard .p-price .num { font-size: 44px; }
@@ -978,61 +1367,111 @@ footer.site {
 <!-- ─── HERO ────────────────────────────────────────────────────── -->
 <section class="hero">
   <div class="container">
-    <span class="hero-eyebrow">AI sales agent</span>
-    <h1>From cold list to <em>booked meeting</em>.</h1>
-    <p class="hero-lead">
-      Outpulse finds your ideal customers, writes one-of-one emails, and books meetings — while you sleep. Plain-English buyer description in, qualified replies out.
-    </p>
-    <div class="hero-cta-row">
-      <a href="https://app.outpulse.ai/signup?utm_source=outpulse_landing&utm_campaign=launch&utm_medium=hero_cta" class="btn btn-orange btn-xl" data-cta="hero">Start free — no card</a>
-      <a href="#how" class="btn btn-ghost">See how it works</a>
-    </div>
-    <div class="hero-trust">
-      <span>7-day free trial</span>
-      <span class="sep">·</span>
-      <span>Cancel anytime</span>
-      <span class="sep">·</span>
-      <span>GDPR compliant</span>
-    </div>
 
-    <!-- Cold → AI signal → Warm spectrum (per design-system §02 + brand §6) -->
-    <div class="hero-spectrum" role="img" aria-label="Cold to warm brand spectrum, with AI signal in the middle"></div>
-    <div class="hero-spectrum-labels">
-      <span><b>Cold · prospect · unknown</b></span>
-      <span class="mid">AI · signal · intelligence</span>
-      <span><i>Warm · meeting · customer</i></span>
-    </div>
+    <div class="hero-grid">
 
-    <!-- Hero product showcase — autoplay muted loop video of the
-         dashboard. PNG poster covers the slow-network / autoplay-
-         blocked case. preload=metadata so first paint isn't blocked
-         on the 2.2MB MP4. The browser frame is the same component
-         used elsewhere; it stays around the video so the surface
-         reads as "the product". -->
-    <div class="hero-mockup">
-      <div class="browser-frame">
-        <div class="browser-bar">
-          <div class="browser-dots"><span></span><span></span><span></span></div>
-          <div class="browser-url">
+      <!-- LEFT: text + CTAs -->
+      <div class="hero-text">
+        <span class="hero-eyebrow">AI sales agent</span>
+        <h1>From cold list to <em>booked meeting</em>.</h1>
+        <p class="hero-lead">
+          Outpulse finds your ideal customers, writes one-of-one emails, and books meetings — while you sleep. Plain-English buyer description in, qualified replies out.
+        </p>
+        <div class="hero-cta-row">
+          <a href="https://app.outpulse.ai/signup?utm_source=outpulse_landing&utm_campaign=launch&utm_medium=hero_cta" class="btn btn-orange btn-xl" data-cta="hero">Start free — no card</a>
+          <a href="#how" class="btn btn-ghost">See how it works</a>
+        </div>
+        <div class="hero-trust">
+          <span>7-day free trial</span>
+          <span class="sep">·</span>
+          <span>Cancel anytime</span>
+          <span class="sep">·</span>
+          <span>GDPR compliant</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: faithful inline replica of the current Outpulse
+           dashboard (/app/(dashboard)/dashboard). Real HTML, no
+           video, no PNG — every element echoes the same selectors
+           used in dashboard.module.css so the visual matches what
+           a user actually sees after signup. -->
+      <div class="app-mockup" role="img" aria-label="Outpulse dashboard — current design">
+        <div class="app-frame-bar">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <div class="url-pill">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1a4 4 0 014 4v3h1a3 3 0 013 3v9a3 3 0 01-3 3H7a3 3 0 01-3-3v-9a3 3 0 013-3h1V5a4 4 0 014-4zm0 2a2 2 0 00-2 2v3h4V5a2 2 0 00-2-2z"/></svg>
             app.outpulse.ai/dashboard
           </div>
-          <div style="width:60px"></div>
+          <div style="width:48px"></div>
         </div>
-        <video
-          class="hero-video"
-          autoplay muted loop playsinline
-          preload="metadata"
-          poster="dashboard-mockup.png"
-          aria-label="Outpulse dashboard — revenue target, KPIs, and live prospect activity"
-          width="3010" height="2130">
-          <source src="saas-dashboard-web.mp4" type="video/mp4">
-          <!-- Fallback for clients without MP4 support — render the
-               poster as an img so the hero still has a product shot. -->
-          <img src="dashboard-mockup.png" alt="Outpulse dashboard" width="3010" height="2130">
-        </video>
+
+        <div class="app-body">
+          <!-- Topbar — greeting + serif title with italic em + actions -->
+          <div class="app-topbar">
+            <div class="app-topbar-left">
+              <span class="app-greeting">Good afternoon, Lukas</span>
+              <h2 class="app-title">Your funnel is <em>running</em>.</h2>
+            </div>
+            <div class="app-actions">
+              <span class="app-btn-ghost">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+                Discover
+              </span>
+              <span class="app-btn-primary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                Start outreach
+              </span>
+            </div>
+          </div>
+
+          <!-- Pulse goal widget -->
+          <div class="app-pulse">
+            <div>
+              <span class="lbl">Revenue target · this month</span>
+              <span class="val">$<em>10,132</em><span style="color:var(--muted);font-size:13px;font-family:var(--sans);"> of $13,000</span></span>
+            </div>
+            <div class="bar"><span class="bar-fill"></span></div>
+            <span class="badge"><span class="dot"></span>On track</span>
+          </div>
+
+          <!-- KPI section -->
+          <div class="app-kpi-section-label">Outreach</div>
+          <div class="app-kpi-row">
+            <div class="app-kpi green">
+              <div class="top"><span class="dot"></span><span class="lbl">Prospects</span></div>
+              <span class="val">860</span>
+              <span class="chip">+720 enriched</span>
+            </div>
+            <div class="app-kpi orange">
+              <div class="top"><span class="dot"></span><span class="lbl">Sent</span></div>
+              <span class="val">1,548</span>
+              <span class="chip">485 opened</span>
+            </div>
+            <div class="app-kpi blue">
+              <div class="top"><span class="dot"></span><span class="lbl">Replies</span></div>
+              <span class="val">84</span>
+              <span class="chip">5.4% rate</span>
+            </div>
+            <div class="app-kpi blue">
+              <div class="top"><span class="dot"></span><span class="lbl">Meetings</span></div>
+              <span class="val">62</span>
+              <span class="chip">+5 this week</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
+    <!-- Cold → AI signal → Warm spectrum, full-width below the grid -->
+    <div class="hero-spectrum-wrap">
+      <div class="hero-spectrum" role="img" aria-label="Cold to warm brand spectrum, with AI signal in the middle"></div>
+      <div class="hero-spectrum-labels">
+        <span><b>Cold · prospect · unknown</b></span>
+        <span class="mid">AI · signal · intelligence</span>
+        <span><i>Warm · meeting · customer</i></span>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1133,32 +1572,42 @@ footer.site {
   </div>
 </section>
 
-<!-- ─── PROOF ───────────────────────────────────────────────────── -->
-<section class="band bg-panel">
+<!-- ─── STATS — three big numbers, Apollo-style headline rhythm.
+     One row, no card frames inside, divider lines between cells. -->
+<section class="band">
   <div class="container">
-    <div class="band-head">
-      <span class="eyebrow">By the numbers</span>
-      <h2>Built for the <em>signal-driven</em> era.</h2>
-      <p>Specific over superlative. Here's what runs under the hood.</p>
+    <div class="stats-grid">
+      <div class="stat-cell">
+        <div class="stat-num"><em>8h+</em></div>
+        <div class="stat-headline">Saved per founder per week.</div>
+        <div class="stat-sub">Hours you used to spend writing cold emails by hand.</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num"><em>1-of-1</em></div>
+        <div class="stat-headline">Personalized email per prospect.</div>
+        <div class="stat-sub">No mail-merge, no templates. Each one researched on the fly.</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num"><em>2 min</em></div>
+        <div class="stat-headline">From signup to first campaign live.</div>
+        <div class="stat-sub">No onboarding call. No card. Type a sentence, hit launch.</div>
+      </div>
     </div>
+  </div>
+</section>
 
-    <div class="proof-grid">
-      <div class="proof-cell">
-        <div class="proof-num"><em>275M</em></div>
-        <div class="proof-label">Verified contacts. Roles, companies, tech stack, funding.</div>
-      </div>
-      <div class="proof-cell">
-        <div class="proof-num"><em>1-of-1</em></div>
-        <div class="proof-label">Every email written for one person. No template merge.</div>
-      </div>
-      <div class="proof-cell">
-        <div class="proof-num"><em>2 min</em></div>
-        <div class="proof-label">From signup to first campaign live. No onboarding call.</div>
-      </div>
-      <div class="proof-cell">
-        <div class="proof-num"><em>GDPR</em></div>
-        <div class="proof-label">Compliant by default. Data residency in EU on request.</div>
-      </div>
+<!-- ─── DARK BAND — the contrasting surface, ink ground.
+     Single founder statement + a quote-style block. Sits between
+     the cream How-it-works and the white Pricing band so the page
+     actually breathes. -->
+<section class="dark-band">
+  <div class="dark-band-inner">
+    <span class="eyebrow">Why we built this</span>
+    <h2>Founder-led sales is broken. <em>We built the agent that fixes it.</em></h2>
+    <p>Outbound is the most leveraged thing a founder can do — and the easiest to outsource to mediocre work. So we built an agent that does it the way a senior salesperson would, at the cost of a SaaS subscription. No SDR hire, no agency retainer, no Lemlist tabs, no Apollo seat. One sentence, then it runs.</p>
+    <div class="dark-band-quote">
+      <p class="q">"I built Outpulse because I needed it. Now you can use it too — same tool, same results, none of the months I spent making it work."</p>
+      <span class="who"><b>Lukas Horak</b> · Founder, Outpulse</span>
     </div>
   </div>
 </section>
