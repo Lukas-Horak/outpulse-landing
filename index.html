@@ -2650,6 +2650,15 @@ footer.site {
   .app-shell-main { padding: 18px 22px 22px; }
 }
 @media (max-width: 760px) {
+  /* Drop the strict 4:3 frame ratio on narrow viewports — at
+     phone widths a 4:3 box is too tall with not enough content
+     visible. Let the inner content drive the frame height
+     instead. Same treatment for first-mockup browser-frame
+     and tour mockup-frame. */
+  .mockup-frame,
+  .first-mockup .browser-frame {
+    aspect-ratio: auto;
+  }
   /* App shell — collapse sidebar to a 56px icon-rail so the
      window still looks like a real app, not a content card */
   .app-shell { grid-template-columns: 56px 1fr; }
@@ -2781,6 +2790,26 @@ footer.site {
   .app-kpi .val { font-size: 22px; }
   .app-kpi .lbl { font-size: 8.5px; }
   .app-kpi .chip { font-size: 9.5px; padding: 1px 6px; }
+
+  /* Dashboard inline KPI strip — 4-up → 2x2 on phones */
+  .mk-kpis { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .mk-sect-lbl { margin: 14px 2px 8px; font-size: 9px; }
+  .mk-kpi { padding: 10px 12px 9px; gap: 4px; }
+  .mk-kpi .val { font-size: 20px; }
+  .mk-kpi .lbl { font-size: 8.5px; }
+  .mk-kpi .chip { font-size: 9.5px; padding: 1px 6px; }
+
+  /* Active campaigns table — tighter cells, hide Opens column on
+     narrow widths so Name + Status + Sent stay legible */
+  .mk-panel { margin-top: 14px; }
+  .mk-panel-h { padding: 10px 14px; }
+  .mk-panel-h h4 { font-size: 12px; }
+  .mk-panel-h .meta { font-size: 10px; }
+  .mk-tbl th, .mk-tbl td { padding: 8px 12px; }
+  .mk-tbl { font-size: 11px; }
+  .mk-tbl th:last-child,
+  .mk-tbl td:last-child { display: none; }
+  .mk-status { font-size: 9.5px; padding: 2px 7px; }
 
   /* Stats — already 1-col from 920 breakpoint; only padding tweak */
   .stat-cell { padding: 24px 22px; }
@@ -2943,7 +2972,7 @@ footer.site {
      nav rail + workspace + user) on the left, main panel with the
      Pulse hero card on the right. 4:3 frame ratio so the window
      reads as an actual laptop screen, not a thin content slice. -->
-<section class="first-mockup">
+<section class="first-mockup" id="how">
   <div class="first-mockup-grad" aria-hidden="true">
     <span class="blob b1"></span>
     <span class="blob b2"></span>
