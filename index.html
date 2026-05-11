@@ -833,11 +833,21 @@ img { max-width: 100%; display: block; }
 /* Mockup-section interior tweaks — make Prospects + Campaigns
    surfaces sit right inside .mockup-frame at fullscreen scale. */
 .mockup-frame .app-mockup,
-.mockup-frame .tour-prospects-table,
 .mockup-frame .tour-campaigns {
   border-radius: 0;
   border: none;
   box-shadow: none;
+}
+/* Prospects table má zaoblené rohy + viditeľný okraj — sedí ako
+   biely card v sivom paneli aplikácie */
+.mockup-frame .tour-prospects-table {
+  border-radius: var(--r-lg);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  box-shadow:
+    0 1px 0 rgba(14, 13, 12, 0.02),
+    0 4px 12px -4px rgba(14, 13, 12, 0.06);
+  overflow: hidden;
 }
 .mockup-frame .app-frame-bar,
 .mockup-frame .tour-prospects-bar {
@@ -1319,16 +1329,19 @@ img { max-width: 100%; display: block; }
 .tour-csum-card.violet .arr { color: var(--violet); }
 
 .tour-ccard {
-  /* Karty kampaní majú jemne sivé pozadie aby vystupovali na
-     bielom paneli aplikácie ako samostatné objekty */
-  background: var(--bg-subtle);
+  /* Karty kampaní BIELE — vystupujú na sivom paneli aplikácie
+     (.app-shell má --bg-subtle) ako samostatné objekty. Subtle
+     shadow + 1px border drží okraj jasný. */
+  background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
   padding: 20px 22px;
   display: flex;
   flex-direction: column;
   gap: 14px;
-  box-shadow: 0 1px 0 rgba(14, 13, 12, 0.02);
+  box-shadow:
+    0 1px 0 rgba(14, 13, 12, 0.02),
+    0 4px 12px -4px rgba(14, 13, 12, 0.06);
 }
 .tour-ccard-head {
   display: flex;
@@ -2151,8 +2164,15 @@ img { max-width: 100%; display: block; }
   isolation: isolate;
 }
 .mockup-frame > .app-shell { flex: 1; min-height: 0; }
-/* Browser chrome bar at top of the frame */
+/* Browser chrome bar at top of the frame — drží si výšku */
 .mockup-frame > .app-frame-bar { flex-shrink: 0; }
+/* App-shell vnútri mockup-frame s browser barom dostane zaoblené
+   spodné rohy aby celý frame pôsobil ako jeden window. Border-radius
+   tu match-uje --r-xl z .mockup-frame. */
+.mockup-frame > .app-frame-bar + .app-shell {
+  border-radius: 0 0 calc(var(--r-xl) - 1px) calc(var(--r-xl) - 1px);
+  overflow: hidden;
+}
 
 /* ── First-mockup — exact gradient + blob composition from the
    live redesign-v2 landing hero. 5-stop linear base + 4 floating
@@ -3306,7 +3326,7 @@ footer.site {
       </a>
 
       <div class="hero-trust">
-        <span>No card to start</span>
+        <span>No card required</span>
         <span class="sep">·</span>
         <span>2 minutes to first send</span>
         <span class="sep">·</span>
@@ -3604,6 +3624,14 @@ footer.site {
     </div>
 
     <div class="mockup-frame">
+      <div class="app-frame-bar">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="url-pill">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1a4 4 0 014 4v3h1a3 3 0 013 3v9a3 3 0 01-3 3H7a3 3 0 01-3-3v-9a3 3 0 013-3h1V5a4 4 0 014-4zm0 2a2 2 0 00-2 2v3h4V5a2 2 0 00-2-2z"/></svg>
+          app.outpulse.ai/prospects
+        </div>
+        <div style="width:60px"></div>
+      </div>
       <div class="app-shell">
         <aside class="app-sidebar">
           <div class="app-sidebar-brand">
@@ -3938,6 +3966,14 @@ footer.site {
     </div>
 
     <div class="mockup-frame">
+      <div class="app-frame-bar">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="url-pill">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1a4 4 0 014 4v3h1a3 3 0 013 3v9a3 3 0 01-3 3H7a3 3 0 01-3-3v-9a3 3 0 013-3h1V5a4 4 0 014-4zm0 2a2 2 0 00-2 2v3h4V5a2 2 0 00-2-2z"/></svg>
+          app.outpulse.ai/campaigns
+        </div>
+        <div style="width:60px"></div>
+      </div>
       <div class="app-shell">
         <aside class="app-sidebar">
           <div class="app-sidebar-brand">
@@ -4265,7 +4301,7 @@ footer.site {
   <div class="container">
     <div class="final-card">
       <h2>Try it. <em>Seven days.</em></h2>
-      <p>Two minutes from signup to first campaign live. If it doesn't work for you by day seven, cancel in one click. No card to start.</p>
+      <p>Two minutes from signup to first campaign live. If it doesn't work for you by day seven, cancel in one click. No card required.</p>
       <a href="https://app.outpulse.ai/signup?utm_source=outpulse_landing&utm_campaign=launch&utm_medium=footer_cta" class="btn btn-orange btn-xl" data-cta="footer">Start now — no card</a>
       <div class="final-foot">7-day free trial · Cancel in one click · GDPR-compliant</div>
     </div>
