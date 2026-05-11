@@ -270,40 +270,34 @@ img { max-width: 100%; display: block; }
   max-width: 520px;
   margin: 0 auto 14px;
 }
+/* Hero signup štýlovanie zladené s auth signup/login (app.outpulse.ai)
+   — rounded-square 12px, 1px line border, žiadny pill. Konzistentný
+   look medzi landing CTA a auth page CTA. */
 .hero-signup-input {
   flex: 1;
   min-width: 0;
   height: 56px;
-  /* Padding-left robí miesto pre mail ikonu (background-image)
-     ktorá sa renderuje 18px od ľavého okraja. */
-  padding: 0 20px 0 48px;
-  background:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236c6458' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='2' y='4' width='20' height='16' rx='2'/><path d='m22 7-10 5L2 7'/></svg>") no-repeat 18px center / 18px 18px,
-    var(--paper);
-  border: 1.5px solid var(--line);
-  border-radius: var(--r-pill);
+  padding: 14px 18px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
   font-family: var(--sans);
   font-size: 15px;
   color: var(--ink);
   outline: none;
-  transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.6),
-    0 2px 6px -2px rgba(14, 13, 12, 0.06);
+  transition: border-color .18s ease, box-shadow .18s ease;
 }
 .hero-signup-input::placeholder { color: var(--muted-2); }
 .hero-signup-input:hover { border-color: var(--line-3); }
 .hero-signup-input:focus {
   border-color: var(--orange);
-  box-shadow:
-    0 0 0 4px rgba(255, 91, 31, 0.14),
-    0 4px 14px -4px rgba(255, 91, 31, 0.18);
+  box-shadow: 0 0 0 4px rgba(255, 91, 31, 0.14);
 }
 .hero-signup-submit {
   height: 56px;
   padding: 0 26px;
   border: none;
-  border-radius: var(--r-pill);
+  border-radius: 12px;
   background: var(--orange);
   color: #fff;
   font-family: var(--sans);
@@ -312,7 +306,7 @@ img { max-width: 100%; display: block; }
   cursor: pointer;
   white-space: nowrap;
   transition: background .15s ease, transform .15s ease;
-  box-shadow: 0 12px 28px -10px rgba(255, 91, 31, 0.45);
+  box-shadow: 0 8px 22px -8px rgba(255, 91, 31, 0.45);
 }
 .hero-signup-submit:hover { background: var(--orange-2); transform: translateY(-1px); }
 .hero-signup-or {
@@ -338,24 +332,28 @@ img { max-width: 100%; display: block; }
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
   height: 56px;
   width: 100%;
   max-width: 520px;
   padding: 0 26px;
   background: var(--paper);
-  border: 1px solid var(--line-2);
-  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  border-radius: 12px;
   font-family: var(--sans);
-  font-weight: 600;
-  font-size: 15px;
-  color: var(--ink);
+  font-weight: 500;
+  font-size: 14.5px;
+  color: var(--ink-2);
   text-decoration: none;
-  transition: background .15s ease, border-color .15s ease;
+  transition: background .18s ease, border-color .18s ease, box-shadow .18s ease;
   cursor: pointer;
   margin: 0 auto 18px;
 }
-.hero-google:hover { background: var(--bg-subtle); border-color: var(--ink); }
+.hero-google:hover {
+  background: var(--bg-panel);
+  border-color: var(--line-3);
+  box-shadow: 0 2px 8px -2px rgba(14, 13, 12, 0.06);
+}
 .hero-google svg { width: 18px; height: 18px; flex-shrink: 0; }
 .hero-trust {
   display: flex;
@@ -3019,57 +3017,35 @@ footer.site {
     line-height: 1.0;
     margin-bottom: 24px;
   }
-  /* Hero signup na mobile — input + submit + Google button
-     ako 60px-vysoké pill controls. Custom-styled ako na desktope:
-     hrubší border na inpute (2px), jemný tieň aby reading ako
-     prominentný objekt na papierovom pozadí (nie ako pole bez
-     ohraničenia). Všetky tri controls rovnaká šírka, rovnaká
-     výška, rovnaký radius — držia ako jeden čistý stack. */
+  /* Hero signup na mobile — zladené 1:1 s auth signup/login
+     stránkou (app.outpulse.ai). Input + submit + Google všetky
+     rounded-square 12px, 56px height, 1px line border. Square
+     box namiesto pill robí, že input nevyzerá "stlačený". */
   .hero-signup {
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     max-width: 100%;
     margin: 0 auto 14px;
   }
-  /* Tri controls (input, submit, Google) majú rovnakú výšku
-     72px — čistý stack rovnakých veľkostí. Input má 2.5px ink
-     border + dvojvrstvový shadow aby konkuroval orange halu
-     submitu. Vyšší než pôvodných 64px aby Lukas videl jasný
-     "veľký input" feel, nie thin pill. */
   .hero-signup-input {
-    height: 72px;
-    /* Padding-left robí miesto pre 22px mail ikonu vľavo */
-    padding: 0 24px 0 58px;
-    font-size: 17px; /* 16+ zabráni iOS Safari zoomovať pri focuse */
-    font-weight: 500;
-    background-size: 22px 22px, auto;
-    background-position: 22px center, 0 0;
-    border: 2px solid var(--ink);
-    border-radius: var(--r-pill);
-    box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.7),
-      0 8px 22px -8px rgba(14, 13, 12, 0.14),
-      0 3px 8px -2px rgba(14, 13, 12, 0.08);
-  }
-  .hero-signup-input::placeholder {
-    color: var(--muted);
-    font-weight: 500;
+    height: 56px;
+    padding: 14px 18px;
+    font-size: 16px; /* 16+ zabráni iOS Safari zoomovať pri focuse */
+    border: 1px solid var(--line);
+    border-radius: 12px;
   }
   .hero-signup-input:focus {
     border-color: var(--orange);
-    box-shadow:
-      0 0 0 5px rgba(255, 91, 31, 0.18),
-      0 10px 26px -6px rgba(255, 91, 31, 0.30);
+    box-shadow: 0 0 0 4px rgba(255, 91, 31, 0.14);
   }
   .hero-signup-submit {
-    height: 72px;
+    height: 56px;
     width: 100%;
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 600;
     padding: 0 24px;
-    border-radius: var(--r-pill);
-    letter-spacing: -.005em;
-    box-shadow: 0 18px 40px -12px rgba(255, 91, 31, 0.55);
+    border-radius: 12px;
+    box-shadow: 0 8px 22px -8px rgba(255, 91, 31, 0.45);
   }
   .hero-signup-or {
     max-width: 100%;
@@ -3077,15 +3053,15 @@ footer.site {
     font-size: 11px;
   }
   .hero-google {
-    height: 72px;
+    height: 56px;
     max-width: 100%;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 14.5px;
+    font-weight: 500;
     margin: 0 auto 18px;
-    border-radius: var(--r-pill);
-    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    border: 1px solid var(--line);
   }
-  .hero-google svg { width: 20px; height: 20px; }
+  .hero-google svg { width: 18px; height: 18px; }
   /* First-scroll mockup — smaller pull-up so the dashboard fits */
   .first-mockup .browser-frame { margin-top: -60px; border-radius: 14px; }
   .first-mockup .app-body { padding: 18px 16px 20px; }
