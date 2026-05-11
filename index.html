@@ -230,25 +230,11 @@ img { max-width: 100%; display: block; }
 .hero-eyebrow {
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: .22em;
+  letter-spacing: .26em;
   text-transform: uppercase;
-  color: var(--ink-2);
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
+  color: var(--muted);
+  display: inline-block;
   margin-bottom: 32px;
-  padding: 8px 16px;
-  border: 1px solid var(--line);
-  border-radius: var(--r-pill);
-  background: var(--paper);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6), 0 2px 6px -2px rgba(14, 13, 12, 0.04);
-}
-.hero-eyebrow .dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 0 3px rgba(26, 124, 75, 0.14);
 }
 .hero h1 {
   font-family: var(--serif);
@@ -3003,12 +2989,14 @@ footer.site {
   .tour-prospect-added { text-align: left; }
 }
 @media (max-width: 600px) {
-  /* Frame — výrazne väčší vonkajší padding, aby logo a CTA
-     neboli nalepené na okraje viewportu. 28px je viditeľná
-     medzera aj na užšom telefóne (iPhone SE 375px). */
-  .container, .container-narrow, .container-tour { padding: 0 28px; }
-  .nav .container { padding: 0 28px; }
-  .nav-row { padding: 14px 0; gap: 14px; }
+  /* Frame — väčší vonkajší padding, aby logo a CTA neboli
+     nalepené na okraje viewportu. 24px je viditeľná medzera
+     aj na užšom telefóne (iPhone SE 375px). */
+  .container, .container-narrow, .container-tour { padding: 0 24px; }
+  .nav .container { padding: 0 24px; }
+  /* Nav-row má 20px top + bottom padding aby Get started
+     tlačidlo nedotýkalo border-bottom nav baru */
+  .nav-row { padding: 18px 0 22px; gap: 14px; }
   .nav-right .nav-login { display: none; }
   /* Get started v nav — väčší padding + font, aby tlačidlo
      vyzeralo prominentne a malo priestor */
@@ -3043,25 +3031,25 @@ footer.site {
     max-width: 100%;
     margin: 0 auto 14px;
   }
-  /* Input má rovnakú vizuálnu váhu ako submit — 64px výška,
-     2.5px border (silný outline) a viditeľný drop-shadow.
-     Predtým bol 60px s 1.5px borderom a vyzeral menší ako
-     submit, ktorý mal orange halo a pôsobil masívnejšie. */
+  /* Tri controls (input, submit, Google) majú rovnakú výšku
+     72px — čistý stack rovnakých veľkostí. Input má 2.5px ink
+     border + dvojvrstvový shadow aby konkuroval orange halu
+     submitu. Vyšší než pôvodných 64px aby Lukas videl jasný
+     "veľký input" feel, nie thin pill. */
   .hero-signup-input {
-    height: 64px;
-    /* Padding-left robí miesto pre 22px mail ikonu vľavo
-       (18px odsadenie + 22px ikona + 14px medzera = 54px) */
-    padding: 0 22px 0 54px;
-    font-size: 16.5px; /* 16+ zabráni iOS Safari zoomovať pri focuse */
+    height: 72px;
+    /* Padding-left robí miesto pre 22px mail ikonu vľavo */
+    padding: 0 24px 0 58px;
+    font-size: 17px; /* 16+ zabráni iOS Safari zoomovať pri focuse */
     font-weight: 500;
     background-size: 22px 22px, auto;
-    background-position: 18px center, 0 0;
-    border: 2.5px solid var(--ink);
+    background-position: 22px center, 0 0;
+    border: 2px solid var(--ink);
     border-radius: var(--r-pill);
     box-shadow:
       0 1px 0 rgba(255, 255, 255, 0.7),
-      0 6px 18px -6px rgba(14, 13, 12, 0.12),
-      0 2px 6px -2px rgba(14, 13, 12, 0.08);
+      0 8px 22px -8px rgba(14, 13, 12, 0.14),
+      0 3px 8px -2px rgba(14, 13, 12, 0.08);
   }
   .hero-signup-input::placeholder {
     color: var(--muted);
@@ -3071,17 +3059,17 @@ footer.site {
     border-color: var(--orange);
     box-shadow:
       0 0 0 5px rgba(255, 91, 31, 0.18),
-      0 8px 22px -6px rgba(255, 91, 31, 0.28);
+      0 10px 26px -6px rgba(255, 91, 31, 0.30);
   }
   .hero-signup-submit {
-    height: 60px;
+    height: 72px;
     width: 100%;
-    font-size: 16.5px;
+    font-size: 17px;
     font-weight: 600;
     padding: 0 24px;
     border-radius: var(--r-pill);
     letter-spacing: -.005em;
-    box-shadow: 0 16px 36px -10px rgba(255, 91, 31, 0.52);
+    box-shadow: 0 18px 40px -12px rgba(255, 91, 31, 0.55);
   }
   .hero-signup-or {
     max-width: 100%;
@@ -3089,9 +3077,9 @@ footer.site {
     font-size: 11px;
   }
   .hero-google {
-    height: 60px;
+    height: 72px;
     max-width: 100%;
-    font-size: 15.5px;
+    font-size: 16px;
     font-weight: 600;
     margin: 0 auto 18px;
     border-radius: var(--r-pill);
@@ -3317,7 +3305,7 @@ footer.site {
 <section class="hero">
   <div class="container">
     <div class="hero-text">
-      <span class="hero-eyebrow"><span class="dot"></span>Free 7 days · No card required · 2-minute setup</span>
+      <span class="hero-eyebrow">Stop being your own SDR.</span>
       <h1>The pipeline that <em>fills itself.</em></h1>
       <p class="hero-lead">
         The cold outbound system for founders who'd rather build than sell.
