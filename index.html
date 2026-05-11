@@ -1584,9 +1584,10 @@ img { max-width: 100%; display: block; }
 .dark-band h2 {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(40px, 5vw, 72px);
+  /* Zladené s .mockup-head h2 a .band-head h2 — jednotná H2 škála */
+  font-size: clamp(44px, 5vw, 72px);
   line-height: 1.04;
-  letter-spacing: -.022em;
+  letter-spacing: -.02em;
   margin: 14px auto 24px;
   max-width: 20ch;
 }
@@ -1633,22 +1634,49 @@ img { max-width: 100%; display: block; }
   text-align: center;
   margin-bottom: 24px;
 }
+.dark-band-creds .row-wrap {
+  position: relative;
+  overflow: hidden;
+}
+.dark-band-creds .row-wrap::before,
+.dark-band-creds .row-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 48px;
+  z-index: 2;
+  pointer-events: none;
+}
+.dark-band-creds .row-wrap::before {
+  left: 0;
+  background: linear-gradient(90deg, rgba(14,13,12,0.85), transparent);
+}
+.dark-band-creds .row-wrap::after {
+  right: 0;
+  background: linear-gradient(-90deg, rgba(14,13,12,0.85), transparent);
+}
 .dark-band-creds .row {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: clamp(20px, 4vw, 48px);
+  gap: clamp(28px, 5vw, 56px);
 }
 .dark-band-creds img {
-  height: 22px;
+  height: 32px;
   width: auto;
-  max-width: 110px;
+  max-width: 140px;
   object-fit: contain;
-  opacity: 0.72;
+  opacity: 0.75;
   filter: brightness(0) invert(1);
   transition: opacity .2s ease;
+  flex-shrink: 0;
 }
+.dark-band-creds img:hover { opacity: 1; }
+/* Duplikované logá v marquee móde sú aria-hidden, na desktope ich
+   schováme aby flex-wrap nemal duplicitné objekty. */
+.dark-band-creds img[aria-hidden="true"] { display: none; }
 .dark-band-creds img:hover { opacity: 1; }
 .dark-band-sign {
   display: inline-flex;
@@ -2374,9 +2402,11 @@ section.band.bg-panel { background: var(--bg-panel); }
 .band-head h2 {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(40px, 4.6vw, 72px);
-  line-height: 1.05;
-  letter-spacing: -.022em;
+  /* Zladené s .mockup-head h2 a .dark-band h2 — jednotná H2 škála
+     naprieč celou stránkou (Lukas explicitne žiadal). */
+  font-size: clamp(44px, 5vw, 72px);
+  line-height: 1.04;
+  letter-spacing: -.02em;
   margin: 14px 0 20px;
   color: var(--ink);
 }
@@ -2483,6 +2513,13 @@ section.band.bg-panel { background: var(--bg-panel); }
 @keyframes how-caret {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
+}
+/* Logo strip marquee — continuous horizontal scroll na mobile.
+   Row obsahuje 2x duplikovaný set logo-súborov, animácia posúva
+   translateX z 0 do -50%, čo vytvára seamless loop. */
+@keyframes dbcreds-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 /* Preview 02 — prospect cards stack */
@@ -2843,8 +2880,9 @@ section.band.bg-panel { background: var(--bg-panel); }
 .final-card h2 {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(38px, min(6vw, 9vh), 88px);
-  line-height: 1.12;
+  /* Zladené s ostatnými H2 — jednotná škála naprieč sekciami */
+  font-size: clamp(44px, 5vw, 72px);
+  line-height: 1.04;
   letter-spacing: -.02em;
   margin: 0 auto 20px;
   max-width: 20ch;
@@ -3037,25 +3075,20 @@ footer.site {
   }
 }
 @media (max-width: 600px) {
-  /* Frame — väčší vonkajší padding, aby logo a CTA neboli
-     nalepené na okraje viewportu. 24px je viditeľná medzera
-     aj na užšom telefóne (iPhone SE 375px). */
-  .container, .container-narrow, .container-tour { padding: 0 24px; }
-  .nav .container { padding: 0 24px; }
+  /* Frame — Lukas chce 10px aj zo strán aj na nav-bare */
+  .container, .container-narrow, .container-tour { padding: 0 16px; }
+  .nav .container { padding: 0 10px; }
   /* Mockup-inner má len 10px vonkajší padding na mobile — mockup
      "prehliadač" tak zaplní takmer celú šírku viewportu a obsah
      v ňom má viac priestoru. Predtým bol 32px → mockup bol
      príliš úzky, vnútorný text sa lámal a stláčal. */
   .mockup-inner { padding: 0 10px; }
   .first-mockup-inner { padding: 0 10px; }
-  /* Nav-row má veľmi výrazný dolný padding — Lukas vytýka už
-     niekoľký raz že Get started tlačidlo sedí blízko border-bottom.
-     30px stále nestačí. Dávam 24px hore + 40px dole + min-height
-     na celý nav aby content nemohol byť stlačený. */
+  /* Nav-row Lukas-friendly 10px: minimal padding. Logo a Get
+     started ostanú vizuálne kompaktné. */
   .nav-row {
-    padding: 24px 0 40px;
+    padding: 10px 0;
     gap: 14px;
-    min-height: 96px;
   }
   .nav-right .nav-login { display: none; }
   /* Get started v nav — väčší padding + font, aby tlačidlo
@@ -3233,7 +3266,11 @@ footer.site {
   .mockup-section-caption .meta { text-align: left; }
 
   /* Section heads */
-  .band-head h2 { font-size: clamp(28px, 7vw, 40px); }
+  /* Zladené H2 škála na mobile — všetky sekcie (mockup-head,
+     band-head, dark-band, final-card) používajú rovnaký clamp
+     aby žiaden nadpis nevyzeral nadrozmerne / poddimezionovane */
+  .band-head h2,
+  .mockup-head h2 { font-size: clamp(30px, 8vw, 44px); }
   .band-head p { font-size: 15px; }
   section.band { padding: 64px 0; }
 
@@ -3248,26 +3285,27 @@ footer.site {
   /* Dark band */
   .dark-band { padding: 96px 0; }
   .dark-band-inner { padding: 0 22px; }
-  .dark-band h2 { font-size: clamp(28px, 7.5vw, 42px); }
+  .dark-band h2 { font-size: clamp(30px, 8vw, 44px); }
   .dark-band-story { font-size: 15px; }
-  /* Logo strip — switch to an even grid so each logo gets the same
-     cell width. Without this, SVGs with wildly different aspect
-     ratios (Samsung vs Apple) render at very different visual sizes
-     and the row looks broken. */
+  /* Logo strip ako marquee na mobile — continuous horizontal scroll
+     zľava doprava. Duplikované logá v markup-e (aria-hidden) tvoria
+     seamless loop. translateX z 0 do -50% lebo row obsahuje 2x set. */
   .dark-band-creds { padding-top: 28px; }
   .dark-band-creds .row {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px 12px;
-    justify-items: center;
-    align-items: center;
+    display: flex;
+    flex-wrap: nowrap;
+    width: max-content;
+    gap: 40px;
+    animation: dbcreds-marquee 28s linear infinite;
   }
   .dark-band-creds img {
-    height: 18px;
-    max-width: 78px;
-    width: 100%;
-    object-fit: contain;
+    height: 28px;
+    max-width: none;
+    width: auto;
+    flex-shrink: 0;
   }
+  /* Na mobile zobraz aj duplikované logá aby loop fungoval */
+  .dark-band-creds img[aria-hidden="true"] { display: block; }
   /* Avatar signature — pill becomes a stacked block on mobile.
      Centered avatar, name on its own line, role+context smaller
      below. The single-line wrap was breaking on small viewports. */
@@ -3365,7 +3403,7 @@ footer.site {
   /* Final CTA */
   .final { padding: 56px 0; }
   .final-card { padding: 40px 24px; border-radius: 22px; }
-  .final-card h2 { font-size: clamp(28px, 7vw, 40px); margin-bottom: 14px; }
+  .final-card h2 { font-size: clamp(30px, 8vw, 44px); margin-bottom: 14px; }
   .final-card p { font-size: 15px; margin-bottom: 22px; }
   .final-card .btn-xl { padding: 14px 24px; font-size: 15px; width: 100%; max-width: 320px; }
 
@@ -4289,15 +4327,25 @@ footer.site {
     </div>
 
     <div class="dark-band-creds">
-      <div class="lbl">The team has shipped product for</div>
-      <div class="row">
-        <img src="https://www.plat4m.com/images/67f977063d937286ae57e537_Spotify_logo_with_text__1__1.svg" alt="Spotify" loading="lazy">
-        <img src="https://www.plat4m.com/images/apple-logo.svg" alt="Apple" loading="lazy">
-        <img src="https://www.plat4m.com/images/bmw-logo.svg" alt="BMW" loading="lazy">
-        <img src="https://www.plat4m.com/images/samsung-logo.svg" alt="Samsung" loading="lazy">
-        <img src="https://www.plat4m.com/images/henkel-logo.svg" alt="Henkel" loading="lazy">
-        <img src="https://www.plat4m.com/images/mattel-logo.svg" alt="Mattel" loading="lazy">
-        <img src="https://www.plat4m.com/images/67f976ab93b7742967fca3a0_royal.svg" alt="Royal Caribbean" loading="lazy">
+      <div class="lbl">The team behind Outpulse also shipped product at</div>
+      <div class="row-wrap">
+        <div class="row">
+          <img src="https://www.plat4m.com/images/67f977063d937286ae57e537_Spotify_logo_with_text__1__1.svg" alt="Spotify" loading="lazy">
+          <img src="https://www.plat4m.com/images/apple-logo.svg" alt="Apple" loading="lazy">
+          <img src="https://www.plat4m.com/images/bmw-logo.svg" alt="BMW" loading="lazy">
+          <img src="https://www.plat4m.com/images/samsung-logo.svg" alt="Samsung" loading="lazy">
+          <img src="https://www.plat4m.com/images/henkel-logo.svg" alt="Henkel" loading="lazy">
+          <img src="https://www.plat4m.com/images/mattel-logo.svg" alt="Mattel" loading="lazy">
+          <img src="https://www.plat4m.com/images/67f976ab93b7742967fca3a0_royal.svg" alt="Royal Caribbean" loading="lazy">
+          <!-- Duplikované logá pre seamless marquee loop na mobile -->
+          <img src="https://www.plat4m.com/images/67f977063d937286ae57e537_Spotify_logo_with_text__1__1.svg" alt="" loading="lazy" aria-hidden="true">
+          <img src="https://www.plat4m.com/images/apple-logo.svg" alt="" loading="lazy" aria-hidden="true">
+          <img src="https://www.plat4m.com/images/bmw-logo.svg" alt="" loading="lazy" aria-hidden="true">
+          <img src="https://www.plat4m.com/images/samsung-logo.svg" alt="" loading="lazy" aria-hidden="true">
+          <img src="https://www.plat4m.com/images/henkel-logo.svg" alt="" loading="lazy" aria-hidden="true">
+          <img src="https://www.plat4m.com/images/mattel-logo.svg" alt="" loading="lazy" aria-hidden="true">
+          <img src="https://www.plat4m.com/images/67f976ab93b7742967fca3a0_royal.svg" alt="" loading="lazy" aria-hidden="true">
+        </div>
       </div>
     </div>
 
