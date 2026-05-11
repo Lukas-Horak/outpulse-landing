@@ -833,6 +833,29 @@ img { max-width: 100%; display: block; }
 .mockup-frame .tour-prospects-bar {
   padding: 14px 22px;
 }
+/* Real liquid-glass na top bare Prospects + Campaigns mockupov —
+   rovnaký treatment ako .first-mockup .app-frame-bar tak, aby
+   všetky tri mockupy vyzerali konzistentne (translucent biely
+   wash + reálny backdrop-filter blur cez transparent frame). */
+.mockup-frame .app-frame-bar {
+  background:
+    linear-gradient(180deg,
+      rgba(255, 255, 255, 0.55) 0%,
+      rgba(255, 255, 255, 0.30) 100%);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  backdrop-filter: blur(28px) saturate(1.6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+}
+.mockup-frame .app-frame-bar .url-pill {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  color: var(--ink-2);
+}
 .mockup-frame .app-body { padding: 32px 36px 40px; }
 .mockup-frame .app-title { font-size: 32px; }
 .mockup-frame .pulse-card { padding: 26px 28px 24px; gap: 22px; border-radius: var(--r-lg); }
@@ -1286,13 +1309,16 @@ img { max-width: 100%; display: block; }
 .tour-csum-card.violet .arr { color: var(--violet); }
 
 .tour-ccard {
-  background: var(--paper);
+  /* Karty kampaní majú jemne sivé pozadie aby vystupovali na
+     bielom paneli aplikácie ako samostatné objekty */
+  background: var(--bg-subtle);
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
   padding: 20px 22px;
   display: flex;
   flex-direction: column;
   gap: 14px;
+  box-shadow: 0 1px 0 rgba(14, 13, 12, 0.02);
 }
 .tour-ccard-head {
   display: flex;
@@ -1644,7 +1670,9 @@ img { max-width: 100%; display: block; }
   display: grid;
   grid-template-columns: 232px 1fr;
   height: 100%;
-  background: var(--paper);
+  /* Subtle gray namiesto čistej bielej — mockup tak pôsobí ako
+     reálny app screenshot, nie ako biely papier */
+  background: var(--bg-subtle);
 }
 .app-sidebar {
   background: var(--bg-panel);
@@ -2027,11 +2055,40 @@ img { max-width: 100%; display: block; }
    the hero (Dashboard, Prospects, Campaigns). Each one has its
    own band-head above and a big mockup below, Linear-style. */
 .mockup-section {
+  position: relative;
   background: var(--paper);
   padding: clamp(96px, 12vh, 160px) 0 clamp(96px, 12vh, 160px);
   border-top: 1px solid var(--line);
+  overflow: hidden;
+  isolation: isolate;
 }
 .mockup-section.bg-panel { background: var(--bg-panel); }
+/* Jemné farebné gradient blobs za mockupom aby liquid-glass top
+   bar mal čo blurovať. Lower opacity než .first-mockup-grad, aby
+   tieto sekcie ostali pokojnejšie ale glass nevyzeral mrtvy. */
+.mockup-section::before,
+.mockup-section::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(80px);
+}
+.mockup-section::before {
+  top: 8%;
+  right: -8%;
+  width: 38%;
+  height: 60%;
+  background: radial-gradient(closest-side, rgba(255, 138, 76, 0.20), transparent 70%);
+}
+.mockup-section::after {
+  bottom: 10%;
+  left: -10%;
+  width: 36%;
+  height: 56%;
+  background: radial-gradient(closest-side, rgba(102, 148, 185, 0.16), transparent 70%);
+}
 .mockup-inner {
   max-width: 1320px;
   margin: 0 auto;
@@ -2067,16 +2124,21 @@ img { max-width: 100%; display: block; }
   margin: 0 auto;
 }
 .mockup-frame {
-  background: var(--paper);
-  border: 1px solid var(--line);
+  /* Transparent frame so the top bar's backdrop-filter actually
+     samples the section gradient behind it — same trick as
+     .first-mockup .browser-frame. App-shell inside carries the
+     gray --bg-subtle background. */
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: var(--r-xl);
   overflow: hidden;
   box-shadow:
-    0 60px 120px -30px rgba(14, 13, 12, 0.18),
-    0 24px 48px -12px rgba(14, 13, 12, 0.08);
+    0 60px 120px -30px rgba(14, 13, 12, 0.22),
+    0 24px 48px -12px rgba(14, 13, 12, 0.10);
   aspect-ratio: 4 / 3;
   display: flex;
   flex-direction: column;
+  isolation: isolate;
 }
 .mockup-frame > .app-shell { flex: 1; min-height: 0; }
 /* Browser chrome bar at top of the frame */
@@ -2897,9 +2959,11 @@ footer.site {
   .tour-prospect-added { text-align: left; }
 }
 @media (max-width: 600px) {
-  /* Frame — väčší vonkajší padding, aby logo a CTA neboli
-     nalepené na okraje viewportu */
-  .container, .container-narrow { padding: 0 22px; }
+  /* Frame — výrazne väčší vonkajší padding, aby logo a CTA
+     neboli nalepené na okraje viewportu. 28px je viditeľná
+     medzera aj na užšom telefóne (iPhone SE 375px). */
+  .container, .container-narrow, .container-tour { padding: 0 28px; }
+  .nav .container { padding: 0 28px; }
   .nav-row { padding: 14px 0; gap: 14px; }
   .nav-right .nav-login { display: none; }
   /* Get started v nav — väčší padding + font, aby tlačidlo
@@ -3959,88 +4023,77 @@ footer.site {
           </div>
         </div>
 
-        <div class="tour-cgrid">
-          <!-- LEFT: list of every campaign as a sidebar of slim,
-               status-coloured cards. Subtle shadow makes each one
-               read as a distinct object on the white app background. -->
-          <aside class="tour-clist">
-            <header class="tour-clist-head">
-              <span class="lbl">All campaigns</span>
-              <span class="count">7</span>
-            </header>
-            <button type="button" class="tour-citem on">
-              <span class="status winning"><span class="d"></span>Winning · running</span>
-              <h4>Series B CTOs · Q2 push</h4>
-              <span class="meta"><b>418 prospects</b> · 1,284 / 1,672 sent</span>
-              <span class="mini-bar"><span class="fill" style="width: 77%"></span></span>
-            </button>
-            <button type="button" class="tour-citem">
-              <span class="status sending"><span class="d"></span>Sending · day 6</span>
-              <h4>SaaS founders · EU 50–200</h4>
-              <span class="meta"><b>612 prospects</b> · 612 / 1,420 sent</span>
-              <span class="mini-bar"><span class="fill" style="width: 43%; background: var(--blue)"></span></span>
-            </button>
-            <button type="button" class="tour-citem">
-              <span class="status"><span class="d"></span>Running · day 11</span>
-              <h4>YC alumni · Dev tools</h4>
-              <span class="meta"><b>196 prospects</b> · 542 / 588 sent</span>
-              <span class="mini-bar"><span class="fill" style="width: 92%; background: var(--green)"></span></span>
-            </button>
-            <button type="button" class="tour-citem">
-              <span class="status sending"><span class="d"></span>Sending · day 3</span>
-              <h4>RevOps · Series A</h4>
-              <span class="meta"><b>340 prospects</b> · 224 / 1,360 sent</span>
-              <span class="mini-bar"><span class="fill" style="width: 16%; background: var(--blue)"></span></span>
-            </button>
-            <button type="button" class="tour-citem">
-              <span class="status paused"><span class="d"></span>Paused · awaiting copy</span>
-              <h4>Fintech · Heads of Growth</h4>
-              <span class="meta"><b>284 prospects</b> · 74 / 284 sent</span>
-              <span class="mini-bar"><span class="fill" style="width: 26%; background: var(--muted-2)"></span></span>
-            </button>
-            <button type="button" class="tour-citem">
-              <span class="status draft"><span class="d"></span>Draft · review pending</span>
-              <h4>Agencies → product · UK</h4>
-              <span class="meta"><b>178 prospects</b> · 0 sent</span>
-              <span class="mini-bar"><span class="fill" style="width: 0%"></span></span>
-            </button>
-            <button type="button" class="tour-citem">
-              <span class="status"><span class="d"></span>Running · day 9</span>
-              <h4>Bootstrapped SaaS · NA</h4>
-              <span class="meta"><b>402 prospects</b> · 906 / 1,608 sent</span>
-              <span class="mini-bar"><span class="fill" style="width: 56%; background: var(--green)"></span></span>
-            </button>
-          </aside>
-
-          <!-- RIGHT: the selected campaign expanded. Same .tour-ccard
-               component as before; just one instance now, the active
-               one from the list on the left. -->
-          <div class="tour-cdetail">
-            <div class="tour-ccard">
-              <div class="tour-ccard-head">
-                <div class="tour-ccard-meta">
-                  <span class="tour-ccard-status"><span class="d"></span>Running · 14 days</span>
-                  <h3 class="tour-ccard-title">Series B CTOs · Q2 push</h3>
-                  <span class="tour-ccard-aud"><b>418 prospects</b> · CTOs / VP Engineering at SaaS Series B+ · EU + US</span>
-                </div>
-                <span class="tour-ccard-flag"><span class="d"></span>Winning</span>
-              </div>
-              <div class="tour-ccard-progress">
-                <div class="top">
-                  <span>14-day send</span>
-                  <span><b>1,284</b> / 1,672 sent</span>
-                </div>
-                <div class="bar"><span class="fill"></span></div>
-              </div>
-              <div class="tour-ccard-funnel">
-                <div class="f up"><span class="lbl">Sent</span><span class="val">1,284</span><span class="delta">on pace</span></div>
-                <div class="f up"><span class="lbl">Opens</span><span class="val">812</span><span class="delta">63.2%</span></div>
-                <div class="f up"><span class="lbl">Replies</span><span class="val">138</span><span class="delta">10.7%</span></div>
-                <div class="f up"><span class="lbl">Meetings</span><span class="val">42</span><span class="delta">+6 this week</span></div>
-              </div>
+        <div class="tour-ccard">
+          <div class="tour-ccard-head">
+            <div class="tour-ccard-meta">
+              <span class="tour-ccard-status"><span class="d"></span>Running · 14 days</span>
+              <h3 class="tour-ccard-title">Series B CTOs · Q2 push</h3>
+              <span class="tour-ccard-aud"><b>418 prospects</b> · CTOs / VP Engineering at SaaS Series B+ · EU + US</span>
             </div>
+            <span class="tour-ccard-flag"><span class="d"></span>Winning</span>
           </div>
-        </div><!-- /.tour-cgrid -->
+          <div class="tour-ccard-progress">
+            <div class="top">
+              <span>14-day send</span>
+              <span><b>1,284</b> / 1,672 sent</span>
+            </div>
+            <div class="bar"><span class="fill"></span></div>
+          </div>
+          <div class="tour-ccard-funnel">
+            <div class="f up"><span class="lbl">Sent</span><span class="val">1,284</span><span class="delta">on pace</span></div>
+            <div class="f up"><span class="lbl">Opens</span><span class="val">812</span><span class="delta">63.2%</span></div>
+            <div class="f up"><span class="lbl">Replies</span><span class="val">138</span><span class="delta">10.7%</span></div>
+            <div class="f up"><span class="lbl">Meetings</span><span class="val">42</span><span class="delta">+6 this week</span></div>
+          </div>
+        </div>
+
+        <div class="tour-ccard">
+          <div class="tour-ccard-head">
+            <div class="tour-ccard-meta">
+              <span class="tour-ccard-status sending"><span class="d"></span>Sending · 6 days</span>
+              <h3 class="tour-ccard-title">SaaS founders · EU 50–200</h3>
+              <span class="tour-ccard-aud"><b>612 prospects</b> · Founders at vertical SaaS · Germany, NL, Nordics</span>
+            </div>
+            <span class="tour-ccard-flag-neutral">Testing copy v3</span>
+          </div>
+          <div class="tour-ccard-progress">
+            <div class="top">
+              <span>14-day send</span>
+              <span><b>612</b> / 1,420 sent</span>
+            </div>
+            <div class="bar"><span class="fill" style="inset: 0 57% 0 0"></span></div>
+          </div>
+          <div class="tour-ccard-funnel">
+            <div class="f"><span class="lbl">Sent</span><span class="val">612</span><span class="delta">day 6 of 14</span></div>
+            <div class="f up"><span class="lbl">Opens</span><span class="val">198</span><span class="delta">32.3%</span></div>
+            <div class="f"><span class="lbl">Replies</span><span class="val">19</span><span class="delta">3.1%</span></div>
+            <div class="f"><span class="lbl">Meetings</span><span class="val">4</span><span class="delta">early</span></div>
+          </div>
+        </div>
+
+        <div class="tour-ccard">
+          <div class="tour-ccard-head">
+            <div class="tour-ccard-meta">
+              <span class="tour-ccard-status paused"><span class="d"></span>Paused · awaiting copy</span>
+              <h3 class="tour-ccard-title">Fintech · Heads of Growth</h3>
+              <span class="tour-ccard-aud"><b>284 prospects</b> · Heads of Growth at fintech Series A–C · US + UK</span>
+            </div>
+            <span class="tour-ccard-flag-warn"><span class="d"></span>Reply rate low</span>
+          </div>
+          <div class="tour-ccard-progress">
+            <div class="top">
+              <span>14-day send</span>
+              <span><b>74</b> / 284 sent · paused</span>
+            </div>
+            <div class="bar"><span class="fill" style="inset: 0 74% 0 0; background: var(--muted-2)"></span></div>
+          </div>
+          <div class="tour-ccard-funnel">
+            <div class="f"><span class="lbl">Sent</span><span class="val">74</span><span class="delta">paused</span></div>
+            <div class="f"><span class="lbl">Opens</span><span class="val">22</span><span class="delta">29.7%</span></div>
+            <div class="f"><span class="lbl">Replies</span><span class="val">1</span><span class="delta">1.4%</span></div>
+            <div class="f"><span class="lbl">Meetings</span><span class="val">0</span><span class="delta">—</span></div>
+          </div>
+        </div>
         </div><!-- /.tour-campaigns -->
         </div><!-- /.app-shell-main -->
       </div><!-- /.app-shell -->
