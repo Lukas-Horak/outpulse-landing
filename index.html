@@ -3030,9 +3030,11 @@ footer.site {
      aj na užšom telefóne (iPhone SE 375px). */
   .container, .container-narrow, .container-tour { padding: 0 24px; }
   .nav .container { padding: 0 24px; }
-  /* Nav-row má 20px top + bottom padding aby Get started
-     tlačidlo nedotýkalo border-bottom nav baru */
-  .nav-row { padding: 18px 0 22px; gap: 14px; }
+  /* Nav-row má výrazný dolný padding aby Get started tlačidlo
+     nedotýkalo border-bottom nav baru. 22px nestačilo (Lukas
+     stále videl natlačené), dávam 30px aby bola medzera jasne
+     viditeľná. */
+  .nav-row { padding: 20px 0 30px; gap: 14px; }
   .nav-right .nav-login { display: none; }
   /* Get started v nav — väčší padding + font, aby tlačidlo
      vyzeralo prominentne a malo priestor */
