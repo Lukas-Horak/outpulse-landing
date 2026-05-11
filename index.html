@@ -3044,11 +3044,15 @@ footer.site {
      príliš úzky, vnútorný text sa lámal a stláčal. */
   .mockup-inner { padding: 0 10px; }
   .first-mockup-inner { padding: 0 10px; }
-  /* Nav-row má výrazný dolný padding aby Get started tlačidlo
-     nedotýkalo border-bottom nav baru. 22px nestačilo (Lukas
-     stále videl natlačené), dávam 30px aby bola medzera jasne
-     viditeľná. */
-  .nav-row { padding: 20px 0 30px; gap: 14px; }
+  /* Nav-row má veľmi výrazný dolný padding — Lukas vytýka už
+     niekoľký raz že Get started tlačidlo sedí blízko border-bottom.
+     30px stále nestačí. Dávam 24px hore + 40px dole + min-height
+     na celý nav aby content nemohol byť stlačený. */
+  .nav-row {
+    padding: 24px 0 40px;
+    gap: 14px;
+    min-height: 96px;
+  }
   .nav-right .nav-login { display: none; }
   /* Get started v nav — väčší padding + font, aby tlačidlo
      vyzeralo prominentne a malo priestor */
