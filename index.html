@@ -270,30 +270,34 @@ img { max-width: 100%; display: block; }
   max-width: 520px;
   margin: 0 auto 14px;
 }
+/* Hero signup štýlovanie zladené s auth signup/login (app.outpulse.ai)
+   — rounded-square 12px, 1px line border, žiadny pill. Konzistentný
+   look medzi landing CTA a auth page CTA. */
 .hero-signup-input {
   flex: 1;
   min-width: 0;
   height: 56px;
-  padding: 0 18px;
+  padding: 14px 18px;
   background: var(--paper);
-  border: 1px solid var(--line-2);
-  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  border-radius: 12px;
   font-family: var(--sans);
   font-size: 15px;
   color: var(--ink);
   outline: none;
-  transition: border-color .15s ease, box-shadow .15s ease;
+  transition: border-color .18s ease, box-shadow .18s ease;
 }
 .hero-signup-input::placeholder { color: var(--muted-2); }
+.hero-signup-input:hover { border-color: var(--line-3); }
 .hero-signup-input:focus {
-  border-color: var(--ink);
-  box-shadow: 0 0 0 4px rgba(14, 13, 12, 0.06);
+  border-color: var(--orange);
+  box-shadow: 0 0 0 4px rgba(255, 91, 31, 0.14);
 }
 .hero-signup-submit {
   height: 56px;
   padding: 0 26px;
   border: none;
-  border-radius: var(--r-pill);
+  border-radius: 12px;
   background: var(--orange);
   color: #fff;
   font-family: var(--sans);
@@ -302,7 +306,7 @@ img { max-width: 100%; display: block; }
   cursor: pointer;
   white-space: nowrap;
   transition: background .15s ease, transform .15s ease;
-  box-shadow: 0 12px 28px -10px rgba(255, 91, 31, 0.45);
+  box-shadow: 0 8px 22px -8px rgba(255, 91, 31, 0.45);
 }
 .hero-signup-submit:hover { background: var(--orange-2); transform: translateY(-1px); }
 .hero-signup-or {
@@ -328,24 +332,28 @@ img { max-width: 100%; display: block; }
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
   height: 56px;
   width: 100%;
   max-width: 520px;
   padding: 0 26px;
   background: var(--paper);
-  border: 1px solid var(--line-2);
-  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  border-radius: 12px;
   font-family: var(--sans);
-  font-weight: 600;
-  font-size: 15px;
-  color: var(--ink);
+  font-weight: 500;
+  font-size: 14.5px;
+  color: var(--ink-2);
   text-decoration: none;
-  transition: background .15s ease, border-color .15s ease;
+  transition: background .18s ease, border-color .18s ease, box-shadow .18s ease;
   cursor: pointer;
   margin: 0 auto 18px;
 }
-.hero-google:hover { background: var(--bg-subtle); border-color: var(--ink); }
+.hero-google:hover {
+  background: var(--bg-panel);
+  border-color: var(--line-3);
+  box-shadow: 0 2px 8px -2px rgba(14, 13, 12, 0.06);
+}
 .hero-google svg { width: 18px; height: 18px; flex-shrink: 0; }
 .hero-trust {
   display: flex;
@@ -823,15 +831,48 @@ img { max-width: 100%; display: block; }
 /* Mockup-section interior tweaks — make Prospects + Campaigns
    surfaces sit right inside .mockup-frame at fullscreen scale. */
 .mockup-frame .app-mockup,
-.mockup-frame .tour-prospects-table,
 .mockup-frame .tour-campaigns {
   border-radius: 0;
   border: none;
   box-shadow: none;
 }
+/* Prospects table má zaoblené rohy + viditeľný okraj — sedí ako
+   biely card v sivom paneli aplikácie */
+.mockup-frame .tour-prospects-table {
+  border-radius: var(--r-lg);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  box-shadow:
+    0 1px 0 rgba(14, 13, 12, 0.02),
+    0 4px 12px -4px rgba(14, 13, 12, 0.06);
+  overflow: hidden;
+}
 .mockup-frame .app-frame-bar,
 .mockup-frame .tour-prospects-bar {
   padding: 14px 22px;
+}
+/* Real liquid-glass na top bare Prospects + Campaigns mockupov —
+   rovnaký treatment ako .first-mockup .app-frame-bar tak, aby
+   všetky tri mockupy vyzerali konzistentne (translucent biely
+   wash + reálny backdrop-filter blur cez transparent frame). */
+.mockup-frame .app-frame-bar {
+  background:
+    linear-gradient(180deg,
+      rgba(255, 255, 255, 0.55) 0%,
+      rgba(255, 255, 255, 0.30) 100%);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  backdrop-filter: blur(28px) saturate(1.6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+}
+.mockup-frame .app-frame-bar .url-pill {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  color: var(--ink-2);
 }
 .mockup-frame .app-body { padding: 32px 36px 40px; }
 .mockup-frame .app-title { font-size: 32px; }
@@ -1286,6 +1327,9 @@ img { max-width: 100%; display: block; }
 .tour-csum-card.violet .arr { color: var(--violet); }
 
 .tour-ccard {
+  /* Karty kampaní BIELE — vystupujú na sivom paneli aplikácie
+     (.app-shell má --bg-subtle) ako samostatné objekty. Subtle
+     shadow + 1px border drží okraj jasný. */
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
@@ -1293,6 +1337,9 @@ img { max-width: 100%; display: block; }
   display: flex;
   flex-direction: column;
   gap: 14px;
+  box-shadow:
+    0 1px 0 rgba(14, 13, 12, 0.02),
+    0 4px 12px -4px rgba(14, 13, 12, 0.06);
 }
 .tour-ccard-head {
   display: flex;
@@ -1537,9 +1584,10 @@ img { max-width: 100%; display: block; }
 .dark-band h2 {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(40px, 5vw, 72px);
+  /* Zladené s .mockup-head h2 a .band-head h2 — jednotná H2 škála */
+  font-size: clamp(44px, 5vw, 72px);
   line-height: 1.04;
-  letter-spacing: -.022em;
+  letter-spacing: -.02em;
   margin: 14px auto 24px;
   max-width: 20ch;
 }
@@ -1586,22 +1634,49 @@ img { max-width: 100%; display: block; }
   text-align: center;
   margin-bottom: 24px;
 }
+.dark-band-creds .row-wrap {
+  position: relative;
+  overflow: hidden;
+}
+.dark-band-creds .row-wrap::before,
+.dark-band-creds .row-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 48px;
+  z-index: 2;
+  pointer-events: none;
+}
+.dark-band-creds .row-wrap::before {
+  left: 0;
+  background: linear-gradient(90deg, rgba(14,13,12,0.85), transparent);
+}
+.dark-band-creds .row-wrap::after {
+  right: 0;
+  background: linear-gradient(-90deg, rgba(14,13,12,0.85), transparent);
+}
 .dark-band-creds .row {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: clamp(20px, 4vw, 48px);
+  gap: clamp(28px, 5vw, 56px);
 }
 .dark-band-creds img {
-  height: 22px;
+  height: 32px;
   width: auto;
-  max-width: 110px;
+  max-width: 140px;
   object-fit: contain;
-  opacity: 0.72;
+  opacity: 0.75;
   filter: brightness(0) invert(1);
   transition: opacity .2s ease;
+  flex-shrink: 0;
 }
+.dark-band-creds img:hover { opacity: 1; }
+/* Duplikované logá v marquee móde sú aria-hidden, na desktope ich
+   schováme aby flex-wrap nemal duplicitné objekty. */
+.dark-band-creds img[aria-hidden="true"] { display: none; }
 .dark-band-creds img:hover { opacity: 1; }
 .dark-band-sign {
   display: inline-flex;
@@ -1644,7 +1719,9 @@ img { max-width: 100%; display: block; }
   display: grid;
   grid-template-columns: 232px 1fr;
   height: 100%;
-  background: var(--paper);
+  /* Subtle gray namiesto čistej bielej — mockup tak pôsobí ako
+     reálny app screenshot, nie ako biely papier */
+  background: var(--bg-subtle);
 }
 .app-sidebar {
   background: var(--bg-panel);
@@ -2027,11 +2104,40 @@ img { max-width: 100%; display: block; }
    the hero (Dashboard, Prospects, Campaigns). Each one has its
    own band-head above and a big mockup below, Linear-style. */
 .mockup-section {
+  position: relative;
   background: var(--paper);
   padding: clamp(96px, 12vh, 160px) 0 clamp(96px, 12vh, 160px);
   border-top: 1px solid var(--line);
+  overflow: hidden;
+  isolation: isolate;
 }
 .mockup-section.bg-panel { background: var(--bg-panel); }
+/* Jemné farebné gradient blobs za mockupom aby liquid-glass top
+   bar mal čo blurovať. Lower opacity než .first-mockup-grad, aby
+   tieto sekcie ostali pokojnejšie ale glass nevyzeral mrtvy. */
+.mockup-section::before,
+.mockup-section::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(80px);
+}
+.mockup-section::before {
+  top: 8%;
+  right: -8%;
+  width: 38%;
+  height: 60%;
+  background: radial-gradient(closest-side, rgba(255, 138, 76, 0.20), transparent 70%);
+}
+.mockup-section::after {
+  bottom: 10%;
+  left: -10%;
+  width: 36%;
+  height: 56%;
+  background: radial-gradient(closest-side, rgba(102, 148, 185, 0.16), transparent 70%);
+}
 .mockup-inner {
   max-width: 1320px;
   margin: 0 auto;
@@ -2067,20 +2173,32 @@ img { max-width: 100%; display: block; }
   margin: 0 auto;
 }
 .mockup-frame {
-  background: var(--paper);
-  border: 1px solid var(--line);
+  /* Transparent frame so the top bar's backdrop-filter actually
+     samples the section gradient behind it — same trick as
+     .first-mockup .browser-frame. App-shell inside carries the
+     gray --bg-subtle background. */
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: var(--r-xl);
   overflow: hidden;
   box-shadow:
-    0 60px 120px -30px rgba(14, 13, 12, 0.18),
-    0 24px 48px -12px rgba(14, 13, 12, 0.08);
+    0 60px 120px -30px rgba(14, 13, 12, 0.22),
+    0 24px 48px -12px rgba(14, 13, 12, 0.10);
   aspect-ratio: 4 / 3;
   display: flex;
   flex-direction: column;
+  isolation: isolate;
 }
 .mockup-frame > .app-shell { flex: 1; min-height: 0; }
-/* Browser chrome bar at top of the frame */
+/* Browser chrome bar at top of the frame — drží si výšku */
 .mockup-frame > .app-frame-bar { flex-shrink: 0; }
+/* App-shell vnútri mockup-frame s browser barom dostane zaoblené
+   spodné rohy aby celý frame pôsobil ako jeden window. Border-radius
+   tu match-uje --r-xl z .mockup-frame. */
+.mockup-frame > .app-frame-bar + .app-shell {
+  border-radius: 0 0 calc(var(--r-xl) - 1px) calc(var(--r-xl) - 1px);
+  overflow: hidden;
+}
 
 /* ── First-mockup — exact gradient + blob composition from the
    live redesign-v2 landing hero. 5-stop linear base + 4 floating
@@ -2284,9 +2402,11 @@ section.band.bg-panel { background: var(--bg-panel); }
 .band-head h2 {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(40px, 4.6vw, 72px);
-  line-height: 1.05;
-  letter-spacing: -.022em;
+  /* Zladené s .mockup-head h2 a .dark-band h2 — jednotná H2 škála
+     naprieč celou stránkou (Lukas explicitne žiadal). */
+  font-size: clamp(44px, 5vw, 72px);
+  line-height: 1.04;
+  letter-spacing: -.02em;
   margin: 14px 0 20px;
   color: var(--ink);
 }
@@ -2393,6 +2513,13 @@ section.band.bg-panel { background: var(--bg-panel); }
 @keyframes how-caret {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
+}
+/* Logo strip marquee — continuous horizontal scroll na mobile.
+   Row obsahuje 2x duplikovaný set logo-súborov, animácia posúva
+   translateX z 0 do -50%, čo vytvára seamless loop. */
+@keyframes dbcreds-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 /* Preview 02 — prospect cards stack */
@@ -2669,6 +2796,10 @@ section.band.bg-panel { background: var(--bg-panel); }
 }
 .pcard:not(.featured) .btn:hover { background: #000; }
 .p-foot { font-size: 12px; color: var(--muted); text-align: center; margin-top: 6px; }
+/* Dots + swipe hint zobrazené len na mobile (scroller je tiež
+   iba na mobile). Na desktope sú dots zbytočné — 3 karty side-
+   by-side. */
+.price-dots, .price-hint { display: none; }
 
 /* ── FAQ ───────────────────────────────────────────────────────── */
 .faq-list { display: flex; flex-direction: column; gap: 0; }
@@ -2749,8 +2880,9 @@ section.band.bg-panel { background: var(--bg-panel); }
 .final-card h2 {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(38px, min(6vw, 9vh), 88px);
-  line-height: 1.12;
+  /* Zladené s ostatnými H2 — jednotná škála naprieč sekciami */
+  font-size: clamp(44px, 5vw, 72px);
+  line-height: 1.04;
   letter-spacing: -.02em;
   margin: 0 auto 20px;
   max-width: 20ch;
@@ -2837,7 +2969,15 @@ footer.site {
      do the same in spirit. The main content gets the full frame. */
   .app-shell { grid-template-columns: 1fr; }
   .app-sidebar { display: none; }
-  .app-shell-main { padding: 18px 18px 22px; }
+  /* Vnútorný padding app-shell-main na 10px aby obsah Campaigns
+     + Prospects mockupov mal viac priestoru a nebol stlačený.
+     Predtým 18px po stranách dávalo úzky stredový pruh. */
+  .app-shell-main { padding: 10px 10px 14px; }
+  /* Mockup-frame override pre tour-campaigns a app-body — tieto
+     surfaces sedeli s desktop 32-36px paddingom, na mobile treba
+     stlačiť na 10px aby obsah dýchal */
+  .mockup-frame .app-body { padding: 10px 10px 14px; }
+  .mockup-frame .tour-campaigns { padding: 10px; gap: 10px; }
   /* Tighten the top bar so the browser dots + url pill fit at
      small widths without crowding. */
   .first-mockup .app-frame-bar,
@@ -2889,21 +3029,80 @@ footer.site {
   }
   .pulse-mini { font-size: 10.5px; }
   .tour-csum { grid-template-columns: repeat(2, 1fr); }
+  /* Prospects rows na mobile — z grid stack-u prerobené na
+     "Avatar vľavo, content stack napravo". Meno+pozícia+email
+     držia spolu ako jeden block, signals na vlastnom riadku
+     s flex-wrap, date naspodku. */
   .tour-prospect-row {
-    grid-template-columns: 1fr;
-    gap: 6px;
-    padding: 12px 16px;
+    display: block;
+    padding: 16px 18px;
   }
-  .tour-prospect-added { text-align: left; }
+  .tour-prospect-who { display: flex; align-items: flex-start; gap: 12px; }
+  .tour-prospect-who .av {
+    width: 40px; height: 40px;
+    font-size: 13px;
+    margin-top: 1px;
+  }
+  .tour-prospect-who .text { flex: 1; min-width: 0; gap: 2px; }
+  .tour-prospect-who .name { font-size: 14.5px; }
+  .tour-prospect-who .role { font-size: 12px; }
+  /* Email + verified pill sedia pod menom + pozíciou,
+     odsadené o avatar šírku (40px) + gap (12px) = 52px */
+  .tour-prospect-email {
+    padding-left: 52px;
+    margin-top: 8px;
+    gap: 8px;
+  }
+  .tour-prospect-email .addr { font-size: 12px; }
+  /* Signals chips: vlastný riadok, flex-wrap, kompaktný spacing */
+  .tour-prospect-signals {
+    padding-left: 52px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .tour-prospect-signals .tour-signal {
+    font-size: 10.5px;
+    padding: 3px 9px;
+  }
+  /* Date naspodku, oddelené, malé a muted */
+  .tour-prospect-added {
+    padding-left: 52px;
+    margin-top: 10px;
+    font-size: 10.5px;
+    color: var(--muted-2);
+    text-align: left;
+  }
 }
 @media (max-width: 600px) {
-  /* Frame */
-  .container, .container-narrow { padding: 0 18px; }
-  .nav-row { padding: 12px 0; gap: 14px; }
+  /* Frame — Lukas chce 10px aj zo strán aj na nav-bare */
+  .container, .container-narrow, .container-tour { padding: 0 16px; }
+  .nav .container { padding: 0 10px; }
+  /* Mockup-inner má len 10px vonkajší padding na mobile — mockup
+     "prehliadač" tak zaplní takmer celú šírku viewportu a obsah
+     v ňom má viac priestoru. Predtým bol 32px → mockup bol
+     príliš úzky, vnútorný text sa lámal a stláčal. */
+  .mockup-inner { padding: 0 10px; }
+  .first-mockup-inner { padding: 0 10px; }
+  /* Nav-row Lukas-friendly 10px: minimal padding. Logo a Get
+     started ostanú vizuálne kompaktné. */
+  .nav-row {
+    padding: 10px 0;
+    gap: 14px;
+  }
   .nav-right .nav-login { display: none; }
-  .nav-right .btn { padding: 9px 16px; font-size: 13px; }
-  .brand { font-size: 15px; }
-  .brand-mark { width: 30px; height: 30px; }
+  /* Get started v nav — väčší padding + font, aby tlačidlo
+     vyzeralo prominentne a malo priestor */
+  .nav-right .btn {
+    padding: 12px 22px;
+    font-size: 14.5px;
+    font-weight: 600;
+  }
+  /* Logo na mobile — pôvodných 30px bolo neviditeľne malé;
+     teraz brand-mark blízko desktopovej veľkosti + výraznejší
+     wordmark, aby identita značky držala aj na telefóne */
+  .brand { font-size: 20px; gap: 9px; letter-spacing: -.015em; }
+  .brand-mark { width: 42px; height: 42px; }
 
   /* Hero — type, signup form, trust */
   .hero { padding: 100px 0 40px; }
@@ -2913,42 +3112,51 @@ footer.site {
     line-height: 1.0;
     margin-bottom: 24px;
   }
-  /* Hero signup on mobile — the email input stays a single neat row
-     and the orange submit button sits below it at the same height.
-     Both are full-width within the container so they line up flush.
-     The Google button below matches their height + width exactly so
-     the three controls read as one tidy stack. */
+  /* Hero signup na mobile — zladené 1:1 s auth signup/login
+     stránkou (app.outpulse.ai). Input + submit + Google všetky
+     rounded-square 12px, 56px height, 1px line border. Square
+     box namiesto pill robí, že input nevyzerá "stlačený". */
   .hero-signup {
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     max-width: 100%;
-    margin: 0 auto 12px;
+    margin: 0 auto 14px;
   }
   .hero-signup-input {
-    height: 54px;
-    padding: 0 20px;
-    font-size: 16px; /* 16px stops iOS Safari from zooming on focus */
-    border-radius: var(--r-pill);
+    height: 56px;
+    padding: 14px 18px;
+    font-size: 16px; /* 16+ zabráni iOS Safari zoomovať pri focuse */
+    border: 1px solid var(--line);
+    border-radius: 12px;
+  }
+  .hero-signup-input:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 4px rgba(255, 91, 31, 0.14);
   }
   .hero-signup-submit {
-    height: 54px;
+    height: 56px;
     width: 100%;
-    font-size: 16px;
+    font-size: 15px;
+    font-weight: 600;
     padding: 0 24px;
-    box-shadow: 0 14px 32px -10px rgba(255, 91, 31, 0.48);
+    border-radius: 12px;
+    box-shadow: 0 8px 22px -8px rgba(255, 91, 31, 0.45);
   }
   .hero-signup-or {
     max-width: 100%;
-    margin: 6px auto 10px;
+    margin: 8px auto 12px;
     font-size: 11px;
   }
   .hero-google {
-    height: 54px;
+    height: 56px;
     max-width: 100%;
-    font-size: 15px;
-    margin: 0 auto 16px;
+    font-size: 14.5px;
+    font-weight: 500;
+    margin: 0 auto 18px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
   }
-  .hero-google svg { width: 19px; height: 19px; }
+  .hero-google svg { width: 18px; height: 18px; }
   /* First-scroll mockup — smaller pull-up so the dashboard fits */
   .first-mockup .browser-frame { margin-top: -60px; border-radius: 14px; }
   .first-mockup .app-body { padding: 18px 16px 20px; }
@@ -3058,7 +3266,11 @@ footer.site {
   .mockup-section-caption .meta { text-align: left; }
 
   /* Section heads */
-  .band-head h2 { font-size: clamp(28px, 7vw, 40px); }
+  /* Zladené H2 škála na mobile — všetky sekcie (mockup-head,
+     band-head, dark-band, final-card) používajú rovnaký clamp
+     aby žiaden nadpis nevyzeral nadrozmerne / poddimezionovane */
+  .band-head h2,
+  .mockup-head h2 { font-size: clamp(30px, 8vw, 44px); }
   .band-head p { font-size: 15px; }
   section.band { padding: 64px 0; }
 
@@ -3073,26 +3285,27 @@ footer.site {
   /* Dark band */
   .dark-band { padding: 96px 0; }
   .dark-band-inner { padding: 0 22px; }
-  .dark-band h2 { font-size: clamp(28px, 7.5vw, 42px); }
+  .dark-band h2 { font-size: clamp(30px, 8vw, 44px); }
   .dark-band-story { font-size: 15px; }
-  /* Logo strip — switch to an even grid so each logo gets the same
-     cell width. Without this, SVGs with wildly different aspect
-     ratios (Samsung vs Apple) render at very different visual sizes
-     and the row looks broken. */
+  /* Logo strip ako marquee na mobile — continuous horizontal scroll
+     zľava doprava. Duplikované logá v markup-e (aria-hidden) tvoria
+     seamless loop. translateX z 0 do -50% lebo row obsahuje 2x set. */
   .dark-band-creds { padding-top: 28px; }
   .dark-band-creds .row {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px 12px;
-    justify-items: center;
-    align-items: center;
+    display: flex;
+    flex-wrap: nowrap;
+    width: max-content;
+    gap: 40px;
+    animation: dbcreds-marquee 28s linear infinite;
   }
   .dark-band-creds img {
-    height: 18px;
-    max-width: 78px;
-    width: 100%;
-    object-fit: contain;
+    height: 28px;
+    max-width: none;
+    width: auto;
+    flex-shrink: 0;
   }
+  /* Na mobile zobraz aj duplikované logá aby loop fungoval */
+  .dark-band-creds img[aria-hidden="true"] { display: block; }
   /* Avatar signature — pill becomes a stacked block on mobile.
      Centered avatar, name on its own line, role+context smaller
      below. The single-line wrap was breaking on small viewports. */
@@ -3117,10 +3330,71 @@ footer.site {
   .dark-band-sign .role::before { content: none; }
 
   /* Pricing */
-  .pcard { padding: 28px 24px; gap: 14px; }
-  .pcard .p-name { font-size: 28px; }
+  /* Pricing na mobile = horizontal snap-scroller s peek na ďalšiu
+     kartu. Karty majú 88% width aby okraj ďalšej karty peekol z
+     pravej strany — vizuálny signál že je tam viac možností. */
+  .price-grid {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 18px;
+    gap: 12px;
+    padding: 8px 18px 16px;
+    margin: 0 -18px;
+    /* Hide native scrollbar but keep scroll functional */
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .price-grid::-webkit-scrollbar { display: none; }
+  .pcard {
+    flex: 0 0 88%;
+    scroll-snap-align: center;
+    padding: 28px 24px;
+    gap: 14px;
+    /* Subtle drop-shadow pod kartami aby boli viditeľne 3D
+       objekty na scrolleri — peek next card má clear edge */
+    box-shadow: 0 8px 24px -10px rgba(14, 13, 12, 0.10);
+  }
+  /* Recommended (Growth) karta vystupuje silnejšie — orange ring +
+     väčší shadow + ribbon na vrchu. Conversion: framing effect, stredná
+     karta sa stane "default choice". */
+  .pcard.featured {
+    box-shadow:
+      0 0 0 2px var(--orange),
+      0 16px 38px -12px rgba(255, 91, 31, 0.32);
+    transform: scale(1.02);
+  }
+  .pcard .p-name { font-size: 26px; }
   .pcard .p-price .num { font-size: 44px; }
   .pcard .p-cta-row .btn { padding: 12px 20px; font-size: 14px; }
+  /* Statický dots indikátor — pomôže user-ovi pochopiť že má
+     scrollovať horizontálne. 3 bodky pod scrollerom. */
+  .price-dots {
+    display: flex !important;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .price-hint { display: block !important; }
+  .price-dots span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--muted-2);
+    opacity: 0.4;
+  }
+  .price-dots span.on { background: var(--orange); opacity: 1; width: 22px; border-radius: 3px; }
+  /* Swipe hint pod scrollerom */
+  .price-hint {
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 8px;
+  }
 
   /* FAQ */
   .faq-list summary { font-size: 18px; gap: 12px; }
@@ -3129,7 +3403,7 @@ footer.site {
   /* Final CTA */
   .final { padding: 56px 0; }
   .final-card { padding: 40px 24px; border-radius: 22px; }
-  .final-card h2 { font-size: clamp(28px, 7vw, 40px); margin-bottom: 14px; }
+  .final-card h2 { font-size: clamp(30px, 8vw, 44px); margin-bottom: 14px; }
   .final-card p { font-size: 15px; margin-bottom: 22px; }
   .final-card .btn-xl { padding: 14px 24px; font-size: 15px; width: 100%; max-width: 320px; }
 
@@ -3168,7 +3442,7 @@ footer.site {
 <section class="hero">
   <div class="container">
     <div class="hero-text">
-      <span class="hero-eyebrow">AI sales agent · for founders</span>
+      <span class="hero-eyebrow">Stop being your own SDR.</span>
       <h1>The pipeline that <em>fills itself.</em></h1>
       <p class="hero-lead">
         The cold outbound system for founders who'd rather build than sell.
@@ -3203,7 +3477,7 @@ footer.site {
       </a>
 
       <div class="hero-trust">
-        <span>No card to start</span>
+        <span>No card required</span>
         <span class="sep">·</span>
         <span>2 minutes to first send</span>
         <span class="sep">·</span>
@@ -3501,6 +3775,14 @@ footer.site {
     </div>
 
     <div class="mockup-frame">
+      <div class="app-frame-bar">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="url-pill">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1a4 4 0 014 4v3h1a3 3 0 013 3v9a3 3 0 01-3 3H7a3 3 0 01-3-3v-9a3 3 0 013-3h1V5a4 4 0 014-4zm0 2a2 2 0 00-2 2v3h4V5a2 2 0 00-2-2z"/></svg>
+          app.outpulse.ai/prospects
+        </div>
+        <div style="width:60px"></div>
+      </div>
       <div class="app-shell">
         <aside class="app-sidebar">
           <div class="app-sidebar-brand">
@@ -3602,6 +3884,7 @@ footer.site {
             <div class="tour-prospect-signals">
               <span class="tour-signal"><span class="d"></span>Hiring 12 engineers</span>
               <span class="tour-signal warm">Series C · $120M</span>
+              <span class="tour-signal cool">Stack: Go + Rust</span>
             </div>
             <div class="tour-prospect-added">today</div>
           </div>
@@ -3620,6 +3903,7 @@ footer.site {
             <div class="tour-prospect-signals">
               <span class="tour-signal cool"><span class="d"></span>New product launch</span>
               <span class="tour-signal">Hiring sales</span>
+              <span class="tour-signal warm">$30M ARR</span>
             </div>
             <div class="tour-prospect-added">2d ago</div>
           </div>
@@ -3638,6 +3922,7 @@ footer.site {
             <div class="tour-prospect-signals">
               <span class="tour-signal"><span class="d"></span>Stack migration</span>
               <span class="tour-signal warm">Series D</span>
+              <span class="tour-signal cool">Hiring 8 PMs</span>
             </div>
             <div class="tour-prospect-added">2d ago</div>
           </div>
@@ -3655,6 +3940,8 @@ footer.site {
             </div>
             <div class="tour-prospect-signals">
               <span class="tour-signal cool"><span class="d"></span>Intent: pricing page</span>
+              <span class="tour-signal">Bootstrapped</span>
+              <span class="tour-signal warm">12k users</span>
             </div>
             <div class="tour-prospect-added">3d ago</div>
           </div>
@@ -3673,6 +3960,7 @@ footer.site {
             <div class="tour-prospect-signals">
               <span class="tour-signal"><span class="d"></span>Hiring 4 engineers</span>
               <span class="tour-signal warm">Seed · $3M</span>
+              <span class="tour-signal cool">Intent: docs</span>
             </div>
             <div class="tour-prospect-added">3d ago</div>
           </div>
@@ -3690,6 +3978,8 @@ footer.site {
             </div>
             <div class="tour-prospect-signals">
               <span class="tour-signal cool"><span class="d"></span>Stack: Next.js + Vercel</span>
+              <span class="tour-signal">Open-source</span>
+              <span class="tour-signal warm">Series A · $25M</span>
             </div>
             <div class="tour-prospect-added">4d ago</div>
           </div>
@@ -3708,6 +3998,7 @@ footer.site {
             <div class="tour-prospect-signals">
               <span class="tour-signal"><span class="d"></span>Hiring sales lead</span>
               <span class="tour-signal warm">Profitable</span>
+              <span class="tour-signal cool">Solo founder</span>
             </div>
             <div class="tour-prospect-added">5d ago</div>
           </div>
@@ -3726,6 +4017,7 @@ footer.site {
             <div class="tour-prospect-signals">
               <span class="tour-signal warm">Series B · $33M</span>
               <span class="tour-signal cool"><span class="d"></span>Product launch</span>
+              <span class="tour-signal">Hiring 12</span>
             </div>
             <div class="tour-prospect-added">6d ago</div>
           </div>
@@ -3743,6 +4035,7 @@ footer.site {
             </div>
             <div class="tour-prospect-signals">
               <span class="tour-signal"><span class="d"></span>Hiring 8 engineers</span>
+              <span class="tour-signal warm">Series E · $90M</span>
             </div>
             <div class="tour-prospect-added">1w ago</div>
           </div>
@@ -3835,6 +4128,14 @@ footer.site {
     </div>
 
     <div class="mockup-frame">
+      <div class="app-frame-bar">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="url-pill">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1a4 4 0 014 4v3h1a3 3 0 013 3v9a3 3 0 01-3 3H7a3 3 0 01-3-3v-9a3 3 0 013-3h1V5a4 4 0 014-4zm0 2a2 2 0 00-2 2v3h4V5a2 2 0 00-2-2z"/></svg>
+          app.outpulse.ai/campaigns
+        </div>
+        <div style="width:60px"></div>
+      </div>
       <div class="app-shell">
         <aside class="app-sidebar">
           <div class="app-sidebar-brand">
@@ -3933,88 +4234,77 @@ footer.site {
           </div>
         </div>
 
-        <div class="tour-cgrid">
-          <!-- LEFT: list of every campaign as a sidebar of slim,
-               status-coloured cards. Subtle shadow makes each one
-               read as a distinct object on the white app background. -->
-          <aside class="tour-clist">
-            <header class="tour-clist-head">
-              <span class="lbl">All campaigns</span>
-              <span class="count">7</span>
-            </header>
-            <button type="button" class="tour-citem on">
-              <span class="status winning"><span class="d"></span>Winning · running</span>
-              <h4>Series B CTOs · Q2 push</h4>
-              <span class="meta"><b>418 prospects</b> · 1,284 / 1,672 sent</span>
-              <span class="mini-bar"><span class="fill" style="width: 77%"></span></span>
-            </button>
-            <button type="button" class="tour-citem">
-              <span class="status sending"><span class="d"></span>Sending · day 6</span>
-              <h4>SaaS founders · EU 50–200</h4>
-              <span class="meta"><b>612 prospects</b> · 612 / 1,420 sent</span>
-              <span class="mini-bar"><span class="fill" style="width: 43%; background: var(--blue)"></span></span>
-            </button>
-            <button type="button" class="tour-citem">
-              <span class="status"><span class="d"></span>Running · day 11</span>
-              <h4>YC alumni · Dev tools</h4>
-              <span class="meta"><b>196 prospects</b> · 542 / 588 sent</span>
-              <span class="mini-bar"><span class="fill" style="width: 92%; background: var(--green)"></span></span>
-            </button>
-            <button type="button" class="tour-citem">
-              <span class="status sending"><span class="d"></span>Sending · day 3</span>
-              <h4>RevOps · Series A</h4>
-              <span class="meta"><b>340 prospects</b> · 224 / 1,360 sent</span>
-              <span class="mini-bar"><span class="fill" style="width: 16%; background: var(--blue)"></span></span>
-            </button>
-            <button type="button" class="tour-citem">
-              <span class="status paused"><span class="d"></span>Paused · awaiting copy</span>
-              <h4>Fintech · Heads of Growth</h4>
-              <span class="meta"><b>284 prospects</b> · 74 / 284 sent</span>
-              <span class="mini-bar"><span class="fill" style="width: 26%; background: var(--muted-2)"></span></span>
-            </button>
-            <button type="button" class="tour-citem">
-              <span class="status draft"><span class="d"></span>Draft · review pending</span>
-              <h4>Agencies → product · UK</h4>
-              <span class="meta"><b>178 prospects</b> · 0 sent</span>
-              <span class="mini-bar"><span class="fill" style="width: 0%"></span></span>
-            </button>
-            <button type="button" class="tour-citem">
-              <span class="status"><span class="d"></span>Running · day 9</span>
-              <h4>Bootstrapped SaaS · NA</h4>
-              <span class="meta"><b>402 prospects</b> · 906 / 1,608 sent</span>
-              <span class="mini-bar"><span class="fill" style="width: 56%; background: var(--green)"></span></span>
-            </button>
-          </aside>
-
-          <!-- RIGHT: the selected campaign expanded. Same .tour-ccard
-               component as before; just one instance now, the active
-               one from the list on the left. -->
-          <div class="tour-cdetail">
-            <div class="tour-ccard">
-              <div class="tour-ccard-head">
-                <div class="tour-ccard-meta">
-                  <span class="tour-ccard-status"><span class="d"></span>Running · 14 days</span>
-                  <h3 class="tour-ccard-title">Series B CTOs · Q2 push</h3>
-                  <span class="tour-ccard-aud"><b>418 prospects</b> · CTOs / VP Engineering at SaaS Series B+ · EU + US</span>
-                </div>
-                <span class="tour-ccard-flag"><span class="d"></span>Winning</span>
-              </div>
-              <div class="tour-ccard-progress">
-                <div class="top">
-                  <span>14-day send</span>
-                  <span><b>1,284</b> / 1,672 sent</span>
-                </div>
-                <div class="bar"><span class="fill"></span></div>
-              </div>
-              <div class="tour-ccard-funnel">
-                <div class="f up"><span class="lbl">Sent</span><span class="val">1,284</span><span class="delta">on pace</span></div>
-                <div class="f up"><span class="lbl">Opens</span><span class="val">812</span><span class="delta">63.2%</span></div>
-                <div class="f up"><span class="lbl">Replies</span><span class="val">138</span><span class="delta">10.7%</span></div>
-                <div class="f up"><span class="lbl">Meetings</span><span class="val">42</span><span class="delta">+6 this week</span></div>
-              </div>
+        <div class="tour-ccard">
+          <div class="tour-ccard-head">
+            <div class="tour-ccard-meta">
+              <span class="tour-ccard-status"><span class="d"></span>Running · 14 days</span>
+              <h3 class="tour-ccard-title">Series B CTOs · Q2 push</h3>
+              <span class="tour-ccard-aud"><b>418 prospects</b> · CTOs / VP Engineering at SaaS Series B+ · EU + US</span>
             </div>
+            <span class="tour-ccard-flag"><span class="d"></span>Winning</span>
           </div>
-        </div><!-- /.tour-cgrid -->
+          <div class="tour-ccard-progress">
+            <div class="top">
+              <span>14-day send</span>
+              <span><b>1,284</b> / 1,672 sent</span>
+            </div>
+            <div class="bar"><span class="fill"></span></div>
+          </div>
+          <div class="tour-ccard-funnel">
+            <div class="f up"><span class="lbl">Sent</span><span class="val">1,284</span><span class="delta">on pace</span></div>
+            <div class="f up"><span class="lbl">Opens</span><span class="val">812</span><span class="delta">63.2%</span></div>
+            <div class="f up"><span class="lbl">Replies</span><span class="val">138</span><span class="delta">10.7%</span></div>
+            <div class="f up"><span class="lbl">Meetings</span><span class="val">42</span><span class="delta">+6 this week</span></div>
+          </div>
+        </div>
+
+        <div class="tour-ccard">
+          <div class="tour-ccard-head">
+            <div class="tour-ccard-meta">
+              <span class="tour-ccard-status sending"><span class="d"></span>Sending · 6 days</span>
+              <h3 class="tour-ccard-title">SaaS founders · EU 50–200</h3>
+              <span class="tour-ccard-aud"><b>612 prospects</b> · Founders at vertical SaaS · Germany, NL, Nordics</span>
+            </div>
+            <span class="tour-ccard-flag-neutral">Testing copy v3</span>
+          </div>
+          <div class="tour-ccard-progress">
+            <div class="top">
+              <span>14-day send</span>
+              <span><b>612</b> / 1,420 sent</span>
+            </div>
+            <div class="bar"><span class="fill" style="inset: 0 57% 0 0"></span></div>
+          </div>
+          <div class="tour-ccard-funnel">
+            <div class="f"><span class="lbl">Sent</span><span class="val">612</span><span class="delta">day 6 of 14</span></div>
+            <div class="f up"><span class="lbl">Opens</span><span class="val">198</span><span class="delta">32.3%</span></div>
+            <div class="f"><span class="lbl">Replies</span><span class="val">19</span><span class="delta">3.1%</span></div>
+            <div class="f"><span class="lbl">Meetings</span><span class="val">4</span><span class="delta">early</span></div>
+          </div>
+        </div>
+
+        <div class="tour-ccard">
+          <div class="tour-ccard-head">
+            <div class="tour-ccard-meta">
+              <span class="tour-ccard-status paused"><span class="d"></span>Paused · awaiting copy</span>
+              <h3 class="tour-ccard-title">Fintech · Heads of Growth</h3>
+              <span class="tour-ccard-aud"><b>284 prospects</b> · Heads of Growth at fintech Series A–C · US + UK</span>
+            </div>
+            <span class="tour-ccard-flag-warn"><span class="d"></span>Reply rate low</span>
+          </div>
+          <div class="tour-ccard-progress">
+            <div class="top">
+              <span>14-day send</span>
+              <span><b>74</b> / 284 sent · paused</span>
+            </div>
+            <div class="bar"><span class="fill" style="inset: 0 74% 0 0; background: var(--muted-2)"></span></div>
+          </div>
+          <div class="tour-ccard-funnel">
+            <div class="f"><span class="lbl">Sent</span><span class="val">74</span><span class="delta">paused</span></div>
+            <div class="f"><span class="lbl">Opens</span><span class="val">22</span><span class="delta">29.7%</span></div>
+            <div class="f"><span class="lbl">Replies</span><span class="val">1</span><span class="delta">1.4%</span></div>
+            <div class="f"><span class="lbl">Meetings</span><span class="val">0</span><span class="delta">—</span></div>
+          </div>
+        </div>
         </div><!-- /.tour-campaigns -->
         </div><!-- /.app-shell-main -->
       </div><!-- /.app-shell -->
@@ -4037,15 +4327,25 @@ footer.site {
     </div>
 
     <div class="dark-band-creds">
-      <div class="lbl">The team has shipped product for</div>
-      <div class="row">
-        <img src="https://www.plat4m.com/images/67f977063d937286ae57e537_Spotify_logo_with_text__1__1.svg" alt="Spotify" loading="lazy">
-        <img src="https://www.plat4m.com/images/apple-logo.svg" alt="Apple" loading="lazy">
-        <img src="https://www.plat4m.com/images/bmw-logo.svg" alt="BMW" loading="lazy">
-        <img src="https://www.plat4m.com/images/samsung-logo.svg" alt="Samsung" loading="lazy">
-        <img src="https://www.plat4m.com/images/henkel-logo.svg" alt="Henkel" loading="lazy">
-        <img src="https://www.plat4m.com/images/mattel-logo.svg" alt="Mattel" loading="lazy">
-        <img src="https://www.plat4m.com/images/67f976ab93b7742967fca3a0_royal.svg" alt="Royal Caribbean" loading="lazy">
+      <div class="lbl">The team behind Outpulse also shipped product at</div>
+      <div class="row-wrap">
+        <div class="row">
+          <img src="https://www.plat4m.com/images/67f977063d937286ae57e537_Spotify_logo_with_text__1__1.svg" alt="Spotify" loading="lazy">
+          <img src="https://www.plat4m.com/images/apple-logo.svg" alt="Apple" loading="lazy">
+          <img src="https://www.plat4m.com/images/bmw-logo.svg" alt="BMW" loading="lazy">
+          <img src="https://www.plat4m.com/images/samsung-logo.svg" alt="Samsung" loading="lazy">
+          <img src="https://www.plat4m.com/images/henkel-logo.svg" alt="Henkel" loading="lazy">
+          <img src="https://www.plat4m.com/images/mattel-logo.svg" alt="Mattel" loading="lazy">
+          <img src="https://www.plat4m.com/images/67f976ab93b7742967fca3a0_royal.svg" alt="Royal Caribbean" loading="lazy">
+          <!-- Duplikované logá pre seamless marquee loop na mobile -->
+          <img src="https://www.plat4m.com/images/67f977063d937286ae57e537_Spotify_logo_with_text__1__1.svg" alt="" loading="lazy" aria-hidden="true">
+          <img src="https://www.plat4m.com/images/apple-logo.svg" alt="" loading="lazy" aria-hidden="true">
+          <img src="https://www.plat4m.com/images/bmw-logo.svg" alt="" loading="lazy" aria-hidden="true">
+          <img src="https://www.plat4m.com/images/samsung-logo.svg" alt="" loading="lazy" aria-hidden="true">
+          <img src="https://www.plat4m.com/images/henkel-logo.svg" alt="" loading="lazy" aria-hidden="true">
+          <img src="https://www.plat4m.com/images/mattel-logo.svg" alt="" loading="lazy" aria-hidden="true">
+          <img src="https://www.plat4m.com/images/67f976ab93b7742967fca3a0_royal.svg" alt="" loading="lazy" aria-hidden="true">
+        </div>
       </div>
     </div>
 
@@ -4124,6 +4424,14 @@ footer.site {
         <div class="p-foot">No charge for 7 days.</div>
       </div>
     </div>
+    <!-- Dots + hint: viditeľné iba na mobile, ukazujú že pricing
+         scroller má 3 tiers a Growth je aktuálne zvýraznený. -->
+    <div class="price-dots" aria-hidden="true">
+      <span></span>
+      <span class="on"></span>
+      <span></span>
+    </div>
+    <div class="price-hint" aria-hidden="true">← swipe to compare →</div>
   </div>
 </section>
 
@@ -4173,7 +4481,7 @@ footer.site {
   <div class="container">
     <div class="final-card">
       <h2>Try it. <em>Seven days.</em></h2>
-      <p>Two minutes from signup to first campaign live. If it doesn't work for you by day seven, cancel in one click. No card to start.</p>
+      <p>Two minutes from signup to first campaign live. If it doesn't work for you by day seven, cancel in one click. No card required.</p>
       <a href="https://app.outpulse.ai/signup?utm_source=outpulse_landing&utm_campaign=launch&utm_medium=footer_cta" class="btn btn-orange btn-xl" data-cta="footer">Start now — no card</a>
       <div class="final-foot">7-day free trial · Cancel in one click · GDPR-compliant</div>
     </div>
