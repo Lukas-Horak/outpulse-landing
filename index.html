@@ -2979,12 +2979,50 @@ footer.site {
   }
   .pulse-mini { font-size: 10.5px; }
   .tour-csum { grid-template-columns: repeat(2, 1fr); }
+  /* Prospects rows na mobile — z grid stack-u prerobené na
+     "Avatar vľavo, content stack napravo". Meno+pozícia+email
+     držia spolu ako jeden block, signals na vlastnom riadku
+     s flex-wrap, date naspodku. */
   .tour-prospect-row {
-    grid-template-columns: 1fr;
-    gap: 6px;
-    padding: 12px 16px;
+    display: block;
+    padding: 16px 18px;
   }
-  .tour-prospect-added { text-align: left; }
+  .tour-prospect-who { display: flex; align-items: flex-start; gap: 12px; }
+  .tour-prospect-who .av {
+    width: 40px; height: 40px;
+    font-size: 13px;
+    margin-top: 1px;
+  }
+  .tour-prospect-who .text { flex: 1; min-width: 0; gap: 2px; }
+  .tour-prospect-who .name { font-size: 14.5px; }
+  .tour-prospect-who .role { font-size: 12px; }
+  /* Email + verified pill sedia pod menom + pozíciou,
+     odsadené o avatar šírku (40px) + gap (12px) = 52px */
+  .tour-prospect-email {
+    padding-left: 52px;
+    margin-top: 8px;
+    gap: 8px;
+  }
+  .tour-prospect-email .addr { font-size: 12px; }
+  /* Signals chips: vlastný riadok, flex-wrap, kompaktný spacing */
+  .tour-prospect-signals {
+    padding-left: 52px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .tour-prospect-signals .tour-signal {
+    font-size: 10.5px;
+    padding: 3px 9px;
+  }
+  /* Date naspodku, oddelené, malé a muted */
+  .tour-prospect-added {
+    padding-left: 52px;
+    margin-top: 10px;
+    font-size: 10.5px;
+    color: var(--muted-2);
+    text-align: left;
+  }
 }
 @media (max-width: 600px) {
   /* Frame — väčší vonkajší padding, aby logo a CTA neboli
@@ -3723,6 +3761,7 @@ footer.site {
             <div class="tour-prospect-signals">
               <span class="tour-signal"><span class="d"></span>Hiring 12 engineers</span>
               <span class="tour-signal warm">Series C · $120M</span>
+              <span class="tour-signal cool">Stack: Go + Rust</span>
             </div>
             <div class="tour-prospect-added">today</div>
           </div>
@@ -3741,6 +3780,7 @@ footer.site {
             <div class="tour-prospect-signals">
               <span class="tour-signal cool"><span class="d"></span>New product launch</span>
               <span class="tour-signal">Hiring sales</span>
+              <span class="tour-signal warm">$30M ARR</span>
             </div>
             <div class="tour-prospect-added">2d ago</div>
           </div>
@@ -3759,6 +3799,7 @@ footer.site {
             <div class="tour-prospect-signals">
               <span class="tour-signal"><span class="d"></span>Stack migration</span>
               <span class="tour-signal warm">Series D</span>
+              <span class="tour-signal cool">Hiring 8 PMs</span>
             </div>
             <div class="tour-prospect-added">2d ago</div>
           </div>
@@ -3776,6 +3817,8 @@ footer.site {
             </div>
             <div class="tour-prospect-signals">
               <span class="tour-signal cool"><span class="d"></span>Intent: pricing page</span>
+              <span class="tour-signal">Bootstrapped</span>
+              <span class="tour-signal warm">12k users</span>
             </div>
             <div class="tour-prospect-added">3d ago</div>
           </div>
@@ -3794,6 +3837,7 @@ footer.site {
             <div class="tour-prospect-signals">
               <span class="tour-signal"><span class="d"></span>Hiring 4 engineers</span>
               <span class="tour-signal warm">Seed · $3M</span>
+              <span class="tour-signal cool">Intent: docs</span>
             </div>
             <div class="tour-prospect-added">3d ago</div>
           </div>
@@ -3811,6 +3855,8 @@ footer.site {
             </div>
             <div class="tour-prospect-signals">
               <span class="tour-signal cool"><span class="d"></span>Stack: Next.js + Vercel</span>
+              <span class="tour-signal">Open-source</span>
+              <span class="tour-signal warm">Series A · $25M</span>
             </div>
             <div class="tour-prospect-added">4d ago</div>
           </div>
@@ -3829,6 +3875,7 @@ footer.site {
             <div class="tour-prospect-signals">
               <span class="tour-signal"><span class="d"></span>Hiring sales lead</span>
               <span class="tour-signal warm">Profitable</span>
+              <span class="tour-signal cool">Solo founder</span>
             </div>
             <div class="tour-prospect-added">5d ago</div>
           </div>
@@ -3847,6 +3894,7 @@ footer.site {
             <div class="tour-prospect-signals">
               <span class="tour-signal warm">Series B · $33M</span>
               <span class="tour-signal cool"><span class="d"></span>Product launch</span>
+              <span class="tour-signal">Hiring 12</span>
             </div>
             <div class="tour-prospect-added">6d ago</div>
           </div>
@@ -3864,6 +3912,7 @@ footer.site {
             </div>
             <div class="tour-prospect-signals">
               <span class="tour-signal"><span class="d"></span>Hiring 8 engineers</span>
+              <span class="tour-signal warm">Series E · $90M</span>
             </div>
             <div class="tour-prospect-added">1w ago</div>
           </div>
