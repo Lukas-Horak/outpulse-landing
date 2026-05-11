@@ -2927,7 +2927,15 @@ footer.site {
      do the same in spirit. The main content gets the full frame. */
   .app-shell { grid-template-columns: 1fr; }
   .app-sidebar { display: none; }
-  .app-shell-main { padding: 18px 18px 22px; }
+  /* Vnútorný padding app-shell-main na 10px aby obsah Campaigns
+     + Prospects mockupov mal viac priestoru a nebol stlačený.
+     Predtým 18px po stranách dávalo úzky stredový pruh. */
+  .app-shell-main { padding: 10px 10px 14px; }
+  /* Mockup-frame override pre tour-campaigns a app-body — tieto
+     surfaces sedeli s desktop 32-36px paddingom, na mobile treba
+     stlačiť na 10px aby obsah dýchal */
+  .mockup-frame .app-body { padding: 10px 10px 14px; }
+  .mockup-frame .tour-campaigns { padding: 10px; gap: 10px; }
   /* Tighten the top bar so the browser dots + url pill fit at
      small widths without crowding. */
   .first-mockup .app-frame-bar,
@@ -3030,6 +3038,12 @@ footer.site {
      aj na užšom telefóne (iPhone SE 375px). */
   .container, .container-narrow, .container-tour { padding: 0 24px; }
   .nav .container { padding: 0 24px; }
+  /* Mockup-inner má len 10px vonkajší padding na mobile — mockup
+     "prehliadač" tak zaplní takmer celú šírku viewportu a obsah
+     v ňom má viac priestoru. Predtým bol 32px → mockup bol
+     príliš úzky, vnútorný text sa lámal a stláčal. */
+  .mockup-inner { padding: 0 10px; }
+  .first-mockup-inner { padding: 0 10px; }
   /* Nav-row má výrazný dolný padding aby Get started tlačidlo
      nedotýkalo border-bottom nav baru. 22px nestačilo (Lukas
      stále videl natlačené), dávam 30px aby bola medzera jasne
