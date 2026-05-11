@@ -2897,13 +2897,23 @@ footer.site {
   .tour-prospect-added { text-align: left; }
 }
 @media (max-width: 600px) {
-  /* Frame */
-  .container, .container-narrow { padding: 0 18px; }
-  .nav-row { padding: 12px 0; gap: 14px; }
+  /* Frame — väčší vonkajší padding, aby logo a CTA neboli
+     nalepené na okraje viewportu */
+  .container, .container-narrow { padding: 0 22px; }
+  .nav-row { padding: 14px 0; gap: 14px; }
   .nav-right .nav-login { display: none; }
-  .nav-right .btn { padding: 9px 16px; font-size: 13px; }
-  .brand { font-size: 15px; }
-  .brand-mark { width: 30px; height: 30px; }
+  /* Get started v nav — väčší padding + font, aby tlačidlo
+     vyzeralo prominentne a malo priestor */
+  .nav-right .btn {
+    padding: 12px 22px;
+    font-size: 14.5px;
+    font-weight: 600;
+  }
+  /* Logo na mobile — pôvodných 30px bolo neviditeľne malé;
+     teraz brand-mark blízko desktopovej veľkosti + výraznejší
+     wordmark, aby identita značky držala aj na telefóne */
+  .brand { font-size: 20px; gap: 9px; letter-spacing: -.015em; }
+  .brand-mark { width: 42px; height: 42px; }
 
   /* Hero — type, signup form, trust */
   .hero { padding: 100px 0 40px; }
@@ -2913,42 +2923,58 @@ footer.site {
     line-height: 1.0;
     margin-bottom: 24px;
   }
-  /* Hero signup on mobile — the email input stays a single neat row
-     and the orange submit button sits below it at the same height.
-     Both are full-width within the container so they line up flush.
-     The Google button below matches their height + width exactly so
-     the three controls read as one tidy stack. */
+  /* Hero signup na mobile — input + submit + Google button
+     ako 60px-vysoké pill controls. Custom-styled ako na desktope:
+     hrubší border na inpute (2px), jemný tieň aby reading ako
+     prominentný objekt na papierovom pozadí (nie ako pole bez
+     ohraničenia). Všetky tri controls rovnaká šírka, rovnaká
+     výška, rovnaký radius — držia ako jeden čistý stack. */
   .hero-signup {
     flex-direction: column;
     gap: 12px;
     max-width: 100%;
-    margin: 0 auto 12px;
+    margin: 0 auto 14px;
   }
   .hero-signup-input {
-    height: 54px;
-    padding: 0 20px;
-    font-size: 16px; /* 16px stops iOS Safari from zooming on focus */
+    height: 60px;
+    padding: 0 24px;
+    font-size: 16px; /* 16px zabráni iOS Safari zoomovať pri focuse */
+    border: 1.5px solid var(--line);
     border-radius: var(--r-pill);
+    background: var(--paper);
+    box-shadow: 0 2px 6px -2px rgba(14, 13, 12, 0.06);
+  }
+  .hero-signup-input:focus {
+    border-color: var(--ink);
+    box-shadow:
+      0 0 0 4px rgba(14, 13, 12, 0.06),
+      0 4px 12px -4px rgba(14, 13, 12, 0.08);
   }
   .hero-signup-submit {
-    height: 54px;
+    height: 60px;
     width: 100%;
-    font-size: 16px;
+    font-size: 16.5px;
+    font-weight: 600;
     padding: 0 24px;
-    box-shadow: 0 14px 32px -10px rgba(255, 91, 31, 0.48);
+    border-radius: var(--r-pill);
+    letter-spacing: -.005em;
+    box-shadow: 0 16px 36px -10px rgba(255, 91, 31, 0.52);
   }
   .hero-signup-or {
     max-width: 100%;
-    margin: 6px auto 10px;
+    margin: 8px auto 12px;
     font-size: 11px;
   }
   .hero-google {
-    height: 54px;
+    height: 60px;
     max-width: 100%;
-    font-size: 15px;
-    margin: 0 auto 16px;
+    font-size: 15.5px;
+    font-weight: 600;
+    margin: 0 auto 18px;
+    border-radius: var(--r-pill);
+    border: 1.5px solid var(--line);
   }
-  .hero-google svg { width: 19px; height: 19px; }
+  .hero-google svg { width: 20px; height: 20px; }
   /* First-scroll mockup — smaller pull-up so the dashboard fits */
   .first-mockup .browser-frame { margin-top: -60px; border-radius: 14px; }
   .first-mockup .app-body { padding: 18px 16px 20px; }
