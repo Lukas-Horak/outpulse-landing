@@ -2759,6 +2759,10 @@ section.band.bg-panel { background: var(--bg-panel); }
 }
 .pcard:not(.featured) .btn:hover { background: #000; }
 .p-foot { font-size: 12px; color: var(--muted); text-align: center; margin-top: 6px; }
+/* Dots + swipe hint zobrazené len na mobile (scroller je tiež
+   iba na mobile). Na desktope sú dots zbytočné — 3 karty side-
+   by-side. */
+.price-dots, .price-hint { display: none; }
 
 /* ── FAQ ───────────────────────────────────────────────────────── */
 .faq-list { display: flex; flex-direction: column; gap: 0; }
@@ -3288,10 +3292,71 @@ footer.site {
   .dark-band-sign .role::before { content: none; }
 
   /* Pricing */
-  .pcard { padding: 28px 24px; gap: 14px; }
-  .pcard .p-name { font-size: 28px; }
+  /* Pricing na mobile = horizontal snap-scroller s peek na ďalšiu
+     kartu. Karty majú 88% width aby okraj ďalšej karty peekol z
+     pravej strany — vizuálny signál že je tam viac možností. */
+  .price-grid {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 18px;
+    gap: 12px;
+    padding: 8px 18px 16px;
+    margin: 0 -18px;
+    /* Hide native scrollbar but keep scroll functional */
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .price-grid::-webkit-scrollbar { display: none; }
+  .pcard {
+    flex: 0 0 88%;
+    scroll-snap-align: center;
+    padding: 28px 24px;
+    gap: 14px;
+    /* Subtle drop-shadow pod kartami aby boli viditeľne 3D
+       objekty na scrolleri — peek next card má clear edge */
+    box-shadow: 0 8px 24px -10px rgba(14, 13, 12, 0.10);
+  }
+  /* Recommended (Growth) karta vystupuje silnejšie — orange ring +
+     väčší shadow + ribbon na vrchu. Conversion: framing effect, stredná
+     karta sa stane "default choice". */
+  .pcard.featured {
+    box-shadow:
+      0 0 0 2px var(--orange),
+      0 16px 38px -12px rgba(255, 91, 31, 0.32);
+    transform: scale(1.02);
+  }
+  .pcard .p-name { font-size: 26px; }
   .pcard .p-price .num { font-size: 44px; }
   .pcard .p-cta-row .btn { padding: 12px 20px; font-size: 14px; }
+  /* Statický dots indikátor — pomôže user-ovi pochopiť že má
+     scrollovať horizontálne. 3 bodky pod scrollerom. */
+  .price-dots {
+    display: flex !important;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .price-hint { display: block !important; }
+  .price-dots span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--muted-2);
+    opacity: 0.4;
+  }
+  .price-dots span.on { background: var(--orange); opacity: 1; width: 22px; border-radius: 3px; }
+  /* Swipe hint pod scrollerom */
+  .price-hint {
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 8px;
+  }
 
   /* FAQ */
   .faq-list summary { font-size: 18px; gap: 12px; }
@@ -4311,6 +4376,14 @@ footer.site {
         <div class="p-foot">No charge for 7 days.</div>
       </div>
     </div>
+    <!-- Dots + hint: viditeľné iba na mobile, ukazujú že pricing
+         scroller má 3 tiers a Growth je aktuálne zvýraznený. -->
+    <div class="price-dots" aria-hidden="true">
+      <span></span>
+      <span class="on"></span>
+      <span></span>
+    </div>
+    <div class="price-hint" aria-hidden="true">← swipe to compare →</div>
   </div>
 </section>
 
