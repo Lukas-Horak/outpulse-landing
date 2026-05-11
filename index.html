@@ -274,20 +274,30 @@ img { max-width: 100%; display: block; }
   flex: 1;
   min-width: 0;
   height: 56px;
-  padding: 0 18px;
-  background: var(--paper);
-  border: 1px solid var(--line-2);
+  /* Padding-left robí miesto pre mail ikonu (background-image)
+     ktorá sa renderuje 18px od ľavého okraja. */
+  padding: 0 20px 0 48px;
+  background:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236c6458' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='2' y='4' width='20' height='16' rx='2'/><path d='m22 7-10 5L2 7'/></svg>") no-repeat 18px center / 18px 18px,
+    var(--paper);
+  border: 1.5px solid var(--line);
   border-radius: var(--r-pill);
   font-family: var(--sans);
   font-size: 15px;
   color: var(--ink);
   outline: none;
-  transition: border-color .15s ease, box-shadow .15s ease;
+  transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6),
+    0 2px 6px -2px rgba(14, 13, 12, 0.06);
 }
 .hero-signup-input::placeholder { color: var(--muted-2); }
+.hero-signup-input:hover { border-color: var(--line-3); }
 .hero-signup-input:focus {
-  border-color: var(--ink);
-  box-shadow: 0 0 0 4px rgba(14, 13, 12, 0.06);
+  border-color: var(--orange);
+  box-shadow:
+    0 0 0 4px rgba(255, 91, 31, 0.14),
+    0 4px 14px -4px rgba(255, 91, 31, 0.18);
 }
 .hero-signup-submit {
   height: 56px;
@@ -3001,18 +3011,21 @@ footer.site {
   }
   .hero-signup-input {
     height: 60px;
-    padding: 0 24px;
+    /* Padding-left pre mail ikonu (renderovaná background-image
+       z desktop pravidla); 52px tu lebo ikona má 20px na mobile
+       a sedí 18px od okraja → 18 + 20 + 14 = 52. */
+    padding: 0 22px 0 52px;
     font-size: 16px; /* 16px zabráni iOS Safari zoomovať pri focuse */
+    background-size: 20px 20px, auto;
+    background-position: 18px center, 0 0;
     border: 1.5px solid var(--line);
     border-radius: var(--r-pill);
-    background: var(--paper);
-    box-shadow: 0 2px 6px -2px rgba(14, 13, 12, 0.06);
   }
   .hero-signup-input:focus {
-    border-color: var(--ink);
+    border-color: var(--orange);
     box-shadow:
-      0 0 0 4px rgba(14, 13, 12, 0.06),
-      0 4px 12px -4px rgba(14, 13, 12, 0.08);
+      0 0 0 4px rgba(255, 91, 31, 0.16),
+      0 6px 18px -6px rgba(255, 91, 31, 0.22);
   }
   .hero-signup-submit {
     height: 60px;
