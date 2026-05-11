@@ -86,6 +86,12 @@
 }
 
 html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+/* Body overflow-x: hidden zabráni horizontal jitter na mobile —
+   pricing scroller (margin: 0 -18px) a logo marquee (width:
+   max-content) tvorili page-wide horizontal scroll, čo pri
+   vertikálnom scrolle robilo, že sa nav top bar "hýbal doľava
+   doprava". */
+html, body { overflow-x: hidden; }
 body {
   font-family: var(--sans);
   background: var(--paper);
@@ -3084,11 +3090,13 @@ footer.site {
      príliš úzky, vnútorný text sa lámal a stláčal. */
   .mockup-inner { padding: 0 10px; }
   .first-mockup-inner { padding: 0 10px; }
-  /* Nav-row Lukas-friendly 10px: minimal padding. Logo a Get
-     started ostanú vizuálne kompaktné. */
+  /* Nav-row — 14px top / 20px bottom aby Get started tlačidlo
+     malo viditeľnú medzeru od border-bottom (Lukas opakovane vytýka
+     "natlačené"). Plus min-height aby nav nemohol kollapsovať. */
   .nav-row {
-    padding: 10px 0;
+    padding: 14px 0 20px;
     gap: 14px;
+    min-height: 68px;
   }
   .nav-right .nav-login { display: none; }
   /* Get started v nav — väčší padding + font, aby tlačidlo
@@ -4568,6 +4576,63 @@ footer.site {
     if(window.plausible){ window.plausible('landing_cta_click', { props: payload }); }
     if(window.posthog){ window.posthog.capture('landing_cta_click', payload); }
   }, true);
+})();
+
+// Pricing dots indikátor — sync s scroll position .price-grid scrolleru.
+// Detekuje ktorá z 3 kariet je aktuálne v centre snap pozícii a podľa
+// toho aplikuje .on class na zodpovedajúcu bodku. Mobile-only (na
+// desktope sú dots display:none).
+(function(){
+  var grid = document.querySelector('.price-grid');
+  var dotsContainer = document.querySelector('.price-dots');
+  if(!grid || !dotsContainer) return;
+  var dots = dotsContainer.querySelectorAll('span');
+  var cards = grid.querySelectorAll('.pcard');
+  if(!dots.length || !cards.length) return;
+
+  function setActive(i){
+    for(var d = 0; d < dots.length; d++){
+      if(d === i) dots[d].classList.add('on');
+      else dots[d].classList.remove('on');
+    }
+  }
+
+  function updateActive(){
+    // Centrum scrolovaného viewportu
+    var scrollCenter = grid.scrollLeft + grid.clientWidth / 2;
+    var closestIdx = 0;
+    var closestDist = Infinity;
+    for(var i = 0; i < cards.length; i++){
+      var c = cards[i];
+      var cardCenter = c.offsetLeft + c.offsetWidth / 2;
+      var dist = Math.abs(cardCenter - scrollCenter);
+      if(dist < closestDist){ closestDist = dist; closestIdx = i; }
+    }
+    setActive(Math.min(closestIdx, dots.length - 1));
+  }
+
+  // Debounce cez rAF aby scroll listener nezahltil main thread
+  var raf = null;
+  grid.addEventListener('scroll', function(){
+    if(raf) return;
+    raf = requestAnimationFrame(function(){ raf = null; updateActive(); });
+  }, { passive: true });
+
+  // Inicial state: aktívna je defaultne 2. karta (Growth, featured)
+  // — scroll-snap-align: center ju zarovná do stredu pri load-e.
+  updateActive();
+
+  // Click na bodku → scroll na zodpovedajúcu kartu
+  for(var d = 0; d < dots.length; d++){
+    (function(idx){
+      dots[idx].style.cursor = 'pointer';
+      dots[idx].addEventListener('click', function(){
+        var c = cards[idx];
+        if(!c) return;
+        grid.scrollTo({ left: c.offsetLeft - (grid.clientWidth - c.offsetWidth) / 2, behavior: 'smooth' });
+      });
+    })(d);
+  }
 })();
 </script>
 </body>
