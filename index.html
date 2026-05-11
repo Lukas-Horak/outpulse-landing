@@ -230,11 +230,25 @@ img { max-width: 100%; display: block; }
 .hero-eyebrow {
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: .26em;
+  letter-spacing: .22em;
   text-transform: uppercase;
-  color: var(--muted);
-  display: inline-block;
+  color: var(--ink-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
   margin-bottom: 32px;
+  padding: 8px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  background: var(--paper);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6), 0 2px 6px -2px rgba(14, 13, 12, 0.04);
+}
+.hero-eyebrow .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 3px rgba(26, 124, 75, 0.14);
 }
 .hero h1 {
   font-family: var(--serif);
@@ -3029,23 +3043,35 @@ footer.site {
     max-width: 100%;
     margin: 0 auto 14px;
   }
+  /* Input má rovnakú vizuálnu váhu ako submit — 64px výška,
+     2.5px border (silný outline) a viditeľný drop-shadow.
+     Predtým bol 60px s 1.5px borderom a vyzeral menší ako
+     submit, ktorý mal orange halo a pôsobil masívnejšie. */
   .hero-signup-input {
-    height: 60px;
-    /* Padding-left pre mail ikonu (renderovaná background-image
-       z desktop pravidla); 52px tu lebo ikona má 20px na mobile
-       a sedí 18px od okraja → 18 + 20 + 14 = 52. */
-    padding: 0 22px 0 52px;
-    font-size: 16px; /* 16px zabráni iOS Safari zoomovať pri focuse */
-    background-size: 20px 20px, auto;
+    height: 64px;
+    /* Padding-left robí miesto pre 22px mail ikonu vľavo
+       (18px odsadenie + 22px ikona + 14px medzera = 54px) */
+    padding: 0 22px 0 54px;
+    font-size: 16.5px; /* 16+ zabráni iOS Safari zoomovať pri focuse */
+    font-weight: 500;
+    background-size: 22px 22px, auto;
     background-position: 18px center, 0 0;
-    border: 1.5px solid var(--line);
+    border: 2.5px solid var(--ink);
     border-radius: var(--r-pill);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.7),
+      0 6px 18px -6px rgba(14, 13, 12, 0.12),
+      0 2px 6px -2px rgba(14, 13, 12, 0.08);
+  }
+  .hero-signup-input::placeholder {
+    color: var(--muted);
+    font-weight: 500;
   }
   .hero-signup-input:focus {
     border-color: var(--orange);
     box-shadow:
-      0 0 0 4px rgba(255, 91, 31, 0.16),
-      0 6px 18px -6px rgba(255, 91, 31, 0.22);
+      0 0 0 5px rgba(255, 91, 31, 0.18),
+      0 8px 22px -6px rgba(255, 91, 31, 0.28);
   }
   .hero-signup-submit {
     height: 60px;
@@ -3291,7 +3317,7 @@ footer.site {
 <section class="hero">
   <div class="container">
     <div class="hero-text">
-      <span class="hero-eyebrow">AI sales agent · for founders</span>
+      <span class="hero-eyebrow"><span class="dot"></span>Free 7 days · No card required · 2-minute setup</span>
       <h1>The pipeline that <em>fills itself.</em></h1>
       <p class="hero-lead">
         The cold outbound system for founders who'd rather build than sell.
