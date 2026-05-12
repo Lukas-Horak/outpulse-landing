@@ -1629,7 +1629,7 @@ img { max-width: 100%; display: block; }
   margin: 8px auto 32px;
   padding-top: 36px;
   border-top: 1px solid rgba(255, 255, 255, 0.14);
-  max-width: 720px;
+  max-width: 1100px;
 }
 .dark-band-creds .lbl {
   font-size: 10.5px;
@@ -1664,20 +1664,21 @@ img { max-width: 100%; display: block; }
 }
 .dark-band-creds .row {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
-  justify-content: center;
-  gap: clamp(28px, 5vw, 56px);
+  justify-content: space-between;
+  gap: clamp(20px, 2.5vw, 36px);
 }
 .dark-band-creds img {
-  height: 32px;
+  height: 28px;
   width: auto;
-  max-width: 140px;
+  max-width: 120px;
   object-fit: contain;
   opacity: 0.75;
   filter: brightness(0) invert(1);
   transition: opacity .2s ease;
-  flex-shrink: 0;
+  flex-shrink: 1;
+  min-width: 0;
 }
 .dark-band-creds img:hover { opacity: 1; }
 /* Duplikované logá v marquee móde sú aria-hidden, na desktope ich
@@ -4338,21 +4339,21 @@ footer.site {
       <div class="lbl">The team behind Outpulse also shipped product at</div>
       <div class="row-wrap">
         <div class="row">
-          <img src="https://www.plat4m.com/images/67f977063d937286ae57e537_Spotify_logo_with_text__1__1.svg" alt="Spotify" loading="lazy">
-          <img src="https://www.plat4m.com/images/apple-logo.svg" alt="Apple" loading="lazy">
-          <img src="https://www.plat4m.com/images/bmw-logo.svg" alt="BMW" loading="lazy">
-          <img src="https://www.plat4m.com/images/samsung-logo.svg" alt="Samsung" loading="lazy">
-          <img src="https://www.plat4m.com/images/henkel-logo.svg" alt="Henkel" loading="lazy">
-          <img src="https://www.plat4m.com/images/mattel-logo.svg" alt="Mattel" loading="lazy">
-          <img src="https://www.plat4m.com/images/67f976ab93b7742967fca3a0_royal.svg" alt="Royal Caribbean" loading="lazy">
+          <img src="/logos/spotify.svg" alt="Spotify" loading="lazy">
+          <img src="/logos/apple.svg" alt="Apple" loading="lazy">
+          <img src="/logos/bmw.svg" alt="BMW" loading="lazy">
+          <img src="/logos/samsung.svg" alt="Samsung" loading="lazy">
+          <img src="/logos/henkel.svg" alt="Henkel" loading="lazy">
+          <img src="/logos/mattel.svg" alt="Mattel" loading="lazy">
+          <img src="/logos/royal-caribbean.svg" alt="Royal Caribbean" loading="lazy">
           <!-- Duplikované logá pre seamless marquee loop na mobile -->
-          <img src="https://www.plat4m.com/images/67f977063d937286ae57e537_Spotify_logo_with_text__1__1.svg" alt="" loading="lazy" aria-hidden="true">
-          <img src="https://www.plat4m.com/images/apple-logo.svg" alt="" loading="lazy" aria-hidden="true">
-          <img src="https://www.plat4m.com/images/bmw-logo.svg" alt="" loading="lazy" aria-hidden="true">
-          <img src="https://www.plat4m.com/images/samsung-logo.svg" alt="" loading="lazy" aria-hidden="true">
-          <img src="https://www.plat4m.com/images/henkel-logo.svg" alt="" loading="lazy" aria-hidden="true">
-          <img src="https://www.plat4m.com/images/mattel-logo.svg" alt="" loading="lazy" aria-hidden="true">
-          <img src="https://www.plat4m.com/images/67f976ab93b7742967fca3a0_royal.svg" alt="" loading="lazy" aria-hidden="true">
+          <img src="/logos/spotify.svg" alt="" loading="lazy" aria-hidden="true">
+          <img src="/logos/apple.svg" alt="" loading="lazy" aria-hidden="true">
+          <img src="/logos/bmw.svg" alt="" loading="lazy" aria-hidden="true">
+          <img src="/logos/samsung.svg" alt="" loading="lazy" aria-hidden="true">
+          <img src="/logos/henkel.svg" alt="" loading="lazy" aria-hidden="true">
+          <img src="/logos/mattel.svg" alt="" loading="lazy" aria-hidden="true">
+          <img src="/logos/royal-caribbean.svg" alt="" loading="lazy" aria-hidden="true">
         </div>
       </div>
     </div>
