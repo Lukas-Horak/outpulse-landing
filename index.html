@@ -1588,18 +1588,25 @@ img { max-width: 100%; display: block; }
   flex-direction: column;
   align-items: center;
   gap: clamp(28px, 3.5vh, 48px);
-  max-width: 20ch;
+  width: 100%;
   margin: 0 auto;
 }
 .quote-pull {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(44px, 5.2vw, 84px);
-  line-height: 1.04;
+  /* Hero-h1 scale: clamp so it shrinks on tablet but never breaks
+     onto 1-word-per-line. ch units here would compute against root
+     16px (≈320px), which is exactly the mobile bug Lukas just
+     called out — using % / container width instead. */
+  font-size: clamp(40px, 4.6vw, 76px);
+  line-height: 1.06;
   letter-spacing: -.022em;
   color: var(--ink);
   margin: 0;
   text-wrap: balance;
+  /* Let the container's max-width (1200px - 64px padding) bound
+     this; no extra ch constraint that would shrink it to mobile. */
+  max-width: 100%;
 }
 .quote-pull em {
   font-style: italic;
@@ -3104,7 +3111,7 @@ footer.site {
   .stat-cell:last-child { border-bottom: none; }
   /* Pull-quote — already centered + flex on desktop; just tighten
      the gap a touch and let the headline breathe. */
-  .quote-pull-grid { gap: 22px; max-width: 18ch; }
+  .quote-pull-grid { gap: 22px; }
   .price-grid { grid-template-columns: 1fr; }
   .app-pulse {
     grid-template-columns: 1fr;
