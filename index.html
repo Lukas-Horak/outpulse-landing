@@ -1572,27 +1572,31 @@ img { max-width: 100%; display: block; }
   opacity: .55;
 }
 
-/* ── Pull-quote band — Apollo-style headline quote with author.
-   Sits ABOVE the 3-up stats grid, so the rhythm is:
-   logo strip (dark band, elsewhere) → pull-quote → numbers.
-   2-col grid on desktop (quote left, author right), stacks on
-   mobile. Quote is set in the same serif as the hero, italic-
-   accented, so it reads as editorial pull-quote not a UI card. */
+/* ── Pull-quote band — hero-scale cited stat, centered.
+   Same serif + italic-orange accent rhythm as the hero h1; the
+   point is to make the proof statement read as a section-opener,
+   not a sidebar pull-quote. Border-top is dropped on this band
+   AND the stats band immediately after, because the stat cards
+   already act as their own divider. */
 .quote-band {
-  padding: clamp(64px, 9vh, 120px) 0 clamp(32px, 4vh, 56px);
+  padding: clamp(96px, 14vh, 180px) 0 clamp(40px, 5vh, 64px);
+  border-top: none;
+  text-align: center;
 }
 .quote-pull-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
-  gap: clamp(32px, 5vw, 80px);
-  align-items: end;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(28px, 3.5vh, 48px);
+  max-width: 20ch;
+  margin: 0 auto;
 }
 .quote-pull {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(32px, 3.4vw, 52px);
-  line-height: 1.12;
-  letter-spacing: -.018em;
+  font-size: clamp(44px, 5.2vw, 84px);
+  line-height: 1.04;
+  letter-spacing: -.022em;
   color: var(--ink);
   margin: 0;
   text-wrap: balance;
@@ -1601,17 +1605,15 @@ img { max-width: 100%; display: block; }
   font-style: italic;
   color: var(--orange);
 }
-/* Source citation block — small caps study name + meta line.
-   Sits flush-right under the stat on desktop. Inherits ink for
-   the study name (carries the weight) and muted for the meta
-   row. No logo — credibility is the source itself. */
+/* Source citation — centered under the stat. Study name carries
+   the weight (ink), meta line drops to muted. No logo — credibility
+   is the source itself. */
 .quote-author {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  text-align: right;
+  align-items: center;
+  text-align: center;
   gap: 6px;
-  padding-bottom: 6px;
 }
 .quote-author .qa-name {
   font-family: var(--sans);
@@ -3100,17 +3102,9 @@ footer.site {
     padding: 28px 24px;
   }
   .stat-cell:last-child { border-bottom: none; }
-  /* Pull-quote stacks: quote first, author block below. Author
-     becomes left-aligned so it reads as caption under the quote. */
-  .quote-pull-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-  .quote-author {
-    align-items: flex-start;
-    text-align: left;
-    padding-bottom: 0;
-  }
+  /* Pull-quote — already centered + flex on desktop; just tighten
+     the gap a touch and let the headline breathe. */
+  .quote-pull-grid { gap: 22px; max-width: 18ch; }
   .price-grid { grid-template-columns: 1fr; }
   .app-pulse {
     grid-template-columns: 1fr;
@@ -3331,9 +3325,10 @@ footer.site {
   .stat-headline { font-size: 16px; }
   .stat-sub { font-size: 13px; }
   .stat-eyebrow { font-size: 10px; }
-  /* Pull-quote — slightly tighter on small phones */
-  .quote-band { padding: 56px 0 24px; }
-  .quote-pull { font-size: 26px; line-height: 1.18; }
+  /* Pull-quote — drop a notch on small phones but keep it big
+     enough to read as the section opener it is. */
+  .quote-band { padding: 64px 0 24px; }
+  .quote-pull { font-size: clamp(34px, 9vw, 44px); line-height: 1.06; }
   .quote-author .qa-name,
   .quote-author .qa-role { font-size: 11px; }
 
@@ -3855,7 +3850,7 @@ footer.site {
   <div class="container">
     <div class="quote-pull-grid">
       <blockquote class="quote-pull">
-        Personalised cold emails get <em>142%</em> more replies than templated outreach &mdash; and founders who write their own outperform outsourced SDRs on every metric that matters.
+        Personalised cold emails get <em>142% more replies</em> than templated outreach &mdash; and founders who write their own outperform outsourced SDRs on every metric that matters.
       </blockquote>
       <div class="quote-author">
         <div class="qa-name">Backlinko Cold Email Study</div>
@@ -3865,7 +3860,7 @@ footer.site {
   </div>
 </section>
 
-<section class="band" style="padding-top: clamp(24px, 3vh, 40px);">
+<section class="band stats-band" style="padding-top: clamp(24px, 3vh, 40px); border-top: none;">
   <div class="container">
     <div class="stats-grid">
       <div class="stat-cell">
