@@ -1549,6 +1549,92 @@ img { max-width: 100%; display: block; }
   color: var(--muted);
   margin-top: 8px;
 }
+/* Small caps eyebrow inside the stat cell — Apollo's stat cards lead
+   with a one-line context tag ("70% increase in sales leads") above
+   the huge number. Adding the same here so each number has a frame
+   of reference before the eye lands on it. */
+.stat-eyebrow {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.stat-eyebrow .stat-mark {
+  height: 18px;
+  width: auto;
+  opacity: .55;
+}
+
+/* ── Pull-quote band — Apollo-style headline quote with author.
+   Sits ABOVE the 3-up stats grid, so the rhythm is:
+   logo strip (dark band, elsewhere) → pull-quote → numbers.
+   2-col grid on desktop (quote left, author right), stacks on
+   mobile. Quote is set in the same serif as the hero, italic-
+   accented, so it reads as editorial pull-quote not a UI card. */
+.quote-band {
+  padding: clamp(64px, 9vh, 120px) 0 clamp(32px, 4vh, 56px);
+}
+.quote-pull-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 80px);
+  align-items: end;
+}
+.quote-pull {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(32px, 3.4vw, 52px);
+  line-height: 1.12;
+  letter-spacing: -.018em;
+  color: var(--ink);
+  margin: 0;
+  text-wrap: balance;
+}
+.quote-pull em {
+  font-style: italic;
+  color: var(--orange);
+}
+.quote-pull .qmark {
+  font-style: italic;
+  color: var(--orange);
+  display: inline-block;
+  transform: translateY(-.05em);
+}
+.quote-author {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  gap: 6px;
+}
+.quote-author .qa-name {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.quote-author .qa-role {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.quote-author .qa-logo {
+  height: 28px;
+  width: auto;
+  margin-top: 14px;
+}
 
 /* ── Dark band — full-bleed editorial photo + dark overlay +
    founder story. Photo is the whole section background; a dark
@@ -3020,6 +3106,17 @@ footer.site {
     padding: 28px 24px;
   }
   .stat-cell:last-child { border-bottom: none; }
+  /* Pull-quote stacks: quote first, author block below. Author
+     becomes left-aligned so it reads as caption under the quote. */
+  .quote-pull-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .quote-author {
+    align-items: flex-start;
+    text-align: left;
+  }
+  .quote-author .qa-logo { margin-top: 8px; }
   .price-grid { grid-template-columns: 1fr; }
   .app-pulse {
     grid-template-columns: 1fr;
@@ -3239,6 +3336,12 @@ footer.site {
   .stat-num { font-size: 44px; }
   .stat-headline { font-size: 16px; }
   .stat-sub { font-size: 13px; }
+  .stat-eyebrow { font-size: 10px; }
+  /* Pull-quote — slightly tighter on small phones */
+  .quote-band { padding: 56px 0 24px; }
+  .quote-pull { font-size: 26px; line-height: 1.18; }
+  .quote-author .qa-name,
+  .quote-author .qa-role { font-size: 11px; }
 
   /* Tour mobile — keep big mockups readable */
   .tour-tabs { padding: 4px; }
@@ -3746,22 +3849,45 @@ footer.site {
   </div>
 </section>
 
-<!-- ─── STATS — three big numbers, Apollo-style headline rhythm.
-     One row, no card frames inside, divider lines between cells. -->
-<section class="band">
+<!-- ─── PULL-QUOTE + STATS — Apollo-style proof block.
+     Top: a single big editorial pull-quote (founder, since we're
+     dogfooding pre-paid-customers — no fabricated testimonials).
+     Bottom: the existing 3 anchor numbers, now with a small caps
+     eyebrow per cell so the reader has context BEFORE the big
+     number lands. The whole block sits on the cream band, no
+     card frames inside the stats — just dividers. -->
+<section class="band quote-band">
+  <div class="container">
+    <div class="quote-pull-grid">
+      <blockquote class="quote-pull">
+        <span class="qmark">"</span>Cold email is the one channel where <em>1-of-1</em> still beats automation. Outpulse lets one founder send a hundred 1-of-1 emails a day &mdash; without the BDR team.<span class="qmark">"</span>
+      </blockquote>
+      <div class="quote-author">
+        <div class="qa-name">Lukas Horak</div>
+        <div class="qa-role">Founder · Dogfooding it</div>
+        <img class="qa-logo" src="outpulse-logo-dark.svg" alt="Outpulse">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" style="padding-top: clamp(24px, 3vh, 40px);">
   <div class="container">
     <div class="stats-grid">
       <div class="stat-cell">
+        <div class="stat-eyebrow"><span>Time saved</span></div>
         <div class="stat-num"><em>8h+</em></div>
         <div class="stat-headline">Hours back, every week.</div>
         <div class="stat-sub">Hours you used to spend writing cold emails by hand.</div>
       </div>
       <div class="stat-cell">
+        <div class="stat-eyebrow"><span>Personalization</span></div>
         <div class="stat-num"><em>1-of-1</em></div>
         <div class="stat-headline">Researched per prospect.</div>
         <div class="stat-sub">No mail-merge. No templates. Each email written for one person.</div>
       </div>
       <div class="stat-cell">
+        <div class="stat-eyebrow"><span>Time to launch</span></div>
         <div class="stat-num"><em>2 min</em></div>
         <div class="stat-headline">Signup to first campaign live.</div>
         <div class="stat-sub">No onboarding call. No card. Type one sentence, hit launch.</div>
