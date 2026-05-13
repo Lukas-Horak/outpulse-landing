@@ -414,10 +414,15 @@ img { max-width: 100%; display: block; }
       rgba(255, 138, 76, 0.14) 100%);
   -webkit-backdrop-filter: blur(40px) saturate(1.8);
   backdrop-filter: blur(40px) saturate(1.8);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+  /* Softer top hairline — Lukas felt the previous 0.95-alpha white
+     stroke read as a bright bar across the glass plate. Halved-and-
+     halved to a quiet 0.35 so the glass effect still reads but the
+     edge no longer jumps. Bottom hairline + drop shadow unchanged
+     so the bar still separates from the body content beneath. */
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.18),
     0 1px 0 rgba(14, 13, 12, 0.05),
     0 2px 6px -2px rgba(14, 13, 12, 0.04);
   position: relative;
@@ -868,10 +873,11 @@ img { max-width: 100%; display: block; }
       rgba(255, 255, 255, 0.30) 100%);
   -webkit-backdrop-filter: blur(28px) saturate(1.6);
   backdrop-filter: blur(28px) saturate(1.6);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+  /* Match the softer top hairline used on the hero mockup. */
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.7),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.14);
 }
 .mockup-frame .app-frame-bar .url-pill {
   background: rgba(255, 255, 255, 0.55);
@@ -3550,7 +3556,6 @@ footer.site {
 <section class="hero">
   <div class="container">
     <div class="hero-text">
-      <span class="hero-eyebrow">Stop being your own SDR.</span>
       <h1>The pipeline that <em>fills itself.</em></h1>
       <p class="hero-lead">
         The cold outbound system for founders who'd rather build than sell.
@@ -3860,7 +3865,7 @@ footer.site {
         Outpulse cold emails see <em>47% open rates and 34% click rates</em> &mdash; over 2&times; and 13&times; the industry average.
       </blockquote>
       <div class="quote-author">
-        <div class="qa-name">Industry benchmark · Apollo State of Outbound</div>
+        <div class="qa-name">Industry benchmark</div>
         <div class="qa-role">2024 · 21% open rate · 2.6% click rate</div>
       </div>
     </div>
