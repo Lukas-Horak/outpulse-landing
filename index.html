@@ -4834,14 +4834,20 @@ footer.site {
         var k = UTM_FIELDS[i];
         if (utm[k]) payload[k] = utm[k];
       }
-      var blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+      // text/plain Blob avoids CORS preflight (non-simple → simple request).
+      // /api/track uses request.json() which parses the body irrespective
+      // of Content-Type, so the server side handles this transparently.
+      // This matters for events that fire RIGHT before navigation
+      // (landing_cta_click on a link click) — preflight would race with
+      // the page unload and the browser would drop the request.
+      var blob = new Blob([JSON.stringify(payload)], { type: 'text/plain' });
       if (navigator.sendBeacon && navigator.sendBeacon(ENDPOINT, blob)) return;
       fetch(ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(payload),
         keepalive: true,
-        mode: 'cors',
+        mode: 'no-cors',
         credentials: 'omit'
       }).catch(function () {});
     } catch (e) { /* analytics never break the page */ }
