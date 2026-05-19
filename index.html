@@ -4872,16 +4872,33 @@ footer.site {
   }
   decorateSignupLinks();
 
-  document.addEventListener('click', function (ev) {
-    var el = ev.target;
+  // Fire landing_cta_click on pointerdown rather than click — pointerdown
+  // happens ~100-200ms BEFORE the browser starts navigating to the link
+  // target, giving the cross-origin POST enough head-start to actually
+  // hit the wire before the page unloads. The 'click' event runs AFTER
+  // mouseup/touchend and is racing against the browser's navigation
+  // commit; sendBeacon spec says it should survive but implementations
+  // vary, and we were observing 0 events landing despite plenty of
+  // real clicks.
+  //
+  // Keyboard activation (Enter on focused link) does NOT fire pointerdown,
+  // so we keep a click handler as backup for that path. WeakSet de-dupes
+  // so the same anchor can't fire twice in one interaction.
+  var firedFor = new WeakSet();
+  function fireCtaClick(el) {
     while (el && el !== document.body) {
       if (el.tagName === 'A' && el.href && /app\.outpulse\.ai\/(signup|login)/.test(el.href)) {
+        if (firedFor.has(el)) return;
+        firedFor.add(el);
+        setTimeout(function () { firedFor.delete(el); }, 1500);
         send('landing_cta_click', { href: el.href, text: (el.innerText || '').slice(0, 80) });
         return;
       }
       el = el.parentNode;
     }
-  }, { capture: true });
+  }
+  document.addEventListener('pointerdown', function (ev) { fireCtaClick(ev.target); }, { capture: true });
+  document.addEventListener('click', function (ev) { fireCtaClick(ev.target); }, { capture: true });
 })();
 </script>
 </body>
