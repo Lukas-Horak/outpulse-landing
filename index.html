@@ -4763,5 +4763,120 @@ footer.site {
   }
 })();
 </script>
+
+<!-- ─── Outpulse analytics: landing_view + landing_cta_click ───
+     Fires landing_view on page load and landing_cta_click on any
+     signup-link click. Cross-origin to app.outpulse.ai/api/track via
+     sendBeacon. Generates an anon_id and forwards it (plus first-touch
+     UTMs) to every signup link as ?aid=<uuid>&utm_* so the same actor
+     identity survives the outpulse.ai → app.outpulse.ai hop.
+     Independent inline script — analytics must never break the page. -->
+<script>
+(function () {
+  var ENDPOINT = 'https://app.outpulse.ai/api/track';
+  var ANON_KEY = 'outpulse_anon_id';
+  var SESSION_KEY = 'outpulse_session_id';
+  var UTM_KEY = 'outpulse_utm';
+  var UTM_FIELDS = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
+
+  function uuid() {
+    try { if (crypto && crypto.randomUUID) return crypto.randomUUID(); } catch (e) {}
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = (Math.random() * 16) | 0;
+      var v = c === 'x' ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
+  }
+  function sget(s, k) { try { return s.getItem(k); } catch (e) { return null; } }
+  function sset(s, k, v) { try { s.setItem(k, v); } catch (e) {} }
+
+  function getAnonId() {
+    var id = sget(localStorage, ANON_KEY);
+    if (!id) { id = uuid(); sset(localStorage, ANON_KEY, id); }
+    return id;
+  }
+  function getSessionId() {
+    var id = sget(sessionStorage, SESSION_KEY);
+    if (!id) { id = uuid(); sset(sessionStorage, SESSION_KEY, id); }
+    return id;
+  }
+  function captureUtm() {
+    var stored = sget(localStorage, UTM_KEY);
+    if (stored) { try { return JSON.parse(stored); } catch (e) {} }
+    var sp = new URLSearchParams(location.search);
+    var out = {};
+    for (var i = 0; i < UTM_FIELDS.length; i++) {
+      var k = UTM_FIELDS[i];
+      var v = sp.get(k);
+      if (v) out[k] = v;
+    }
+    if (Object.keys(out).length) sset(localStorage, UTM_KEY, JSON.stringify(out));
+    return out;
+  }
+
+  var anon = getAnonId();
+  var session = getSessionId();
+  var utm = captureUtm();
+  var ref = (document.referrer && document.referrer.indexOf(location.host) === -1) ? document.referrer : null;
+
+  function send(eventName, properties) {
+    try {
+      var payload = {
+        event_name: eventName,
+        anon_id: anon,
+        session_id: session,
+        url: location.href,
+        ref: ref,
+        ua: navigator.userAgent,
+        properties: properties || null
+      };
+      for (var i = 0; i < UTM_FIELDS.length; i++) {
+        var k = UTM_FIELDS[i];
+        if (utm[k]) payload[k] = utm[k];
+      }
+      var blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+      if (navigator.sendBeacon && navigator.sendBeacon(ENDPOINT, blob)) return;
+      fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true,
+        mode: 'cors',
+        credentials: 'omit'
+      }).catch(function () {});
+    } catch (e) { /* analytics never break the page */ }
+  }
+
+  send('landing_view');
+
+  function decorateSignupLinks() {
+    var links = document.querySelectorAll('a[href*="app.outpulse.ai/signup"], a[href*="app.outpulse.ai/login"]');
+    for (var i = 0; i < links.length; i++) {
+      var a = links[i];
+      try {
+        var u = new URL(a.getAttribute('href'), location.href);
+        if (!u.searchParams.has('aid')) u.searchParams.set('aid', anon);
+        for (var j = 0; j < UTM_FIELDS.length; j++) {
+          var k = UTM_FIELDS[j];
+          if (utm[k] && !u.searchParams.has(k)) u.searchParams.set(k, utm[k]);
+        }
+        a.setAttribute('href', u.toString());
+      } catch (e) {}
+    }
+  }
+  decorateSignupLinks();
+
+  document.addEventListener('click', function (ev) {
+    var el = ev.target;
+    while (el && el !== document.body) {
+      if (el.tagName === 'A' && el.href && /app\.outpulse\.ai\/(signup|login)/.test(el.href)) {
+        send('landing_cta_click', { href: el.href, text: (el.innerText || '').slice(0, 80) });
+        return;
+      }
+      el = el.parentNode;
+    }
+  }, { capture: true });
+})();
+</script>
 </body>
 </html>
