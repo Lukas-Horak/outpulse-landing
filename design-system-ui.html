@@ -729,6 +729,7 @@ body{margin:0;padding:0;font-family:var(--sans);font-size:14.5px;line-height:1.6
       <a class="ds-nav-item" href="#feedback">Feedback <span class="num">11</span></a>
       <a class="ds-nav-item" href="#navigation">Navigation <span class="num">12</span></a>
       <a class="ds-nav-item" href="#overlays">Overlays <span class="num">13</span></a>
+      <a class="ds-nav-item" href="#kanban">Kanban + CRM <span class="num">14</span></a>
     </div>
     <div class="ds-nav-group">
       <div class="ds-nav-group-lbl">Applications</div>
@@ -736,6 +737,7 @@ body{margin:0;padding:0;font-family:var(--sans);font-size:14.5px;line-height:1.6
       <a class="ds-nav-item ds-nav-ext" href="prototype-prospects.html">Prospects</a>
       <a class="ds-nav-item ds-nav-ext" href="prototype-campaigns.html">Campaigns</a>
       <a class="ds-nav-item ds-nav-ext" href="prototype-linkedin.html">LinkedIn</a>
+      <a class="ds-nav-item ds-nav-ext" href="prototype-crm.html">CRM</a>
     </div>
   </nav>
 
@@ -1411,6 +1413,219 @@ body{margin:0;padding:0;font-family:var(--sans);font-size:14.5px;line-height:1.6
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- ══════════════════ 14 · KANBAN + CRM ══════════════════ -->
+    <section id="kanban" class="ds-section">
+      <div class="ds-section-num">14 · Components</div>
+      <h2>Kanban + CRM</h2>
+      <p class="ds-section-intro">Pipeline board, deal cards, stage columns, avatar marks, and the large KPI display used on the CRM surface. Adapts the spectrum palette to stages — cold blue for prospects, warm orange for proposals, green for won — so the column tint itself communicates progress at a glance. Cards are draggable; everything else is read-only state.</p>
+
+      <style>
+        .kb-eyebrow{display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--col-accent,var(--orange-ink));margin-bottom:6px}
+        .kb-eyebrow svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+        .kb-progress{display:flex;gap:3px;margin-bottom:10px}
+        .kb-progress span{height:3px;border-radius:2px;flex:1;background:rgba(14,13,12,.08)}
+        .kb-progress span.done{background:var(--col-accent,var(--orange))}
+        .kb-card{
+          background:#fff;border:1px solid var(--line);border-radius:14px;
+          padding:14px 16px 12px;cursor:grab;
+          transition:border-color var(--motion-base),box-shadow var(--motion-base),transform var(--motion-base);
+          user-select:none;
+        }
+        .kb-card:hover{border-color:var(--line-3);box-shadow:0 1px 0 rgba(14,13,12,.04),0 6px 18px -8px rgba(14,13,12,.08);transform:translateY(-1px)}
+        .kb-company{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:2px;letter-spacing:-.005em;line-height:1.25}
+        .kb-contact{font-size:12.5px;color:var(--muted);margin-bottom:12px}
+        .kb-card-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;padding-top:10px;border-top:1px dashed rgba(14,13,12,.06)}
+        .kb-value{font-family:var(--mono);font-size:13px;color:var(--ink);font-weight:500;letter-spacing:-.01em}
+        .kb-value em{font-style:normal;color:var(--muted-2);font-size:11px;margin-left:2px}
+        .kb-rep{display:flex;align-items:center;gap:6px}
+        .kb-date{font-family:var(--mono);font-size:11px;color:var(--muted-2)}
+
+        .kb-avatar{
+          width:24px;height:24px;border-radius:50%;
+          background:linear-gradient(135deg,var(--ink-2) 0%,var(--ink) 100%);
+          color:#fff;display:flex;align-items:center;justify-content:center;
+          font-weight:600;font-size:10.5px;letter-spacing:.02em;
+          border:1.5px solid #fff;
+        }
+        .kb-avatar.is-violet{background:linear-gradient(135deg,#a89cc8 0%,#8a76b8 100%)}
+        .kb-avatar.is-blue{background:linear-gradient(135deg,#7fa3cf 0%,var(--blue) 100%)}
+        .kb-avatar.is-orange{background:linear-gradient(135deg,#ff9466 0%,var(--orange) 100%)}
+        .kb-avatar.is-green{background:linear-gradient(135deg,#5fa883 0%,#1a7c4b 100%)}
+        .kb-avatar.lg{width:40px;height:40px;font-size:14px;border-width:2px}
+        .kb-avatar-stack{display:flex}
+        .kb-avatar-stack .kb-avatar:not(:first-child){margin-left:-6px}
+
+        .kb-col{
+          background:var(--col-bg,var(--bg-panel));
+          border:1px solid var(--col-border,var(--line));
+          border-radius:18px;padding:14px 12px 16px;
+          display:flex;flex-direction:column;gap:10px;
+        }
+        .kb-col.is-prospected{--col-bg:#eef3fa;--col-border:rgba(56,102,166,.12);--col-accent:#3866a6}
+        .kb-col.is-contacted{--col-bg:#f2edf8;--col-border:rgba(138,118,184,.16);--col-accent:#8a76b8}
+        .kb-col.is-meeting{--col-bg:#fff2e3;--col-border:rgba(255,91,31,.14);--col-accent:#ff5b1f}
+        .kb-col.is-proposal{--col-bg:#fff4ec;--col-border:rgba(201,122,16,.18);--col-accent:#c97a10}
+        .kb-col.is-won{--col-bg:#eaf4ee;--col-border:rgba(26,124,75,.16);--col-accent:#1a7c4b}
+        .kb-col.is-lost{--col-bg:#f4f3f0;--col-border:rgba(108,100,88,.18);--col-accent:var(--muted)}
+
+        .kb-col-head{display:flex;align-items:center;justify-content:space-between;padding:4px 6px 8px;border-bottom:1px dashed rgba(14,13,12,.08)}
+        .kb-col-title{display:flex;align-items:center;gap:8px}
+        .kb-col-dot{width:8px;height:8px;border-radius:50%;background:var(--col-accent)}
+        .kb-col-text{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink)}
+        .kb-col-count{font-family:var(--mono);font-size:11px;color:var(--muted);background:rgba(255,255,255,.7);padding:2px 8px;border-radius:999px}
+
+        .kb-board-mini{display:grid;grid-template-columns:repeat(3,minmax(200px,1fr));gap:12px}
+        .kb-board-mini .kb-col{padding:10px 10px 12px}
+        .kb-board-mini .kb-card{padding:10px 12px 10px}
+        .kb-board-mini .kb-company{font-size:13.5px}
+
+        .kpi-big{
+          background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 22px;
+          display:flex;flex-direction:column;gap:6px;
+          position:relative;overflow:hidden;
+        }
+        .kpi-big::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent,var(--orange));opacity:.85}
+        .kpi-big.is-violet{--accent:#8a76b8}
+        .kpi-big.is-blue{--accent:#3866a6}
+        .kpi-big.is-green{--accent:#1a7c4b}
+        .kpi-big-lbl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+        .kpi-big-val{font-family:var(--serif);font-size:44px;line-height:1;color:var(--ink);font-weight:400;letter-spacing:-.02em}
+        .kpi-big-val em{font-style:italic;color:var(--muted)}
+        .kpi-big-chip{font-size:12px;color:var(--muted);font-family:var(--mono);margin-top:2px}
+        .kpi-big-chip strong{color:#1a7c4b;font-weight:500}
+      </style>
+
+      <div class="ds-sub">
+        <h3>Stage columns · pastel by progress</h3>
+        <p class="ds-sub-lede">Six fixed columns. Cold blue starts the journey, warm orange marks an active push, green seals a win. Backgrounds are very low-opacity tints of the spectrum stack — never loud, never decorative.</p>
+        <div class="preview stretch">
+          <div class="kb-board-mini">
+            <div class="kb-col is-prospected"><div class="kb-col-head"><div class="kb-col-title"><span class="kb-col-dot"></span><span class="kb-col-text">Prospected</span></div><span class="kb-col-count">6</span></div></div>
+            <div class="kb-col is-contacted"><div class="kb-col-head"><div class="kb-col-title"><span class="kb-col-dot"></span><span class="kb-col-text">Contacted</span></div><span class="kb-col-count">5</span></div></div>
+            <div class="kb-col is-meeting"><div class="kb-col-head"><div class="kb-col-title"><span class="kb-col-dot"></span><span class="kb-col-text">Meeting</span></div><span class="kb-col-count">4</span></div></div>
+            <div class="kb-col is-proposal"><div class="kb-col-head"><div class="kb-col-title"><span class="kb-col-dot"></span><span class="kb-col-text">Proposal</span></div><span class="kb-col-count">3</span></div></div>
+            <div class="kb-col is-won"><div class="kb-col-head"><div class="kb-col-title"><span class="kb-col-dot"></span><span class="kb-col-text">Won</span></div><span class="kb-col-count">9</span></div></div>
+            <div class="kb-col is-lost"><div class="kb-col-head"><div class="kb-col-title"><span class="kb-col-dot"></span><span class="kb-col-text">Lost</span></div><span class="kb-col-count">2</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-sub">
+        <h3>Deal card</h3>
+        <p class="ds-sub-lede">Three vertical zones — segmented progress bar at the top (one segment per follow-up step), company + contact in the body, value and assigned rep in the footer. Channel eyebrow inherits the column accent so the card visually belongs to its stage even when dragged out.</p>
+        <div class="preview stretch">
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">
+
+            <div class="kb-col is-contacted" style="padding:0;border:none;background:transparent">
+              <div class="kb-card" style="--col-accent:#8a76b8">
+                <div class="kb-progress"><span class="done"></span><span></span><span></span><span></span><span></span></div>
+                <div class="kb-eyebrow"><svg viewBox="0 0 24 24"><path d="m4 4 16 8-16 8 4-8z"/></svg> Email · follow-up 1/3</div>
+                <div class="kb-company">Pizza Mizza Group</div>
+                <div class="kb-contact">Marek Petrovský · Marketing</div>
+                <div class="kb-card-footer">
+                  <span class="kb-value">€ 6 500<em>/yr</em></span>
+                  <div class="kb-rep"><span class="kb-avatar is-violet">JN</span><span class="kb-date">19 May</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="kb-col is-meeting" style="padding:0;border:none;background:transparent">
+              <div class="kb-card" style="--col-accent:#ff5b1f">
+                <div class="kb-progress"><span class="done"></span><span class="done"></span><span class="done"></span><span></span><span></span></div>
+                <div class="kb-eyebrow"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> In person · 28 May 14:00</div>
+                <div class="kb-company">CBA Slovakia</div>
+                <div class="kb-contact">Branding pilot · 12 stores</div>
+                <div class="kb-card-footer">
+                  <span class="kb-value">€ 18 000<em>/yr</em></span>
+                  <div class="kb-rep"><span class="kb-avatar is-green">JN</span><span class="kb-date">29 May</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="kb-col is-won" style="padding:0;border:none;background:transparent">
+              <div class="kb-card" style="--col-accent:#1a7c4b">
+                <div class="kb-progress"><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span></div>
+                <div class="kb-eyebrow"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Closed 20 May</div>
+                <div class="kb-company">Niké</div>
+                <div class="kb-contact">12-month sponsor renewal</div>
+                <div class="kb-card-footer">
+                  <span class="kb-value">€ 22 000<em>/yr</em></span>
+                  <div class="kb-rep"><span class="kb-avatar is-green">LH</span><span class="kb-date">20 May</span></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-sub">
+        <h3>Avatar marks · initials only, gradient by team</h3>
+        <p class="ds-sub-lede">Outpulse doesn't ask users for photos. Avatars are initials on a stable per-person gradient — black for the owner, palette accents for reps. Small (24px) lives inside cards; large (40px) lives in headers and panels. Stacks overlap by 6px for shared-deal ownership.</p>
+        <div class="preview">
+          <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap">
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="kb-avatar">LH</span>
+              <span class="kb-avatar is-violet">JN</span>
+              <span class="kb-avatar is-blue">MB</span>
+              <span class="kb-avatar is-orange">PV</span>
+              <span class="kb-avatar is-green">RT</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px">
+              <span class="kb-avatar lg">LH</span>
+              <span class="kb-avatar lg is-violet">JN</span>
+            </div>
+            <div class="kb-avatar-stack">
+              <span class="kb-avatar">LH</span>
+              <span class="kb-avatar is-violet">JN</span>
+              <span class="kb-avatar is-orange">MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-sub">
+        <h3>KPI display · serif numbers, accent rail</h3>
+        <p class="ds-sub-lede">Wider than the standard <code>.kpi</code> card, with Instrument Serif numerals so big rollups feel editorial. The 3px top rail picks up the metric's semantic colour — blue for pipeline, violet for activity, green for revenue, orange for everything else.</p>
+        <div class="preview stretch">
+          <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px">
+            <div class="kpi-big is-blue">
+              <span class="kpi-big-lbl">Open Pipeline</span>
+              <span class="kpi-big-val">€<em>184k</em></span>
+              <span class="kpi-big-chip">28 deals · <strong>+€32k</strong> this week</span>
+            </div>
+            <div class="kpi-big is-violet">
+              <span class="kpi-big-lbl">Meetings This Month</span>
+              <span class="kpi-big-val">22</span>
+              <span class="kpi-big-chip">↑ <strong>+7</strong> vs last month</span>
+            </div>
+            <div class="kpi-big is-green">
+              <span class="kpi-big-lbl">Closed Won (Q2)</span>
+              <span class="kpi-big-val">€<em>62k</em></span>
+              <span class="kpi-big-chip">9 deals · avg <strong>€6.9k</strong></span>
+            </div>
+            <div class="kpi-big">
+              <span class="kpi-big-lbl">Close Rate</span>
+              <span class="kpi-big-val">31%</span>
+              <span class="kpi-big-chip">won ÷ (won + lost) · <strong>90 days</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-sub">
+        <h3>Try the surface</h3>
+        <p class="ds-sub-lede">Full CRM kanban with hero, KPIs, filter chips, six columns and live drag-drop affordances lives in its own prototype page.</p>
+        <div class="preview">
+          <a href="prototype-crm.html" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:8px">
+            Open CRM prototype
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+
     </section>
 
     <!-- Footer -->
