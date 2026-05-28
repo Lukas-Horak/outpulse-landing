@@ -4684,8 +4684,60 @@ footer.site {
     }catch(e){}
   }
 
+  // base64url(prospect.email) → email. '' on any failure.
+  function decodeProspectEmail(raw){
+    if(!raw) return '';
+    try{
+      var b64 = raw.replace(/-/g,'+').replace(/_/g,'/');
+      var pad = (4 - (b64.length % 4)) % 4;
+      var decoded = atob(b64 + new Array(pad+1).join('='));
+      if(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(decoded)) return decoded;
+    }catch(e){}
+    return '';
+  }
+
+  // Hydrate the hero GET form (#263, 2026-05-28). The form was a static
+  // GET with hidden utm_campaign=launch — so a prospect arriving from a
+  // dogfood email (?ph=…&utm_campaign=<uuid>) (a) re-typed their email
+  // and (b) submitted utm_campaign=launch, which OVERWROTE the real
+  // campaign UUID and broke the signup→campaign_goal_events attribution
+  // bridge. Now we:
+  //   1. pre-fill the email field from the ph hint (or a plain ?email=)
+  //   2. overwrite the form's hidden utm_* with the captured real values
+  //      so the per-campaign attribution survives form submit.
+  function hydrateHeroForm(captured){
+    var form = document.querySelector('form.hero-signup');
+    if(!form) return;
+    var p = new URLSearchParams(window.location.search);
+
+    // 1. Pre-fill email — ph hint first (work email we already know),
+    //    then a plain ?email= fallback. Never clobber a value the
+    //    visitor already typed.
+    var input = form.querySelector('input[type="email"]');
+    if(input && !input.value){
+      var pre = decodeProspectEmail(captured.ph) || decodeProspectEmail(p.get('ph')) || (p.get('email') || '');
+      if(pre && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(pre)) input.value = pre;
+    }
+
+    // 2. Sync hidden UTM fields with captured values so submit carries
+    //    the real campaign UUID, not the hardcoded 'launch' default.
+    UTM_KEYS.forEach(function(k){
+      if(!captured[k]) return;
+      var hidden = form.querySelector('input[type="hidden"][name="' + k + '"]');
+      if(hidden){ hidden.value = captured[k]; }
+      else {
+        hidden = document.createElement('input');
+        hidden.type = 'hidden'; hidden.name = k; hidden.value = captured[k];
+        form.appendChild(hidden);
+      }
+    });
+  }
+
   function init(){
     var captured = captureFromUrl() || readCaptured() || {};
+    // Hero form hydration runs even with no captured params (handles a
+    // direct ?email= and is a cheap no-op otherwise).
+    hydrateHeroForm(captured);
     if(Object.keys(captured).length === 0) return;
     var links = document.querySelectorAll('a[href*="' + APP_HOST + '"]');
     Array.prototype.forEach.call(links, function(a){ decorate(a, captured); });
