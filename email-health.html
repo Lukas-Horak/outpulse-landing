@@ -138,14 +138,17 @@ a { color:inherit; }
 /* Result card */
 .card { background:var(--paper); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:0 1px 2px rgba(14,13,12,.05), 0 18px 50px -28px rgba(14,13,12,.18); overflow:hidden; margin-top:36px; animation:rise .4s cubic-bezier(.2,.8,.2,1); }
 @keyframes rise { from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:none;} }
-.scoreTop { display:flex; gap:30px; align-items:center; padding:32px 32px 28px; flex-wrap:wrap; }
-.gauge { position:relative; width:176px; height:176px; flex-shrink:0; }
-.gaugeTrack { fill:none; stroke:var(--bg-subtle); stroke-width:14; }
-.gaugeFill { fill:none; stroke-width:14; stroke-linecap:round; transform:rotate(-90deg); transform-origin:50% 50%; transition:stroke-dashoffset 1s cubic-bezier(.2,.8,.2,1); }
-.gaugeCenter { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-.scoreNum { font-family:var(--serif); font-size:56px; line-height:1; color:var(--ink); }
+.scoreTop { display:flex; gap:32px; align-items:center; padding:30px 32px 26px; flex-wrap:wrap; }
+.gauge { position:relative; width:208px; height:208px; flex-shrink:0; }
+.gaugeSvg { display:block; overflow:visible; }
+.gaugeTrack { fill:none; stroke:#efece6; stroke-width:12; }
+.gaugeGlow { fill:none; stroke-width:18; stroke-linecap:round; transform:rotate(-90deg); transform-origin:50% 50%; filter:blur(12px); opacity:.5; }
+.gaugeArc { fill:none; stroke-width:12; stroke-linecap:round; transform:rotate(-90deg); transform-origin:50% 50%; }
+.gaugeHandle { fill:#fff; stroke-width:3; }
+.gaugeCenter { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:130px; height:130px; border-radius:50%; background:#fff; box-shadow:0 8px 24px rgba(20,18,15,.10), inset 0 0 0 1px rgba(20,18,15,.03); display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.scoreNum { font-family:var(--serif); font-size:54px; line-height:1; color:var(--ink); }
 .scoreMax { font-size:12px; color:var(--muted); margin-top:2px; }
-.bandPill { margin-top:9px; font:600 13px var(--sans); padding:3px 12px; border-radius:var(--r-pill); }
+.bandPill { margin-top:9px; font:600 12.5px var(--sans); padding:3px 12px; border-radius:var(--r-pill); }
 .scoreMeta { flex:1; min-width:230px; }
 .scoreDomain { font-family:var(--serif); font-size:28px; color:var(--ink); word-break:break-all; }
 .providers { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
@@ -306,12 +309,12 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
 (function () {
   var API = 'https://app.outpulse.ai';
   var TONE = {
-    green: { stroke:'var(--green)', bg:'var(--green-soft)', fg:'#1a7c4b' },
-    warn:  { stroke:'var(--warn)',  bg:'var(--warn-soft)',  fg:'#9a5e0c' },
-    red:   { stroke:'var(--red)',   bg:'var(--red-soft)',   fg:'#b53b1c' }
+    green: { bg:'var(--green-soft)', fg:'#1a7c4b', grad:['#2dd4bf','#34d399','#059669'] },
+    warn:  { bg:'var(--warn-soft)',  fg:'#9a5e0c', grad:['#fbbf24','#fb923c','#f97316'] },
+    red:   { bg:'var(--red-soft)',   fg:'#b53b1c', grad:['#fb7185','#f43f5e','#e11d48'] }
   };
   var MARK = { pass:'✓', warn:'!', fail:'✕' };
-  var R = 76, C = 2 * Math.PI * R;
+  var R = 82, C = 2 * Math.PI * R;
 
   var $ = function (id) { return document.getElementById(id); };
   var form = $('form'), domainInput = $('domain'), checkBtn = $('checkBtn');
@@ -335,12 +338,28 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
     if (on) { result.innerHTML = ''; errorEl.style.display = 'none'; examples.style.display = 'none'; }
   }
 
-  function animateScore(target, el) {
-    var start = performance.now(), dur = 900;
+  function animateGauge(target) {
+    var numEl = document.getElementById('scoreNum');
+    var arc = result.querySelector('.gaugeArc');
+    var glow = result.querySelector('.gaugeGlow');
+    var handle = result.querySelector('.gaugeHandle');
+    var start = performance.now(), dur = 1150;
+    function paint(value) {
+      var frac = Math.max(0, Math.min(1, value / 100));
+      var off = C * (1 - frac);
+      if (arc) arc.style.strokeDashoffset = off;
+      if (glow) glow.style.strokeDashoffset = off;
+      if (handle) {
+        var ang = (-90 + 360 * frac) * Math.PI / 180;
+        handle.setAttribute('cx', (100 + R * Math.cos(ang)).toFixed(2));
+        handle.setAttribute('cy', (100 + R * Math.sin(ang)).toFixed(2));
+      }
+      if (numEl) numEl.textContent = Math.round(value);
+    }
     function tick(now) {
       var t = Math.min(1, (now - start) / dur);
       var eased = 1 - Math.pow(1 - t, 3);
-      el.textContent = Math.round(eased * target);
+      paint(eased * target);
       if (t < 1) raf = requestAnimationFrame(tick);
     }
     if (raf) cancelAnimationFrame(raf);
@@ -354,15 +373,31 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
     (report.groups || []).forEach(function (g) { (g.checks || []).forEach(function (c) { checks.push(c); }); });
     var fails = checks.filter(function (c) { return c.status === 'fail'; }).length;
     var warns = checks.filter(function (c) { return c.status === 'warn'; }).length;
-    var offset = C * (1 - report.score / 100);
+    var g = tone.grad;
+    // Tick ring — 60 faint radial marks (every 5th longer), like a dial.
+    var ticks = '';
+    for (var ti = 0; ti < 60; ti++) {
+      var ta = ti * 6 * Math.PI / 180, big = ti % 5 === 0;
+      var r1 = 96, r2 = big ? 87 : 90;
+      ticks += '<line x1="' + (100 + r1 * Math.cos(ta)).toFixed(1) + '" y1="' + (100 + r1 * Math.sin(ta)).toFixed(1)
+        + '" x2="' + (100 + r2 * Math.cos(ta)).toFixed(1) + '" y2="' + (100 + r2 * Math.sin(ta)).toFixed(1)
+        + '" stroke="#e7e3dc" stroke-width="' + (big ? 2 : 1) + '" stroke-linecap="round"/>';
+    }
 
     var html = '<div class="card">';
-    // Score header
+    // Score header — gradient gauge with glow, tick ring + travelling handle.
     html += '<div class="scoreTop"><div class="gauge">'
-      + '<svg width="176" height="176" viewBox="0 0 168 168">'
-      + '<circle class="gaugeTrack" cx="84" cy="84" r="' + R + '"></circle>'
-      + '<circle class="gaugeFill" cx="84" cy="84" r="' + R + '" style="stroke:' + tone.stroke + ';stroke-dasharray:' + C + ';stroke-dashoffset:' + C + '"></circle>'
-      + '</svg><div class="gaugeCenter"><div class="scoreNum" id="scoreNum">0</div><div class="scoreMax">/ 100</div>'
+      + '<svg class="gaugeSvg" width="208" height="208" viewBox="0 0 200 200">'
+      + '<defs><linearGradient id="gGrad" x1="0%" y1="0%" x2="100%" y2="100%">'
+      + '<stop offset="0%" stop-color="' + g[0] + '"/><stop offset="55%" stop-color="' + g[1] + '"/><stop offset="100%" stop-color="' + g[2] + '"/>'
+      + '</linearGradient></defs>'
+      + '<g>' + ticks + '</g>'
+      + '<circle class="gaugeTrack" cx="100" cy="100" r="82"/>'
+      + '<circle class="gaugeGlow" cx="100" cy="100" r="82" stroke="url(#gGrad)" style="stroke-dasharray:' + C + ';stroke-dashoffset:' + C + '"/>'
+      + '<circle class="gaugeArc" cx="100" cy="100" r="82" stroke="url(#gGrad)" style="stroke-dasharray:' + C + ';stroke-dashoffset:' + C + '"/>'
+      + '<circle class="gaugeHandle" cx="100" cy="18" r="7" stroke="' + g[2] + '" style="filter:drop-shadow(0 0 5px ' + g[1] + ')"/>'
+      + '</svg>'
+      + '<div class="gaugeCenter"><div class="scoreNum" id="scoreNum">0</div><div class="scoreMax">/ 100</div>'
       + '<div class="bandPill" style="background:' + tone.bg + ';color:' + tone.fg + '">' + esc(report.band && report.band.label) + '</div></div></div>';
     html += '<div class="scoreMeta"><div class="scoreDomain">' + esc(report.domain) + '</div><div class="providers">';
     if (report.provider && report.provider.mail) html += '<span class="providerChip">✉ ' + esc(report.provider.mail) + '</span>';
@@ -400,12 +435,7 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
     html += '<p class="disclaimer">Checks public DNS only — we never see your inbox or send anything. Free, by Outpulse.</p>';
 
     result.innerHTML = html;
-    animateScore(report.score, $('scoreNum'));
-    // Trigger the gauge stroke animation on next frame.
-    requestAnimationFrame(function () {
-      var fill = result.querySelector('.gaugeFill');
-      if (fill) fill.style.strokeDashoffset = offset;
-    });
+    animateGauge(report.score);
     $('gateForm').addEventListener('submit', submitLead);
   }
 
