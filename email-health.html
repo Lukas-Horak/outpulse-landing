@@ -143,8 +143,7 @@ a { color:inherit; }
 .gauge { position:relative; width:280px; height:280px; flex-shrink:0; }
 /* Big soft colourful halo behind the dial — the glow does the heavy lifting. */
 .gaugeHalo { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:304px; height:304px; border-radius:50%; z-index:0;
-  background:conic-gradient(from 200deg, #fcd34d, #fb923c, #f472b6, #a78bfa, #60a5fa, #2dd4bf, #34d399, #fcd34d);
-  filter:blur(34px); opacity:.5; }
+  filter:blur(34px); opacity:.58; }
 .gaugeSvg { position:relative; z-index:1; display:block; overflow:visible; }
 .gaugeTrack { fill:none; stroke:#ece9e3; stroke-width:3.5; }
 .gaugeArc { fill:none; stroke-width:3.5; stroke-linecap:round; transform:rotate(-90deg); transform-origin:50% 50%; }
@@ -155,7 +154,7 @@ a { color:inherit; }
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   background:
     radial-gradient(58% 42% at 30% 20%, rgba(255,255,255,.97), rgba(255,255,255,0) 62%),
-    radial-gradient(85% 78% at 72% 98%, rgba(96,165,250,.24), rgba(244,114,182,.14) 46%, rgba(255,255,255,0) 75%),
+    radial-gradient(85% 78% at 72% 98%, var(--tint, rgba(120,120,180,.2)), transparent 74%),
     linear-gradient(155deg, rgba(255,255,255,.74), rgba(255,255,255,.40));
   -webkit-backdrop-filter: blur(16px) saturate(1.7);
   backdrop-filter: blur(16px) saturate(1.7);
@@ -339,9 +338,12 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
 (function () {
   var API = 'https://app.outpulse.ai';
   var TONE = {
-    green: { bg:'var(--green-soft)', fg:'#1a7c4b', grad:['#5eead4','#34d399','#10b981','#059669'] },
-    warn:  { bg:'var(--warn-soft)',  fg:'#9a5e0c', grad:['#fcd34d','#fbbf24','#fb923c','#f97316'] },
-    red:   { bg:'var(--red-soft)',   fg:'#b53b1c', grad:['#fb7185','#f43f5e','#ef4444','#dc2626'] }
+    green: { bg:'var(--green-soft)', fg:'#1a7c4b', grad:['#5eead4','#34d399','#10b981','#059669'],
+      halo:'conic-gradient(from 200deg, #5eead4, #2dd4bf, #34d399, #10b981, #6ee7b7, #a7f3d0, #5eead4)', tint:'rgba(16,185,129,.26)' },
+    warn:  { bg:'var(--warn-soft)',  fg:'#9a5e0c', grad:['#fcd34d','#fbbf24','#fb923c','#f97316'],
+      halo:'conic-gradient(from 200deg, #fde68a, #fcd34d, #fbbf24, #fb923c, #f97316, #fdba74, #fde68a)', tint:'rgba(251,146,60,.26)' },
+    red:   { bg:'var(--red-soft)',   fg:'#b53b1c', grad:['#fb7185','#f43f5e','#ef4444','#dc2626'],
+      halo:'conic-gradient(from 200deg, #fecaca, #fda4af, #fb7185, #f43f5e, #ef4444, #fca5a5, #fecaca)', tint:'rgba(244,63,94,.24)' }
   };
   var MARK = { pass:'✓', warn:'!', fail:'✕' };
   var R = 86, C = 2 * Math.PI * R;
@@ -420,7 +422,7 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
     var html = '<div class="card">';
     // Score header — gradient gauge with glow, tick ring + travelling handle.
     html += '<div class="scoreTop"><div class="gaugeCol"><div class="gauge">'
-      + '<div class="gaugeHalo"></div>'
+      + '<div class="gaugeHalo" style="background:' + tone.halo + '"></div>'
       + '<svg class="gaugeSvg" width="280" height="280" viewBox="0 0 200 200">'
       + '<defs><linearGradient id="gGrad" x1="8%" y1="2%" x2="92%" y2="98%">'
       + '<stop offset="0%" stop-color="' + g[0] + '"/><stop offset="38%" stop-color="' + g[1] + '"/><stop offset="72%" stop-color="' + g[2] + '"/><stop offset="100%" stop-color="' + g[3] + '"/>'
@@ -430,7 +432,7 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
       + '<circle class="gaugeArc" cx="100" cy="100" r="86" stroke="url(#gGrad)" style="stroke-dasharray:' + C + ';stroke-dashoffset:' + C + '"/>'
       + '<circle class="gaugeHandle" cx="100" cy="14" r="7" fill="' + g[3] + '" stroke="#fff" style="filter:drop-shadow(0 0 7px ' + g[2] + ')"/>'
       + '</svg>'
-      + '<div class="gaugeCenter"><div class="scoreNum" id="scoreNum">0</div><div class="scoreMax">/ 100</div></div>'
+      + '<div class="gaugeCenter" style="--tint:' + tone.tint + '"><div class="scoreNum" id="scoreNum">0</div><div class="scoreMax">/ 100</div></div>'
       + '</div>'
       + '<div class="bandPill" style="background:' + tone.bg + ';color:' + tone.fg + '">' + esc(report.band && report.band.label) + '</div>'
       + '</div>';
