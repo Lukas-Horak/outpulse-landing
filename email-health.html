@@ -136,19 +136,23 @@ a { color:inherit; }
 .tool { position:relative; z-index:1; max-width:760px; margin:0 auto; padding:0 24px; }
 
 /* Result card */
-.card { background:var(--paper); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:0 1px 2px rgba(14,13,12,.05), 0 18px 50px -28px rgba(14,13,12,.18); overflow:hidden; margin-top:36px; animation:rise .4s cubic-bezier(.2,.8,.2,1); }
+.card { background:var(--paper); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:0 1px 2px rgba(14,13,12,.05), 0 18px 50px -28px rgba(14,13,12,.18); overflow:hidden; margin-top:36px; scroll-margin-top:90px; animation:rise .4s cubic-bezier(.2,.8,.2,1); }
 @keyframes rise { from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:none;} }
-.scoreTop { display:flex; gap:40px; align-items:center; padding:40px 40px 34px; flex-wrap:wrap; }
-.gaugeCol { display:flex; flex-direction:column; align-items:center; gap:18px; flex-shrink:0; }
-.gauge { position:relative; width:240px; height:240px; flex-shrink:0; }
-.gaugeSvg { display:block; overflow:visible; }
-.gaugeTrack { fill:none; stroke:#efece6; stroke-width:11; }
-.gaugeGlow { fill:none; stroke-width:20; stroke-linecap:round; transform:rotate(-90deg); transform-origin:50% 50%; filter:blur(14px); opacity:.6; }
-.gaugeArc { fill:none; stroke-width:11; stroke-linecap:round; transform:rotate(-90deg); transform-origin:50% 50%; }
-.gaugeHandle { fill:#fff; stroke-width:3.5; }
-.gaugeCenter { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:152px; height:152px; border-radius:50%; background:#fff; box-shadow:0 12px 34px rgba(20,18,15,.13), inset 0 0 0 1px rgba(20,18,15,.03); display:flex; flex-direction:column; align-items:center; justify-content:center; }
-.scoreNum { font-family:var(--serif); font-size:64px; line-height:.95; color:var(--ink); letter-spacing:-.01em; }
-.scoreMax { font-size:12.5px; color:var(--muted); margin-top:3px; letter-spacing:.02em; }
+.scoreTop { display:flex; gap:44px; align-items:center; padding:44px 44px 38px; flex-wrap:wrap; }
+.gaugeCol { display:flex; flex-direction:column; align-items:center; gap:20px; flex-shrink:0; }
+.gauge { position:relative; width:280px; height:280px; flex-shrink:0; }
+/* Big soft colourful halo behind the dial — the glow does the heavy lifting. */
+.gaugeHalo { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:304px; height:304px; border-radius:50%; z-index:0;
+  background:conic-gradient(from 200deg, #fcd34d, #fb923c, #f472b6, #a78bfa, #60a5fa, #2dd4bf, #34d399, #fcd34d);
+  filter:blur(34px); opacity:.5; }
+.gaugeSvg { position:relative; z-index:1; display:block; overflow:visible; }
+.gaugeTrack { fill:none; stroke:#ece9e3; stroke-width:3.5; }
+.gaugeArc { fill:none; stroke-width:3.5; stroke-linecap:round; transform:rotate(-90deg); transform-origin:50% 50%; }
+.gaugeHandle { stroke-width:2.5; }
+.gaugeCenter { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:204px; height:204px; border-radius:50%; background:#fff; z-index:2;
+  box-shadow:0 16px 44px rgba(20,18,15,.12), 0 3px 10px rgba(20,18,15,.05); display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.scoreNum { font-family:var(--serif); font-size:76px; line-height:.9; color:var(--ink); letter-spacing:-.015em; }
+.scoreMax { font-size:13px; color:var(--muted); margin-top:4px; letter-spacing:.02em; }
 .bandPill { font:600 13.5px var(--sans); padding:5px 16px; border-radius:var(--r-pill); }
 
 /* Share row */
@@ -323,7 +327,7 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
     red:   { bg:'var(--red-soft)',   fg:'#b53b1c', grad:['#fb7185','#f43f5e','#ef4444','#dc2626'] }
   };
   var MARK = { pass:'✓', warn:'!', fail:'✕' };
-  var R = 82, C = 2 * Math.PI * R;
+  var R = 86, C = 2 * Math.PI * R;
 
   var $ = function (id) { return document.getElementById(id); };
   var form = $('form'), domainInput = $('domain'), checkBtn = $('checkBtn');
@@ -399,15 +403,15 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
     var html = '<div class="card">';
     // Score header — gradient gauge with glow, tick ring + travelling handle.
     html += '<div class="scoreTop"><div class="gaugeCol"><div class="gauge">'
-      + '<svg class="gaugeSvg" width="240" height="240" viewBox="0 0 200 200">'
+      + '<div class="gaugeHalo"></div>'
+      + '<svg class="gaugeSvg" width="280" height="280" viewBox="0 0 200 200">'
       + '<defs><linearGradient id="gGrad" x1="8%" y1="2%" x2="92%" y2="98%">'
       + '<stop offset="0%" stop-color="' + g[0] + '"/><stop offset="38%" stop-color="' + g[1] + '"/><stop offset="72%" stop-color="' + g[2] + '"/><stop offset="100%" stop-color="' + g[3] + '"/>'
       + '</linearGradient></defs>'
       + '<g>' + ticks + '</g>'
-      + '<circle class="gaugeTrack" cx="100" cy="100" r="82"/>'
-      + '<circle class="gaugeGlow" cx="100" cy="100" r="82" stroke="url(#gGrad)" style="stroke-dasharray:' + C + ';stroke-dashoffset:' + C + '"/>'
-      + '<circle class="gaugeArc" cx="100" cy="100" r="82" stroke="url(#gGrad)" style="stroke-dasharray:' + C + ';stroke-dashoffset:' + C + '"/>'
-      + '<circle class="gaugeHandle" cx="100" cy="18" r="8" stroke="' + g[3] + '" style="filter:drop-shadow(0 0 8px ' + g[2] + ')"/>'
+      + '<circle class="gaugeTrack" cx="100" cy="100" r="86"/>'
+      + '<circle class="gaugeArc" cx="100" cy="100" r="86" stroke="url(#gGrad)" style="stroke-dasharray:' + C + ';stroke-dashoffset:' + C + '"/>'
+      + '<circle class="gaugeHandle" cx="100" cy="14" r="7" fill="' + g[3] + '" stroke="#fff" style="filter:drop-shadow(0 0 7px ' + g[2] + ')"/>'
       + '</svg>'
       + '<div class="gaugeCenter"><div class="scoreNum" id="scoreNum">0</div><div class="scoreMax">/ 100</div></div>'
       + '</div>'
@@ -456,6 +460,8 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
 
     result.innerHTML = html;
     animateGauge(report.score);
+    // Bring the result into view so the gauge animation is actually seen.
+    try { result.querySelector('.card').scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {}
     $('gateForm').addEventListener('submit', submitLead);
 
     var copyBtn = document.getElementById('shareCopy');
