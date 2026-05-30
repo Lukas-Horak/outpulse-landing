@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Email Deliverability Test — SPF, DKIM &amp; DMARC Checker | Outpulse</title>
+<meta name="description" content="Check any domain's email deliverability in seconds. Free SPF, DKIM, DMARC, MX and blacklist checker — get a score out of 100 and exactly what to fix so your cold email lands in the inbox.">
+<link rel="canonical" href="https://outpulse.ai/email-health">
+<link rel="icon" type="image/svg+xml" href="outpulse-logo-dusk.svg">
+
+<meta property="og:title" content="Will your cold email actually land? — Free email health check">
+<meta property="og:description" content="Free email deliverability test — SPF, DKIM, DMARC, blacklists. Score out of 100 + the exact fixes. By Outpulse.">
+<meta property="og:image" content="https://outpulse.ai/og-image-v3.png">
+<meta property="og:url" content="https://outpulse.ai/email-health">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free email deliverability test — SPF, DKIM, DMARC checker">
+<meta name="twitter:description" content="Score any domain out of 100 and see exactly what to fix. Free, by Outpulse.">
+<meta name="twitter:image" content="https://outpulse.ai/og-image-v3.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Outpulse Email Health Check",
+  "url": "https://outpulse.ai/email-health",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "description": "Free email deliverability checker. Scores any domain on SPF, DKIM, DMARC, MX and domain blacklists out of 100 and shows exactly what to fix.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "publisher": { "@type": "Organization", "name": "Outpulse", "url": "https://outpulse.ai/" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is an email deliverability check?",
+      "acceptedAnswer": { "@type": "Answer", "text": "An email deliverability check inspects the public DNS records that mailbox providers use to decide whether your email reaches the inbox, the spam folder, or gets rejected. This tool reads your SPF, DKIM and DMARC records, your MX (mail) setup and domain blacklist status, then scores the result out of 100 with the exact fixes." }
+    },
+    {
+      "@type": "Question",
+      "name": "What do SPF, DKIM and DMARC do?",
+      "acceptedAnswer": { "@type": "Answer", "text": "SPF lists which servers are allowed to send mail for your domain. DKIM cryptographically signs your messages so receivers can verify they were not tampered with. DMARC tells receivers what to do when SPF or DKIM fail and where to send reports. Together they prove your mail is legitimate, which is the single biggest factor in landing in the inbox." }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is my cold email going to spam?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The most common causes are missing or misconfigured SPF, DKIM or DMARC records, a brand-new domain with no sending reputation, a domain on a blacklist, or sending too much volume too fast. Run the check above to see which of these apply to your domain." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this email health checker free?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. The score and every check are free and require no login. It reads public DNS only — it never connects to your mailbox and never sends anything." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work for any domain or email provider?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. It works for any domain on any provider — Google Workspace, Microsoft 365, or a custom server — and detects your mail provider and DNS host automatically, including European hosts like WebSupport and Forpsi." }
+    }
+  ]
+}
+</script>
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --paper:#ffffff; --bg:#fafaf7; --bg-panel:#fbfaf7; --bg-subtle:#f6f4f0;
+  --ink:#0e0d0c; --ink-2:#3a342e; --muted:#7a7269; --muted-2:#9a9289;
+  --line:rgba(14,13,12,0.08); --line-2:rgba(14,13,12,0.14);
+  --orange:#ff5b1f; --orange-2:#ff7a3d; --orange-soft:rgba(255,91,31,0.10);
+  --blue:#3866a6;
+  --green:#1a7c4b; --green-soft:#eaf4ee;
+  --warn:#c97a10; --warn-soft:#fdf3e3;
+  --red:#b53b1c; --red-soft:#fbeae5;
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --serif:'Instrument Serif','Times New Roman',Georgia,serif;
+  --r-sm:8px; --r-md:12px; --r-lg:20px; --r-pill:999px;
+}
+html { scroll-behavior:smooth; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+body { font-family:var(--sans); color:var(--ink); background:var(--bg); line-height:1.5; }
+.container { max-width:1080px; margin:0 auto; padding:0 24px; }
+a { color:inherit; }
+
+/* Buttons */
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; font-family:var(--sans); font-weight:600; cursor:pointer; border:none; transition:transform .15s ease, background .15s ease, box-shadow .15s ease, border-color .15s ease; white-space:nowrap; border-radius:var(--r-pill); text-decoration:none; font-size:15px; padding:14px 26px; }
+.btn-dark { background:var(--ink); color:#fff; padding:11px 22px; font-size:14px; }
+.btn-dark:hover { background:#000; transform:translateY(-1px); }
+.btn-orange { background:var(--orange); color:#fff; padding:16px 30px; box-shadow:0 12px 32px -10px rgba(255,91,31,0.5); }
+.btn-orange:hover { background:var(--orange-2); transform:translateY(-1px); }
+
+/* Nav */
+.nav { position:sticky; top:0; z-index:20; background:rgba(255,255,255,0.82); backdrop-filter:blur(18px) saturate(1.4); -webkit-backdrop-filter:blur(18px) saturate(1.4); border-bottom:1px solid var(--line); }
+.nav-row { display:flex; align-items:center; justify-content:space-between; height:64px; }
+.brand { display:flex; align-items:center; gap:9px; font-weight:600; font-size:18px; text-decoration:none; color:var(--ink); }
+.brand-mark { width:22px; height:22px; background:url('outpulse-logo-dusk.svg') center/contain no-repeat; }
+.nav-links { display:flex; gap:26px; }
+.nav-links a { color:var(--muted); text-decoration:none; font-size:14.5px; font-weight:500; }
+.nav-links a:hover { color:var(--ink); }
+.nav-right { display:flex; align-items:center; gap:14px; }
+.nav-login { color:var(--muted); text-decoration:none; font-size:14px; font-weight:500; }
+.nav-login:hover { color:var(--ink); }
+@media (max-width:680px){ .nav-links{ display:none; } }
+
+/* Hero */
+.hero { text-align:center; padding:64px 0 8px; max-width:680px; margin:0 auto; }
+.eyebrow { font-weight:700; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--orange); }
+.hero h1 { font-family:var(--serif); font-weight:400; font-size:clamp(40px,7vw,68px); line-height:1.02; letter-spacing:-.015em; margin:14px 0 0; }
+.hero h1 em { color:var(--orange); font-style:italic; }
+.hero p.sub { font-size:17px; color:var(--muted); line-height:1.55; margin:18px auto 0; max-width:540px; }
+
+/* Input form */
+.tool { max-width:760px; margin:0 auto; padding:0 24px; }
+.form { display:flex; gap:12px; margin:32px auto 0; max-width:560px; }
+.input { flex:1; min-width:0; height:56px; padding:0 20px; font-size:16px; font-family:var(--sans); color:var(--ink); background:var(--paper); border:1px solid var(--line-2); border-radius:var(--r-md); outline:none; transition:border-color .15s, box-shadow .15s; }
+.input:focus { border-color:var(--orange); box-shadow:0 0 0 3px var(--orange-soft); }
+.checkBtn { height:56px; padding:0 26px; border:none; border-radius:var(--r-md); background:var(--ink); color:#fff; font:600 15.5px var(--sans); cursor:pointer; white-space:nowrap; transition:transform .15s, opacity .15s; }
+.checkBtn:hover:not(:disabled){ transform:translateY(-1px); }
+.checkBtn:disabled { opacity:.55; cursor:default; }
+.examples { font-size:13px; color:var(--muted-2); margin:14px 0 0; text-align:center; }
+.exampleLink { color:var(--orange); cursor:pointer; text-decoration:underline; text-underline-offset:2px; }
+.errorMsg { color:var(--red); font-size:14px; margin:14px 0 0; text-align:center; }
+
+/* Result card */
+.card { background:var(--paper); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:0 1px 2px rgba(14,13,12,.05), 0 18px 50px -28px rgba(14,13,12,.18); overflow:hidden; margin-top:36px; animation:rise .4s cubic-bezier(.2,.8,.2,1); }
+@keyframes rise { from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:none;} }
+.scoreTop { display:flex; gap:30px; align-items:center; padding:32px 32px 28px; flex-wrap:wrap; }
+.gauge { position:relative; width:176px; height:176px; flex-shrink:0; }
+.gaugeTrack { fill:none; stroke:var(--bg-subtle); stroke-width:14; }
+.gaugeFill { fill:none; stroke-width:14; stroke-linecap:round; transform:rotate(-90deg); transform-origin:50% 50%; transition:stroke-dashoffset 1s cubic-bezier(.2,.8,.2,1); }
+.gaugeCenter { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.scoreNum { font-family:var(--serif); font-size:56px; line-height:1; color:var(--ink); }
+.scoreMax { font-size:12px; color:var(--muted); margin-top:2px; }
+.bandPill { margin-top:9px; font:600 13px var(--sans); padding:3px 12px; border-radius:var(--r-pill); }
+.scoreMeta { flex:1; min-width:230px; }
+.scoreDomain { font-family:var(--serif); font-size:28px; color:var(--ink); word-break:break-all; }
+.providers { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+.providerChip { font:600 12.5px var(--sans); color:var(--ink-2); background:var(--bg-subtle); border:1px solid var(--line); border-radius:var(--r-sm); padding:5px 11px; }
+.summaryChips { display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
+.sumChip { display:inline-flex; align-items:baseline; gap:6px; padding:6px 12px; border-radius:10px; font-size:12.5px; color:var(--muted); }
+.sumChip strong { font-size:16px; }
+
+/* Check groups */
+.group { border-top:1px solid var(--line); }
+.groupTitle { font:700 11.5px var(--sans); letter-spacing:.1em; text-transform:uppercase; color:var(--muted-2); padding:20px 32px 8px; }
+.row { display:flex; gap:13px; padding:11px 32px; align-items:flex-start; }
+.dot { width:23px; height:23px; border-radius:50%; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; margin-top:1px; color:#fff; font:700 12px var(--sans); }
+.dot.pass { background:var(--green); } .dot.warn { background:var(--warn); } .dot.fail { background:var(--red); }
+.rowLabel { font-size:14.5px; font-weight:600; color:var(--ink); }
+.rowDetail { font-size:13px; color:var(--ink-2); margin-top:2px; line-height:1.5; }
+.rowFix { font-size:12.5px; margin-top:5px; line-height:1.5; }
+.rowFix.warn { color:#9a5e0c; } .rowFix.fail { color:var(--red); }
+
+/* Lead gate */
+.gate { border-top:1px solid var(--line); background:var(--bg-panel); padding:24px 32px; }
+.gateTitle { font-family:var(--serif); font-size:21px; color:var(--ink); }
+.gateSub { font-size:13.5px; color:var(--muted); margin-top:3px; }
+.gateForm { display:flex; gap:10px; margin-top:16px; flex-wrap:wrap; }
+.gateInput { flex:1; min-width:220px; height:48px; padding:0 16px; font-size:15px; background:var(--paper); border:1px solid var(--line-2); border-radius:11px; outline:none; }
+.gateInput:focus { border-color:var(--orange); box-shadow:0 0 0 3px var(--orange-soft); }
+.gateBtn { height:48px; padding:0 22px; border:none; border-radius:11px; background:var(--orange); color:#fff; font:600 14.5px var(--sans); cursor:pointer; white-space:nowrap; }
+.gateBtn:disabled { opacity:.55; cursor:default; }
+.gateDone { display:flex; align-items:center; gap:9px; color:var(--green); font-size:14.5px; font-weight:600; }
+
+/* Skeleton */
+.skel { margin-top:36px; background:var(--paper); border:1px solid var(--line); border-radius:var(--r-lg); padding:32px; }
+.skelRow { height:16px; border-radius:8px; background:linear-gradient(90deg,#eee 25%,#f6f4f0 37%,#eee 63%); background-size:400% 100%; animation:shimmer 1.4s infinite; margin-bottom:14px; }
+@keyframes shimmer { 0%{background-position:100% 0;} 100%{background-position:-100% 0;} }
+
+/* CTA */
+.cta { margin:24px auto 0; max-width:760px; background:var(--ink); border-radius:var(--r-lg); padding:30px 32px; text-align:center; color:#fff; }
+.cta h2 { font-family:var(--serif); font-weight:400; font-size:28px; line-height:1.15; }
+.cta h2 em { color:var(--orange-2); font-style:italic; }
+.cta p { font-size:14.5px; color:rgba(255,255,255,.7); margin:10px auto 0; max-width:480px; line-height:1.55; }
+.cta .btn-orange { margin-top:20px; }
+
+/* SEO content */
+.content { max-width:760px; margin:0 auto; padding:72px 24px 0; }
+.content h2 { font-family:var(--serif); font-weight:400; font-size:34px; letter-spacing:-.01em; margin:0 0 6px; }
+.content h3 { font-size:17px; font-weight:600; margin:28px 0 6px; color:var(--ink); }
+.content p { font-size:15.5px; color:var(--ink-2); line-height:1.65; margin:8px 0; }
+.content .lead { color:var(--muted); font-size:16.5px; }
+.faq { border-top:1px solid var(--line); margin-top:14px; }
+.faq details { border-bottom:1px solid var(--line); padding:16px 0; }
+.faq summary { font-size:16px; font-weight:600; cursor:pointer; list-style:none; display:flex; justify-content:space-between; gap:16px; }
+.faq summary::-webkit-details-marker { display:none; }
+.faq summary::after { content:'+'; color:var(--orange); font-size:22px; line-height:1; }
+.faq details[open] summary::after { content:'–'; }
+.faq p { margin-top:10px; }
+
+/* Footer */
+.disclaimer { font-size:12px; color:var(--muted-2); text-align:center; margin:24px auto 0; max-width:560px; line-height:1.6; }
+footer.site { margin-top:80px; border-top:1px solid var(--line); }
+.foot-row { display:flex; align-items:center; justify-content:space-between; padding:28px 0; font-size:13.5px; color:var(--muted); flex-wrap:wrap; gap:12px; }
+.foot-links { display:flex; gap:20px; }
+.foot-links a { color:var(--muted); text-decoration:none; }
+.foot-links a:hover { color:var(--ink); }
+
+@media (max-width:560px){
+  .form { flex-direction:column; }
+  .checkBtn { width:100%; }
+  .scoreTop { flex-direction:column; text-align:center; }
+  .providers, .summaryChips { justify-content:center; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-row">
+    <a href="/" class="brand"><span class="brand-mark"></span><span>Outpulse</span></a>
+    <div class="nav-links">
+      <a href="/#how">How it works</a>
+      <a href="/#pricing">Pricing</a>
+      <a href="/email-health">Email health</a>
+    </div>
+    <div class="nav-right">
+      <a href="https://app.outpulse.ai/login?utm_source=outpulse_landing&utm_medium=nav_login&utm_campaign=email_health" class="nav-login">Log in</a>
+      <a href="https://app.outpulse.ai/signup?utm_source=outpulse_landing&utm_medium=nav_cta&utm_campaign=email_health" class="btn btn-dark">Get started</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="eyebrow">Email deliverability</div>
+  <h1>Will your cold email <em>actually land?</em></h1>
+  <p class="sub">Check any domain in seconds — SPF, DKIM, DMARC, blacklists and more. Get a score out of 100 and exactly what to fix.</p>
+</header>
+
+<section class="tool">
+  <form class="form" id="form">
+    <input class="input" id="domain" placeholder="yourcompany.com" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Domain or email address">
+    <button class="checkBtn" id="checkBtn" type="submit">Check my email health</button>
+  </form>
+  <p class="examples" id="examples">Try <span class="exampleLink" data-domain="outpulse.ai">outpulse.ai</span></p>
+  <p class="errorMsg" id="error" style="display:none"></p>
+  <div id="skeleton" style="display:none">
+    <div class="skel">
+      <div class="skelRow" style="width:40%;height:28px"></div>
+      <div class="skelRow" style="width:85%"></div>
+      <div class="skelRow" style="width:70%"></div>
+      <div class="skelRow" style="width:78%"></div>
+    </div>
+  </div>
+  <div id="result"></div>
+</section>
+
+<section class="content">
+  <h2>Free email deliverability test</h2>
+  <p class="lead">Most cold email never reaches the inbox — and the sender never finds out. This free tool reads the public DNS records that Gmail, Outlook and every other mailbox provider use to judge your mail, then scores your domain out of 100 with the exact steps to fix what's wrong. No login, no sending, no access to your mailbox.</p>
+
+  <h3>What we check</h3>
+  <p><strong>SPF</strong> — confirms which servers may send mail for your domain, and flags a too-permissive <em>+all</em> policy.<br>
+  <strong>DKIM</strong> — looks for a published signing key so receivers can verify your messages weren't altered.<br>
+  <strong>DMARC</strong> — checks your policy and warns when it's set to <em>p=none</em>, which enforces nothing.<br>
+  <strong>MX &amp; provider</strong> — detects your mail host (Google Workspace, Microsoft 365, custom).<br>
+  <strong>Blacklist &amp; domain age</strong> — checks the Spamhaus domain blacklist and flags brand-new domains with no sending reputation.</p>
+
+  <h3>Why deliverability decides your reply rate</h3>
+  <p>You can write the perfect message, but if your domain fails authentication it lands in spam and never gets read. Fixing SPF, DKIM and DMARC is the highest-leverage thing most senders can do — and it's usually a five-minute DNS change once you know what's missing. That's what the score above tells you.</p>
+
+  <h2 style="margin-top:56px">Frequently asked questions</h2>
+  <div class="faq">
+    <details><summary>What is an email deliverability check?</summary><p>It inspects the public DNS records mailbox providers use to decide whether your email reaches the inbox, the spam folder, or gets rejected — your SPF, DKIM and DMARC records, your MX setup and blacklist status — then scores the result out of 100 with the exact fixes.</p></details>
+    <details><summary>What do SPF, DKIM and DMARC do?</summary><p>SPF lists which servers may send for your domain. DKIM signs your mail so receivers can verify it wasn't tampered with. DMARC tells receivers what to do when SPF or DKIM fail. Together they prove your mail is legitimate — the biggest single factor in landing in the inbox.</p></details>
+    <details><summary>Why is my cold email going to spam?</summary><p>Usually missing or misconfigured SPF/DKIM/DMARC, a brand-new domain with no reputation, a blacklisted domain, or too much volume too fast. The check above shows which apply to you.</p></details>
+    <details><summary>Is this checker free?</summary><p>Yes — the score and every check are free and need no login. It reads public DNS only; it never connects to your mailbox and never sends anything.</p></details>
+    <details><summary>Does it work for any provider?</summary><p>Yes — any domain on any provider, and it auto-detects your mail provider and DNS host, including European hosts like WebSupport and Forpsi.</p></details>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="container foot-row">
+    <div>© 2026 Outpulse · Designed and engineered by <a href="https://plat4m.com">PLATFORM</a>.</div>
+    <div class="foot-links">
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="mailto:hello@outpulse.ai">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var API = 'https://app.outpulse.ai';
+  var TONE = {
+    green: { stroke:'var(--green)', bg:'var(--green-soft)', fg:'#1a7c4b' },
+    warn:  { stroke:'var(--warn)',  bg:'var(--warn-soft)',  fg:'#9a5e0c' },
+    red:   { stroke:'var(--red)',   bg:'var(--red-soft)',   fg:'#b53b1c' }
+  };
+  var MARK = { pass:'✓', warn:'!', fail:'✕' };
+  var R = 76, C = 2 * Math.PI * R;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var form = $('form'), domainInput = $('domain'), checkBtn = $('checkBtn');
+  var errorEl = $('error'), skeleton = $('skeleton'), result = $('result'), examples = $('examples');
+  var lastReport = null, raf = null;
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c];
+    });
+  }
+
+  function showError(msg) {
+    errorEl.textContent = msg; errorEl.style.display = 'block';
+  }
+
+  function setLoading(on) {
+    checkBtn.disabled = on;
+    checkBtn.textContent = on ? 'Checking…' : 'Check my email health';
+    skeleton.style.display = on ? 'block' : 'none';
+    if (on) { result.innerHTML = ''; errorEl.style.display = 'none'; examples.style.display = 'none'; }
+  }
+
+  function animateScore(target, el) {
+    var start = performance.now(), dur = 900;
+    function tick(now) {
+      var t = Math.min(1, (now - start) / dur);
+      var eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = Math.round(eased * target);
+      if (t < 1) raf = requestAnimationFrame(tick);
+    }
+    if (raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(tick);
+  }
+
+  function render(report) {
+    lastReport = report;
+    var tone = TONE[(report.band && report.band.tone) || 'green'];
+    var checks = [];
+    (report.groups || []).forEach(function (g) { (g.checks || []).forEach(function (c) { checks.push(c); }); });
+    var fails = checks.filter(function (c) { return c.status === 'fail'; }).length;
+    var warns = checks.filter(function (c) { return c.status === 'warn'; }).length;
+    var offset = C * (1 - report.score / 100);
+
+    var html = '<div class="card">';
+    // Score header
+    html += '<div class="scoreTop"><div class="gauge">'
+      + '<svg width="176" height="176" viewBox="0 0 168 168">'
+      + '<circle class="gaugeTrack" cx="84" cy="84" r="' + R + '"></circle>'
+      + '<circle class="gaugeFill" cx="84" cy="84" r="' + R + '" style="stroke:' + tone.stroke + ';stroke-dasharray:' + C + ';stroke-dashoffset:' + C + '"></circle>'
+      + '</svg><div class="gaugeCenter"><div class="scoreNum" id="scoreNum">0</div><div class="scoreMax">/ 100</div>'
+      + '<div class="bandPill" style="background:' + tone.bg + ';color:' + tone.fg + '">' + esc(report.band && report.band.label) + '</div></div></div>';
+    html += '<div class="scoreMeta"><div class="scoreDomain">' + esc(report.domain) + '</div><div class="providers">';
+    if (report.provider && report.provider.mail) html += '<span class="providerChip">✉ ' + esc(report.provider.mail) + '</span>';
+    if (report.provider && report.provider.dnsHost) html += '<span class="providerChip">DNS · ' + esc(report.provider.dnsHost) + '</span>';
+    html += '</div><div class="summaryChips">';
+    if (fails > 0) html += '<span class="sumChip" style="background:var(--red-soft)"><strong style="color:var(--red)">' + fails + '</strong> must fix</span>';
+    if (warns > 0) html += '<span class="sumChip" style="background:var(--warn-soft)"><strong style="color:var(--warn)">' + warns + '</strong> to review</span>';
+    if (fails === 0 && warns === 0) html += '<span class="sumChip" style="background:var(--green-soft)"><strong style="color:var(--green)">✓</strong> all clear</span>';
+    html += '</div></div></div>';
+
+    // Groups
+    (report.groups || []).forEach(function (g) {
+      html += '<div class="group"><div class="groupTitle">' + esc(g.title) + '</div>';
+      (g.checks || []).forEach(function (c) {
+        html += '<div class="row"><span class="dot ' + c.status + '">' + MARK[c.status] + '</span><div style="flex:1;min-width:0">'
+          + '<div class="rowLabel">' + esc(c.label) + '</div><div class="rowDetail">' + esc(c.detail) + '</div>';
+        if (c.fix) html += '<div class="rowFix ' + c.status + '">↳ <strong>Fix:</strong> ' + esc(c.fix) + '</div>';
+        html += '</div></div>';
+      });
+      html += '</div>';
+    });
+
+    // Lead gate
+    html += '<div class="gate" id="gate"><div class="gateTitle">Get the full fix-it report</div>'
+      + '<div class="gateSub">We\'ll email the report with step-by-step fixes — and can monitor this domain for you.</div>'
+      + '<form class="gateForm" id="gateForm"><input class="gateInput" id="leadEmail" type="email" placeholder="you@company.com">'
+      + '<button class="gateBtn" id="leadBtn" type="submit">Email me the report</button></form>'
+      + '<p class="errorMsg" id="leadErr" style="display:none;text-align:left"></p></div>';
+    html += '</div>';
+
+    // CTA
+    html += '<div class="cta"><h2>Stop guessing. <em>Land in the inbox.</em></h2>'
+      + '<p>Outpulse warms your domain, rotates inboxes and watches every one of these checks — so your cold email keeps landing as you scale.</p>'
+      + '<a class="btn btn-orange" href="https://app.outpulse.ai/signup?utm_source=outpulse_landing&utm_medium=email_health_cta&utm_campaign=email_health">Start free with Outpulse →</a></div>';
+    html += '<p class="disclaimer">Checks public DNS only — we never see your inbox or send anything. Free, by Outpulse.</p>';
+
+    result.innerHTML = html;
+    animateScore(report.score, $('scoreNum'));
+    // Trigger the gauge stroke animation on next frame.
+    requestAnimationFrame(function () {
+      var fill = result.querySelector('.gaugeFill');
+      if (fill) fill.style.strokeDashoffset = offset;
+    });
+    $('gateForm').addEventListener('submit', submitLead);
+  }
+
+  function check(value) {
+    var d = (value || domainInput.value || '').trim();
+    if (!d) { showError('Enter a domain or email address.'); return; }
+    setLoading(true);
+    fetch(API + '/api/tools/email-health', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ domain: d })
+    }).then(function (res) {
+      return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+    }).then(function (r) {
+      setLoading(false);
+      if (!r.ok) { showError((r.data && r.data.error) || 'Something went wrong. Try again.'); return; }
+      render(r.data);
+    }).catch(function () {
+      setLoading(false); showError('Couldn\'t reach the checker. Try again.');
+    });
+  }
+
+  function submitLead(e) {
+    e.preventDefault();
+    if (!lastReport) return;
+    var email = ($('leadEmail').value || '').trim();
+    var errEl = $('leadErr'), btn = $('leadBtn');
+    if (!/^\S+@\S+\.\S+$/.test(email)) { errEl.textContent = 'Enter a valid email.'; errEl.style.display = 'block'; return; }
+    errEl.style.display = 'none'; btn.disabled = true; btn.textContent = 'Sending…';
+    fetch(API + '/api/tools/email-health/lead', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, domain: lastReport.domain, score: lastReport.score, report: lastReport })
+    }).then(function (res) {
+      if (!res.ok) return res.json().catch(function(){return {};}).then(function (d) { throw new Error((d && d.error) || 'Couldn\'t send.'); });
+      $('gate').innerHTML = '<div class="gateDone">✓ Sent — check your inbox for the full report.</div>';
+    }).catch(function (err) {
+      errEl.textContent = err.message || 'Couldn\'t send. Try again.'; errEl.style.display = 'block';
+      btn.disabled = false; btn.textContent = 'Email me the report';
+    });
+  }
+
+  form.addEventListener('submit', function (e) { e.preventDefault(); check(); });
+  examples.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-domain]'); if (!t) return;
+    domainInput.value = t.getAttribute('data-domain'); check(t.getAttribute('data-domain'));
+  });
+
+  // Shareable links: /email-health?domain=acme.com auto-runs the check.
+  try {
+    var q = new URLSearchParams(location.search).get('domain');
+    if (q) { domainInput.value = q; check(q); }
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>
