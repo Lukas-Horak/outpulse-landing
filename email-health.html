@@ -139,6 +139,7 @@ a { color:inherit; }
 .card { background:var(--paper); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:0 1px 2px rgba(14,13,12,.05), 0 18px 50px -28px rgba(14,13,12,.18); overflow:hidden; margin-top:36px; animation:rise .4s cubic-bezier(.2,.8,.2,1); }
 @keyframes rise { from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:none;} }
 .scoreTop { display:flex; gap:40px; align-items:center; padding:40px 40px 34px; flex-wrap:wrap; }
+.gaugeCol { display:flex; flex-direction:column; align-items:center; gap:18px; flex-shrink:0; }
 .gauge { position:relative; width:240px; height:240px; flex-shrink:0; }
 .gaugeSvg { display:block; overflow:visible; }
 .gaugeTrack { fill:none; stroke:#efece6; stroke-width:11; }
@@ -148,7 +149,7 @@ a { color:inherit; }
 .gaugeCenter { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:152px; height:152px; border-radius:50%; background:#fff; box-shadow:0 12px 34px rgba(20,18,15,.13), inset 0 0 0 1px rgba(20,18,15,.03); display:flex; flex-direction:column; align-items:center; justify-content:center; }
 .scoreNum { font-family:var(--serif); font-size:64px; line-height:.95; color:var(--ink); letter-spacing:-.01em; }
 .scoreMax { font-size:12.5px; color:var(--muted); margin-top:3px; letter-spacing:.02em; }
-.bandPill { margin-top:11px; font:600 13px var(--sans); padding:4px 14px; border-radius:var(--r-pill); }
+.bandPill { font:600 13.5px var(--sans); padding:5px 16px; border-radius:var(--r-pill); }
 
 /* Share row */
 .shareRow { display:flex; align-items:center; gap:8px; margin-top:18px; }
@@ -397,7 +398,7 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
 
     var html = '<div class="card">';
     // Score header — gradient gauge with glow, tick ring + travelling handle.
-    html += '<div class="scoreTop"><div class="gauge">'
+    html += '<div class="scoreTop"><div class="gaugeCol"><div class="gauge">'
       + '<svg class="gaugeSvg" width="240" height="240" viewBox="0 0 200 200">'
       + '<defs><linearGradient id="gGrad" x1="8%" y1="2%" x2="92%" y2="98%">'
       + '<stop offset="0%" stop-color="' + g[0] + '"/><stop offset="38%" stop-color="' + g[1] + '"/><stop offset="72%" stop-color="' + g[2] + '"/><stop offset="100%" stop-color="' + g[3] + '"/>'
@@ -408,8 +409,10 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
       + '<circle class="gaugeArc" cx="100" cy="100" r="82" stroke="url(#gGrad)" style="stroke-dasharray:' + C + ';stroke-dashoffset:' + C + '"/>'
       + '<circle class="gaugeHandle" cx="100" cy="18" r="8" stroke="' + g[3] + '" style="filter:drop-shadow(0 0 8px ' + g[2] + ')"/>'
       + '</svg>'
-      + '<div class="gaugeCenter"><div class="scoreNum" id="scoreNum">0</div><div class="scoreMax">/ 100</div>'
-      + '<div class="bandPill" style="background:' + tone.bg + ';color:' + tone.fg + '">' + esc(report.band && report.band.label) + '</div></div></div>';
+      + '<div class="gaugeCenter"><div class="scoreNum" id="scoreNum">0</div><div class="scoreMax">/ 100</div></div>'
+      + '</div>'
+      + '<div class="bandPill" style="background:' + tone.bg + ';color:' + tone.fg + '">' + esc(report.band && report.band.label) + '</div>'
+      + '</div>';
     html += '<div class="scoreMeta"><div class="scoreDomain">' + esc(report.domain) + '</div><div class="providers">';
     if (report.provider && report.provider.mail) html += '<span class="providerChip">✉ ' + esc(report.provider.mail) + '</span>';
     if (report.provider && report.provider.dnsHost) html += '<span class="providerChip">DNS · ' + esc(report.provider.dnsHost) + '</span>';
