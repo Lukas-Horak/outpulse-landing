@@ -149,10 +149,27 @@ a { color:inherit; }
 .gaugeTrack { fill:none; stroke:#ece9e3; stroke-width:3.5; }
 .gaugeArc { fill:none; stroke-width:3.5; stroke-linecap:round; transform:rotate(-90deg); transform-origin:50% 50%; }
 .gaugeHandle { stroke-width:2.5; }
-.gaugeCenter { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:204px; height:204px; border-radius:50%; background:#fff; z-index:2;
-  box-shadow:0 16px 44px rgba(20,18,15,.12), 0 3px 10px rgba(20,18,15,.05); display:flex; flex-direction:column; align-items:center; justify-content:center; }
-.scoreNum { font-family:var(--serif); font-size:76px; line-height:.9; color:var(--ink); letter-spacing:-.015em; }
-.scoreMax { font-size:13px; color:var(--muted); margin-top:4px; letter-spacing:.02em; }
+/* Liquid-glass orb — translucent dome that refracts the halo behind it,
+   a glossy specular highlight, a faint iridescent tint + layered depth shadows. */
+.gaugeCenter { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:204px; height:204px; border-radius:50%; z-index:2;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  background:
+    radial-gradient(58% 42% at 30% 20%, rgba(255,255,255,.97), rgba(255,255,255,0) 62%),
+    radial-gradient(85% 78% at 72% 98%, rgba(96,165,250,.24), rgba(244,114,182,.14) 46%, rgba(255,255,255,0) 75%),
+    linear-gradient(155deg, rgba(255,255,255,.74), rgba(255,255,255,.40));
+  -webkit-backdrop-filter: blur(16px) saturate(1.7);
+  backdrop-filter: blur(16px) saturate(1.7);
+  border: 1px solid rgba(255,255,255,.7);
+  box-shadow:
+    0 34px 64px -22px rgba(60,50,110,.32),
+    0 8px 20px -10px rgba(20,18,15,.10),
+    inset 0 3px 4px rgba(255,255,255,.95),
+    inset 0 -22px 46px -22px rgba(110,120,180,.32),
+    inset 0 0 0 1px rgba(255,255,255,.45); }
+.gaugeCenter::before { content:''; position:absolute; left:13%; top:8%; width:64%; height:44%; border-radius:50%; pointer-events:none; z-index:1;
+  background:radial-gradient(closest-side, rgba(255,255,255,.92), rgba(255,255,255,0)); filter:blur(2px); }
+.scoreNum { position:relative; z-index:2; font-family:var(--serif); font-size:76px; line-height:.9; color:var(--ink); letter-spacing:-.015em; }
+.scoreMax { position:relative; z-index:2; font-size:13px; color:var(--muted); margin-top:4px; letter-spacing:.02em; }
 .bandPill { font:600 13.5px var(--sans); padding:5px 16px; border-radius:var(--r-pill); }
 
 /* Share row */
