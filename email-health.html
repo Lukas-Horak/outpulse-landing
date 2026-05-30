@@ -138,17 +138,25 @@ a { color:inherit; }
 /* Result card */
 .card { background:var(--paper); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:0 1px 2px rgba(14,13,12,.05), 0 18px 50px -28px rgba(14,13,12,.18); overflow:hidden; margin-top:36px; animation:rise .4s cubic-bezier(.2,.8,.2,1); }
 @keyframes rise { from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:none;} }
-.scoreTop { display:flex; gap:32px; align-items:center; padding:30px 32px 26px; flex-wrap:wrap; }
-.gauge { position:relative; width:208px; height:208px; flex-shrink:0; }
+.scoreTop { display:flex; gap:40px; align-items:center; padding:40px 40px 34px; flex-wrap:wrap; }
+.gauge { position:relative; width:240px; height:240px; flex-shrink:0; }
 .gaugeSvg { display:block; overflow:visible; }
-.gaugeTrack { fill:none; stroke:#efece6; stroke-width:12; }
-.gaugeGlow { fill:none; stroke-width:18; stroke-linecap:round; transform:rotate(-90deg); transform-origin:50% 50%; filter:blur(12px); opacity:.5; }
-.gaugeArc { fill:none; stroke-width:12; stroke-linecap:round; transform:rotate(-90deg); transform-origin:50% 50%; }
-.gaugeHandle { fill:#fff; stroke-width:3; }
-.gaugeCenter { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:130px; height:130px; border-radius:50%; background:#fff; box-shadow:0 8px 24px rgba(20,18,15,.10), inset 0 0 0 1px rgba(20,18,15,.03); display:flex; flex-direction:column; align-items:center; justify-content:center; }
-.scoreNum { font-family:var(--serif); font-size:54px; line-height:1; color:var(--ink); }
-.scoreMax { font-size:12px; color:var(--muted); margin-top:2px; }
-.bandPill { margin-top:9px; font:600 12.5px var(--sans); padding:3px 12px; border-radius:var(--r-pill); }
+.gaugeTrack { fill:none; stroke:#efece6; stroke-width:11; }
+.gaugeGlow { fill:none; stroke-width:20; stroke-linecap:round; transform:rotate(-90deg); transform-origin:50% 50%; filter:blur(14px); opacity:.6; }
+.gaugeArc { fill:none; stroke-width:11; stroke-linecap:round; transform:rotate(-90deg); transform-origin:50% 50%; }
+.gaugeHandle { fill:#fff; stroke-width:3.5; }
+.gaugeCenter { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:152px; height:152px; border-radius:50%; background:#fff; box-shadow:0 12px 34px rgba(20,18,15,.13), inset 0 0 0 1px rgba(20,18,15,.03); display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.scoreNum { font-family:var(--serif); font-size:64px; line-height:.95; color:var(--ink); letter-spacing:-.01em; }
+.scoreMax { font-size:12.5px; color:var(--muted); margin-top:3px; letter-spacing:.02em; }
+.bandPill { margin-top:11px; font:600 13px var(--sans); padding:4px 14px; border-radius:var(--r-pill); }
+
+/* Share row */
+.shareRow { display:flex; align-items:center; gap:8px; margin-top:18px; }
+.shareBtn { display:inline-flex; align-items:center; gap:7px; height:38px; padding:0 15px; border:1px solid var(--line-2); background:var(--paper); color:var(--ink-2); border-radius:10px; font:600 13px var(--sans); cursor:pointer; transition:border-color .15s, color .15s, background .15s; }
+.shareBtn:hover { border-color:var(--ink); color:var(--ink); }
+.shareBtnDone { border-color:var(--green); color:var(--green); background:var(--green-soft); }
+.shareIcon { display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; border:1px solid var(--line-2); border-radius:10px; color:var(--ink-3); text-decoration:none; transition:border-color .15s, color .15s; }
+.shareIcon:hover { border-color:var(--ink); color:var(--ink); }
 .scoreMeta { flex:1; min-width:230px; }
 .scoreDomain { font-family:var(--serif); font-size:28px; color:var(--ink); word-break:break-all; }
 .providers { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
@@ -309,9 +317,9 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
 (function () {
   var API = 'https://app.outpulse.ai';
   var TONE = {
-    green: { bg:'var(--green-soft)', fg:'#1a7c4b', grad:['#2dd4bf','#34d399','#059669'] },
-    warn:  { bg:'var(--warn-soft)',  fg:'#9a5e0c', grad:['#fbbf24','#fb923c','#f97316'] },
-    red:   { bg:'var(--red-soft)',   fg:'#b53b1c', grad:['#fb7185','#f43f5e','#e11d48'] }
+    green: { bg:'var(--green-soft)', fg:'#1a7c4b', grad:['#5eead4','#34d399','#10b981','#059669'] },
+    warn:  { bg:'var(--warn-soft)',  fg:'#9a5e0c', grad:['#fcd34d','#fbbf24','#fb923c','#f97316'] },
+    red:   { bg:'var(--red-soft)',   fg:'#b53b1c', grad:['#fb7185','#f43f5e','#ef4444','#dc2626'] }
   };
   var MARK = { pass:'✓', warn:'!', fail:'✕' };
   var R = 82, C = 2 * Math.PI * R;
@@ -368,6 +376,9 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
 
   function render(report) {
     lastReport = report;
+    // Make the result a shareable link — the address bar becomes the report URL.
+    var shareUrl = location.origin + '/email-health?domain=' + encodeURIComponent(report.domain);
+    try { history.replaceState(null, '', '/email-health?domain=' + encodeURIComponent(report.domain)); } catch (e) {}
     var tone = TONE[(report.band && report.band.tone) || 'green'];
     var checks = [];
     (report.groups || []).forEach(function (g) { (g.checks || []).forEach(function (c) { checks.push(c); }); });
@@ -387,15 +398,15 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
     var html = '<div class="card">';
     // Score header — gradient gauge with glow, tick ring + travelling handle.
     html += '<div class="scoreTop"><div class="gauge">'
-      + '<svg class="gaugeSvg" width="208" height="208" viewBox="0 0 200 200">'
-      + '<defs><linearGradient id="gGrad" x1="0%" y1="0%" x2="100%" y2="100%">'
-      + '<stop offset="0%" stop-color="' + g[0] + '"/><stop offset="55%" stop-color="' + g[1] + '"/><stop offset="100%" stop-color="' + g[2] + '"/>'
+      + '<svg class="gaugeSvg" width="240" height="240" viewBox="0 0 200 200">'
+      + '<defs><linearGradient id="gGrad" x1="8%" y1="2%" x2="92%" y2="98%">'
+      + '<stop offset="0%" stop-color="' + g[0] + '"/><stop offset="38%" stop-color="' + g[1] + '"/><stop offset="72%" stop-color="' + g[2] + '"/><stop offset="100%" stop-color="' + g[3] + '"/>'
       + '</linearGradient></defs>'
       + '<g>' + ticks + '</g>'
       + '<circle class="gaugeTrack" cx="100" cy="100" r="82"/>'
       + '<circle class="gaugeGlow" cx="100" cy="100" r="82" stroke="url(#gGrad)" style="stroke-dasharray:' + C + ';stroke-dashoffset:' + C + '"/>'
       + '<circle class="gaugeArc" cx="100" cy="100" r="82" stroke="url(#gGrad)" style="stroke-dasharray:' + C + ';stroke-dashoffset:' + C + '"/>'
-      + '<circle class="gaugeHandle" cx="100" cy="18" r="7" stroke="' + g[2] + '" style="filter:drop-shadow(0 0 5px ' + g[1] + ')"/>'
+      + '<circle class="gaugeHandle" cx="100" cy="18" r="8" stroke="' + g[3] + '" style="filter:drop-shadow(0 0 8px ' + g[2] + ')"/>'
       + '</svg>'
       + '<div class="gaugeCenter"><div class="scoreNum" id="scoreNum">0</div><div class="scoreMax">/ 100</div>'
       + '<div class="bandPill" style="background:' + tone.bg + ';color:' + tone.fg + '">' + esc(report.band && report.band.label) + '</div></div></div>';
@@ -406,7 +417,13 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
     if (fails > 0) html += '<span class="sumChip" style="background:var(--red-soft)"><strong style="color:var(--red)">' + fails + '</strong> must fix</span>';
     if (warns > 0) html += '<span class="sumChip" style="background:var(--warn-soft)"><strong style="color:var(--warn)">' + warns + '</strong> to review</span>';
     if (fails === 0 && warns === 0) html += '<span class="sumChip" style="background:var(--green-soft)"><strong style="color:var(--green)">✓</strong> all clear</span>';
-    html += '</div></div></div>';
+    html += '</div>'
+      + '<div class="shareRow">'
+      + '<button class="shareBtn" id="shareCopy" type="button"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> <span>Copy link</span></button>'
+      + '<a class="shareIcon" id="shareX" target="_blank" rel="noopener" aria-label="Share on X"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>'
+      + '<a class="shareIcon" id="shareLi" target="_blank" rel="noopener" aria-label="Share on LinkedIn"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-6.6c0-1.57-.03-3.6-2.2-3.6-2.2 0-2.53 1.72-2.53 3.49V23h-4V8z"/></svg></a>'
+      + '</div>'
+      + '</div></div>';
 
     // Groups
     (report.groups || []).forEach(function (g) {
@@ -437,6 +454,25 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
     result.innerHTML = html;
     animateGauge(report.score);
     $('gateForm').addEventListener('submit', submitLead);
+
+    var copyBtn = document.getElementById('shareCopy');
+    if (copyBtn) {
+      var origHtml = copyBtn.innerHTML;
+      copyBtn.addEventListener('click', function () {
+        var done = function () {
+          copyBtn.classList.add('shareBtnDone');
+          copyBtn.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> <span>Link copied</span>';
+          setTimeout(function () { copyBtn.classList.remove('shareBtnDone'); copyBtn.innerHTML = origHtml; }, 2200);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(shareUrl).then(done).catch(function () { window.prompt('Copy this link:', shareUrl); });
+        } else { window.prompt('Copy this link:', shareUrl); }
+      });
+    }
+    var sx = document.getElementById('shareX');
+    if (sx) sx.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent('My domain scored ' + report.score + '/100 on email deliverability. Check yours free →') + '&url=' + encodeURIComponent(shareUrl);
+    var sl = document.getElementById('shareLi');
+    if (sl) sl.href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(shareUrl);
   }
 
   function check(value) {
