@@ -225,10 +225,18 @@ img { max-width: 100%; display: block; }
    ONE short subhead. Mockup top peeks from below. */
 .hero {
   padding: clamp(112px, 16vh, 200px) 0 clamp(40px, 5vh, 72px);
-  background: var(--paper);
+  /* Soft orange "smoke" wash behind every hero element — layered radial
+     blooms in the orange/amber family fading into the paper. */
+  background:
+    radial-gradient(58% 52% at 50% 40%, rgba(255,91,31,0.16), transparent 70%),
+    radial-gradient(42% 40% at 80% 24%, rgba(255,150,70,0.14), transparent 62%),
+    radial-gradient(46% 44% at 16% 32%, rgba(255,110,45,0.11), transparent 66%),
+    radial-gradient(64% 46% at 50% 98%, rgba(255,196,150,0.12), transparent 72%),
+    var(--paper);
   color: var(--ink);
   border-bottom: none;
   position: relative;
+  overflow: hidden;
 }
 .hero .container {
   max-width: 1280px;
@@ -270,6 +278,25 @@ img { max-width: 100%; display: block; }
   color: var(--ink-2);
   font-weight: 500;
 }
+/* Capability chips — replaces the easy-to-miss dotted kicker line.
+   One pill per surface, dot coloured along the cold→warm spectrum. */
+.hero-caps {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: 8px; margin: 18px auto 30px;
+}
+.hero-caps .cap {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 14px; background: var(--paper);
+  border: 1px solid var(--line); border-radius: 999px;
+  font: 600 13px var(--sans); color: var(--ink);
+  box-shadow: 0 1px 2px rgba(20,18,15,.05), 0 8px 20px -14px rgba(20,18,15,.3);
+}
+.hero-caps .cap i { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.hero-caps .cap-note {
+  font: 500 12.5px var(--sans); color: var(--muted-2);
+  letter-spacing: .12em; text-transform: uppercase; margin-left: 4px;
+}
+@media (max-width: 460px) { .hero-caps .cap { padding: 6px 11px; font-size: 12px; } }
 /* ── Hero inline signup — Apollo pattern.
    Email input + orange primary button on one row, divider, then
    Google OAuth as a secondary auth. Wired directly into
@@ -3566,7 +3593,13 @@ footer.site {
       <p class="hero-lead">
         Outpulse finds the right companies, writes the email, handles every reply, and tracks each deal to close — run sales like a ten-person team, solo.
       </p>
-      <p class="hero-kicker" style="margin:16px 0 30px;font-size:14px;letter-spacing:.04em;color:#9a9289;">Prospecting · Cold email · Inbox · CRM — one login.</p>
+      <div class="hero-caps">
+        <span class="cap"><i style="background:#3866a6"></i>Prospecting</span>
+        <span class="cap"><i style="background:#8a76b8"></i>Cold email</span>
+        <span class="cap"><i style="background:#e0884a"></i>Inbox</span>
+        <span class="cap"><i style="background:#ff5b1f"></i>CRM</span>
+        <span class="cap-note">one login</span>
+      </div>
       <form class="hero-signup" action="https://app.outpulse.ai/signup" method="get">
         <input type="hidden" name="utm_source" value="outpulse_landing">
         <input type="hidden" name="utm_campaign" value="launch">
