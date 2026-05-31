@@ -205,7 +205,7 @@ a { color:inherit; }
 .checkCount { font:700 10.5px var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--muted-2); }
 .row { display:flex; gap:13px; padding:13px 0; align-items:flex-start; border-top:1px solid var(--line); }
 .dot { width:22px; height:22px; border-radius:50%; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; margin-top:1px; color:#fff; font:700 12px var(--sans); }
-.dot.pass { background:var(--green); } .dot.warn { background:var(--warn); } .dot.fail { background:var(--red); }
+.dot.pass { background:var(--green); } .dot.warn { background:var(--warn); } .dot.fail { background:var(--red); } .dot.info { background:#b3aca1; }
 .rowLabel { font-size:14.5px; font-weight:600; color:var(--ink); }
 .rowDetail { font-size:13px; color:var(--ink-2); margin-top:2px; line-height:1.5; }
 .rowFix { font-size:12.5px; margin-top:5px; line-height:1.5; }
@@ -364,7 +364,7 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
       halo:'conic-gradient(from 210deg, #fee2e2, #fecaca, #fda4af, #fca5a5, #fecaca, #fee2e2)', tint:'rgba(244,63,94,.15)',
       line:'rgba(181,59,28,.22)', track:'rgba(181,59,28,.14)' }
   };
-  var MARK = { pass:'✓', warn:'!', fail:'✕' };
+  var MARK = { pass:'✓', warn:'!', fail:'✕', info:'·' };
   var R = 86, C = 2 * Math.PI * R;
 
   var $ = function (id) { return document.getElementById(id); };
@@ -457,7 +457,7 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
       + '<span class="verdictPill"><span class="verdictDot" style="background:' + (DOT[toneKey] || DOT.green) + '"></span>' + esc(report.band && report.band.label) + '</span></div>'
       + '<div class="scoreBandNum"><span id="scoreNum">0</span><span class="max">/100</span></div>'
       + '<div class="scoreBar"><div class="scoreBarFill" id="scoreFill" style="background:' + sgrad + '"></div></div>'
-      + '<div class="scoreBandFoot"><span>Across <strong>' + checks.length + '</strong> authentication &amp; reputation signals</span><span>'
+      + '<div class="scoreBandFoot"><span>' + (report.benchmark && typeof report.benchmark.percentile === 'number' ? 'Better than <strong>' + report.benchmark.percentile + '%</strong> of domains we&rsquo;ve scanned' : 'Across <strong>' + checks.length + '</strong> authentication &amp; reputation signals') + '</span><span>'
       + (fails > 0 ? '<strong style="color:' + FOOT.red + '">' + fails + '</strong> to fix'
          : warns > 0 ? '<strong style="color:' + FOOT.warn + '">' + warns + '</strong> to review'
          : '<strong style="color:' + FOOT.green + '">All clear</strong>')
@@ -488,10 +488,15 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
       + '<div class="chartLegend"><span class="legItem"><span class="legSwatch" style="background:' + (BAR.pass) + '"></span>Your setup</span>'
       + '<span class="legItem"><span class="legSwatch max"></span>Best practice</span></div></div>';
     // 3 — your setup
-    html += '<div class="statCard"><div class="statEyebrow">Your setup</div><div>'
-      + '<div class="setupRow"><span class="setupKey">Mail</span><span class="setupVal">' + esc((report.provider && report.provider.mail) || '—') + '</span></div>'
-      + '<div class="setupRow"><span class="setupKey">DNS</span><span class="setupVal">' + esc((report.provider && report.provider.dnsHost) || '—') + '</span></div>'
-      + '<div class="setupRow"><span class="setupKey">Signals</span><span class="setupVal">' + passCount + ' / ' + checks.length + ' passing</span></div>'
+    var ds = report.domainStats || {};
+    var renews = (typeof ds.expiresInDays === 'number') ? (ds.expiresInDays > 0 ? 'in ' + (ds.expiresInDays > 400 ? Math.round(ds.expiresInDays / 365) + ' yr' : ds.expiresInDays + ' days') : 'expired') : null;
+    var setRow = function (k, v) { return (v != null && v !== '') ? '<div class="setupRow"><span class="setupKey">' + k + '</span><span class="setupVal">' + esc(v) + '</span></div>' : ''; };
+    html += '<div class="statCard"><div class="statEyebrow">Domain &amp; setup</div><div>'
+      + setRow('Mail', (report.provider && report.provider.mail) || '—')
+      + setRow('DNS', (report.provider && report.provider.dnsHost) || '—')
+      + setRow('Registrar', ds.registrar)
+      + setRow('Registered', ds.createdYear)
+      + setRow('Renews', renews)
       + '</div></div>';
     html += '</div>';
 
