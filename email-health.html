@@ -163,34 +163,34 @@ a { color:inherit; }
 .verdictDot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
 .scoreBandNum { font-family:var(--serif); font-weight:400; font-size:clamp(58px,7.4vw,82px); line-height:.94; letter-spacing:-.03em; margin:13px 0 0; }
 .scoreBandNum .max { font-size:.4em; color:rgba(255,255,255,.5); letter-spacing:-.02em; margin-left:5px; }
-.scoreBar { height:8px; border-radius:999px; background:rgba(255,255,255,.13); overflow:hidden; margin:18px 0 0; }
+.scoreBar { height:12px; border-radius:999px; background:rgba(255,255,255,.13); overflow:hidden; margin:18px 0 0; }
 .scoreBarFill { height:100%; border-radius:999px; width:0; transition:width 1.15s cubic-bezier(.2,.8,.2,1); }
 .scoreBandFoot { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:13px; font-size:13px; color:rgba(255,255,255,.6); flex-wrap:wrap; }
 .scoreBandFoot strong { font-weight:600; }
 
 /* Stat grid — three light tiles (placement · auth chart · setup) */
 .statGrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
-.statCard { background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:20px 22px; display:flex; flex-direction:column; min-height:150px; }
-.statEyebrow { font:700 10.5px var(--mono); letter-spacing:.13em; text-transform:uppercase; color:var(--muted-2); }
-.statNum { font-family:var(--serif); font-weight:400; font-size:46px; line-height:.9; letter-spacing:-.025em; margin-top:10px; }
-.statBar { height:7px; border-radius:999px; overflow:hidden; margin:14px 0 9px; }
+.statCard { background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:26px 26px 22px; display:flex; flex-direction:column; min-height:182px; }
+.statEyebrow { font:700 10.5px var(--mono); letter-spacing:.13em; text-transform:uppercase; color:var(--muted-2); margin-bottom:24px; }
+.statNum { font-family:var(--serif); font-weight:400; font-size:46px; line-height:.78; letter-spacing:-.025em; margin-top:0; }
+.statBar { height:12px; border-radius:999px; overflow:hidden; margin:20px 0 0; }
 .statBarFill { height:100%; border-radius:999px; width:0; transition:width 1.2s cubic-bezier(.2,.8,.2,1); }
-.statCaption { font-size:12.5px; color:var(--muted); line-height:1.5; margin-top:auto; }
+.statCaption { font-size:12.5px; color:var(--muted); line-height:1.5; margin-top:auto; padding-top:18px; }
 /* Authentication chart — paired bars: best practice (ghost) vs your setup */
-.chart { display:flex; align-items:flex-end; gap:16px; height:96px; margin-top:16px; }
-.chartCol { flex:1; display:flex; flex-direction:column; align-items:center; gap:10px; }
-.chartBars { display:flex; align-items:flex-end; justify-content:center; gap:5px; width:100%; height:88px; }
-.chartBar { width:15px; border-radius:5px 5px 2px 2px; }
+.chart { display:flex; align-items:flex-end; gap:18px; height:104px; margin-top:0; }
+.chartCol { flex:1; display:flex; flex-direction:column; align-items:center; gap:11px; }
+.chartBars { display:flex; align-items:flex-end; justify-content:center; gap:6px; width:100%; height:92px; }
+.chartBar { width:12px; border-radius:4px 4px 2px 2px; }
 .chartMax { height:100%; background:repeating-linear-gradient(45deg, rgba(20,18,15,.12) 0 2px, transparent 2px 6px); border:1px solid rgba(20,18,15,.11); }
 .chartVal { height:0; transition:height 1.05s cubic-bezier(.2,.8,.2,1); }
 .chartLabel { font:700 9.5px var(--mono); letter-spacing:.03em; color:var(--muted-2); }
-.chartLegend { display:flex; gap:16px; margin-top:13px; flex-wrap:wrap; }
+.chartLegend { display:flex; gap:16px; margin-top:auto; padding-top:18px; flex-wrap:wrap; }
 .legItem { display:inline-flex; align-items:center; gap:7px; font:600 11.5px var(--sans); color:var(--muted); }
 .legSwatch { width:11px; height:11px; border-radius:3px; flex-shrink:0; }
 .legSwatch.max { background:repeating-linear-gradient(45deg, rgba(20,18,15,.22) 0 2px, transparent 2px 5px); border:1px solid rgba(20,18,15,.14); }
 /* Setup list */
 .setupRow { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:9px 0; border-top:1px solid var(--line); }
-.setupRow:first-child { border-top:none; }
+.setupRow:first-child { border-top:none; padding-top:0; }
 .setupKey { font:700 10.5px var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--muted-2); flex-shrink:0; }
 .setupVal { font-size:13.5px; color:var(--ink); font-weight:500; text-align:right; word-break:break-word; }
 
@@ -349,7 +349,7 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
 (function () {
   var API = 'https://app.outpulse.ai';
   var TONE = {
-    green: { bg:'var(--green-soft)', fg:'#1a7c4b', grad:['#5eead4','#34d399','#10b981','#059669'],
+    green: { bg:'var(--green-soft)', fg:'#1a7c4b', grad:['#46b88a','#2f9a6a','#1f8a5c','#1a7c4b'],
       halo:'conic-gradient(from 210deg, #b9f6d6, #6ee7b7, #5eead4, #99f6e4, #6ee7b7, #b9f6d6)', tint:'rgba(52,211,153,.16)',
       line:'rgba(26,124,75,.20)', track:'rgba(26,124,75,.13)' },
     warn:  { bg:'var(--warn-soft)',  fg:'#9a5e0c', grad:['#fcd34d','#fbbf24','#fb923c','#f97316'],
@@ -471,10 +471,10 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
         + '</div><div class="chartLabel">' + p.l + '</div></div>';
     });
     html += '<div class="statCard"><div class="statEyebrow">Authentication</div><div class="chart">' + bars + '</div>'
-      + '<div class="chartLegend"><span class="legItem"><span class="legSwatch" style="background:' + tone.fg + '"></span>Your setup</span>'
+      + '<div class="chartLegend"><span class="legItem"><span class="legSwatch" style="background:' + (BAR.pass) + '"></span>Your setup</span>'
       + '<span class="legItem"><span class="legSwatch max"></span>Best practice</span></div></div>';
     // 3 — your setup
-    html += '<div class="statCard"><div class="statEyebrow">Your setup</div><div style="margin-top:14px">'
+    html += '<div class="statCard"><div class="statEyebrow">Your setup</div><div>'
       + '<div class="setupRow"><span class="setupKey">Mail</span><span class="setupVal">' + esc((report.provider && report.provider.mail) || '—') + '</span></div>'
       + '<div class="setupRow"><span class="setupKey">DNS</span><span class="setupVal">' + esc((report.provider && report.provider.dnsHost) || '—') + '</span></div>'
       + '<div class="setupRow"><span class="setupKey">Signals</span><span class="setupVal">' + passCount + ' / ' + checks.length + ' passing</span></div>'
