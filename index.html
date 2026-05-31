@@ -4117,7 +4117,7 @@ footer.site {
     </div>
     <div class="stack-foot">
       <p class="stack-learn">And it <em>learns from every reply</em> — getting sharper the more you send.</p>
-      <p class="stack-learn-sub">A system that quietly improves itself with every campaign. Most outreach tools never do.</p>
+      <p class="stack-learn-sub">A system that quietly improves itself with every campaign.</p>
     </div>
   </div>
 </section>
@@ -4480,6 +4480,23 @@ footer.site {
 <!-- ─── CAMPAIGNS MOCKUP — full-width section, Linear-style.
      Real campaign analytics card with KPI strip, status flag,
      14-day progress, full funnel from sent to meeting. -->
+<style>
+  /* Campaigns mock — KpiHero strip + status tabs, 1:1 with real /campaigns */
+  .tour-kpihero { display: flex; align-items: stretch; background: #fbfaf7; border: 1px solid #ececea; border-radius: 16px; padding: 24px 28px; margin-bottom: 16px; }
+  .ckh-cell { position: relative; flex: 1; display: flex; flex-direction: column; gap: 6px; padding: 0 26px; min-width: 0; }
+  .ckh-cell:first-child { padding-left: 0; }
+  .ckh-cell:last-child { padding-right: 0; }
+  .ckh-cell:not(:last-child)::after { content: ''; position: absolute; right: 0; top: 6px; bottom: 6px; width: 1px; background: #ececea; }
+  .ckh-lbl { font: 700 11px 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: .08em; text-transform: uppercase; color: #6c6458; }
+  .ckh-val { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: clamp(32px, 3.2vw, 46px); line-height: 1; letter-spacing: -.025em; color: #14120f; }
+  .ckh-sub { font: 12px 'Inter', sans-serif; color: #6c6458; }
+  .tour-ctabs { display: flex; align-items: center; gap: 4px; margin-bottom: 16px; background: #faf9f7; border: 1px solid #ececea; border-radius: 999px; padding: 4px; width: max-content; }
+  .tour-ctabs .ct { font: 500 13px 'Inter', sans-serif; color: #6c6458; padding: 7px 14px; border-radius: 999px; display: inline-flex; align-items: center; gap: 7px; }
+  .tour-ctabs .ct b { font: 700 11px 'JetBrains Mono', ui-monospace, 'SF Mono', monospace; color: #a8a097; }
+  .tour-ctabs .ct.on { background: #14120f; color: #fff; }
+  .tour-ctabs .ct.on b { color: rgba(255,255,255,.55); }
+  @media (max-width: 720px) { .tour-kpihero { flex-wrap: wrap; gap: 20px 0; } .ckh-cell { flex: 1 1 45%; padding: 0 14px; } .ckh-cell:not(:last-child)::after { display: none; } }
+</style>
 <section class="mockup-section bg-panel" id="tour-campaigns">
   <div class="mockup-inner">
     <div class="mockup-head">
@@ -4572,27 +4589,19 @@ footer.site {
         </aside>
         <div class="app-shell-main">
         <div class="tour-campaigns">
-        <div class="tour-csum">
-          <div class="tour-csum-card orange">
-            <span class="lbl">Active campaigns</span>
-            <span class="val">4<span class="frac">/7</span></span>
-            <span class="sub">5 services · 2 product</span>
-          </div>
-          <div class="tour-csum-card blue">
-            <span class="lbl">Sent this week</span>
-            <span class="val">2,284</span>
-            <span class="sub"><span class="arr">↑ 18%</span>vs last week</span>
-          </div>
-          <div class="tour-csum-card green">
-            <span class="lbl">Meetings booked</span>
-            <span class="val">75</span>
-            <span class="sub"><span class="arr">↑ 14</span>this week · 10.7% reply</span>
-          </div>
-          <div class="tour-csum-card violet">
-            <span class="lbl">Trials + paid</span>
-            <span class="val">42<span class="frac"> +7</span></span>
-            <span class="sub"><span class="arr">$12.8k</span>MRR attributed</span>
-          </div>
+        <!-- KpiHero — 1:1 with the real /campaigns 4-cell hero -->
+        <div class="tour-kpihero">
+          <div class="ckh-cell"><div class="ckh-lbl">Sent · last 7 days</div><div class="ckh-val">2,284</div><div class="ckh-sub">12,480 total all-time</div></div>
+          <div class="ckh-cell"><div class="ckh-lbl">Reply rate</div><div class="ckh-val">10.7%</div><div class="ckh-sub">138 replies · 1,284 sent</div></div>
+          <div class="ckh-cell"><div class="ckh-lbl">Meetings booked</div><div class="ckh-val">42</div><div class="ckh-sub">from 138 replies</div></div>
+          <div class="ckh-cell"><div class="ckh-lbl">Sign-ups attributed</div><div class="ckh-val">28</div><div class="ckh-sub">12% to goal · target 240</div></div>
+        </div>
+        <!-- Status tabs -->
+        <div class="tour-ctabs">
+          <span class="ct on">All <b>7</b></span>
+          <span class="ct">Running <b>4</b></span>
+          <span class="ct">Paused <b>1</b></span>
+          <span class="ct">Draft <b>2</b></span>
         </div>
 
         <div class="tour-ccard">
