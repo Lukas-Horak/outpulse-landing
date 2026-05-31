@@ -270,25 +270,6 @@ img { max-width: 100%; display: block; }
   color: var(--ink-2);
   font-weight: 500;
 }
-/* Capability chips — replaces the easy-to-miss dotted kicker line.
-   One pill per surface, dot coloured along the cold→warm spectrum. */
-.hero-caps {
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
-  gap: 8px; margin: 18px auto 30px;
-}
-.hero-caps .cap {
-  display: inline-flex; align-items: center; gap: 7px;
-  padding: 7px 14px; background: var(--paper);
-  border: 1px solid var(--line); border-radius: 999px;
-  font: 600 13px var(--sans); color: var(--ink);
-  box-shadow: 0 1px 2px rgba(20,18,15,.05), 0 8px 20px -14px rgba(20,18,15,.3);
-}
-.hero-caps .cap i { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-.hero-caps .cap-note {
-  font: 500 12.5px var(--sans); color: var(--muted-2);
-  letter-spacing: .12em; text-transform: uppercase; margin-left: 4px;
-}
-@media (max-width: 460px) { .hero-caps .cap { padding: 6px 11px; font-size: 12px; } }
 /* ── Hero inline signup — Apollo pattern.
    Email input + orange primary button on one row, divider, then
    Google OAuth as a secondary auth. Wired directly into
@@ -3561,10 +3542,20 @@ footer.site {
       <span>Outpulse</span>
     </a>
     <div class="nav-links">
-      <a href="#how">How it works</a>
+      <div class="nav-prod">
+        <button class="nav-prod-btn" type="button" aria-haspopup="true">Product <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="nav-prod-menu">
+          <div class="nav-prod-head">One login · one app · five tools</div>
+          <a class="nav-prod-item" href="#tools" style="--c:#3866a6"><span class="nav-prod-ic"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><path d="m20 20-3.5-3.5"/></svg></span><span class="t"><b>Prospecting</b><span>Find companies that actually fit</span></span></a>
+          <a class="nav-prod-item" href="#tools" style="--c:#8a76b8"><span class="nav-prod-ic"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 22 2l-6.5 18-3-9z"/><path d="M3 11l9 3"/></svg></span><span class="t"><b>Cold Outreach</b><span>Personal emails, sent at scale</span></span></a>
+          <a class="nav-prod-item" href="#tools" style="--c:#c97a10"><span class="nav-prod-ic"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="7"/><rect x="12" y="7" width="3" height="11"/><rect x="17" y="13" width="3" height="5"/></svg></span><span class="t"><b>Analytics</b><span>See what is working, live</span></span></a>
+          <a class="nav-prod-item" href="#tools" style="--c:#1a7c4b"><span class="nav-prod-ic"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5 5h14l3 7v6a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-6z"/></svg></span><span class="t"><b>Inbox</b><span>Every reply in one place</span></span></a>
+          <a class="nav-prod-item" href="/crm" style="--c:#ff5b1f"><span class="nav-prod-ic"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="11" rx="1"/><rect x="17" y="4" width="4" height="7" rx="1"/></svg></span><span class="t"><b>CRM</b><span>Track every deal to close</span></span></a>
+        </div>
+      </div>
+      <a href="#tools">How it works</a>
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
-      <a href="/crm">CRM</a>
       <a href="/email-health">Free email test</a>
     </div>
     <div class="nav-right">
@@ -3585,13 +3576,6 @@ footer.site {
       <p class="hero-lead">
         Outpulse finds the right companies, writes the email, handles every reply, and tracks each deal to close — run sales like a ten-person team, solo.
       </p>
-      <div class="hero-caps">
-        <span class="cap"><i style="background:#3866a6"></i>Prospecting</span>
-        <span class="cap"><i style="background:#8a76b8"></i>Cold email</span>
-        <span class="cap"><i style="background:#e0884a"></i>Inbox</span>
-        <span class="cap"><i style="background:#ff5b1f"></i>CRM</span>
-        <span class="cap-note">one login</span>
-      </div>
       <form class="hero-signup" action="https://app.outpulse.ai/signup" method="get">
         <input type="hidden" name="utm_source" value="outpulse_landing">
         <input type="hidden" name="utm_campaign" value="launch">
@@ -3629,6 +3613,98 @@ footer.site {
         <span>Cancel in one click</span>
       </div>
     </div>
+  </div>
+</section>
+
+<style>
+  /* Nav "Product" mega-menu */
+  .nav-prod { position: relative; display: inline-flex; align-items: center; }
+  .nav-prod-btn { display: inline-flex; align-items: center; gap: 5px; background: none; border: none; cursor: pointer; font: 500 14.5px var(--sans); color: var(--muted); padding: 0; }
+  .nav-prod:hover .nav-prod-btn { color: var(--ink); }
+  .nav-prod-btn svg { transition: transform .18s ease; }
+  .nav-prod:hover .nav-prod-btn svg { transform: rotate(180deg); }
+  .nav-prod-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(6px); width: 348px; background: #fff; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 26px 64px -22px rgba(20,18,15,.30); padding: 10px; margin-top: 14px; opacity: 0; pointer-events: none; transition: opacity .18s ease, transform .18s ease; z-index: 40; }
+  .nav-prod-menu::before { content: ''; position: absolute; top: -14px; left: 0; right: 0; height: 14px; }
+  .nav-prod:hover .nav-prod-menu { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+  .nav-prod-head { font: 700 10px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--muted-2); padding: 8px 12px 8px; }
+  .nav-prod-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 12px; border-radius: 11px; text-decoration: none; transition: background .14s ease; }
+  .nav-prod-item:hover { background: var(--bg-subtle, #f6f4f0); }
+  .nav-prod-ic { width: 32px; height: 32px; border-radius: 9px; display: inline-grid; place-items: center; flex-shrink: 0; background: #f7f4ef; color: var(--c, #ff5b1f); }
+  .nav-prod-item .t { display: flex; flex-direction: column; gap: 1px; }
+  .nav-prod-item .t b { font: 600 13.5px var(--sans); color: var(--ink); }
+  .nav-prod-item .t span { font: 12px var(--sans); color: var(--muted); line-height: 1.4; }
+
+  /* Tools overview section */
+  .tools-band .container { text-align: center; }
+  .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; text-align: left; }
+  .tool-card { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 26px 24px; }
+  .tool-card .tool-ic { width: 46px; height: 46px; border-radius: 13px; display: inline-grid; place-items: center; background: #f7f4ef; color: var(--c, #ff5b1f); margin-bottom: 16px; }
+  .tool-name { font-family: var(--serif); font-weight: 400; font-size: 26px; line-height: 1.1; letter-spacing: -.015em; color: var(--ink); margin: 0 0 8px; }
+  .tool-desc { font-size: 14.5px; line-height: 1.55; color: var(--muted); margin: 0; }
+  .tool-card.span2 { grid-column: span 1; }
+  .tools-note { margin: 36px auto 0; font-family: var(--serif); font-weight: 400; font-size: clamp(20px, 2.4vw, 28px); line-height: 1.2; letter-spacing: -.012em; color: var(--ink); max-width: 720px; }
+  .tools-note em { color: var(--orange); font-style: italic; }
+  @media (max-width: 860px) { .tools-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .tools-grid { grid-template-columns: 1fr; gap: 12px; } }
+
+  /* Stack price comparison */
+  .cmp-band .container { text-align: center; }
+  .cmp { display: grid; grid-template-columns: 1.15fr auto 1fr; align-items: center; gap: 22px; max-width: 940px; margin: 48px auto 0; text-align: left; }
+  .cmp-stack { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 12px 18px; }
+  .cmp-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+  .cmp-tool { display: inline-flex; align-items: center; gap: 10px; font: 500 14.5px var(--sans); color: var(--ink); }
+  .cmp-tool i { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .cmp-price { font: 600 14px 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; color: var(--muted); white-space: nowrap; }
+  .cmp-total { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 0 6px; }
+  .cmp-total span:first-child { font: 600 14px var(--sans); color: var(--ink); }
+  .cmp-total span:last-child { font-family: var(--serif); font-size: 26px; color: var(--ink); letter-spacing: -.01em; }
+  .cmp-total s { color: var(--muted-2); }
+  .cmp-vs { font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--muted-2); text-align: center; }
+  .cmp-out { background: #14120f; color: #fff; border-radius: 18px; padding: 28px 26px; position: relative; overflow: hidden; }
+  .cmp-out::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 120% at 0% 0%, rgba(255,91,31,0.28), transparent 60%); pointer-events: none; }
+  .cmp-out-eyebrow { position: relative; font: 700 11px 'JetBrains Mono', ui-monospace, monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--orange); }
+  .cmp-out-price { position: relative; font-family: var(--serif); font-weight: 400; font-size: 52px; line-height: 1; letter-spacing: -.025em; margin: 12px 0 4px; }
+  .cmp-out-price span { font-size: 18px; color: rgba(255,255,255,.5); }
+  .cmp-out p { position: relative; font-size: 13.5px; line-height: 1.55; color: rgba(255,255,255,.7); margin: 0 0 18px; }
+  .cmp-out .btn { position: relative; }
+  @media (max-width: 760px) { .cmp { grid-template-columns: 1fr; gap: 14px; } .cmp-vs { padding: 4px 0; } }
+</style>
+<!-- ─── TOOLS OVERVIEW — one login, five tools ───────────────────── -->
+<section class="band tools-band" id="tools">
+  <div class="container">
+    <div class="band-head">
+      <span class="eyebrow">One login · one app</span>
+      <h2>Your whole sales stack — <em>in a single app.</em></h2>
+      <p>The five tools founders usually juggle across five tabs and five invoices. In Outpulse they share one login, one workflow — and they actually talk to each other.</p>
+    </div>
+    <div class="tools-grid">
+      <div class="tool-card" style="--c:#3866a6">
+        <span class="tool-ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><path d="m20 20-3.5-3.5"/></svg></span>
+        <h3 class="tool-name">Prospecting</h3>
+        <p class="tool-desc">Describe who you sell to once. Outpulse finds real companies that fit — each enriched with the right contact and a verified email.</p>
+      </div>
+      <div class="tool-card" style="--c:#8a76b8">
+        <span class="tool-ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 22 2l-6.5 18-3-9z"/><path d="M3 11l9 3"/></svg></span>
+        <h3 class="tool-name">Cold Outreach</h3>
+        <p class="tool-desc">Emails written for one person, sent to hundreds. Multi-step sequences, smart follow-ups and inbox rotation, handled for you.</p>
+      </div>
+      <div class="tool-card" style="--c:#c97a10">
+        <span class="tool-ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="7"/><rect x="12" y="7" width="3" height="11"/><rect x="17" y="13" width="3" height="5"/></svg></span>
+        <h3 class="tool-name">Analytics</h3>
+        <p class="tool-desc">See what is actually working — opens, replies, meetings and revenue — across every campaign, updating live.</p>
+      </div>
+      <div class="tool-card" style="--c:#1a7c4b">
+        <span class="tool-ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5 5h14l3 7v6a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-6z"/></svg></span>
+        <h3 class="tool-name">Inbox</h3>
+        <p class="tool-desc">Every reply from every campaign in one shared inbox. Answer, snooze, and turn a warm “yes” into a deal in a click.</p>
+      </div>
+      <div class="tool-card" style="--c:#ff5b1f">
+        <span class="tool-ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="11" rx="1"/><rect x="17" y="4" width="4" height="7" rx="1"/></svg></span>
+        <h3 class="tool-name">CRM</h3>
+        <p class="tool-desc">A visual pipeline that tracks each deal to the close. Drag stage to stage, schedule the next touch, never lose a follow-up.</p>
+      </div>
+    </div>
+    <p class="tools-note">Five tools. One login, one bill, one workflow — <em>built to work together,</em> not bolted on.</p>
   </div>
 </section>
 
@@ -4676,6 +4752,35 @@ footer.site {
       <span class="who">
         <b>Lukas Horak</b><span class="role">Founder, Outpulse · dogfooding it right now</span>
       </span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── STACK PRICE COMPARISON ────────────────────────────────────── -->
+<section class="band cmp-band">
+  <div class="container">
+    <div class="band-head">
+      <span class="eyebrow">The maths</span>
+      <h2>One subscription. <em>Not five.</em></h2>
+      <p>Stitch this together yourself and you are paying five bills for five tools that don’t talk to each other. Typical going rates:</p>
+    </div>
+    <div class="cmp">
+      <div class="cmp-stack">
+        <div class="cmp-row"><span class="cmp-tool"><i style="background:#3866a6"></i>Prospecting &amp; data</span><span class="cmp-price">~$99/mo</span></div>
+        <div class="cmp-row"><span class="cmp-tool"><i style="background:#8a76b8"></i>Cold-email sender</span><span class="cmp-price">~$79/mo</span></div>
+        <div class="cmp-row"><span class="cmp-tool"><i style="background:#c97a10"></i>Campaign analytics</span><span class="cmp-price">~$49/mo</span></div>
+        <div class="cmp-row"><span class="cmp-tool"><i style="background:#1a7c4b"></i>Shared team inbox</span><span class="cmp-price">~$45/mo</span></div>
+        <div class="cmp-row"><span class="cmp-tool"><i style="background:#ff5b1f"></i>Sales CRM</span><span class="cmp-price">~$99/mo</span></div>
+        <div class="cmp-total"><span>Five separate tools</span><span>~$370<s style="font-size:15px">/mo</s></span></div>
+      </div>
+      <div class="cmp-vs">vs</div>
+      <div class="cmp-out">
+        <span class="cmp-out-eyebrow">Outpulse · all five</span>
+        <div class="cmp-out-price">from $49<span>/mo</span></div>
+        <p>All five tools, one login, one bill — and because they share the same data, a reply becomes a deal without you lifting a finger.</p>
+        <a class="btn btn-orange" href="#pricing" data-cta="cmp">See plans →</a>
+      </div>
     </div>
   </div>
 </section>
