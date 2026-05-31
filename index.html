@@ -3914,8 +3914,11 @@ footer.site {
   .stack-band {
     padding-top: clamp(60px, 9vh, 116px);
     background:
-      radial-gradient(78% 46% at 50% 40%, rgba(255,91,31,0.13), rgba(255,140,60,0) 70%),
-      linear-gradient(180deg, #fffdfb 0%, #fff5ec 56%, #ffeada 100%);
+      radial-gradient(52% 42% at 16% 14%, rgba(138,118,184,0.20), transparent 60%),
+      radial-gradient(50% 40% at 88% 16%, rgba(56,102,166,0.16), transparent 62%),
+      radial-gradient(46% 40% at 80% 68%, rgba(255,170,90,0.20), transparent 60%),
+      radial-gradient(72% 56% at 42% 94%, rgba(255,91,31,0.22), transparent 66%),
+      linear-gradient(180deg, #fffdfb 0%, #fef4ee 55%, #fdeadd 100%);
   }
   .stack-head { max-width: 900px; margin: 0 auto; text-align: center; }
   .stack-h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(34px, 5vw, 60px); line-height: 1.04; letter-spacing: -.02em; color: var(--ink); margin: 14px 0 0; }
@@ -3936,7 +3939,7 @@ footer.site {
     overflow: hidden;
     transform-origin: top center;
     /* Finished cards lift up (their header peeks) + narrow into a deck. */
-    transform: translateY(calc(var(--depth, 0) * -34px)) scale(calc(1 - var(--depth, 0) * 0.05));
+    transform: translateY(calc(var(--depth, 0) * -30px)) scale(calc(1 - var(--depth, 0) * 0.07));
     transition: transform .55s cubic-bezier(.4,0,.2,1), filter .55s ease;
     filter: brightness(calc(1 - var(--depth, 0) * 0.04));
   }
@@ -3961,7 +3964,7 @@ footer.site {
   @media (max-width: 640px) {
     .stack-card { min-height: clamp(280px, 60vh, 430px); top: 96px; }
     .sc-title { font-size: clamp(26px, 8vw, 34px); }
-    .stack-card { transform: translateY(calc(var(--depth, 0) * -28px)) scale(calc(1 - var(--depth, 0) * 0.04)); }
+    .stack-card { transform: translateY(calc(var(--depth, 0) * -24px)) scale(calc(1 - var(--depth, 0) * 0.06)); }
   }
   @media (prefers-reduced-motion: reduce) {
     .stack-card { transition: none; }
