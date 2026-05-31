@@ -91,7 +91,11 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; text-render
    max-content) tvorili page-wide horizontal scroll, čo pri
    vertikálnom scrolle robilo, že sa nav top bar "hýbal doľava
    doprava". */
-html, body { overflow-x: hidden; }
+/* `clip` (not `hidden`) so we still kill horizontal jitter WITHOUT turning
+   html/body into a scroll container — `overflow:hidden` here silently breaks
+   every `position: sticky` on the page (the scroll-stack section relies on it).
+   `hidden` stays as the fallback for engines without `overflow: clip`. */
+html, body { overflow-x: hidden; overflow-x: clip; }
 body {
   font-family: var(--sans);
   background: var(--paper);
@@ -3901,49 +3905,98 @@ footer.site {
 <!-- ─── WHOLE-FUNNEL OVERVIEW — Outpulse is the full outbound system,
      not a point tool: find → reach → reply → close, one login. -->
 <style>
-  .funnel-band .container { text-align: center; }
-  .funnel-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 44px; text-align: left; }
-  .funnel-card { background: #fff; border: 1px solid rgba(14,13,12,.08); border-radius: 18px; padding: 24px 22px; display: flex; flex-direction: column; gap: 11px; box-shadow: 0 1px 2px rgba(20,18,15,.04), 0 14px 36px -26px rgba(20,18,15,.28); transition: transform .18s ease, box-shadow .18s ease; }
-  .funnel-card:hover { transform: translateY(-3px); box-shadow: 0 1px 2px rgba(20,18,15,.05), 0 22px 50px -26px rgba(20,18,15,.34); }
-  .funnel-step { display: inline-flex; align-items: center; gap: 8px; font: 700 11px 'Inter', -apple-system, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: #a8a097; }
-  .funnel-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .funnel-title { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 23px; line-height: 1.12; letter-spacing: -.015em; color: #14120f; }
-  .funnel-title em { color: #ff5b1f; font-style: italic; }
-  .funnel-sub { font-size: 14px; line-height: 1.55; color: #6c6458; margin: 0; }
-  .funnel-learn { margin: 44px auto 0; max-width: 760px; text-align: center; font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: clamp(22px, 2.6vw, 32px); line-height: 1.22; letter-spacing: -.012em; color: #14120f; }
-  .funnel-learn em { color: #ff5b1f; font-style: italic; }
-  .funnel-learn-sub { margin: 12px auto 0; max-width: 560px; text-align: center; font-size: 14.5px; line-height: 1.55; color: #6c6458; }
-  @media (max-width: 860px) { .funnel-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 520px) { .funnel-grid { grid-template-columns: 1fr; gap: 12px; } }
+  /* "From cold to closed" — a pinned deck you scroll through one card at a
+     time. Each stage sticks at the top; the next card lands on it while the
+     finished ones recede into a stack behind (depth set by JS). */
+  .stack-band { padding-top: clamp(60px, 9vh, 116px); }
+  .stack-head { max-width: 900px; margin: 0 auto; text-align: center; }
+  .stack-h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(34px, 5vw, 60px); line-height: 1.04; letter-spacing: -.02em; color: var(--ink); margin: 14px 0 0; }
+  .stack-h2 em { font-style: italic; color: #ff5b1f; }
+  .stack-sub { margin: 16px auto 0; max-width: 540px; color: #6c6458; font-size: 15.5px; line-height: 1.55; }
+
+  .stack-deck { position: relative; max-width: 860px; margin: clamp(34px, 6vh, 76px) auto 0; padding-bottom: 16vh; }
+  .stack-card {
+    position: sticky;
+    top: clamp(96px, 15vh, 168px);
+    min-height: clamp(300px, 54vh, 460px);
+    display: flex; flex-direction: column; justify-content: center; gap: 14px;
+    padding: clamp(30px, 4.4vw, 56px);
+    border-radius: 24px;
+    background: radial-gradient(135% 130% at 100% 0%, var(--wash, #f6f5f2) 0%, #ffffff 52%);
+    border: 1px solid rgba(14,13,12,.08);
+    box-shadow: 0 1px 2px rgba(20,18,15,.05), 0 30px 64px -34px rgba(20,18,15,.45);
+    overflow: hidden;
+    transform-origin: top center;
+    transform: translateY(calc(var(--depth, 0) * -20px)) scale(calc(1 - var(--depth, 0) * 0.035));
+    transition: transform .5s cubic-bezier(.4,0,.2,1), filter .5s ease;
+    filter: brightness(calc(1 - var(--depth, 0) * 0.045));
+  }
+  .stack-card + .stack-card { margin-top: 22px; }
+  .stack-card::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--accent); }
+  .sc-num { position: absolute; right: clamp(14px, 3vw, 36px); top: clamp(2px, 1.5vh, 14px); font-family: var(--serif); font-weight: 400; font-size: clamp(120px, 19vw, 210px); line-height: 1; color: var(--accent); opacity: .08; pointer-events: none; user-select: none; }
+  .sc-step { display: inline-flex; align-items: center; gap: 9px; font: 700 12px 'Inter', -apple-system, sans-serif; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+  .sc-step .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .sc-title { font-family: var(--serif); font-weight: 400; font-size: clamp(28px, 4.2vw, 46px); line-height: 1.08; letter-spacing: -.018em; color: var(--ink); max-width: 17ch; margin: 0; position: relative; }
+  .sc-title em { font-style: italic; color: var(--accent); }
+  .sc-body { font-size: clamp(15px, 1.5vw, 17px); line-height: 1.6; color: #6c6458; max-width: 48ch; margin: 0; position: relative; }
+  .sc-meta { margin-top: 8px; display: flex; align-items: center; gap: 12px; font: 600 11.5px 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; color: #a8a097; letter-spacing: .04em; }
+  .sc-track { position: relative; flex: 0 0 auto; width: clamp(80px, 18vw, 150px); height: 3px; border-radius: 3px; background: rgba(14,13,12,.09); overflow: hidden; }
+  .sc-track > i { position: absolute; inset: 0 auto 0 0; width: var(--fill, 25%); background: var(--accent); border-radius: 3px; }
+
+  .stack-foot { max-width: 760px; margin: clamp(44px, 7vh, 84px) auto 0; text-align: center; }
+  .stack-learn { margin: 0 auto; font-family: var(--serif); font-weight: 400; font-size: clamp(22px, 2.6vw, 32px); line-height: 1.22; letter-spacing: -.012em; color: #14120f; }
+  .stack-learn em { color: #ff5b1f; font-style: italic; }
+  .stack-learn-sub { margin: 12px auto 0; max-width: 540px; font-size: 14.5px; line-height: 1.55; color: #6c6458; }
+
+  @media (max-width: 640px) {
+    .stack-card { min-height: clamp(280px, 64vh, 460px); top: 84px; gap: 12px; }
+    .sc-title { font-size: clamp(26px, 8vw, 34px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stack-card { transition: none; }
+  }
 </style>
-<section class="band funnel-band">
+<section class="band stack-band" id="funnel">
   <div class="container">
-    <span class="eyebrow">From cold to closed</span>
-    <h2>Less software. <em>More deals closed.</em></h2>
-    <div class="funnel-grid">
-      <div class="funnel-card">
-        <span class="funnel-step"><span class="funnel-dot" style="background:#3866a6"></span>01 · Find</span>
-        <div class="funnel-title">A pipeline that never runs dry.</div>
-        <p class="funnel-sub">Say who you sell to once. Wake up to real companies that fit — no more staring at an empty list wondering who to email.</p>
-      </div>
-      <div class="funnel-card">
-        <span class="funnel-step"><span class="funnel-dot" style="background:#8a76b8"></span>02 · Reach</span>
-        <div class="funnel-title">Sound personal — to hundreds at once.</div>
-        <p class="funnel-sub">Each email is written for one person and lands in the inbox, so replies come back warm — while you stay heads-down building.</p>
-      </div>
-      <div class="funnel-card">
-        <span class="funnel-step"><span class="funnel-dot" style="background:#e0884a"></span>03 · Reply</span>
-        <div class="funnel-title">Never let a warm “yes” go cold.</div>
-        <p class="funnel-sub">Every reply lands in one place and becomes a deal in a click. No interested buyer slips away because a thread got buried.</p>
-      </div>
-      <div class="funnel-card">
-        <span class="funnel-step"><span class="funnel-dot" style="background:#ff5b1f"></span>04 · Close</span>
-        <div class="funnel-title">Always know your next move.</div>
-        <p class="funnel-sub">Your pipeline tells you what to do today — so deals close on time instead of quietly drifting away.</p>
-      </div>
+    <div class="stack-head">
+      <span class="eyebrow">From cold to closed</span>
+      <h2 class="stack-h2">Less software. <em>More deals closed.</em></h2>
+      <p class="stack-sub">One system runs the whole journey — so your hours go into closing, not stitching tools together.</p>
     </div>
-    <p class="funnel-learn">And it <em>learns from every reply</em> — getting sharper the more you send.</p>
-    <p class="funnel-learn-sub">A system that quietly improves itself with every campaign. Most outreach tools never do.</p>
+    <div class="stack-deck">
+      <article class="stack-card" style="--accent:#3866a6;--wash:#eef2f8;--fill:25%">
+        <span class="sc-num" aria-hidden="true">01</span>
+        <span class="sc-step"><span class="dot"></span>01 · Find</span>
+        <h3 class="sc-title">A pipeline that never runs dry.</h3>
+        <p class="sc-body">Say who you sell to once. Wake up to real companies that fit — no more staring at an empty list wondering who to email.</p>
+        <div class="sc-meta"><span>STAGE 01 / 04</span><span class="sc-track"><i></i></span></div>
+      </article>
+      <article class="stack-card" style="--accent:#8a76b8;--wash:#f3f0f8;--fill:50%">
+        <span class="sc-num" aria-hidden="true">02</span>
+        <span class="sc-step"><span class="dot"></span>02 · Reach</span>
+        <h3 class="sc-title">Sound personal — to hundreds at once.</h3>
+        <p class="sc-body">Each email is written for one person and lands in the inbox, so replies come back warm — while you stay heads-down building.</p>
+        <div class="sc-meta"><span>STAGE 02 / 04</span><span class="sc-track"><i></i></span></div>
+      </article>
+      <article class="stack-card" style="--accent:#e0884a;--wash:#fbf2ea;--fill:75%">
+        <span class="sc-num" aria-hidden="true">03</span>
+        <span class="sc-step"><span class="dot"></span>03 · Reply</span>
+        <h3 class="sc-title">Never let a warm “yes” go cold.</h3>
+        <p class="sc-body">Every reply lands in one place and becomes a deal in a click. No interested buyer slips away because a thread got buried.</p>
+        <div class="sc-meta"><span>STAGE 03 / 04</span><span class="sc-track"><i></i></span></div>
+      </article>
+      <article class="stack-card" style="--accent:#ff5b1f;--wash:#fff1ea;--fill:100%">
+        <span class="sc-num" aria-hidden="true">04</span>
+        <span class="sc-step"><span class="dot"></span>04 · Close</span>
+        <h3 class="sc-title">Always know your next move.</h3>
+        <p class="sc-body">Your pipeline tells you what to do today — so deals close on time instead of quietly drifting away.</p>
+        <div class="sc-meta"><span>STAGE 04 / 04</span><span class="sc-track"><i></i></span></div>
+      </article>
+    </div>
+    <div class="stack-foot">
+      <p class="stack-learn">And it <em>learns from every reply</em> — getting sharper the more you send.</p>
+      <p class="stack-learn-sub">A system that quietly improves itself with every campaign. Most outreach tools never do.</p>
+    </div>
   </div>
 </section>
 
@@ -5313,6 +5366,45 @@ footer.site {
   else { window.addEventListener('load', schedule); }
   schedule();
   window.addEventListener('resize', schedule, { passive: true });
+})();
+</script>
+<script>
+/* "From cold to closed" stack — as cards stick at the top, the ones already
+   finished recede behind the current card. We set --depth (0 = front) on each
+   card; the CSS turns that into scale + lift. Pure read-only scroll math,
+   compositor-friendly (transform/opacity only). */
+(function () {
+  var deck = document.querySelector('#funnel .stack-deck');
+  if (!deck) return;
+  var cards = Array.prototype.slice.call(deck.querySelectorAll('.stack-card'));
+  if (!cards.length) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var topPx = 120;
+  function readTop() { var t = parseFloat(getComputedStyle(cards[0]).top); if (!isNaN(t)) topPx = t; }
+
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var front = -1;
+    for (var i = 0; i < cards.length; i++) {
+      // A card is "stuck" once its top has reached the sticky offset.
+      // getBoundingClientRect reflects the live (possibly transformed) top,
+      // but the stuck test stays true once reached, so there's no feedback loop.
+      if (cards[i].getBoundingClientRect().top <= topPx + 1.5) front = i;
+    }
+    for (var j = 0; j < cards.length; j++) {
+      var depth = j <= front ? front - j : 0;
+      if (depth > 3) depth = 3;
+      cards[j].style.setProperty('--depth', depth);
+    }
+  }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+
+  readTop();
+  update();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function () { readTop(); update(); }, { passive: true });
 })();
 </script>
 </body>
