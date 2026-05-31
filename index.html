@@ -3645,6 +3645,39 @@ footer.site {
      nav rail + workspace + user) on the left, main panel with the
      Pulse hero card on the right. 4:3 frame ratio so the window
      reads as an actual laptop screen, not a thin content slice. -->
+<style>
+  /* Dashboard mockup main — 1:1 with app /dashboard (DashboardClient +
+     PulseWidget compact). Dark Monthly-target card + Activity KPI tiles. */
+  .dx-pulse { position: relative; overflow: hidden; border-radius: 16px; padding: 22px 26px 18px; margin: 4px 0 28px; color: #fff; background: #14120f; background-image: radial-gradient(ellipse 60% 120% at 0% 50%, rgba(255,91,31,0.24), transparent 60%); }
+  .dx-pulse-top { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 16px; }
+  .dx-pulse-eyebrow { display: inline-flex; align-items: center; gap: 6px; font: 700 11px 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: .08em; text-transform: uppercase; color: #ff5b1f; }
+  .dx-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 13px; border-radius: 12px; font: 700 12px 'Inter', sans-serif; background: rgba(76,199,138,0.16); color: #6cd49a; white-space: nowrap; }
+  .dx-badge .d { width: 6px; height: 6px; border-radius: 50%; background: #4cc78a; }
+  .dx-pulse-row { display: flex; align-items: baseline; flex-wrap: wrap; gap: 12px; margin-bottom: 14px; }
+  .dx-pulse-big { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: clamp(36px, 4vw, 52px); line-height: 1; letter-spacing: -.025em; color: #fff; font-variant-numeric: tabular-nums; }
+  .dx-pulse-target { font: 13.5px 'Inter', sans-serif; color: rgba(255,255,255,0.65); }
+  .dx-pulse-bar { height: 5px; background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden; margin-bottom: 12px; }
+  .dx-pulse-bar > span { display: block; height: 100%; background: #ff5b1f; border-radius: 999px; }
+  .dx-pulse-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .dx-pct { font: 600 12px 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: .02em; color: rgba(255,255,255,0.55); }
+  .dx-link { font: 600 12.5px 'Inter', sans-serif; color: #ff5b1f; }
+  .dx-sect-title { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 24px; line-height: 1.15; letter-spacing: -.018em; color: #14120f; margin: 0 0 4px; }
+  .dx-sect-title em { font-style: italic; color: #ff5b1f; }
+  .dx-sect-sub { font: 13px 'Inter', sans-serif; line-height: 1.5; color: #6c6458; margin: 0 0 16px; max-width: 64ch; }
+  .dx-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .dx-kpi { border-radius: 14px; padding: 18px 18px 16px; background: #fff; border: 1px solid #ececea; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
+  .dx-kpi-top { display: flex; align-items: center; gap: 8px; }
+  .dx-kpi-ic { width: 28px; height: 28px; display: inline-grid; place-items: center; background: #fbfaf7; border-radius: 8px; color: #14120f; flex-shrink: 0; }
+  .dx-kpi-lbl { font: 700 10.5px 'Inter', sans-serif; letter-spacing: .12em; text-transform: uppercase; color: #6c6458; }
+  .dx-kpi-val { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 44px; line-height: 1; letter-spacing: -.015em; color: #14120f; }
+  .dx-kpi-chip { align-self: flex-start; font: 500 12px 'Inter', sans-serif; padding: 3px 10px; border-radius: 999px; background: #f6f4f0; color: #6c6458; border: 1px solid #ececea; }
+  .dx-kpi-link { margin-top: 6px; padding-top: 10px; border-top: 1px solid #ececea; font: 500 12px 'Inter', sans-serif; color: #c24518; }
+  .dx-kpi.green .dx-kpi-ic { background: #eef6f1; color: #1a7c4b; } .dx-kpi.green .dx-kpi-chip { background: #eef6f1; border-color: #dbeae2; color: #1a7c4b; }
+  .dx-kpi.orange .dx-kpi-ic { background: rgba(255,91,31,0.08); color: #c24518; } .dx-kpi.orange .dx-kpi-chip { background: #fdf1e7; border-color: #f3dec9; color: #c24518; }
+  .dx-kpi.blue .dx-kpi-ic { background: #ecf1f8; color: #3866a6; } .dx-kpi.blue .dx-kpi-chip { background: #ecf1f8; border-color: #d8e3ef; color: #3866a6; }
+  .dx-kpi.violet .dx-kpi-ic { background: #f0ecf5; color: #6b5a93; } .dx-kpi.violet .dx-kpi-chip { background: #f0ecf5; border-color: #ded4ea; color: #6b5a93; }
+  @media (max-width: 720px) { .dx-kpis { grid-template-columns: repeat(2, 1fr); } }
+</style>
 <section class="first-mockup" id="how">
   <div class="first-mockup-grad" aria-hidden="true">
     <span class="blob b1"></span>
@@ -3747,11 +3780,11 @@ footer.site {
             <span class="more">⋮</span>
           </div>
         </aside>
-        <div class="app-shell-main">
+                <div class="app-shell-main">
         <div class="app-topbar">
           <div class="app-topbar-left">
             <span class="app-greeting">Good evening, Lukas</span>
-            <h2 class="app-title">Strong week — <em>two more to close.</em></h2>
+            <h2 class="app-title">Keep pushing — <em>7 deals to go.</em></h2>
           </div>
           <div class="app-actions">
             <span class="app-btn-ghost">
@@ -3765,124 +3798,48 @@ footer.site {
           </div>
         </div>
 
-        <div class="pulse-card">
-          <div class="pulse-top">
-            <span class="pulse-eyebrow">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
-              Your Pulse
-            </span>
-            <span class="pulse-status"><span class="d"></span>On pace</span>
+        <!-- Monthly target · Pulse (dark hero card, 1:1 with PulseWidget compact) -->
+        <div class="dx-pulse">
+          <div class="dx-pulse-top">
+            <span class="dx-pulse-eyebrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg>Monthly target · Pulse</span>
+            <span class="dx-badge"><span class="d"></span>On track</span>
           </div>
-
-          <div class="pulse-grid">
-            <div class="col">
-              <span class="pulse-col-lbl">Closed deals</span>
-              <span class="pulse-col-n">3<span class="frac">/5</span></span>
-              <span class="pulse-col-sub">2 to go this quarter</span>
-            </div>
-            <div class="rule"></div>
-            <div class="col">
-              <span class="pulse-col-lbl">Revenue booked</span>
-              <span class="pulse-col-n">$54k<span class="frac"> /$90k</span></span>
-              <span class="pulse-col-sub">Q2 revenue target</span>
-            </div>
+          <div class="dx-pulse-row">
+            <span class="dx-pulse-big">$220,000</span>
+            <span class="dx-pulse-target">of $360,000 · 11 of 18 closed deals · 12d left</span>
           </div>
-
-          <div class="pulse-bar"><span class="fill" style="width:60%"></span></div>
-          <div class="pulse-progress">
-            <span>60% complete</span>
-            <span>14 days left · ends 14 May</span>
-          </div>
-
-          <div class="pulse-funnel">
-            <div class="stage"><span class="stage-val">1,842<span class="frac">/1,200</span></span><span class="stage-lbl">Visits</span></div>
-            <div class="stage"><span class="stage-val">142</span><span class="stage-lbl">Inquiries</span></div>
-            <div class="stage"><span class="stage-val">38</span><span class="stage-lbl">Calls</span></div>
-            <div class="stage"><span class="stage-val">3<span class="frac">/5</span></span><span class="stage-lbl">Closed</span></div>
-          </div>
-
-          <div class="pulse-mini">
-            <div><span class="pm-lbl">Visits today</span><span class="pm-val">84<span class="frac">/40</span></span></div>
-            <div><span class="pm-lbl">Sent</span><span class="pm-val">124<span class="frac">/100</span></span></div>
-            <div><span class="pm-lbl">Opens</span><span class="pm-val">68</span></div>
-            <div><span class="pm-lbl">Replies</span><span class="pm-val">14</span></div>
-            <div><span class="pm-lbl">Meetings</span><span class="pm-val">3</span></div>
-          </div>
+          <div class="dx-pulse-bar"><span style="width:61%"></span></div>
+          <div class="dx-pulse-foot"><span class="dx-pct">61% complete</span><span class="dx-link">Open Pulse →</span></div>
         </div>
 
-        <!-- Outreach KPI strip — faithful to prototype-minimal -->
-        <div class="mk-sect-lbl">Outreach</div>
-        <div class="mk-kpis">
-          <div class="mk-kpi green">
-            <div class="top"><span class="dot"></span><span class="lbl">Prospects found</span></div>
-            <span class="val">1,428</span>
-            <span class="chip">1,404 enriched</span>
+        <!-- Activity -->
+        <h3 class="dx-sect-title">Activity</h3>
+        <p class="dx-sect-sub">What moved across every section. Each tile is a tactile entry into that section.</p>
+        <div class="dx-kpis">
+          <div class="dx-kpi green">
+            <div class="dx-kpi-top"><span class="dx-kpi-ic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="17" cy="9" r="3"/><path d="M16 14a5 5 0 0 1 5 5v1"/></svg></span><span class="dx-kpi-lbl">Prospects found</span></div>
+            <span class="dx-kpi-val">860</span>
+            <span class="dx-kpi-chip">720 enriched</span>
+            <span class="dx-kpi-link">Open prospects →</span>
           </div>
-          <div class="mk-kpi orange">
-            <div class="top"><span class="dot"></span><span class="lbl">Emails sent</span></div>
-            <span class="val">2,284</span>
-            <span class="chip">↑ 18% this week</span>
+          <div class="dx-kpi orange">
+            <div class="dx-kpi-top"><span class="dx-kpi-ic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 22 2l-6.5 18-3-9z"/><path d="M3 11l9 3"/></svg></span><span class="dx-kpi-lbl">Emails sent</span></div>
+            <span class="dx-kpi-val">1,548</span>
+            <span class="dx-kpi-chip">485 opened</span>
+            <span class="dx-kpi-link">Open campaigns →</span>
           </div>
-          <div class="mk-kpi blue">
-            <div class="top"><span class="dot"></span><span class="lbl">Reply rate</span></div>
-            <span class="val">10.7%</span>
-            <span class="chip">↑ 2.4 pts</span>
+          <div class="dx-kpi blue">
+            <div class="dx-kpi-top"><span class="dx-kpi-ic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span><span class="dx-kpi-lbl">Reply rate</span></div>
+            <span class="dx-kpi-val">11.4%</span>
+            <span class="dx-kpi-chip">Tracked automatically</span>
+            <span class="dx-kpi-link">Open inbox →</span>
           </div>
-          <div class="mk-kpi violet">
-            <div class="top"><span class="dot"></span><span class="lbl">Meetings booked</span></div>
-            <span class="val">75</span>
-            <span class="chip">↑ 14 this week</span>
+          <div class="dx-kpi violet">
+            <div class="dx-kpi-top"><span class="dx-kpi-ic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><span class="dx-kpi-lbl">Meetings booked</span></div>
+            <span class="dx-kpi-val">14</span>
+            <span class="dx-kpi-chip">14 this month</span>
+            <span class="dx-kpi-link">Open CRM →</span>
           </div>
-        </div>
-
-        <!-- Active campaigns table -->
-        <div class="mk-panel">
-          <div class="mk-panel-h">
-            <h4>Active campaigns</h4>
-            <span class="meta">6 total</span>
-          </div>
-          <table class="mk-tbl">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Status</th>
-                <th class="num">Sent</th>
-                <th class="num">Opens</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="name">Series B CTOs · Q2</td>
-                <td><span class="mk-status active"><span class="d"></span>Active</span></td>
-                <td class="num has">1,284</td>
-                <td class="num has">487</td>
-              </tr>
-              <tr>
-                <td class="name">SaaS · EU 50–200</td>
-                <td><span class="mk-status sending"><span class="d"></span>Sending</span></td>
-                <td class="num has">612</td>
-                <td class="num has">198</td>
-              </tr>
-              <tr>
-                <td class="name">Fintech · Heads of Growth</td>
-                <td><span class="mk-status paused"><span class="d"></span>Paused</span></td>
-                <td class="num has">74</td>
-                <td class="num has">22</td>
-              </tr>
-              <tr>
-                <td class="name">Warm replies · follow-up</td>
-                <td><span class="mk-status active"><span class="d"></span>Active</span></td>
-                <td class="num has">38</td>
-                <td class="num has">31</td>
-              </tr>
-              <tr>
-                <td class="name">Digital Transformation</td>
-                <td><span class="mk-status draft"><span class="d"></span>Draft</span></td>
-                <td class="num empty">—</td>
-                <td class="num empty">—</td>
-              </tr>
-            </tbody>
-          </table>
         </div>
         </div><!-- /.app-shell-main -->
       </div><!-- /.app-shell -->
