@@ -176,11 +176,18 @@ a { color:inherit; }
 .statBar { height:7px; border-radius:999px; overflow:hidden; margin:14px 0 9px; }
 .statBarFill { height:100%; border-radius:999px; width:0; transition:width 1.2s cubic-bezier(.2,.8,.2,1); }
 .statCaption { font-size:12.5px; color:var(--muted); line-height:1.5; margin-top:auto; }
-/* Authentication mini bar-chart (EdTech-style) */
-.chart { display:flex; align-items:flex-end; gap:12px; height:76px; margin-top:16px; margin-bottom:13px; }
-.chartCol { flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; height:100%; justify-content:flex-end; }
-.chartBar { width:100%; max-width:30px; border-radius:6px 6px 3px 3px; height:0; transition:height 1s cubic-bezier(.2,.8,.2,1); }
+/* Authentication chart — paired bars: best practice (ghost) vs your setup */
+.chart { display:flex; align-items:flex-end; gap:16px; height:96px; margin-top:16px; }
+.chartCol { flex:1; display:flex; flex-direction:column; align-items:center; gap:10px; }
+.chartBars { display:flex; align-items:flex-end; justify-content:center; gap:5px; width:100%; height:88px; }
+.chartBar { width:15px; border-radius:5px 5px 2px 2px; }
+.chartMax { height:100%; background:repeating-linear-gradient(45deg, rgba(20,18,15,.12) 0 2px, transparent 2px 6px); border:1px solid rgba(20,18,15,.11); }
+.chartVal { height:0; transition:height 1.05s cubic-bezier(.2,.8,.2,1); }
 .chartLabel { font:700 9.5px var(--mono); letter-spacing:.03em; color:var(--muted-2); }
+.chartLegend { display:flex; gap:16px; margin-top:13px; flex-wrap:wrap; }
+.legItem { display:inline-flex; align-items:center; gap:7px; font:600 11.5px var(--sans); color:var(--muted); }
+.legSwatch { width:11px; height:11px; border-radius:3px; flex-shrink:0; }
+.legSwatch.max { background:repeating-linear-gradient(45deg, rgba(20,18,15,.22) 0 2px, transparent 2px 5px); border:1px solid rgba(20,18,15,.14); }
 /* Setup list */
 .setupRow { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:9px 0; border-top:1px solid var(--line); }
 .setupRow:first-child { border-top:none; }
@@ -394,7 +401,7 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
     requestAnimationFrame(function () {
       var sf = document.getElementById('scoreFill'); if (sf) sf.style.width = scoreTarget + '%';
       var pf = document.getElementById('placeFill'); if (pf && placeTarget != null) pf.style.width = placeTarget + '%';
-      result.querySelectorAll('.chartBar').forEach(function (b) { b.style.height = (b.getAttribute('data-h') || 0) + '%'; });
+      result.querySelectorAll('.chartVal').forEach(function (b) { b.style.height = (b.getAttribute('data-h') || 0) + '%'; });
     });
   }
 
@@ -452,14 +459,20 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
     html += '<div class="statCaption">' + (hasPlace ? 'likely to reach the inbox, not spam' : 'connect a mailbox for a live estimate') + '</div></div>';
     // 2 — authentication mini bar-chart
     var pillars = [{ k: 'spf', l: 'SPF' }, { k: 'dkim', l: 'DKIM' }, { k: 'dmarc', l: 'DMARC' }, { k: 'mx', l: 'MX' }];
-    var bars = '';
+    var bars = '', ci = 0;
     pillars.forEach(function (p) {
       var c = checks.filter(function (x) { return x.key === p.k || (x.label || '').toUpperCase() === p.l; })[0];
       if (!c) return;
-      bars += '<div class="chartCol"><div class="chartBar" data-h="' + (HEIGHT[c.status] || 50) + '" style="background:' + (BAR[c.status] || BAR.warn) + '"></div><div class="chartLabel">' + p.l + '</div></div>';
+      var delay = ci++ * 100;
+      // Two bars per pillar: a ghost "best practice" max + your animated score.
+      bars += '<div class="chartCol"><div class="chartBars">'
+        + '<div class="chartBar chartMax"></div>'
+        + '<div class="chartBar chartVal" data-h="' + (HEIGHT[c.status] || 50) + '" style="background:' + (BAR[c.status] || BAR.warn) + ';transition-delay:' + delay + 'ms"></div>'
+        + '</div><div class="chartLabel">' + p.l + '</div></div>';
     });
     html += '<div class="statCard"><div class="statEyebrow">Authentication</div><div class="chart">' + bars + '</div>'
-      + '<div class="statCaption">SPF, DKIM &amp; DMARC signing and policy</div></div>';
+      + '<div class="chartLegend"><span class="legItem"><span class="legSwatch" style="background:' + tone.fg + '"></span>Your setup</span>'
+      + '<span class="legItem"><span class="legSwatch max"></span>Best practice</span></div></div>';
     // 3 — your setup
     html += '<div class="statCard"><div class="statEyebrow">Your setup</div><div style="margin-top:14px">'
       + '<div class="setupRow"><span class="setupKey">Mail</span><span class="setupVal">' + esc((report.provider && report.provider.mail) || '—') + '</span></div>'
