@@ -5480,7 +5480,7 @@ footer.site {
     }
     for (var j = 0; j < cards.length; j++) {
       var depth = j <= front ? front - j : 0;
-      if (depth > 3) depth = 3;
+      if (depth > 2) depth = 2; // cap visible deck at 2 behind the active card
       cards[j].style.setProperty('--depth', depth);
     }
   }
