@@ -3531,6 +3531,25 @@ footer.site {
   .foot-links { gap: 18px; }
 }
 </style>
+<style>
+  /* Unified Product mega-menu + active nav highlight */
+  .nav-prod { position: relative; display: inline-flex; align-items: center; }
+  .nav-prod-btn { display: inline-flex; align-items: center; gap: 5px; background: none; border: none; cursor: pointer; font: 500 14.5px var(--sans); color: var(--muted); padding: 0; }
+  .nav-prod:hover .nav-prod-btn { color: var(--ink); }
+  .nav-prod-btn svg { transition: transform .18s ease; }
+  .nav-prod:hover .nav-prod-btn svg { transform: rotate(180deg); }
+  .nav-prod-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(6px); width: 348px; background: #fff; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 26px 64px -22px rgba(20,18,15,.30); padding: 10px; margin-top: 14px; opacity: 0; pointer-events: none; transition: opacity .18s ease, transform .18s ease; z-index: 40; }
+  .nav-prod-menu::before { content: ''; position: absolute; top: -14px; left: 0; right: 0; height: 14px; }
+  .nav-prod:hover .nav-prod-menu { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+  .nav-prod-head { font: 700 10px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--muted-2); padding: 8px 12px 8px; }
+  .nav-prod-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 12px; border-radius: 11px; text-decoration: none; transition: background .14s ease; }
+  .nav-prod-item:hover, .nav-prod-item[aria-current="page"] { background: var(--bg-subtle, #f6f4f0); }
+  .nav-prod-ic { width: 32px; height: 32px; border-radius: 9px; display: inline-grid; place-items: center; flex-shrink: 0; background: #f7f4ef; color: var(--c, #ff5b1f); }
+  .nav-prod-item .t { display: flex; flex-direction: column; gap: 1px; }
+  .nav-prod-item .t b { font: 600 13.5px var(--sans); color: var(--ink); }
+  .nav-prod-item .t span { font: 12px var(--sans); color: var(--muted); line-height: 1.4; }
+  .nav-links a.nav-active, .nav-prod-btn.nav-active { color: var(--ink); background: rgba(20,18,15,0.05); border-radius: 999px; padding: 7px 13px; }
+</style>
 </head>
 <body>
 
@@ -3542,10 +3561,20 @@ footer.site {
       <span>Outpulse</span>
     </a>
     <div class="nav-links">
+      <div class="nav-prod">
+        <button class="nav-prod-btn nav-active" type="button" aria-haspopup="true">Product <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="nav-prod-menu">
+          <div class="nav-prod-head">One login · one app · five tools</div>
+          <a class="nav-prod-item" href="/#tour-prospects" style="--c:#3866a6"><span class="nav-prod-ic"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><path d="m20 20-3.5-3.5"/></svg></span><span class="t"><b>Prospecting</b><span>Find companies that actually fit</span></span></a>
+          <a class="nav-prod-item" href="/#tour-campaigns" style="--c:#8a76b8"><span class="nav-prod-ic"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 22 2l-6.5 18-3-9z"/><path d="M3 11l9 3"/></svg></span><span class="t"><b>Cold Outreach</b><span>Personal emails, sent at scale</span></span></a>
+          <a class="nav-prod-item" href="/#how" style="--c:#c97a10"><span class="nav-prod-ic"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="7"/><rect x="12" y="7" width="3" height="11"/><rect x="17" y="13" width="3" height="5"/></svg></span><span class="t"><b>Analytics</b><span>See what is working, live</span></span></a>
+          <a class="nav-prod-item" href="/#how" style="--c:#1a7c4b"><span class="nav-prod-ic"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5 5h14l3 7v6a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-6z"/></svg></span><span class="t"><b>Inbox</b><span>Every reply in one place</span></span></a>
+          <a class="nav-prod-item" aria-current="page" href="/crm" style="--c:#ff5b1f"><span class="nav-prod-ic"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="11" rx="1"/><rect x="17" y="4" width="4" height="7" rx="1"/></svg></span><span class="t"><b>CRM</b><span>Track every deal to close</span></span></a>
+        </div>
+      </div>
       <a href="/#how">How it works</a>
       <a href="/#pricing">Pricing</a>
       <a href="/#faq">FAQ</a>
-      <a href="/crm" aria-current="page">CRM</a>
       <a href="/email-health">Free email test</a>
     </div>
     <div class="nav-right">
