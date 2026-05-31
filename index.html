@@ -4501,30 +4501,33 @@ footer.site {
 <!-- ─── CRM KANBAN MOCKUP — every reply becomes a card on a board you
      can actually move. Same app-shell framing as the other mockups. -->
 <style>
+  /* Kanban mockup — mirrors the live CRM (crm.module.css) 1:1. */
   .tk-wrap { padding: 20px 22px 24px; display: flex; flex-direction: column; }
-  .tk-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+  .tk-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
   .tk-title { font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; letter-spacing: -.018em; color: #14120f; }
   .tk-title em { color: #ff5b1f; font-style: italic; }
   .tk-meta { font: 12px 'Inter', sans-serif; color: #a8a097; }
-  .tk-board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-  .tk-col { background: #faf9f7; border: 1px solid #efeee9; border-radius: 14px; padding: 12px 11px; display: flex; flex-direction: column; gap: 9px; }
-  .tk-colhead { display: flex; align-items: center; gap: 7px; padding: 0 2px; }
-  .tk-cdot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .tk-cname { font: 700 10.5px 'Inter', sans-serif; letter-spacing: .09em; text-transform: uppercase; color: #6c6458; }
-  .tk-ccount { margin-left: auto; font: 700 10.5px 'Inter', sans-serif; color: #bdb6ab; }
-  .tk-csum { font-family: 'Instrument Serif', Georgia, serif; font-size: 13px; color: #8c857a; padding: 0 2px 3px; margin-top: -4px; }
-  .tk-card { background: #fff; border: 1px solid #ececea; border-radius: 11px; padding: 11px 12px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 1px 2px rgba(20,18,15,.04); }
-  .tk-card-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-  .tk-co { font: 600 13px 'Inter', sans-serif; color: #14120f; }
-  .tk-val { font-family: 'Instrument Serif', Georgia, serif; font-size: 15px; color: #14120f; white-space: nowrap; }
-  .tk-labels { display: flex; gap: 4px; }
-  .tk-lab { height: 4px; width: 16px; border-radius: 2px; }
-  .tk-foot { display: flex; align-items: center; gap: 7px; }
-  .tk-av { width: 19px; height: 19px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font: 700 8.5px 'Inter', sans-serif; color: #fff; background: linear-gradient(135deg, #ff9466, #ff5b1f); }
-  .tk-next { font: 11px 'Inter', sans-serif; color: #a8a097; }
-  .tk-won { border-color: rgba(47,154,106,.32); background: linear-gradient(180deg, #f3faf6, #fff); }
-  .tk-check { color: #2f9a6a; font-weight: 700; }
-  @media (max-width: 860px) { .tk-board { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 76%; overflow-x: auto; } }
+  .tk-board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; align-items: start; }
+  /* Column = live .column */
+  .tk-col { background: #fbfaf7; border: 1px solid #ececea; border-radius: 12px; padding: 12px 12px 14px; display: flex; flex-direction: column; gap: 8px; }
+  .tk-colhead { display: flex; align-items: center; justify-content: space-between; padding: 4px 6px 10px; border-bottom: 1px dashed rgba(20,18,15,.08); margin-bottom: 4px; }
+  .tk-cname { display: flex; align-items: center; gap: 8px; font: 700 11px 'Inter', sans-serif; letter-spacing: .1em; text-transform: uppercase; color: #14120f; }
+  .tk-cname::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--tk-accent, #6c6458); flex-shrink: 0; }
+  .tk-ccount { font: 700 10.5px 'SF Mono', Consolas, Menlo, monospace; color: #3a342c; background: #fff; padding: 1px 7px; border-radius: 999px; }
+  .tk-csum { font: 11px 'SF Mono', Consolas, Menlo, monospace; color: #6c6458; padding: 0 6px 4px; }
+  /* Card = live .card */
+  .tk-card { background: #fff; border: 1px solid #ececea; border-radius: 10px; padding: 12px 13px; transition: border-color .14s, box-shadow .14s; }
+  .tk-card:hover { border-color: #6c6458; box-shadow: 0 2px 8px rgba(20,18,15,.06); }
+  .tk-labels { display: flex; align-items: center; gap: 4px; margin-bottom: 8px; }
+  .tk-lab { width: 16px; height: 4px; border-radius: 2px; background: #6c6458; }
+  .tk-card-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 3px; }
+  .tk-co { font: 600 13px 'Inter', sans-serif; color: #14120f; letter-spacing: -.005em; line-height: 1.3; }
+  .tk-val { font: 700 11.5px 'SF Mono', Consolas, Menlo, monospace; color: #14120f; letter-spacing: -.01em; white-space: nowrap; flex-shrink: 0; }
+  .tk-contact { font: 11.5px 'Inter', sans-serif; color: #6c6458; }
+  .tk-next { display: flex; align-items: center; gap: 5px; margin-top: 8px; padding: 5px 8px; background: rgba(20,18,15,.04); border-radius: 6px; font: 11.5px 'Inter', sans-serif; color: #3a342c; }
+  .tk-next svg { flex-shrink: 0; color: #1a7c4b; }
+  .tk-next .due { font: 10.5px 'SF Mono', Consolas, Menlo, monospace; color: #a8a097; margin-left: auto; flex-shrink: 0; padding-left: 6px; }
+  @media (max-width: 860px) { .tk-board { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 78%; overflow-x: auto; } }
 </style>
 <section class="mockup-section" id="tour-crm">
   <div class="mockup-inner">
@@ -4623,55 +4626,84 @@ footer.site {
               <span class="tk-meta">74 deals · €218k open · 4 to follow up</span>
             </div>
             <div class="tk-board">
-              <div class="tk-col">
-                <div class="tk-colhead"><span class="tk-cdot" style="background:#6c8ee0"></span><span class="tk-cname">Lead</span><span class="tk-ccount">21</span></div>
+              <div class="tk-col" style="--tk-accent:#3866a6">
+                <div class="tk-colhead"><span class="tk-cname">Lead</span><span class="tk-ccount">21</span></div>
                 <div class="tk-csum">€41,500</div>
                 <div class="tk-card">
+                  <div class="tk-labels"><span class="tk-lab" style="background:#c97a10"></span></div>
                   <div class="tk-card-top"><span class="tk-co">Northwind SaaS</span><span class="tk-val">€18,000</span></div>
-                  <div class="tk-labels"><span class="tk-lab" style="background:#e0884a"></span><span class="tk-lab" style="background:#6cc99a"></span></div>
-                  <div class="tk-foot"><span class="tk-av">AL</span><span class="tk-next">Intro call · Tue</span></div>
+                  <div class="tk-contact">Alex Rivera · VP Sales</div>
+                  <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Intro call booked</span><span class="due">Tue</span></div>
                 </div>
                 <div class="tk-card">
                   <div class="tk-card-top"><span class="tk-co">Lumen Health</span><span class="tk-val">€9,500</span></div>
-                  <div class="tk-foot"><span class="tk-av">AL</span><span class="tk-next">Send deck</span></div>
+                  <div class="tk-contact">Dana Whitfield</div>
+                  <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Send pitch deck</span><span class="due">Wed</span></div>
+                </div>
+                <div class="tk-card">
+                  <div class="tk-card-top"><span class="tk-co">Tessell Systems</span><span class="tk-val">€14,000</span></div>
+                  <div class="tk-contact">Marek Holub</div>
+                  <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Qualify on call</span><span class="due">Fri</span></div>
                 </div>
               </div>
-              <div class="tk-col">
-                <div class="tk-colhead"><span class="tk-cdot" style="background:#8579d1"></span><span class="tk-cname">Contacted</span><span class="tk-ccount">18</span></div>
+              <div class="tk-col" style="--tk-accent:#8a76b8">
+                <div class="tk-colhead"><span class="tk-cname">Contacted</span><span class="tk-ccount">18</span></div>
                 <div class="tk-csum">€36,000</div>
                 <div class="tk-card">
+                  <div class="tk-labels"><span class="tk-lab" style="background:#8a76b8"></span></div>
                   <div class="tk-card-top"><span class="tk-co">Vela Logistics</span><span class="tk-val">€24,000</span></div>
-                  <div class="tk-labels"><span class="tk-lab" style="background:#6cc99a"></span></div>
-                  <div class="tk-foot"><span class="tk-av">AL</span><span class="tk-next">Follow-up · Thu</span></div>
+                  <div class="tk-contact">Priya Nair · COO</div>
+                  <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Follow-up email</span><span class="due">Thu</span></div>
                 </div>
                 <div class="tk-card">
                   <div class="tk-card-top"><span class="tk-co">Brightpath</span><span class="tk-val">€12,000</span></div>
-                  <div class="tk-foot"><span class="tk-av">AL</span><span class="tk-next">Waiting on reply</span></div>
+                  <div class="tk-contact">Tom Becker</div>
+                  <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Waiting on reply</span></div>
+                </div>
+                <div class="tk-card">
+                  <div class="tk-card-top"><span class="tk-co">Orbit Retail</span><span class="tk-val">€7,500</span></div>
+                  <div class="tk-contact">Sara Lund</div>
+                  <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Second touch</span><span class="due">Fri</span></div>
                 </div>
               </div>
-              <div class="tk-col">
-                <div class="tk-colhead"><span class="tk-cdot" style="background:#e8924d"></span><span class="tk-cname">Meeting</span><span class="tk-ccount">9</span></div>
+              <div class="tk-col" style="--tk-accent:#ff5b1f">
+                <div class="tk-colhead"><span class="tk-cname">Meeting</span><span class="tk-ccount">9</span></div>
                 <div class="tk-csum">€73,000</div>
                 <div class="tk-card">
+                  <div class="tk-labels"><span class="tk-lab" style="background:#ff5b1f"></span></div>
                   <div class="tk-card-top"><span class="tk-co">Acme Robotics</span><span class="tk-val">€42,000</span></div>
-                  <div class="tk-labels"><span class="tk-lab" style="background:#e0884a"></span></div>
-                  <div class="tk-foot"><span class="tk-av">AL</span><span class="tk-next">Demo · Thu 2pm</span></div>
+                  <div class="tk-contact">Jordan Pike · CTO</div>
+                  <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Demo call</span><span class="due">Thu 2pm</span></div>
                 </div>
                 <div class="tk-card">
                   <div class="tk-card-top"><span class="tk-co">Cobalt Cloud</span><span class="tk-val">€31,000</span></div>
-                  <div class="tk-foot"><span class="tk-av">AL</span><span class="tk-next">Proposal sent</span></div>
+                  <div class="tk-contact">Elena Marsh</div>
+                  <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Proposal sent</span><span class="due">Mon</span></div>
+                </div>
+                <div class="tk-card">
+                  <div class="tk-card-top"><span class="tk-co">Hatch Labs</span><span class="tk-val">€19,000</span></div>
+                  <div class="tk-contact">Will Tan</div>
+                  <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Pricing review</span><span class="due">Wed</span></div>
                 </div>
               </div>
-              <div class="tk-col">
-                <div class="tk-colhead"><span class="tk-cdot" style="background:#2f9a6a"></span><span class="tk-cname">Won</span><span class="tk-ccount">12</span></div>
+              <div class="tk-col" style="--tk-accent:#1a7c4b">
+                <div class="tk-colhead"><span class="tk-cname">Won</span><span class="tk-ccount">12</span></div>
                 <div class="tk-csum">€61,500</div>
-                <div class="tk-card tk-won">
+                <div class="tk-card">
+                  <div class="tk-labels"><span class="tk-lab" style="background:#3866a6"></span></div>
                   <div class="tk-card-top"><span class="tk-co">Meridian Apps</span><span class="tk-val">€27,500</span></div>
-                  <div class="tk-foot"><span class="tk-check">✓</span><span class="tk-next">Closed · onboarding</span></div>
+                  <div class="tk-contact">Owen Clarke</div>
+                  <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Onboarding kickoff</span><span class="due">Mon</span></div>
                 </div>
-                <div class="tk-card tk-won">
+                <div class="tk-card">
                   <div class="tk-card-top"><span class="tk-co">Foundry Labs</span><span class="tk-val">€16,000</span></div>
-                  <div class="tk-foot"><span class="tk-check">✓</span><span class="tk-next">Closed last week</span></div>
+                  <div class="tk-contact">Ines Roy</div>
+                  <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Closed — won</span></div>
+                </div>
+                <div class="tk-card">
+                  <div class="tk-card-top"><span class="tk-co">Pier 9 Studio</span><span class="tk-val">€18,000</span></div>
+                  <div class="tk-contact">Kai Berg</div>
+                  <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Invoice sent</span></div>
                 </div>
               </div>
             </div>
