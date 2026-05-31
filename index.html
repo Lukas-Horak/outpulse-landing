@@ -3616,98 +3616,6 @@ footer.site {
   </div>
 </section>
 
-<style>
-  /* Nav "Product" mega-menu */
-  .nav-prod { position: relative; display: inline-flex; align-items: center; }
-  .nav-prod-btn { display: inline-flex; align-items: center; gap: 5px; background: none; border: none; cursor: pointer; font: 500 14.5px var(--sans); color: var(--muted); padding: 0; }
-  .nav-prod:hover .nav-prod-btn { color: var(--ink); }
-  .nav-prod-btn svg { transition: transform .18s ease; }
-  .nav-prod:hover .nav-prod-btn svg { transform: rotate(180deg); }
-  .nav-prod-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(6px); width: 348px; background: #fff; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 26px 64px -22px rgba(20,18,15,.30); padding: 10px; margin-top: 14px; opacity: 0; pointer-events: none; transition: opacity .18s ease, transform .18s ease; z-index: 40; }
-  .nav-prod-menu::before { content: ''; position: absolute; top: -14px; left: 0; right: 0; height: 14px; }
-  .nav-prod:hover .nav-prod-menu { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
-  .nav-prod-head { font: 700 10px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--muted-2); padding: 8px 12px 8px; }
-  .nav-prod-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 12px; border-radius: 11px; text-decoration: none; transition: background .14s ease; }
-  .nav-prod-item:hover { background: var(--bg-subtle, #f6f4f0); }
-  .nav-prod-ic { width: 32px; height: 32px; border-radius: 9px; display: inline-grid; place-items: center; flex-shrink: 0; background: #f7f4ef; color: var(--c, #ff5b1f); }
-  .nav-prod-item .t { display: flex; flex-direction: column; gap: 1px; }
-  .nav-prod-item .t b { font: 600 13.5px var(--sans); color: var(--ink); }
-  .nav-prod-item .t span { font: 12px var(--sans); color: var(--muted); line-height: 1.4; }
-
-  /* Tools overview section */
-  .tools-band .container { text-align: center; }
-  .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; text-align: left; }
-  .tool-card { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 26px 24px; }
-  .tool-card .tool-ic { width: 46px; height: 46px; border-radius: 13px; display: inline-grid; place-items: center; background: #f7f4ef; color: var(--c, #ff5b1f); margin-bottom: 16px; }
-  .tool-name { font-family: var(--serif); font-weight: 400; font-size: 26px; line-height: 1.1; letter-spacing: -.015em; color: var(--ink); margin: 0 0 8px; }
-  .tool-desc { font-size: 14.5px; line-height: 1.55; color: var(--muted); margin: 0; }
-  .tool-card.span2 { grid-column: span 1; }
-  .tools-note { margin: 36px auto 0; font-family: var(--serif); font-weight: 400; font-size: clamp(20px, 2.4vw, 28px); line-height: 1.2; letter-spacing: -.012em; color: var(--ink); max-width: 720px; }
-  .tools-note em { color: var(--orange); font-style: italic; }
-  @media (max-width: 860px) { .tools-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 540px) { .tools-grid { grid-template-columns: 1fr; gap: 12px; } }
-
-  /* Stack price comparison */
-  .cmp-band .container { text-align: center; }
-  .cmp { display: grid; grid-template-columns: 1.15fr auto 1fr; align-items: center; gap: 22px; max-width: 940px; margin: 48px auto 0; text-align: left; }
-  .cmp-stack { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 12px 18px; }
-  .cmp-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--line); }
-  .cmp-tool { display: inline-flex; align-items: center; gap: 10px; font: 500 14.5px var(--sans); color: var(--ink); }
-  .cmp-tool i { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .cmp-price { font: 600 14px 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; color: var(--muted); white-space: nowrap; }
-  .cmp-total { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 0 6px; }
-  .cmp-total span:first-child { font: 600 14px var(--sans); color: var(--ink); }
-  .cmp-total span:last-child { font-family: var(--serif); font-size: 26px; color: var(--ink); letter-spacing: -.01em; }
-  .cmp-total s { color: var(--muted-2); }
-  .cmp-vs { font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--muted-2); text-align: center; }
-  .cmp-out { background: #14120f; color: #fff; border-radius: 18px; padding: 28px 26px; position: relative; overflow: hidden; }
-  .cmp-out::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 120% at 0% 0%, rgba(255,91,31,0.28), transparent 60%); pointer-events: none; }
-  .cmp-out-eyebrow { position: relative; font: 700 11px 'JetBrains Mono', ui-monospace, monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--orange); }
-  .cmp-out-price { position: relative; font-family: var(--serif); font-weight: 400; font-size: 52px; line-height: 1; letter-spacing: -.025em; margin: 12px 0 4px; }
-  .cmp-out-price span { font-size: 18px; color: rgba(255,255,255,.5); }
-  .cmp-out p { position: relative; font-size: 13.5px; line-height: 1.55; color: rgba(255,255,255,.7); margin: 0 0 18px; }
-  .cmp-out .btn { position: relative; }
-  @media (max-width: 760px) { .cmp { grid-template-columns: 1fr; gap: 14px; } .cmp-vs { padding: 4px 0; } }
-</style>
-<!-- ─── TOOLS OVERVIEW — one login, five tools ───────────────────── -->
-<section class="band tools-band" id="tools">
-  <div class="container">
-    <div class="band-head">
-      <span class="eyebrow">One login · one app</span>
-      <h2>Your whole sales stack — <em>in a single app.</em></h2>
-      <p>The five tools founders usually juggle across five tabs and five invoices. In Outpulse they share one login, one workflow — and they actually talk to each other.</p>
-    </div>
-    <div class="tools-grid">
-      <div class="tool-card" style="--c:#3866a6">
-        <span class="tool-ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><path d="m20 20-3.5-3.5"/></svg></span>
-        <h3 class="tool-name">Prospecting</h3>
-        <p class="tool-desc">Describe who you sell to once. Outpulse finds real companies that fit — each enriched with the right contact and a verified email.</p>
-      </div>
-      <div class="tool-card" style="--c:#8a76b8">
-        <span class="tool-ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 22 2l-6.5 18-3-9z"/><path d="M3 11l9 3"/></svg></span>
-        <h3 class="tool-name">Cold Outreach</h3>
-        <p class="tool-desc">Emails written for one person, sent to hundreds. Multi-step sequences, smart follow-ups and inbox rotation, handled for you.</p>
-      </div>
-      <div class="tool-card" style="--c:#c97a10">
-        <span class="tool-ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="7"/><rect x="12" y="7" width="3" height="11"/><rect x="17" y="13" width="3" height="5"/></svg></span>
-        <h3 class="tool-name">Analytics</h3>
-        <p class="tool-desc">See what is actually working — opens, replies, meetings and revenue — across every campaign, updating live.</p>
-      </div>
-      <div class="tool-card" style="--c:#1a7c4b">
-        <span class="tool-ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5 5h14l3 7v6a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-6z"/></svg></span>
-        <h3 class="tool-name">Inbox</h3>
-        <p class="tool-desc">Every reply from every campaign in one shared inbox. Answer, snooze, and turn a warm “yes” into a deal in a click.</p>
-      </div>
-      <div class="tool-card" style="--c:#ff5b1f">
-        <span class="tool-ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="11" rx="1"/><rect x="17" y="4" width="4" height="7" rx="1"/></svg></span>
-        <h3 class="tool-name">CRM</h3>
-        <p class="tool-desc">A visual pipeline that tracks each deal to the close. Drag stage to stage, schedule the next touch, never lose a follow-up.</p>
-      </div>
-    </div>
-    <p class="tools-note">Five tools. One login, one bill, one workflow — <em>built to work together,</em> not bolted on.</p>
-  </div>
-</section>
-
 <!-- ─── FIRST-SCROLL MOCKUP — Dashboard, real-app-window framing.
      Browser chrome on top, then 2-col app shell: sidebar (logo +
      nav rail + workspace + user) on the left, main panel with the
@@ -3745,6 +3653,28 @@ footer.site {
   .dx-kpi.blue .dx-kpi-ic { background: #ecf1f8; color: #3866a6; } .dx-kpi.blue .dx-kpi-chip { background: #ecf1f8; border-color: #d8e3ef; color: #3866a6; }
   .dx-kpi.violet .dx-kpi-ic { background: #f0ecf5; color: #6b5a93; } .dx-kpi.violet .dx-kpi-chip { background: #f0ecf5; border-color: #ded4ea; color: #6b5a93; }
   @media (max-width: 720px) { .dx-kpis { grid-template-columns: repeat(2, 1fr); } }
+  /* Standup band — daily briefing at the top of the dashboard */
+  .dx-standup { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: #fdf4ea; border: 1px solid #f1e3d0; border-radius: 14px; padding: 14px 18px; margin-bottom: 18px; }
+  .dx-su-l { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .dx-su-day { font: 700 10.5px 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: .1em; text-transform: uppercase; color: #c24518; }
+  .dx-su-msg { font-family: 'Instrument Serif', Georgia, serif; font-size: 19px; color: #14120f; }
+  .dx-su-r { display: flex; align-items: center; gap: 12px; }
+  .dx-su-od { display: inline-flex; align-items: center; gap: 6px; font: 600 12px 'Inter', sans-serif; color: #c24518; }
+  .dx-su-od::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #ff5b1f; }
+  .dx-su-chev { color: #a8a097; display: inline-flex; }
+  /* Recent-activity timeline — fills the lower half of the mock */
+  .dx-tl { margin-top: 24px; border-top: 1px solid #ececea; padding-top: 18px; }
+  .dx-tl-h { font: 700 10.5px 'Inter', sans-serif; letter-spacing: .12em; text-transform: uppercase; color: #6c6458; margin-bottom: 10px; }
+  .dx-tl-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f4f3f0; }
+  .dx-tl-row:last-child { border-bottom: none; }
+  .dx-tl-ic { width: 26px; height: 26px; border-radius: 8px; display: inline-grid; place-items: center; flex-shrink: 0; }
+  .dx-tl-ic.g { background: #eef6f1; color: #1a7c4b; }
+  .dx-tl-ic.a { background: #fdf1e7; color: #c24518; }
+  .dx-tl-ic.b { background: #ecf1f8; color: #3866a6; }
+  .dx-tl-ic.o { background: rgba(255,91,31,.1); color: #c24518; }
+  .dx-tl-txt { flex: 1; font: 14px 'Inter', sans-serif; color: #3a342c; }
+  .dx-tl-txt b { font-weight: 600; color: #14120f; }
+  .dx-tl-time { font: 600 12px 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; color: #a8a097; white-space: nowrap; }
 </style>
 <section class="first-mockup" id="how">
   <div class="first-mockup-grad" aria-hidden="true">
@@ -3866,6 +3796,15 @@ footer.site {
           </div>
         </div>
 
+        <!-- Daily standup band -->
+        <div class="dx-standup">
+          <div class="dx-su-l">
+            <span class="dx-su-day">Today · Sun, May 31</span>
+            <span class="dx-su-msg">5 deals need your move.</span>
+          </div>
+          <div class="dx-su-r"><span class="dx-su-od">1 overdue</span><span class="dx-su-chev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span></div>
+        </div>
+
         <!-- Monthly target · Pulse (dark hero card, 1:1 with PulseWidget compact) -->
         <div class="dx-pulse">
           <div class="dx-pulse-top">
@@ -3909,11 +3848,114 @@ footer.site {
             <span class="dx-kpi-link">Open CRM →</span>
           </div>
         </div>
+
+        <!-- Recent activity feed -->
+        <div class="dx-tl">
+          <div class="dx-tl-h">Recent activity</div>
+          <div class="dx-tl-row"><span class="dx-tl-ic g"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="dx-tl-txt"><b>Elena Marsh</b> replied · Spotify · Q3 rollout</span><span class="dx-tl-time">12m</span></div>
+          <div class="dx-tl-row"><span class="dx-tl-ic a"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></span><span class="dx-tl-txt">Email opened by <b>Heineken</b> · Priya Nair</span><span class="dx-tl-time">1h</span></div>
+          <div class="dx-tl-row"><span class="dx-tl-ic b"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20v-1a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v1"/></svg></span><span class="dx-tl-txt"><b>34 new prospects</b> enriched · SaaS · EU</span><span class="dx-tl-time">2h</span></div>
+          <div class="dx-tl-row"><span class="dx-tl-ic o"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><span class="dx-tl-txt">Meeting booked with <b>Red Bull</b></span><span class="dx-tl-time">Thu 2pm</span></div>
+        </div>
         </div><!-- /.app-shell-main -->
       </div><!-- /.app-shell -->
     </div><!-- /.browser-frame -->
   </div>
 </section>
+
+<style>
+  /* Nav "Product" mega-menu */
+  .nav-prod { position: relative; display: inline-flex; align-items: center; }
+  .nav-prod-btn { display: inline-flex; align-items: center; gap: 5px; background: none; border: none; cursor: pointer; font: 500 14.5px var(--sans); color: var(--muted); padding: 0; }
+  .nav-prod:hover .nav-prod-btn { color: var(--ink); }
+  .nav-prod-btn svg { transition: transform .18s ease; }
+  .nav-prod:hover .nav-prod-btn svg { transform: rotate(180deg); }
+  .nav-prod-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(6px); width: 348px; background: #fff; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 26px 64px -22px rgba(20,18,15,.30); padding: 10px; margin-top: 14px; opacity: 0; pointer-events: none; transition: opacity .18s ease, transform .18s ease; z-index: 40; }
+  .nav-prod-menu::before { content: ''; position: absolute; top: -14px; left: 0; right: 0; height: 14px; }
+  .nav-prod:hover .nav-prod-menu { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+  .nav-prod-head { font: 700 10px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--muted-2); padding: 8px 12px 8px; }
+  .nav-prod-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 12px; border-radius: 11px; text-decoration: none; transition: background .14s ease; }
+  .nav-prod-item:hover { background: var(--bg-subtle, #f6f4f0); }
+  .nav-prod-ic { width: 32px; height: 32px; border-radius: 9px; display: inline-grid; place-items: center; flex-shrink: 0; background: #f7f4ef; color: var(--c, #ff5b1f); }
+  .nav-prod-item .t { display: flex; flex-direction: column; gap: 1px; }
+  .nav-prod-item .t b { font: 600 13.5px var(--sans); color: var(--ink); }
+  .nav-prod-item .t span { font: 12px var(--sans); color: var(--muted); line-height: 1.4; }
+
+  /* Tools overview section */
+  .tools-band .container { text-align: center; }
+  .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; text-align: left; }
+  .tool-card { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 26px 24px; }
+  .tool-card .tool-ic { width: 46px; height: 46px; border-radius: 13px; display: inline-grid; place-items: center; background: #f7f4ef; color: var(--c, #ff5b1f); margin-bottom: 16px; }
+  .tool-name { font-family: var(--serif); font-weight: 400; font-size: 26px; line-height: 1.1; letter-spacing: -.015em; color: var(--ink); margin: 0 0 8px; }
+  .tool-desc { font-size: 14.5px; line-height: 1.55; color: var(--muted); margin: 0; }
+  .tool-card.span2 { grid-column: span 1; }
+  .tools-note { margin: 36px auto 0; font-family: var(--serif); font-weight: 400; font-size: clamp(20px, 2.4vw, 28px); line-height: 1.2; letter-spacing: -.012em; color: var(--ink); max-width: 720px; }
+  .tools-note em { color: var(--orange); font-style: italic; }
+  @media (max-width: 860px) { .tools-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .tools-grid { grid-template-columns: 1fr; gap: 12px; } }
+
+  /* Stack price comparison */
+  .cmp-band .container { text-align: center; }
+  .cmp { display: grid; grid-template-columns: 1.15fr auto 1fr; align-items: center; gap: 22px; max-width: 940px; margin: 48px auto 0; text-align: left; }
+  .cmp-stack { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 12px 18px; }
+  .cmp-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+  .cmp-tool { display: inline-flex; align-items: center; gap: 10px; font: 500 14.5px var(--sans); color: var(--ink); }
+  .cmp-tool i { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .cmp-price { font: 600 14px 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; color: var(--muted); white-space: nowrap; }
+  .cmp-total { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 0 6px; }
+  .cmp-total span:first-child { font: 600 14px var(--sans); color: var(--ink); }
+  .cmp-total span:last-child { font-family: var(--serif); font-size: 26px; color: var(--ink); letter-spacing: -.01em; }
+  .cmp-total s { color: var(--muted-2); }
+  .cmp-vs { font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--muted-2); text-align: center; }
+  .cmp-out { background: #14120f; color: #fff; border-radius: 18px; padding: 28px 26px; position: relative; overflow: hidden; }
+  .cmp-out::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 120% at 0% 0%, rgba(255,91,31,0.28), transparent 60%); pointer-events: none; }
+  .cmp-out-eyebrow { position: relative; font: 700 11px 'JetBrains Mono', ui-monospace, monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--orange); }
+  .cmp-out-price { position: relative; font-family: var(--serif); font-weight: 400; font-size: 52px; line-height: 1; letter-spacing: -.025em; margin: 12px 0 4px; }
+  .cmp-out-price span { font-size: 18px; color: rgba(255,255,255,.5); }
+  .cmp-out p { position: relative; font-size: 13.5px; line-height: 1.55; color: rgba(255,255,255,.7); margin: 0 0 18px; }
+  .cmp-out .btn { position: relative; }
+  @media (max-width: 760px) { .cmp { grid-template-columns: 1fr; gap: 14px; } .cmp-vs { padding: 4px 0; } }
+</style>
+<!-- ─── TOOLS OVERVIEW — one login, five tools ───────────────────── -->
+<section class="band tools-band" id="tools">
+  <div class="container">
+    <div class="band-head">
+      <span class="eyebrow">One login · one app</span>
+      <h2>Your whole sales stack — <em>in a single app.</em></h2>
+      <p>The five tools founders usually juggle across five tabs and five invoices. In Outpulse they share one login, one workflow — and they actually talk to each other.</p>
+    </div>
+    <div class="tools-grid">
+      <div class="tool-card" style="--c:#3866a6">
+        <span class="tool-ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><path d="m20 20-3.5-3.5"/></svg></span>
+        <h3 class="tool-name">Prospecting</h3>
+        <p class="tool-desc">Describe who you sell to once. Outpulse finds real companies that fit — each enriched with the right contact and a verified email.</p>
+      </div>
+      <div class="tool-card" style="--c:#8a76b8">
+        <span class="tool-ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 22 2l-6.5 18-3-9z"/><path d="M3 11l9 3"/></svg></span>
+        <h3 class="tool-name">Cold Outreach</h3>
+        <p class="tool-desc">Emails written for one person, sent to hundreds. Multi-step sequences, smart follow-ups and inbox rotation, handled for you.</p>
+      </div>
+      <div class="tool-card" style="--c:#c97a10">
+        <span class="tool-ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="7"/><rect x="12" y="7" width="3" height="11"/><rect x="17" y="13" width="3" height="5"/></svg></span>
+        <h3 class="tool-name">Analytics</h3>
+        <p class="tool-desc">See what is actually working — opens, replies, meetings and revenue — across every campaign, updating live.</p>
+      </div>
+      <div class="tool-card" style="--c:#1a7c4b">
+        <span class="tool-ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5 5h14l3 7v6a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-6z"/></svg></span>
+        <h3 class="tool-name">Inbox</h3>
+        <p class="tool-desc">Every reply from every campaign in one shared inbox. Answer, snooze, and turn a warm “yes” into a deal in a click.</p>
+      </div>
+      <div class="tool-card" style="--c:#ff5b1f">
+        <span class="tool-ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="11" rx="1"/><rect x="17" y="4" width="4" height="7" rx="1"/></svg></span>
+        <h3 class="tool-name">CRM</h3>
+        <p class="tool-desc">A visual pipeline that tracks each deal to the close. Drag stage to stage, schedule the next touch, never lose a follow-up.</p>
+      </div>
+    </div>
+    <p class="tools-note">Five tools. One login, one bill, one workflow — <em>built to work together,</em> not bolted on.</p>
+  </div>
+</section>
+
+
 
 <!-- ─── PROOF STAT + STATS — Apollo-style proof block.
      Top: one big editorial stat with the study cited beneath
