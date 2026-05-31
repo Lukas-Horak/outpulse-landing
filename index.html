@@ -133,7 +133,7 @@ img { max-width: 100%; display: block; }
   padding: 16px 30px;
   box-shadow: 0 12px 32px -10px rgba(255, 91, 31, 0.5);
 }
-.btn-orange:hover { background: var(--orange-2); transform: translateY(-1px); }
+.btn-orange:hover { background: var(--orange-2); }
 .btn-ghost {
   background: transparent;
   color: var(--ink);
@@ -146,7 +146,7 @@ img { max-width: 100%; display: block; }
   padding: 11px 22px;
   font-size: 14px;
 }
-.btn-dark:hover { background: #000; transform: translateY(-1px); }
+.btn-dark:hover { background: #000; }
 .btn-xl { padding: 20px 40px; font-size: 17px; }
 .btn-sm { padding: 8px 16px; font-size: 13px; }
 .btn-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
@@ -225,18 +225,10 @@ img { max-width: 100%; display: block; }
    ONE short subhead. Mockup top peeks from below. */
 .hero {
   padding: clamp(112px, 16vh, 200px) 0 clamp(40px, 5vh, 72px);
-  /* Soft orange "smoke" wash behind every hero element — layered radial
-     blooms in the orange/amber family fading into the paper. */
-  background:
-    radial-gradient(58% 52% at 50% 40%, rgba(255,91,31,0.16), transparent 70%),
-    radial-gradient(42% 40% at 80% 24%, rgba(255,150,70,0.14), transparent 62%),
-    radial-gradient(46% 44% at 16% 32%, rgba(255,110,45,0.11), transparent 66%),
-    radial-gradient(64% 46% at 50% 98%, rgba(255,196,150,0.12), transparent 72%),
-    var(--paper);
+  background: var(--paper);
   color: var(--ink);
   border-bottom: none;
   position: relative;
-  overflow: hidden;
 }
 .hero .container {
   max-width: 1280px;
@@ -345,7 +337,7 @@ img { max-width: 100%; display: block; }
   transition: background .15s ease, transform .15s ease;
   box-shadow: 0 8px 22px -8px rgba(255, 91, 31, 0.45);
 }
-.hero-signup-submit:hover { background: var(--orange-2); transform: translateY(-1px); }
+.hero-signup-submit:hover { background: var(--orange-2); }
 .hero-signup-or {
   display: flex;
   align-items: center;
@@ -4566,15 +4558,40 @@ footer.site {
 <!-- ─── CRM TEASER — light card; the full demo lives on /crm ───────── -->
 <style>
   .crm-teaser .container { text-align: center; }
-  .crmt-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; max-width: 760px; margin: 44px auto 0; text-align: left; }
-  .crmt-col { background: #fbfaf7; border: 1px solid #ececea; border-radius: 14px; padding: 12px 11px 14px; display: flex; flex-direction: column; gap: 8px; }
-  .crmt-h { display: flex; align-items: center; gap: 7px; font: 700 10.5px 'Inter', sans-serif; letter-spacing: .09em; text-transform: uppercase; color: #14120f; padding: 2px 2px 9px; border-bottom: 1px dashed rgba(20,18,15,.08); }
-  .crmt-h .d { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .crmt-card { background: #fff; border: 1px solid #ececea; border-radius: 10px; padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-  .crmt-card b { font: 600 13.5px 'Inter', sans-serif; color: #14120f; }
-  .crmt-card span { font: 600 12px 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; color: #6c6458; white-space: nowrap; }
+  .crmt-board { position: relative; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; max-width: 920px; margin: 44px auto 0; text-align: left; }
+  .crmt-col { background: #fbfaf7; border: 1px solid #ececea; border-radius: 14px; padding: 11px 10px 13px; display: flex; flex-direction: column; gap: 8px; }
+  .crmt-h { display: flex; align-items: center; gap: 7px; font: 700 10px 'Inter', sans-serif; letter-spacing: .09em; text-transform: uppercase; color: #14120f; padding: 2px 2px 9px; border-bottom: 1px dashed rgba(20,18,15,.08); }
+  .crmt-h .d { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--c, #6c6458); }
+  .crmt-card { background: #fff; border: 1px solid #ececea; border-radius: 9px; padding: 10px 11px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .crmt-card b { font: 600 12.5px 'Inter', sans-serif; color: #14120f; }
+  .crmt-card span { font: 600 11.5px 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; color: #6c6458; white-space: nowrap; }
+  /* Skeleton edge columns — hint at the rest of the pipeline. */
+  .crmt-col.skel { background: #faf9f7; }
+  .crmt-col.skel .crmt-h { color: #c8c3ba; }
+  .crmt-col.skel .crmt-h .d { background: #ddd8cf; }
+  .crmt-card.skelcard { display: block; }
+  .sk { display: block; border-radius: 5px; background: linear-gradient(90deg, #efece7 25%, #f6f4f0 37%, #efece7 63%); background-size: 400% 100%; animation: crmtShimmer 1.6s ease infinite; }
+  .sk-h { width: 54px; height: 9px; }
+  .sk-a { width: 72%; height: 9px; margin-bottom: 7px; }
+  .sk-b { width: 44%; height: 9px; }
+  @keyframes crmtShimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+  /* Card-move animation — one deal slides Meeting -> Proposal on a loop. */
+  .crmt-demo { position: absolute; inset: 0; pointer-events: none; z-index: 4; }
+  .crmt-drag { position: absolute; left: 0; top: 0; width: var(--mcw, 150px); background: #fff; border: 1px solid #e4e0d8; border-radius: 9px; padding: 10px 11px; display: flex; align-items: center; justify-content: space-between; gap: 8px; box-shadow: 0 16px 34px -10px rgba(20,18,15,.30); opacity: 0; transform: translate(var(--mx0,0), var(--my0,0)); animation: crmtMove 6s cubic-bezier(.45,.05,.3,1) infinite; }
+  .crmt-drag b { font: 600 12.5px 'Inter', sans-serif; color: #14120f; }
+  .crmt-drag span { font: 600 11.5px 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; color: #6c6458; }
+  @keyframes crmtMove {
+    0%, 8% { opacity: 0; transform: translate(var(--mx0,0), var(--my0,0)) scale(1); }
+    14% { opacity: 1; transform: translate(var(--mx0,0), calc(var(--my0,0) - 7px)) scale(1.04); }
+    46% { opacity: 1; transform: translate(var(--mx1,0), calc(var(--my1,0) - 7px)) scale(1.04); }
+    54% { opacity: 1; transform: translate(var(--mx1,0), var(--my1,0)) scale(1); }
+    62%, 100% { opacity: 0; transform: translate(var(--mx1,0), var(--my1,0)); }
+  }
+  .crmt-src { animation: crmtSrc 6s ease infinite; }
+  @keyframes crmtSrc { 0%, 9% { opacity: 1; } 14%, 53% { opacity: .25; } 60%, 100% { opacity: 1; } }
   .crmt-cta { margin-top: 40px; }
-  @media (max-width: 560px) { .crmt-board { grid-template-columns: 1fr; max-width: 340px; } }
+  @media (prefers-reduced-motion: reduce) { .crmt-demo { display: none; } .crmt-src { animation: none; } }
+  @media (max-width: 640px) { .crmt-board { grid-template-columns: repeat(3, 1fr); max-width: 430px; } .crmt-col.skel, .crmt-demo { display: none; } }
 </style>
 <section class="band crm-teaser">
   <div class="container">
@@ -4584,21 +4601,32 @@ footer.site {
       <p>Drag deals stage to stage, never lose a follow-up, and always know what to do next. A full CRM, built into Outpulse — not bolted on.</p>
     </div>
     <div class="crmt-board" aria-hidden="true">
-      <div class="crmt-col">
-        <div class="crmt-h"><span class="d" style="background:#3866a6"></span>Lead</div>
-        <div class="crmt-card"><b>IKEA</b><span>48 000 €</span></div>
-        <div class="crmt-card"><b>Decathlon</b><span>22 000 €</span></div>
+      <div class="crmt-col skel">
+        <div class="crmt-h"><span class="d"></span><span class="sk sk-h"></span></div>
+        <div class="crmt-card skelcard"><span class="sk sk-a"></span><span class="sk sk-b"></span></div>
+        <div class="crmt-card skelcard"><span class="sk sk-a"></span><span class="sk sk-b"></span></div>
       </div>
-      <div class="crmt-col">
-        <div class="crmt-h"><span class="d" style="background:#ff5b1f"></span>Meeting</div>
-        <div class="crmt-card"><b>Spotify</b><span>$57,000</span></div>
+      <div class="crmt-col" style="--c:#8a76b8">
+        <div class="crmt-h"><span class="d"></span>Contacted</div>
+        <div class="crmt-card"><b>Heineken</b><span>60 000 €</span></div>
+        <div class="crmt-card"><b>Volvo</b><span>32 000 €</span></div>
+      </div>
+      <div class="crmt-col" style="--c:#ff5b1f">
+        <div class="crmt-h"><span class="d"></span>Meeting</div>
         <div class="crmt-card"><b>Red Bull</b><span>120 000 €</span></div>
+        <div class="crmt-card crmt-src"><b>Spotify</b><span>$57,000</span></div>
       </div>
-      <div class="crmt-col">
-        <div class="crmt-h"><span class="d" style="background:#1a7c4b"></span>Won</div>
-        <div class="crmt-card"><b>Canva</b><span>95 000 €</span></div>
-        <div class="crmt-card"><b>Figma</b><span>36 000 €</span></div>
+      <div class="crmt-col" style="--c:#c97a10">
+        <div class="crmt-h"><span class="d"></span>Proposal</div>
+        <div class="crmt-card crmt-tgt"><b>Shopify</b><span>150 000 €</span></div>
+        <div class="crmt-card"><b>Notion</b><span>28 000 €</span></div>
       </div>
+      <div class="crmt-col skel">
+        <div class="crmt-h"><span class="d"></span><span class="sk sk-h"></span></div>
+        <div class="crmt-card skelcard"><span class="sk sk-a"></span><span class="sk sk-b"></span></div>
+        <div class="crmt-card skelcard"><span class="sk sk-a"></span><span class="sk sk-b"></span></div>
+      </div>
+      <div class="crmt-demo"><div class="crmt-drag"><b>Spotify</b><span>$57,000</span></div></div>
     </div>
     <div class="crmt-cta">
       <a class="btn btn-orange btn-xl" href="/crm" data-cta="crm_teaser">Explore the CRM &rarr;</a>
@@ -5194,6 +5222,31 @@ footer.site {
   update();
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', function () { readTop(); update(); }, { passive: true });
+})();
+</script>
+<script>
+/* CRM teaser — measure the source card (Meeting) and the target card
+   (top of Proposal) so the floating deal animates exactly one stage over. */
+(function () {
+  var board = document.querySelector('.crm-teaser .crmt-board');
+  if (!board) return;
+  var demo = board.querySelector('.crmt-demo');
+  var src = board.querySelector('.crmt-src');
+  var tgt = board.querySelector('.crmt-tgt');
+  if (!demo || !src || !tgt) return;
+  function measure() {
+    var o = demo.getBoundingClientRect(), s = src.getBoundingClientRect(), t = tgt.getBoundingClientRect();
+    demo.style.setProperty('--mx0', (s.left - o.left) + 'px');
+    demo.style.setProperty('--my0', (s.top - o.top) + 'px');
+    demo.style.setProperty('--mx1', (t.left - o.left) + 'px');
+    demo.style.setProperty('--my1', (t.top - o.top) + 'px');
+    demo.style.setProperty('--mcw', s.width + 'px');
+  }
+  function sched() { measure(); try { requestAnimationFrame(measure); } catch (e) {} }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(sched);
+  if (document.readyState === 'complete') sched(); else window.addEventListener('load', sched);
+  sched();
+  window.addEventListener('resize', sched, { passive: true });
 })();
 </script>
 </body>
