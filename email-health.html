@@ -142,8 +142,8 @@ a { color:inherit; }
 .gaugeCol { display:flex; flex-direction:column; align-items:center; gap:20px; flex-shrink:0; }
 .gauge { position:relative; width:280px; height:280px; flex-shrink:0; }
 /* Big soft colourful halo behind the dial — the glow does the heavy lifting. */
-.gaugeHalo { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:304px; height:304px; border-radius:50%; z-index:0;
-  filter:blur(34px); opacity:.58; }
+.gaugeHalo { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:312px; height:312px; border-radius:50%; z-index:0;
+  filter:blur(30px); opacity:.62; }
 .gaugeSvg { position:relative; z-index:1; display:block; overflow:visible; }
 .gaugeTrack { fill:none; stroke:#ece9e3; stroke-width:3.5; }
 .gaugeArc { fill:none; stroke-width:3.5; stroke-linecap:round; transform:rotate(-90deg); transform-origin:50% 50%; }
@@ -153,11 +153,11 @@ a { color:inherit; }
 .gaugeCenter { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:204px; height:204px; border-radius:50%; z-index:2;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   background:
-    radial-gradient(58% 42% at 30% 20%, rgba(255,255,255,.97), rgba(255,255,255,0) 62%),
-    radial-gradient(85% 78% at 72% 98%, var(--tint, rgba(120,120,180,.2)), transparent 74%),
-    linear-gradient(155deg, rgba(255,255,255,.74), rgba(255,255,255,.40));
-  -webkit-backdrop-filter: blur(16px) saturate(1.7);
-  backdrop-filter: blur(16px) saturate(1.7);
+    radial-gradient(56% 40% at 30% 19%, rgba(255,255,255,.98), rgba(255,255,255,0) 60%),
+    radial-gradient(82% 76% at 72% 99%, var(--tint, rgba(120,120,180,.16)), transparent 72%),
+    linear-gradient(155deg, rgba(255,255,255,.90), rgba(255,255,255,.66));
+  -webkit-backdrop-filter: blur(14px) saturate(1.25);
+  backdrop-filter: blur(14px) saturate(1.25);
   border: 1px solid rgba(255,255,255,.7);
   box-shadow:
     0 34px 64px -22px rgba(60,50,110,.32),
@@ -339,11 +339,11 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
   var API = 'https://app.outpulse.ai';
   var TONE = {
     green: { bg:'var(--green-soft)', fg:'#1a7c4b', grad:['#5eead4','#34d399','#10b981','#059669'],
-      halo:'conic-gradient(from 200deg, #5eead4, #2dd4bf, #34d399, #10b981, #6ee7b7, #a7f3d0, #5eead4)', tint:'rgba(16,185,129,.26)' },
+      halo:'conic-gradient(from 210deg, #b9f6d6, #6ee7b7, #5eead4, #99f6e4, #6ee7b7, #b9f6d6)', tint:'rgba(52,211,153,.16)' },
     warn:  { bg:'var(--warn-soft)',  fg:'#9a5e0c', grad:['#fcd34d','#fbbf24','#fb923c','#f97316'],
-      halo:'conic-gradient(from 200deg, #fde68a, #fcd34d, #fbbf24, #fb923c, #f97316, #fdba74, #fde68a)', tint:'rgba(251,146,60,.26)' },
+      halo:'conic-gradient(from 210deg, #fef0c7, #fde68a, #fcd34d, #fdba74, #fde68a, #fef0c7)', tint:'rgba(251,146,60,.18)' },
     red:   { bg:'var(--red-soft)',   fg:'#b53b1c', grad:['#fb7185','#f43f5e','#ef4444','#dc2626'],
-      halo:'conic-gradient(from 200deg, #fecaca, #fda4af, #fb7185, #f43f5e, #ef4444, #fca5a5, #fecaca)', tint:'rgba(244,63,94,.24)' }
+      halo:'conic-gradient(from 210deg, #fee2e2, #fecaca, #fda4af, #fca5a5, #fecaca, #fee2e2)', tint:'rgba(244,63,94,.15)' }
   };
   var MARK = { pass:'✓', warn:'!', fail:'✕' };
   var R = 86, C = 2 * Math.PI * R;
