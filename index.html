@@ -4624,7 +4624,7 @@ footer.site {
         Desktop only; honours prefers-reduced-motion. Path coords set by JS. */
   .tk-app { position: relative; overflow: hidden; }
   .tk-demo { position: absolute; inset: 0; pointer-events: none; z-index: 7; }
-  .tk-drag { position: absolute; left: 0; top: 0; width: var(--cardW, 168px); background: #fff; border: 1px solid #e4e0d8; border-radius: 10px; padding: 11px 12px; box-shadow: 0 18px 40px -10px rgba(20,18,15,.32); opacity: 0; transform: translate(var(--x0,320px), var(--y0,470px)); animation: tkDrag 14s cubic-bezier(.45,.05,.3,1) infinite; }
+  .tk-drag { position: absolute; left: 0; top: 0; width: var(--cardW, 168px); background: #fff; border: 1px solid #e4e0d8; border-radius: 10px; padding: 11px 12px; box-shadow: 0 18px 40px -10px rgba(20,18,15,.32); opacity: 0; transform: translate(var(--x0,320px), var(--y0,470px)); animation: tkDrag 9s cubic-bezier(.45,.05,.3,1) infinite; }
   @keyframes tkDrag {
     0%, 6% { opacity: 0; transform: translate(var(--x0,320px), var(--y0,470px)) scale(1) rotate(0deg); }
     10% { opacity: 1; transform: translate(var(--x0,320px), calc(var(--y0,470px) - 8px)) scale(1.03) rotate(-2.5deg); }
@@ -4633,7 +4633,7 @@ footer.site {
     40% { opacity: 0; transform: translate(var(--x1,520px), var(--y1,300px)); }
     100% { opacity: 0; }
   }
-  .tk-cursor { position: absolute; left: 0; top: 0; width: 22px; height: 22px; opacity: 0; filter: drop-shadow(0 1px 1.5px rgba(20,18,15,.3)); animation: tkCursor 14s cubic-bezier(.45,.05,.3,1) infinite; }
+  .tk-cursor { position: absolute; left: 0; top: 0; width: 22px; height: 22px; opacity: 0; filter: drop-shadow(0 1px 1.5px rgba(20,18,15,.3)); animation: tkCursor 9s cubic-bezier(.45,.05,.3,1) infinite; }
   @keyframes tkCursor {
     0% { opacity: 0; transform: translate(calc(var(--x0,320px) + 52px), calc(var(--y0,470px) + 62px)); }
     5% { opacity: 1; transform: translate(calc(var(--x0,320px) + 52px), calc(var(--y0,470px) + 62px)); }
@@ -4643,11 +4643,11 @@ footer.site {
     44% { opacity: 1; transform: translate(calc(var(--x1,520px) + 96px), calc(var(--y1,300px) + 88px)); }
     50%, 100% { opacity: 0; }
   }
-  .tk-srccard { animation: tkSrc 14s ease infinite; }
+  .tk-srccard { animation: tkSrc 9s ease infinite; }
   @keyframes tkSrc { 0%, 7% { opacity: 1; } 11%, 39% { opacity: .28; } 45%, 100% { opacity: 1; } }
   /* Right deal drawer — mirrors the real DealPanel (header + stage stepper +
      Identity/Money form cards + footer) from app/(dashboard)/crm. */
-  .tk-drawer { position: absolute; top: 0; right: 0; bottom: 0; width: min(460px, 74%); background: #fbfaf7; border-left: 1px solid #ececea; box-shadow: -26px 0 56px -22px rgba(20,18,15,.26); transform: translateX(103%); animation: tkDrawer 14s cubic-bezier(.4,0,.2,1) infinite; display: flex; flex-direction: column; }
+  .tk-drawer { position: absolute; top: 0; right: 0; bottom: 0; width: min(460px, 74%); background: #fbfaf7; border-left: 1px solid #ececea; box-shadow: -26px 0 56px -22px rgba(20,18,15,.26); transform: translateX(103%); animation: tkDrawer 9s cubic-bezier(.4,0,.2,1) infinite; display: flex; flex-direction: column; }
   @keyframes tkDrawer { 0%, 40% { transform: translateX(103%); } 48%, 90% { transform: translateX(0); } 96%, 100% { transform: translateX(103%); } }
   .tk-dwr-head { padding: 20px 22px 16px; background: #fff; border-bottom: 1px solid #ececea; }
   .tk-dwr-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
@@ -4663,10 +4663,11 @@ footer.site {
   .tk-seg.reached .d { background: var(--sc, #14120f); }
   .tk-seg.current { background: #fff; color: #14120f; font-weight: 600; box-shadow: 0 1px 0 rgba(20,18,15,.04), 0 4px 10px -2px rgba(20,18,15,.06); }
   .tk-seg.current .d { box-shadow: 0 0 0 3px rgba(255,91,31,.18); }
-  .tk-dwr-body { padding: 18px 22px; display: flex; flex-direction: column; gap: 14px; overflow: hidden; }
-  .tk-fcard { background: #fff; border: 1px solid #ececea; border-radius: 14px; padding: 16px 18px; display: flex; flex-direction: column; gap: 13px; }
+  .tk-dwr-body { padding: 16px 22px; display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
+  .tk-fcard { background: #fff; border: 1px solid #ececea; border-radius: 14px; padding: 14px 18px; display: flex; flex-direction: column; gap: 11px; }
   .tk-fc-eyebrow { font: 700 10.5px 'Inter', sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #14120f; }
-  .tk-fld { display: flex; flex-direction: column; gap: 6px; }
+  .tk-fld { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .tk-frow { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .tk-flabel { font: 600 11px 'Inter', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #6c6458; }
   .tk-flabel .req { color: #c24518; font-weight: 700; margin-left: 2px; }
   .tk-flabel .opt { color: #a8a097; font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 11px; margin-left: 5px; }
@@ -4685,7 +4686,7 @@ footer.site {
   .tk-fbtn { border: 1px solid #ececea; background: #fff; border-radius: 9px; padding: 9px 14px; font: 500 13px 'Inter', sans-serif; color: #14120f; display: inline-flex; align-items: center; gap: 6px; }
   .tk-fbtn.del { color: #c24518; background: transparent; }
   .tk-fbtn.save { background: #14120f; color: #fff; border-color: #14120f; font-weight: 600; }
-  .tk-typed { display: inline-block; white-space: nowrap; overflow: hidden; vertical-align: bottom; width: 0; animation: tkType 14s steps(40, end) infinite; }
+  .tk-typed { display: inline-block; white-space: nowrap; overflow: hidden; vertical-align: bottom; width: 0; animation: tkType 9s steps(40, end) infinite; }
   .tk-caret { display: inline-block; width: 1.5px; height: 16px; background: #ff5b1f; vertical-align: -3px; margin-left: 1px; animation: tkBlink .9s steps(1) infinite; }
   @keyframes tkType { 0%, 50% { width: 0; } 82%, 100% { width: var(--typeW, 250px); } }
   @keyframes tkBlink { 50% { opacity: 0; } }
@@ -4846,6 +4847,7 @@ footer.site {
           <div class="tk-drag">
             <div class="tk-card-top"><span class="tk-co">Spotify</span><span class="tk-val">57 000 €</span></div>
             <div class="tk-contact">Elena Marsh</div>
+            <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Proposal due</span><span class="due">Mon</span></div>
           </div>
           <svg class="tk-cursor" viewBox="0 0 24 24" fill="#14120f" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="round"><path d="M4 2l16 9-7 1.6L9.5 21 4 2z"/></svg>
           <div class="tk-drawer">
@@ -4889,6 +4891,17 @@ footer.site {
                   <div class="tk-chips">
                     <span class="tk-chip">€1 000</span><span class="tk-chip">€2 500</span><span class="tk-chip">€5 000</span><span class="tk-chip">€10 000</span><span class="tk-chip">€25 000</span><span class="tk-chip">€50 000</span>
                   </div>
+                </div>
+              </div>
+              <div class="tk-fcard">
+                <span class="tk-fc-eyebrow">Contact</span>
+                <div class="tk-frow">
+                  <div class="tk-fld"><span class="tk-flabel">Name<span class="req">*</span></span><div class="tk-inp">Elena Marsh</div></div>
+                  <div class="tk-fld"><span class="tk-flabel">Email <span class="opt">(or phone)</span></span><div class="tk-inp">elena@spotify.com</div></div>
+                </div>
+                <div class="tk-frow">
+                  <div class="tk-fld"><span class="tk-flabel">Phone</span><div class="tk-inp">+46 70 555 0102</div></div>
+                  <div class="tk-fld"><span class="tk-flabel">LinkedIn</span><div class="tk-inp">in/elenamarsh</div></div>
                 </div>
               </div>
             </div>
