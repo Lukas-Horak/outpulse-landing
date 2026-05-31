@@ -138,7 +138,7 @@ a { color:inherit; }
 /* Result card */
 .card { background:var(--paper); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:0 1px 2px rgba(14,13,12,.05), 0 18px 50px -28px rgba(14,13,12,.18); overflow:hidden; margin-top:36px; scroll-margin-top:90px; animation:rise .4s cubic-bezier(.2,.8,.2,1); }
 @keyframes rise { from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:none;} }
-.scoreTop { display:flex; gap:44px; align-items:center; padding:44px 44px 38px; flex-wrap:wrap; }
+.scoreTop { display:flex; gap:44px; align-items:center; padding:44px 44px 14px; flex-wrap:wrap; }
 .gaugeCol { display:flex; flex-direction:column; align-items:center; gap:20px; flex-shrink:0; }
 .gauge { position:relative; width:280px; height:280px; flex-shrink:0; }
 /* Big soft colourful halo behind the dial — the glow does the heavy lifting. */
@@ -185,9 +185,14 @@ a { color:inherit; }
 .summaryChips { display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
 .sumChip { display:inline-flex; align-items:baseline; gap:6px; padding:6px 12px; border-radius:10px; font-size:12.5px; color:var(--muted); }
 .sumChip strong { font-size:16px; }
-.inboxEst { margin-top:14px; font-size:14.5px; color:var(--ink-2); }
-.inboxEst strong { color:var(--ink); font-weight:700; }
-.inboxEstHint { color:var(--muted-2); font-size:12.5px; }
+/* Inbox-placement hero stat — the dominant data point between the dial and the checks */
+.placement { display:flex; align-items:center; gap:26px; margin:8px 32px 30px; padding:22px 28px; border:1px solid var(--line); border-radius:16px; }
+.placementNum { font-family:var(--serif); font-size:clamp(48px,6.2vw,68px); line-height:.82; letter-spacing:-.022em; flex-shrink:0; }
+.placementBody { flex:1; min-width:0; }
+.placementLabel { font:700 11.5px var(--sans); letter-spacing:.13em; text-transform:uppercase; }
+.placementBar { height:9px; border-radius:999px; margin:12px 0 9px; overflow:hidden; }
+.placementFill { height:100%; border-radius:999px; transition:width 1.15s cubic-bezier(.2,.8,.2,1); }
+.placementSub { font-size:13px; color:var(--muted); line-height:1.55; }
 
 /* Check groups */
 .group { border-top:1px solid var(--line); }
@@ -250,6 +255,7 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
   .checkBtn { width:100%; }
   .scoreTop { flex-direction:column; text-align:center; }
   .providers, .summaryChips { justify-content:center; }
+  .placement { flex-direction:column; align-items:flex-start; text-align:left; margin:8px 18px 24px; gap:14px; }
 }
 </style>
 </head>
@@ -342,11 +348,14 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
   var API = 'https://app.outpulse.ai';
   var TONE = {
     green: { bg:'var(--green-soft)', fg:'#1a7c4b', grad:['#5eead4','#34d399','#10b981','#059669'],
-      halo:'conic-gradient(from 210deg, #b9f6d6, #6ee7b7, #5eead4, #99f6e4, #6ee7b7, #b9f6d6)', tint:'rgba(52,211,153,.16)' },
+      halo:'conic-gradient(from 210deg, #b9f6d6, #6ee7b7, #5eead4, #99f6e4, #6ee7b7, #b9f6d6)', tint:'rgba(52,211,153,.16)',
+      line:'rgba(26,124,75,.20)', track:'rgba(26,124,75,.13)' },
     warn:  { bg:'var(--warn-soft)',  fg:'#9a5e0c', grad:['#fcd34d','#fbbf24','#fb923c','#f97316'],
-      halo:'conic-gradient(from 210deg, #fef0c7, #fde68a, #fcd34d, #fdba74, #fde68a, #fef0c7)', tint:'rgba(251,146,60,.18)' },
+      halo:'conic-gradient(from 210deg, #fef0c7, #fde68a, #fcd34d, #fdba74, #fde68a, #fef0c7)', tint:'rgba(251,146,60,.18)',
+      line:'rgba(201,122,16,.22)', track:'rgba(201,122,16,.14)' },
     red:   { bg:'var(--red-soft)',   fg:'#b53b1c', grad:['#fb7185','#f43f5e','#ef4444','#dc2626'],
-      halo:'conic-gradient(from 210deg, #fee2e2, #fecaca, #fda4af, #fca5a5, #fecaca, #fee2e2)', tint:'rgba(244,63,94,.15)' }
+      halo:'conic-gradient(from 210deg, #fee2e2, #fecaca, #fda4af, #fca5a5, #fecaca, #fee2e2)', tint:'rgba(244,63,94,.15)',
+      line:'rgba(181,59,28,.22)', track:'rgba(181,59,28,.14)' }
   };
   var MARK = { pass:'✓', warn:'!', fail:'✕' };
   var R = 86, C = 2 * Math.PI * R;
@@ -373,32 +382,37 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
     if (on) { result.innerHTML = ''; errorEl.style.display = 'none'; examples.style.display = 'none'; }
   }
 
-  function animateGauge(target) {
+  function animateReveal(scoreTarget, placeTarget) {
     var numEl = document.getElementById('scoreNum');
+    var placeNumEl = document.getElementById('placeNum');
+    var placeFill = document.getElementById('placeFill');
     var arc = result.querySelector('.gaugeArc');
-    var glow = result.querySelector('.gaugeGlow');
     var handle = result.querySelector('.gaugeHandle');
-    var start = performance.now(), dur = 1150;
-    function paint(value) {
-      var frac = Math.max(0, Math.min(1, value / 100));
+    var start = performance.now(), dur = 1200;
+    function paint(p) {
+      var sval = p * scoreTarget;
+      var frac = Math.max(0, Math.min(1, sval / 100));
       var off = C * (1 - frac);
       if (arc) arc.style.strokeDashoffset = off;
-      if (glow) glow.style.strokeDashoffset = off;
       if (handle) {
         var ang = (-90 + 360 * frac) * Math.PI / 180;
         handle.setAttribute('cx', (100 + R * Math.cos(ang)).toFixed(2));
         handle.setAttribute('cy', (100 + R * Math.sin(ang)).toFixed(2));
       }
-      if (numEl) numEl.textContent = Math.round(value);
+      if (numEl) numEl.textContent = Math.round(sval);
+      if (placeNumEl && placeTarget != null) placeNumEl.textContent = '≈' + Math.round(p * placeTarget) + '%';
     }
     function tick(now) {
       var t = Math.min(1, (now - start) / dur);
       var eased = 1 - Math.pow(1 - t, 3);
-      paint(eased * target);
+      paint(eased);
       if (t < 1) raf = requestAnimationFrame(tick);
     }
     if (raf) cancelAnimationFrame(raf);
     raf = requestAnimationFrame(tick);
+    if (placeFill && placeTarget != null) {
+      requestAnimationFrame(function () { placeFill.style.width = placeTarget + '%'; });
+    }
   }
 
   function render(report) {
@@ -443,7 +457,6 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
     if (report.provider && report.provider.mail) html += '<span class="providerChip">✉ ' + esc(report.provider.mail) + '</span>';
     if (report.provider && report.provider.dnsHost) html += '<span class="providerChip">DNS · ' + esc(report.provider.dnsHost) + '</span>';
     html += '</div>';
-    if (typeof report.inboxEstimate === 'number') html += '<div class="inboxEst">≈ <strong>' + report.inboxEstimate + '%</strong> estimated inbox placement <span class="inboxEstHint">· based on your setup</span></div>';
     html += '<div class="summaryChips">';
     if (fails > 0) html += '<span class="sumChip" style="background:var(--red-soft)"><strong style="color:var(--red)">' + fails + '</strong> must fix</span>';
     if (warns > 0) html += '<span class="sumChip" style="background:var(--warn-soft)"><strong style="color:var(--warn)">' + warns + '</strong> to review</span>';
@@ -455,6 +468,19 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
       + '<a class="shareIcon" id="shareLi" target="_blank" rel="noopener" aria-label="Share on LinkedIn"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-6.6c0-1.57-.03-3.6-2.2-3.6-2.2 0-2.53 1.72-2.53 3.49V23h-4V8z"/></svg></a>'
       + '</div>'
       + '</div></div>';
+
+    // Inbox-placement hero stat — promoted from a small line to the dominant
+    // figure that sits between the dial and the checks.
+    if (typeof report.inboxEstimate === 'number') {
+      var pgrad = 'linear-gradient(90deg,' + g[0] + ' 0%,' + g[1] + ' 40%,' + g[2] + ' 72%,' + g[3] + ' 100%)';
+      html += '<div class="placement" style="background:' + tone.bg + ';border-color:' + tone.line + '">'
+        + '<div class="placementNum" id="placeNum" style="color:' + tone.fg + '">≈0%</div>'
+        + '<div class="placementBody">'
+        + '<div class="placementLabel" style="color:' + tone.fg + '">Estimated inbox placement</div>'
+        + '<div class="placementBar" style="background:' + tone.track + '"><div class="placementFill" id="placeFill" style="background:' + pgrad + ';width:0%"></div></div>'
+        + '<div class="placementSub">Based on your current SPF, DKIM &amp; DMARC setup — the share of your mail likely to reach the inbox instead of spam.</div>'
+        + '</div></div>';
+    }
 
     // Groups
     (report.groups || []).forEach(function (g) {
@@ -483,7 +509,7 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
     html += '<p class="disclaimer">Checks public DNS only — we never see your inbox or send anything. Free, by Outpulse.</p>';
 
     result.innerHTML = html;
-    animateGauge(report.score);
+    animateReveal(report.score, (typeof report.inboxEstimate === 'number') ? report.inboxEstimate : null);
     // Bring the result into view so the gauge animation is actually seen.
     try { result.querySelector('.card').scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {}
     $('gateForm').addEventListener('submit', submitLead);
