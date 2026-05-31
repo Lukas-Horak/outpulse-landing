@@ -3903,9 +3903,11 @@ footer.site {
 <style>
   .funnel-band .container { text-align: center; }
   .funnel-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 44px; text-align: left; }
-  .funnel-card { background: #fff; border: 1px solid rgba(14,13,12,.08); border-radius: 18px; padding: 26px 24px; display: flex; flex-direction: column; gap: 9px; }
-  .funnel-step { font: 700 11px 'Inter', -apple-system, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #a8a097; }
-  .funnel-title { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 30px; line-height: 1; letter-spacing: -.02em; color: #14120f; }
+  .funnel-card { background: #fff; border: 1px solid rgba(14,13,12,.08); border-radius: 18px; padding: 24px 22px; display: flex; flex-direction: column; gap: 11px; box-shadow: 0 1px 2px rgba(20,18,15,.04), 0 14px 36px -26px rgba(20,18,15,.28); transition: transform .18s ease, box-shadow .18s ease; }
+  .funnel-card:hover { transform: translateY(-3px); box-shadow: 0 1px 2px rgba(20,18,15,.05), 0 22px 50px -26px rgba(20,18,15,.34); }
+  .funnel-step { display: inline-flex; align-items: center; gap: 8px; font: 700 11px 'Inter', -apple-system, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: #a8a097; }
+  .funnel-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .funnel-title { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 23px; line-height: 1.12; letter-spacing: -.015em; color: #14120f; }
   .funnel-title em { color: #ff5b1f; font-style: italic; }
   .funnel-sub { font-size: 14px; line-height: 1.55; color: #6c6458; margin: 0; }
   .funnel-learn { margin: 44px auto 0; max-width: 760px; text-align: center; font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: clamp(22px, 2.6vw, 32px); line-height: 1.22; letter-spacing: -.012em; color: #14120f; }
@@ -3916,28 +3918,28 @@ footer.site {
 </style>
 <section class="band funnel-band">
   <div class="container">
-    <span class="eyebrow">One system, the whole funnel</span>
-    <h2>Six open tabs, <em>or one Outpulse.</em></h2>
+    <span class="eyebrow">From cold to closed</span>
+    <h2>Less software. <em>More deals closed.</em></h2>
     <div class="funnel-grid">
       <div class="funnel-card">
-        <span class="funnel-step">01 · Find</span>
-        <div class="funnel-title">Prospects</div>
-        <p class="funnel-sub">Describe your ideal customer — get a clean list of real companies and the people who actually buy.</p>
+        <span class="funnel-step"><span class="funnel-dot" style="background:#3866a6"></span>01 · Find</span>
+        <div class="funnel-title">A pipeline that never runs dry.</div>
+        <p class="funnel-sub">Say who you sell to once. Wake up to real companies that fit — no more staring at an empty list wondering who to email.</p>
       </div>
       <div class="funnel-card">
-        <span class="funnel-step">02 · Reach</span>
-        <div class="funnel-title">Cold email</div>
-        <p class="funnel-sub">One-to-one emails, not mail-merge — sequenced and sent so they land in the inbox, not spam.</p>
+        <span class="funnel-step"><span class="funnel-dot" style="background:#8a76b8"></span>02 · Reach</span>
+        <div class="funnel-title">Sound personal — to hundreds at once.</div>
+        <p class="funnel-sub">Each email is written for one person and lands in the inbox, so replies come back warm — while you stay heads-down building.</p>
       </div>
       <div class="funnel-card">
-        <span class="funnel-step">03 · Reply</span>
-        <div class="funnel-title">Inbox</div>
-        <p class="funnel-sub">Every reply in one place. Turn a “yes” into a deal in a single click.</p>
+        <span class="funnel-step"><span class="funnel-dot" style="background:#e0884a"></span>03 · Reply</span>
+        <div class="funnel-title">Never let a warm “yes” go cold.</div>
+        <p class="funnel-sub">Every reply lands in one place and becomes a deal in a click. No interested buyer slips away because a thread got buried.</p>
       </div>
       <div class="funnel-card">
-        <span class="funnel-step">04 · Close</span>
-        <div class="funnel-title">CRM</div>
-        <p class="funnel-sub">A real pipeline — activities, follow-ups, your numbers. Deals stop slipping through the cracks.</p>
+        <span class="funnel-step"><span class="funnel-dot" style="background:#ff5b1f"></span>04 · Close</span>
+        <div class="funnel-title">Always know your next move.</div>
+        <p class="funnel-sub">Your pipeline tells you what to do today — so deals close on time instead of quietly drifting away.</p>
       </div>
     </div>
     <p class="funnel-learn">And it <em>learns from every reply</em> — getting sharper the more you send.</p>
@@ -4490,6 +4492,190 @@ footer.site {
           </div>
         </div>
         </div><!-- /.tour-campaigns -->
+        </div><!-- /.app-shell-main -->
+      </div><!-- /.app-shell -->
+    </div><!-- /.mockup-frame -->
+  </div>
+</section>
+
+<!-- ─── CRM KANBAN MOCKUP — every reply becomes a card on a board you
+     can actually move. Same app-shell framing as the other mockups. -->
+<style>
+  .tk-wrap { padding: 20px 22px 24px; display: flex; flex-direction: column; }
+  .tk-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+  .tk-title { font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; letter-spacing: -.018em; color: #14120f; }
+  .tk-title em { color: #ff5b1f; font-style: italic; }
+  .tk-meta { font: 12px 'Inter', sans-serif; color: #a8a097; }
+  .tk-board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .tk-col { background: #faf9f7; border: 1px solid #efeee9; border-radius: 14px; padding: 12px 11px; display: flex; flex-direction: column; gap: 9px; }
+  .tk-colhead { display: flex; align-items: center; gap: 7px; padding: 0 2px; }
+  .tk-cdot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .tk-cname { font: 700 10.5px 'Inter', sans-serif; letter-spacing: .09em; text-transform: uppercase; color: #6c6458; }
+  .tk-ccount { margin-left: auto; font: 700 10.5px 'Inter', sans-serif; color: #bdb6ab; }
+  .tk-csum { font-family: 'Instrument Serif', Georgia, serif; font-size: 13px; color: #8c857a; padding: 0 2px 3px; margin-top: -4px; }
+  .tk-card { background: #fff; border: 1px solid #ececea; border-radius: 11px; padding: 11px 12px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 1px 2px rgba(20,18,15,.04); }
+  .tk-card-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+  .tk-co { font: 600 13px 'Inter', sans-serif; color: #14120f; }
+  .tk-val { font-family: 'Instrument Serif', Georgia, serif; font-size: 15px; color: #14120f; white-space: nowrap; }
+  .tk-labels { display: flex; gap: 4px; }
+  .tk-lab { height: 4px; width: 16px; border-radius: 2px; }
+  .tk-foot { display: flex; align-items: center; gap: 7px; }
+  .tk-av { width: 19px; height: 19px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font: 700 8.5px 'Inter', sans-serif; color: #fff; background: linear-gradient(135deg, #ff9466, #ff5b1f); }
+  .tk-next { font: 11px 'Inter', sans-serif; color: #a8a097; }
+  .tk-won { border-color: rgba(47,154,106,.32); background: linear-gradient(180deg, #f3faf6, #fff); }
+  .tk-check { color: #2f9a6a; font-weight: 700; }
+  @media (max-width: 860px) { .tk-board { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 76%; overflow-x: auto; } }
+</style>
+<section class="mockup-section" id="tour-crm">
+  <div class="mockup-inner">
+    <div class="mockup-head">
+      <span class="eyebrow">Pipeline</span>
+      <h2>See every deal — <em>and what to do next.</em></h2>
+      <p>The moment a prospect replies, it's a card on your board. Drag it forward, never lose track, and open each morning knowing exactly which deal needs you today — no spreadsheet, no sticky notes.</p>
+    </div>
+
+    <div class="mockup-frame">
+      <div class="app-frame-bar">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="url-pill">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1a4 4 0 014 4v3h1a3 3 0 013 3v9a3 3 0 01-3 3H7a3 3 0 01-3-3v-9a3 3 0 013-3h1V5a4 4 0 014-4zm0 2a2 2 0 00-2 2v3h4V5a2 2 0 00-2-2z"/></svg>
+          app.outpulse.ai/crm
+        </div>
+        <div style="width:60px"></div>
+      </div>
+      <div class="app-shell">
+        <aside class="app-sidebar">
+          <div class="app-sidebar-brand">
+            <span class="mk"></span>
+            <span class="name">Outpulse</span>
+            <span class="beta"><span class="d"></span>Beta</span>
+          </div>
+          <div class="app-sidebar-ws">
+            <span class="av">P</span>
+            <div class="body">
+              <span class="name">Platform</span>
+              <span class="plan">Services · Growth Plan</span>
+            </div>
+            <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="app-sidebar-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+            <span class="label">Search everything</span>
+            <span class="kbd">⌘K</span>
+          </div>
+          <div class="app-sidebar-new">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            Start outreach
+          </div>
+          <div class="app-sidebar-section">
+            <div class="label">Workspace</div>
+            <span class="item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 4l9 8"/><path d="M5 10v10h14V10"/></svg>
+              Dashboard
+            </span>
+            <span class="item">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+              Pulse
+            </span>
+            <span class="item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 6 8 7 8-7"/></svg>
+              Inbox
+              <span class="count warn">12</span>
+            </span>
+          </div>
+          <div class="app-sidebar-section">
+            <div class="label">Pipeline</div>
+            <span class="item on">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="11" rx="1"/><rect x="17" y="4" width="4" height="7" rx="1"/></svg>
+              Deals
+              <span class="count">74</span>
+            </span>
+            <span class="item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
+              Team
+            </span>
+          </div>
+          <div class="app-sidebar-section">
+            <div class="label">Outreach</div>
+            <span class="item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 22 2l-6.5 18-3-9z"/><path d="M3 11l9 3"/></svg>
+              Campaigns
+              <span class="count">7</span>
+            </span>
+            <span class="item">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.56c0-1.33 0-3.04-1.85-3.04s-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56z"/></svg>
+              LinkedIn
+            </span>
+          </div>
+          <div class="app-sidebar-foot">
+            <span class="av">LH</span>
+            <div class="who">
+              <span class="name">Lukas Horak</span>
+              <span class="plan">Growth Plan</span>
+            </div>
+            <span class="more">⋮</span>
+          </div>
+        </aside>
+        <div class="app-shell-main">
+          <div class="tk-wrap">
+            <div class="tk-head">
+              <div class="tk-title">Pipeline — <em>what needs you today.</em></div>
+              <span class="tk-meta">74 deals · €218k open · 4 to follow up</span>
+            </div>
+            <div class="tk-board">
+              <div class="tk-col">
+                <div class="tk-colhead"><span class="tk-cdot" style="background:#6c8ee0"></span><span class="tk-cname">Lead</span><span class="tk-ccount">21</span></div>
+                <div class="tk-csum">€41,500</div>
+                <div class="tk-card">
+                  <div class="tk-card-top"><span class="tk-co">Northwind SaaS</span><span class="tk-val">€18,000</span></div>
+                  <div class="tk-labels"><span class="tk-lab" style="background:#e0884a"></span><span class="tk-lab" style="background:#6cc99a"></span></div>
+                  <div class="tk-foot"><span class="tk-av">AL</span><span class="tk-next">Intro call · Tue</span></div>
+                </div>
+                <div class="tk-card">
+                  <div class="tk-card-top"><span class="tk-co">Lumen Health</span><span class="tk-val">€9,500</span></div>
+                  <div class="tk-foot"><span class="tk-av">AL</span><span class="tk-next">Send deck</span></div>
+                </div>
+              </div>
+              <div class="tk-col">
+                <div class="tk-colhead"><span class="tk-cdot" style="background:#8579d1"></span><span class="tk-cname">Contacted</span><span class="tk-ccount">18</span></div>
+                <div class="tk-csum">€36,000</div>
+                <div class="tk-card">
+                  <div class="tk-card-top"><span class="tk-co">Vela Logistics</span><span class="tk-val">€24,000</span></div>
+                  <div class="tk-labels"><span class="tk-lab" style="background:#6cc99a"></span></div>
+                  <div class="tk-foot"><span class="tk-av">AL</span><span class="tk-next">Follow-up · Thu</span></div>
+                </div>
+                <div class="tk-card">
+                  <div class="tk-card-top"><span class="tk-co">Brightpath</span><span class="tk-val">€12,000</span></div>
+                  <div class="tk-foot"><span class="tk-av">AL</span><span class="tk-next">Waiting on reply</span></div>
+                </div>
+              </div>
+              <div class="tk-col">
+                <div class="tk-colhead"><span class="tk-cdot" style="background:#e8924d"></span><span class="tk-cname">Meeting</span><span class="tk-ccount">9</span></div>
+                <div class="tk-csum">€73,000</div>
+                <div class="tk-card">
+                  <div class="tk-card-top"><span class="tk-co">Acme Robotics</span><span class="tk-val">€42,000</span></div>
+                  <div class="tk-labels"><span class="tk-lab" style="background:#e0884a"></span></div>
+                  <div class="tk-foot"><span class="tk-av">AL</span><span class="tk-next">Demo · Thu 2pm</span></div>
+                </div>
+                <div class="tk-card">
+                  <div class="tk-card-top"><span class="tk-co">Cobalt Cloud</span><span class="tk-val">€31,000</span></div>
+                  <div class="tk-foot"><span class="tk-av">AL</span><span class="tk-next">Proposal sent</span></div>
+                </div>
+              </div>
+              <div class="tk-col">
+                <div class="tk-colhead"><span class="tk-cdot" style="background:#2f9a6a"></span><span class="tk-cname">Won</span><span class="tk-ccount">12</span></div>
+                <div class="tk-csum">€61,500</div>
+                <div class="tk-card tk-won">
+                  <div class="tk-card-top"><span class="tk-co">Meridian Apps</span><span class="tk-val">€27,500</span></div>
+                  <div class="tk-foot"><span class="tk-check">✓</span><span class="tk-next">Closed · onboarding</span></div>
+                </div>
+                <div class="tk-card tk-won">
+                  <div class="tk-card-top"><span class="tk-co">Foundry Labs</span><span class="tk-val">€16,000</span></div>
+                  <div class="tk-foot"><span class="tk-check">✓</span><span class="tk-next">Closed last week</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div><!-- /.app-shell-main -->
       </div><!-- /.app-shell -->
     </div><!-- /.mockup-frame -->
