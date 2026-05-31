@@ -135,6 +135,10 @@ a { color:inherit; }
 
 /* Result region below the hero */
 .tool { position:relative; z-index:1; max-width:980px; margin:0 auto; padding:0 24px; }
+/* Divider between the input/hero and the report */
+.resultDivide { display:flex; align-items:center; gap:18px; margin-top:52px; }
+.resultDivide::before, .resultDivide::after { content:''; height:1px; background:var(--line); flex:1; }
+.resultDivide span { font:700 11px var(--mono); letter-spacing:.18em; text-transform:uppercase; color:var(--muted-2); }
 
 /* ============ Result — app-style dashboard (mix of landing + app) ============ */
 .report { margin-top:36px; scroll-margin-top:90px; display:flex; flex-direction:column; gap:14px; animation:rise .45s cubic-bezier(.2,.8,.2,1); }
@@ -289,7 +293,7 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
       <button class="checkBtn" id="checkBtn" type="submit">Check my email health</button>
     </form>
     <p class="examples" id="examples">Try <span class="exampleLink" data-domain="outpulse.ai">outpulse.ai</span> · <span class="exampleLink" data-domain="stripe.com">stripe.com</span></p>
-    <div class="trust">
+    <div class="trust" id="trust">
       <span>Free, no login</span><span class="sep">·</span>
       <span>We never see your inbox</span><span class="sep">·</span>
       <span>Results in ~2 seconds</span>
@@ -299,6 +303,7 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
 </div>
 
 <section class="tool">
+  <div class="resultDivide" id="resultDivide" style="display:none"><span>Your report</span></div>
   <div id="skeleton" style="display:none">
     <div class="skel">
       <div class="skelRow" style="width:40%;height:28px"></div>
@@ -365,6 +370,7 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
   var $ = function (id) { return document.getElementById(id); };
   var form = $('form'), domainInput = $('domain'), checkBtn = $('checkBtn');
   var errorEl = $('error'), skeleton = $('skeleton'), result = $('result'), examples = $('examples');
+  var trustEl = $('trust'), resultDivide = $('resultDivide');
   var lastReport = null, raf = null;
 
   function esc(s) {
@@ -375,13 +381,21 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
 
   function showError(msg) {
     errorEl.textContent = msg; errorEl.style.display = 'block';
+    if (resultDivide) resultDivide.style.display = 'none';
+    examples.style.display = '';
+    if (trustEl) trustEl.style.display = '';
   }
 
   function setLoading(on) {
     checkBtn.disabled = on;
     checkBtn.textContent = on ? 'Checking…' : 'Check my email health';
     skeleton.style.display = on ? 'block' : 'none';
-    if (on) { result.innerHTML = ''; errorEl.style.display = 'none'; examples.style.display = 'none'; }
+    if (on) {
+      result.innerHTML = ''; errorEl.style.display = 'none';
+      examples.style.display = 'none';
+      if (trustEl) trustEl.style.display = 'none';
+      if (resultDivide) resultDivide.style.display = 'flex';
+    }
   }
 
   function animateReveal(scoreTarget, placeTarget) {
