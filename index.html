@@ -4685,28 +4685,34 @@ footer.site {
 <!-- ─── CRM TEASER — light card; the full demo lives on /crm ───────── -->
 <style>
   .crm-teaser .container { text-align: center; }
-  .crmt-board { position: relative; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; max-width: 920px; margin: 44px auto 0; text-align: left; }
-  .crmt-col { background: #fbfaf7; border: 1px solid #ececea; border-radius: 14px; padding: 11px 10px 13px; display: flex; flex-direction: column; gap: 8px; }
-  .crmt-h { display: flex; align-items: center; gap: 7px; font: 700 10px 'Inter', sans-serif; letter-spacing: .09em; text-transform: uppercase; color: #14120f; padding: 2px 2px 9px; border-bottom: 1px dashed rgba(20,18,15,.08); }
-  .crmt-h .d { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--c, #6c6458); }
-  .crmt-card { background: #fff; border: 1px solid #ececea; border-radius: 9px; padding: 10px 11px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-  .crmt-card b { font: 600 12.5px 'Inter', sans-serif; color: #14120f; }
-  .crmt-card span { font: 600 11.5px 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; color: #6c6458; white-space: nowrap; }
-  /* Skeleton edge columns — hint at the rest of the pipeline. */
+  .crmt-board { position: relative; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; max-width: 980px; margin: 44px auto 0; text-align: left; }
+  .crmt-col { background: #fbfaf7; border: 1px solid #ececea; border-radius: 14px; padding: 11px 10px 14px; display: flex; flex-direction: column; gap: 8px; }
+  .crmt-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 3px 3px 9px; border-bottom: 1px dashed rgba(20,18,15,.08); }
+  .crmt-name { display: flex; align-items: center; gap: 7px; font: 700 10px 'Inter', sans-serif; letter-spacing: .09em; text-transform: uppercase; color: #14120f; }
+  .crmt-name .d { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--c, #6c6458); }
+  .crmt-count { font: 700 10px 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; color: #3a342c; background: #fff; border: 1px solid #ececea; padding: 1px 7px; border-radius: 999px; }
+  .crmt-sum { font: 11px 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; color: #6c6458; padding: 0 3px 2px; min-height: 14px; }
+  .crmt-card { background: #fff; border: 1px solid #ececea; border-radius: 10px; padding: 9px 11px; display: flex; flex-direction: column; gap: 5px; }
+  .crmt-lab { display: flex; gap: 4px; margin-bottom: 1px; }
+  .crmt-lab i { width: 18px; height: 3px; border-radius: 2px; }
+  .crmt-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .crmt-top b { font: 600 12.5px 'Inter', sans-serif; color: #14120f; }
+  .crmt-top .v { font: 600 11.5px 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; color: #6c6458; white-space: nowrap; }
+  .crmt-ct { font: 11.5px 'Inter', sans-serif; color: #a8a097; }
+  .crmt-next { display: inline-flex; align-items: center; gap: 5px; align-self: flex-start; margin-top: 2px; font: 600 10.5px 'Inter', sans-serif; color: #6c6458; background: #f4f3f0; border-radius: 6px; padding: 4px 8px; }
+  .crmt-next svg { width: 11px; height: 11px; }
+  .crmt-next.od { color: #c24518; background: #fdf1e7; }
+  /* Skeleton edge columns — dashed ghost cards, like a real empty column. */
   .crmt-col.skel { background: #faf9f7; }
-  .crmt-col.skel .crmt-h { color: #c8c3ba; }
-  .crmt-col.skel .crmt-h .d { background: #ddd8cf; }
-  .crmt-card.skelcard { display: block; }
-  .sk { display: block; border-radius: 5px; background: linear-gradient(90deg, #efece7 25%, #f6f4f0 37%, #efece7 63%); background-size: 400% 100%; animation: crmtShimmer 1.6s ease infinite; }
-  .sk-h { width: 54px; height: 9px; }
-  .sk-a { width: 72%; height: 9px; margin-bottom: 7px; }
-  .sk-b { width: 44%; height: 9px; }
-  @keyframes crmtShimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+  .crmt-col.skel .crmt-name, .crmt-col.skel .crmt-count { color: #c8c3ba; }
+  .crmt-col.skel .crmt-name .d { background: #ddd8cf; }
+  .crmt-col.skel .crmt-count { background: transparent; border-color: #ece7de; }
+  .crmt-ghost { border: 1px dashed #ddd8cf; border-radius: 10px; min-height: 62px; }
   /* Card-move animation — one deal slides Meeting -> Proposal on a loop. */
   .crmt-demo { position: absolute; inset: 0; pointer-events: none; z-index: 4; }
-  .crmt-drag { position: absolute; left: 0; top: 0; width: var(--mcw, 150px); background: #fff; border: 1px solid #e4e0d8; border-radius: 9px; padding: 10px 11px; display: flex; align-items: center; justify-content: space-between; gap: 8px; box-shadow: 0 16px 34px -10px rgba(20,18,15,.30); opacity: 0; transform: translate(var(--mx0,0), var(--my0,0)); animation: crmtMove 6s cubic-bezier(.45,.05,.3,1) infinite; }
-  .crmt-drag b { font: 600 12.5px 'Inter', sans-serif; color: #14120f; }
-  .crmt-drag span { font: 600 11.5px 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; color: #6c6458; }
+  .crmt-drag { position: absolute; left: 0; top: 0; width: var(--mcw, 160px); background: #fff; border: 1px solid #e4e0d8; border-radius: 10px; padding: 9px 11px; display: flex; flex-direction: column; gap: 5px; box-shadow: 0 16px 34px -10px rgba(20,18,15,.30); opacity: 0; transform: translate(var(--mx0,0), var(--my0,0)); animation: crmtMove 6s cubic-bezier(.45,.05,.3,1) infinite; }
+  .crmt-drag .crmt-top b { font: 600 12.5px 'Inter', sans-serif; color: #14120f; }
+  .crmt-drag .crmt-top .v { font: 600 11.5px 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; color: #6c6458; }
   @keyframes crmtMove {
     0%, 8% { opacity: 0; transform: translate(var(--mx0,0), var(--my0,0)) scale(1); }
     14% { opacity: 1; transform: translate(var(--mx0,0), calc(var(--my0,0) - 7px)) scale(1.04); }
@@ -4718,7 +4724,7 @@ footer.site {
   @keyframes crmtSrc { 0%, 9% { opacity: 1; } 14%, 53% { opacity: .25; } 60%, 100% { opacity: 1; } }
   .crmt-cta { margin-top: 40px; }
   @media (prefers-reduced-motion: reduce) { .crmt-demo { display: none; } .crmt-src { animation: none; } }
-  @media (max-width: 640px) { .crmt-board { grid-template-columns: repeat(3, 1fr); max-width: 430px; } .crmt-col.skel, .crmt-demo { display: none; } }
+  @media (max-width: 700px) { .crmt-board { grid-template-columns: repeat(3, 1fr); max-width: 470px; } .crmt-col.skel, .crmt-demo { display: none; } }
 </style>
 <section class="band crm-teaser">
   <div class="container">
@@ -4729,30 +4735,37 @@ footer.site {
     </div>
     <div class="crmt-board" aria-hidden="true">
       <div class="crmt-col skel">
-        <div class="crmt-h"><span class="d"></span><span class="sk sk-h"></span></div>
-        <div class="crmt-card skelcard"><span class="sk sk-a"></span><span class="sk sk-b"></span></div>
-        <div class="crmt-card skelcard"><span class="sk sk-a"></span><span class="sk sk-b"></span></div>
+        <div class="crmt-head"><span class="crmt-name"><i class="d"></i>Lead</span><span class="crmt-count">6</span></div>
+        <div class="crmt-sum"></div>
+        <div class="crmt-ghost"></div>
+        <div class="crmt-ghost"></div>
       </div>
       <div class="crmt-col" style="--c:#8a76b8">
-        <div class="crmt-h"><span class="d"></span>Contacted</div>
-        <div class="crmt-card"><b>Heineken</b><span>60 000 €</span></div>
-        <div class="crmt-card"><b>Volvo</b><span>32 000 €</span></div>
+        <div class="crmt-head"><span class="crmt-name"><i class="d"></i>Contacted</span><span class="crmt-count">3</span></div>
+        <div class="crmt-sum">92 000 €</div>
+        <div class="crmt-card"><div class="crmt-lab"><i style="background:#8a76b8"></i></div><div class="crmt-top"><b>Heineken</b><span class="v">60 000 €</span></div><div class="crmt-ct">Priya Nair · COO</div></div>
+        <div class="crmt-card"><div class="crmt-top"><b>Volvo</b><span class="v">32 000 €</span></div><div class="crmt-ct">Tom Becker</div></div>
       </div>
       <div class="crmt-col" style="--c:#ff5b1f">
-        <div class="crmt-h"><span class="d"></span>Meeting</div>
-        <div class="crmt-card"><b>Red Bull</b><span>120 000 €</span></div>
-        <div class="crmt-card crmt-src"><b>Spotify</b><span>$57,000</span></div>
+        <div class="crmt-head"><span class="crmt-name"><i class="d"></i>Meeting</span><span class="crmt-count">3</span></div>
+        <div class="crmt-sum">177 000 €</div>
+        <div class="crmt-card"><div class="crmt-lab"><i style="background:#ff5b1f"></i></div><div class="crmt-top"><b>Red Bull</b><span class="v">120 000 €</span></div><div class="crmt-ct">Jordan Pike · CTO</div></div>
+        <div class="crmt-card crmt-src"><div class="crmt-top"><b>Spotify</b><span class="v">$57,000</span></div><div class="crmt-ct">Elena Marsh</div></div>
       </div>
       <div class="crmt-col" style="--c:#c97a10">
-        <div class="crmt-h"><span class="d"></span>Proposal</div>
-        <div class="crmt-card crmt-tgt"><b>Shopify</b><span>150 000 €</span></div>
-        <div class="crmt-card"><b>Notion</b><span>28 000 €</span></div>
+        <div class="crmt-head"><span class="crmt-name"><i class="d"></i>Proposal</span><span class="crmt-count">4</span></div>
+        <div class="crmt-sum">210 000 €</div>
+        <div class="crmt-card crmt-tgt"><div class="crmt-lab"><i style="background:#3866a6"></i></div><div class="crmt-top"><b>Shopify</b><span class="v">150 000 €</span></div><div class="crmt-ct">Owen Clarke</div></div>
+        <div class="crmt-card"><div class="crmt-top"><b>Klarna</b><span class="v">60 000 €</span></div><div class="crmt-ct">Martin Kraf&#269;&#237;k</div><span class="crmt-next od"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>Follow-up · 5d overdue</span></div>
       </div>
       <div class="crmt-col skel">
-        <div class="crmt-h"><span class="d"></span><span class="sk sk-h"></span></div>
-        <div class="crmt-card skelcard"><span class="sk sk-a"></span><span class="sk sk-b"></span></div>
-        <div class="crmt-card skelcard"><span class="sk sk-a"></span><span class="sk sk-b"></span></div>
+        <div class="crmt-head"><span class="crmt-name"><i class="d"></i>Won</span><span class="crmt-count">9</span></div>
+        <div class="crmt-sum"></div>
+        <div class="crmt-ghost"></div>
+        <div class="crmt-ghost"></div>
       </div>
+      <div class="crmt-demo"><div class="crmt-drag"><div class="crmt-top"><b>Spotify</b><span class="v">$57,000</span></div><div class="crmt-ct">Elena Marsh</div></div></div>
+    </div>
       <div class="crmt-demo"><div class="crmt-drag"><b>Spotify</b><span>$57,000</span></div></div>
     </div>
     <div class="crmt-cta">
