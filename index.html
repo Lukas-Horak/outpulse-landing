@@ -4549,6 +4549,46 @@ footer.site {
   .tk-next.od svg { color: #ff5b1f; }
   .tk-next .due { font: 10.5px 'SF Mono', Consolas, Menlo, monospace; color: #a8a097; margin-left: auto; flex-shrink: 0; padding-left: 6px; }
   @media (max-width: 920px) { .tk-board { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 72%; overflow-x: auto; } .tk-h1 { font-size: 30px; } }
+
+  /* ── Auto-play demo: drag a deal to the next stage → open drawer → type a next step.
+        Desktop only; honours prefers-reduced-motion. Path coords set by JS. */
+  .tk-app { position: relative; overflow: hidden; }
+  .tk-demo { position: absolute; inset: 0; pointer-events: none; z-index: 7; }
+  .tk-drag { position: absolute; left: 0; top: 0; width: var(--cardW, 168px); background: #fff; border: 1px solid #e4e0d8; border-radius: 10px; padding: 11px 12px; box-shadow: 0 18px 40px -10px rgba(20,18,15,.32); opacity: 0; transform: translate(var(--x0,320px), var(--y0,470px)); animation: tkDrag 14s cubic-bezier(.45,.05,.3,1) infinite; }
+  @keyframes tkDrag {
+    0%, 6% { opacity: 0; transform: translate(var(--x0,320px), var(--y0,470px)) scale(1) rotate(0deg); }
+    10% { opacity: 1; transform: translate(var(--x0,320px), calc(var(--y0,470px) - 8px)) scale(1.03) rotate(-2.5deg); }
+    28% { opacity: 1; transform: translate(var(--x1,520px), calc(var(--y1,300px) - 8px)) scale(1.03) rotate(-2.5deg); }
+    34% { opacity: 1; transform: translate(var(--x1,520px), var(--y1,300px)) scale(1) rotate(0deg); }
+    40% { opacity: 0; transform: translate(var(--x1,520px), var(--y1,300px)); }
+    100% { opacity: 0; }
+  }
+  .tk-cursor { position: absolute; left: 0; top: 0; width: 22px; height: 22px; opacity: 0; filter: drop-shadow(0 1px 1.5px rgba(20,18,15,.3)); animation: tkCursor 14s cubic-bezier(.45,.05,.3,1) infinite; }
+  @keyframes tkCursor {
+    0% { opacity: 0; transform: translate(calc(var(--x0,320px) + 52px), calc(var(--y0,470px) + 62px)); }
+    5% { opacity: 1; transform: translate(calc(var(--x0,320px) + 52px), calc(var(--y0,470px) + 62px)); }
+    10% { transform: translate(calc(var(--x0,320px) + 34px), calc(var(--y0,470px) + 14px)); }
+    28% { transform: translate(calc(var(--x1,520px) + 34px), calc(var(--y1,300px) + 14px)); }
+    34% { transform: translate(calc(var(--x1,520px) + 34px), calc(var(--y1,300px) + 30px)); }
+    44% { opacity: 1; transform: translate(calc(var(--x1,520px) + 96px), calc(var(--y1,300px) + 88px)); }
+    50%, 100% { opacity: 0; }
+  }
+  .tk-srccard { animation: tkSrc 14s ease infinite; }
+  @keyframes tkSrc { 0%, 7% { opacity: 1; } 11%, 39% { opacity: .28; } 45%, 100% { opacity: 1; } }
+  .tk-drawer { position: absolute; top: 0; right: 0; bottom: 0; width: min(340px, 66%); background: #fff; border-left: 1px solid #ececea; box-shadow: -26px 0 56px -22px rgba(20,18,15,.26); transform: translateX(103%); animation: tkDrawer 14s cubic-bezier(.4,0,.2,1) infinite; padding: var(--drawerTop, 96px) 22px 24px; }
+  @keyframes tkDrawer { 0%, 40% { transform: translateX(103%); } 48%, 90% { transform: translateX(0); } 96%, 100% { transform: translateX(103%); } }
+  .tk-dwr-co { font-family: 'Instrument Serif', Georgia, serif; font-size: 25px; line-height: 1.1; color: #14120f; }
+  .tk-dwr-val { font: 700 13px 'SF Mono', Consolas, Menlo, monospace; color: #14120f; margin-top: 3px; }
+  .tk-dwr-stage { display: inline-flex; align-items: center; gap: 7px; margin-top: 16px; font: 700 11px 'Inter', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #c97a10; }
+  .tk-dwr-stage::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #c97a10; }
+  .tk-dwr-label { font: 700 10.5px 'Inter', sans-serif; letter-spacing: .1em; text-transform: uppercase; color: #a8a097; margin: 24px 0 8px; }
+  .tk-dwr-input { border: 1px solid #d8d4cc; border-radius: 9px; padding: 11px 12px; min-height: 42px; font: 14px 'Inter', sans-serif; color: #14120f; }
+  .tk-typed { display: inline-block; white-space: nowrap; overflow: hidden; vertical-align: bottom; width: 0; animation: tkType 14s steps(40, end) infinite; }
+  .tk-caret { display: inline-block; width: 1.5px; height: 15px; background: #ff5b1f; vertical-align: -3px; margin-left: 1px; animation: tkBlink .9s steps(1) infinite; }
+  @keyframes tkType { 0%, 50% { width: 0; } 82%, 100% { width: var(--typeW, 250px); } }
+  @keyframes tkBlink { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .tk-demo { display: none; } }
+  @media (max-width: 920px) { .tk-demo { display: none; } }
 </style>
 <section class="mockup-section" id="tour-crm">
   <div class="mockup-inner">
@@ -4612,6 +4652,11 @@ footer.site {
               <div class="tk-contact">Dana Whitfield</div>
               <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Send pitch deck</span><span class="due">Wed</span></div>
             </div>
+            <div class="tk-card">
+              <div class="tk-card-top"><span class="tk-co">Tessell Systems</span><span class="tk-val">35 000 €</span></div>
+              <div class="tk-contact">Marek Holub</div>
+              <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Qualify on call</span><span class="due">Fri</span></div>
+            </div>
           </div>
           <div class="tk-col" style="--tk-accent:#8a76b8">
             <div class="tk-colhead"><span class="tk-cname">Contacted</span><span class="tk-ccount">5</span></div>
@@ -4627,6 +4672,11 @@ footer.site {
               <div class="tk-contact">Tom Becker</div>
               <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Waiting on reply</span></div>
             </div>
+            <div class="tk-card">
+              <div class="tk-card-top"><span class="tk-co">Orbit Retail</span><span class="tk-val">7 500 €</span></div>
+              <div class="tk-contact">Sara Lund</div>
+              <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Second touch</span><span class="due">Fri</span></div>
+            </div>
           </div>
           <div class="tk-col" style="--tk-accent:#ff5b1f">
             <div class="tk-colhead"><span class="tk-cname">Meeting</span><span class="tk-ccount">3</span></div>
@@ -4637,10 +4687,15 @@ footer.site {
               <div class="tk-contact">Jordan Pike · CTO</div>
               <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Demo call</span><span class="due">Thu 2pm</span></div>
             </div>
-            <div class="tk-card">
+            <div class="tk-card tk-srccard">
               <div class="tk-card-top"><span class="tk-co">Cobalt Cloud</span><span class="tk-val">57 000 €</span></div>
               <div class="tk-contact">Elena Marsh</div>
               <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Proposal due</span><span class="due">Mon</span></div>
+            </div>
+            <div class="tk-card">
+              <div class="tk-card-top"><span class="tk-co">Hatch Labs</span><span class="tk-val">19 000 €</span></div>
+              <div class="tk-contact">Will Tan</div>
+              <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Pricing review</span><span class="due">Wed</span></div>
             </div>
           </div>
           <div class="tk-col" style="--tk-accent:#c97a10">
@@ -4657,6 +4712,11 @@ footer.site {
               <div class="tk-contact">Martin Kraf&#269;&#237;k</div>
               <div class="tk-next od"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg><span>Follow-up</span><span class="due">5d overdue</span></div>
             </div>
+            <div class="tk-card">
+              <div class="tk-card-top"><span class="tk-co">Vant5</span><span class="tk-val">28 000 €</span></div>
+              <div class="tk-contact">Lena Frost</div>
+              <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Redline review</span><span class="due">Tue</span></div>
+            </div>
           </div>
           <div class="tk-col" style="--tk-accent:#1a7c4b">
             <div class="tk-colhead"><span class="tk-cname">Won</span><span class="tk-ccount">9</span></div>
@@ -4669,9 +4729,29 @@ footer.site {
             </div>
             <div class="tk-card">
               <div class="tk-card-top"><span class="tk-co">Foundry Labs</span><span class="tk-val">36 000 €</span></div>
-              <div class="tk-contact">Sara Lund</div>
+              <div class="tk-contact">Nora Vance</div>
               <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Closed — won</span></div>
             </div>
+            <div class="tk-card">
+              <div class="tk-card-top"><span class="tk-co">Pier 9 Studio</span><span class="tk-val">18 000 €</span></div>
+              <div class="tk-contact">Kai Berg</div>
+              <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Invoice sent</span></div>
+            </div>
+          </div>
+        </div>
+        <!-- Auto-play demo: drag Cobalt Cloud → Proposal, open drawer, type a next step -->
+        <div class="tk-demo" aria-hidden="true">
+          <div class="tk-drag">
+            <div class="tk-card-top"><span class="tk-co">Cobalt Cloud</span><span class="tk-val">57 000 €</span></div>
+            <div class="tk-contact">Elena Marsh</div>
+          </div>
+          <svg class="tk-cursor" viewBox="0 0 24 24" fill="#14120f" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="round"><path d="M4 2l16 9-7 1.6L9.5 21 4 2z"/></svg>
+          <div class="tk-drawer">
+            <div class="tk-dwr-co">Cobalt Cloud</div>
+            <div class="tk-dwr-val">57 000 €</div>
+            <div class="tk-dwr-stage">Proposal</div>
+            <div class="tk-dwr-label">Next step</div>
+            <div class="tk-dwr-input"><span class="tk-typed">Send pricing &amp; book the follow-up call</span><span class="tk-caret"></span></div>
           </div>
         </div>
       </div>
@@ -5182,6 +5262,57 @@ footer.site {
   }
   document.addEventListener('pointerdown', function (ev) { fireCtaClick(ev.target); }, { capture: true });
   document.addEventListener('click', function (ev) { fireCtaClick(ev.target); }, { capture: true });
+})();
+</script>
+<script>
+/* CRM kanban auto-play demo — measure real card positions so the floating
+   "drag" card travels from its slot in Meeting to the top of Proposal, and
+   the typewriter reveal knows the exact text width. Pure layout math; the
+   motion itself is CSS keyframes (tkDrag/tkCursor/tkDrawer/tkType). */
+(function () {
+  var demo = document.querySelector('#tour-crm .tk-demo');
+  if (!demo) return;
+  var src = document.querySelector('#tour-crm .tk-srccard');
+  var cols = document.querySelectorAll('#tour-crm .tk-col');
+  var proposalCol = cols[3]; // Lead · Contacted · Meeting · Proposal · Won
+  var board = document.querySelector('#tour-crm .tk-board');
+  var typed = document.querySelector('#tour-crm .tk-typed');
+  if (!src || !proposalCol || !board) return;
+  var target = proposalCol.querySelector('.tk-card');
+
+  function measure() {
+    // Demo overlay is the coordinate origin (it sits at the board's top-left).
+    var o = demo.getBoundingClientRect();
+    var s = src.getBoundingClientRect();
+    var t = (target || proposalCol).getBoundingClientRect();
+    var b = board.getBoundingClientRect();
+    demo.style.setProperty('--x0', (s.left - o.left) + 'px');
+    demo.style.setProperty('--y0', (s.top - o.top) + 'px');
+    demo.style.setProperty('--x1', (t.left - o.left) + 'px');
+    demo.style.setProperty('--y1', (t.top - o.top) + 'px');
+    demo.style.setProperty('--cardW', s.width + 'px');
+    // Pin the drawer's content to the board's vertical level so it's visible
+    // alongside the cards (the drawer spans the full app height, content at top
+    // would otherwise sit far above the board, off-screen).
+    demo.style.setProperty('--drawerTop', Math.max(24, (b.top - o.top) + 4) + 'px');
+    if (typed) {
+      // width:0 + overflow:hidden + nowrap → scrollWidth is the full text width.
+      var w = typed.scrollWidth;
+      if (w > 0) demo.style.setProperty('--typeW', (w + 2) + 'px');
+    }
+  }
+
+  var raf;
+  function schedule() {
+    measure(); // synchronous pass — works even when rAF is throttled (background tabs)
+    try { cancelAnimationFrame(raf); raf = requestAnimationFrame(measure); } catch (e) {}
+  }
+  // Measure once fonts are ready (serif/mono metrics shift the layout).
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(schedule); }
+  if (document.readyState === 'complete') { schedule(); }
+  else { window.addEventListener('load', schedule); }
+  schedule();
+  window.addEventListener('resize', schedule, { passive: true });
 })();
 </script>
 </body>
