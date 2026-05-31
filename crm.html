@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Outpulse — from cold list to closed deal</title>
+<title>Outpulse CRM — every reply, tracked to the close</title>
 <link rel="icon" type="image/svg+xml" href="outpulse-logo-dusk.svg">
-<meta name="description" content="Find your ideal customers, send cold email that reads one-to-one, manage every reply, and move deals down a real pipeline. The whole outbound system — prospecting, email, inbox and CRM — in one place.">
+<meta name="description" content="The Outpulse CRM turns every reply into a deal on a board you can move — pipeline, deal drawer, forecast, team and activities in one workspace.">
 <meta property="og:title" content="Outpulse — AI sales agent for founders">
 <meta property="og:description" content="Outpulse finds your ideal customers, writes one-of-one emails, and books meetings while you sleep.">
 <meta property="og:image" content="https://outpulse.ai/og-image-v3.png">
@@ -3542,10 +3542,10 @@ footer.site {
       <span>Outpulse</span>
     </a>
     <div class="nav-links">
-      <a href="#how">How it works</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#faq">FAQ</a>
-      <a href="/crm">CRM</a>
+      <a href="/#how">How it works</a>
+      <a href="/#pricing">Pricing</a>
+      <a href="/#faq">FAQ</a>
+      <a href="/crm" aria-current="page">CRM</a>
       <a href="/email-health">Free email test</a>
     </div>
     <div class="nav-right">
@@ -3555,481 +3555,169 @@ footer.site {
   </div>
 </nav>
 
-<!-- ─── HERO — Linear-style, light ground, text-only.
-     Benefit-led declarative noun phrase as h1 (Linear pattern:
-     "The [thing] [for whom]"). Subhead unpacks how. Two CTAs.
-     The mockup reveals in the section right below. -->
+<style>
+  /* /crm subpage — hero CTA row + capability grid */
+  .crm-hero-cta { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-top: 30px; }
+  .crm-hero-link { font: 600 14.5px var(--sans); color: #6c6458; text-decoration: none; transition: color .15s; }
+  .crm-hero-link:hover { color: #14120f; }
+
+  .crm-feats .container { text-align: center; }
+  .crm-feats-sub { margin: 12px auto 0; max-width: 560px; font-size: 15.5px; line-height: 1.55; color: var(--muted); }
+  .crm-feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 48px; text-align: left; }
+  .crm-feat { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 26px 24px; box-shadow: 0 1px 2px rgba(20,18,15,.04), 0 16px 40px -30px rgba(20,18,15,.30); transition: transform .18s ease, box-shadow .18s ease; }
+  .crm-feat:hover { transform: translateY(-3px); box-shadow: 0 1px 2px rgba(20,18,15,.05), 0 24px 54px -28px rgba(20,18,15,.34); }
+  .crm-feat .ic { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: #f7f4ef; border: 1px solid #efeae2; }
+  .crm-feat h3 { font: 600 16.5px var(--sans); letter-spacing: -.01em; color: var(--ink); margin: 16px 0 7px; }
+  .crm-feat p { font-size: 14px; line-height: 1.56; color: var(--muted); margin: 0; }
+  @media (max-width: 860px) { .crm-feat-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .crm-feat-grid { grid-template-columns: 1fr; gap: 12px; } }
+</style>
+
+<!-- ─── CRM HERO ─────────────────────────────────────────────────── -->
 <section class="hero">
   <div class="container">
     <div class="hero-text">
-      <h1>From cold list to <em>closed deal.</em></h1>
-      <p class="hero-lead">
-        Outpulse finds the right companies, writes the email, handles every reply, and tracks each deal to close — run sales like a ten-person team, solo.
-      </p>
-      <p class="hero-kicker" style="margin:16px 0 30px;font-size:14px;letter-spacing:.04em;color:#9a9289;">Prospecting · Cold email · Inbox · CRM — one login.</p>
-      <form class="hero-signup" action="https://app.outpulse.ai/signup" method="get">
-        <input type="hidden" name="utm_source" value="outpulse_landing">
-        <input type="hidden" name="utm_campaign" value="launch">
-        <input type="hidden" name="utm_medium" value="hero_email">
-        <input
-          class="hero-signup-input"
-          type="email"
-          name="email"
-          placeholder="Enter your work email"
-          required
-          autocomplete="email"
-          inputmode="email">
-        <button type="submit" class="hero-signup-submit" data-cta="hero_email">Get started free</button>
-      </form>
-
-      <div class="hero-signup-or">or</div>
-
-      <a class="hero-google"
-         href="https://app.outpulse.ai/signup?utm_source=outpulse_landing&utm_campaign=launch&utm_medium=hero_google&auth=google"
-         data-cta="hero_google">
-        <svg viewBox="0 0 18 18" aria-hidden="true">
-          <path d="M17.64 9.2c0-.64-.06-1.25-.17-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.79 2.72v2.26h2.9c1.71-1.57 2.69-3.88 2.69-6.62Z" fill="#4285F4"/>
-          <path d="M9 18c2.43 0 4.47-.81 5.95-2.18l-2.9-2.26c-.81.54-1.84.86-3.05.86-2.35 0-4.33-1.59-5.04-3.72H.96v2.33A9 9 0 0 0 9 18Z" fill="#34A853"/>
-          <path d="M3.96 10.7A5.4 5.4 0 0 1 3.68 9c0-.59.1-1.17.28-1.7V4.97H.96A9 9 0 0 0 0 9c0 1.45.35 2.83.96 4.04l3-2.33Z" fill="#FBBC05"/>
-          <path d="M9 3.58c1.32 0 2.51.46 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0A9 9 0 0 0 .96 4.96l3 2.33C4.67 5.16 6.65 3.58 9 3.58Z" fill="#EA4335"/>
-        </svg>
-        Continue with Google
-      </a>
-
-      <div class="hero-trust">
-        <span>No card required</span>
-        <span class="sep">·</span>
-        <span>2 minutes to first send</span>
-        <span class="sep">·</span>
-        <span>Cancel in one click</span>
+      <span class="eyebrow" style="color:#c24518;">The Outpulse CRM</span>
+      <h1>Every reply, <em>tracked to the close.</em></h1>
+      <p class="hero-lead">When a prospect replies, the deal is already on your board. Move it stage by stage, schedule the next touch, and open each morning knowing exactly which deal needs you — no spreadsheets, no sticky notes.</p>
+      <p class="hero-kicker" style="margin:16px 0 0;font-size:14px;letter-spacing:.04em;color:#9a9289;">Pipeline · Deal drawer · Forecast · Team · Activities — one workspace.</p>
+      <div class="crm-hero-cta">
+        <a class="btn btn-orange btn-xl" href="https://app.outpulse.ai/signup?utm_source=outpulse_landing&amp;utm_campaign=launch&amp;utm_medium=crm_hero" data-cta="crm_hero">Start free — no card</a>
+        <a class="crm-hero-link" href="#tour-crm">See it in action &darr;</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ─── FIRST-SCROLL MOCKUP — Dashboard, real-app-window framing.
-     Browser chrome on top, then 2-col app shell: sidebar (logo +
-     nav rail + workspace + user) on the left, main panel with the
-     Pulse hero card on the right. 4:3 frame ratio so the window
-     reads as an actual laptop screen, not a thin content slice. -->
-<section class="first-mockup" id="how">
-  <div class="first-mockup-grad" aria-hidden="true">
-    <span class="blob b1"></span>
-    <span class="blob b2"></span>
-    <span class="blob b3"></span>
-    <span class="blob b4"></span>
-    <span class="grain"></span>
-  </div>
-  <div class="first-mockup-inner">
-    <div class="browser-frame" role="img" aria-label="Outpulse dashboard — Pulse goal, funnel, and live activity">
-      <div class="app-frame-bar">
-        <div class="dots"><span></span><span></span><span></span></div>
-        <div class="url-pill">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1a4 4 0 014 4v3h1a3 3 0 013 3v9a3 3 0 01-3 3H7a3 3 0 01-3-3v-9a3 3 0 013-3h1V5a4 4 0 014-4zm0 2a2 2 0 00-2 2v3h4V5a2 2 0 00-2-2z"/></svg>
-          app.outpulse.ai/dashboard
-        </div>
-        <div style="width:60px"></div>
-      </div>
-      <div class="app-shell">
-        <aside class="app-sidebar">
-          <div class="app-sidebar-brand">
-            <span class="mk"></span>
-            <span class="name">Outpulse</span>
-            <span class="beta"><span class="d"></span>Beta</span>
-          </div>
-          <div class="app-sidebar-ws">
-            <span class="av">P</span>
-            <div class="body">
-              <span class="name">Platform</span>
-              <span class="plan">Services · Growth Plan</span>
-            </div>
-            <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
-          </div>
-          <div class="app-sidebar-search">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-            <span class="label">Search everything</span>
-            <span class="kbd">⌘K</span>
-          </div>
-          <div class="app-sidebar-new">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-            Start outreach
-          </div>
-          <div class="app-sidebar-section">
-            <div class="label">Workspace</div>
-            <span class="item on">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 4l9 8"/><path d="M5 10v10h14V10"/></svg>
-              Dashboard
-            </span>
-            <span class="item">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
-              Pulse
-            </span>
-            <span class="item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 6 8 7 8-7"/></svg>
-              Inbox
-              <span class="count warn">12</span>
-            </span>
-          </div>
-          <div class="app-sidebar-section">
-            <div class="label">Audience</div>
-            <span class="item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="9" r="3"/><path d="M2 20v-1a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v1"/><circle cx="17" cy="9" r="3"/><path d="M16 14a5 5 0 0 1 5 5v1"/></svg>
-              Buyer Personas
-            </span>
-            <span class="item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
-              Prospects
-              <span class="count">1,428</span>
-            </span>
-          </div>
-          <div class="app-sidebar-section">
-            <div class="label">Outreach</div>
-            <span class="item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 22 2l-6.5 18-3-9z"/><path d="M3 11l9 3"/></svg>
-              Campaigns
-              <span class="count">7</span>
-            </span>
-            <span class="item">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.56c0-1.33 0-3.04-1.85-3.04s-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56z"/></svg>
-              LinkedIn
-            </span>
-          </div>
-          <div class="app-sidebar-section">
-            <div class="label">Setup</div>
-            <span class="item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="2" width="8" height="8" rx="2"/><rect x="2" y="14" width="8" height="8" rx="2"/><rect x="14" y="14" width="8" height="8" rx="2"/><path d="M10 6H6a2 2 0 0 0-2 2v4"/></svg>
-              Integrations
-            </span>
-            <span class="item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
-              Settings
-            </span>
-          </div>
-          <div class="app-sidebar-foot">
-            <span class="av">LH</span>
-            <div class="who">
-              <span class="name">Lukas Horak</span>
-              <span class="plan">Growth Plan</span>
-            </div>
-            <span class="more">⋮</span>
-          </div>
-        </aside>
-        <div class="app-shell-main">
-        <div class="app-topbar">
-          <div class="app-topbar-left">
-            <span class="app-greeting">Good evening, Lukas</span>
-            <h2 class="app-title">Strong week — <em>two more to close.</em></h2>
-          </div>
-          <div class="app-actions">
-            <span class="app-btn-ghost">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-              Discover
-            </span>
-            <span class="app-btn-primary">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-              Start outreach
-            </span>
-          </div>
-        </div>
-
-        <div class="pulse-card">
-          <div class="pulse-top">
-            <span class="pulse-eyebrow">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
-              Your Pulse
-            </span>
-            <span class="pulse-status"><span class="d"></span>On pace</span>
-          </div>
-
-          <div class="pulse-grid">
-            <div class="col">
-              <span class="pulse-col-lbl">Closed deals</span>
-              <span class="pulse-col-n">3<span class="frac">/5</span></span>
-              <span class="pulse-col-sub">2 to go this quarter</span>
-            </div>
-            <div class="rule"></div>
-            <div class="col">
-              <span class="pulse-col-lbl">Revenue booked</span>
-              <span class="pulse-col-n">$54k<span class="frac"> /$90k</span></span>
-              <span class="pulse-col-sub">Q2 revenue target</span>
-            </div>
-          </div>
-
-          <div class="pulse-bar"><span class="fill" style="width:60%"></span></div>
-          <div class="pulse-progress">
-            <span>60% complete</span>
-            <span>14 days left · ends 14 May</span>
-          </div>
-
-          <div class="pulse-funnel">
-            <div class="stage"><span class="stage-val">1,842<span class="frac">/1,200</span></span><span class="stage-lbl">Visits</span></div>
-            <div class="stage"><span class="stage-val">142</span><span class="stage-lbl">Inquiries</span></div>
-            <div class="stage"><span class="stage-val">38</span><span class="stage-lbl">Calls</span></div>
-            <div class="stage"><span class="stage-val">3<span class="frac">/5</span></span><span class="stage-lbl">Closed</span></div>
-          </div>
-
-          <div class="pulse-mini">
-            <div><span class="pm-lbl">Visits today</span><span class="pm-val">84<span class="frac">/40</span></span></div>
-            <div><span class="pm-lbl">Sent</span><span class="pm-val">124<span class="frac">/100</span></span></div>
-            <div><span class="pm-lbl">Opens</span><span class="pm-val">68</span></div>
-            <div><span class="pm-lbl">Replies</span><span class="pm-val">14</span></div>
-            <div><span class="pm-lbl">Meetings</span><span class="pm-val">3</span></div>
-          </div>
-        </div>
-
-        <!-- Outreach KPI strip — faithful to prototype-minimal -->
-        <div class="mk-sect-lbl">Outreach</div>
-        <div class="mk-kpis">
-          <div class="mk-kpi green">
-            <div class="top"><span class="dot"></span><span class="lbl">Prospects found</span></div>
-            <span class="val">1,428</span>
-            <span class="chip">1,404 enriched</span>
-          </div>
-          <div class="mk-kpi orange">
-            <div class="top"><span class="dot"></span><span class="lbl">Emails sent</span></div>
-            <span class="val">2,284</span>
-            <span class="chip">↑ 18% this week</span>
-          </div>
-          <div class="mk-kpi blue">
-            <div class="top"><span class="dot"></span><span class="lbl">Reply rate</span></div>
-            <span class="val">10.7%</span>
-            <span class="chip">↑ 2.4 pts</span>
-          </div>
-          <div class="mk-kpi violet">
-            <div class="top"><span class="dot"></span><span class="lbl">Meetings booked</span></div>
-            <span class="val">75</span>
-            <span class="chip">↑ 14 this week</span>
-          </div>
-        </div>
-
-        <!-- Active campaigns table -->
-        <div class="mk-panel">
-          <div class="mk-panel-h">
-            <h4>Active campaigns</h4>
-            <span class="meta">6 total</span>
-          </div>
-          <table class="mk-tbl">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Status</th>
-                <th class="num">Sent</th>
-                <th class="num">Opens</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="name">Series B CTOs · Q2</td>
-                <td><span class="mk-status active"><span class="d"></span>Active</span></td>
-                <td class="num has">1,284</td>
-                <td class="num has">487</td>
-              </tr>
-              <tr>
-                <td class="name">SaaS · EU 50–200</td>
-                <td><span class="mk-status sending"><span class="d"></span>Sending</span></td>
-                <td class="num has">612</td>
-                <td class="num has">198</td>
-              </tr>
-              <tr>
-                <td class="name">Fintech · Heads of Growth</td>
-                <td><span class="mk-status paused"><span class="d"></span>Paused</span></td>
-                <td class="num has">74</td>
-                <td class="num has">22</td>
-              </tr>
-              <tr>
-                <td class="name">Warm replies · follow-up</td>
-                <td><span class="mk-status active"><span class="d"></span>Active</span></td>
-                <td class="num has">38</td>
-                <td class="num has">31</td>
-              </tr>
-              <tr>
-                <td class="name">Digital Transformation</td>
-                <td><span class="mk-status draft"><span class="d"></span>Draft</span></td>
-                <td class="num empty">—</td>
-                <td class="num empty">—</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        </div><!-- /.app-shell-main -->
-      </div><!-- /.app-shell -->
-    </div><!-- /.browser-frame -->
-  </div>
-</section>
-
-<!-- ─── PROOF STAT + STATS — Apollo-style proof block.
-     Top: one big editorial stat with the study cited beneath
-     (no founder quote, no name, no logo — credibility lives in
-     the source, not in us). Bottom: the existing 3 anchor
-     numbers, now with a small caps eyebrow per cell so the
-     reader has context BEFORE the big number lands. The whole
-     block sits on the cream band, no card frames inside the
-     stats — just dividers. -->
-<section class="band quote-band">
-  <div class="container">
-    <div class="quote-pull-grid">
-      <blockquote class="quote-pull">
-        Outpulse cold emails see <em>47% open rates and 34% click rates</em> &mdash; over 2&times; and 13&times; the industry average.
-      </blockquote>
-      <div class="quote-author">
-        <div class="qa-name">Industry benchmark</div>
-        <div class="qa-role">2024 · 21% open rate · 2.6% click rate</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="band stats-band" style="padding-top: clamp(24px, 3vh, 40px); border-top: none;">
-  <div class="container">
-    <div class="stats-grid">
-      <div class="stat-cell">
-        <div class="stat-eyebrow"><span>Time saved</span></div>
-        <div class="stat-num"><em>8h+</em></div>
-        <div class="stat-headline">Hours back, every week.</div>
-        <div class="stat-sub">Hours you used to spend writing cold emails by hand.</div>
-      </div>
-      <div class="stat-cell">
-        <div class="stat-eyebrow"><span>Personalization</span></div>
-        <div class="stat-num"><em>1-of-1</em></div>
-        <div class="stat-headline">Researched per prospect.</div>
-        <div class="stat-sub">No mail-merge. No templates. Each email written for one person.</div>
-      </div>
-      <div class="stat-cell">
-        <div class="stat-eyebrow"><span>Time to launch</span></div>
-        <div class="stat-num"><em>2 min</em></div>
-        <div class="stat-headline">Signup to first campaign live.</div>
-        <div class="stat-sub">No onboarding call. No card. Type one sentence, hit launch.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─── WHOLE-FUNNEL OVERVIEW — Outpulse is the full outbound system,
-     not a point tool: find → reach → reply → close, one login. -->
 <style>
-  /* "From cold to closed" — a pinned deck you scroll through one stage at a
-     time. A card rises from the bottom and pushes the previous one up into a
-     tapering stack of card-headers (depth set by JS). Soft-orange section
-     wash so the white cards pop. */
-  .stack-band {
-    padding-top: clamp(60px, 9vh, 116px);
-    background:
-      radial-gradient(78% 46% at 50% 40%, rgba(255,91,31,0.13), rgba(255,140,60,0) 70%),
-      linear-gradient(180deg, #fffdfb 0%, #fff5ec 56%, #ffeada 100%);
-  }
-  .stack-head { max-width: 900px; margin: 0 auto; text-align: center; }
-  .stack-h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(34px, 5vw, 60px); line-height: 1.04; letter-spacing: -.02em; color: var(--ink); margin: 14px 0 0; }
-  .stack-h2 em { font-style: italic; color: #ff5b1f; }
-  .stack-sub { margin: 16px auto 0; max-width: 540px; color: #6c6458; font-size: 15.5px; line-height: 1.55; }
+  /* CRM kanban mockup — mirrors the live /crm page 1:1 (no sidebar). */
+  .tk-app { padding: 22px 24px 26px; background: #fff; }
+  .tk-tabs { display: inline-flex; gap: 2px; background: #faf9f7; border: 1px solid #ececea; border-radius: 11px; padding: 3px; margin-bottom: 18px; }
+  .tk-tab { display: inline-flex; align-items: center; gap: 7px; font: 600 13px 'Inter', sans-serif; color: #6c6458; padding: 7px 14px; border-radius: 8px; }
+  .tk-tab svg { width: 15px; height: 15px; }
+  .tk-tab.on { background: #fff; color: #14120f; box-shadow: 0 1px 2px rgba(20,18,15,.06); }
+  .tk-h1 { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: clamp(32px, 3.6vw, 44px); line-height: 1.04; letter-spacing: -.018em; color: #14120f; margin: 0 0 16px; }
+  .tk-h1 em { color: #ff5b1f; font-style: italic; }
+  .tk-standup { display: flex; align-items: center; gap: 12px; background: #fdf4e7; border: 1px solid #f4e3c8; border-radius: 12px; padding: 13px 18px; margin-bottom: 22px; }
+  .tk-standup .day { font: 700 11px 'Inter', sans-serif; letter-spacing: .1em; text-transform: uppercase; color: #c24518; white-space: nowrap; }
+  .tk-standup .msg { font-family: 'Instrument Serif', Georgia, serif; font-size: 16px; color: #14120f; }
+  .tk-standup .od { display: inline-flex; align-items: center; gap: 6px; font: 12.5px 'Inter', sans-serif; color: #6c6458; }
+  .tk-standup .od::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #ff5b1f; }
+  .tk-standup .chev { margin-left: auto; color: #c9c2b6; font-size: 17px; }
+  .tk-subbar { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .tk-subtitle { font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; color: #14120f; line-height: 1.1; }
+  .tk-subsub { font: 12px 'Inter', sans-serif; color: #a8a097; margin-top: 3px; }
+  .tk-views { display: inline-flex; gap: 8px; }
+  .tk-view { display: inline-flex; align-items: center; gap: 6px; font: 600 12.5px 'Inter', sans-serif; color: #6c6458; background: #fff; border: 1px solid #ececea; border-radius: 9px; padding: 7px 12px; }
+  .tk-view svg { width: 14px; height: 14px; }
+  .tk-view.on { color: #14120f; border-color: #d8d4cc; box-shadow: 0 1px 2px rgba(20,18,15,.05); }
+  .tk-filters { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+  .tk-search { flex: 1; min-width: 200px; height: 36px; border: 1px solid #ececea; border-radius: 10px; background: #fff; display: flex; align-items: center; padding: 0 13px; font: 13.5px 'Inter', sans-serif; color: #a8a097; }
+  .tk-flt { height: 36px; border: 1px solid #ececea; border-radius: 10px; background: #fff; display: inline-flex; align-items: center; gap: 8px; padding: 0 13px; font: 13px 'Inter', sans-serif; color: #14120f; white-space: nowrap; }
+  .tk-range { display: inline-flex; align-items: center; background: #faf9f7; border: 1px solid #ececea; border-radius: 999px; padding: 3px; gap: 2px; }
+  .tk-range span { font: 600 12px 'Inter', sans-serif; color: #6c6458; padding: 5px 11px; border-radius: 999px; }
+  .tk-range span.on { background: #14120f; color: #fff; }
+  /* Board / columns / cards — 1:1 with crm.module.css */
+  .tk-board { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 10px; align-items: start; }
+  .tk-col { background: #fbfaf7; border: 1px solid #ececea; border-radius: 12px; padding: 12px 11px 14px; display: flex; flex-direction: column; gap: 8px; }
+  .tk-colhead { display: flex; align-items: center; justify-content: space-between; padding: 4px 4px 10px; border-bottom: 1px dashed rgba(20,18,15,.08); margin-bottom: 4px; }
+  .tk-cname { display: flex; align-items: center; gap: 7px; font: 700 10.5px 'Inter', sans-serif; letter-spacing: .09em; text-transform: uppercase; color: #14120f; }
+  .tk-cname::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--tk-accent, #6c6458); flex-shrink: 0; }
+  .tk-ccount { font: 700 10.5px 'SF Mono', Consolas, Menlo, monospace; color: #3a342c; background: #fff; padding: 1px 7px; border-radius: 999px; }
+  .tk-csum { font: 11px 'SF Mono', Consolas, Menlo, monospace; color: #6c6458; padding: 0 4px 4px; }
+  .tk-card { background: #fff; border: 1px solid #ececea; border-radius: 10px; padding: 11px 12px; }
+  .tk-labels { display: flex; align-items: center; gap: 4px; margin-bottom: 8px; }
+  .tk-lab { width: 16px; height: 4px; border-radius: 2px; background: #6c6458; }
+  .tk-card-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 3px; }
+  .tk-co { font: 600 13px 'Inter', sans-serif; color: #14120f; letter-spacing: -.005em; line-height: 1.3; min-width: 0; }
+  .tk-val { font: 700 11.5px 'SF Mono', Consolas, Menlo, monospace; color: #14120f; letter-spacing: -.01em; white-space: nowrap; flex-shrink: 0; }
+  .tk-contact { font: 11.5px 'Inter', sans-serif; color: #6c6458; }
+  .tk-next { display: flex; align-items: center; gap: 5px; margin-top: 9px; padding: 5px 8px; background: rgba(20,18,15,.04); border-radius: 6px; font: 11.5px 'Inter', sans-serif; color: #3a342c; }
+  .tk-next svg { flex-shrink: 0; color: #1a7c4b; }
+  .tk-next.od { background: rgba(255,91,31,.08); color: #c24518; }
+  .tk-next.od svg { color: #ff5b1f; }
+  .tk-next .due { font: 10.5px 'SF Mono', Consolas, Menlo, monospace; color: #a8a097; margin-left: auto; flex-shrink: 0; padding-left: 6px; }
+  @media (max-width: 920px) { .tk-board { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 72%; overflow-x: auto; } .tk-h1 { font-size: 30px; } }
 
-  .stack-deck { position: relative; max-width: 840px; margin: clamp(34px, 6vh, 76px) auto 0; padding-bottom: 18vh; }
-  .stack-card {
-    position: sticky;
-    /* Sticks low enough that finished cards lifting up still clear the nav. */
-    top: clamp(150px, 18vh, 196px);
-    min-height: clamp(300px, 50vh, 430px);
-    display: flex; flex-direction: column;
-    border-radius: 22px;
-    background: #ffffff;
-    border: 1px solid #ececea;
-    box-shadow: 0 1px 2px rgba(20,18,15,.04), 0 34px 70px -36px rgba(20,18,15,.40);
-    overflow: hidden;
-    transform-origin: top center;
-    /* Finished cards lift up (their header peeks) + narrow into a deck. */
-    transform: translateY(calc(var(--depth, 0) * -34px)) scale(calc(1 - var(--depth, 0) * 0.05));
-    transition: transform .55s cubic-bezier(.4,0,.2,1), filter .55s ease;
-    filter: brightness(calc(1 - var(--depth, 0) * 0.04));
+  /* ── Auto-play demo: drag a deal to the next stage → open drawer → type a next step.
+        Desktop only; honours prefers-reduced-motion. Path coords set by JS. */
+  .tk-app { position: relative; overflow: hidden; }
+  .tk-demo { position: absolute; inset: 0; pointer-events: none; z-index: 7; }
+  .tk-drag { position: absolute; left: 0; top: 0; width: var(--cardW, 168px); background: #fff; border: 1px solid #e4e0d8; border-radius: 10px; padding: 11px 12px; box-shadow: 0 18px 40px -10px rgba(20,18,15,.32); opacity: 0; transform: translate(var(--x0,320px), var(--y0,470px)); animation: tkDrag 9s cubic-bezier(.45,.05,.3,1) infinite; }
+  @keyframes tkDrag {
+    0%, 6% { opacity: 0; transform: translate(var(--x0,320px), var(--y0,470px)) scale(1) rotate(0deg); }
+    10% { opacity: 1; transform: translate(var(--x0,320px), calc(var(--y0,470px) - 8px)) scale(1.03) rotate(-2.5deg); }
+    28% { opacity: 1; transform: translate(var(--x1,520px), calc(var(--y1,300px) - 8px)) scale(1.03) rotate(-2.5deg); }
+    34% { opacity: 1; transform: translate(var(--x1,520px), var(--y1,300px)) scale(1) rotate(0deg); }
+    40% { opacity: 0; transform: translate(var(--x1,520px), var(--y1,300px)); }
+    100% { opacity: 0; }
   }
-  .stack-card + .stack-card { margin-top: 26px; }
-  /* Header strip — what stays visible when the card is pushed back into the deck. */
-  .sc-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px clamp(26px, 3.6vw, 46px); border-bottom: 1px solid #f1efea; }
-  .sc-tag { display: inline-flex; align-items: center; gap: 9px; font: 700 11.5px 'Inter', -apple-system, sans-serif; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
-  .sc-tag .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
-  .sc-count { font: 600 11.5px 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: .04em; color: #a8a097; }
-  .sc-main { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 16px; padding: clamp(26px, 3.6vw, 46px); position: relative; }
-  .sc-num { position: absolute; right: clamp(18px, 3vw, 40px); top: 50%; transform: translateY(-50%); font-family: var(--serif); font-weight: 400; font-size: clamp(120px, 17vw, 200px); line-height: 1; color: var(--accent); opacity: .07; pointer-events: none; user-select: none; }
-  .sc-title { font-family: var(--serif); font-weight: 400; font-size: clamp(28px, 4.2vw, 46px); line-height: 1.08; letter-spacing: -.018em; color: var(--ink); max-width: 17ch; margin: 0; position: relative; }
-  .sc-body { font-size: clamp(15px, 1.5vw, 17px); line-height: 1.6; color: #6c6458; max-width: 46ch; margin: 0; position: relative; }
-  .sc-track { position: relative; width: clamp(90px, 20vw, 160px); height: 3px; border-radius: 3px; background: rgba(14,13,12,.08); overflow: hidden; margin-top: 4px; }
-  .sc-track > i { position: absolute; inset: 0 auto 0 0; width: var(--fill, 25%); background: var(--accent); border-radius: 3px; }
-
-  .stack-foot { max-width: 760px; margin: clamp(44px, 7vh, 84px) auto 0; text-align: center; }
-  .stack-learn { margin: 0 auto; font-family: var(--serif); font-weight: 400; font-size: clamp(22px, 2.6vw, 32px); line-height: 1.22; letter-spacing: -.012em; color: #14120f; }
-  .stack-learn em { color: #ff5b1f; font-style: italic; }
-  .stack-learn-sub { margin: 12px auto 0; max-width: 540px; font-size: 14.5px; line-height: 1.55; color: #6c6458; }
-
-  @media (max-width: 640px) {
-    .stack-card { min-height: clamp(280px, 60vh, 430px); top: 96px; }
-    .sc-title { font-size: clamp(26px, 8vw, 34px); }
-    .stack-card { transform: translateY(calc(var(--depth, 0) * -28px)) scale(calc(1 - var(--depth, 0) * 0.04)); }
+  .tk-cursor { position: absolute; left: 0; top: 0; width: 22px; height: 22px; opacity: 0; filter: drop-shadow(0 1px 1.5px rgba(20,18,15,.3)); animation: tkCursor 9s cubic-bezier(.45,.05,.3,1) infinite; }
+  @keyframes tkCursor {
+    0% { opacity: 0; transform: translate(calc(var(--x0,320px) + 52px), calc(var(--y0,470px) + 62px)); }
+    5% { opacity: 1; transform: translate(calc(var(--x0,320px) + 52px), calc(var(--y0,470px) + 62px)); }
+    10% { transform: translate(calc(var(--x0,320px) + 34px), calc(var(--y0,470px) + 14px)); }
+    28% { transform: translate(calc(var(--x1,520px) + 34px), calc(var(--y1,300px) + 14px)); }
+    34% { transform: translate(calc(var(--x1,520px) + 34px), calc(var(--y1,300px) + 30px)); }
+    44% { opacity: 1; transform: translate(calc(var(--x1,520px) + 96px), calc(var(--y1,300px) + 88px)); }
+    50%, 100% { opacity: 0; }
   }
-  @media (prefers-reduced-motion: reduce) {
-    .stack-card { transition: none; }
-  }
+  .tk-srccard { animation: tkSrc 9s ease infinite; }
+  @keyframes tkSrc { 0%, 7% { opacity: 1; } 11%, 39% { opacity: .28; } 45%, 100% { opacity: 1; } }
+  /* Right deal drawer — mirrors the real DealPanel (header + stage stepper +
+     Identity/Money form cards + footer) from app/(dashboard)/crm. */
+  .tk-drawer { position: absolute; top: 0; right: 0; bottom: 0; width: min(460px, 74%); background: #fbfaf7; border-left: 1px solid #ececea; box-shadow: -26px 0 56px -22px rgba(20,18,15,.26); transform: translateX(103%); animation: tkDrawer 9s cubic-bezier(.4,0,.2,1) infinite; display: flex; flex-direction: column; }
+  @keyframes tkDrawer { 0%, 40% { transform: translateX(103%); } 48%, 90% { transform: translateX(0); } 96%, 100% { transform: translateX(103%); } }
+  .tk-dwr-head { padding: 20px 22px 16px; background: #fff; border-bottom: 1px solid #ececea; }
+  .tk-dwr-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .tk-dwr-eyebrow { font: 700 10.5px 'Inter', sans-serif; letter-spacing: .16em; text-transform: uppercase; color: #c24518; }
+  .tk-dwr-acts { display: flex; align-items: center; gap: 6px; }
+  .tk-dwr-hist { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border: 1px solid #ececea; color: #14120f; border-radius: 8px; font: 500 12px 'Inter', sans-serif; }
+  .tk-dwr-x { color: #6c6458; display: inline-flex; padding: 3px; }
+  .tk-dwr-title { font-family: 'Instrument Serif', Georgia, serif; font-size: 30px; line-height: 1.05; letter-spacing: -.015em; color: #14120f; margin: 0 0 16px; }
+  .tk-step { display: flex; align-items: center; gap: 3px; background: #fbfaf7; border: 1px solid #ececea; border-radius: 12px; padding: 6px; overflow: hidden; }
+  .tk-seg { display: inline-flex; align-items: center; gap: 6px; padding: 7px 9px; border-radius: 8px; font: 500 12px 'Inter', sans-serif; color: #a8a097; white-space: nowrap; }
+  .tk-seg .d { width: 8px; height: 8px; border-radius: 50%; background: #d4cfc4; flex-shrink: 0; }
+  .tk-seg.reached { color: #14120f; }
+  .tk-seg.reached .d { background: var(--sc, #14120f); }
+  .tk-seg.current { background: #fff; color: #14120f; font-weight: 600; box-shadow: 0 1px 0 rgba(20,18,15,.04), 0 4px 10px -2px rgba(20,18,15,.06); }
+  .tk-seg.current .d { box-shadow: 0 0 0 3px rgba(255,91,31,.18); }
+  .tk-dwr-body { padding: 16px 22px; display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
+  .tk-fcard { background: #fff; border: 1px solid #ececea; border-radius: 14px; padding: 14px 18px; display: flex; flex-direction: column; gap: 11px; }
+  .tk-fc-eyebrow { font: 700 10.5px 'Inter', sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #14120f; }
+  .tk-fld { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .tk-frow { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tk-flabel { font: 600 11px 'Inter', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #6c6458; }
+  .tk-flabel .req { color: #c24518; font-weight: 700; margin-left: 2px; }
+  .tk-flabel .opt { color: #a8a097; font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 11px; margin-left: 5px; }
+  .tk-inp { background: #fafaf7; border: 1px solid #ececea; border-radius: 10px; padding: 11px 13px; font: 14px 'Inter', sans-serif; color: #14120f; min-height: 20px; }
+  .tk-inp.focus { background: #fff; border-color: #14120f; box-shadow: 0 0 0 3px rgba(255,91,31,.18); }
+  .tk-valrow { display: grid; grid-template-columns: 1fr 128px; gap: 8px; }
+  .tk-valinp { position: relative; display: flex; align-items: center; }
+  .tk-valsym { position: absolute; left: 13px; font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: 18px; color: #6c6458; }
+  .tk-valinp .tk-inp { padding-left: 27px; font: 500 15px 'SF Mono', Consolas, Menlo, monospace; color: #14120f; width: 100%; }
+  .tk-cur { display: inline-flex; align-items: center; justify-content: space-between; gap: 6px; background: #fafaf7; border: 1px solid #ececea; border-radius: 10px; padding: 11px 12px; font: 14px 'Inter', sans-serif; color: #14120f; }
+  .tk-chips { display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap: 6px; margin-top: 8px; }
+  .tk-chip { font: 12px 'SF Mono', Consolas, Menlo, monospace; color: #6c6458; background: #fbfaf7; border: 1px solid #ececea; border-radius: 8px; padding: 6px 3px; text-align: center; white-space: nowrap; }
+  .tk-chip.on { background: #14120f; color: #fff; border-color: #14120f; }
+  .tk-dwr-foot { margin-top: auto; padding: 14px 22px; border-top: 1px solid #ececea; display: flex; align-items: center; justify-content: space-between; gap: 8px; background: #fbfaf7; }
+  .tk-foot-l, .tk-foot-r { display: flex; gap: 8px; }
+  .tk-fbtn { border: 1px solid #ececea; background: #fff; border-radius: 9px; padding: 9px 14px; font: 500 13px 'Inter', sans-serif; color: #14120f; display: inline-flex; align-items: center; gap: 6px; }
+  .tk-fbtn.del { color: #c24518; background: transparent; }
+  .tk-fbtn.save { background: #14120f; color: #fff; border-color: #14120f; font-weight: 600; }
+  .tk-typed { display: inline-block; white-space: nowrap; overflow: hidden; vertical-align: bottom; width: 0; animation: tkType 9s steps(40, end) infinite; }
+  .tk-caret { display: inline-block; width: 1.5px; height: 16px; background: #ff5b1f; vertical-align: -3px; margin-left: 1px; animation: tkBlink .9s steps(1) infinite; }
+  @keyframes tkType { 0%, 50% { width: 0; } 82%, 100% { width: var(--typeW, 250px); } }
+  @keyframes tkBlink { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .tk-demo { display: none; } }
+  @media (max-width: 920px) { .tk-demo { display: none; } }
 </style>
-<section class="band stack-band" id="funnel">
-  <div class="container">
-    <div class="stack-head">
-      <span class="eyebrow">From cold to closed</span>
-      <h2 class="stack-h2">Less software. <em>More deals closed.</em></h2>
-      <p class="stack-sub">One system runs the whole journey — so your hours go into closing, not stitching tools together.</p>
-    </div>
-    <div class="stack-deck">
-      <article class="stack-card" style="--accent:#3866a6;--fill:25%">
-        <div class="sc-bar"><span class="sc-tag"><span class="dot"></span>01 · Find</span><span class="sc-count">Stage 01 / 04</span></div>
-        <div class="sc-main">
-          <span class="sc-num" aria-hidden="true">01</span>
-          <h3 class="sc-title">A pipeline that never runs dry.</h3>
-          <p class="sc-body">Say who you sell to once. Wake up to real companies that fit — no more staring at an empty list wondering who to email.</p>
-          <span class="sc-track"><i></i></span>
-        </div>
-      </article>
-      <article class="stack-card" style="--accent:#8a76b8;--fill:50%">
-        <div class="sc-bar"><span class="sc-tag"><span class="dot"></span>02 · Reach</span><span class="sc-count">Stage 02 / 04</span></div>
-        <div class="sc-main">
-          <span class="sc-num" aria-hidden="true">02</span>
-          <h3 class="sc-title">Sound personal — to hundreds at once.</h3>
-          <p class="sc-body">Each email is written for one person and lands in the inbox, so replies come back warm — while you stay heads-down building.</p>
-          <span class="sc-track"><i></i></span>
-        </div>
-      </article>
-      <article class="stack-card" style="--accent:#e0884a;--fill:75%">
-        <div class="sc-bar"><span class="sc-tag"><span class="dot"></span>03 · Reply</span><span class="sc-count">Stage 03 / 04</span></div>
-        <div class="sc-main">
-          <span class="sc-num" aria-hidden="true">03</span>
-          <h3 class="sc-title">Never let a warm “yes” go cold.</h3>
-          <p class="sc-body">Every reply lands in one place and becomes a deal in a click. No interested buyer slips away because a thread got buried.</p>
-          <span class="sc-track"><i></i></span>
-        </div>
-      </article>
-      <article class="stack-card" style="--accent:#ff5b1f;--fill:100%">
-        <div class="sc-bar"><span class="sc-tag"><span class="dot"></span>04 · Close</span><span class="sc-count">Stage 04 / 04</span></div>
-        <div class="sc-main">
-          <span class="sc-num" aria-hidden="true">04</span>
-          <h3 class="sc-title">Always know your next move.</h3>
-          <p class="sc-body">Your pipeline tells you what to do today — so deals close on time instead of quietly drifting away.</p>
-          <span class="sc-track"><i></i></span>
-        </div>
-      </article>
-    </div>
-    <div class="stack-foot">
-      <p class="stack-learn">And it <em>learns from every reply</em> — getting sharper the more you send.</p>
-      <p class="stack-learn-sub">A system that quietly improves itself with every campaign. Most outreach tools never do.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ─── PROSPECTS MOCKUP — full-width section, Linear-style.
-     Real prospects table with avatar pills, intent signal chips,
-     verified email badges. One of three standalone mockup
-     sections; the Dashboard mockup is already shown above as
-     first-mockup, the Campaigns mockup follows next. -->
-<section class="mockup-section" id="tour-prospects">
+<section class="mockup-section" id="tour-crm">
   <div class="mockup-inner">
     <div class="mockup-head">
-      <span class="eyebrow">Prospects</span>
-      <h2>Not a list. <em>A live signal feed.</em></h2>
-      <p>275M verified contacts filtered by your one-sentence ICP, decorated with what's actually happening at the company — hiring, raising, migrating. Every row is a reason to email.</p>
+      <span class="eyebrow">Pipeline</span>
+      <h2>See every deal — <em>and what to do next.</em></h2>
+      <p>The moment a prospect replies, it's a card on your board. Drag it forward, never lose track, and open each morning knowing exactly which deal needs you today — no spreadsheet, no sticky notes.</p>
     </div>
 
     <div class="mockup-frame">
@@ -4037,759 +3725,287 @@ footer.site {
         <div class="dots"><span></span><span></span><span></span></div>
         <div class="url-pill">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1a4 4 0 014 4v3h1a3 3 0 013 3v9a3 3 0 01-3 3H7a3 3 0 01-3-3v-9a3 3 0 013-3h1V5a4 4 0 014-4zm0 2a2 2 0 00-2 2v3h4V5a2 2 0 00-2-2z"/></svg>
-          app.outpulse.ai/prospects
+          app.outpulse.ai/crm
         </div>
         <div style="width:60px"></div>
       </div>
-      <div class="app-shell">
-        <aside class="app-sidebar">
-          <div class="app-sidebar-brand">
-            <span class="mk"></span>
-            <span class="name">Outpulse</span>
-            <span class="beta"><span class="d"></span>Beta</span>
+      <div class="tk-app">
+        <div class="tk-tabs">
+          <span class="tk-tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="11" rx="1"/><rect x="17" y="4" width="4" height="7" rx="1"/></svg>Pipeline</span>
+          <span class="tk-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</span>
+          <span class="tk-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>Team</span>
+        </div>
+        <h2 class="tk-h1">Sales — <em>where deals stand today.</em></h2>
+        <div class="tk-standup">
+          <span class="day">Today · Sun, May 31</span>
+          <span class="msg">5 deals need your move.</span>
+          <span class="od">1 overdue</span>
+          <span class="chev">›</span>
+        </div>
+        <div class="tk-subbar">
+          <div>
+            <div class="tk-subtitle">Active pipeline</div>
+            <div class="tk-subsub">8 deals · 8 stages · last 30 days</div>
           </div>
-          <div class="app-sidebar-ws">
-            <span class="av">P</span>
-            <div class="body">
-              <span class="name">Platform</span>
-              <span class="plan">Services · Growth Plan</span>
-            </div>
-            <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
-          </div>
-          <div class="app-sidebar-search">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-            <span class="label">Search everything</span>
-            <span class="kbd">⌘K</span>
-          </div>
-          <div class="app-sidebar-new">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-            Start outreach
-          </div>
-          <div class="app-sidebar-section">
-            <div class="label">Workspace</div>
-            <span class="item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 4l9 8"/><path d="M5 10v10h14V10"/></svg>
-              Dashboard
-            </span>
-            <span class="item">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
-              Pulse
-            </span>
-            <span class="item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 6 8 7 8-7"/></svg>
-              Inbox
-              <span class="count warn">12</span>
-            </span>
-          </div>
-          <div class="app-sidebar-section">
-            <div class="label">Audience</div>
-            <span class="item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="9" r="3"/><path d="M2 20v-1a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v1"/><circle cx="17" cy="9" r="3"/><path d="M16 14a5 5 0 0 1 5 5v1"/></svg>
-              Buyer Personas
-            </span>
-            <span class="item on">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
-              Prospects
-              <span class="count">1,428</span>
-            </span>
-          </div>
-          <div class="app-sidebar-section">
-            <div class="label">Outreach</div>
-            <span class="item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 22 2l-6.5 18-3-9z"/><path d="M3 11l9 3"/></svg>
-              Campaigns
-              <span class="count">7</span>
-            </span>
-            <span class="item">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.56c0-1.33 0-3.04-1.85-3.04s-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56z"/></svg>
-              LinkedIn
-            </span>
-          </div>
-          <div class="app-sidebar-foot">
-            <span class="av">LH</span>
-            <div class="who">
-              <span class="name">Lukas Horak</span>
-              <span class="plan">Growth Plan</span>
-            </div>
-            <span class="more">⋮</span>
-          </div>
-        </aside>
-        <div class="app-shell-main">
-        <div class="tour-prospects-table">
-        <div class="tour-prospects-bar">
-          <div class="title">
-            <h3>Prospects</h3>
-            <span class="count-pill">1,428 enriched</span>
-          </div>
-          <div class="tour-prospects-chips">
-            <span class="tour-chip"><span class="dot"></span>Persona: CTO · VP Eng</span>
-            <span class="tour-chip violet"><span class="dot"></span>Size: 50–500</span>
+          <div class="tk-views">
+            <span class="tk-view on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="11" rx="1"/><rect x="17" y="4" width="4" height="7" rx="1"/></svg>Kanban</span>
+            <span class="tk-view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>Table</span>
+            <span class="tk-view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><polyline points="9 16 11 18 15 14"/></svg>Activities</span>
           </div>
         </div>
-        <div class="tour-prospects-rows">
-          <div class="tour-prospect-row">
-            <div class="tour-prospect-who">
-              <span class="av">SC</span>
-              <div class="text">
-                <span class="name">Sarah Chen</span>
-                <span class="role">VP Engineering · Vercel</span>
-              </div>
+        <div class="tk-filters">
+          <span class="tk-search">Search company, contact, next step…</span>
+          <span class="tk-flt">All labels <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="tk-flt">Overdue</span>
+          <span class="tk-range"><span>24h</span><span>7d</span><span class="on">30d</span><span>90d</span><span>Custom</span></span>
+        </div>
+        <div class="tk-board">
+          <div class="tk-col" style="--tk-accent:#3866a6">
+            <div class="tk-colhead"><span class="tk-cname">Lead</span><span class="tk-ccount">6</span></div>
+            <div class="tk-csum">105 000 €</div>
+            <div class="tk-card">
+              <div class="tk-labels"><span class="tk-lab" style="background:#c97a10"></span></div>
+              <div class="tk-card-top"><span class="tk-co">IKEA</span><span class="tk-val">48 000 €</span></div>
+              <div class="tk-contact">Alex Rivera · VP Sales</div>
+              <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Intro call booked</span><span class="due">Tue</span></div>
             </div>
-            <div class="tour-prospect-email">
-              <span class="addr">s.chen@vercel.com</span>
-              <span class="verified"><span class="d"></span>Verified</span>
+            <div class="tk-card">
+              <div class="tk-card-top"><span class="tk-co">Decathlon</span><span class="tk-val">22 000 €</span></div>
+              <div class="tk-contact">Dana Whitfield</div>
+              <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Send pitch deck</span><span class="due">Wed</span></div>
             </div>
-            <div class="tour-prospect-signals">
-              <span class="tour-signal"><span class="d"></span>Hiring 12 engineers</span>
-              <span class="tour-signal warm">Series C · $120M</span>
-              <span class="tour-signal cool">Stack: Go + Rust</span>
+            <div class="tk-card">
+              <div class="tk-card-top"><span class="tk-co">Lego</span><span class="tk-val">35 000 €</span></div>
+              <div class="tk-contact">Marek Holub</div>
+              <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Qualify on call</span><span class="due">Fri</span></div>
             </div>
-            <div class="tour-prospect-added">today</div>
           </div>
-          <div class="tour-prospect-row">
-            <div class="tour-prospect-who">
-              <span class="av">MW</span>
-              <div class="text">
-                <span class="name">Marcus Webb</span>
-                <span class="role">CEO · Linear</span>
-              </div>
+          <div class="tk-col" style="--tk-accent:#8a76b8">
+            <div class="tk-colhead"><span class="tk-cname">Contacted</span><span class="tk-ccount">5</span></div>
+            <div class="tk-csum">92 000 €</div>
+            <div class="tk-card">
+              <div class="tk-labels"><span class="tk-lab" style="background:#8a76b8"></span></div>
+              <div class="tk-card-top"><span class="tk-co">Heineken</span><span class="tk-val">60 000 €</span></div>
+              <div class="tk-contact">Priya Nair · COO</div>
+              <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Follow-up email</span><span class="due">Thu</span></div>
             </div>
-            <div class="tour-prospect-email">
-              <span class="addr">marcus@linear.app</span>
-              <span class="verified"><span class="d"></span>Verified</span>
+            <div class="tk-card">
+              <div class="tk-card-top"><span class="tk-co">Volvo</span><span class="tk-val">32 000 €</span></div>
+              <div class="tk-contact">Tom Becker</div>
+              <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Waiting on reply</span></div>
             </div>
-            <div class="tour-prospect-signals">
-              <span class="tour-signal cool"><span class="d"></span>New product launch</span>
-              <span class="tour-signal">Hiring sales</span>
-              <span class="tour-signal warm">$30M ARR</span>
+            <div class="tk-card">
+              <div class="tk-card-top"><span class="tk-co">Bolt</span><span class="tk-val">7 500 €</span></div>
+              <div class="tk-contact">Sara Lund</div>
+              <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Second touch</span><span class="due">Fri</span></div>
             </div>
-            <div class="tour-prospect-added">2d ago</div>
           </div>
-          <div class="tour-prospect-row">
-            <div class="tour-prospect-who">
-              <span class="av">AK</span>
-              <div class="text">
-                <span class="name">Anna Kovacs</span>
-                <span class="role">CTO · Stripe</span>
-              </div>
+          <div class="tk-col" style="--tk-accent:#ff5b1f">
+            <div class="tk-colhead"><span class="tk-cname">Meeting</span><span class="tk-ccount">3</span></div>
+            <div class="tk-csum">177 000 €</div>
+            <div class="tk-card">
+              <div class="tk-labels"><span class="tk-lab" style="background:#ff5b1f"></span></div>
+              <div class="tk-card-top"><span class="tk-co">Red Bull</span><span class="tk-val">120 000 €</span></div>
+              <div class="tk-contact">Jordan Pike · CTO</div>
+              <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Demo call</span><span class="due">Thu 2pm</span></div>
             </div>
-            <div class="tour-prospect-email">
-              <span class="addr">a.kovacs@stripe.com</span>
-              <span class="verified"><span class="d"></span>Verified</span>
+            <div class="tk-card tk-srccard">
+              <div class="tk-card-top"><span class="tk-co">Spotify</span><span class="tk-val">$57,000</span></div>
+              <div class="tk-contact">Elena Marsh</div>
+              <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Proposal due</span><span class="due">Mon</span></div>
             </div>
-            <div class="tour-prospect-signals">
-              <span class="tour-signal"><span class="d"></span>Stack migration</span>
-              <span class="tour-signal warm">Series D</span>
-              <span class="tour-signal cool">Hiring 8 PMs</span>
+            <div class="tk-card">
+              <div class="tk-card-top"><span class="tk-co">Airbnb</span><span class="tk-val">19 000 €</span></div>
+              <div class="tk-contact">Will Tan</div>
+              <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Pricing review</span><span class="due">Wed</span></div>
             </div>
-            <div class="tour-prospect-added">2d ago</div>
           </div>
-          <div class="tour-prospect-row">
-            <div class="tour-prospect-who">
-              <span class="av">DP</span>
-              <div class="text">
-                <span class="name">David Park</span>
-                <span class="role">Founder · Plausible</span>
-              </div>
+          <div class="tk-col" style="--tk-accent:#c97a10">
+            <div class="tk-colhead"><span class="tk-cname">Proposal</span><span class="tk-ccount">4</span></div>
+            <div class="tk-csum">210 000 €</div>
+            <div class="tk-card">
+              <div class="tk-labels"><span class="tk-lab" style="background:#3866a6"></span></div>
+              <div class="tk-card-top"><span class="tk-co">Shopify</span><span class="tk-val">150 000 €</span></div>
+              <div class="tk-contact">Owen Clarke</div>
+              <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Contract sent</span><span class="due">Mon</span></div>
             </div>
-            <div class="tour-prospect-email">
-              <span class="addr">david@plausible.io</span>
-              <span class="verified"><span class="d"></span>Verified</span>
+            <div class="tk-card">
+              <div class="tk-card-top"><span class="tk-co">Klarna</span><span class="tk-val">60 000 €</span></div>
+              <div class="tk-contact">Martin Kraf&#269;&#237;k</div>
+              <div class="tk-next od"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg><span>Follow-up</span><span class="due">5d overdue</span></div>
             </div>
-            <div class="tour-prospect-signals">
-              <span class="tour-signal cool"><span class="d"></span>Intent: pricing page</span>
-              <span class="tour-signal">Bootstrapped</span>
-              <span class="tour-signal warm">12k users</span>
+            <div class="tk-card">
+              <div class="tk-card-top"><span class="tk-co">Notion</span><span class="tk-val">28 000 €</span></div>
+              <div class="tk-contact">Lena Frost</div>
+              <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Redline review</span><span class="due">Tue</span></div>
             </div>
-            <div class="tour-prospect-added">3d ago</div>
           </div>
-          <div class="tour-prospect-row">
-            <div class="tour-prospect-who">
-              <span class="av">ER</span>
-              <div class="text">
-                <span class="name">Emily Rodriguez</span>
-                <span class="role">Co-founder · Resend</span>
-              </div>
+          <div class="tk-col" style="--tk-accent:#1a7c4b">
+            <div class="tk-colhead"><span class="tk-cname">Won</span><span class="tk-ccount">9</span></div>
+            <div class="tk-csum">188 000 €</div>
+            <div class="tk-card">
+              <div class="tk-labels"><span class="tk-lab" style="background:#3866a6"></span></div>
+              <div class="tk-card-top"><span class="tk-co">Canva</span><span class="tk-val">95 000 €</span></div>
+              <div class="tk-contact">Kai Berg</div>
+              <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Onboarding kickoff</span></div>
             </div>
-            <div class="tour-prospect-email">
-              <span class="addr">emily@resend.com</span>
-              <span class="verified"><span class="d"></span>Verified</span>
+            <div class="tk-card">
+              <div class="tk-card-top"><span class="tk-co">Figma</span><span class="tk-val">36 000 €</span></div>
+              <div class="tk-contact">Nora Vance</div>
+              <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Closed — won</span></div>
             </div>
-            <div class="tour-prospect-signals">
-              <span class="tour-signal"><span class="d"></span>Hiring 4 engineers</span>
-              <span class="tour-signal warm">Seed · $3M</span>
-              <span class="tour-signal cool">Intent: docs</span>
+            <div class="tk-card">
+              <div class="tk-card-top"><span class="tk-co">Miro</span><span class="tk-val">18 000 €</span></div>
+              <div class="tk-contact">Kai Berg</div>
+              <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Invoice sent</span></div>
             </div>
-            <div class="tour-prospect-added">3d ago</div>
-          </div>
-          <div class="tour-prospect-row">
-            <div class="tour-prospect-who">
-              <span class="av">TH</span>
-              <div class="text">
-                <span class="name">Tom Hartwell</span>
-                <span class="role">CTO · Cal.com</span>
-              </div>
-            </div>
-            <div class="tour-prospect-email">
-              <span class="addr">tom@cal.com</span>
-              <span class="verified"><span class="d"></span>Verified</span>
-            </div>
-            <div class="tour-prospect-signals">
-              <span class="tour-signal cool"><span class="d"></span>Stack: Next.js + Vercel</span>
-              <span class="tour-signal">Open-source</span>
-              <span class="tour-signal warm">Series A · $25M</span>
-            </div>
-            <div class="tour-prospect-added">4d ago</div>
-          </div>
-          <div class="tour-prospect-row">
-            <div class="tour-prospect-who">
-              <span class="av">MK</span>
-              <div class="text">
-                <span class="name">Maya Krishnan</span>
-                <span class="role">Founder · Tally</span>
-              </div>
-            </div>
-            <div class="tour-prospect-email">
-              <span class="addr">maya@tally.so</span>
-              <span class="verified"><span class="d"></span>Verified</span>
-            </div>
-            <div class="tour-prospect-signals">
-              <span class="tour-signal"><span class="d"></span>Hiring sales lead</span>
-              <span class="tour-signal warm">Profitable</span>
-              <span class="tour-signal cool">Solo founder</span>
-            </div>
-            <div class="tour-prospect-added">5d ago</div>
-          </div>
-          <div class="tour-prospect-row">
-            <div class="tour-prospect-who">
-              <span class="av">NT</span>
-              <div class="text">
-                <span class="name">Niko Tervaniemi</span>
-                <span class="role">CEO · Beehiiv</span>
-              </div>
-            </div>
-            <div class="tour-prospect-email">
-              <span class="addr">niko@beehiiv.com</span>
-              <span class="verified"><span class="d"></span>Verified</span>
-            </div>
-            <div class="tour-prospect-signals">
-              <span class="tour-signal warm">Series B · $33M</span>
-              <span class="tour-signal cool"><span class="d"></span>Product launch</span>
-              <span class="tour-signal">Hiring 12</span>
-            </div>
-            <div class="tour-prospect-added">6d ago</div>
-          </div>
-          <div class="tour-prospect-row">
-            <div class="tour-prospect-who">
-              <span class="av">FM</span>
-              <div class="text">
-                <span class="name">Felix Müller</span>
-                <span class="role">Founder · Sentry</span>
-              </div>
-            </div>
-            <div class="tour-prospect-email">
-              <span class="addr">felix@sentry.io</span>
-              <span class="verified"><span class="d"></span>Verified</span>
-            </div>
-            <div class="tour-prospect-signals">
-              <span class="tour-signal"><span class="d"></span>Hiring 8 engineers</span>
-              <span class="tour-signal warm">Series E · $90M</span>
-            </div>
-            <div class="tour-prospect-added">1w ago</div>
-          </div>
-          <div class="tour-prospect-row">
-            <div class="tour-prospect-who">
-              <span class="av">JL</span>
-              <div class="text">
-                <span class="name">Jamie Lin</span>
-                <span class="role">Founder · Loops</span>
-              </div>
-            </div>
-            <div class="tour-prospect-email">
-              <span class="addr">jamie@loops.so</span>
-              <span class="verified"><span class="d"></span>Verified</span>
-            </div>
-            <div class="tour-prospect-signals">
-              <span class="tour-signal cool"><span class="d"></span>Intent: docs page</span>
-              <span class="tour-signal warm">Seed · $5M</span>
-            </div>
-            <div class="tour-prospect-added">1w ago</div>
-          </div>
-          <div class="tour-prospect-row">
-            <div class="tour-prospect-who">
-              <span class="av">OS</span>
-              <div class="text">
-                <span class="name">Olivia Stewart</span>
-                <span class="role">Co-founder · Linear</span>
-              </div>
-            </div>
-            <div class="tour-prospect-email">
-              <span class="addr">olivia@linear.app</span>
-              <span class="verified"><span class="d"></span>Verified</span>
-            </div>
-            <div class="tour-prospect-signals">
-              <span class="tour-signal"><span class="d"></span>Hiring 6 engineers</span>
-            </div>
-            <div class="tour-prospect-added">1w ago</div>
-          </div>
-          <div class="tour-prospect-row">
-            <div class="tour-prospect-who">
-              <span class="av">JH</span>
-              <div class="text">
-                <span class="name">Jakub Hájek</span>
-                <span class="role">CTO · Productboard</span>
-              </div>
-            </div>
-            <div class="tour-prospect-email">
-              <span class="addr">jakub@productboard.com</span>
-              <span class="verified"><span class="d"></span>Verified</span>
-            </div>
-            <div class="tour-prospect-signals">
-              <span class="tour-signal warm">Series C · $58M</span>
-            </div>
-            <div class="tour-prospect-added">2w ago</div>
-          </div>
-          <div class="tour-prospect-row">
-            <div class="tour-prospect-who">
-              <span class="av">HS</span>
-              <div class="text">
-                <span class="name">Hugo Sanchez</span>
-                <span class="role">Founder · Fathom</span>
-              </div>
-            </div>
-            <div class="tour-prospect-email">
-              <span class="addr">hugo@fathom.video</span>
-              <span class="verified"><span class="d"></span>Verified</span>
-            </div>
-            <div class="tour-prospect-signals">
-              <span class="tour-signal cool"><span class="d"></span>Intent: pricing</span>
-            </div>
-            <div class="tour-prospect-added">2w ago</div>
           </div>
         </div>
-        </div><!-- /.tour-prospects-table -->
-        </div><!-- /.app-shell-main -->
-      </div><!-- /.app-shell -->
+        <!-- Auto-play demo: drag Spotify → Proposal, open the deal drawer, type the deal title -->
+        <div class="tk-demo" aria-hidden="true">
+          <div class="tk-drag">
+            <div class="tk-card-top"><span class="tk-co">Spotify</span><span class="tk-val">$57,000</span></div>
+            <div class="tk-contact">Elena Marsh</div>
+            <div class="tk-next"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>Proposal due</span><span class="due">Mon</span></div>
+          </div>
+          <svg class="tk-cursor" viewBox="0 0 24 24" fill="#14120f" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="round"><path d="M4 2l16 9-7 1.6L9.5 21 4 2z"/></svg>
+          <div class="tk-drawer">
+            <div class="tk-dwr-head">
+              <div class="tk-dwr-top">
+                <span class="tk-dwr-eyebrow">Deal · 31 May</span>
+                <span class="tk-dwr-acts">
+                  <span class="tk-dwr-hist"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 4v5h5"/><polyline points="12 7 12 12 15 14"/></svg>History</span>
+                  <span class="tk-dwr-x"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+                </span>
+              </div>
+              <h3 class="tk-dwr-title">Spotify</h3>
+              <div class="tk-step">
+                <span class="tk-seg reached" style="--sc:#3866a6"><span class="d"></span>Lead</span>
+                <span class="tk-seg reached" style="--sc:#8a76b8"><span class="d"></span>Contacted</span>
+                <span class="tk-seg reached" style="--sc:#ff5b1f"><span class="d"></span>Meeting</span>
+                <span class="tk-seg reached current" style="--sc:#c97a10"><span class="d"></span>Proposal</span>
+                <span class="tk-seg" style="--sc:#1a7c4b"><span class="d"></span>Won</span>
+              </div>
+            </div>
+            <div class="tk-dwr-body">
+              <div class="tk-fcard">
+                <span class="tk-fc-eyebrow">Identity</span>
+                <div class="tk-fld">
+                  <span class="tk-flabel">Company<span class="req">*</span></span>
+                  <div class="tk-inp">Spotify</div>
+                </div>
+                <div class="tk-fld">
+                  <span class="tk-flabel">Deal title<span class="opt">optional</span></span>
+                  <div class="tk-inp focus"><span class="tk-typed">Q3 brand campaign — EU rollout</span><span class="tk-caret"></span></div>
+                </div>
+              </div>
+              <div class="tk-fcard">
+                <span class="tk-fc-eyebrow">Money</span>
+                <div class="tk-fld">
+                  <span class="tk-flabel">Deal value</span>
+                  <div class="tk-valrow">
+                    <div class="tk-valinp"><span class="tk-valsym">$</span><div class="tk-inp">57,000</div></div>
+                    <div class="tk-cur">$ USD <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6c6458" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+                  </div>
+                  <div class="tk-chips">
+                    <span class="tk-chip">$1,000</span><span class="tk-chip">$2,500</span><span class="tk-chip">$5,000</span><span class="tk-chip">$10,000</span><span class="tk-chip">$25,000</span><span class="tk-chip">$50,000</span>
+                  </div>
+                </div>
+              </div>
+              <div class="tk-fcard">
+                <span class="tk-fc-eyebrow">Contact</span>
+                <div class="tk-frow">
+                  <div class="tk-fld"><span class="tk-flabel">Name<span class="req">*</span></span><div class="tk-inp">Elena Marsh</div></div>
+                  <div class="tk-fld"><span class="tk-flabel">Email <span class="opt">(or phone)</span></span><div class="tk-inp">elena@spotify.com</div></div>
+                </div>
+                <div class="tk-frow">
+                  <div class="tk-fld"><span class="tk-flabel">Phone</span><div class="tk-inp">+46 70 555 0102</div></div>
+                  <div class="tk-fld"><span class="tk-flabel">LinkedIn</span><div class="tk-inp">in/elenamarsh</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="tk-dwr-foot">
+              <span class="tk-foot-l"><span class="tk-fbtn del">Delete</span><span class="tk-fbtn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Schedule activity</span></span>
+              <span class="tk-foot-r"><span class="tk-fbtn">Cancel</span><span class="tk-fbtn save">Save</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div><!-- /.mockup-frame -->
   </div>
 </section>
 
-<!-- ─── CAMPAIGNS MOCKUP — full-width section, Linear-style.
-     Real campaign analytics card with KPI strip, status flag,
-     14-day progress, full funnel from sent to meeting. -->
-<section class="mockup-section bg-panel" id="tour-campaigns">
-  <div class="mockup-inner">
-    <div class="mockup-head">
-      <span class="eyebrow">Campaigns</span>
-      <h2>Every campaign, every step. <em>One screen.</em></h2>
-      <p>Status, audience, daily send progress, full funnel from sent to meeting. Watch the winners pull ahead and clone them in one click.</p>
-    </div>
-
-    <div class="mockup-frame">
-      <div class="app-frame-bar">
-        <div class="dots"><span></span><span></span><span></span></div>
-        <div class="url-pill">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1a4 4 0 014 4v3h1a3 3 0 013 3v9a3 3 0 01-3 3H7a3 3 0 01-3-3v-9a3 3 0 013-3h1V5a4 4 0 014-4zm0 2a2 2 0 00-2 2v3h4V5a2 2 0 00-2-2z"/></svg>
-          app.outpulse.ai/campaigns
-        </div>
-        <div style="width:60px"></div>
-      </div>
-      <div class="app-shell">
-        <aside class="app-sidebar">
-          <div class="app-sidebar-brand">
-            <span class="mk"></span>
-            <span class="name">Outpulse</span>
-            <span class="beta"><span class="d"></span>Beta</span>
-          </div>
-          <div class="app-sidebar-ws">
-            <span class="av">P</span>
-            <div class="body">
-              <span class="name">Platform</span>
-              <span class="plan">Services · Growth Plan</span>
-            </div>
-            <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
-          </div>
-          <div class="app-sidebar-search">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-            <span class="label">Search everything</span>
-            <span class="kbd">⌘K</span>
-          </div>
-          <div class="app-sidebar-new">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-            Start outreach
-          </div>
-          <div class="app-sidebar-section">
-            <div class="label">Workspace</div>
-            <span class="item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 4l9 8"/><path d="M5 10v10h14V10"/></svg>
-              Dashboard
-            </span>
-            <span class="item">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
-              Pulse
-            </span>
-            <span class="item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 6 8 7 8-7"/></svg>
-              Inbox
-              <span class="count warn">12</span>
-            </span>
-          </div>
-          <div class="app-sidebar-section">
-            <div class="label">Audience</div>
-            <span class="item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="9" r="3"/><path d="M2 20v-1a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v1"/><circle cx="17" cy="9" r="3"/><path d="M16 14a5 5 0 0 1 5 5v1"/></svg>
-              Buyer Personas
-            </span>
-            <span class="item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
-              Prospects
-              <span class="count">1,428</span>
-            </span>
-          </div>
-          <div class="app-sidebar-section">
-            <div class="label">Outreach</div>
-            <span class="item on">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 22 2l-6.5 18-3-9z"/><path d="M3 11l9 3"/></svg>
-              Campaigns
-              <span class="count">7</span>
-            </span>
-            <span class="item">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.56c0-1.33 0-3.04-1.85-3.04s-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56z"/></svg>
-              LinkedIn
-            </span>
-          </div>
-          <div class="app-sidebar-foot">
-            <span class="av">LH</span>
-            <div class="who">
-              <span class="name">Lukas Horak</span>
-              <span class="plan">Growth Plan</span>
-            </div>
-            <span class="more">⋮</span>
-          </div>
-        </aside>
-        <div class="app-shell-main">
-        <div class="tour-campaigns">
-        <div class="tour-csum">
-          <div class="tour-csum-card orange">
-            <span class="lbl">Active campaigns</span>
-            <span class="val">4<span class="frac">/7</span></span>
-            <span class="sub">5 services · 2 product</span>
-          </div>
-          <div class="tour-csum-card blue">
-            <span class="lbl">Sent this week</span>
-            <span class="val">2,284</span>
-            <span class="sub"><span class="arr">↑ 18%</span>vs last week</span>
-          </div>
-          <div class="tour-csum-card green">
-            <span class="lbl">Meetings booked</span>
-            <span class="val">75</span>
-            <span class="sub"><span class="arr">↑ 14</span>this week · 10.7% reply</span>
-          </div>
-          <div class="tour-csum-card violet">
-            <span class="lbl">Trials + paid</span>
-            <span class="val">42<span class="frac"> +7</span></span>
-            <span class="sub"><span class="arr">$12.8k</span>MRR attributed</span>
-          </div>
-        </div>
-
-        <div class="tour-ccard">
-          <div class="tour-ccard-head">
-            <div class="tour-ccard-meta">
-              <span class="tour-ccard-status"><span class="d"></span>Running · 14 days</span>
-              <h3 class="tour-ccard-title">Series B CTOs · Q2 push</h3>
-              <span class="tour-ccard-aud"><b>418 prospects</b> · CTOs / VP Engineering at SaaS Series B+ · EU + US</span>
-            </div>
-            <span class="tour-ccard-flag"><span class="d"></span>Winning</span>
-          </div>
-          <div class="tour-ccard-progress">
-            <div class="top">
-              <span>14-day send</span>
-              <span><b>1,284</b> / 1,672 sent</span>
-            </div>
-            <div class="bar"><span class="fill"></span></div>
-          </div>
-          <div class="tour-ccard-funnel">
-            <div class="f up"><span class="lbl">Sent</span><span class="val">1,284</span><span class="delta">on pace</span></div>
-            <div class="f up"><span class="lbl">Opens</span><span class="val">812</span><span class="delta">63.2%</span></div>
-            <div class="f up"><span class="lbl">Replies</span><span class="val">138</span><span class="delta">10.7%</span></div>
-            <div class="f up"><span class="lbl">Meetings</span><span class="val">42</span><span class="delta">+6 this week</span></div>
-          </div>
-        </div>
-
-        <div class="tour-ccard">
-          <div class="tour-ccard-head">
-            <div class="tour-ccard-meta">
-              <span class="tour-ccard-status sending"><span class="d"></span>Sending · 6 days</span>
-              <h3 class="tour-ccard-title">SaaS founders · EU 50–200</h3>
-              <span class="tour-ccard-aud"><b>612 prospects</b> · Founders at vertical SaaS · Germany, NL, Nordics</span>
-            </div>
-            <span class="tour-ccard-flag-neutral">Testing copy v3</span>
-          </div>
-          <div class="tour-ccard-progress">
-            <div class="top">
-              <span>14-day send</span>
-              <span><b>612</b> / 1,420 sent</span>
-            </div>
-            <div class="bar"><span class="fill" style="inset: 0 57% 0 0"></span></div>
-          </div>
-          <div class="tour-ccard-funnel">
-            <div class="f"><span class="lbl">Sent</span><span class="val">612</span><span class="delta">day 6 of 14</span></div>
-            <div class="f up"><span class="lbl">Opens</span><span class="val">198</span><span class="delta">32.3%</span></div>
-            <div class="f"><span class="lbl">Replies</span><span class="val">19</span><span class="delta">3.1%</span></div>
-            <div class="f"><span class="lbl">Meetings</span><span class="val">4</span><span class="delta">early</span></div>
-          </div>
-        </div>
-
-        <div class="tour-ccard">
-          <div class="tour-ccard-head">
-            <div class="tour-ccard-meta">
-              <span class="tour-ccard-status paused"><span class="d"></span>Paused · awaiting copy</span>
-              <h3 class="tour-ccard-title">Fintech · Heads of Growth</h3>
-              <span class="tour-ccard-aud"><b>284 prospects</b> · Heads of Growth at fintech Series A–C · US + UK</span>
-            </div>
-            <span class="tour-ccard-flag-warn"><span class="d"></span>Reply rate low</span>
-          </div>
-          <div class="tour-ccard-progress">
-            <div class="top">
-              <span>14-day send</span>
-              <span><b>74</b> / 284 sent · paused</span>
-            </div>
-            <div class="bar"><span class="fill" style="inset: 0 74% 0 0; background: var(--muted-2)"></span></div>
-          </div>
-          <div class="tour-ccard-funnel">
-            <div class="f"><span class="lbl">Sent</span><span class="val">74</span><span class="delta">paused</span></div>
-            <div class="f"><span class="lbl">Opens</span><span class="val">22</span><span class="delta">29.7%</span></div>
-            <div class="f"><span class="lbl">Replies</span><span class="val">1</span><span class="delta">1.4%</span></div>
-            <div class="f"><span class="lbl">Meetings</span><span class="val">0</span><span class="delta">—</span></div>
-          </div>
-        </div>
-        </div><!-- /.tour-campaigns -->
-        </div><!-- /.app-shell-main -->
-      </div><!-- /.app-shell -->
-    </div><!-- /.mockup-frame -->
-  </div>
-</section>
-
-<!-- ─── CRM TEASER — light card; the full demo lives on /crm ───────── -->
-<style>
-  .crm-teaser .container { text-align: center; }
-  .crmt-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; max-width: 760px; margin: 44px auto 0; text-align: left; }
-  .crmt-col { background: #fbfaf7; border: 1px solid #ececea; border-radius: 14px; padding: 12px 11px 14px; display: flex; flex-direction: column; gap: 8px; }
-  .crmt-h { display: flex; align-items: center; gap: 7px; font: 700 10.5px 'Inter', sans-serif; letter-spacing: .09em; text-transform: uppercase; color: #14120f; padding: 2px 2px 9px; border-bottom: 1px dashed rgba(20,18,15,.08); }
-  .crmt-h .d { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .crmt-card { background: #fff; border: 1px solid #ececea; border-radius: 10px; padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-  .crmt-card b { font: 600 13.5px 'Inter', sans-serif; color: #14120f; }
-  .crmt-card span { font: 600 12px 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; color: #6c6458; white-space: nowrap; }
-  .crmt-cta { margin-top: 40px; }
-  @media (max-width: 560px) { .crmt-board { grid-template-columns: 1fr; max-width: 340px; } }
-</style>
-<section class="band crm-teaser">
+<!-- ─── CRM CAPABILITIES ─────────────────────────────────────────── -->
+<section class="band crm-feats">
   <div class="container">
     <div class="band-head">
-      <span class="eyebrow">The built-in CRM</span>
-      <h2>Every reply becomes a deal — <em>tracked to the close.</em></h2>
-      <p>Drag deals stage to stage, never lose a follow-up, and always know what to do next. A full CRM, built into Outpulse — not bolted on.</p>
+      <span class="eyebrow">Everything in one place</span>
+      <h2>A full CRM — <em>not a glorified to-do list.</em></h2>
+      <p class="crm-feats-sub">From first reply to closed-won and beyond. Here is what you can run inside the Outpulse CRM.</p>
     </div>
-    <div class="crmt-board" aria-hidden="true">
-      <div class="crmt-col">
-        <div class="crmt-h"><span class="d" style="background:#3866a6"></span>Lead</div>
-        <div class="crmt-card"><b>IKEA</b><span>48 000 €</span></div>
-        <div class="crmt-card"><b>Decathlon</b><span>22 000 €</span></div>
+    <div class="crm-feat-grid">
+      <div class="crm-feat">
+        <span class="ic" style="color:#3866a6"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="11" rx="1"/><rect x="17" y="4" width="4" height="7" rx="1"/></svg></span>
+        <h3>Visual pipeline</h3>
+        <p>Drag deals from Lead to Won — and into upsell beyond. The whole board in one glance.</p>
       </div>
-      <div class="crmt-col">
-        <div class="crmt-h"><span class="d" style="background:#ff5b1f"></span>Meeting</div>
-        <div class="crmt-card"><b>Spotify</b><span>$57,000</span></div>
-        <div class="crmt-card"><b>Red Bull</b><span>120 000 €</span></div>
+      <div class="crm-feat">
+        <span class="ic" style="color:#8a76b8"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="14" y1="4" x2="14" y2="20"/></svg></span>
+        <h3>One-panel deal drawer</h3>
+        <p>Company, value, stage, contact and next step — edit everything without leaving the board.</p>
       </div>
-      <div class="crmt-col">
-        <div class="crmt-h"><span class="d" style="background:#1a7c4b"></span>Won</div>
-        <div class="crmt-card"><b>Canva</b><span>95 000 €</span></div>
-        <div class="crmt-card"><b>Figma</b><span>36 000 €</span></div>
+      <div class="crm-feat">
+        <span class="ic" style="color:#ff5b1f"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6" rx="1"/><rect x="12" y="8" width="3" height="10" rx="1"/><rect x="17" y="5" width="3" height="13" rx="1"/></svg></span>
+        <h3>Forecast &amp; funnel</h3>
+        <p>Weighted pipeline, win rate and a stage-by-stage funnel — so you see what is really coming.</p>
       </div>
-    </div>
-    <div class="crmt-cta">
-      <a class="btn btn-orange btn-xl" href="/crm" data-cta="crm_teaser">Explore the CRM &rarr;</a>
+      <div class="crm-feat">
+        <span class="ic" style="color:#c97a10"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="2" x2="12" y2="9"/><line x1="2" y1="18" x2="22" y2="18"/><path d="m8 6 4-4 4 4"/></svg></span>
+        <h3>Daily standup</h3>
+        <p>Open each morning to exactly the deals that need a move today — overdue first.</p>
+      </div>
+      <div class="crm-feat">
+        <span class="ic" style="color:#1a7c4b"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+        <h3>Activities &amp; reminders</h3>
+        <p>Schedule calls and follow-ups against any deal; get reminded before they slip.</p>
+      </div>
+      <div class="crm-feat">
+        <span class="ic" style="color:#3866a6"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></span>
+        <h3>Team leaderboard</h3>
+        <p>See who is closing — ranked by won value, deal count or activity.</p>
+      </div>
+      <div class="crm-feat">
+        <span class="ic" style="color:#8a76b8"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/></svg></span>
+        <h3>Multi-currency</h3>
+        <p>Track each deal in €, $, £ or Kč — mixed pipelines still add up correctly.</p>
+      </div>
+      <div class="crm-feat">
+        <span class="ic" style="color:#ff5b1f"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg></span>
+        <h3>Labels, filters &amp; search</h3>
+        <p>Slice the board by label, overdue or time range; find any deal in a keystroke.</p>
+      </div>
+      <div class="crm-feat">
+        <span class="ic" style="color:#c97a10"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span>
+        <h3>CSV import &amp; history</h3>
+        <p>Bring your existing pipeline in minutes. Every stage move stays on the deal timeline.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ─── DARK BAND — full-bleed editorial photo background + dark
-     overlay + brief founder story. Section is built for makers
-     who'd rather create than do repetitive work. -->
-<section class="dark-band">
-  <div class="dark-band-inner">
-    <span class="eyebrow">Why this exists</span>
-    <h2>Made for the people who'd rather <em>build</em> than do the same thing twice.</h2>
-
-    <div class="dark-band-story">
-      <p><strong>Founders don't want a sales tool. They want the time back.</strong></p>
-      <p>I was burning eight hours a week on cold outreach instead of shipping. So we built the agent that does the whole loop — plain English in, meetings on the calendar out.</p>
-      <p><strong>Outpulse runs the part nobody wanted to do — so makers can spend their day making.</strong></p>
-    </div>
-
-    <div class="dark-band-creds">
-      <div class="lbl">The team behind Outpulse also shipped product at</div>
-      <div class="row-wrap">
-        <div class="row">
-          <img src="/logos/spotify.svg" alt="Spotify" loading="lazy">
-          <img src="/logos/apple.svg" alt="Apple" loading="lazy">
-          <img src="/logos/bmw.svg" alt="BMW" loading="lazy">
-          <img src="/logos/samsung.svg" alt="Samsung" loading="lazy">
-          <img src="/logos/henkel.svg" alt="Henkel" loading="lazy">
-          <img src="/logos/mattel.svg" alt="Mattel" loading="lazy">
-          <img src="/logos/royal-caribbean.svg" alt="Royal Caribbean" loading="lazy">
-          <!-- Duplikované logá pre seamless marquee loop na mobile -->
-          <img src="/logos/spotify.svg" alt="" loading="lazy" aria-hidden="true">
-          <img src="/logos/apple.svg" alt="" loading="lazy" aria-hidden="true">
-          <img src="/logos/bmw.svg" alt="" loading="lazy" aria-hidden="true">
-          <img src="/logos/samsung.svg" alt="" loading="lazy" aria-hidden="true">
-          <img src="/logos/henkel.svg" alt="" loading="lazy" aria-hidden="true">
-          <img src="/logos/mattel.svg" alt="" loading="lazy" aria-hidden="true">
-          <img src="/logos/royal-caribbean.svg" alt="" loading="lazy" aria-hidden="true">
-        </div>
-      </div>
-    </div>
-
-    <div class="dark-band-sign">
-      <span class="av"><img src="lukas-avatar.png" alt="Lukas Horak"></span>
-      <span class="who">
-        <b>Lukas Horak</b><span class="role">Founder, Outpulse · dogfooding it right now</span>
-      </span>
-    </div>
-  </div>
-</section>
-
-<!-- ─── PRICING ─────────────────────────────────────────────────── -->
-<section class="band" id="pricing">
-  <div class="container">
-    <div class="band-head">
-      <span class="eyebrow">Pricing</span>
-      <h2>Cheap, <em>compared to the alternative.</em></h2>
-      <p>An SDR costs $7,500/mo. Plus tooling. Plus management. Outpulse starts at $49. Every plan opens with seven free days — no card, cancel in one click.</p>
-    </div>
-
-    <div class="price-grid">
-      <div class="pcard">
-        <span class="p-tag">Starter</span>
-        <div class="p-name">Starter</div>
-        <p class="p-d">For founders testing cold outreach.</p>
-        <div class="p-price"><span class="num">$49</span><span class="per">/mo</span></div>
-        <ul class="p-feats">
-          <li>100 prospects per month</li>
-          <li>2 active campaigns</li>
-          <li>AI-personalized emails</li>
-          <li>1 sending mailbox</li>
-          <li>Email warm-up included</li>
-          <li>Community support</li>
-        </ul>
-        <div class="p-cta-row">
-          <a href="https://app.outpulse.ai/signup?utm_source=outpulse_landing&utm_campaign=launch&utm_medium=pricing_starter" class="btn" data-cta="pricing_starter">Start free trial</a>
-        </div>
-        <div class="p-foot">No charge for 7 days.</div>
-      </div>
-
-      <div class="pcard featured">
-        <span class="p-tag">Most popular</span>
-        <div class="p-name">Growth</div>
-        <p class="p-d">For teams scaling outbound pipeline.</p>
-        <div class="p-price"><span class="num">$149</span><span class="per">/mo</span></div>
-        <ul class="p-feats">
-          <li>500 prospects per month</li>
-          <li>Unlimited campaigns</li>
-          <li>Open, click, and reply tracking</li>
-          <li>3 sending mailboxes</li>
-          <li>AI copy optimization</li>
-          <li>Priority support</li>
-        </ul>
-        <div class="p-cta-row">
-          <a href="https://app.outpulse.ai/signup?utm_source=outpulse_landing&utm_campaign=launch&utm_medium=pricing_growth" class="btn" data-cta="pricing_growth">Start free trial</a>
-        </div>
-        <div class="p-foot">No charge for 7 days.</div>
-      </div>
-
-      <div class="pcard">
-        <span class="p-tag">Agency</span>
-        <div class="p-name">Agency</div>
-        <p class="p-d">For agencies running multiple clients.</p>
-        <div class="p-price"><span class="num">$499</span><span class="per">/mo</span></div>
-        <ul class="p-feats">
-          <li>2,500 prospects per month</li>
-          <li>Full analytics + A/B testing</li>
-          <li>10 sending mailboxes</li>
-          <li>Dedicated account manager</li>
-          <li>Custom integrations</li>
-        </ul>
-        <div class="p-cta-row">
-          <a href="https://app.outpulse.ai/signup?utm_source=outpulse_landing&utm_campaign=launch&utm_medium=pricing_agency" class="btn" data-cta="pricing_agency">Start free trial</a>
-        </div>
-        <div class="p-foot">No charge for 7 days.</div>
-      </div>
-    </div>
-    <!-- Dots + hint: viditeľné iba na mobile, ukazujú že pricing
-         scroller má 3 tiers a Growth je aktuálne zvýraznený. -->
-    <div class="price-dots" aria-hidden="true">
-      <span></span>
-      <span class="on"></span>
-      <span></span>
-    </div>
-    <div class="price-hint" aria-hidden="true">← swipe to compare →</div>
-  </div>
-</section>
-
-<!-- ─── FAQ ─────────────────────────────────────────────────────── -->
-<section class="band bg-panel" id="faq">
-  <div class="container-narrow">
-    <div class="band-head">
-      <span class="eyebrow">FAQ</span>
-      <h2>Things people <em>ask.</em></h2>
-    </div>
-
-    <div class="faq-list">
-      <details open>
-        <summary>Is the trial actually free?</summary>
-        <div class="a">Yes. Seven days, no card, full product. Real prospect discovery, real email generation, real campaigns out the door. Cancel in one click and you're never charged. We're not playing pricing-page games.</div>
-      </details>
-      <details>
-        <summary>How is this different from Lemlist + Apollo + a VA?</summary>
-        <div class="a">Lemlist sends what you write. Apollo finds who you ask for. A VA stitches the two together. Outpulse does the whole loop — finding, writing, sending, following up — from one sentence. One tool, one subscription, no babysitting.</div>
-      </details>
-      <details>
-        <summary>How does the AI actually write the emails?</summary>
-        <div class="a">It looks at the prospect's real data — role, company, recent funding, who they hired, what stack they run. It writes one email for one person. No "{{first_name}} I noticed your company..." templates. The voice matches a senior salesperson: short, specific, signal in line one.</div>
-      </details>
-      <details>
-        <summary>Will my emails land in spam?</summary>
-        <div class="a">Built-in warm-up ramps your sending volume across 14 days. SPF, DKIM, and DMARC verification on by default. Plus the emails are short, personal, and never look like mail-merge — which is the actual cause of spam folder placement, not the technical setup.</div>
-      </details>
-      <details>
-        <summary>Where do the prospects come from?</summary>
-        <div class="a">A 275M-contact verified database. GDPR-compliant. Verified emails, job titles, company info, tech stack, hiring signals, funding events — all refreshed on a rolling basis. You describe the buyer; we pull the list.</div>
-      </details>
-      <details>
-        <summary>Can I connect my existing email?</summary>
-        <div class="a">Yes — Gmail or Outlook. Emails ship from your real address, not a separate sender. Better trust, better deliverability.</div>
-      </details>
-      <details>
-        <summary>Can I cancel?</summary>
-        <div class="a">From settings. One click. No contract, no email-the-team to escape. You can come back later — we don't burn the bridges.</div>
-      </details>
-    </div>
-  </div>
-</section>
-
-<!-- ─── FINAL CTA ───────────────────────────────────────────────── -->
+<!-- ─── CRM FINAL CTA ────────────────────────────────────────────── -->
 <section class="final">
   <div class="container">
     <div class="final-card">
-      <h2>Try it. <em>Seven days.</em></h2>
-      <p>Two minutes from signup to first campaign live. If it doesn't work for you by day seven, cancel in one click. No card required.</p>
-      <a href="https://app.outpulse.ai/signup?utm_source=outpulse_landing&utm_campaign=launch&utm_medium=footer_cta" class="btn btn-orange btn-xl" data-cta="footer">Start now — no card</a>
+      <h2>Run your whole pipeline <em>in one place.</em></h2>
+      <p>Prospecting, cold email, inbox and CRM — one login, one workflow. Two minutes from signup to your first deal on the board.</p>
+      <a href="https://app.outpulse.ai/signup?utm_source=outpulse_landing&amp;utm_campaign=launch&amp;utm_medium=crm_footer" class="btn btn-orange btn-xl" data-cta="crm_footer">Start now — no card</a>
       <div class="final-foot">7-day free trial · Cancel in one click · GDPR-compliant</div>
     </div>
   </div>
 </section>
 
-<!-- ─── FOOTER ──────────────────────────────────────────────────── -->
+
 <footer class="site">
   <div class="container foot-row">
     <div>© 2026 Outpulse · Designed and engineered by <a href="https://plat4m.com">PLATFORM</a>.</div>
