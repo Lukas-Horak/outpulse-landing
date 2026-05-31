@@ -3905,42 +3905,50 @@ footer.site {
 <!-- ─── WHOLE-FUNNEL OVERVIEW — Outpulse is the full outbound system,
      not a point tool: find → reach → reply → close, one login. -->
 <style>
-  /* "From cold to closed" — a pinned deck you scroll through one card at a
-     time. Each stage sticks at the top; the next card lands on it while the
-     finished ones recede into a stack behind (depth set by JS). */
-  .stack-band { padding-top: clamp(60px, 9vh, 116px); }
+  /* "From cold to closed" — a pinned deck you scroll through one stage at a
+     time. A card rises from the bottom and pushes the previous one up into a
+     tapering stack of card-headers (depth set by JS). Soft-orange section
+     wash so the white cards pop. */
+  .stack-band {
+    padding-top: clamp(60px, 9vh, 116px);
+    background:
+      radial-gradient(78% 46% at 50% 40%, rgba(255,91,31,0.13), rgba(255,140,60,0) 70%),
+      linear-gradient(180deg, #fffdfb 0%, #fff5ec 56%, #ffeada 100%);
+  }
   .stack-head { max-width: 900px; margin: 0 auto; text-align: center; }
   .stack-h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(34px, 5vw, 60px); line-height: 1.04; letter-spacing: -.02em; color: var(--ink); margin: 14px 0 0; }
   .stack-h2 em { font-style: italic; color: #ff5b1f; }
   .stack-sub { margin: 16px auto 0; max-width: 540px; color: #6c6458; font-size: 15.5px; line-height: 1.55; }
 
-  .stack-deck { position: relative; max-width: 860px; margin: clamp(34px, 6vh, 76px) auto 0; padding-bottom: 16vh; }
+  .stack-deck { position: relative; max-width: 840px; margin: clamp(34px, 6vh, 76px) auto 0; padding-bottom: 18vh; }
   .stack-card {
     position: sticky;
-    top: clamp(96px, 15vh, 168px);
-    min-height: clamp(300px, 54vh, 460px);
-    display: flex; flex-direction: column; justify-content: center; gap: 14px;
-    padding: clamp(30px, 4.4vw, 56px);
-    border-radius: 24px;
-    background: radial-gradient(135% 130% at 100% 0%, var(--wash, #f6f5f2) 0%, #ffffff 52%);
-    border: 1px solid rgba(14,13,12,.08);
-    box-shadow: 0 1px 2px rgba(20,18,15,.05), 0 30px 64px -34px rgba(20,18,15,.45);
+    /* Sticks low enough that finished cards lifting up still clear the nav. */
+    top: clamp(150px, 18vh, 196px);
+    min-height: clamp(300px, 50vh, 430px);
+    display: flex; flex-direction: column;
+    border-radius: 22px;
+    background: #ffffff;
+    border: 1px solid #ececea;
+    box-shadow: 0 1px 2px rgba(20,18,15,.04), 0 34px 70px -36px rgba(20,18,15,.40);
     overflow: hidden;
     transform-origin: top center;
-    transform: translateY(calc(var(--depth, 0) * -20px)) scale(calc(1 - var(--depth, 0) * 0.035));
-    transition: transform .5s cubic-bezier(.4,0,.2,1), filter .5s ease;
-    filter: brightness(calc(1 - var(--depth, 0) * 0.045));
+    /* Finished cards lift up (their header peeks) + narrow into a deck. */
+    transform: translateY(calc(var(--depth, 0) * -34px)) scale(calc(1 - var(--depth, 0) * 0.05));
+    transition: transform .55s cubic-bezier(.4,0,.2,1), filter .55s ease;
+    filter: brightness(calc(1 - var(--depth, 0) * 0.04));
   }
-  .stack-card + .stack-card { margin-top: 22px; }
-  .stack-card::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--accent); }
-  .sc-num { position: absolute; right: clamp(14px, 3vw, 36px); top: clamp(2px, 1.5vh, 14px); font-family: var(--serif); font-weight: 400; font-size: clamp(120px, 19vw, 210px); line-height: 1; color: var(--accent); opacity: .08; pointer-events: none; user-select: none; }
-  .sc-step { display: inline-flex; align-items: center; gap: 9px; font: 700 12px 'Inter', -apple-system, sans-serif; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
-  .sc-step .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .stack-card + .stack-card { margin-top: 26px; }
+  /* Header strip — what stays visible when the card is pushed back into the deck. */
+  .sc-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px clamp(26px, 3.6vw, 46px); border-bottom: 1px solid #f1efea; }
+  .sc-tag { display: inline-flex; align-items: center; gap: 9px; font: 700 11.5px 'Inter', -apple-system, sans-serif; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+  .sc-tag .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .sc-count { font: 600 11.5px 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: .04em; color: #a8a097; }
+  .sc-main { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 16px; padding: clamp(26px, 3.6vw, 46px); position: relative; }
+  .sc-num { position: absolute; right: clamp(18px, 3vw, 40px); top: 50%; transform: translateY(-50%); font-family: var(--serif); font-weight: 400; font-size: clamp(120px, 17vw, 200px); line-height: 1; color: var(--accent); opacity: .07; pointer-events: none; user-select: none; }
   .sc-title { font-family: var(--serif); font-weight: 400; font-size: clamp(28px, 4.2vw, 46px); line-height: 1.08; letter-spacing: -.018em; color: var(--ink); max-width: 17ch; margin: 0; position: relative; }
-  .sc-title em { font-style: italic; color: var(--accent); }
-  .sc-body { font-size: clamp(15px, 1.5vw, 17px); line-height: 1.6; color: #6c6458; max-width: 48ch; margin: 0; position: relative; }
-  .sc-meta { margin-top: 8px; display: flex; align-items: center; gap: 12px; font: 600 11.5px 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; color: #a8a097; letter-spacing: .04em; }
-  .sc-track { position: relative; flex: 0 0 auto; width: clamp(80px, 18vw, 150px); height: 3px; border-radius: 3px; background: rgba(14,13,12,.09); overflow: hidden; }
+  .sc-body { font-size: clamp(15px, 1.5vw, 17px); line-height: 1.6; color: #6c6458; max-width: 46ch; margin: 0; position: relative; }
+  .sc-track { position: relative; width: clamp(90px, 20vw, 160px); height: 3px; border-radius: 3px; background: rgba(14,13,12,.08); overflow: hidden; margin-top: 4px; }
   .sc-track > i { position: absolute; inset: 0 auto 0 0; width: var(--fill, 25%); background: var(--accent); border-radius: 3px; }
 
   .stack-foot { max-width: 760px; margin: clamp(44px, 7vh, 84px) auto 0; text-align: center; }
@@ -3949,8 +3957,9 @@ footer.site {
   .stack-learn-sub { margin: 12px auto 0; max-width: 540px; font-size: 14.5px; line-height: 1.55; color: #6c6458; }
 
   @media (max-width: 640px) {
-    .stack-card { min-height: clamp(280px, 64vh, 460px); top: 84px; gap: 12px; }
+    .stack-card { min-height: clamp(280px, 60vh, 430px); top: 96px; }
     .sc-title { font-size: clamp(26px, 8vw, 34px); }
+    .stack-card { transform: translateY(calc(var(--depth, 0) * -28px)) scale(calc(1 - var(--depth, 0) * 0.04)); }
   }
   @media (prefers-reduced-motion: reduce) {
     .stack-card { transition: none; }
@@ -3964,33 +3973,41 @@ footer.site {
       <p class="stack-sub">One system runs the whole journey — so your hours go into closing, not stitching tools together.</p>
     </div>
     <div class="stack-deck">
-      <article class="stack-card" style="--accent:#3866a6;--wash:#eef2f8;--fill:25%">
-        <span class="sc-num" aria-hidden="true">01</span>
-        <span class="sc-step"><span class="dot"></span>01 · Find</span>
-        <h3 class="sc-title">A pipeline that never runs dry.</h3>
-        <p class="sc-body">Say who you sell to once. Wake up to real companies that fit — no more staring at an empty list wondering who to email.</p>
-        <div class="sc-meta"><span>STAGE 01 / 04</span><span class="sc-track"><i></i></span></div>
+      <article class="stack-card" style="--accent:#3866a6;--fill:25%">
+        <div class="sc-bar"><span class="sc-tag"><span class="dot"></span>01 · Find</span><span class="sc-count">Stage 01 / 04</span></div>
+        <div class="sc-main">
+          <span class="sc-num" aria-hidden="true">01</span>
+          <h3 class="sc-title">A pipeline that never runs dry.</h3>
+          <p class="sc-body">Say who you sell to once. Wake up to real companies that fit — no more staring at an empty list wondering who to email.</p>
+          <span class="sc-track"><i></i></span>
+        </div>
       </article>
-      <article class="stack-card" style="--accent:#8a76b8;--wash:#f3f0f8;--fill:50%">
-        <span class="sc-num" aria-hidden="true">02</span>
-        <span class="sc-step"><span class="dot"></span>02 · Reach</span>
-        <h3 class="sc-title">Sound personal — to hundreds at once.</h3>
-        <p class="sc-body">Each email is written for one person and lands in the inbox, so replies come back warm — while you stay heads-down building.</p>
-        <div class="sc-meta"><span>STAGE 02 / 04</span><span class="sc-track"><i></i></span></div>
+      <article class="stack-card" style="--accent:#8a76b8;--fill:50%">
+        <div class="sc-bar"><span class="sc-tag"><span class="dot"></span>02 · Reach</span><span class="sc-count">Stage 02 / 04</span></div>
+        <div class="sc-main">
+          <span class="sc-num" aria-hidden="true">02</span>
+          <h3 class="sc-title">Sound personal — to hundreds at once.</h3>
+          <p class="sc-body">Each email is written for one person and lands in the inbox, so replies come back warm — while you stay heads-down building.</p>
+          <span class="sc-track"><i></i></span>
+        </div>
       </article>
-      <article class="stack-card" style="--accent:#e0884a;--wash:#fbf2ea;--fill:75%">
-        <span class="sc-num" aria-hidden="true">03</span>
-        <span class="sc-step"><span class="dot"></span>03 · Reply</span>
-        <h3 class="sc-title">Never let a warm “yes” go cold.</h3>
-        <p class="sc-body">Every reply lands in one place and becomes a deal in a click. No interested buyer slips away because a thread got buried.</p>
-        <div class="sc-meta"><span>STAGE 03 / 04</span><span class="sc-track"><i></i></span></div>
+      <article class="stack-card" style="--accent:#e0884a;--fill:75%">
+        <div class="sc-bar"><span class="sc-tag"><span class="dot"></span>03 · Reply</span><span class="sc-count">Stage 03 / 04</span></div>
+        <div class="sc-main">
+          <span class="sc-num" aria-hidden="true">03</span>
+          <h3 class="sc-title">Never let a warm “yes” go cold.</h3>
+          <p class="sc-body">Every reply lands in one place and becomes a deal in a click. No interested buyer slips away because a thread got buried.</p>
+          <span class="sc-track"><i></i></span>
+        </div>
       </article>
-      <article class="stack-card" style="--accent:#ff5b1f;--wash:#fff1ea;--fill:100%">
-        <span class="sc-num" aria-hidden="true">04</span>
-        <span class="sc-step"><span class="dot"></span>04 · Close</span>
-        <h3 class="sc-title">Always know your next move.</h3>
-        <p class="sc-body">Your pipeline tells you what to do today — so deals close on time instead of quietly drifting away.</p>
-        <div class="sc-meta"><span>STAGE 04 / 04</span><span class="sc-track"><i></i></span></div>
+      <article class="stack-card" style="--accent:#ff5b1f;--fill:100%">
+        <div class="sc-bar"><span class="sc-tag"><span class="dot"></span>04 · Close</span><span class="sc-count">Stage 04 / 04</span></div>
+        <div class="sc-main">
+          <span class="sc-num" aria-hidden="true">04</span>
+          <h3 class="sc-title">Always know your next move.</h3>
+          <p class="sc-body">Your pipeline tells you what to do today — so deals close on time instead of quietly drifting away.</p>
+          <span class="sc-track"><i></i></span>
+        </div>
       </article>
     </div>
     <div class="stack-foot">
