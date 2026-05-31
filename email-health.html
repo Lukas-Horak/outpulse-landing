@@ -466,7 +466,7 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
     // Lead gate
     html += '<div class="gate" id="gate"><div class="gateTitle">Get the full fix-it report</div>'
       + '<div class="gateSub">We\'ll email the report with step-by-step fixes — and can monitor this domain for you.</div>'
-      + '<form class="gateForm" id="gateForm"><input class="gateInput" id="leadEmail" type="email" placeholder="you@company.com">'
+      + '<form class="gateForm" id="gateForm"><input type="text" id="leadHp" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none"><input class="gateInput" id="leadEmail" type="email" placeholder="you@company.com">'
       + '<button class="gateBtn" id="leadBtn" type="submit">Email me the report</button></form>'
       + '<p class="errorMsg" id="leadErr" style="display:none;text-align:left"></p></div>';
     html += '</div>';
@@ -527,9 +527,10 @@ footer.site { margin-top:80px; border-top:1px solid var(--line); }
     var errEl = $('leadErr'), btn = $('leadBtn');
     if (!/^\S+@\S+\.\S+$/.test(email)) { errEl.textContent = 'Enter a valid email.'; errEl.style.display = 'block'; return; }
     errEl.style.display = 'none'; btn.disabled = true; btn.textContent = 'Sending…';
+    var hpEl = document.getElementById('leadHp');
     fetch(API + '/api/tools/email-health/lead', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email, domain: lastReport.domain, score: lastReport.score, report: lastReport })
+      body: JSON.stringify({ email: email, domain: lastReport.domain, score: lastReport.score, report: lastReport, hp: hpEl ? hpEl.value : '' })
     }).then(function (res) {
       if (!res.ok) return res.json().catch(function(){return {};}).then(function (d) { throw new Error((d && d.error) || 'Couldn\'t send.'); });
       $('gate').innerHTML = '<div class="gateDone">✓ Sent — check your inbox for the full report.</div>';
